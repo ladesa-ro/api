@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  sisgea-luna:
+    build: .
+    depends_on:
+      - sisgea-luna-db
+    networks:
+      - sisgea-luna-net
+    ports:
+      - 3000:3000
+
+  sisgea-luna-db:
+    image: bitnami/postgresql:15
+    volumes:
+      - 'sisgea-luna-db-data:/bitnami/postgresql'
+    networks:
+      - sisgea-luna-net
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_DATABASE=${LUNA_BACKEND_DB_DATABASE}
+      - POSTGRESQL_PASSWORD=${LUNA_BACKEND_DB_PASSWORD}
+
+networks:
+  sisgea-luna-net:
+
+volumes:
+  sisgea-luna-db-data:
