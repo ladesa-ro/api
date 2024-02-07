@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { DatabaseContext } from './database-context/database-context';
-import { APP_DATA_SOURCE_TOKEN } from './providers/tokens/APP_DATA_SOURCE_TOKEN';
+import { APP_DATA_SOURCE_TOKEN } from './providers/app-data-source.provider';
 
 @Injectable()
 export class TypeormService {
