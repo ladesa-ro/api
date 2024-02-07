@@ -56,10 +56,6 @@ export class EnvironmentConfigService implements IConfig {
     return join(this.getTypeOrmBasePath(), 'migrations');
   }
 
-  getTypeOrmPathSeeds(): string {
-    return join(this.getTypeOrmBasePath(), 'seeds');
-  }
-
   getTypeOrmPathSubscribers(): string {
     return join(this.getTypeOrmBasePath(), 'subscribers');
   }
@@ -182,17 +178,6 @@ export class EnvironmentConfigService implements IConfig {
       ...this.getTypeOrmSharedDataSourceOptions(),
       migrations: [`${this.getTypeOrmPathMigrations()}/**/*{.ts,.js}`],
       migrationsTableName: 'app_migration_db',
-    };
-
-    return options as DataSourceOptions;
-  }
-
-  getTypeOrmSeedDataSourceOptions(): DataSourceOptions {
-    const options = {
-      ...this.getTypeOrmSharedDataSourceOptions(),
-      entities: [`${this.getTypeOrmPathEntities()}/**/*{.ts,.js}`],
-      migrations: [`${this.getTypeOrmPathSeeds()}/**/*{.ts,.js}`],
-      migrationsTableName: 'app_migration_seed',
     };
 
     return options as DataSourceOptions;
