@@ -5,6 +5,7 @@ import { IntegrateDatabaseModule } from '../infrastructure/integrate-database/in
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
+import { BaseModule } from './base/base.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AppService } from './app.service';
     //
     AdapterGraphQLModule,
     //
+    BaseModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
