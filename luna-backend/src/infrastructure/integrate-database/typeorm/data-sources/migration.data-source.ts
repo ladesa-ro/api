@@ -1,6 +1,6 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { EnvironmentConfigService } from '../../../environment-config';
-import { getDataSourceEnvironmentConfigService } from './utils/get-data-source-environment-config-service';
+import { getDataSourceEnvironmentConfigService } from './utils/getDataSourceEnvironmentConfigService';
 
 export const getMigrationDataSource = async (
   environmentConfigServiceBase: EnvironmentConfigService | null = null,

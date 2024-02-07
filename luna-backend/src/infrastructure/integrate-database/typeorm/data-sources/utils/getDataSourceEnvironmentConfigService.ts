@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { DataSourceSetupModule } from './data-source-setup.module';
+import { DataSourceSetupModule } from './DataSourceSetupModule';
 import { EnvironmentConfigService } from '../../../../environment-config';
 
 export const getDataSourceEnvironmentConfigService = async (
