@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
-import { AppModule } from './application/root/app.module';
+import { AppModule } from './application/app.module';
 import { EnvironmentConfigService } from './infrastructure/environment-config';
 import { getModuleHelmet } from './infrastructure/utils/modules/helmet/modules.helmet';
 
@@ -29,6 +30,19 @@ async function bootstrap() {
   //
 
   app.use(compression());
+
+  //
+
+  const config = new DocumentBuilder()
+    .setTitle('SISGEA - Luna - API')
+    .setDescription(
+      'API para a consulta e manipulação de dados e procedimentos relacionados ao Sistema de Gestão Acadêmico.',
+    )
+    .setVersion('0.0')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('doc-api', app, document);
 
   //
 
