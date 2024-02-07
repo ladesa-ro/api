@@ -23,4 +23,4 @@ dev-start:
 	make dev-down;
 	make dev-up;
 
-	sudo docker compose --file devops/development/docker-compose.yml -p sisgea-luna-backend exec --no-TTY -d sisgea-luna-backend bash -c "npm i && npm run start:dev" \&;
+	sudo docker compose --file devops/development/docker-compose.yml -p sisgea-luna-backend exec --no-TTY -d sisgea-luna-backend bash -c "npm i && npm run db:migrate && npm run seed:run && npm run start:dev" \&;

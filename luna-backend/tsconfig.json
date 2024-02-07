@@ -1,21 +1,22 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "strict": true,
+    "module": "node16",
+    "lib": ["esnext"],
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
     "declaration": true,
     "removeComments": true,
+    "strictNullChecks": true,
     "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
+    "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
-    "strictBindCallApply": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true
+    "skipLibCheck": true
   }
 }
