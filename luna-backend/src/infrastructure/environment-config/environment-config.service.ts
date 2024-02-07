@@ -45,7 +45,7 @@ export class EnvironmentConfigService implements IConfig {
   }
 
   getTypeOrmBasePath(): string {
-    return join(__dirname, '..', 'database');
+    return join(__dirname, '..', 'integrate-database/typeorm');
   }
 
   getTypeOrmPathEntities(): string {
