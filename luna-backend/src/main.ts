@@ -39,6 +39,8 @@ async function bootstrap() {
       'API para a consulta e manipulação de dados e procedimentos relacionados ao Sistema de Gestão Acadêmico.',
     )
     .setVersion('0.0')
+    .addServer('https://luna.sisgha.com:1337/api/')
+    .addServer('http://localhost:3000/')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
