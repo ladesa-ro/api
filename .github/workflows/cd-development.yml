@@ -1,0 +1,52 @@
+name: deploy to the development environment
+
+on:
+  push:
+    branches: [development]
+
+permissions:
+  contents: read # for checkout
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.LUNA_CD_SSH_HOST }}
+          username: ${{ secrets.LUNA_CD_SSH_USERNAME }}
+          key: ${{ secrets.LUNA_CD_SSH_KEY }}
+          port: ${{ secrets.LUNA_CD_SSH_PORT }}
+          script_stop: true
+          script: |
+            mkdir -p /lunatic/repos;
+
+            cd /lunatic/repos;
+
+            if [ ! -d luna ]; then
+              git clone https://github.com/sisgha/luna -b development luna;
+            fi
+
+            chgrp -R 1000 luna;
+            chown -R 1000 luna;
+
+            git config --global --add safe.directory /lunatic/repos/luna;
+
+            cd luna;
+            cd luna-backend;
+
+            make dev-setup;
+            make dev-down;
+
+            (git branch -D temp-fix 2>/dev/null; exit 0);
+
+            git checkout -b temp-fix;
+            git branch -D development;
+            
+            git fetch origin;
+            git checkout -b development --track origin/development;
+            git pull origin development;
+
+            make dev-start;
