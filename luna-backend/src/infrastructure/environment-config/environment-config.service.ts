@@ -3,6 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { DataSourceOptions } from 'typeorm';
 import { IConfig } from '../../domain';
+import {
+  ISisgeaNestAuthConnectConfigOidcClientCredentials,
+  ISisgeaNestAuthConnectConfigKeycloakCredentials,
+} from '@sisgea/nest-auth-connect';
 
 @Injectable()
 export class EnvironmentConfigService implements IConfig {
@@ -182,4 +186,68 @@ export class EnvironmentConfigService implements IConfig {
 
     return options as DataSourceOptions;
   }
+
+  //
+
+  //
+
+  getOidcClientCredentials(): ISisgeaNestAuthConnectConfigOidcClientCredentials {
+    const issuer = this.nestConfigService.get<string>(
+      'OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER',
+    );
+    const clientId = this.nestConfigService.get<string>(
+      'OAUTH2_CLIENT_REGISTRATION_LOGIN_CLIENT_ID',
+    );
+    const clientSecret = this.nestConfigService.get<string>(
+      'OAUTH2_CLIENT_REGISTRATION_LOGIN_CLIENT_SECRET',
+    );
+
+    if (
+      issuer === undefined ||
+      clientId === undefined ||
+      clientSecret === undefined
+    ) {
+      throw new Error('Please provide correct OAUTH2_CLIENT credentials.');
+    }
+
+    return {
+      issuer,
+      clientId,
+      clientSecret,
+    };
+  }
+
+  //
+
+  getKeycloakConfigCredentials(): ISisgeaNestAuthConnectConfigKeycloakCredentials {
+    const baseUrl = this.nestConfigService.get<string>('KC_BASE_URL');
+    const realm = this.nestConfigService.get<string>('KC_REALM');
+    const clientId = this.nestConfigService.get<string>('KC_CLIENT_ID');
+    const clientSecret = this.nestConfigService.get<string>('KC_CLIENT_SECRET');
+
+    if (!baseUrl) {
+      throw new Error('KeyCloak baseUrl config not provided.');
+    }
+
+    if (!realm) {
+      throw new Error('KeyCloak realm config not provided.');
+    }
+
+    if (!clientId) {
+      throw new Error('KeyCloak clientId config not provided.');
+    }
+
+    if (!clientSecret) {
+      throw new Error('KeyCloak clientSecret config not provided.');
+    }
+
+    return {
+      baseUrl,
+      realm,
+      clientId,
+      clientSecret,
+    };
+  }
+
+  //
 }

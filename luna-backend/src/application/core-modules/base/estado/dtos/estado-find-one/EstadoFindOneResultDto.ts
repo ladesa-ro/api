@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IBaseEstadoFindOneResultDto } from '../../../../../domain';
+import { IBaseEstadoFindOneResultDto } from '../../../../../../domain';
 
 @ObjectType('EstadoFindOneResultDto')
 export class EstadoFindOneResultDto implements IBaseEstadoFindOneResultDto {

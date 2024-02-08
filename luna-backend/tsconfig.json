@@ -3,7 +3,7 @@
     "strict": true,
     "module": "node16",
     "lib": ["esnext"],
-    "moduleResolution": "Node",
+    "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "declaration": true,
     "removeComments": true,

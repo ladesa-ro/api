@@ -41,6 +41,7 @@ async function bootstrap() {
     .setVersion('0.0')
     .addServer('https://luna.sisgha.com:1337/api/')
     .addServer('http://localhost:3000/')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
