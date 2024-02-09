@@ -1,1 +1,2 @@
-export * from './IBaseCidadeModel';
+export * from './(dtos)';
+export * from './(models)';
