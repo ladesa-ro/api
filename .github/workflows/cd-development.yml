@@ -34,11 +34,12 @@ jobs:
 
             git config --global --add safe.directory /lunatic/repos/luna;
 
-            cd luna;
-            cd luna-backend;
+            cd /lunatic/repos/luna/luna-backend;
 
             make dev-setup;
             make dev-down;
+
+            cd /lunatic/repos/luna;
 
             (git branch -D temp-fix 2>/dev/null; exit 0);
 
@@ -48,5 +49,12 @@ jobs:
             git fetch origin;
             git checkout -b development --track origin/development;
             git pull origin development;
+
+            cd /lunatic/repos;
+
+            chgrp -R 1000 /lunatic/repos/luna;
+            chown -R 1000 /lunatic/repos/luna;
+
+            cd /lunatic/repos/luna/luna-backend;
 
             make dev-start;
