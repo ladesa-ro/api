@@ -1,11 +1,19 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   IBaseEstadoFindOneResultDto,
   IRequestContext,
 } from '../../../../domain';
-import { ResolveRequestContextHttp } from '../../../../infrastructure';
-import { EstadoFindOneResultDto } from './dtos';
+import {
+  HttpParamYup,
+  ResolveRequestContextHttp,
+  getSchemaField,
+} from '../../../../infrastructure';
+import {
+  EstadoFindOneByIdInputContract,
+  EstadoFindOneByUfInputContract,
+  EstadoFindOneResultDto,
+} from './dtos';
 import { EstadoService } from './estado.service';
 
 @ApiTags('ambientes')
@@ -47,7 +55,8 @@ export class EstadoController {
   })
   async findByUf(
     @ResolveRequestContextHttp() requestContext: IRequestContext,
-    @Param('uf') uf: string,
+    @HttpParamYup('uf', getSchemaField(EstadoFindOneByUfInputContract(), 'uf'))
+    uf: string,
   ) {
     return this.estadoService.findByUfStrict(requestContext, { uf });
   }
@@ -69,7 +78,8 @@ export class EstadoController {
   })
   async findById(
     @ResolveRequestContextHttp() requestContext: IRequestContext,
-    @Param('id') id: number,
+    @HttpParamYup('id', getSchemaField(EstadoFindOneByIdInputContract(), 'id'))
+    id: number,
   ) {
     return this.estadoService.findByIdStrict(requestContext, { id });
   }

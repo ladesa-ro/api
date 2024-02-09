@@ -1,12 +1,17 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Query, Resolver } from '@nestjs/graphql';
 import {
   IBaseEstadoFindOneByIdInputDto,
   IBaseEstadoFindOneByUfInputDto,
   IRequestContext,
 } from '../../../../domain';
-import { ResolveRequestContextGraphQl } from '../../../../infrastructure';
 import {
+  GqlArgYup,
+  ResolveRequestContextGraphQl,
+} from '../../../../infrastructure';
+import {
+  EstadoFindOneByIdInputContract,
   EstadoFindOneByIdInputDto,
+  EstadoFindOneByUfInputContract,
   EstadoFindOneByUfInputDto,
   EstadoFindOneResultDto,
 } from './dtos';
@@ -36,7 +41,8 @@ export class EstadoResolver {
   })
   async estadoFindByUf(
     @ResolveRequestContextGraphQl() requestContext: IRequestContext,
-    @Args('dto', {
+
+    @GqlArgYup('dto', EstadoFindOneByUfInputContract(), {
       type: () => EstadoFindOneByUfInputDto,
       description: 'Dados da requisição.',
     })
@@ -51,7 +57,7 @@ export class EstadoResolver {
   })
   async estadoFindById(
     @ResolveRequestContextGraphQl() requestContext: IRequestContext,
-    @Args('dto', {
+    @GqlArgYup('dto', EstadoFindOneByIdInputContract(), {
       type: () => EstadoFindOneByIdInputDto,
       description: 'Dados da requisição.',
     })

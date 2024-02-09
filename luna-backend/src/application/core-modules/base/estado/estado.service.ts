@@ -50,11 +50,14 @@ export class EstadoService {
 
     // =========================================================
 
-    qb.where('estado.sigla = :sigla', { sigla: dto.uf.toUpperCase() });
+    requestContext.authz.applyFindFilter(qb, 'estado');
 
     // =========================================================
 
-    requestContext.authz.applyFindFilter(qb, 'estado');
+    qb.andWhere('estado.sigla = :sigla', { sigla: dto.uf.toUpperCase() });
+
+    // =========================================================
+
     const estado = await qb.getOne();
 
     // =========================================================
@@ -90,11 +93,14 @@ export class EstadoService {
 
     // =========================================================
 
-    qb.where('estado.id = :id', { id: dto.id });
+    requestContext.authz.applyFindFilter(qb, 'estado');
 
     // =========================================================
 
-    requestContext.authz.applyFindFilter(qb, 'estado');
+    qb.andWhere('estado.id = :id', { id: dto.id });
+
+    // =========================================================
+
     const estado = await qb.getOne();
 
     // =========================================================

@@ -1,6 +1,7 @@
 import { ArgumentsHost, Catch, HttpException } from '@nestjs/common';
 import { GqlExceptionFilter as NestGqlExceptionFilter } from '@nestjs/graphql';
 import { Request, Response } from 'express';
+import { ValidationFailedException } from '../../exceptions/ValidationFailedException';
 
 @Catch(HttpException)
 export class GqlExceptionFilter implements NestGqlExceptionFilter {
@@ -16,14 +17,18 @@ export class GqlExceptionFilter implements NestGqlExceptionFilter {
     const isGql = !Boolean(request);
 
     if (!isGql) {
-      const formattedErrorResponse = {
-        statusCode: status,
-        message: exception.message,
-        timestamp: new Date().toISOString(),
-        path: request.url,
-      };
+      if (exception instanceof ValidationFailedException) {
+        response.status(status).json(exception.getResponse());
+      } else {
+        const formattedErrorResponse = {
+          statusCode: status,
+          message: exception.message,
+          timestamp: new Date().toISOString(),
+          path: request.url,
+        };
 
-      response.status(status).json(formattedErrorResponse);
+        response.status(status).json(formattedErrorResponse);
+      }
     }
   }
 
