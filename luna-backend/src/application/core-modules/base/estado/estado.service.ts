@@ -23,11 +23,15 @@ export class EstadoService {
     // =========================================================
 
     const qb = baseEstadoRepository.createQueryBuilder('estado');
-    qb.select('estado');
 
     // =========================================================
 
     requestContext.authz.applyFindFilter(qb, 'estado');
+    // =========================================================
+
+    // =========================================================
+
+    qb.select('estado');
     const estados = await qb.getMany();
 
     // =========================================================
@@ -46,7 +50,6 @@ export class EstadoService {
     // =========================================================
 
     const qb = baseEstadoRepository.createQueryBuilder('estado');
-    qb.select('estado');
 
     // =========================================================
 
@@ -58,6 +61,7 @@ export class EstadoService {
 
     // =========================================================
 
+    qb.select('estado');
     const estado = await qb.getOne();
 
     // =========================================================
@@ -89,7 +93,6 @@ export class EstadoService {
     // =========================================================
 
     const qb = baseEstadoRepository.createQueryBuilder('estado');
-    qb.select('estado');
 
     // =========================================================
 
@@ -101,6 +104,7 @@ export class EstadoService {
 
     // =========================================================
 
+    qb.select('estado');
     const estado = await qb.getOne();
 
     // =========================================================
