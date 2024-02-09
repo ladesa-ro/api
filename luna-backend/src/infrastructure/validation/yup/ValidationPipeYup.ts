@@ -23,6 +23,7 @@ export class ValidationPipeYup implements PipeTransform {
       if (err instanceof yup.ValidationError) {
         throw new ValidationFailedException([
           {
+            scope: this.options.scope,
             ...omit(err, ['params', 'value', 'inner']),
             path: [this.options.path, err.path].filter(Boolean).join('.'),
           },
