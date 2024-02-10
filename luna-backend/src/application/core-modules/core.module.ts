@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { BaseModule } from './base/base.module';
+import { AmbientesModule } from './ambientes/ambientes.module';
 
 @Module({
   imports: [
     //
-    BaseModule,
+    AmbientesModule,
   ],
 })
 export class CoreModule {}
