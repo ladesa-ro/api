@@ -1,33 +1,27 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { ApiProperty } from '@nestjs/swagger';
+import { ObjectType } from '@nestjs/graphql';
 import { IBaseEstadoFindOneResultDto } from '../../../../../../domain';
+import { DecorateProperty } from '../../../../../../infrastructure/adapters/decorators/DecorateProperty';
 
 @ObjectType('EstadoFindOneResultDto')
 export class EstadoFindOneResultDto implements IBaseEstadoFindOneResultDto {
-  @ApiProperty({
-    type: 'integer',
+  @DecorateProperty({
+    type: 'int',
     description: 'ID IBGE do estado brasileiro.',
-  })
-  @Field(() => Int, {
-    description: 'ID IBGE do estado brasileiro.',
+    nullable: false,
   })
   id!: number;
 
-  @ApiProperty({
+  @DecorateProperty({
     type: 'string',
     description: 'Nome oficial do estado.',
-  })
-  @Field(() => String, {
-    description: 'Nome oficial do estado.',
+    nullable: false,
   })
   nome!: string;
 
-  @ApiProperty({
+  @DecorateProperty({
     type: 'string',
     description: 'Sigla UF do estado.',
-  })
-  @Field(() => String, {
-    description: 'Sigla UF do estado.',
+    nullable: false,
   })
   sigla!: string;
 }

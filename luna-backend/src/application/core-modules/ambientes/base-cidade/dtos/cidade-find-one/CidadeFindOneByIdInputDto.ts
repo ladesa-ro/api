@@ -1,12 +1,15 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
 import { IBaseEstadoFindOneByIdInputDto as IBaseCidadeFindOneByIdInputDto } from '../../../../../../domain';
+import { DecorateProperty } from '../../../../../../infrastructure/adapters/decorators/DecorateProperty';
 
 @InputType('CidadeFindOneByIdInputDto')
 export class CidadeFindOneByIdInputDto
   implements IBaseCidadeFindOneByIdInputDto
 {
-  @Field(() => Int, {
+  @DecorateProperty({
+    type: 'int',
     description: 'ID IBGE da cidade.',
+    nullable: false,
   })
   id!: IBaseCidadeFindOneByIdInputDto['id'];
 }
