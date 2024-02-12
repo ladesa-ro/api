@@ -1,5 +1,5 @@
 import { ICampusModel } from '../../../(models)/ICampusModel';
 
-export interface ICampusFindOneByIdInputDto {
-  id: ICampusModel['id'];
+export interface ICampusFindOneByIdInputDto extends Pick<ICampusModel, 'id'> {
+  id: string;
 }

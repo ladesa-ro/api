@@ -4,15 +4,7 @@ import { IEnderecoFindOneResultDto } from '../../../endereco/(dtos)/endereco-fin
 export interface ICampusFindOneResultDto
   extends Pick<
     ICampusModel,
-    | 'id'
-    | 'nomeFantasia'
-    | 'razaoSocial'
-    | 'nomeFantasia'
-    | 'apelido'
-    | 'cnpj'
-    | 'dateCreated'
-    | 'dateUpdated'
-    | 'dateDeleted'
+    'id' | 'nomeFantasia' | 'razaoSocial' | 'nomeFantasia' | 'apelido' | 'cnpj'
   > {
   endereco: IEnderecoFindOneResultDto;
 }

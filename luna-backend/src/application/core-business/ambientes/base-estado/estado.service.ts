@@ -30,7 +30,7 @@ export class EstadoService {
 
     // =========================================================
 
-    qb.select('estado');
+    qb.select(['estado.id', 'estado.nome', 'estado.sigla']);
     const estados = await qb.getMany();
 
     // =========================================================
@@ -60,7 +60,7 @@ export class EstadoService {
 
     // =========================================================
 
-    qb.select('estado');
+    qb.select(['estado.id', 'estado.nome', 'estado.sigla']);
     const estado = await qb.getOne();
 
     // =========================================================
@@ -103,7 +103,7 @@ export class EstadoService {
 
     // =========================================================
 
-    qb.select('estado');
+    qb.select(['estado.id', 'estado.nome', 'estado.sigla']);
     const estado = await qb.getOne();
 
     // =========================================================

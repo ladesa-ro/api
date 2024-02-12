@@ -31,7 +31,7 @@ export class CidadeService {
 
     // =========================================================
 
-    qb.select('cidade');
+    qb.select(['cidade.id', 'cidade.nome']);
     const cidades = await qb.getMany();
 
     // =========================================================
@@ -61,7 +61,7 @@ export class CidadeService {
 
     // =========================================================
 
-    qb.select('cidade');
+    qb.select(['cidade.id', 'cidade.nome']);
     const cidade = await qb.getOne();
 
     // =========================================================
