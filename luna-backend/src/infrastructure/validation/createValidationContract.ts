@@ -7,8 +7,8 @@ export type IValidationContract<
 > = (options?: Opts) => Schema;
 
 export const createValidationContract = <
-  Opts,
-  Schema extends ISchema<any, any>,
+  Opts = void,
+  Schema extends ISchema<any, any> = ISchema<any, any>,
 >(
   factory: IValidationContract<Opts, Schema>,
 ) => factory;

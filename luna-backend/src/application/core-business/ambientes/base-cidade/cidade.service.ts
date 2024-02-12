@@ -1,9 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { SelectQueryBuilder } from 'typeorm';
 import {
   ICidadeFindOneByIdInputDto,
   IRequestContext,
 } from '../../../../domain';
 import { DatabaseContext } from '../../../../infrastructure/integrate-database/typeorm/database-context/database-context';
+import { EstadoService } from '../base-estado/estado.service';
 
 @Injectable()
 export class CidadeService {
@@ -11,6 +13,17 @@ export class CidadeService {
     //
     private databaseContext: DatabaseContext,
   ) {}
+
+  //
+
+  static cidadeSelectFindOne(qb: SelectQueryBuilder<any>, loadEstado = true) {
+    qb.addSelect(['cidade.id', 'cidade.nome']);
+
+    if (loadEstado) {
+      qb.innerJoin('cidade.estado', 'estado');
+      EstadoService.estadoSelectFindOne(qb);
+    }
+  }
 
   //
 
@@ -31,7 +44,7 @@ export class CidadeService {
 
     // =========================================================
 
-    qb.select(['cidade.id', 'cidade.nome']);
+    CidadeService.cidadeSelectFindOne(qb, true);
     const cidades = await qb.getMany();
 
     // =========================================================
@@ -61,7 +74,7 @@ export class CidadeService {
 
     // =========================================================
 
-    qb.select(['cidade.id', 'cidade.nome']);
+    CidadeService.cidadeSelectFindOne(qb, true);
     const cidade = await qb.getOne();
 
     // =========================================================

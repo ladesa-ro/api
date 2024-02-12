@@ -1,4 +1,4 @@
-import { InputType, Int } from '@nestjs/graphql';
+import { Int, ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import { CommonPropertyUuid, ObjectIdDto } from '../../../(dtos)';
 import {
@@ -146,7 +146,7 @@ export const EnderecoDtoProperties = createDtoPropertyMap({
 
 // ======================================================
 
-@InputType('Endereco')
+@ObjectType('Endereco')
 export class EnderecoDto implements IEnderecoModel {
   @DtoProperty(EnderecoDtoProperties.ENDERECO_ID)
   id!: string;

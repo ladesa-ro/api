@@ -1,17 +1,51 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { pick } from 'lodash';
-import { IEnderecoInputDto, IEnderecoModel } from '../../../../domain';
+import { SelectQueryBuilder } from 'typeorm';
+import {
+  IEnderecoFindOneByIdInputDto,
+  IEnderecoFindOneResultDto,
+  IEnderecoInputDto,
+  IEnderecoModel,
+  IRequestContext,
+} from '../../../../domain';
 import { parsePayloadYup } from '../../../../infrastructure';
 import { DatabaseContext } from '../../../../infrastructure/integrate-database/typeorm/database-context/database-context';
+import { CidadeService } from '../base-cidade/cidade.service';
 import { EnderecoInputDtoValidationContract } from './dtos';
 
 @Injectable()
 export class EnderecoService {
   constructor(private databaseContext: DatabaseContext) {}
 
+  //
+
   get enderecoRepository() {
     return this.databaseContext.enderecoRepository;
   }
+
+  //
+
+  static enderecoSelectFindOne(
+    qb: SelectQueryBuilder<any>,
+    loadCidade = true,
+    loadEstado = true,
+  ) {
+    qb.addSelect([
+      'endereco.cep',
+      'endereco.logradouro',
+      'endereco.numero',
+      'endereco.bairro',
+      'endereco.complemento',
+      'endereco.pontoReferencia',
+    ]);
+
+    if (loadCidade) {
+      qb.innerJoin('endereco.cidade', 'cidade');
+      CidadeService.cidadeSelectFindOne(qb, loadEstado);
+    }
+  }
+
+  //
 
   async internalFindOneById(id: IEnderecoModel['id']) {
     const endereco = await this.enderecoRepository.findOne({
@@ -70,6 +104,47 @@ export class EnderecoService {
     this.enderecoRepository.merge(endereco, enderecoInputDto);
 
     await this.enderecoRepository.save(endereco);
+
+    return endereco;
+  }
+
+  //
+
+  async findById(
+    requestContext: IRequestContext,
+    dto: IEnderecoFindOneByIdInputDto,
+  ): Promise<IEnderecoFindOneResultDto | null> {
+    // =========================================================
+
+    const qb = this.enderecoRepository.createQueryBuilder('endereco');
+
+    // =========================================================
+
+    requestContext.authz.applyFindFilter(qb, 'endereco');
+
+    // =========================================================
+
+    qb.andWhere('endereco.id = :id', { id: dto.id });
+
+    // =========================================================
+
+    EnderecoService.enderecoSelectFindOne(qb, true);
+    const endereco = await qb.getOne();
+
+    // =========================================================
+
+    return endereco;
+  }
+
+  async findByIdStrict(
+    requestContext: IRequestContext,
+    dto: IEnderecoFindOneByIdInputDto,
+  ) {
+    const endereco = await this.findById(requestContext, dto);
+
+    if (!endereco) {
+      throw new NotFoundException();
+    }
 
     return endereco;
   }

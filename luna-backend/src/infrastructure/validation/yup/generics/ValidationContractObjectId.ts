@@ -13,19 +13,19 @@ export const ValidationContractObjectId = createValidationContract(
 
     if (required) {
       return yup.object().shape({
-        id: ValidationContractId({}).required(message),
+        id: ValidationContractId().required(message),
       });
     }
 
     return yup
       .object()
       .shape({
-        id: ValidationContractId({}).required(message),
+        id: ValidationContractId().required(message),
       })
       .transform((value) => {
         const id = value?.id ?? null;
 
-        if (id !== null && ValidationContractId({}).isValidSync(id)) {
+        if (id !== null && ValidationContractId().isValidSync(id)) {
           return value;
         }
 

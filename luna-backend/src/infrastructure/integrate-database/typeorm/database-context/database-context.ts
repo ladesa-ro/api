@@ -1,4 +1,5 @@
 import { DataSource, EntityManager } from 'typeorm';
+import { createCampusRepository } from '../repositories/ambientes/campus.repository';
 import { createBaseCidadeRepository } from '../repositories/base-cidade.repository';
 import { createBaseEstadoRepository } from '../repositories/base-estado.repository';
 import { createEnderecoRepository } from '../repositories/endereco.repository';
@@ -24,5 +25,9 @@ export class DatabaseContext {
 
   get enderecoRepository() {
     return createEnderecoRepository(this.ds);
+  }
+
+  get campusRepository() {
+    return createCampusRepository(this.ds);
   }
 }

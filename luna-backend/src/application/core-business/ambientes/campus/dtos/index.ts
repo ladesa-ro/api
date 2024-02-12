@@ -1,1 +1,5 @@
+export * from './campus-find-one-by-id.input.dto';
+export * from './campus-find-one.result.dto';
+export * from './campus-input.dto';
 export * from './campus.dto';
+export * from './campus.operations';

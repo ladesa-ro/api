@@ -24,10 +24,11 @@ import {
 
 export const CampusDtoValidationContract = createValidationContract(() => {
   return yup.object({
-    id: ValidationContractUuid({ required: true }),
+    id: ValidationContractUuid(),
 
     //
 
+    // TODO: strict validation
     nomeFantasia: ValidationContractString(),
     razaoSocial: ValidationContractString(),
     apelido: ValidationContractString(),

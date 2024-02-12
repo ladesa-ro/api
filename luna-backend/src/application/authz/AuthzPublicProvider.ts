@@ -7,6 +7,7 @@ export class AuthzPublicProvider extends BaseAuthzProvider {
       // ...
       this.estadoFind,
       this.cidadeFind,
+      this.campusFind,
     ];
   }
 
@@ -23,6 +24,16 @@ export class AuthzPublicProvider extends BaseAuthzProvider {
   get cidadeFind() {
     return createStatementFind({
       target: 'cidade',
+      mode: 'include',
+      filter(qb) {
+        qb.where('TRUE');
+      },
+    });
+  }
+
+  get campusFind() {
+    return createStatementFind({
+      target: 'campus',
       mode: 'include',
       filter(qb) {
         qb.where('TRUE');

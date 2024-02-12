@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Resolver } from '@nestjs/graphql';
 import {
   IEstadoFindOneByIdInputDto,
   IEstadoFindOneByUfInputDto,
@@ -6,15 +6,16 @@ import {
 } from '../../../../domain';
 import {
   DtoGqlInput,
+  DtoOperationGql,
   ResolveRequestContextGraphQl,
 } from '../../../../infrastructure';
 import {
-  EstadoDto,
   EstadoFindOneByIdInputDto,
   EstadoFindOneByIdInputValidationContract,
   EstadoFindOneByUfInputDto,
   EstadoFindOneByUfInputValidationContract,
 } from './dtos';
+import { EstadoOperations } from './dtos/estado.operations';
 import { EstadoService } from './estado.service';
 
 @Resolver()
@@ -24,22 +25,15 @@ export class EstadoResolver {
     private estadoService: EstadoService,
   ) {}
 
-  @Query(() => [EstadoDto], {
-    name: 'estadoFindAll',
-    description:
-      'Lista de todos os estados brasileiros cadastrados no sistema.',
-  })
+  @DtoOperationGql(EstadoOperations.ESTADO_FIND_ALL)
   async estadoFindAll(
     @ResolveRequestContextGraphQl() requestContext: IRequestContext,
   ) {
     return this.estadoService.findAll(requestContext);
   }
 
-  @Query(() => EstadoDto, {
-    name: 'estadoFindByUf',
-    description: 'Realiza a consulta a um estado por sigla da UF.',
-  })
-  async estadoFindByUf(
+  @DtoOperationGql(EstadoOperations.ESTADO_FIND_ONE_BY_UF)
+  async estadoFindOneByUf(
     @ResolveRequestContextGraphQl() requestContext: IRequestContext,
 
     @DtoGqlInput({
@@ -51,11 +45,8 @@ export class EstadoResolver {
     return this.estadoService.findByUfStrict(requestContext, dto);
   }
 
-  @Query(() => EstadoDto, {
-    name: 'estadoFindById',
-    description: 'Retorna a consulta a um estado por ID IBGE.',
-  })
-  async estadoFindById(
+  @DtoOperationGql(EstadoOperations.ESTADO_FIND_ONE_BY_ID)
+  async estadoFindOneById(
     @ResolveRequestContextGraphQl() requestContext: IRequestContext,
     @DtoGqlInput({
       type: () => EstadoFindOneByIdInputDto,

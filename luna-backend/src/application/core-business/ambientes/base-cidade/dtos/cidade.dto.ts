@@ -1,6 +1,10 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { CommonPropertyId, ICidadeModel } from '../../../(dtos)';
+import {
+  CommonPropertyId,
+  ICidadeModel,
+  IEstadoFindOneResultDto,
+} from '../../../(dtos)';
 import {
   DtoProperty,
   ValidationContractId,
@@ -9,6 +13,7 @@ import {
   createDtoPropertyOptions,
   createValidationContract,
 } from '../../../../../infrastructure';
+import { EstadoDto, EstadoFindOneResultDto } from '../../base-estado/dtos';
 
 // ======================================================
 
@@ -36,6 +41,19 @@ export const CidadeDtoProperties = createDtoPropertyMap({
       type: 'string',
     },
   }),
+
+  CIDADE_ESTADO_OUTPUT: createDtoPropertyOptions({
+    nullable: false,
+    description: 'Estado brasileiro o qual a cidade pertence.',
+
+    gql: {
+      type: () => EstadoDto,
+    },
+
+    swagger: {
+      type: () => EstadoFindOneResultDto,
+    },
+  }),
 });
 
 // ======================================================
@@ -47,6 +65,9 @@ export class CidadeDto implements ICidadeModel {
 
   @DtoProperty(CidadeDtoProperties.CIDADE_NOME)
   nome!: string;
+
+  @DtoProperty(CidadeDtoProperties.CIDADE_ESTADO_OUTPUT)
+  estado!: IEstadoFindOneResultDto;
 }
 
 // ======================================================

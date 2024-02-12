@@ -2,6 +2,8 @@ import { IDatedObject, IObjectUuid } from '../../../(core)';
 import { ICidadeModel } from '../../base-cidade';
 
 export interface IEnderecoModel extends IObjectUuid, IDatedObject {
+  //
+
   cep: string;
   logradouro: string;
 
@@ -11,5 +13,9 @@ export interface IEnderecoModel extends IObjectUuid, IDatedObject {
   complemento: string | null;
   pontoReferencia: string | null;
 
+  //
+
   cidade: ICidadeModel;
+
+  //
 }

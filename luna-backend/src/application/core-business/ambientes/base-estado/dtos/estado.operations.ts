@@ -1,5 +1,6 @@
-import { EstadoDto, EstadoFindOneResultDto } from '.';
 import { createDtoOperationOptions } from '../../../../../infrastructure';
+import { EstadoFindOneResultDto } from './estado-find-one.result.dto';
+import { EstadoDto } from './estado.dto';
 
 export const EstadoOperations = {
   ESTADO_FIND_ALL: createDtoOperationOptions({

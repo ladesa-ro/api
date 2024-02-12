@@ -6,13 +6,10 @@ import {
   DtoOperationFindOne,
   HttpParam,
   ResolveRequestContextHttp,
-  createValidationContractPickField,
+  ValidationContractId,
 } from '../../../../infrastructure';
 import { CidadeService } from './cidade.service';
-import {
-  CidadeFindOneByIdInputValidationContract,
-  CidadeOperations,
-} from './dtos';
+import { CidadeOperations } from './dtos';
 
 @ApiTags('ambientes')
 @Controller('/base/cidades')
@@ -35,13 +32,7 @@ export class CidadeController {
   })
   async findById(
     @ResolveRequestContextHttp() requestContext: IRequestContext,
-    @HttpParam(
-      'id',
-      createValidationContractPickField(
-        CidadeFindOneByIdInputValidationContract,
-        'id',
-      ),
-    )
+    @HttpParam('id', ValidationContractId)
     id: number,
   ) {
     return this.cidadeService.findByIdStrict(requestContext, { id });

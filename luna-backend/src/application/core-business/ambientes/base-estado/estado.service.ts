@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { SelectQueryBuilder } from 'typeorm';
 import {
   IEstadoFindOneByIdInputDto,
   IEstadoFindOneByUfInputDto,
@@ -8,21 +9,24 @@ import { DatabaseContext } from '../../../../infrastructure/integrate-database/t
 
 @Injectable()
 export class EstadoService {
-  constructor(
-    //
-    private databaseContext: DatabaseContext,
-  ) {}
+  constructor(private databaseContext: DatabaseContext) {}
+
+  get baseEstadoRepository() {
+    return this.databaseContext.baseEstadoRepository;
+  }
+
+  //
+
+  static estadoSelectFindOne(qb: SelectQueryBuilder<any>) {
+    qb.addSelect(['estado.id', 'estado.nome', 'estado.sigla']);
+  }
 
   //
 
   async findAll(requestContext: IRequestContext) {
     // =========================================================
 
-    const { baseEstadoRepository } = this.databaseContext;
-
-    // =========================================================
-
-    const qb = baseEstadoRepository.createQueryBuilder('estado');
+    const qb = this.baseEstadoRepository.createQueryBuilder('estado');
 
     // =========================================================
 
@@ -30,7 +34,7 @@ export class EstadoService {
 
     // =========================================================
 
-    qb.select(['estado.id', 'estado.nome', 'estado.sigla']);
+    EstadoService.estadoSelectFindOne(qb);
     const estados = await qb.getMany();
 
     // =========================================================
@@ -44,11 +48,7 @@ export class EstadoService {
   ) {
     // =========================================================
 
-    const { baseEstadoRepository } = this.databaseContext;
-
-    // =========================================================
-
-    const qb = baseEstadoRepository.createQueryBuilder('estado');
+    const qb = this.baseEstadoRepository.createQueryBuilder('estado');
 
     // =========================================================
 
@@ -60,7 +60,7 @@ export class EstadoService {
 
     // =========================================================
 
-    qb.select(['estado.id', 'estado.nome', 'estado.sigla']);
+    EstadoService.estadoSelectFindOne(qb);
     const estado = await qb.getOne();
 
     // =========================================================
@@ -87,11 +87,7 @@ export class EstadoService {
   ) {
     // =========================================================
 
-    const { baseEstadoRepository } = this.databaseContext;
-
-    // =========================================================
-
-    const qb = baseEstadoRepository.createQueryBuilder('estado');
+    const qb = this.baseEstadoRepository.createQueryBuilder('estado');
 
     // =========================================================
 
@@ -103,7 +99,7 @@ export class EstadoService {
 
     // =========================================================
 
-    qb.select(['estado.id', 'estado.nome', 'estado.sigla']);
+    EstadoService.estadoSelectFindOne(qb);
     const estado = await qb.getOne();
 
     // =========================================================

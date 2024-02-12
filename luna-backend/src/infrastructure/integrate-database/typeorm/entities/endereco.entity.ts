@@ -1,7 +1,14 @@
-import { Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ICidadeModel, IEnderecoModel, IEntityDate } from '../../../../domain';
 import { BaseCidadeEntity } from './base-cidade.entity';
 
+@Entity('endereco')
 export class EnderecoEntity implements IEnderecoModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;

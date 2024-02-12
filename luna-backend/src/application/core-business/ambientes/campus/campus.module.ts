@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CampusController } from './campus.controller';
+import { CampusResolver } from './campus.resolver';
 import { CampusService } from './campus.service';
-import { CampusResolver } from './estado.resolver';
 
 @Module({
   imports: [],
