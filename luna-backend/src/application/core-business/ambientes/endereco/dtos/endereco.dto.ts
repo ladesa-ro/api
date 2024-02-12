@@ -53,7 +53,7 @@ export const EnderecoDtoProperties = createDtoPropertyMap({
 
   ENDERECO_CEP: {
     nullable: false,
-    description: 'CEP do Endereço',
+    description: 'CEP do endereço.',
 
     gql: {
       type: () => String,
@@ -66,7 +66,7 @@ export const EnderecoDtoProperties = createDtoPropertyMap({
 
   ENDERECO_LOGRADOURO: {
     nullable: false,
-    description: 'Logradouro do Endereço',
+    description: 'Logradouro do endereço.',
 
     gql: {
       type: () => String,
@@ -79,7 +79,7 @@ export const EnderecoDtoProperties = createDtoPropertyMap({
 
   ENDERECO_NUMERO: {
     nullable: false,
-    description: 'Número do Endereço',
+    description: 'Número do endereço.',
     gql: {
       type: () => Int,
     },
@@ -90,7 +90,7 @@ export const EnderecoDtoProperties = createDtoPropertyMap({
 
   ENDERECO_BAIRRO: {
     nullable: false,
-    description: 'Bairro do Endereço',
+    description: 'Bairro do endereço.',
     gql: {
       type: () => String,
     },
@@ -101,7 +101,7 @@ export const EnderecoDtoProperties = createDtoPropertyMap({
 
   ENDERECO_COMPLEMENTO: {
     nullable: true,
-    description: 'Complemento do Endereço',
+    description: 'Complemento do endereço.',
     gql: {
       type: () => String,
     },
@@ -112,7 +112,7 @@ export const EnderecoDtoProperties = createDtoPropertyMap({
 
   ENDERECO_PONTO_REFERENCIA: {
     nullable: true,
-    description: 'Ponto de referência do Endereço',
+    description: 'Ponto de referência do endereço.',
     gql: {
       type: () => String,
     },
@@ -123,7 +123,7 @@ export const EnderecoDtoProperties = createDtoPropertyMap({
 
   ENDERECO_CIDADE_INPUT: {
     nullable: false,
-    description: 'Cidade do Endereço',
+    description: 'Cidade do endereço.',
     gql: {
       type: () => ObjectIdDto,
     },
@@ -134,7 +134,7 @@ export const EnderecoDtoProperties = createDtoPropertyMap({
 
   ENDERECO_CIDADE_OUTPUT: {
     nullable: false,
-    description: 'Cidade do Endereço',
+    description: 'Consulta à cidade do endereço.',
     gql: {
       type: () => CidadeDto,
     },

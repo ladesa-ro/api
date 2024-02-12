@@ -1,4 +1,14 @@
-import { createDtoOperationOptions } from '../../../../../infrastructure';
+import {
+  EstadoFindOneByIdInputDto,
+  EstadoFindOneByIdInputValidationContract,
+  EstadoFindOneByUfInputDto,
+  EstadoFindOneByUfInputValidationContract,
+} from '.';
+import {
+  ValidationContractId,
+  createDtoOperationOptions,
+  createValidationContractPickField,
+} from '../../../../../infrastructure';
 import { EstadoFindOneResultDto } from './estado-find-one.result.dto';
 import { EstadoDto } from './estado.dto';
 
@@ -9,11 +19,11 @@ export const EstadoOperations = {
 
     gql: {
       name: 'estadoFindAll',
-      type: () => [EstadoDto],
+      returnType: () => [EstadoDto],
     },
 
     swagger: {
-      type: [EstadoFindOneResultDto],
+      returnType: [EstadoFindOneResultDto],
     },
   }),
 
@@ -24,11 +34,23 @@ export const EstadoOperations = {
 
     gql: {
       name: 'estadoFindOneById',
-      type: () => EstadoDto,
+
+      inputDtoType: () => EstadoFindOneByIdInputDto,
+      inputDtoValidationContract: EstadoFindOneByIdInputValidationContract,
+
+      returnType: () => EstadoDto,
     },
 
     swagger: {
-      type: EstadoFindOneResultDto,
+      returnType: EstadoFindOneResultDto,
+
+      params: [
+        {
+          name: 'id',
+          description: 'ID IBGE do estado.',
+          validationContract: ValidationContractId,
+        },
+      ],
     },
   }),
 
@@ -39,11 +61,26 @@ export const EstadoOperations = {
 
     gql: {
       name: 'estadoFindOneByUf',
-      type: () => EstadoDto,
+
+      inputDtoType: () => EstadoFindOneByUfInputDto,
+      inputDtoValidationContract: EstadoFindOneByUfInputValidationContract,
+
+      returnType: () => EstadoDto,
     },
 
     swagger: {
-      type: EstadoFindOneResultDto,
+      returnType: EstadoFindOneResultDto,
+
+      params: [
+        {
+          name: 'uf',
+          description: 'Sigla UF do estado.',
+          validationContract: createValidationContractPickField(
+            EstadoFindOneByUfInputValidationContract,
+            'uf',
+          ),
+        },
+      ],
     },
   }),
 };

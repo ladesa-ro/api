@@ -1,13 +1,7 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { createDtoPropertyOptions } from '../../../infrastructure';
+import { DtoProperty, createDtoPropertyOptions } from '../../../infrastructure';
 
 // ======================================================================
-
-@InputType('ObjectIdDto')
-export class ObjectIdDto {
-  @Field(() => Int, { nullable: false })
-  id!: number;
-}
 
 export const CommonPropertyId = (description: string = 'ID do registro.') =>
   createDtoPropertyOptions({
@@ -22,6 +16,12 @@ export const CommonPropertyId = (description: string = 'ID do registro.') =>
       type: 'integer',
     },
   });
+
+@InputType('ObjectIdDto')
+export class ObjectIdDto {
+  @DtoProperty(CommonPropertyId())
+  id!: number;
+}
 
 // ======================================================================
 

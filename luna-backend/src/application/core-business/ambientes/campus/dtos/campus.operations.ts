@@ -1,5 +1,16 @@
-import { createDtoOperationOptions } from '../../../../../infrastructure';
+import {
+  CampusFindOneByIdInputDto,
+  CampusFindOneByIdInputValidationContract,
+} from '.';
+import {
+  ValidationContractUuid,
+  createDtoOperationOptions,
+} from '../../../../../infrastructure';
 import { CampusFindOneResultDto } from './campus-find-one.result.dto';
+import {
+  CampusInputDto,
+  CampusInputDtoValidationContract,
+} from './campus-input.dto';
 import { CampusDto } from './campus.dto';
 
 export const CampusOperations = {
@@ -8,11 +19,11 @@ export const CampusOperations = {
 
     gql: {
       name: 'campusFindAll',
-      type: () => [CampusDto],
+      returnType: () => [CampusDto],
     },
 
     swagger: {
-      type: [CampusFindOneResultDto],
+      returnType: [CampusFindOneResultDto],
     },
   }),
 
@@ -23,11 +34,45 @@ export const CampusOperations = {
 
     gql: {
       name: 'campusFindOneById',
-      type: () => CampusDto,
+
+      inputDtoType: () => CampusFindOneByIdInputDto,
+      inputDtoValidationContract: CampusFindOneByIdInputValidationContract,
+
+      returnType: () => CampusDto,
     },
 
     swagger: {
-      type: CampusFindOneResultDto,
+      returnType: CampusFindOneResultDto,
+
+      params: [
+        {
+          name: 'id',
+          description: 'ID do campus.',
+          validationContract: ValidationContractUuid,
+        },
+      ],
+    },
+  }),
+
+  // ===============================
+
+  CAMPUS_CREATE: createDtoOperationOptions({
+    description: 'Realiza o cadastro de um campus.',
+
+    gql: {
+      name: 'campusCreate',
+
+      inputDtoType: () => CampusInputDto,
+      inputDtoValidationContract: CampusInputDtoValidationContract,
+
+      returnType: () => CampusDto,
+    },
+
+    swagger: {
+      inputBodyType: CampusInputDto,
+      inputBodyValidationContract: CampusInputDtoValidationContract,
+
+      returnType: CampusFindOneResultDto,
     },
   }),
 

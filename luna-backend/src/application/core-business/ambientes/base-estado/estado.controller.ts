@@ -4,12 +4,9 @@ import { IEstadoFindOneResultDto, IRequestContext } from '../../../../domain';
 import {
   DtoOperationFindAll,
   DtoOperationFindOne,
-  HttpParam,
+  HttpDtoParam,
   ResolveRequestContextHttp,
-  ValidationContractId,
-  createValidationContractPickField,
 } from '../../../../infrastructure';
-import { EstadoFindOneByUfInputValidationContract } from './dtos';
 import { EstadoOperations } from './dtos/estado.operations';
 import { EstadoService } from './estado.service';
 
@@ -37,13 +34,7 @@ export class EstadoController {
   })
   async findByUf(
     @ResolveRequestContextHttp() requestContext: IRequestContext,
-    @HttpParam(
-      'uf',
-      createValidationContractPickField(
-        EstadoFindOneByUfInputValidationContract,
-        'uf',
-      ),
-    )
+    @HttpDtoParam(EstadoOperations.ESTADO_FIND_ONE_BY_UF, 'uf')
     uf: string,
   ) {
     return this.estadoService.findByUfStrict(requestContext, { uf });
@@ -57,7 +48,7 @@ export class EstadoController {
   })
   async findById(
     @ResolveRequestContextHttp() requestContext: IRequestContext,
-    @HttpParam('id', ValidationContractId)
+    @HttpDtoParam(EstadoOperations.ESTADO_FIND_ONE_BY_ID, 'id')
     id: number,
   ) {
     return this.estadoService.findByIdStrict(requestContext, { id });

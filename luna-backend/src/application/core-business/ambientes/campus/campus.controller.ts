@@ -1,12 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
-import { ICampusFindOneResultDto, IRequestContext } from '../../../../domain';
+import { Controller, Get, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import {
+  ICampusFindOneResultDto,
+  ICampusInputDto,
+  IRequestContext,
+} from '../../../../domain';
+import {
+  DtoOperationCreate,
   DtoOperationFindAll,
   DtoOperationFindOne,
-  HttpParam,
+  HttpDtoBody,
+  HttpDtoParam,
   ResolveRequestContextHttp,
-  ValidationContractUuid,
 } from '../../../../infrastructure';
 import { CampusService } from './campus.service';
 import { CampusOperations } from './dtos/campus.operations';
@@ -20,25 +25,34 @@ export class CampusController {
 
   @Get('/')
   @DtoOperationFindAll(CampusOperations.CAMPUS_FIND_ALL)
-  async findAll(
+  async campusFindAll(
     @ResolveRequestContextHttp() requestContext: IRequestContext,
   ): Promise<ICampusFindOneResultDto[]> {
-    return this.campusService.findAll(requestContext);
+    return this.campusService.campusFindAll(requestContext);
   }
 
   //
 
   @Get('/:id')
   @DtoOperationFindOne(CampusOperations.CAMPUS_FIND_ONE_BY_ID)
-  @ApiParam({
-    name: 'id',
-    description: 'ID do campus.',
-  })
-  async findById(
+  async campusFindById(
     @ResolveRequestContextHttp() requestContext: IRequestContext,
-    @HttpParam('id', ValidationContractUuid)
+    @HttpDtoParam(CampusOperations.CAMPUS_FIND_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.campusService.findByIdStrict(requestContext, { id });
+    return this.campusService.campusFindByIdStrict(requestContext, { id });
   }
+
+  //
+
+  @Post('/:id')
+  @DtoOperationCreate(CampusOperations.CAMPUS_CREATE)
+  async campusCreate(
+    @ResolveRequestContextHttp() requestContext: IRequestContext,
+    @HttpDtoBody(CampusOperations.CAMPUS_CREATE) dto: ICampusInputDto,
+  ) {
+    return this.campusService.campusCreate(requestContext, dto);
+  }
+
+  //
 }

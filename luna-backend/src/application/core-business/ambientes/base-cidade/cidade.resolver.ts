@@ -4,16 +4,12 @@ import {
   IRequestContext,
 } from '../../../../domain';
 import {
-  DtoGqlInput,
-  DtoOperationGql,
+  DtoOperationGqlQuery,
+  GqlDtoInput,
   ResolveRequestContextGraphQl,
 } from '../../../../infrastructure';
 import { CidadeService } from './cidade.service';
-import {
-  CidadeFindOneByIdInputDto,
-  CidadeFindOneByIdInputValidationContract,
-  CidadeOperations,
-} from './dtos';
+import { CidadeOperations } from './dtos';
 
 @Resolver()
 export class CidadeResolver {
@@ -22,20 +18,17 @@ export class CidadeResolver {
     private cidadeService: CidadeService,
   ) {}
 
-  @DtoOperationGql(CidadeOperations.CIDADE_FIND_ALL)
+  @DtoOperationGqlQuery(CidadeOperations.CIDADE_FIND_ALL)
   async cidadeFindAll(
     @ResolveRequestContextGraphQl() requestContext: IRequestContext,
   ) {
     return this.cidadeService.findAll(requestContext);
   }
 
-  @DtoOperationGql(CidadeOperations.CIDADE_FIND_ONE_BY_ID)
+  @DtoOperationGqlQuery(CidadeOperations.CIDADE_FIND_ONE_BY_ID)
   async cidadeFindById(
     @ResolveRequestContextGraphQl() requestContext: IRequestContext,
-    @DtoGqlInput({
-      type: () => CidadeFindOneByIdInputDto,
-      validationContract: CidadeFindOneByIdInputValidationContract,
-    })
+    @GqlDtoInput(CidadeOperations.CIDADE_FIND_ONE_BY_ID)
     dto: ICidadeFindOneByIdInputDto,
   ) {
     return this.cidadeService.findByIdStrict(requestContext, dto);

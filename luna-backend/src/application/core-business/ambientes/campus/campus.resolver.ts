@@ -1,20 +1,17 @@
 import { Resolver } from '@nestjs/graphql';
 import {
   ICampusFindOneByIdInputDto,
+  ICampusInputDto,
   IRequestContext,
 } from '../../../../domain';
 import {
-  DtoGqlInput,
-  DtoOperationGql,
+  DtoOperationGqlMutation,
+  DtoOperationGqlQuery,
   ResolveRequestContextGraphQl,
 } from '../../../../infrastructure';
+import { GqlDtoInput } from '../../../../infrastructure/api-documentate/GqlDtoInput';
 import { CampusService } from './campus.service';
-import {
-  CampusDto,
-  CampusFindOneByIdInputDto,
-  CampusFindOneByIdInputValidationContract,
-  CampusOperations,
-} from './dtos';
+import { CampusDto, CampusOperations } from './dtos';
 
 @Resolver(() => CampusDto)
 export class CampusResolver {
@@ -25,24 +22,31 @@ export class CampusResolver {
 
   //
 
-  @DtoOperationGql(CampusOperations.CAMPUS_FIND_ALL)
+  @DtoOperationGqlQuery(CampusOperations.CAMPUS_FIND_ALL)
   async campusFindAll(
     @ResolveRequestContextGraphQl() requestContext: IRequestContext,
   ) {
-    return this.campusService.findAll(requestContext);
+    return this.campusService.campusFindAll(requestContext);
   }
 
   //
 
-  @DtoOperationGql(CampusOperations.CAMPUS_FIND_ONE_BY_ID)
+  @DtoOperationGqlQuery(CampusOperations.CAMPUS_FIND_ONE_BY_ID)
   async campusFindOneById(
     @ResolveRequestContextGraphQl() requestContext: IRequestContext,
-    @DtoGqlInput({
-      type: () => CampusFindOneByIdInputDto,
-      validationContract: CampusFindOneByIdInputValidationContract,
-    })
+    @GqlDtoInput(CampusOperations.CAMPUS_FIND_ONE_BY_ID)
     dto: ICampusFindOneByIdInputDto,
   ) {
-    return this.campusService.findByIdStrict(requestContext, dto);
+    return this.campusService.campusFindByIdStrict(requestContext, dto);
+  }
+
+  //
+
+  @DtoOperationGqlMutation(CampusOperations.CAMPUS_CREATE)
+  async campusCreate(
+    @ResolveRequestContextGraphQl() requestContext: IRequestContext,
+    @GqlDtoInput(CampusOperations.CAMPUS_CREATE) dto: ICampusInputDto,
+  ) {
+    return this.campusService.campusCreate(requestContext, dto);
   }
 }

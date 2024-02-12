@@ -1,12 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { ICidadeFindOneResultDto, IRequestContext } from '../../../../domain';
 import {
   DtoOperationFindAll,
   DtoOperationFindOne,
-  HttpParam,
+  HttpDtoParam,
   ResolveRequestContextHttp,
-  ValidationContractId,
 } from '../../../../infrastructure';
 import { CidadeService } from './cidade.service';
 import { CidadeOperations } from './dtos';
@@ -26,13 +25,9 @@ export class CidadeController {
 
   @Get('/id-:id')
   @DtoOperationFindOne(CidadeOperations.CIDADE_FIND_ONE_BY_ID)
-  @ApiParam({
-    name: 'id',
-    description: 'ID IBGE da cidade.',
-  })
   async findById(
     @ResolveRequestContextHttp() requestContext: IRequestContext,
-    @HttpParam('id', ValidationContractId)
+    @HttpDtoParam(CidadeOperations.CIDADE_FIND_ONE_BY_ID, 'id')
     id: number,
   ) {
     return this.cidadeService.findByIdStrict(requestContext, { id });

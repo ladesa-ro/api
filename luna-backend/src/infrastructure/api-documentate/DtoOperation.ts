@@ -1,39 +1,65 @@
-import { applyDecorators } from '@nestjs/common';
-import { Query, QueryOptions, ReturnTypeFunc } from '@nestjs/graphql';
-import {
-  ApiBearerAuth,
-  ApiResponse,
-  ApiResponseMetadata,
-} from '@nestjs/swagger';
+import { Type, applyDecorators } from '@nestjs/common';
+import { Mutation, Query, QueryOptions, ReturnTypeFunc } from '@nestjs/graphql';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { Schema } from 'yup';
+import { IValidationContract } from '..';
 
 // ==============================================================
+
+export type IDtoOperationSwaggerType = Type<unknown> | any | [any] | string;
+export type IDtoOperationGqlType = ReturnTypeFunc;
 
 export interface IDtoOperationOptions {
   description: string;
 
-  gql: {
+  gql: Omit<QueryOptions, 'description' | 'name' | 'type'> & {
     name: string;
-    type: ReturnTypeFunc;
-  } & Omit<QueryOptions, 'description' | 'name'>;
+    returnType: ReturnTypeFunc;
+
+    inputDtoType?: ReturnTypeFunc;
+    inputDtoValidationContract?: IValidationContract<any, Schema>;
+  };
 
   swagger: {
-    type: ApiResponseMetadata['type'];
+    returnType: IDtoOperationSwaggerType;
+
+    inputBodyType?: IDtoOperationSwaggerType;
+    inputBodyValidationContract?: IValidationContract<any, Schema>;
+
+    params?: {
+      name: string;
+      description: string;
+      validationContract: IValidationContract;
+    }[];
   };
 }
 
-export const createDtoOperationOptions = <Opts extends IDtoOperationOptions>(
-  options: Opts,
-) => options;
+export const createDtoOperationOptions = (options: IDtoOperationOptions) =>
+  options;
 
 // ==============================================================
 
-export const DtoOperationFindAll = (options: IDtoOperationOptions) => {
+export const DtoOperationCommon = (options: IDtoOperationOptions) => {
   return applyDecorators(
     ApiBearerAuth(),
+
+    ...(options.swagger.params ?? []).map((param) =>
+      ApiParam({
+        name: param.name,
+        description: param.description,
+      }),
+    ),
+  );
+};
+
+export const DtoOperationFindAll = (options: IDtoOperationOptions) => {
+  return applyDecorators(
+    DtoOperationCommon(options),
+
     ApiResponse({
       status: 200,
 
-      type: options.swagger.type,
+      type: options.swagger.returnType,
 
       description:
         options.description ?? 'Lista os recursos cadastrados no sistema.',
@@ -45,11 +71,11 @@ export const DtoOperationFindAll = (options: IDtoOperationOptions) => {
 
 export const DtoOperationFindOne = (options: IDtoOperationOptions) => {
   return applyDecorators(
-    ApiBearerAuth(),
+    DtoOperationCommon(options),
 
     ApiResponse({
       status: 200,
-      type: options.swagger.type,
+      type: options.swagger.returnType,
       description: options.description ?? 'Retorna a consulta a um registro.',
     }),
 
@@ -62,8 +88,37 @@ export const DtoOperationFindOne = (options: IDtoOperationOptions) => {
 
 // ==============================================================
 
-export const DtoOperationGql = (options: IDtoOperationOptions) => {
-  return Query(options.gql.type, {
+export const DtoOperationCreate = (options: IDtoOperationOptions) => {
+  if (!options.swagger.inputBodyType) {
+    throw new TypeError('Please provide options.swagger.inputBodyType');
+  }
+
+  return applyDecorators(
+    DtoOperationCommon(options),
+
+    ApiResponse({
+      status: 200,
+      type: options.swagger.returnType,
+      description: options.description ?? 'Retorna o registro cadastrado.',
+    }),
+
+    ApiBody({
+      type: options.swagger.inputBodyType,
+    }),
+  );
+};
+
+// ==============================================================
+
+export const DtoOperationGqlQuery = (options: IDtoOperationOptions) => {
+  return Query(options.gql.returnType, {
+    name: options.gql.name,
+    description: options.description,
+  });
+};
+
+export const DtoOperationGqlMutation = (options: IDtoOperationOptions) => {
+  return Mutation(options.gql.returnType, {
     name: options.gql.name,
     description: options.description,
   });

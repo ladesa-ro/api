@@ -1,7 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  NotImplementedException,
+} from '@nestjs/common';
 import { SelectQueryBuilder } from 'typeorm';
 import { ICampusFindOneByIdInputDto } from '../../(dtos)';
-import { ICampusFindOneResultDto, IRequestContext } from '../../../../domain';
+import {
+  ICampusFindOneResultDto,
+  ICampusInputDto,
+  IRequestContext,
+} from '../../../../domain';
 import { DatabaseContext } from '../../../../infrastructure/integrate-database/typeorm/database-context/database-context';
 import { EnderecoService } from '../endereco/endereco.service';
 
@@ -38,7 +46,7 @@ export class CampusService {
 
   //
 
-  async findAll(
+  async campusFindAll(
     requestContext: IRequestContext,
   ): Promise<ICampusFindOneResultDto[]> {
     // =========================================================
@@ -60,7 +68,7 @@ export class CampusService {
     return campi;
   }
 
-  async findById(
+  async campusFindById(
     requestContext: IRequestContext,
     dto: ICampusFindOneByIdInputDto,
   ): Promise<ICampusFindOneResultDto | null> {
@@ -87,16 +95,23 @@ export class CampusService {
     return campus;
   }
 
-  async findByIdStrict(
+  async campusFindByIdStrict(
     requestContext: IRequestContext,
     dto: ICampusFindOneByIdInputDto,
   ) {
-    const campus = await this.findById(requestContext, dto);
+    const campus = await this.campusFindById(requestContext, dto);
 
     if (!campus) {
       throw new NotFoundException();
     }
 
     return campus;
+  }
+
+  //
+
+  async campusCreate(requestContext: IRequestContext, dto: ICampusInputDto) {
+    console.log(JSON.stringify({ requestContext, dto }, null, 2));
+    throw new NotImplementedException();
   }
 }

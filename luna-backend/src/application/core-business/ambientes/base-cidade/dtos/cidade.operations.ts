@@ -1,4 +1,11 @@
-import { createDtoOperationOptions } from '../../../../../infrastructure';
+import {
+  CidadeFindOneByIdInputDto,
+  CidadeFindOneByIdInputValidationContract,
+} from '.';
+import {
+  ValidationContractId,
+  createDtoOperationOptions,
+} from '../../../../../infrastructure';
 import { CidadeFindOneResultDto } from './cidade-find-one.result.dto';
 import { CidadeDto } from './cidade.dto';
 
@@ -12,12 +19,12 @@ export const CidadeOperations = {
       'Lista de todas as cidades brasileiras cadastradas no sistema.',
 
     gql: {
-      type: () => [CidadeDto],
       name: 'cidadeFindAll',
+      returnType: () => [CidadeDto],
     },
 
     swagger: {
-      type: [CidadeFindOneResultDto],
+      returnType: [CidadeFindOneResultDto],
     },
   }),
 
@@ -27,12 +34,23 @@ export const CidadeOperations = {
     description: 'Retorna a consulta a uma cidade por ID IBGE.',
 
     gql: {
-      type: () => CidadeDto,
-      name: 'cidadeFindOne',
+      name: 'cidadeFindOneById',
+      returnType: () => CidadeDto,
+
+      inputDtoType: () => CidadeFindOneByIdInputDto,
+      inputDtoValidationContract: CidadeFindOneByIdInputValidationContract,
     },
 
     swagger: {
-      type: CidadeFindOneResultDto,
+      returnType: CidadeFindOneResultDto,
+
+      params: [
+        {
+          name: 'id',
+          description: 'ID IBGE da Cidade.',
+          validationContract: ValidationContractId,
+        },
+      ],
     },
   }),
 
