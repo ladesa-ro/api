@@ -45,7 +45,7 @@ export class CampusController {
 
   //
 
-  @Post('/:id')
+  @Post('/')
   @DtoOperationCreate(CampusOperations.CAMPUS_CREATE)
   async campusCreate(
     @ResolveRequestContextHttp() requestContext: IRequestContext,
