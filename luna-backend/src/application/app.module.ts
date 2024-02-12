@@ -6,7 +6,7 @@ import { IntegrateDatabaseModule } from '../infrastructure/integrate-database/in
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
-import { CoreModule } from './core-modules/core.module';
+import { CoreBusinessModule } from './core-business/core.module';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { CoreModule } from './core-modules/core.module';
     IntegrateDatabaseModule,
     AdaptersModule,
     AuthModule,
-    CoreModule,
+    CoreBusinessModule,
   ],
   controllers: [
     //

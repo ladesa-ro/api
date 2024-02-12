@@ -15,3 +15,14 @@ export const getSchemaField = <P extends string, S extends ISchema<any>>(
 
   throw new TypeError();
 };
+
+export const getSchemaSubpath = <P extends string, S extends ISchema<any>>(
+  schema: S,
+  path: P | null = null,
+) => {
+  if (path) {
+    return getSchemaField(schema, path);
+  }
+
+  return schema;
+};

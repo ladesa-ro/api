@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
-import { IBaseEstadoModel } from '../../../../domain';
+import { IEstadoModel } from '../../../../domain';
 import { BaseCidadeEntity } from './base-cidade.entity';
 
 @Entity('base_estado')
-export class BaseEstadoEntity implements IBaseEstadoModel {
+export class BaseEstadoEntity implements IEstadoModel {
   @PrimaryColumn({ name: 'id' })
   id!: number;
 

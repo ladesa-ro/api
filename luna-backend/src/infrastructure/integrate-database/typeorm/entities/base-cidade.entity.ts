@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { ICidadeModel } from '../../../../domain';
 import { BaseEstadoEntity } from './base-estado.entity';
-import { IBaseCidadeModel } from '../../../../domain';
 
 @Entity('base_cidade')
-export class BaseCidadeEntity implements IBaseCidadeModel {
+export class BaseCidadeEntity implements ICidadeModel {
   @PrimaryColumn({ name: 'id' })
   id!: number;
 

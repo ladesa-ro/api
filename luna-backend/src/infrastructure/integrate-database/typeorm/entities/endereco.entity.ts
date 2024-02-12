@@ -1,9 +1,5 @@
 import { Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import {
-  IBaseCidadeModel,
-  IEnderecoModel,
-  IEntityDate,
-} from '../../../../domain';
+import { ICidadeModel, IEnderecoModel, IEntityDate } from '../../../../domain';
 import { BaseCidadeEntity } from './base-cidade.entity';
 
 export class EnderecoEntity implements IEnderecoModel {
@@ -34,7 +30,7 @@ export class EnderecoEntity implements IEnderecoModel {
 
   @ManyToOne(() => BaseCidadeEntity, {})
   @JoinColumn({ name: 'id_cidade_fk' })
-  cidade!: IBaseCidadeModel;
+  cidade!: ICidadeModel;
 
   //
 
