@@ -51,6 +51,7 @@ export class CampusService {
 
     // =========================================================
 
+    qb.select([]);
     CampusService.campusSelectFindOne(qb, true, true, true);
     const campi = await qb.getMany();
 
@@ -77,6 +78,7 @@ export class CampusService {
 
     // =========================================================
 
+    qb.select([]);
     CampusService.campusSelectFindOne(qb, true, true, true);
     const campus = await qb.getOne();
 

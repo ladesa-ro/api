@@ -34,6 +34,7 @@ export class EstadoService {
 
     // =========================================================
 
+    qb.select([]);
     EstadoService.estadoSelectFindOne(qb);
     const estados = await qb.getMany();
 
@@ -60,6 +61,7 @@ export class EstadoService {
 
     // =========================================================
 
+    qb.select([]);
     EstadoService.estadoSelectFindOne(qb);
     const estado = await qb.getOne();
 
@@ -99,6 +101,7 @@ export class EstadoService {
 
     // =========================================================
 
+    qb.select([]);
     EstadoService.estadoSelectFindOne(qb);
     const estado = await qb.getOne();
 

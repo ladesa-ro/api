@@ -44,6 +44,7 @@ export class CidadeService {
 
     // =========================================================
 
+    qb.select([]);
     CidadeService.cidadeSelectFindOne(qb, true);
     const cidades = await qb.getMany();
 
@@ -74,6 +75,7 @@ export class CidadeService {
 
     // =========================================================
 
+    qb.select([]);
     CidadeService.cidadeSelectFindOne(qb, true);
     const cidade = await qb.getOne();
 

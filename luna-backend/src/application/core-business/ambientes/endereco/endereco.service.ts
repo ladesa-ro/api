@@ -31,6 +31,7 @@ export class EnderecoService {
     loadEstado = true,
   ) {
     qb.addSelect([
+      'endereco.id',
       'endereco.cep',
       'endereco.logradouro',
       'endereco.numero',
@@ -128,6 +129,7 @@ export class EnderecoService {
 
     // =========================================================
 
+    qb.select([]);
     EnderecoService.enderecoSelectFindOne(qb, true);
     const endereco = await qb.getOne();
 

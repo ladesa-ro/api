@@ -41,7 +41,7 @@ export const CommonPropertyUuid = (description: string = 'UUID do registro.') =>
     },
 
     swagger: {
-      type: 'uuid',
+      type: 'string',
     },
   });
 
