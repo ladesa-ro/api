@@ -43,6 +43,11 @@ export const DtoOperationCommon = (options: IDtoOperationOptions) => {
   return applyDecorators(
     ApiBearerAuth(),
 
+    ApiResponse({
+      status: 403,
+      description: 'O solicitante não tem permissão para executar esta ação.',
+    }),
+
     ...(options.swagger.params ?? []).map((param) =>
       ApiParam({
         name: param.name,

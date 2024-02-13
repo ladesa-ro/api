@@ -132,7 +132,7 @@ export const CampusOperations = {
     },
 
     swagger: {
-      returnType: 'boolean',
+      returnType: Boolean,
 
       params: [
         {
