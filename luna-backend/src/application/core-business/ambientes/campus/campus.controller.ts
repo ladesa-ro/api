@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put } from '@nestjs/common';
+import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {
   ICampusFindOneResultDto,
@@ -8,6 +8,7 @@ import {
 } from '../../../../domain';
 import {
   DtoOperationCreate,
+  DtoOperationDelete,
   DtoOperationFindAll,
   DtoOperationFindOne,
   DtoOperationUpdate,
@@ -58,7 +59,7 @@ export class CampusController {
 
   //
 
-  @Put('/:id')
+  @Patch('/:id')
   @DtoOperationUpdate(CampusOperations.CAMPUS_UPDATE)
   async campusUpdate(
     @ResolveRequestContextHttp() requestContext: IRequestContext,
@@ -73,6 +74,18 @@ export class CampusController {
     };
 
     return this.campusService.campusUpdate(requestContext, dtoUpdate);
+  }
+
+  //
+
+  @Delete('/:id')
+  @DtoOperationDelete(CampusOperations.CAMPUS_DELETE_ONE_BY_ID)
+  async campusDeleteOneById(
+    @ResolveRequestContextHttp() requestContext: IRequestContext,
+    @HttpDtoParam(CampusOperations.CAMPUS_DELETE_ONE_BY_ID, 'id')
+    id: string,
+  ) {
+    return this.campusService.campusDeleteOneById(requestContext, { id });
   }
 
   //

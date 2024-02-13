@@ -45,4 +45,15 @@ export type IAuthzStatementBaseUpdate<
   check: (context: Context, requestContext: RequestContext) => Promise<boolean>;
 };
 
+export type IAuthzStatementBaseDelete<
+  Target extends string,
+  Context = unknown,
+  RequestContext extends IRequestContext = IRequestContext,
+> = {
+  action: 'delete';
+  target: Target;
+
+  check: (context: Context, requestContext: RequestContext) => Promise<boolean>;
+};
+
 // ================================================================

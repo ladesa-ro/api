@@ -1,4 +1,6 @@
 import {
+  CampusDeleteOneByIdInputDto,
+  CampusDeleteOneByIdInputValidationContract,
   CampusFindOneByIdInputDto,
   CampusFindOneByIdInputValidationContract,
 } from '.';
@@ -114,4 +116,33 @@ export const CampusOperations = {
       returnType: CampusFindOneResultDto,
     },
   }),
+
+  // ===============================
+
+  CAMPUS_DELETE_ONE_BY_ID: createDtoOperationOptions({
+    description: 'Realiza a remoção de um campus por ID.',
+
+    gql: {
+      name: 'campusDeleteOneById',
+
+      inputDtoType: () => CampusDeleteOneByIdInputDto,
+      inputDtoValidationContract: CampusDeleteOneByIdInputValidationContract,
+
+      returnType: () => Boolean,
+    },
+
+    swagger: {
+      returnType: 'boolean',
+
+      params: [
+        {
+          name: 'id',
+          description: 'ID do campus.',
+          validationContract: ValidationContractUuid,
+        },
+      ],
+    },
+  }),
+
+  // ===============================
 };

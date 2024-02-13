@@ -1,1 +1,1 @@
-export * from './ICampusDeleteByIdInputDto';
+export * from './ICampusDeleteOneByIdInputDto';

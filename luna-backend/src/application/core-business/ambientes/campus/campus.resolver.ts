@@ -1,5 +1,6 @@
 import { Resolver } from '@nestjs/graphql';
 import {
+  ICampusDeleteOneByIdInputDto,
   ICampusFindOneByIdInputDto,
   ICampusInputDto,
   ICampusUpdateDto,
@@ -57,5 +58,14 @@ export class CampusResolver {
     @GqlDtoInput(CampusOperations.CAMPUS_UPDATE) dto: ICampusUpdateDto,
   ) {
     return this.campusService.campusUpdate(requestContext, dto);
+  }
+
+  @DtoOperationGqlMutation(CampusOperations.CAMPUS_DELETE_ONE_BY_ID)
+  async campusDeleteOneById(
+    @ResolveRequestContextGraphQl() requestContext: IRequestContext,
+    @GqlDtoInput(CampusOperations.CAMPUS_DELETE_ONE_BY_ID)
+    dto: ICampusDeleteOneByIdInputDto,
+  ) {
+    return this.campusService.campusDeleteOneById(requestContext, dto);
   }
 }

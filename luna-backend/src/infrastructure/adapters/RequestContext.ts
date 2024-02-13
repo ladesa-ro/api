@@ -69,6 +69,7 @@ export class RequestContextAuthz implements IRequestContextAuthz {
     if (targetStatement) {
       if (
         targetStatement.action === 'create' ||
+        targetStatement.action === 'delete' ||
         targetStatement.action === 'update'
       ) {
         const can = await targetStatement.check(context, this.#requestContext);

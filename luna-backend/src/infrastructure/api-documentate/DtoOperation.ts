@@ -137,6 +137,24 @@ export const DtoOperationUpdate = (options: IDtoOperationOptions) => {
 
 // ==============================================================
 
+export const DtoOperationDelete = (options: IDtoOperationOptions) => {
+  return applyDecorators(
+    DtoOperationCommon(options),
+
+    ApiResponse({
+      status: 200,
+      type: options.swagger.returnType,
+      description: options.description ?? 'Registro marcado como apagado.',
+    }),
+
+    ApiResponse({
+      status: 404,
+      description: 'Registro não encontrado.',
+    }),
+  );
+};
+// ==============================================================
+
 export const DtoOperationGqlQuery = (options: IDtoOperationOptions) => {
   return Query(options.gql.returnType, {
     name: options.gql.name,

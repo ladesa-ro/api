@@ -1,7 +1,12 @@
-import { ICampusInputDto, ICampusUpdateDto } from '../../../../../domain';
+import {
+  ICampusDeleteOneByIdInputDto,
+  ICampusInputDto,
+  ICampusUpdateDto,
+} from '../../../../../domain';
 import { CampusEntity } from '../../../../integrate-database/typeorm/entities/ambientes/campus.entity';
 import {
   IAuthzStatementBaseCreate,
+  IAuthzStatementBaseDelete,
   IAuthzStatementBaseFind,
   IAuthzStatementBaseUpdate,
 } from '../../base/IAuthzStatementBase';
@@ -23,9 +28,15 @@ export type IAuthzStatementCampusUpdate = IAuthzStatementBaseUpdate<
   { dto: ICampusUpdateDto }
 >;
 
+export type IAuthzStatementCampusDelete = IAuthzStatementBaseDelete<
+  'campus',
+  { dto: ICampusDeleteOneByIdInputDto }
+>;
+
 // ==================================================================
 
 export type IAuthzStatementCampus =
   | IAuthzStatementCampusFind
   | IAuthzStatementCampusCreate
-  | IAuthzStatementCampusUpdate;
+  | IAuthzStatementCampusUpdate
+  | IAuthzStatementCampusDelete;

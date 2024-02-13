@@ -10,6 +10,7 @@ export class AuthzPublicProvider extends BaseAuthzProvider {
       this.campusFind,
       this.campusCreate,
       this.campusUpdate,
+      this.campusDelete,
     ];
   }
 
@@ -47,7 +48,7 @@ export class AuthzPublicProvider extends BaseAuthzProvider {
       compositeMode: 'include',
 
       filter(qb) {
-        qb.where('TRUE');
+        qb.where('campus.dateDeleted IS NULL');
       },
     });
   }
@@ -73,6 +74,19 @@ export class AuthzPublicProvider extends BaseAuthzProvider {
 
       async check(context, requestUser) {
         console.debug('update', 'campus', { context, requestUser });
+        return true;
+      },
+    });
+  }
+
+  get campusDelete() {
+    return createStatement({
+      action: 'delete',
+
+      target: 'campus',
+
+      async check(context, requestUser) {
+        console.debug('delete', 'campus', { context, requestUser });
         return true;
       },
     });

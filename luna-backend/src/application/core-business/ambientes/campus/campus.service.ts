@@ -3,6 +3,7 @@ import { get, pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { ICampusFindOneByIdInputDto } from '../../(dtos)';
 import {
+  ICampusDeleteOneByIdInputDto,
   ICampusFindOneResultDto,
   ICampusInputDto,
   ICampusUpdateDto,
@@ -188,5 +189,30 @@ export class CampusService {
     await this.campusRepository.save(campus);
 
     return this.campusFindByIdStrict(requestContext, { id: campus.id });
+  }
+
+  //
+
+  async campusDeleteOneById(
+    requestContext: IRequestContext,
+    dto: ICampusDeleteOneByIdInputDto,
+  ) {
+    const campus = await this.campusFindByIdStrict(requestContext, dto);
+
+    await requestContext.authz.ensurePermission('delete', 'campus', { dto });
+
+    if (campus) {
+      await this.campusRepository
+        .createQueryBuilder('campus')
+        .update()
+        .set({
+          dateDeleted: 'NOW()',
+        })
+        .where('id = :campusId', { campusId: campus.id })
+        .andWhere('dateDeleted IS NULL')
+        .execute();
+    }
+
+    return true;
   }
 }
