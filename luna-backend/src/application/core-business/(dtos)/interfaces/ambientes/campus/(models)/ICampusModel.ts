@@ -1,7 +1,11 @@
-import { IDatedObject, IObjectUuid } from '../../../(core)';
+import { IDatedObject, IEntityDate, IObjectUuid } from '../../../(core)';
 import { IEnderecoModel } from '../../endereco';
 
 export interface ICampusModel extends IObjectUuid, IDatedObject {
+  //
+
+  id: string;
+
   //
 
   razaoSocial: string;
@@ -12,4 +16,12 @@ export interface ICampusModel extends IObjectUuid, IDatedObject {
   //
 
   endereco: IEnderecoModel;
+
+  //
+
+  dateCreated: IEntityDate;
+  dateUpdated: IEntityDate;
+  dateDeleted: null | IEntityDate;
+
+  //
 }

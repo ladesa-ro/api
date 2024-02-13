@@ -1,7 +1,11 @@
-import { IDatedObject, IObjectUuid } from '../../../(core)';
+import { IDatedObject, IEntityDate, IObjectUuid } from '../../../(core)';
 import { ICidadeModel } from '../../base-cidade';
 
 export interface IEnderecoModel extends IObjectUuid, IDatedObject {
+  //
+
+  id: string;
+
   //
 
   cep: string;
@@ -16,6 +20,12 @@ export interface IEnderecoModel extends IObjectUuid, IDatedObject {
   //
 
   cidade: ICidadeModel;
+
+  //
+
+  dateCreated: IEntityDate;
+  dateUpdated: IEntityDate;
+  dateDeleted: null | IEntityDate;
 
   //
 }

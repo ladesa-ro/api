@@ -1,2 +1,2 @@
+export * from './IEnderecoFindOneByIdInputDto';
 export * from './IEnderecoFindOneResultDto';
-export * from './endereco-find-one-by-id';

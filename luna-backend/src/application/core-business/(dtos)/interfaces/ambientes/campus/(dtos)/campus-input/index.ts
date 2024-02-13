@@ -1,3 +1,3 @@
+export * from './ICampusCreateDto';
 export * from './ICampusInputDto';
-export * from './campus-create';
-export * from './campus-update';
+export * from './ICampusUpdateDto';

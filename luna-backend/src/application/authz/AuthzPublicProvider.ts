@@ -4,13 +4,16 @@ import { BaseAuthzProvider } from '../../infrastructure/authz/authz-provider/Bas
 export class AuthzPublicProvider extends BaseAuthzProvider {
   getStatements() {
     return [
-      // ...
+      //
       this.estadoFind,
+      //
       this.cidadeFind,
+      //
       this.campusFind,
       this.campusCreate,
       this.campusUpdate,
       this.campusDelete,
+      //
     ];
   }
 

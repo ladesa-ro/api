@@ -1,4 +1,4 @@
-import { IEnderecoModel } from '../../../(models)';
+import { IEnderecoModel } from '../../(models)';
 
 export interface IEnderecoFindOneByIdInputDto {
   id: IEnderecoModel['id'];

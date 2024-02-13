@@ -1,2 +1,2 @@
+export * from './ICampusFindOneByIdInputDto';
 export * from './ICampusFindOneResultDto';
-export * from './campus-find-one-by-id';

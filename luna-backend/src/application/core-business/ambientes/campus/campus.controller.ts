@@ -68,7 +68,7 @@ export class CampusController {
     @HttpDtoBody(CampusOperations.CAMPUS_UPDATE)
     dto: Omit<ICampusUpdateDto, 'id'>,
   ) {
-    const dtoUpdate = <ICampusUpdateDto>{
+    const dtoUpdate: ICampusUpdateDto = {
       ...dto,
       id,
     };

@@ -1,3 +1,3 @@
-import { ICampusInputDto } from '../ICampusInputDto';
+import { ICampusInputDto } from './ICampusInputDto';
 
 export interface ICampusCreateDto extends ICampusInputDto {}
