@@ -1,9 +1,11 @@
 import { applyDecorators } from '@nestjs/common';
 import { Field, FieldOptions, ReturnTypeFunc } from '@nestjs/graphql';
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger';
-import { omit } from 'lodash';
+import { merge, omit } from 'lodash';
+import { DeepPartial } from 'typeorm';
 
 export type IDtoPropertyOptions = {
+  required?: boolean;
   nullable: boolean;
   description: string;
 
@@ -16,18 +18,28 @@ export type IDtoPropertyOptions = {
   } & Omit<ApiPropertyOptions, 'description' | 'nullable'>;
 };
 
-export const DtoProperty = (options: IDtoPropertyOptions) => {
-  const { nullable, description, gql, swagger } = options;
+export const DtoProperty = (
+  options: IDtoPropertyOptions,
+  ...customOptions: DeepPartial<IDtoPropertyOptions>[]
+) => {
+  const {
+    nullable,
+    required = true,
+    description,
+    gql,
+    swagger,
+  } = <IDtoPropertyOptions>merge({}, options, ...customOptions);
 
   return applyDecorators(
     ApiProperty({
+      required: required,
       nullable: nullable,
       description: description,
       ...swagger,
     }),
 
     Field(gql.type, {
-      nullable: nullable,
+      nullable: nullable || !required,
       description: description,
       ...omit(gql, ['type']),
     }),

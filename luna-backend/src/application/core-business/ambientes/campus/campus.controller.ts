@@ -1,14 +1,16 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {
   ICampusFindOneResultDto,
   ICampusInputDto,
+  ICampusUpdateDto,
   IRequestContext,
 } from '../../../../domain';
 import {
   DtoOperationCreate,
   DtoOperationFindAll,
   DtoOperationFindOne,
+  DtoOperationUpdate,
   HttpDtoBody,
   HttpDtoParam,
   ResolveRequestContextHttp,
@@ -52,6 +54,25 @@ export class CampusController {
     @HttpDtoBody(CampusOperations.CAMPUS_CREATE) dto: ICampusInputDto,
   ) {
     return this.campusService.campusCreate(requestContext, dto);
+  }
+
+  //
+
+  @Put('/:id')
+  @DtoOperationUpdate(CampusOperations.CAMPUS_UPDATE)
+  async campusUpdate(
+    @ResolveRequestContextHttp() requestContext: IRequestContext,
+    @HttpDtoParam(CampusOperations.CAMPUS_UPDATE, 'id')
+    id: string,
+    @HttpDtoBody(CampusOperations.CAMPUS_UPDATE)
+    dto: Omit<ICampusUpdateDto, 'id'>,
+  ) {
+    const dtoUpdate = <ICampusUpdateDto>{
+      ...dto,
+      id,
+    };
+
+    return this.campusService.campusUpdate(requestContext, dtoUpdate);
   }
 
   //

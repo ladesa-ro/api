@@ -25,7 +25,7 @@ export class InsertCampusIfroJipa1707747982691 implements MigrationInterface {
           (
             '50987cbb-01a2-4345-8974-cae554ffca51',
             'INSTITUTO FEDERAL DE RONDONIA - CAMPUS JI-PARANA',
-            'INSTITUTO FEDERAL DE EDUCACAO,CIENCIA E TECNOLOGIA DE RONDONIA',
+            'INSTITUTO FEDERAL DE EDUCACAO, CIENCIA E TECNOLOGIA DE RONDONIA',
             'IFRO - Campus Ji-Paraná',
             '10817343000288',
             'f4a4c263-7499-42a5-94a7-09d436ed5110',

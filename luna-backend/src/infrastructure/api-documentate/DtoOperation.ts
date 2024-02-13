@@ -2,7 +2,7 @@ import { Type, applyDecorators } from '@nestjs/common';
 import { Mutation, Query, QueryOptions, ReturnTypeFunc } from '@nestjs/graphql';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { Schema } from 'yup';
-import { IValidationContract } from '..';
+import { IValidationContract } from '../validation';
 
 // ==============================================================
 
@@ -100,6 +100,33 @@ export const DtoOperationCreate = (options: IDtoOperationOptions) => {
       status: 200,
       type: options.swagger.returnType,
       description: options.description ?? 'Retorna o registro cadastrado.',
+    }),
+
+    ApiBody({
+      type: options.swagger.inputBodyType,
+    }),
+  );
+};
+
+// ==============================================================
+
+export const DtoOperationUpdate = (options: IDtoOperationOptions) => {
+  if (!options.swagger.inputBodyType) {
+    throw new TypeError('Please provide options.swagger.inputBodyType');
+  }
+
+  return applyDecorators(
+    DtoOperationCommon(options),
+
+    ApiResponse({
+      status: 200,
+      type: options.swagger.returnType,
+      description: options.description ?? 'Retorna o registro cadastrado.',
+    }),
+
+    ApiResponse({
+      status: 404,
+      description: 'Registro não encontrado.',
     }),
 
     ApiBody({

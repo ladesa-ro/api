@@ -4,7 +4,7 @@ import { IEnderecoInputDto } from '../../../endereco';
 export interface ICampusInputDto
   extends Pick<
     ICampusModel,
-    'nomeFantasia' | 'razaoSocial' | 'nomeFantasia' | 'apelido' | 'cnpj'
+    'nomeFantasia' | 'razaoSocial' | 'apelido' | 'cnpj'
   > {
   endereco: IEnderecoInputDto;
 }

@@ -2,6 +2,7 @@ import { Resolver } from '@nestjs/graphql';
 import {
   ICampusFindOneByIdInputDto,
   ICampusInputDto,
+  ICampusUpdateDto,
   IRequestContext,
 } from '../../../../domain';
 import {
@@ -48,5 +49,13 @@ export class CampusResolver {
     @GqlDtoInput(CampusOperations.CAMPUS_CREATE) dto: ICampusInputDto,
   ) {
     return this.campusService.campusCreate(requestContext, dto);
+  }
+
+  @DtoOperationGqlMutation(CampusOperations.CAMPUS_UPDATE)
+  async campusUpdate(
+    @ResolveRequestContextGraphQl() requestContext: IRequestContext,
+    @GqlDtoInput(CampusOperations.CAMPUS_UPDATE) dto: ICampusUpdateDto,
+  ) {
+    return this.campusService.campusUpdate(requestContext, dto);
   }
 }

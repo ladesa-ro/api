@@ -1,5 +1,5 @@
+import { createStatement } from '../../infrastructure';
 import { BaseAuthzProvider } from '../../infrastructure/authz/authz-provider/BaseAuthzProvider';
-import { createStatementFind } from '../../infrastructure/authz/AuthzStatement';
 
 export class AuthzPublicProvider extends BaseAuthzProvider {
   getStatements() {
@@ -8,13 +8,18 @@ export class AuthzPublicProvider extends BaseAuthzProvider {
       this.estadoFind,
       this.cidadeFind,
       this.campusFind,
+      this.campusCreate,
+      this.campusUpdate,
     ];
   }
 
   get estadoFind() {
-    return createStatementFind({
+    return createStatement({
+      action: 'find',
+
       target: 'estado',
-      mode: 'include',
+      compositeMode: 'include',
+
       filter(qb) {
         qb.where('TRUE');
       },
@@ -22,9 +27,12 @@ export class AuthzPublicProvider extends BaseAuthzProvider {
   }
 
   get cidadeFind() {
-    return createStatementFind({
+    return createStatement({
+      action: 'find',
+
       target: 'cidade',
-      mode: 'include',
+      compositeMode: 'include',
+
       filter(qb) {
         qb.where('TRUE');
       },
@@ -32,11 +40,40 @@ export class AuthzPublicProvider extends BaseAuthzProvider {
   }
 
   get campusFind() {
-    return createStatementFind({
+    return createStatement({
+      action: 'find',
+
       target: 'campus',
-      mode: 'include',
+      compositeMode: 'include',
+
       filter(qb) {
         qb.where('TRUE');
+      },
+    });
+  }
+
+  get campusCreate() {
+    return createStatement({
+      action: 'create',
+
+      target: 'campus',
+
+      async check(context, requestUser) {
+        console.debug('create', 'campus', { context, requestUser });
+        return true;
+      },
+    });
+  }
+
+  get campusUpdate() {
+    return createStatement({
+      action: 'update',
+
+      target: 'campus',
+
+      async check(context, requestUser) {
+        console.debug('update', 'campus', { context, requestUser });
+        return true;
       },
     });
   }

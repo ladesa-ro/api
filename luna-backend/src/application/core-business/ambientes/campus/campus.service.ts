@@ -1,21 +1,23 @@
-import {
-  Injectable,
-  NotFoundException,
-  NotImplementedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { get, pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { ICampusFindOneByIdInputDto } from '../../(dtos)';
 import {
   ICampusFindOneResultDto,
   ICampusInputDto,
+  ICampusUpdateDto,
   IRequestContext,
 } from '../../../../domain';
 import { DatabaseContext } from '../../../../infrastructure/integrate-database/typeorm/database-context/database-context';
+import { CampusEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
 import { EnderecoService } from '../endereco/endereco.service';
 
 @Injectable()
 export class CampusService {
-  constructor(private databaseContext: DatabaseContext) {}
+  constructor(
+    private databaseContext: DatabaseContext,
+    private enderecoService: EnderecoService,
+  ) {}
 
   get campusRepository() {
     return this.databaseContext.campusRepository;
@@ -61,6 +63,9 @@ export class CampusService {
 
     qb.select([]);
     CampusService.campusSelectFindOne(qb, true, true, true);
+
+    qb.orderBy('campus.dateCreated', 'ASC');
+
     const campi = await qb.getMany();
 
     // =========================================================
@@ -111,7 +116,77 @@ export class CampusService {
   //
 
   async campusCreate(requestContext: IRequestContext, dto: ICampusInputDto) {
-    console.log(JSON.stringify({ requestContext, dto }, null, 2));
-    throw new NotImplementedException();
+    await requestContext.authz.ensurePermission('create', 'campus', { dto });
+
+    const dtoCampus = pick(dto, [
+      'nomeFantasia',
+      'razaoSocial',
+      'apelido',
+      'cnpj',
+    ]);
+
+    const campus = this.campusRepository.create();
+
+    this.campusRepository.merge(campus, {
+      ...dtoCampus,
+    });
+
+    const endereco = await this.enderecoService.internalEnderecoCreateOrUpdate(
+      null,
+      dto.endereco,
+    );
+
+    this.campusRepository.merge(campus, {
+      endereco: {
+        id: endereco.id,
+      },
+    });
+
+    await this.campusRepository.save(campus);
+
+    return this.campusFindByIdStrict(requestContext, { id: campus.id });
+  }
+
+  async campusUpdate(requestContext: IRequestContext, dto: ICampusUpdateDto) {
+    const currentCampus = await this.campusFindByIdStrict(requestContext, {
+      id: dto.id,
+    });
+
+    await requestContext.authz.ensurePermission('update', 'campus', { dto });
+
+    const dtoCampus = pick(dto, [
+      'nomeFantasia',
+      'razaoSocial',
+      'apelido',
+      'cnpj',
+    ]);
+
+    const campus = <CampusEntity>{
+      id: currentCampus.id,
+    };
+
+    this.campusRepository.merge(campus, {
+      ...dtoCampus,
+    });
+
+    const dtoEndereco = get(dto, 'endereco');
+
+    if (dtoEndereco) {
+      const endereco =
+        await this.enderecoService.internalEnderecoCreateOrUpdate(
+          currentCampus.endereco.id,
+          dtoEndereco,
+        );
+
+      this.campusRepository.merge(campus, {
+        endereco: {
+          id: endereco.id,
+        },
+      });
+    }
+
+    await this.campusRepository.save(campus);
+
+    return this.campusFindByIdStrict(requestContext, { id: campus.id });
   }
 }

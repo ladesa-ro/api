@@ -5,12 +5,18 @@ import {
 import {
   ValidationContractUuid,
   createDtoOperationOptions,
+  createValidationContract,
 } from '../../../../../infrastructure';
 import { CampusFindOneResultDto } from './campus-find-one.result.dto';
 import {
   CampusInputDto,
   CampusInputDtoValidationContract,
 } from './campus-input.dto';
+import {
+  CampusUpdateInputDto,
+  CampusUpdateInputDtoValidationContract,
+  CampusUpdateWithoutIdInputDto,
+} from './campus-update.input.dto';
 import { CampusDto } from './campus.dto';
 
 export const CampusOperations = {
@@ -77,4 +83,35 @@ export const CampusOperations = {
   }),
 
   // ===============================
+
+  CAMPUS_UPDATE: createDtoOperationOptions({
+    description: 'Realiza a alteração de um campus.',
+
+    gql: {
+      name: 'campusUpdate',
+
+      inputDtoType: () => CampusUpdateInputDto,
+      inputDtoValidationContract: CampusUpdateInputDtoValidationContract,
+
+      returnType: () => CampusDto,
+    },
+
+    swagger: {
+      inputBodyType: CampusUpdateWithoutIdInputDto,
+
+      inputBodyValidationContract: createValidationContract(() =>
+        CampusUpdateInputDtoValidationContract().omit(['id']),
+      ),
+
+      params: [
+        {
+          name: 'id',
+          description: 'ID do campus.',
+          validationContract: ValidationContractUuid,
+        },
+      ],
+
+      returnType: CampusFindOneResultDto,
+    },
+  }),
 };

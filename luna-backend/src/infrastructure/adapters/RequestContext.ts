@@ -3,13 +3,15 @@ import { IRequestUser } from '@sisgea/nest-auth-connect';
 import { SelectQueryBuilder } from 'typeorm';
 import { AuthzPublicProvider } from '../../application/authz/AuthzPublicProvider';
 import { IRequestContext, IRequestContextAuthz } from '../../domain';
-import {
-  AuthzStatement,
-  filterStatementsTargetAndActionFind,
-} from '../authz/AuthzStatement';
+import { IAuthzStatement, IAuthzStatementBaseFind } from '../authz';
 import { BaseAuthzProvider } from '../authz/authz-provider/BaseAuthzProvider';
 
 export class RequestContextAuthz implements IRequestContextAuthz {
+  #requestContext: RequestContext;
+  constructor(requestContext: RequestContext) {
+    this.#requestContext = requestContext;
+  }
+
   providers: BaseAuthzProvider[] = [
     //
     new AuthzPublicProvider(),
@@ -21,7 +23,7 @@ export class RequestContextAuthz implements IRequestContextAuthz {
   }
 
   get statements() {
-    const statements: AuthzStatement[] = [];
+    const statements: IAuthzStatement[] = [];
 
     for (const provider of this.providers) {
       for (const statement of provider.getStatements()) {
@@ -33,16 +35,15 @@ export class RequestContextAuthz implements IRequestContextAuthz {
   }
 
   applyFindFilter(qb: SelectQueryBuilder<any>, target: string): void {
-    const targetStatementsFind = filterStatementsTargetAndActionFind(
-      this.statements,
-      target,
-    );
+    const targetStatementsFind = this.statements
+      .filter((i): i is IAuthzStatementBaseFind<any> => i.action === 'find')
+      .filter((i) => i.target === target);
 
     // denies all by default
     qb.where('FALSE');
 
     for (const statement of targetStatementsFind) {
-      switch (statement.mode) {
+      switch (statement.compositeMode) {
         case 'include': {
           qb.orWhere(statement.filter);
         }
@@ -52,26 +53,38 @@ export class RequestContextAuthz implements IRequestContextAuthz {
 
   // =======================================================
 
-  async checkCan(
-    action: string,
-    target: string,
-    targetId?: string | undefined,
+  async check<Statement extends IAuthzStatement>(
+    action: Statement['action'],
+    target: Statement['target'],
+    context: any,
   ): Promise<boolean> {
-    console.warn('FIXME: RequestContextAuthz#checkCan', {
-      action,
-      target,
-      targetId,
-    });
+    const targetStatement =
+      this.statements.find(
+        (statement) =>
+          statement.action === action && statement.target === target,
+      ) ?? null;
 
-    return true;
+    console.log({ targetStatement });
+
+    if (targetStatement) {
+      if (
+        targetStatement.action === 'create' ||
+        targetStatement.action === 'update'
+      ) {
+        const can = await targetStatement.check(context, this.#requestContext);
+        return can;
+      }
+    }
+
+    return false;
   }
 
-  async ensurePermission(
-    action: string,
-    target: string,
-    targetId?: string | undefined,
+  async ensurePermission<Statement extends IAuthzStatement>(
+    action: Statement['action'],
+    target: Statement['target'],
+    context: any,
   ): Promise<void> {
-    const can = await this.checkCan(action, target, targetId);
+    const can = await this.check(action, target, context);
 
     if (!can) {
       throw new ForbiddenException();
@@ -81,7 +94,7 @@ export class RequestContextAuthz implements IRequestContextAuthz {
 
 export class RequestContext implements IRequestContext {
   //
-  readonly authz: IRequestContextAuthz = new RequestContextAuthz();
+  readonly authz: IRequestContextAuthz = new RequestContextAuthz(this);
 
   constructor(readonly requestUser: IRequestUser | null) {
     //

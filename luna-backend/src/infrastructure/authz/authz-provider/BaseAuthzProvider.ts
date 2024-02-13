@@ -1,7 +1,7 @@
-import { AuthzStatement } from '../AuthzStatement';
+import { IAuthzStatement } from '../interfaces';
 
 //
 
 export abstract class BaseAuthzProvider {
-  abstract getStatements(): AuthzStatement[];
+  abstract getStatements(): IAuthzStatement[];
 }
