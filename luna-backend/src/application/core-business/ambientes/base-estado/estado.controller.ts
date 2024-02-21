@@ -26,7 +26,7 @@ export class EstadoController {
     return this.estadoService.findAll(requestContext);
   }
 
-  @Get('/uf-:uf')
+  @Get('/uf/:uf')
   @DtoOperationFindOne(EstadoOperations.ESTADO_FIND_ONE_BY_UF)
   @ApiParam({
     name: 'uf',
@@ -40,7 +40,7 @@ export class EstadoController {
     return this.estadoService.findByUfStrict(requestContext, { uf });
   }
 
-  @Get('/id-:id')
+  @Get('/:id')
   @DtoOperationFindOne(EstadoOperations.ESTADO_FIND_ONE_BY_ID)
   @ApiParam({
     name: 'id',

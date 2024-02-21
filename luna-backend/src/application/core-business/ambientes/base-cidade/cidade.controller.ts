@@ -23,7 +23,7 @@ export class CidadeController {
     return this.cidadeService.findAll(requestContext);
   }
 
-  @Get('/id-:id')
+  @Get('/:id')
   @DtoOperationFindOne(CidadeOperations.CIDADE_FIND_ONE_BY_ID)
   async findById(
     @ResolveRequestContextHttp() requestContext: IRequestContext,
