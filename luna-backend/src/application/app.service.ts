@@ -15,6 +15,7 @@ export class AppService {
       return {
         service: 'sisgea-luna-backend',
         status: 'up',
+        egg: null,
       };
     }
   }

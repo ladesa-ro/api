@@ -15,6 +15,7 @@ async function bootstrap() {
   //
 
   const isProduction = environmentConfigService.getRuntimeIsProduction();
+  const isDevelopment = environmentConfigService.getRuntimeIsDevelopment();
 
   //
 
@@ -33,16 +34,20 @@ async function bootstrap() {
 
   //
 
-  const config = new DocumentBuilder()
-    .setTitle('SISGEA - Luna - API')
-    .setDescription('API para a consulta e manipulação de dados e procedimentos relacionados ao Sistema de Gestão Acadêmico.')
-    .setVersion('0.0')
-    .addServer('https://luna.sisgha.com/api/')
-    .addServer('http://localhost:3000/')
-    .addBearerAuth()
-    .build();
+  const config = new DocumentBuilder();
 
-  const document = SwaggerModule.createDocument(app, config);
+  config.setTitle('SISGEA - Luna - API');
+  config.setDescription('API para a consulta e manipulação de dados e procedimentos relacionados ao Sistema de Gestão Acadêmico.');
+  config.setVersion('0.0');
+
+  if (isDevelopment) {
+    config.addServer('http://localhost:3000/');
+  }
+
+  config.addServer('https://luna.sisgha.com/api/');
+  config.addBearerAuth();
+
+  const document = SwaggerModule.createDocument(app, config.build());
   SwaggerModule.setup('doc-api', app, document);
 
   //

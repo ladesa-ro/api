@@ -62,9 +62,7 @@ export const DtoOperationFindAll = (options: IDtoOperationOptions) => {
 
     ApiResponse({
       status: 200,
-
       type: options.swagger.returnType,
-
       description: options.description ?? 'Lista os recursos cadastrados no sistema.',
     }),
   );
