@@ -37,8 +37,8 @@ async function bootstrap() {
     .setTitle('SISGEA - Luna - API')
     .setDescription('API para a consulta e manipulação de dados e procedimentos relacionados ao Sistema de Gestão Acadêmico.')
     .setVersion('0.0')
-    .addServer('http://localhost:3000/')
     .addServer('https://luna.sisgha.com/api/')
+    .addServer('http://localhost:3000/')
     .addBearerAuth()
     .build();
 

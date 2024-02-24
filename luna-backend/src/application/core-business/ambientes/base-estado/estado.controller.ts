@@ -1,12 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
+import { IEstadoFindOneResultDto } from '../../(dtos)';
 import { IClientAccess } from '../../../../domain';
 import { ClientAccessHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam } from '../../../../infrastructure';
 import { EstadoOperations } from './dtos/estado.operations';
 import { EstadoService } from './estado.service';
-import { IEstadoFindOneResultDto } from '../../(dtos)';
 
-@ApiTags('ambientes')
+@ApiTags('Ambientes / Base / Estado')
 @Controller('/base/estados')
 export class EstadoController {
   constructor(

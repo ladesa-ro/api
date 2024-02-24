@@ -1,12 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ICidadeFindOneResultDto } from '../../(dtos)';
+import { IClientAccess } from '../../../../domain/client-access';
 import { ClientAccessHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam } from '../../../../infrastructure';
 import { CidadeService } from './cidade.service';
 import { CidadeOperations } from './dtos';
-import { IClientAccess } from '../../../../domain/client-access';
 
-@ApiTags('ambientes')
+@ApiTags('Ambientes / Base / Cidade')
 @Controller('/base/cidades')
 export class CidadeController {
   constructor(private cidadeService: CidadeService) {}
