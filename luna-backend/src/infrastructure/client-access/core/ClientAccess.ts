@@ -69,7 +69,7 @@ export class ClientAccess implements IClientAccess {
         if (typeof withResultFactory === 'boolean') {
           return withResultFactory;
         } else {
-          const result = await withResultFactory(context);
+          const result = await withResultFactory(context as any);
           return result;
         }
       }

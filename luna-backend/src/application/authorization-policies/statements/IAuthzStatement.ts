@@ -1,9 +1,9 @@
 import { IBaseAuthzCheck, IBaseAuthzFilter } from '../../../domain';
-import { ICampusCreateDto, ICampusDeleteOneByIdInputDto, ICampusUpdateDto, IEnderecoFindOneByIdInputDto } from '../../core-business/(dtos)';
+import * as Dto from '../../core-business/(dtos)';
 
 // ===================================================================================
 
-export type IAuthzStatementEnderecoFind = IBaseAuthzFilter<'endereco:find', { from: 'find-by-id'; input: IEnderecoFindOneByIdInputDto }>;
+export type IAuthzStatementEnderecoFind = IBaseAuthzFilter<'endereco:find', { from: 'find-by-id'; input: Dto.IEnderecoFindOneByIdInputDto }>;
 
 // =====================
 
@@ -12,24 +12,38 @@ export type IAuthzStatementCidadeFind = IBaseAuthzFilter<'cidade:find'>;
 
 // =====================
 
-export type IAuthzStatementCampusCreate = IBaseAuthzCheck<'campus:create', { dto: ICampusCreateDto }>;
+export type IAuthzStatementCampusCreate = IBaseAuthzCheck<'campus:create', { dto: Dto.ICampusCreateDto }>;
 export type IAuthzStatementCampusFind = IBaseAuthzFilter<'campus:find'>;
-export type IAuthzStatementCampusUpdate = IBaseAuthzFilter<'campus:update', { dto: ICampusUpdateDto }>;
-export type IAuthzStatementCampusDelete = IBaseAuthzFilter<'campus:delete', { dto: ICampusDeleteOneByIdInputDto }>;
+export type IAuthzStatementCampusUpdate = IBaseAuthzFilter<'campus:update', { dto: Dto.ICampusUpdateDto }>;
+export type IAuthzStatementCampusDelete = IBaseAuthzFilter<'campus:delete', { dto: Dto.ICampusDeleteOneByIdInputDto }>;
+
+// =====================
+
+export type IAuthzStatementBlocoCreate = IBaseAuthzCheck<'bloco:create', { dto: Dto.IBlocoCreateDto }>;
+export type IAuthzStatementBlocoFind = IBaseAuthzFilter<'bloco:find'>;
+export type IAuthzStatementBlocoUpdate = IBaseAuthzFilter<'bloco:update', { dto: Dto.IBlocoUpdateDto }>;
+export type IAuthzStatementBlocoDelete = IBaseAuthzFilter<'bloco:delete', { dto: Dto.IBlocoDeleteOneByIdInputDto }>;
 
 // ===================================================================================
 
-export type IAuthzStatementCheck = IAuthzStatementCampusCreate;
+export type IAuthzStatementCheck = IAuthzStatementCampusCreate | IAuthzStatementBlocoCreate;
 
 // =====================
 
 export type IAuthzStatementFind =
   | IAuthzStatementEnderecoFind
+  //
   | IAuthzStatementEstadoFind
+  //
   | IAuthzStatementCidadeFind
+  //
   | IAuthzStatementCampusFind
   | IAuthzStatementCampusUpdate
-  | IAuthzStatementCampusDelete;
+  | IAuthzStatementCampusDelete
+  //
+  | IAuthzStatementBlocoFind
+  | IAuthzStatementBlocoUpdate
+  | IAuthzStatementBlocoDelete;
 
 // =====================
 

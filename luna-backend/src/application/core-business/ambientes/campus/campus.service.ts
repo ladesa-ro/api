@@ -33,7 +33,7 @@ export class CampusService {
 
   //
 
-  static campusSelectFindOne(alias: string, qb: SelectQueryBuilder<any>, options: ICampusQueryBuilderViewOptions = {}) {
+  static CampusQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: ICampusQueryBuilderViewOptions = {}) {
     const loadEndereco = getQueryBuilderViewLoadMeta(options.loadEndereco, true, `${alias}_endereco`);
 
     qb.addSelect([
@@ -41,7 +41,6 @@ export class CampusService {
       `${alias}.id`,
       `${alias}.nomeFantasia`,
       `${alias}.razaoSocial`,
-      `${alias}.nomeFantasia`,
       `${alias}.apelido`,
       `${alias}.cnpj`,
     ]);
@@ -67,7 +66,7 @@ export class CampusService {
 
     qb.select([]);
 
-    CampusService.campusSelectFindOne(aliasCampus, qb, {
+    CampusService.CampusQueryBuilderView(aliasCampus, qb, {
       loadEndereco: true,
     });
 
@@ -84,7 +83,7 @@ export class CampusService {
     return campi;
   }
 
-  async campusFindById(clientAccess: IClientAccess, dto: ICampusFindOneByIdInputDto): Promise<ICampusFindOneResultDto | null> {
+  async campusFindById(clientAccess: IClientAccess, dto: ICampusFindOneByIdInputDto, options?: ICampusQueryBuilderViewOptions, selection?: string[]): Promise<ICampusFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
@@ -101,9 +100,14 @@ export class CampusService {
 
     qb.select([]);
 
-    CampusService.campusSelectFindOne(aliasCampus, qb, {
+    CampusService.CampusQueryBuilderView(aliasCampus, qb, {
       loadEndereco: true,
+      ...options,
     });
+
+    if (selection) {
+      qb.select(selection);
+    }
 
     // =========================================================
 
@@ -116,6 +120,56 @@ export class CampusService {
 
   async campusFindByIdStrict(clientAccess: IClientAccess, dto: ICampusFindOneByIdInputDto) {
     const campus = await this.campusFindById(clientAccess, dto);
+
+    if (!campus) {
+      throw new NotFoundException();
+    }
+
+    return campus;
+  }
+
+  async campusFindByIdSimple(
+    clientAccess: IClientAccess,
+    id: ICampusFindOneByIdInputDto['id'],
+    options?: ICampusQueryBuilderViewOptions,
+    selection?: string[],
+  ): Promise<ICampusFindOneResultDto | null> {
+    // =========================================================
+
+    const qb = this.campusRepository.createQueryBuilder(aliasCampus);
+
+    // =========================================================
+
+    await clientAccess.applyFilter('campus:find', qb, aliasCampus, null);
+
+    // =========================================================
+
+    qb.andWhere(`${aliasCampus}.id = :id`, { id });
+
+    // =========================================================
+
+    qb.select([]);
+
+    CampusService.CampusQueryBuilderView(aliasCampus, qb, {
+      loadEndereco: false,
+      ...options,
+    });
+
+    if (selection) {
+      qb.select(selection);
+    }
+
+    // =========================================================
+
+    const campus = await qb.getOne();
+
+    // =========================================================
+
+    return campus;
+  }
+
+  async campusFindByIdSimpleStrict(clientAccess: IClientAccess, id: ICampusFindOneByIdInputDto['id'], options?: ICampusQueryBuilderViewOptions, selection?: string[]) {
+    const campus = await this.campusFindByIdSimple(clientAccess, id, options, selection);
 
     if (!campus) {
       throw new NotFoundException();

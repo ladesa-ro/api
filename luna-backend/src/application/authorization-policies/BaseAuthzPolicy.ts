@@ -11,6 +11,11 @@ export abstract class BaseAuthzPolicy {
   abstract campusUpdate: Authz.IAuthzStatementCampusUpdate;
   abstract campusDelete: Authz.IAuthzStatementCampusDelete;
 
+  abstract blocoFind: Authz.IAuthzStatementBlocoFind;
+  abstract blocoCreate: Authz.IAuthzStatementBlocoCreate;
+  abstract blocoUpdate: Authz.IAuthzStatementBlocoUpdate;
+  abstract blocoDelete: Authz.IAuthzStatementBlocoDelete;
+
   get statements() {
     return [
       //
@@ -22,6 +27,11 @@ export abstract class BaseAuthzPolicy {
       this.campusCreate,
       this.campusUpdate,
       this.campusDelete,
+      //
+      this.blocoFind,
+      this.blocoCreate,
+      this.blocoUpdate,
+      this.blocoDelete,
       //
     ];
   }
