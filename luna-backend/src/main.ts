@@ -40,12 +40,11 @@ async function bootstrap() {
   config.setDescription('API para a consulta e manipulação de dados e procedimentos relacionados ao Sistema de Gestão Acadêmico.');
   config.setVersion('0.0');
 
-  // TODO: accept servers from env
-  // if (isDevelopment) {
-  //   config.addServer('http://localhost:3000/');
-  // }
+  config.addServer('https://luna.sisgha.com/api/');
 
-  // config.addServer('https://luna.sisgha.com/api/');
+  if (isDevelopment) {
+    config.addServer('http://localhost:3000/');
+  }
 
   config.addBearerAuth();
 
