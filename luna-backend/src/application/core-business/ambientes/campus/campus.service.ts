@@ -1,23 +1,30 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { get, pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
-import { ICampusFindOneByIdInputDto } from '../../(dtos)';
-import {
-  ICampusDeleteOneByIdInputDto,
-  ICampusFindOneResultDto,
-  ICampusInputDto,
-  ICampusUpdateDto,
-  IRequestContext,
-} from '../../../../domain';
-import { DatabaseContext } from '../../../../infrastructure/integrate-database/typeorm/database-context/database-context';
+import { ICampusDeleteOneByIdInputDto, ICampusFindOneByIdInputDto, ICampusFindOneResultDto, ICampusInputDto, ICampusUpdateDto } from '../../(dtos)';
+import { IClientAccess } from '../../../../domain';
+import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { CampusEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
-import { EnderecoService } from '../endereco/endereco.service';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
+import { EnderecoService, IEnderecoQueryBuilderViewOptions } from '../endereco/endereco.service';
+
+// ============================================================================
+
+const aliasCampus = 'campus';
+
+// ============================================================================
+
+export type ICampusQueryBuilderViewOptions = {
+  loadEndereco?: IQueryBuilderViewOptionsLoad<IEnderecoQueryBuilderViewOptions>;
+};
+
+// ============================================================================
 
 @Injectable()
 export class CampusService {
   constructor(
-    private databaseContext: DatabaseContext,
     private enderecoService: EnderecoService,
+    private databaseContext: DatabaseContextService,
   ) {}
 
   get campusRepository() {
@@ -26,46 +33,49 @@ export class CampusService {
 
   //
 
-  static campusSelectFindOne(
-    qb: SelectQueryBuilder<any>,
-    loadEndereco = true,
-    loadCidade = true,
-    loadEstado = true,
-  ) {
+  static campusSelectFindOne(alias: string, qb: SelectQueryBuilder<any>, options: ICampusQueryBuilderViewOptions = {}) {
+    const loadEndereco = getQueryBuilderViewLoadMeta(options.loadEndereco, true, `${alias}_endereco`);
+
     qb.addSelect([
-      'campus.id',
-      'campus.nomeFantasia',
-      'campus.razaoSocial',
-      'campus.nomeFantasia',
-      'campus.apelido',
-      'campus.cnpj',
+      //
+      `${alias}.id`,
+      `${alias}.nomeFantasia`,
+      `${alias}.razaoSocial`,
+      `${alias}.nomeFantasia`,
+      `${alias}.apelido`,
+      `${alias}.cnpj`,
     ]);
 
     if (loadEndereco) {
-      qb.innerJoin('campus.endereco', 'endereco');
-      EnderecoService.enderecoSelectFindOne(qb, loadCidade, loadEstado);
+      qb.innerJoin(`${alias}.endereco`, `${loadEndereco.alias}`);
+      EnderecoService.EnderecoQueryBuilderView(loadEndereco.alias, qb, loadEndereco.options);
     }
   }
 
   //
 
-  async campusFindAll(
-    requestContext: IRequestContext,
-  ): Promise<ICampusFindOneResultDto[]> {
+  async campusFindAll(clientAccess: IClientAccess): Promise<ICampusFindOneResultDto[]> {
     // =========================================================
 
-    const qb = this.campusRepository.createQueryBuilder('campus');
+    const qb = this.campusRepository.createQueryBuilder(aliasCampus);
 
     // =========================================================
 
-    requestContext.authz.applyFindFilter(qb, 'campus');
+    await clientAccess.applyFilter('campus:find', qb, aliasCampus, null);
 
     // =========================================================
 
     qb.select([]);
-    CampusService.campusSelectFindOne(qb, true, true, true);
 
-    qb.orderBy('campus.dateCreated', 'ASC');
+    CampusService.campusSelectFindOne(aliasCampus, qb, {
+      loadEndereco: true,
+    });
+
+    // =========================================================
+
+    qb.orderBy(`${aliasCampus}.dateCreated`, 'ASC');
+
+    // =========================================================
 
     const campi = await qb.getMany();
 
@@ -74,26 +84,29 @@ export class CampusService {
     return campi;
   }
 
-  async campusFindById(
-    requestContext: IRequestContext,
-    dto: ICampusFindOneByIdInputDto,
-  ): Promise<ICampusFindOneResultDto | null> {
+  async campusFindById(clientAccess: IClientAccess, dto: ICampusFindOneByIdInputDto): Promise<ICampusFindOneResultDto | null> {
     // =========================================================
 
-    const qb = this.campusRepository.createQueryBuilder('campus');
+    const qb = this.campusRepository.createQueryBuilder(aliasCampus);
 
     // =========================================================
 
-    requestContext.authz.applyFindFilter(qb, 'campus');
+    await clientAccess.applyFilter('campus:find', qb, aliasCampus, null);
 
     // =========================================================
 
-    qb.andWhere('campus.id = :id', { id: dto.id });
+    qb.andWhere(`${aliasCampus}.id = :id`, { id: dto.id });
 
     // =========================================================
 
     qb.select([]);
-    CampusService.campusSelectFindOne(qb, true, true, true);
+
+    CampusService.campusSelectFindOne(aliasCampus, qb, {
+      loadEndereco: true,
+    });
+
+    // =========================================================
+
     const campus = await qb.getOne();
 
     // =========================================================
@@ -101,11 +114,8 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdStrict(
-    requestContext: IRequestContext,
-    dto: ICampusFindOneByIdInputDto,
-  ) {
-    const campus = await this.campusFindById(requestContext, dto);
+  async campusFindByIdStrict(clientAccess: IClientAccess, dto: ICampusFindOneByIdInputDto) {
+    const campus = await this.campusFindById(clientAccess, dto);
 
     if (!campus) {
       throw new NotFoundException();
@@ -116,15 +126,14 @@ export class CampusService {
 
   //
 
-  async campusCreate(requestContext: IRequestContext, dto: ICampusInputDto) {
-    await requestContext.authz.ensurePermission('create', 'campus', { dto });
+  async campusCreate(clientAccess: IClientAccess, dto: ICampusInputDto) {
+    // =========================================================
 
-    const dtoCampus = pick(dto, [
-      'nomeFantasia',
-      'razaoSocial',
-      'apelido',
-      'cnpj',
-    ]);
+    await clientAccess.ensurePermissionCheck('campus:create', { dto });
+
+    // =========================================================
+
+    const dtoCampus = pick(dto, ['nomeFantasia', 'razaoSocial', 'apelido', 'cnpj']);
 
     const campus = this.campusRepository.create();
 
@@ -132,10 +141,9 @@ export class CampusService {
       ...dtoCampus,
     });
 
-    const endereco = await this.enderecoService.internalEnderecoCreateOrUpdate(
-      null,
-      dto.endereco,
-    );
+    // =========================================================
+
+    const endereco = await this.enderecoService.internalEnderecoCreateOrUpdate(null, dto.endereco);
 
     this.campusRepository.merge(campus, {
       endereco: {
@@ -143,24 +151,27 @@ export class CampusService {
       },
     });
 
+    // =========================================================
+
     await this.campusRepository.save(campus);
 
-    return this.campusFindByIdStrict(requestContext, { id: campus.id });
+    // =========================================================
+
+    return this.campusFindByIdStrict(clientAccess, { id: campus.id });
   }
 
-  async campusUpdate(requestContext: IRequestContext, dto: ICampusUpdateDto) {
-    const currentCampus = await this.campusFindByIdStrict(requestContext, {
+  async campusUpdate(clientAccess: IClientAccess, dto: ICampusUpdateDto) {
+    // =========================================================
+
+    const currentCampus = await this.campusFindByIdStrict(clientAccess, {
       id: dto.id,
     });
 
-    await requestContext.authz.ensurePermission('update', 'campus', { dto });
+    // =========================================================
 
-    const dtoCampus = pick(dto, [
-      'nomeFantasia',
-      'razaoSocial',
-      'apelido',
-      'cnpj',
-    ]);
+    await clientAccess.ensureCanReach('campus:update', { dto }, this.campusRepository.createQueryBuilder(aliasCampus), dto.id);
+
+    const dtoCampus = pick(dto, ['nomeFantasia', 'razaoSocial', 'apelido', 'cnpj']);
 
     const campus = <CampusEntity>{
       id: currentCampus.id,
@@ -170,14 +181,12 @@ export class CampusService {
       ...dtoCampus,
     });
 
+    // =========================================================
+
     const dtoEndereco = get(dto, 'endereco');
 
     if (dtoEndereco) {
-      const endereco =
-        await this.enderecoService.internalEnderecoCreateOrUpdate(
-          currentCampus.endereco.id,
-          dtoEndereco,
-        );
+      const endereco = await this.enderecoService.internalEnderecoCreateOrUpdate(currentCampus.endereco.id, dtoEndereco);
 
       this.campusRepository.merge(campus, {
         endereco: {
@@ -186,24 +195,31 @@ export class CampusService {
       });
     }
 
+    // =========================================================
+
     await this.campusRepository.save(campus);
 
-    return this.campusFindByIdStrict(requestContext, { id: campus.id });
+    // =========================================================
+
+    return this.campusFindByIdStrict(clientAccess, { id: campus.id });
   }
 
   //
 
-  async campusDeleteOneById(
-    requestContext: IRequestContext,
-    dto: ICampusDeleteOneByIdInputDto,
-  ) {
-    const campus = await this.campusFindByIdStrict(requestContext, dto);
+  async campusDeleteOneById(clientAccess: IClientAccess, dto: ICampusDeleteOneByIdInputDto) {
+    // =========================================================
 
-    await requestContext.authz.ensurePermission('delete', 'campus', { dto });
+    await clientAccess.ensureCanReach('campus:delete', { dto }, this.campusRepository.createQueryBuilder(aliasCampus), dto.id);
+
+    // =========================================================
+
+    const campus = await this.campusFindByIdStrict(clientAccess, dto);
+
+    // =========================================================
 
     if (campus) {
       await this.campusRepository
-        .createQueryBuilder('campus')
+        .createQueryBuilder(aliasCampus)
         .update()
         .set({
           dateDeleted: 'NOW()',
@@ -212,6 +228,8 @@ export class CampusService {
         .andWhere('dateDeleted IS NULL')
         .execute();
     }
+
+    // =========================================================
 
     return true;
   }

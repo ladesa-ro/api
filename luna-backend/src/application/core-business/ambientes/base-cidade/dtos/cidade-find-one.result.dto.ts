@@ -1,7 +1,4 @@
-import {
-  ICidadeFindOneResultDto,
-  IEstadoFindOneResultDto,
-} from '../../../(dtos)';
+import { ICidadeFindOneResultDto, IEstadoFindOneResultDto } from '../../../(dtos)';
 import { DtoProperty } from '../../../../../infrastructure';
 import { CidadeDtoProperties } from './cidade.dto';
 

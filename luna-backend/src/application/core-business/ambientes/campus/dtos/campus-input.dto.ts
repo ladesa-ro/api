@@ -1,11 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import { ICampusInputDto, IEnderecoInputDto } from '../../../(dtos)';
-import {
-  DtoProperty,
-  createValidationContract,
-  getSchemaField,
-} from '../../../../../infrastructure';
+import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { EnderecoInputDtoValidationContract } from '../../endereco/dtos';
 import { CampusDtoProperties, CampusDtoValidationContract } from './campus.dto';
 

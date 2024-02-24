@@ -18,17 +18,8 @@ export type IDtoPropertyOptions = {
   } & Omit<ApiPropertyOptions, 'description' | 'nullable'>;
 };
 
-export const DtoProperty = (
-  options: IDtoPropertyOptions,
-  ...customOptions: DeepPartial<IDtoPropertyOptions>[]
-) => {
-  const {
-    nullable,
-    required = true,
-    description,
-    gql,
-    swagger,
-  } = <IDtoPropertyOptions>merge({}, options, ...customOptions);
+export const DtoProperty = (options: IDtoPropertyOptions, ...customOptions: DeepPartial<IDtoPropertyOptions>[]) => {
+  const { nullable, required = true, description, gql, swagger } = <IDtoPropertyOptions>merge({}, options, ...customOptions);
 
   return applyDecorators(
     ApiProperty({
@@ -46,6 +37,4 @@ export const DtoProperty = (
   );
 };
 
-export const createDtoPropertyOptions = <Opts extends IDtoPropertyOptions>(
-  options: Opts,
-) => options;
+export const createDtoPropertyOptions = <Opts extends IDtoPropertyOptions>(options: Opts) => options;

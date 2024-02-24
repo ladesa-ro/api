@@ -1,8 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import {
-  ICampusFindOneResultDto,
-  IEnderecoFindOneResultDto,
-} from '../../../(dtos)';
+import { ICampusFindOneResultDto, IEnderecoFindOneResultDto } from '../../../(dtos)';
 import { DtoProperty } from '../../../../../infrastructure';
 import { CampusDtoProperties } from './campus.dto';
 

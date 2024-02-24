@@ -1,8 +1,3 @@
-import {
-  ISisgeaNestAuthConnectConfigOidcClient,
-  ISisgeaNestAuthConnectConfigKeycloak,
-} from '@sisgea/nest-auth-connect';
+import { ISisgeaNestAuthConnectConfigOidcClient, ISisgeaNestAuthConnectConfigKeycloak } from '@sisgea/nest-auth-connect';
 
-export interface IConfigIntegrateAuth
-  extends ISisgeaNestAuthConnectConfigOidcClient,
-    ISisgeaNestAuthConnectConfigKeycloak {}
+export interface IConfigIntegrateAuth extends ISisgeaNestAuthConnectConfigOidcClient, ISisgeaNestAuthConnectConfigKeycloak {}

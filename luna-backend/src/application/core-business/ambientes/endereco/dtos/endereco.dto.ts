@@ -1,11 +1,6 @@
 import { Int, ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { CommonPropertyUuid, ObjectIdDto } from '../../../(dtos)';
-import {
-  ICidadeModel,
-  IEnderecoModel,
-  IEntityDate,
-} from '../../../../../domain';
+import { CommonPropertyUuid, ICidadeModel, IEnderecoModel, IEntityDate, ObjectIdDto } from '../../../(dtos)';
 import {
   DtoProperty,
   ValidationContractLocalizacaoCep,

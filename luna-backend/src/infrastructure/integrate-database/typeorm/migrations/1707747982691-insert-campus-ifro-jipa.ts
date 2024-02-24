@@ -35,12 +35,8 @@ export class InsertCampusIfroJipa1707747982691 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `DELETE FROM campus WHERE id = '50987cbb-01a2-4345-8974-cae554ffca51';`,
-    );
+    await queryRunner.query(`DELETE FROM campus WHERE id = '50987cbb-01a2-4345-8974-cae554ffca51';`);
 
-    await queryRunner.query(
-      `DELETE FROM endereco WHERE id = 'f4a4c263-7499-42a5-94a7-09d436ed5110';`,
-    );
+    await queryRunner.query(`DELETE FROM endereco WHERE id = 'f4a4c263-7499-42a5-94a7-09d436ed5110';`);
   }
 }

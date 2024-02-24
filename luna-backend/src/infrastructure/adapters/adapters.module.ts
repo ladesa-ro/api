@@ -1,14 +1,11 @@
 import { Module } from '@nestjs/common';
+import { AdapterGraphQLModule } from './adapter-graphql';
+import { AdapterHttpModule } from './adapter-http';
 import { APP_FILTER } from '@nestjs/core';
-import { AdapterGraphQLModule } from './adapter-graphql/adapter-graphql.module';
 import { GqlExceptionFilter } from './adapter-graphql/exception-filters/GqlExceptionFilter';
 
 @Module({
-  imports: [
-    //
-    AdapterGraphQLModule,
-  ],
-
+  imports: [AdapterHttpModule, AdapterGraphQLModule],
   providers: [
     {
       provide: APP_FILTER,

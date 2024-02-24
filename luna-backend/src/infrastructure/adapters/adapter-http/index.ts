@@ -1,1 +1,1 @@
-export * from './ResolveRequestContextGraphQl';
+export * from './adapter-http.module';

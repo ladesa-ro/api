@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
-import { IEstadoModel } from '../../../../domain';
 import { BaseCidadeEntity } from './base-cidade.entity';
+import { IEstadoModel } from '../../../../application/core-business/(dtos)';
 
 @Entity('base_estado')
 export class BaseEstadoEntity implements IEstadoModel {

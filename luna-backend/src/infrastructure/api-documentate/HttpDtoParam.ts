@@ -3,8 +3,7 @@ import { ValidationPipeYup } from '../validation';
 import { IDtoOperationOptions } from './DtoOperation';
 
 export const HttpDtoParam = (options: IDtoOperationOptions, name: string) => {
-  const param =
-    options.swagger.params?.find((param) => param.name === name) ?? null;
+  const param = options.swagger.params?.find((param) => param.name === name) ?? null;
 
   if (!param) {
     throw new TypeError('Param not found');

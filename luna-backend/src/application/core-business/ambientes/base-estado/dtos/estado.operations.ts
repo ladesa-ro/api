@@ -1,21 +1,11 @@
-import {
-  EstadoFindOneByIdInputDto,
-  EstadoFindOneByIdInputValidationContract,
-  EstadoFindOneByUfInputDto,
-  EstadoFindOneByUfInputValidationContract,
-} from '.';
-import {
-  ValidationContractId,
-  createDtoOperationOptions,
-  createValidationContractPickField,
-} from '../../../../../infrastructure';
+import { EstadoFindOneByIdInputDto, EstadoFindOneByIdInputValidationContract, EstadoFindOneByUfInputDto, EstadoFindOneByUfInputValidationContract } from '.';
+import { ValidationContractId, createDtoOperationOptions, createValidationContractPickField } from '../../../../../infrastructure';
 import { EstadoFindOneResultDto } from './estado-find-one.result.dto';
 import { EstadoDto } from './estado.dto';
 
 export const EstadoOperations = {
   ESTADO_FIND_ALL: createDtoOperationOptions({
-    description:
-      'Lista de todos os estados brasileiros cadastrados no sistema.',
+    description: 'Lista de todos os estados brasileiros cadastrados no sistema.',
 
     gql: {
       name: 'estadoFindAll',
@@ -75,10 +65,7 @@ export const EstadoOperations = {
         {
           name: 'uf',
           description: 'Sigla UF do estado.',
-          validationContract: createValidationContractPickField(
-            EstadoFindOneByUfInputValidationContract,
-            'uf',
-          ),
+          validationContract: createValidationContractPickField(EstadoFindOneByUfInputValidationContract, 'uf'),
         },
       ],
     },

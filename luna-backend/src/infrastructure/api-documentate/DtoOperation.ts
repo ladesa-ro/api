@@ -34,8 +34,7 @@ export interface IDtoOperationOptions {
   };
 }
 
-export const createDtoOperationOptions = (options: IDtoOperationOptions) =>
-  options;
+export const createDtoOperationOptions = (options: IDtoOperationOptions) => options;
 
 // ==============================================================
 
@@ -66,8 +65,7 @@ export const DtoOperationFindAll = (options: IDtoOperationOptions) => {
 
       type: options.swagger.returnType,
 
-      description:
-        options.description ?? 'Lista os recursos cadastrados no sistema.',
+      description: options.description ?? 'Lista os recursos cadastrados no sistema.',
     }),
   );
 };

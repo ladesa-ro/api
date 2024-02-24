@@ -1,15 +1,5 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import {
-  ICampusModel,
-  IEnderecoModel,
-  IEntityDate,
-} from '../../../../../domain';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { ICampusModel, IEnderecoModel, IEntityDate } from '../../../../../application/core-business/(dtos)';
 import { EnderecoEntity } from '../endereco.entity';
 
 @Entity('campus')

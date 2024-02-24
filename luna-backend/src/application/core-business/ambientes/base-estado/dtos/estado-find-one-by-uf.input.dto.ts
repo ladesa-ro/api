@@ -1,21 +1,16 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import { IEstadoFindOneByUfInputDto } from '../../../(dtos)';
-import {
-  DtoProperty,
-  createValidationContract,
-  getSchemaField,
-} from '../../../../../infrastructure';
+import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { EstadoDtoProperties, EstadoDtoValidationContract } from './estado.dto';
 
 // ======================================================
 
-export const EstadoFindOneByUfInputValidationContract =
-  createValidationContract(() =>
-    yup.object().shape({
-      uf: getSchemaField(EstadoDtoValidationContract(), 'sigla'),
-    }),
-  );
+export const EstadoFindOneByUfInputValidationContract = createValidationContract(() =>
+  yup.object().shape({
+    uf: getSchemaField(EstadoDtoValidationContract(), 'sigla'),
+  }),
+);
 
 // ======================================================
 

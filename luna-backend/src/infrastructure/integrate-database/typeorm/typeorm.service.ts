@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { DatabaseContext } from './database-context/database-context';
+import { DatabaseContextService } from '../database-context/database-context.service';
 import { APP_DATA_SOURCE_TOKEN } from './providers/app-data-source.provider';
 
 @Injectable()
@@ -16,6 +16,6 @@ export class TypeormService {
 
   async getDatabaseContextApp() {
     const dataSource = await this.getAppDataSource();
-    return new DatabaseContext(dataSource);
+    return new DatabaseContextService(dataSource);
   }
 }

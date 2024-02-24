@@ -1,35 +1,26 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import { IEnderecoInputDto, IObjectId } from '../../../(dtos)';
-import {
-  DtoProperty,
-  createValidationContract,
-  getSchemaField,
-} from '../../../../../infrastructure';
-import {
-  EnderecoDtoProperties,
-  EnderecoDtoValidationContract,
-} from './endereco.dto';
+import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { EnderecoDtoProperties, EnderecoDtoValidationContract } from './endereco.dto';
 
 // ======================================================
 
-export const EnderecoInputDtoValidationContract = createValidationContract(
-  () => {
-    const schema = EnderecoDtoValidationContract();
+export const EnderecoInputDtoValidationContract = createValidationContract(() => {
+  const schema = EnderecoDtoValidationContract();
 
-    return yup.object().shape({
-      cep: getSchemaField(schema, 'cep'),
+  return yup.object().shape({
+    cep: getSchemaField(schema, 'cep'),
 
-      logradouro: getSchemaField(schema, 'logradouro'),
-      numero: getSchemaField(schema, 'numero'),
-      bairro: getSchemaField(schema, 'bairro'),
-      complemento: getSchemaField(schema, 'complemento'),
-      pontoReferencia: getSchemaField(schema, 'pontoReferencia'),
+    logradouro: getSchemaField(schema, 'logradouro'),
+    numero: getSchemaField(schema, 'numero'),
+    bairro: getSchemaField(schema, 'bairro'),
+    complemento: getSchemaField(schema, 'complemento'),
+    pontoReferencia: getSchemaField(schema, 'pontoReferencia'),
 
-      cidade: getSchemaField(schema, 'cidade'),
-    });
-  },
-);
+    cidade: getSchemaField(schema, 'cidade'),
+  });
+});
 
 // ======================================================
 

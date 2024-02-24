@@ -3,10 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { DataSourceOptions } from 'typeorm';
 import { IConfig } from '../../domain';
-import {
-  ISisgeaNestAuthConnectConfigOidcClientCredentials,
-  ISisgeaNestAuthConnectConfigKeycloakCredentials,
-} from '@sisgea/nest-auth-connect';
+import { ISisgeaNestAuthConnectConfigOidcClientCredentials, ISisgeaNestAuthConnectConfigKeycloakCredentials } from '@sisgea/nest-auth-connect';
 
 @Injectable()
 export class EnvironmentConfigService implements IConfig {
@@ -16,8 +13,7 @@ export class EnvironmentConfigService implements IConfig {
   ) {}
 
   getRuntimePort(): number {
-    const configPort =
-      this.nestConfigService.get<number | string>('PORT') ?? null;
+    const configPort = this.nestConfigService.get<number | string>('PORT') ?? null;
 
     if (configPort !== null) {
       const configPortAsNumber = parseInt(String(configPort));
@@ -31,11 +27,7 @@ export class EnvironmentConfigService implements IConfig {
   }
 
   getRuntimeNodeEnv(): string {
-    const runtimeNodeEnv = (
-      this.nestConfigService.get<string>('NODE_ENV') ?? 'production'
-    )
-      .trim()
-      .toLocaleLowerCase();
+    const runtimeNodeEnv = (this.nestConfigService.get<string>('NODE_ENV') ?? 'production').trim().toLocaleLowerCase();
 
     return runtimeNodeEnv;
   }
@@ -192,21 +184,11 @@ export class EnvironmentConfigService implements IConfig {
   //
 
   getOidcClientCredentials(): ISisgeaNestAuthConnectConfigOidcClientCredentials {
-    const issuer = this.nestConfigService.get<string>(
-      'OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER',
-    );
-    const clientId = this.nestConfigService.get<string>(
-      'OAUTH2_CLIENT_REGISTRATION_LOGIN_CLIENT_ID',
-    );
-    const clientSecret = this.nestConfigService.get<string>(
-      'OAUTH2_CLIENT_REGISTRATION_LOGIN_CLIENT_SECRET',
-    );
+    const issuer = this.nestConfigService.get<string>('OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER');
+    const clientId = this.nestConfigService.get<string>('OAUTH2_CLIENT_REGISTRATION_LOGIN_CLIENT_ID');
+    const clientSecret = this.nestConfigService.get<string>('OAUTH2_CLIENT_REGISTRATION_LOGIN_CLIENT_SECRET');
 
-    if (
-      issuer === undefined ||
-      clientId === undefined ||
-      clientSecret === undefined
-    ) {
+    if (issuer === undefined || clientId === undefined || clientSecret === undefined) {
       throw new Error('Please provide correct OAUTH2_CLIENT credentials.');
     }
 

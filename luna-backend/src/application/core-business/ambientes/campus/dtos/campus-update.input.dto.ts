@@ -2,24 +2,16 @@ import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as yup from 'yup';
 import { ICampusUpdateDto, IEnderecoInputDto } from '../../../(dtos)';
-import {
-  DtoProperty,
-  createValidationContract,
-} from '../../../../../infrastructure';
+import { DtoProperty, createValidationContract } from '../../../../../infrastructure';
 import { CampusFindOneByIdInputValidationContract } from './campus-find-one-by-id.input.dto';
 import { CampusInputDtoValidationContract } from './campus-input.dto';
 import { CampusDtoProperties } from './campus.dto';
 
 // ======================================================
 
-export const CampusUpdateInputDtoValidationContract = createValidationContract(
-  () => {
-    return yup
-      .object()
-      .concat(CampusFindOneByIdInputValidationContract())
-      .concat(CampusInputDtoValidationContract());
-  },
-);
+export const CampusUpdateInputDtoValidationContract = createValidationContract(() => {
+  return yup.object().concat(CampusFindOneByIdInputValidationContract()).concat(CampusInputDtoValidationContract());
+});
 
 // ======================================================
 
@@ -44,7 +36,4 @@ export class CampusUpdateInputDto implements ICampusUpdateDto {
   endereco?: IEnderecoInputDto;
 }
 
-export class CampusUpdateWithoutIdInputDto extends OmitType(
-  CampusUpdateInputDto,
-  ['id'] as const,
-) {}
+export class CampusUpdateWithoutIdInputDto extends OmitType(CampusUpdateInputDto, ['id'] as const) {}

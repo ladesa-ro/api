@@ -1,2 +1,2 @@
-export * from './resolve-request-context/ResolveRequestContextGraphQl';
+export * from './adapter-graphql.module';
 export * from './validation';

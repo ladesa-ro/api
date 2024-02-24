@@ -1,3 +1,3 @@
-export * from '../application/core-business/(dtos)/interfaces';
-export * from './adapters';
+export * from './authorization';
+export * from './client-access';
 export * from './config';

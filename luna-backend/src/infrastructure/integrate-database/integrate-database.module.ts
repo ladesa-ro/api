@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
-import { TypeormModule } from './typeorm/typeorm.module';
+import { DatabaseContextModule } from './database-context';
+import { TypeormModule } from './typeorm';
 
 @Module({
-  imports: [
-    //
-    TypeormModule,
-  ],
+  imports: [TypeormModule, DatabaseContextModule],
 })
 export class IntegrateDatabaseModule {}

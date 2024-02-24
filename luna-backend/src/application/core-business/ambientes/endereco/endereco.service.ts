@@ -1,21 +1,29 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
-import {
-  IEnderecoFindOneByIdInputDto,
-  IEnderecoFindOneResultDto,
-  IEnderecoInputDto,
-  IEnderecoModel,
-  IRequestContext,
-} from '../../../../domain';
+import { IEnderecoFindOneByIdInputDto, IEnderecoFindOneResultDto, IEnderecoInputDto, IEnderecoModel } from '../../(dtos)';
+import { IClientAccess } from '../../../../domain';
 import { parsePayloadYup } from '../../../../infrastructure';
-import { DatabaseContext } from '../../../../infrastructure/integrate-database/typeorm/database-context/database-context';
-import { CidadeService } from '../base-cidade/cidade.service';
+import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
+import { CidadeService, ICidadeQueryBuilderViewOptions } from '../base-cidade/cidade.service';
 import { EnderecoInputDtoValidationContract } from './dtos';
+
+// ============================================================================
+
+const aliasEndereco = 'endereco';
+
+// ============================================================================
+
+export type IEnderecoQueryBuilderViewOptions = {
+  loadCidade?: IQueryBuilderViewOptionsLoad<ICidadeQueryBuilderViewOptions>;
+};
+
+// ============================================================================
 
 @Injectable()
 export class EnderecoService {
-  constructor(private databaseContext: DatabaseContext) {}
+  constructor(private databaseContext: DatabaseContextService) {}
 
   //
 
@@ -25,24 +33,23 @@ export class EnderecoService {
 
   //
 
-  static enderecoSelectFindOne(
-    qb: SelectQueryBuilder<any>,
-    loadCidade = true,
-    loadEstado = true,
-  ) {
+  static EnderecoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IEnderecoQueryBuilderViewOptions = {}) {
+    const loadCidade = getQueryBuilderViewLoadMeta(options.loadCidade, true, `${alias}_cidade`);
+
     qb.addSelect([
-      'endereco.id',
-      'endereco.cep',
-      'endereco.logradouro',
-      'endereco.numero',
-      'endereco.bairro',
-      'endereco.complemento',
-      'endereco.pontoReferencia',
+      //
+      `${alias}.id`,
+      `${alias}.cep`,
+      `${alias}.logradouro`,
+      `${alias}.numero`,
+      `${alias}.bairro`,
+      `${alias}.complemento`,
+      `${alias}.pontoReferencia`,
     ]);
 
     if (loadCidade) {
-      qb.innerJoin('endereco.cidade', 'cidade');
-      CidadeService.cidadeSelectFindOne(qb, loadEstado);
+      qb.innerJoin(`${alias}.cidade`, `${loadCidade.alias}`);
+      CidadeService.CidadeQueryBuilderView(loadCidade.alias, qb, loadCidade.options);
     }
   }
 
@@ -68,14 +75,8 @@ export class EnderecoService {
     return endereco;
   }
 
-  async internalEnderecoCreateOrUpdate(
-    id: IEnderecoModel['id'] | null,
-    payload: IEnderecoInputDto,
-  ) {
-    const dto = await parsePayloadYup(
-      EnderecoInputDtoValidationContract(),
-      payload,
-    );
+  async internalEnderecoCreateOrUpdate(id: IEnderecoModel['id'] | null, payload: IEnderecoInputDto) {
+    const dto = await parsePayloadYup(EnderecoInputDtoValidationContract(), payload);
 
     const endereco = this.enderecoRepository.create();
 
@@ -88,14 +89,7 @@ export class EnderecoService {
     }
 
     const enderecoInputDto = <IEnderecoInputDto>{
-      ...pick(dto, [
-        'cep',
-        'logradouro',
-        'numero',
-        'bairro',
-        'complemento',
-        'pontoReferencia',
-      ]),
+      ...pick(dto, ['cep', 'logradouro', 'numero', 'bairro', 'complemento', 'pontoReferencia']),
 
       cidade: {
         id: dto.cidade.id,
@@ -111,26 +105,32 @@ export class EnderecoService {
 
   //
 
-  async findById(
-    requestContext: IRequestContext,
-    dto: IEnderecoFindOneByIdInputDto,
-  ): Promise<IEnderecoFindOneResultDto | null> {
-    // =========================================================
-
-    const qb = this.enderecoRepository.createQueryBuilder('endereco');
+  async findById(clientAccess: IClientAccess, dto: IEnderecoFindOneByIdInputDto): Promise<IEnderecoFindOneResultDto | null> {
+    const qb = this.enderecoRepository.createQueryBuilder(aliasEndereco);
 
     // =========================================================
 
-    requestContext.authz.applyFindFilter(qb, 'endereco');
+    await clientAccess.applyFilter('endereco:find', qb, aliasEndereco, {
+      from: 'find-by-id',
+      dto: dto,
+    });
 
     // =========================================================
 
-    qb.andWhere('endereco.id = :id', { id: dto.id });
+    qb.andWhere(`${aliasEndereco}.id = :id`, { id: dto.id });
 
     // =========================================================
 
     qb.select([]);
-    EnderecoService.enderecoSelectFindOne(qb, true);
+
+    EnderecoService.EnderecoQueryBuilderView(aliasEndereco, qb, {
+      loadCidade: {
+        alias: `${aliasEndereco}_cidade`,
+      },
+    });
+
+    // =========================================================
+
     const endereco = await qb.getOne();
 
     // =========================================================
@@ -138,10 +138,7 @@ export class EnderecoService {
     return endereco;
   }
 
-  async findByIdStrict(
-    requestContext: IRequestContext,
-    dto: IEnderecoFindOneByIdInputDto,
-  ) {
+  async findByIdStrict(requestContext: IClientAccess, dto: IEnderecoFindOneByIdInputDto) {
     const endereco = await this.findById(requestContext, dto);
 
     if (!endereco) {

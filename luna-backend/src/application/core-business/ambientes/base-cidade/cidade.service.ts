@@ -1,51 +1,61 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { SelectQueryBuilder } from 'typeorm';
-import {
-  ICidadeFindOneByIdInputDto,
-  IRequestContext,
-} from '../../../../domain';
-import { DatabaseContext } from '../../../../infrastructure/integrate-database/typeorm/database-context/database-context';
-import { EstadoService } from '../base-estado/estado.service';
+import { ICidadeFindOneByIdInputDto } from '../../(dtos)';
+import { IClientAccess } from '../../../../domain/client-access';
+import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
+import { EstadoService, IEstadoQueryBuilderViewOptions } from '../base-estado/estado.service';
+
+const aliasCidade = 'cidade';
+
+export type ICidadeQueryBuilderViewOptions = {
+  loadEstado?: IQueryBuilderViewOptionsLoad<IEstadoQueryBuilderViewOptions>;
+};
 
 @Injectable()
 export class CidadeService {
-  constructor(
-    //
-    private databaseContext: DatabaseContext,
-  ) {}
+  constructor(private databaseContextService: DatabaseContextService) {}
 
   //
 
-  static cidadeSelectFindOne(qb: SelectQueryBuilder<any>, loadEstado = true) {
-    qb.addSelect(['cidade.id', 'cidade.nome']);
+  static CidadeQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: ICidadeQueryBuilderViewOptions = {}) {
+    const loadEstado = getQueryBuilderViewLoadMeta(options.loadEstado, true, `${alias}_estado`);
+
+    qb.addSelect([`${alias}.id`, `${alias}.nome`]);
 
     if (loadEstado) {
-      qb.innerJoin('cidade.estado', 'estado');
-      EstadoService.estadoSelectFindOne(qb);
+      qb.innerJoin(`${alias}.estado`, `${loadEstado.alias}`);
+      EstadoService.EstadoQueryBuilderView(loadEstado.alias, qb);
     }
   }
 
   //
 
-  async findAll(requestContext: IRequestContext) {
+  get cidadeRepository() {
+    return this.databaseContextService.baseCidadeRepository;
+  }
+
+  //
+
+  async findAll(clientAccess: IClientAccess) {
     // =========================================================
 
-    const { baseCidadeRepository } = this.databaseContext;
+    const qb = this.cidadeRepository.createQueryBuilder('cidade');
 
     // =========================================================
 
-    const qb = baseCidadeRepository.createQueryBuilder('cidade');
-
-    // =========================================================
-
-    requestContext.authz.applyFindFilter(qb, 'cidade');
-
-    // =========================================================
+    await clientAccess.applyFilter('cidade:find', qb, aliasCidade, null);
 
     // =========================================================
 
     qb.select([]);
-    CidadeService.cidadeSelectFindOne(qb, true);
+
+    CidadeService.CidadeQueryBuilderView(aliasCidade, qb, {
+      loadEstado: { alias: 'estado' },
+    });
+
+    // =========================================================
+
     const cidades = await qb.getMany();
 
     // =========================================================
@@ -53,21 +63,18 @@ export class CidadeService {
     return cidades;
   }
 
-  async findById(
-    requestContext: IRequestContext,
-    dto: ICidadeFindOneByIdInputDto,
-  ) {
+  async findById(clientAccess: IClientAccess, dto: ICidadeFindOneByIdInputDto) {
     // =========================================================
 
-    const { baseCidadeRepository } = this.databaseContext;
+    const { baseCidadeRepository } = this.databaseContextService;
 
     // =========================================================
 
-    const qb = baseCidadeRepository.createQueryBuilder('cidade');
+    const qb = baseCidadeRepository.createQueryBuilder(aliasCidade);
 
     // =========================================================
 
-    requestContext.authz.applyFindFilter(qb, 'cidade');
+    await clientAccess.applyFilter('cidade:find', qb, aliasCidade, null);
 
     // =========================================================
 
@@ -76,7 +83,13 @@ export class CidadeService {
     // =========================================================
 
     qb.select([]);
-    CidadeService.cidadeSelectFindOne(qb, true);
+
+    CidadeService.CidadeQueryBuilderView(aliasCidade, qb, {
+      loadEstado: { alias: 'estado' },
+    });
+
+    // =========================================================
+
     const cidade = await qb.getOne();
 
     // =========================================================
@@ -84,11 +97,8 @@ export class CidadeService {
     return cidade;
   }
 
-  async findByIdStrict(
-    requestContext: IRequestContext,
-    dto: ICidadeFindOneByIdInputDto,
-  ) {
-    const cidade = await this.findById(requestContext, dto);
+  async findByIdStrict(clientAccess: IClientAccess, dto: ICidadeFindOneByIdInputDto) {
+    const cidade = await this.findById(clientAccess, dto);
 
     if (!cidade) {
       throw new NotFoundException();

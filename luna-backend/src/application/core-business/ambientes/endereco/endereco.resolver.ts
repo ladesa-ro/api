@@ -6,6 +6,6 @@ import { EnderecoService } from './endereco.service';
 export class EnderecoResolver {
   constructor(
     //
-    private enderecoService: EnderecoService,
+    private _enderecoService: EnderecoService,
   ) {}
 }

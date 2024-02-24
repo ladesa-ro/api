@@ -1,21 +1,16 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import { ICampusFindOneByIdInputDto } from '../../../(dtos)';
-import {
-  DtoProperty,
-  createValidationContract,
-  getSchemaField,
-} from '../../../../../infrastructure';
+import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { CampusDtoProperties, CampusDtoValidationContract } from './campus.dto';
 
 // ======================================================
 
-export const CampusFindOneByIdInputValidationContract =
-  createValidationContract(() =>
-    yup.object().shape({
-      id: getSchemaField(CampusDtoValidationContract(), 'id'),
-    }),
-  );
+export const CampusFindOneByIdInputValidationContract = createValidationContract(() =>
+  yup.object().shape({
+    id: getSchemaField(CampusDtoValidationContract(), 'id'),
+  }),
+);
 
 // ======================================================
 

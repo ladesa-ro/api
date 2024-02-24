@@ -7,32 +7,30 @@ interface IValidationContractObjectUuidOptions {
   message?: string;
 }
 
-export const ValidationContractObjectUuid = createValidationContract(
-  (options: IValidationContractObjectUuidOptions = {}) => {
-    const { required = true, message } = options;
+export const ValidationContractObjectUuid = createValidationContract((options: IValidationContractObjectUuidOptions = {}) => {
+  const { required = true, message } = options;
 
-    if (required) {
-      return yup.object().shape({
-        id: ValidationContractUuid().required(message),
-      });
-    }
+  if (required) {
+    return yup.object().shape({
+      id: ValidationContractUuid().required(message),
+    });
+  }
 
-    return yup
-      .object()
-      .shape({
-        id: ValidationContractUuid().required(message),
-      })
-      .transform((value) => {
-        const id = value?.id ?? null;
+  return yup
+    .object()
+    .shape({
+      id: ValidationContractUuid().required(message),
+    })
+    .transform((value) => {
+      const id = value?.id ?? null;
 
-        if (id !== null && ValidationContractUuid().isValidSync(id)) {
-          return value;
-        }
+      if (id !== null && ValidationContractUuid().isValidSync(id)) {
+        return value;
+      }
 
-        return null;
-      })
-      .nullable()
-      .optional()
-      .default(() => null);
-  },
-);
+      return null;
+    })
+    .nullable()
+    .optional()
+    .default(() => null);
+});

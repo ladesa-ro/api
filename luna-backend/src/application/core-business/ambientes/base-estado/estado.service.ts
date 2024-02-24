@@ -1,15 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { SelectQueryBuilder } from 'typeorm';
-import {
-  IEstadoFindOneByIdInputDto,
-  IEstadoFindOneByUfInputDto,
-  IRequestContext,
-} from '../../../../domain';
-import { DatabaseContext } from '../../../../infrastructure/integrate-database/typeorm/database-context/database-context';
+import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '../../(dtos)';
+import { IClientAccess } from '../../../../domain';
+import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
+
+export interface IEstadoQueryBuilderViewOptions {}
+
+const aliasEstado = 'estado';
 
 @Injectable()
 export class EstadoService {
-  constructor(private databaseContext: DatabaseContext) {}
+  constructor(private databaseContext: DatabaseContextService) {}
 
   get baseEstadoRepository() {
     return this.databaseContext.baseEstadoRepository;
@@ -17,25 +18,28 @@ export class EstadoService {
 
   //
 
-  static estadoSelectFindOne(qb: SelectQueryBuilder<any>) {
-    qb.addSelect(['estado.id', 'estado.nome', 'estado.sigla']);
+  static EstadoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>) {
+    qb.addSelect([`${alias}.id`, `${alias}.nome`, `${alias}.sigla`]);
   }
 
   //
 
-  async findAll(requestContext: IRequestContext) {
+  async findAll(clienteAccess: IClientAccess) {
     // =========================================================
 
-    const qb = this.baseEstadoRepository.createQueryBuilder('estado');
+    const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
 
     // =========================================================
 
-    requestContext.authz.applyFindFilter(qb, 'estado');
+    await clienteAccess.applyFilter('estado:find', qb, aliasEstado, null);
 
     // =========================================================
 
     qb.select([]);
-    EstadoService.estadoSelectFindOne(qb);
+    EstadoService.EstadoQueryBuilderView(aliasEstado, qb);
+
+    // =========================================================
+
     const estados = await qb.getMany();
 
     // =========================================================
@@ -43,26 +47,26 @@ export class EstadoService {
     return estados;
   }
 
-  async findByUf(
-    requestContext: IRequestContext,
-    dto: IEstadoFindOneByUfInputDto,
-  ) {
+  async findByUf(clienteAccess: IClientAccess, dto: IEstadoFindOneByUfInputDto) {
     // =========================================================
 
-    const qb = this.baseEstadoRepository.createQueryBuilder('estado');
+    const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
 
     // =========================================================
 
-    requestContext.authz.applyFindFilter(qb, 'estado');
+    await clienteAccess.applyFilter('estado:find', qb, aliasEstado, null);
 
     // =========================================================
 
-    qb.andWhere('estado.sigla = :sigla', { sigla: dto.uf.toUpperCase() });
+    qb.andWhere(`${aliasEstado}.sigla = :sigla`, { sigla: dto.uf.toUpperCase() });
 
     // =========================================================
 
     qb.select([]);
-    EstadoService.estadoSelectFindOne(qb);
+    EstadoService.EstadoQueryBuilderView(aliasEstado, qb);
+
+    // =========================================================
+
     const estado = await qb.getOne();
 
     // =========================================================
@@ -70,11 +74,8 @@ export class EstadoService {
     return estado;
   }
 
-  async findByUfStrict(
-    requestContext: IRequestContext,
-    dto: IEstadoFindOneByUfInputDto,
-  ) {
-    const estado = await this.findByUf(requestContext, dto);
+  async findByUfStrict(clienteAccess: IClientAccess, dto: IEstadoFindOneByUfInputDto) {
+    const estado = await this.findByUf(clienteAccess, dto);
 
     if (!estado) {
       throw new NotFoundException();
@@ -83,26 +84,26 @@ export class EstadoService {
     return estado;
   }
 
-  async findById(
-    requestContext: IRequestContext,
-    dto: IEstadoFindOneByIdInputDto,
-  ) {
+  async findById(clienteAccess: IClientAccess, dto: IEstadoFindOneByIdInputDto) {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder('estado');
 
     // =========================================================
 
-    requestContext.authz.applyFindFilter(qb, 'estado');
+    await clienteAccess.applyFilter('estado:find', qb, aliasEstado, null);
 
     // =========================================================
 
-    qb.andWhere('estado.id = :id', { id: dto.id });
+    qb.andWhere(`${aliasEstado}.id = :id`, { id: dto.id });
 
     // =========================================================
 
     qb.select([]);
-    EstadoService.estadoSelectFindOne(qb);
+    EstadoService.EstadoQueryBuilderView(aliasEstado, qb);
+
+    // =========================================================
+
     const estado = await qb.getOne();
 
     // =========================================================
@@ -110,11 +111,8 @@ export class EstadoService {
     return estado;
   }
 
-  async findByIdStrict(
-    requestContext: IRequestContext,
-    dto: IEstadoFindOneByIdInputDto,
-  ) {
-    const estado = await this.findById(requestContext, dto);
+  async findByIdStrict(clienteAccess: IClientAccess, dto: IEstadoFindOneByIdInputDto) {
+    const estado = await this.findById(clienteAccess, dto);
 
     if (!estado) {
       throw new NotFoundException();

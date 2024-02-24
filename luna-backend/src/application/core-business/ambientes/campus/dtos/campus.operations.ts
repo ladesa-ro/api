@@ -1,24 +1,8 @@
-import {
-  CampusDeleteOneByIdInputDto,
-  CampusDeleteOneByIdInputValidationContract,
-  CampusFindOneByIdInputDto,
-  CampusFindOneByIdInputValidationContract,
-} from '.';
-import {
-  ValidationContractUuid,
-  createDtoOperationOptions,
-  createValidationContract,
-} from '../../../../../infrastructure';
+import { CampusDeleteOneByIdInputDto, CampusDeleteOneByIdInputValidationContract, CampusFindOneByIdInputDto, CampusFindOneByIdInputValidationContract } from '.';
+import { ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CampusFindOneResultDto } from './campus-find-one.result.dto';
-import {
-  CampusInputDto,
-  CampusInputDtoValidationContract,
-} from './campus-input.dto';
-import {
-  CampusUpdateInputDto,
-  CampusUpdateInputDtoValidationContract,
-  CampusUpdateWithoutIdInputDto,
-} from './campus-update.input.dto';
+import { CampusInputDto, CampusInputDtoValidationContract } from './campus-input.dto';
+import { CampusUpdateInputDto, CampusUpdateInputDtoValidationContract, CampusUpdateWithoutIdInputDto } from './campus-update.input.dto';
 import { CampusDto } from './campus.dto';
 
 export const CampusOperations = {
@@ -101,9 +85,7 @@ export const CampusOperations = {
     swagger: {
       inputBodyType: CampusUpdateWithoutIdInputDto,
 
-      inputBodyValidationContract: createValidationContract(() =>
-        CampusUpdateInputDtoValidationContract().omit(['id']),
-      ),
+      inputBodyValidationContract: createValidationContract(() => CampusUpdateInputDtoValidationContract().omit(['id'])),
 
       params: [
         {

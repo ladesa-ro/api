@@ -1,11 +1,5 @@
-import {
-  CidadeFindOneByIdInputDto,
-  CidadeFindOneByIdInputValidationContract,
-} from '.';
-import {
-  ValidationContractId,
-  createDtoOperationOptions,
-} from '../../../../../infrastructure';
+import { CidadeFindOneByIdInputDto, CidadeFindOneByIdInputValidationContract } from '.';
+import { ValidationContractId, createDtoOperationOptions } from '../../../../../infrastructure';
 import { CidadeFindOneResultDto } from './cidade-find-one.result.dto';
 import { CidadeDto } from './cidade.dto';
 
@@ -15,8 +9,7 @@ export const CidadeOperations = {
   //
 
   CIDADE_FIND_ALL: createDtoOperationOptions({
-    description:
-      'Lista de todas as cidades brasileiras cadastradas no sistema.',
+    description: 'Lista de todas as cidades brasileiras cadastradas no sistema.',
 
     gql: {
       name: 'cidadeFindAll',
