@@ -126,4 +126,55 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
   }
 
   // ========================================================
+
+  get ambienteFind(): Authz.IAuthzStatementAmbienteFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'ambiente:find',
+
+      filter(context, alias) {
+        return (qb) => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get ambienteCreate(): Authz.IAuthzStatementAmbienteCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'ambiente:create',
+
+      async withCheck(context) {
+        console.debug('AuthzPolicyPublic -- ambiente:create', { context });
+        return true;
+      },
+    });
+  }
+
+  get ambienteUpdate(): Authz.IAuthzStatementAmbienteUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'ambiente:update',
+      filter() {
+        return (qb, alias = 'ambiente') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get ambienteDelete(): Authz.IAuthzStatementAmbienteDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'ambiente:delete',
+      filter() {
+        return (qb, alias = 'ambiente') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  // ========================================================
 }

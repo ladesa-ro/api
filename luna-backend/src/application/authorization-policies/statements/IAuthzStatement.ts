@@ -24,9 +24,16 @@ export type IAuthzStatementBlocoFind = IBaseAuthzFilter<'bloco:find'>;
 export type IAuthzStatementBlocoUpdate = IBaseAuthzFilter<'bloco:update', { dto: Dto.IBlocoUpdateDto }>;
 export type IAuthzStatementBlocoDelete = IBaseAuthzFilter<'bloco:delete', { dto: Dto.IBlocoDeleteOneByIdInputDto }>;
 
+// =====================
+
+export type IAuthzStatementAmbienteCreate = IBaseAuthzCheck<'ambiente:create', { dto: Dto.IAmbienteCreateDto }>;
+export type IAuthzStatementAmbienteFind = IBaseAuthzFilter<'ambiente:find'>;
+export type IAuthzStatementAmbienteUpdate = IBaseAuthzFilter<'ambiente:update', { dto: Dto.IAmbienteUpdateDto }>;
+export type IAuthzStatementAmbienteDelete = IBaseAuthzFilter<'ambiente:delete', { dto: Dto.IAmbienteDeleteOneByIdInputDto }>;
+
 // ===================================================================================
 
-export type IAuthzStatementCheck = IAuthzStatementCampusCreate | IAuthzStatementBlocoCreate;
+export type IAuthzStatementCheck = IAuthzStatementCampusCreate | IAuthzStatementBlocoCreate | IAuthzStatementAmbienteCreate;
 
 // =====================
 
@@ -43,7 +50,11 @@ export type IAuthzStatementFind =
   //
   | IAuthzStatementBlocoFind
   | IAuthzStatementBlocoUpdate
-  | IAuthzStatementBlocoDelete;
+  | IAuthzStatementBlocoDelete
+  //
+  | IAuthzStatementAmbienteFind
+  | IAuthzStatementAmbienteUpdate
+  | IAuthzStatementAmbienteDelete;
 
 // =====================
 

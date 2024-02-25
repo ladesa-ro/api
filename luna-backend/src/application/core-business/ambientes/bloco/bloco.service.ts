@@ -81,7 +81,7 @@ export class BlocoService {
     return blocos;
   }
 
-  async blocoFindById(clientAccess: IClientAccess, dto: Dtos.ICampusFindOneByIdInputDto): Promise<Dtos.IBlocoFindOneResultDto | null> {
+  async blocoFindById(clientAccess: IClientAccess, dto: Dtos.IBlocoFindOneByIdInputDto): Promise<Dtos.IBlocoFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
@@ -111,8 +111,58 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdStrict(clientAccess: IClientAccess, dto: Dtos.ICampusFindOneByIdInputDto) {
+  async blocoFindByIdStrict(clientAccess: IClientAccess, dto: Dtos.IBlocoFindOneByIdInputDto) {
     const bloco = await this.blocoFindById(clientAccess, dto);
+
+    if (!bloco) {
+      throw new NotFoundException();
+    }
+
+    return bloco;
+  }
+
+  async blocoFindByIdSimple(
+    clientAccess: IClientAccess,
+    id: Dtos.IBlocoFindOneByIdInputDto['id'],
+    options?: IBlocoQueryBuilderViewOptions,
+    selection?: string[],
+  ): Promise<Dtos.IBlocoFindOneResultDto | null> {
+    // =========================================================
+
+    const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
+
+    // =========================================================
+
+    await clientAccess.applyFilter('bloco:find', qb, aliasBloco, null);
+
+    // =========================================================
+
+    qb.andWhere(`${aliasBloco}.id = :id`, { id });
+
+    // =========================================================
+
+    qb.select([]);
+
+    BlocoService.BlocoQueryBuilderView(aliasBloco, qb, {
+      loadCampus: false,
+      ...options,
+    });
+
+    if (selection) {
+      qb.select(selection);
+    }
+
+    // =========================================================
+
+    const bloco = await qb.getOne();
+
+    // =========================================================
+
+    return bloco;
+  }
+
+  async blocoFindByIdSimpleStrict(clientAccess: IClientAccess, id: Dtos.IBlocoFindOneByIdInputDto['id'], options?: IBlocoQueryBuilderViewOptions, selection?: string[]) {
+    const bloco = await this.blocoFindByIdSimple(clientAccess, id, options, selection);
 
     if (!bloco) {
       throw new NotFoundException();

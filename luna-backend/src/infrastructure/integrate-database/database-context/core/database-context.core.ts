@@ -1,4 +1,5 @@
 import { DataSource, EntityManager } from 'typeorm';
+import { createAmbienteRepository } from '../../typeorm/repositories/ambientes/ambiente.repository';
 import { createBlocoRepository } from '../../typeorm/repositories/ambientes/bloco.repository';
 import { createCampusRepository } from '../../typeorm/repositories/ambientes/campus.repository';
 import { createBaseCidadeRepository } from '../../typeorm/repositories/base-cidade.repository';
@@ -28,5 +29,9 @@ export class DatabaseContextCore {
 
   get blocoRepository() {
     return createBlocoRepository(this.ds);
+  }
+
+  get ambienteRepository() {
+    return createAmbienteRepository(this.ds);
   }
 }

@@ -1,9 +1,8 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { BlocoFindOneResultDto } from '.';
 import { CommonPropertyUuid, IBlocoModel, ICampusModel, IEntityDate, ObjectUuidDto } from '../../../(dtos)';
 import { DtoProperty, ValidationContractObjectUuid, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
-import { CampusDto } from '../../campus/dtos';
+import { CampusDto, CampusFindOneResultDto } from '../../campus/dtos';
 
 // ======================================================
 
@@ -71,7 +70,7 @@ export const BlocoDtoProperties = createDtoPropertyMap({
       type: () => CampusDto,
     },
     swagger: {
-      type: () => BlocoFindOneResultDto,
+      type: () => CampusFindOneResultDto,
     },
   },
 });
