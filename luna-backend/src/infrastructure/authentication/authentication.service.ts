@@ -62,7 +62,7 @@ export class AuthenticationService {
       }
 
       const tokenSet = await this.idpConnectTceService.getIdentityResponseFromAccessToken(accessToken);
-      console.log({ tokenSet });
+
       return this.getCurrentUsuarioByMatriculaSiape(tokenSet.usuario?.matriculaSiape);
     }
 

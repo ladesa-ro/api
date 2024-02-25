@@ -1,0 +1,34 @@
+import { Resolver } from '@nestjs/graphql';
+import { ClientAccessGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from 'infrastructure';
+import * as Dto from '../(dtos)';
+import { IClientAccess } from '../../../domain';
+import { AutenticacaoService } from './autenticacao.service';
+import { AutenticacaoOperations } from './dtos';
+
+@Resolver()
+export class AutenticacaoResolver {
+  constructor(
+    //
+    private autenticacaoService: AutenticacaoService,
+  ) {}
+
+  //
+
+  @DtoOperationGqlMutation(AutenticacaoOperations.AUTENTICACAO_LOGIN)
+  async autenticacaoLogin(
+    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @GqlDtoInput(AutenticacaoOperations.AUTENTICACAO_LOGIN)
+    dto: Dto.IAutenticacaoLoginInputDto,
+  ) {
+    return this.autenticacaoService.login(clientAccess, dto);
+  }
+
+  //
+
+  @DtoOperationGqlQuery(AutenticacaoOperations.AUTENTICACAO_QUEM_SOU_EU)
+  async usuarioFindOneById(@ClientAccessGraphQl() clientAccess: IClientAccess) {
+    return this.autenticacaoService.quemSouEu(clientAccess);
+  }
+
+  //
+}

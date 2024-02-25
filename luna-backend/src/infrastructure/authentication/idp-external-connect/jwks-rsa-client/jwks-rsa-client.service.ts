@@ -1,39 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import { JwksClient, SigningKey } from 'jwks-rsa';
+import { OpenidConnectService } from '../openid-connect';
 
 @Injectable()
 export class JwksRsaClientService {
   #jwksClient: JwksClient | null = null;
 
-  private async createJwksClient(jwksUri: string | null = null) {
-    if (!jwksUri) {
-      console.warn('process.env.HOST_API_AUTH_JWKS não foi fornecido.');
-    } else {
-      return new JwksClient({
-        timeout: 30000, // Defaults to 30s
+  constructor(private openidConnectService: OpenidConnectService) {}
 
-        cache: true, // Default Value
-        cacheMaxEntries: 5, // Default value
-        cacheMaxAge: 600000, // Defaults to 10m
+  private async createJwksClient() {
+    try {
+      const trustIssuerClient = await this.openidConnectService.getTrustIssuerClient();
 
-        rateLimit: true,
-        jwksRequestsPerMinute: 10, // Default value
+      const jwksUri = trustIssuerClient.issuer.metadata.jwks_uri;
 
-        jwksUri: jwksUri,
-      });
-    }
+      if (jwksUri) {
+        return new JwksClient({
+          timeout: 30000, // Defaults to 30s
+
+          cache: true, // Default Value
+          cacheMaxEntries: 5, // Default value
+          cacheMaxAge: 600000, // Defaults to 10m
+
+          rateLimit: true,
+          jwksRequestsPerMinute: 10, // Default value
+
+          jwksUri: jwksUri,
+        });
+      }
+    } catch (e) {}
 
     return null;
   }
 
-  private async setup(jwksUri: string | null = null) {
+  private async setup() {
     if (!this.#jwksClient) {
-      this.#jwksClient = await this.createJwksClient(jwksUri);
+      this.#jwksClient = await this.createJwksClient();
     }
   }
 
-  async getJwksClient(jwksUri: string | null = null) {
-    await this.setup(jwksUri);
+  async getJwksClient() {
+    await this.setup();
 
     if (!this.#jwksClient) {
       throw new Error('[JwksRsaClientService::error] can not create JwksClient.');
