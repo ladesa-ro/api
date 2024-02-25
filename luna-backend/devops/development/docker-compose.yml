@@ -40,6 +40,8 @@ services:
       - './volumes/db/scripts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'
     networks:
       - sisgea-luna-net
+    ports:
+      - 127.0.0.1:5432:5432
     env_file:
       - .db.env
 

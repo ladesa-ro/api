@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { DataSourceOptions } from 'typeorm';
 import { IConfig } from '../../domain';
-import { ISisgeaNestAuthConnectConfigOidcClientCredentials, ISisgeaNestAuthConnectConfigKeycloakCredentials } from '@sisgea/nest-auth-connect';
+import { IConfigIntegrateAuthKeycloakCredentials, IConfigIntegrateAuthOidcClientCredentials } from '../../domain/config/IConfigIntegrateAuth';
 
 @Injectable()
 export class EnvironmentConfigService implements IConfig {
@@ -183,7 +183,7 @@ export class EnvironmentConfigService implements IConfig {
 
   //
 
-  getOidcClientCredentials(): ISisgeaNestAuthConnectConfigOidcClientCredentials {
+  getOidcClientCredentials(): IConfigIntegrateAuthOidcClientCredentials {
     const issuer = this.nestConfigService.get<string>('OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER');
     const clientId = this.nestConfigService.get<string>('OAUTH2_CLIENT_REGISTRATION_LOGIN_CLIENT_ID');
     const clientSecret = this.nestConfigService.get<string>('OAUTH2_CLIENT_REGISTRATION_LOGIN_CLIENT_SECRET');
@@ -201,7 +201,7 @@ export class EnvironmentConfigService implements IConfig {
 
   //
 
-  getKeycloakConfigCredentials(): ISisgeaNestAuthConnectConfigKeycloakCredentials {
+  getKeycloakConfigCredentials(): IConfigIntegrateAuthKeycloakCredentials {
     const baseUrl = this.nestConfigService.get<string>('KC_BASE_URL');
     const realm = this.nestConfigService.get<string>('KC_REALM');
     const clientId = this.nestConfigService.get<string>('KC_CLIENT_ID');

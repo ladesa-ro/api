@@ -1,4 +1,4 @@
-import { SisgeaRequestUserHttp } from '@sisgea/nest-auth-connect/http';
-import { ResolveClientAccessPipe } from './pipes/ResolveClientAccessPipe';
+import { CurrentUsuarioHttp } from '../../authentication';
+import { ResolveClientAccessPipe } from './pipes/ResolveClientAccessFromCurrentUsuario.pipe';
 
-export const ClientAccessHttp = (options?: any) => SisgeaRequestUserHttp(options, ResolveClientAccessPipe);
+export const ClientAccessHttp = (options?: any) => CurrentUsuarioHttp(options, ResolveClientAccessPipe);

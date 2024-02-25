@@ -1,6 +1,6 @@
 import { Promisable } from 'type-fest';
 import { SelectQueryBuilder } from 'typeorm';
-import { ClientAccess } from '../../infrastructure';
+import { IClientAccess } from '..';
 
 export interface IBaseAuthzStatement<Kind extends string, Action extends string, Payload> {
   kind: Kind;
@@ -11,7 +11,7 @@ export interface IBaseAuthzStatement<Kind extends string, Action extends string,
 export type IBaseAuthzStatementContext<Action extends string, Payload = null> = {
   action: Action;
   payload: Payload;
-  clientAccess: ClientAccess;
+  clientAccess: IClientAccess;
 };
 
 export type IBaseAuthzStatementKindCheck = 'check';

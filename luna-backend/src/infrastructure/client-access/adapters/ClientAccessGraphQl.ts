@@ -1,4 +1,4 @@
-import { SisgeaRequestUserGql } from '@sisgea/nest-auth-connect/gql';
-import { ResolveClientAccessPipe } from './pipes/ResolveClientAccessPipe';
+import { CurrentUsuarioGql } from '../../authentication';
+import { ResolveClientAccessPipe } from './pipes/ResolveClientAccessFromCurrentUsuario.pipe';
 
-export const ClientAccessGraphQl = (options?: any) => SisgeaRequestUserGql(options, ResolveClientAccessPipe);
+export const ClientAccessGraphQl = (options?: any) => CurrentUsuarioGql(options, ResolveClientAccessPipe);

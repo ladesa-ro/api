@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AdaptersModule } from '../infrastructure/adapters';
-import { AuthenticationModule } from '../infrastructure/authentication';
-import { EnvironmentConfigModule } from '../infrastructure/environment-config';
-import { IntegrateDatabaseModule } from '../infrastructure/integrate-database';
+import { AdaptersModule } from './adapters';
+import { AuthenticationModule } from './authentication';
+import { EnvironmentConfigModule } from './environment-config';
+import { IntegrateDatabaseModule } from './integrate-database';
 
 @Module({
-  imports: [AdaptersModule, AuthenticationModule, EnvironmentConfigModule, IntegrateDatabaseModule],
+  imports: [AuthenticationModule, AdaptersModule, EnvironmentConfigModule, IntegrateDatabaseModule],
   controllers: [],
-  providers: [],
   exports: [],
+  providers: [],
 })
 export class InfrastructureModule {}

@@ -1,9 +1,9 @@
-import { IRequestUser } from '@sisgea/nest-auth-connect';
 import { SelectQueryBuilder } from 'typeorm';
 import { IAuthzStatementCheck, IAuthzStatementFind } from '../../application/authorization-policies/statements/IAuthzStatement';
+import { ICurrentUsuario } from '../../infrastructure/authentication/interfaces';
 
 export interface IClientAccess {
-  readonly requestUser: IRequestUser | null;
+  readonly currentUsuario: ICurrentUsuario | null;
 
   applyFilter: <Statement extends IAuthzStatementFind, Action extends Statement['action'], Payload extends Statement['payload']>(
     action: Action,

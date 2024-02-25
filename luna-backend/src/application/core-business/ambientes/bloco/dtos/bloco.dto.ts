@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { CommonPropertyUuid, IBlocoModel, ICampusModel, IEntityDate, ObjectUuidDto } from '../../../(dtos)';
+import { CommonPropertyUuid, IAmbienteModel, IBlocoModel, ICampusModel, IEntityDate, ObjectUuidDto } from '../../../(dtos)';
 import { DtoProperty, ValidationContractObjectUuid, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
 import { CampusDto, CampusFindOneResultDto } from '../../campus/dtos';
 
@@ -92,6 +92,10 @@ export class BlocoDto implements IBlocoModel {
 
   @DtoProperty(BlocoDtoProperties.BLOCO_CAMPUS_OUTPUT)
   campus!: ICampusModel;
+
+  //
+
+  ambientes!: IAmbienteModel[];
 
   //
 

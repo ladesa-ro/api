@@ -1,6 +1,5 @@
 export * from './adapters';
 export * from './api-documentate';
-export * from './authentication';
 export * from './client-access';
 export * from './environment-config';
 export * from './integrate-database';

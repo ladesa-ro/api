@@ -1,17 +1,18 @@
 import { ForbiddenException } from '@nestjs/common';
-import { IRequestUser } from '@sisgea/nest-auth-connect';
 import { castArray } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { AuthzPolicyPublic } from '../../../application/authorization-policies/00-AuthzPolicyPublic';
 import { IAuthzStatement, IAuthzStatementCheck, IAuthzStatementFind } from '../../../application/authorization-policies/statements/IAuthzStatement';
 import { IBaseAuthzStatementContext, IFilterFn } from '../../../domain';
 import { IClientAccess } from '../../../domain/client-access/IClientAccess';
+import { ICurrentUsuario } from '../../authentication/interfaces';
 
-function createForbiddenErrorForAction<Statement extends IAuthzStatement, Action extends Statement['action']>(action: Action) {
+function createForbiddenExceptionForAction<Statement extends IAuthzStatement, Action extends Statement['action']>(action: Action) {
   return new ForbiddenException(`Insufficient permissions to perform '${action}'.`);
 }
+
 export class ClientAccess implements IClientAccess {
-  constructor(readonly requestUser: IRequestUser | null) {
+  constructor(readonly currentUsuario: ICurrentUsuario | null) {
     //
   }
 
@@ -82,7 +83,7 @@ export class ClientAccess implements IClientAccess {
     const can = await this.verifyPermissionCheck<Statement, Action, Payload>(action, payload);
 
     if (!can) {
-      throw createForbiddenErrorForAction<Statement, Action>(action);
+      throw createForbiddenExceptionForAction<Statement, Action>(action);
     }
   }
 
@@ -117,7 +118,7 @@ export class ClientAccess implements IClientAccess {
     const can = await this.verifyCanReach<Statement, Action, Payload>(action, payload, qb, id);
 
     if (!can) {
-      throw createForbiddenErrorForAction<Statement, Action>(action);
+      throw createForbiddenExceptionForAction<Statement, Action>(action);
     }
   }
 }

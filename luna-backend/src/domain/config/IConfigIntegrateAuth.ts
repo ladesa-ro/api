@@ -1,3 +1,22 @@
-import { ISisgeaNestAuthConnectConfigOidcClient, ISisgeaNestAuthConnectConfigKeycloak } from '@sisgea/nest-auth-connect';
+export interface IConfigIntegrateAuthKeycloakCredentials {
+  baseUrl: string;
+  realm: string;
+  clientId: string;
+  clientSecret: string;
+}
 
-export interface IConfigIntegrateAuth extends ISisgeaNestAuthConnectConfigOidcClient, ISisgeaNestAuthConnectConfigKeycloak {}
+export interface IConfigIntegrateAuthKeycloak {
+  getKeycloakConfigCredentials(): IConfigIntegrateAuthKeycloakCredentials;
+}
+
+export interface IConfigIntegrateAuthOidcClientCredentials {
+  issuer: string;
+  clientId: string;
+  clientSecret: string;
+}
+
+export interface IConfigIntegrateAuthOidcClient {
+  getOidcClientCredentials(): IConfigIntegrateAuthOidcClientCredentials;
+}
+
+export interface IConfigIntegrateAuth extends IConfigIntegrateAuthOidcClient, IConfigIntegrateAuthKeycloak {}

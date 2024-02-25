@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IBlocoModel, ICampusModel, IEntityDate } from '../../../../../application/core-business/(dtos)';
+import { AmbienteEntity } from './ambiente.entity';
 import { CampusEntity } from './campus.entity';
 
 @Entity('campus_bloco')
@@ -20,6 +21,11 @@ export class BlocoEntity implements IBlocoModel {
   @ManyToOne(() => CampusEntity)
   @JoinColumn({ name: 'id_campus_fk' })
   campus!: ICampusModel;
+
+  //
+
+  @OneToMany(() => AmbienteEntity, (ambiente) => ambiente.bloco)
+  ambientes!: AmbienteEntity[];
 
   //
 
