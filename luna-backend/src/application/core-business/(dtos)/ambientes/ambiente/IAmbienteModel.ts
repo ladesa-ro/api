@@ -10,10 +10,9 @@ export interface IAmbienteModel extends IObjectUuid, IDatedObject {
 
   nome: string;
   descricao: string;
-
   codigo: string;
-  capacidade: number | null;
 
+  capacidade: number | null;
   tipo: string | null;
 
   //

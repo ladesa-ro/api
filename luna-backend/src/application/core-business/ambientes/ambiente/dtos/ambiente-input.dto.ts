@@ -10,10 +10,11 @@ export const AmbienteInputDtoValidationContract = createValidationContract(() =>
   const schema = AmbienteDtoValidationContract();
 
   return yup.object().shape({
-    codigo: getSchemaField(schema, 'codigo'),
-    capacidade: getSchemaField(schema, 'capacidade'),
     nome: getSchemaField(schema, 'nome'),
     descricao: getSchemaField(schema, 'descricao'),
+    codigo: getSchemaField(schema, 'codigo'),
+
+    capacidade: getSchemaField(schema, 'capacidade'),
     tipo: getSchemaField(schema, 'tipo'),
 
     bloco: ValidationContractObjectUuid({ required: true }).defined().required(),

@@ -12,8 +12,8 @@ export const BlocoDtoValidationContract = createValidationContract(() => {
 
     //
 
-    nome: ValidationContractString(),
-    codigo: ValidationContractString(),
+    nome: ValidationContractString().required().nonNullable(),
+    codigo: ValidationContractString().required().nonNullable(),
 
     //
 

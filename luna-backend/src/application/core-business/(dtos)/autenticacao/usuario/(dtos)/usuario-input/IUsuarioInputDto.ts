@@ -1,3 +1,3 @@
 import { IUsuarioModel } from '../../IUsuarioModel';
 
-export interface IUsuarioInputDto extends Pick<IUsuarioModel, 'id' | 'nome' | 'matriculaSiape' | 'email' | 'isSuperUser'> {}
+export interface IUsuarioInputDto extends Pick<IUsuarioModel, 'nome' | 'matriculaSiape' | 'email'> {}

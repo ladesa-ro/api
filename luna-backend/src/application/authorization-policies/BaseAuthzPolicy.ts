@@ -21,6 +21,11 @@ export abstract class BaseAuthzPolicy {
   abstract ambienteUpdate: Authz.IAuthzStatementAmbienteUpdate;
   abstract ambienteDelete: Authz.IAuthzStatementAmbienteDelete;
 
+  abstract usuarioFind: Authz.IAuthzStatementUsuarioFind;
+  abstract usuarioCreate: Authz.IAuthzStatementUsuarioCreate;
+  abstract usuarioUpdate: Authz.IAuthzStatementUsuarioUpdate;
+  abstract usuarioDelete: Authz.IAuthzStatementUsuarioDelete;
+
   get statements() {
     return [
       //
@@ -42,6 +47,11 @@ export abstract class BaseAuthzPolicy {
       this.ambienteCreate,
       this.ambienteUpdate,
       this.ambienteDelete,
+      //
+      this.usuarioFind,
+      this.usuarioCreate,
+      this.usuarioUpdate,
+      this.usuarioDelete,
       //
     ];
   }

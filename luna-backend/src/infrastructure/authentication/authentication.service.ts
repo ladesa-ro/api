@@ -31,6 +31,7 @@ export class AuthenticationService {
         'usuario.isSuperUser',
       ])
       .where('usuario.matriculaSiape = :matriculaSiape', { matriculaSiape: matriculaSiape })
+      .andWhere('usuario.dateDeleted IS NULL')
       .getOne();
 
     if (usuario) {

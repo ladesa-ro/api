@@ -10,6 +10,9 @@ export interface IUsuarioModel extends IObjectUuid, IDatedObject {
   nome: string;
   matriculaSiape: string | null;
   email: string | null;
+
+  //
+
   isSuperUser: boolean;
 
   //

@@ -21,18 +21,14 @@ export const EnderecoDtoValidationContract = createValidationContract(() => {
 
     //
 
-    cep: ValidationContractLocalizacaoCep(),
-
-    logradouro: ValidationContractString(),
-
+    cep: ValidationContractLocalizacaoCep().required().nonNullable(),
+    logradouro: ValidationContractString().required().nonNullable(),
     numero: ValidationContractNumber().integer().positive(),
-
-    bairro: ValidationContractString(),
+    bairro: ValidationContractString().required().nonNullable(),
 
     complemento: ValidationContractString()
       .nullable()
       .default(() => null),
-
     pontoReferencia: ValidationContractString()
       .nullable()
       .default(() => null),

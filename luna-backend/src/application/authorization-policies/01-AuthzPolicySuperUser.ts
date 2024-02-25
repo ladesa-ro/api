@@ -223,4 +223,64 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
   }
 
   // ========================================================
+
+  get usuarioFind(): Authz.IAuthzStatementUsuarioFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'usuario:find',
+
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get usuarioCreate(): Authz.IAuthzStatementUsuarioCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'usuario:create',
+
+      withCheck: (context) => {
+        if (AuthzPolicySuperUser.shouldApply(context)) {
+          return true;
+        }
+
+        return false;
+      },
+    });
+  }
+
+  get usuarioUpdate(): Authz.IAuthzStatementUsuarioUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'usuario:update',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get usuarioDelete(): Authz.IAuthzStatementUsuarioDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'usuario:delete',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  // ========================================================
 }

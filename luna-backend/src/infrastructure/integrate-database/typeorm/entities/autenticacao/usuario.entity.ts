@@ -12,10 +12,10 @@ export class UsuarioEntity implements IUsuarioModel {
   nome!: string;
 
   @Column({ name: 'matricula_siape', type: 'text', nullable: true })
-  matriculaSiape!: string;
+  matriculaSiape!: string | null;
 
   @Column({ name: 'email', type: 'text', nullable: true })
-  email!: string;
+  email!: string | null;
 
   @Column({ name: 'is_super_user', type: 'boolean', nullable: false })
   isSuperUser!: boolean;

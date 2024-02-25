@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { IClientAccess } from '../../../domain';
 
 @Injectable()
-export class AuthService {
-  getWhoAmI(clientAccess: IClientAccess) {
+export class AutenticacaoService {
+  quemSouEu(clientAccess: IClientAccess) {
     return {
       usuario: clientAccess.currentUsuario,
     };

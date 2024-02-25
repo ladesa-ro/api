@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AmbientesModule } from './ambientes/ambientes.module';
-import { AuthModule } from './auth/auth.module';
+import { AutenticacaoModule } from './autenticacao/autenticacao.module';
 
 @Module({
-  imports: [AuthModule, AmbientesModule],
+  imports: [AutenticacaoModule, AmbientesModule],
 })
 export class CoreBusinessModule {}

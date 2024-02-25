@@ -20,11 +20,11 @@ export const AmbienteDtoValidationContract = createValidationContract(() => {
 
     //
 
-    nome: ValidationContractString(),
-    descricao: ValidationContractString(),
+    nome: ValidationContractString().required().nonNullable().min(1),
+    descricao: ValidationContractString().required().nonNullable().min(1),
 
-    codigo: ValidationContractString(),
-    capacidade: ValidationContractNumber().nullable(),
+    codigo: ValidationContractString().required().nonNullable().min(1),
+    capacidade: ValidationContractNumber().integer().moreThan(0).nullable(),
 
     tipo: ValidationContractString().nullable(),
 

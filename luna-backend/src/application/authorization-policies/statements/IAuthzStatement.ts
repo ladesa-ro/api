@@ -31,9 +31,16 @@ export type IAuthzStatementAmbienteFind = IBaseAuthzFilter<'ambiente:find'>;
 export type IAuthzStatementAmbienteUpdate = IBaseAuthzFilter<'ambiente:update', { dto: Dto.IAmbienteUpdateDto }>;
 export type IAuthzStatementAmbienteDelete = IBaseAuthzFilter<'ambiente:delete', { dto: Dto.IAmbienteDeleteOneByIdInputDto }>;
 
+// =====================
+
+export type IAuthzStatementUsuarioCreate = IBaseAuthzCheck<'usuario:create', { dto: Dto.IUsuarioCreateDto }>;
+export type IAuthzStatementUsuarioFind = IBaseAuthzFilter<'usuario:find'>;
+export type IAuthzStatementUsuarioUpdate = IBaseAuthzFilter<'usuario:update', { dto: Dto.IUsuarioUpdateDto }>;
+export type IAuthzStatementUsuarioDelete = IBaseAuthzFilter<'usuario:delete', { dto: Dto.IUsuarioDeleteOneByIdInputDto }>;
+
 // ===================================================================================
 
-export type IAuthzStatementCheck = IAuthzStatementCampusCreate | IAuthzStatementBlocoCreate | IAuthzStatementAmbienteCreate;
+export type IAuthzStatementCheck = IAuthzStatementCampusCreate | IAuthzStatementBlocoCreate | IAuthzStatementAmbienteCreate | IAuthzStatementUsuarioCreate;
 
 // =====================
 
@@ -54,7 +61,11 @@ export type IAuthzStatementFind =
   //
   | IAuthzStatementAmbienteFind
   | IAuthzStatementAmbienteUpdate
-  | IAuthzStatementAmbienteDelete;
+  | IAuthzStatementAmbienteDelete
+  //
+  | IAuthzStatementUsuarioFind
+  | IAuthzStatementUsuarioUpdate
+  | IAuthzStatementUsuarioDelete;
 
 // =====================
 
