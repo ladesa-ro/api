@@ -10,6 +10,33 @@ import { createEnderecoRepository } from '../../typeorm/repositories/endereco.re
 export class DatabaseContextCore {
   constructor(readonly ds: DataSource | EntityManager) {}
 
+  //
+
+  get dataSource() {
+    if (this.ds instanceof DataSource) {
+      return this.ds;
+    }
+
+    return this.ds.connection;
+  }
+
+  get entityManager() {
+    if (this.ds instanceof EntityManager) {
+      return this.ds;
+    }
+
+    return this.ds.manager;
+  }
+
+  async transaction<T>(callback: (context: { databaseContext: DatabaseContextCore }) => T | Promise<T>): Promise<T> {
+    return this.ds.transaction(async (entityManager) => {
+      const databaseContextForTransaction = new DatabaseContextCore(entityManager);
+      return callback({ databaseContext: databaseContextForTransaction });
+    });
+  }
+
+  //
+
   // =====================================================
   // == [ AUTENTICAÇÃO ] ====================================
   // =====================================================

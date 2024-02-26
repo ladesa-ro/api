@@ -22,4 +22,10 @@ export class AutenticacaoController {
   login(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(AutenticacaoOperations.AUTENTICACAO_LOGIN) dto: Dto.IAutenticacaoLoginInputDto) {
     return this.autenticacaoService.login(clientAccess, dto);
   }
+
+  @Post('/definir-senha')
+  @DtoOperationCreate(AutenticacaoOperations.AUTENTICACAO_DEFINIR_SENHA)
+  definirSenha(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(AutenticacaoOperations.AUTENTICACAO_DEFINIR_SENHA) dto: Dto.IAutenticacaoDefinirSenhaInputDto) {
+    return this.autenticacaoService.definirSenha(clientAccess, dto);
+  }
 }

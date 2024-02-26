@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import { ValidationFailedException } from 'infrastructure';
+import { KeycloakService } from 'infrastructure/authentication/idp-external-connect/keycloak';
 import { UsuarioEntity } from 'infrastructure/integrate-database/typeorm/entities/autenticacao/usuario.entity';
-import { pick } from 'lodash';
+import { has, pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(dtos)';
 import { IClientAccess } from '../../../../domain';
@@ -19,7 +20,10 @@ export type IUsuarioQueryBuilderViewOptions = never;
 
 @Injectable()
 export class UsuarioService {
-  constructor(private databaseContext: DatabaseContextService) {}
+  constructor(
+    private databaseContext: DatabaseContextService,
+    private keycloakService: KeycloakService,
+  ) {}
 
   //
 
@@ -37,6 +41,32 @@ export class UsuarioService {
       `${alias}.matriculaSiape`,
       `${alias}.email`,
     ]);
+  }
+
+  //
+
+  async internalFindByMatriculaSiape(matriculaSiape: string): Promise<Dtos.IUsuarioFindOneResultDto | null> {
+    // =========================================================
+
+    const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
+
+    // =========================================================
+
+    qb.andWhere(`${aliasUsuario}.matriculaSiape = :matriculaSiape`, { matriculaSiape: matriculaSiape });
+
+    // =========================================================
+
+    qb.select([]);
+
+    UsuarioService.UsuarioQueryBuilderView(aliasUsuario, qb);
+
+    // =========================================================
+
+    const usuario = await qb.getOne();
+
+    // =========================================================
+
+    return usuario;
   }
 
   //
@@ -198,6 +228,22 @@ export class UsuarioService {
 
   //
 
+  private async internalResolveSimpleProperty<Property extends keyof UsuarioEntity>(id: string, property: Property): Promise<UsuarioEntity[Property]> {
+    const qb = this.usuarioRepository.createQueryBuilder('usuario');
+    qb.select(`usuario.${property}`);
+
+    qb.where('usuario.id = :usuarioId', { usuarioId: id });
+
+    const usuario = await qb.getOneOrFail();
+    return usuario[property];
+  }
+
+  private async internalResolveMatriculaSiape(id: string) {
+    return this.internalResolveSimpleProperty(id, 'matriculaSiape');
+  }
+
+  //
+
   async usuarioCreate(clientAccess: IClientAccess, dto: Dtos.IUsuarioInputDto) {
     // =========================================================
 
@@ -218,9 +264,29 @@ export class UsuarioService {
 
     // =========================================================
 
-    await this.usuarioRepository.save(usuario);
+    await this.databaseContext
+      .transaction(async ({ databaseContext: { usuarioRepository } }) => {
+        await usuarioRepository.save(usuario);
 
-    // =========================================================
+        const kcAdminClient = await this.keycloakService.getAdminClient();
+
+        await kcAdminClient.users.create({
+          enabled: true,
+
+          username: input.matriculaSiape,
+          email: input.email,
+
+          requiredActions: ['UPDATE_PASSWORD'],
+
+          attributes: {
+            'usuario.matriculaSiape': input.matriculaSiape,
+          },
+        });
+      })
+      .catch((err) => {
+        console.debug('Erro ao cadastrar usuário:', err);
+        throw new InternalServerErrorException();
+      });
 
     return this.usuarioFindByIdStrict(clientAccess, { id: usuario.id });
   }
@@ -231,6 +297,14 @@ export class UsuarioService {
     const currentUsuario = await this.usuarioFindByIdStrict(clientAccess, {
       id: dto.id,
     });
+
+    const currentMatriculaSiape = currentUsuario.matriculaSiape ?? (await this.internalResolveMatriculaSiape(currentUsuario.id));
+
+    const kcUser = await this.keycloakService.findUserByMatriculaSiape(currentMatriculaSiape);
+
+    if (!kcUser) {
+      throw new ServiceUnavailableException();
+    }
 
     // =========================================================
 
@@ -250,7 +324,37 @@ export class UsuarioService {
 
     // =========================================================
 
-    await this.usuarioRepository.save(usuario);
+    await this.databaseContext.transaction(async ({ databaseContext: { usuarioRepository } }) => {
+      await usuarioRepository.save(usuario);
+
+      const changedEmail = has(dto, 'email');
+      const changedMatriculaSiape = has(dto, 'matriculaSiape');
+
+      if (changedEmail || changedMatriculaSiape) {
+        const kcAdminClient = await this.keycloakService.getAdminClient();
+
+        if (changedMatriculaSiape) {
+          await kcAdminClient.users.update(
+            { id: kcUser.id! },
+            {
+              username: input.matriculaSiape,
+              attributes: {
+                'usuario.matriculaSiape': input.matriculaSiape,
+              },
+            },
+          );
+        }
+
+        if (changedEmail) {
+          await kcAdminClient.users.update(
+            { id: kcUser.id! },
+            {
+              email: dto.email,
+            },
+          );
+        }
+      }
+    });
 
     // =========================================================
 

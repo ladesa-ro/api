@@ -8,8 +8,8 @@ export interface IUsuarioModel extends IObjectUuid, IDatedObject {
   //
 
   nome: string;
-  matriculaSiape: string | null;
-  email: string | null;
+  matriculaSiape: string;
+  email: string;
 
   //
 

@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "strict": true,
-    "module": "node16",
+    "module": "Node16",
     "lib": ["esnext"],
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "declaration": true,
     "removeComments": true,

@@ -1,5 +1,6 @@
 import { createDtoOperationOptions } from 'infrastructure';
-import { AutenticacaoLoginDtoValidationContract, AutenticacaoLoginInputDto } from '.';
+import { AutenticacaoDefinirSenhaDtoValidationContract, AutenticacaoDefinirSenhaInputDto, AutenticacaoLoginDtoValidationContract, AutenticacaoLoginInputDto } from '.';
+import { AutenticacaoDefinirSenhaResultDto } from './autenticacao-definir-senha.result.dto';
 import { AutenticacaoLoginResultDto } from './autenticacao-login.result.dto';
 import { AutenticacaoQuemSouEuResultDto } from './autenticacao-quem-sou-eu.result.dto';
 
@@ -37,6 +38,28 @@ export const AutenticacaoOperations = {
       inputBodyType: AutenticacaoLoginInputDto,
       inputBodyValidationContract: AutenticacaoLoginDtoValidationContract,
       returnType: AutenticacaoLoginResultDto,
+    },
+  }),
+
+  // ===============================
+
+  AUTENTICACAO_DEFINIR_SENHA: createDtoOperationOptions({
+    description: 'Define a primeira senha de um usuário no sistema.',
+
+    gql: {
+      name: 'autenticacaoDefinirSenha',
+
+      inputDtoType: () => AutenticacaoDefinirSenhaInputDto,
+      inputDtoValidationContract: AutenticacaoDefinirSenhaDtoValidationContract,
+
+      returnType: () => AutenticacaoDefinirSenhaResultDto,
+    },
+
+    swagger: {
+      inputBodyType: AutenticacaoDefinirSenhaInputDto,
+      inputBodyValidationContract: AutenticacaoDefinirSenhaDtoValidationContract,
+
+      returnType: AutenticacaoDefinirSenhaResultDto,
     },
   }),
 

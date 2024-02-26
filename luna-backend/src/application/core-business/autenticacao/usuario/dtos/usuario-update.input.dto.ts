@@ -26,10 +26,10 @@ export class UsuarioUpdateInputDto implements Dto.IUsuarioUpdateDto {
   nome?: string;
 
   @DtoProperty(UsuarioDtoProperties.USUARIO_MATRICULA_SIAPE, { required: false })
-  matriculaSiape?: string | null;
+  matriculaSiape?: string;
 
   @DtoProperty(UsuarioDtoProperties.USUARIO_EMAIL, { required: false })
-  email?: string | null;
+  email?: string;
 
   //
 }

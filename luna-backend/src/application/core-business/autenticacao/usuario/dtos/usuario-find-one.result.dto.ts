@@ -16,10 +16,10 @@ export class UsuarioFindOneResultDto implements IUsuarioFindOneResultDto {
   nome!: string;
 
   @DtoProperty(UsuarioDtoProperties.USUARIO_MATRICULA_SIAPE)
-  matriculaSiape!: string | null;
+  matriculaSiape!: string;
 
   @DtoProperty(UsuarioDtoProperties.USUARIO_EMAIL)
-  email!: string | null;
+  email!: string;
 
   //
 }

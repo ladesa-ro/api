@@ -14,6 +14,13 @@ export class AutenticacaoResolver {
 
   //
 
+  @DtoOperationGqlQuery(AutenticacaoOperations.AUTENTICACAO_QUEM_SOU_EU)
+  async usuarioFindOneById(@ClientAccessGraphQl() clientAccess: IClientAccess) {
+    return this.autenticacaoService.quemSouEu(clientAccess);
+  }
+
+  //
+
   @DtoOperationGqlMutation(AutenticacaoOperations.AUTENTICACAO_LOGIN)
   async autenticacaoLogin(
     @ClientAccessGraphQl() clientAccess: IClientAccess,
@@ -25,9 +32,13 @@ export class AutenticacaoResolver {
 
   //
 
-  @DtoOperationGqlQuery(AutenticacaoOperations.AUTENTICACAO_QUEM_SOU_EU)
-  async usuarioFindOneById(@ClientAccessGraphQl() clientAccess: IClientAccess) {
-    return this.autenticacaoService.quemSouEu(clientAccess);
+  @DtoOperationGqlMutation(AutenticacaoOperations.AUTENTICACAO_DEFINIR_SENHA)
+  async autenticacaoDefinirSenha(
+    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @GqlDtoInput(AutenticacaoOperations.AUTENTICACAO_DEFINIR_SENHA)
+    dto: Dto.IAutenticacaoDefinirSenhaInputDto,
+  ) {
+    return this.autenticacaoService.definirSenha(clientAccess, dto);
   }
 
   //
