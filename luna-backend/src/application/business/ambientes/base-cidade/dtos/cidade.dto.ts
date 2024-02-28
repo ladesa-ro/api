@@ -13,7 +13,7 @@ export const CidadeDtoValidationContract = createValidationContract(() =>
   }),
 );
 
-// ======================================================
+// ================
 
 export const CidadeDtoProperties = createDtoPropertyMap({
   CIDADE_ID: CommonPropertyId('ID IBGE da cidade.'),

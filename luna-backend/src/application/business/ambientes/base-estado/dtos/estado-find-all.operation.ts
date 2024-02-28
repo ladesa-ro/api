@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as Dto from '../../../(dtos)';
-import { PaginateOptionsInputValidationContract, PaginatedOptionsInputDto, PaginatedResultDto } from '../../../../../infrastructure';
+import { PaginatedOptionsInputDto, PaginatedResultDto, SearchInputValidationContract } from '../../../../../infrastructure';
 import { createDtoOperationOptions } from '../../../../../infrastructure/api-documentate/DtoOperation';
 import { DtoProperty } from '../../../../../infrastructure/api-documentate/DtoProperty';
 import { EstadoFindOneResultDto } from './estado-find-one.operation';
@@ -34,7 +34,7 @@ export const ESTADO_FIND_ALL = createDtoOperationOptions({
 
     inputNullable: true,
     inputDtoType: () => PaginatedOptionsInputDto,
-    inputDtoValidationContract: PaginateOptionsInputValidationContract,
+    inputDtoValidationContract: SearchInputValidationContract,
   },
 
   swagger: {

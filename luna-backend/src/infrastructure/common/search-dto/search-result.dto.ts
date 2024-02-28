@@ -1,0 +1,85 @@
+import { Int, ObjectType } from '@nestjs/graphql';
+import { IPaginatedResultDto, IPaginatedResultDtoLinks, IPaginatedResultDtoMeta } from '../../../application/business/(dtos)';
+import { DtoProperty, createDtoPropertyOptions } from '../../api-documentate';
+
+@ObjectType('SearchResultDtoMeta')
+export class SearchResultDtoMeta implements IPaginatedResultDtoMeta {
+  @DtoProperty(
+    createDtoPropertyOptions({
+      description: 'Itens por página.',
+      nullable: false,
+      gql: {
+        type: () => Int,
+      },
+      swagger: {
+        type: 'integer',
+      },
+    }),
+  )
+  itemsPerPage!: number;
+
+  @DtoProperty(
+    createDtoPropertyOptions({
+      description: 'Total de itens.',
+      nullable: false,
+      gql: {
+        type: () => Int,
+      },
+      swagger: {
+        type: 'integer',
+      },
+    }),
+  )
+  totalItems!: number;
+
+  @DtoProperty(
+    createDtoPropertyOptions({
+      description: 'Página atual.',
+      nullable: false,
+      gql: {
+        type: () => Int,
+      },
+      swagger: {
+        type: 'integer',
+      },
+    }),
+  )
+  currentPage!: number;
+
+  @DtoProperty(
+    createDtoPropertyOptions({
+      description: 'Total de páginas.',
+      nullable: false,
+      gql: {
+        type: () => Int,
+      },
+      swagger: {
+        type: 'integer',
+      },
+    }),
+  )
+  totalPages!: number;
+
+  search!: string;
+  sortBy!: [string, 'DESC' | 'ASC'][];
+  filter!: Record<string, string | string[]>;
+}
+
+@ObjectType('SearchResultDto')
+export abstract class SearchResultDto<T> implements IPaginatedResultDto<T> {
+  abstract data: T[];
+
+  @DtoProperty({
+    description: 'Metadados da busca.',
+    nullable: false,
+    gql: {
+      type: () => SearchResultDtoMeta,
+    },
+    swagger: {
+      type: SearchResultDtoMeta,
+    },
+  })
+  meta!: IPaginatedResultDtoMeta;
+
+  links!: IPaginatedResultDtoLinks;
+}

@@ -49,7 +49,12 @@ async function bootstrap() {
   config.addBearerAuth();
 
   const document = SwaggerModule.createDocument(app, config.build());
-  SwaggerModule.setup('doc-api', app, document);
+  SwaggerModule.setup('doc-api', app, document, {
+    swaggerOptions: {
+      tagsSorter: 'alpha',
+      operationsSorter: 'alpha',
+    },
+  });
 
   //
 

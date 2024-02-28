@@ -39,7 +39,7 @@ export class EstadoService {
 
     // =========================================================
 
-    const result = await paginate(query, qb.clone(), {
+    const paginated = await paginate(query, qb.clone(), {
       ...paginateConfig,
       select: ['id'],
       searchableColumns: ['nome', 'sigla'],
@@ -55,11 +55,11 @@ export class EstadoService {
 
     // =========================================================
 
-    result.data = await qb.andWhereInIds(map(result.data, 'id')).getMany();
+    paginated.data = await qb.andWhereInIds(map(paginated.data, 'id')).getMany();
 
     // =========================================================
 
-    return result;
+    return paginated;
   }
 
   async findByUf(clienteAccess: IClientAccess, dto: IEstadoFindOneByUfInputDto) {
