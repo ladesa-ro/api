@@ -1,8 +1,19 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(dtos)';
 import { IClientAccess } from '../../../../domain';
-import { ClientAccessHttp, DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam } from '../../../../infrastructure';
+import {
+  ClientAccessHttp,
+  DtoOperationCreate,
+  DtoOperationDelete,
+  DtoOperationFindAll,
+  DtoOperationFindOne,
+  DtoOperationUpdate,
+  HttpDtoBody,
+  HttpDtoParam,
+  getSearchInputFromPaginateQuery,
+} from '../../../../infrastructure';
 import { BlocoService } from './bloco.service';
 import { BlocoOperations } from './dtos/bloco.operations';
 
@@ -15,8 +26,8 @@ export class BlocoController {
 
   @Get('/')
   @DtoOperationFindAll(BlocoOperations.BLOCO_FIND_ALL)
-  async blocoFindAll(@ClientAccessHttp() clientAccess: IClientAccess): Promise<Dto.IBlocoFindOneResultDto[]> {
-    return this.blocoService.blocoFindAll(clientAccess);
+  async blocoFindAll(@ClientAccessHttp() clientAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.IBlocoFindAllResultDto> {
+    return this.blocoService.blocoFindAll(clientAccess, getSearchInputFromPaginateQuery(query));
   }
 
   //

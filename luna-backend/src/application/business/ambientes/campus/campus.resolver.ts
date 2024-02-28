@@ -1,10 +1,10 @@
 import { Resolver } from '@nestjs/graphql';
+import * as Dto from '../../(dtos)';
 import { IClientAccess } from '../../../../domain';
 import { ClientAccessGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
 import { GqlDtoInput } from '../../../../infrastructure/api-documentate/GqlDtoInput';
 import { CampusService } from './campus.service';
 import { CampusDto, CampusOperations } from './dtos';
-import { ICampusFindOneByIdInputDto, ICampusInputDto, ICampusUpdateDto, ICampusDeleteOneByIdInputDto } from '../../(dtos)';
 
 @Resolver(() => CampusDto)
 export class CampusResolver {
@@ -16,8 +16,8 @@ export class CampusResolver {
   //
 
   @DtoOperationGqlQuery(CampusOperations.CAMPUS_FIND_ALL)
-  async campusFindAll(@ClientAccessGraphQl() clientAccess: IClientAccess) {
-    return this.campusService.campusFindAll(clientAccess);
+  async campusFindAll(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(CampusOperations.CAMPUS_FIND_ALL) dto: Dto.ISearchInputDto) {
+    return this.campusService.campusFindAll(clientAccess, dto);
   }
 
   //
@@ -26,7 +26,7 @@ export class CampusResolver {
   async campusFindOneById(
     @ClientAccessGraphQl() clientAccess: IClientAccess,
     @GqlDtoInput(CampusOperations.CAMPUS_FIND_ONE_BY_ID)
-    dto: ICampusFindOneByIdInputDto,
+    dto: Dto.ICampusFindOneByIdInputDto,
   ) {
     return this.campusService.campusFindByIdStrict(clientAccess, dto);
   }
@@ -34,12 +34,12 @@ export class CampusResolver {
   //
 
   @DtoOperationGqlMutation(CampusOperations.CAMPUS_CREATE)
-  async campusCreate(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(CampusOperations.CAMPUS_CREATE) dto: ICampusInputDto) {
+  async campusCreate(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(CampusOperations.CAMPUS_CREATE) dto: Dto.ICampusInputDto) {
     return this.campusService.campusCreate(clientAccess, dto);
   }
 
   @DtoOperationGqlMutation(CampusOperations.CAMPUS_UPDATE)
-  async campusUpdate(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(CampusOperations.CAMPUS_UPDATE) dto: ICampusUpdateDto) {
+  async campusUpdate(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(CampusOperations.CAMPUS_UPDATE) dto: Dto.ICampusUpdateDto) {
     return this.campusService.campusUpdate(clientAccess, dto);
   }
 
@@ -47,7 +47,7 @@ export class CampusResolver {
   async campusDeleteOneById(
     @ClientAccessGraphQl() clientAccess: IClientAccess,
     @GqlDtoInput(CampusOperations.CAMPUS_DELETE_ONE_BY_ID)
-    dto: ICampusDeleteOneByIdInputDto,
+    dto: Dto.ICampusDeleteOneByIdInputDto,
   ) {
     return this.campusService.campusDeleteOneById(clientAccess, dto);
   }

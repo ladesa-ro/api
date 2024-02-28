@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { IAmbienteModel, IBlocoModel, ICampusModel, IEntityDate } from '../../../(dtos)';
+import * as Dto from '../../../(dtos)';
 import {
   CommonPropertyUuid,
   DtoProperty,
@@ -87,7 +87,7 @@ export const BlocoDtoProperties = createDtoPropertyMap({
 // ======================================================
 
 @ObjectType('Bloco')
-export class BlocoDto implements IBlocoModel {
+export class BlocoDto implements Dto.IBlocoModel {
   @DtoProperty(BlocoDtoProperties.BLOCO_ID)
   id!: string;
 
@@ -100,17 +100,17 @@ export class BlocoDto implements IBlocoModel {
   codigo!: string;
 
   @DtoProperty(BlocoDtoProperties.BLOCO_CAMPUS_OUTPUT)
-  campus!: ICampusModel;
+  campus!: Dto.ICampusModel;
 
   //
 
-  ambientes!: IAmbienteModel[];
+  ambientes!: Dto.IAmbienteModel[];
 
   //
 
-  dateCreated!: IEntityDate;
-  dateUpdated!: IEntityDate;
-  dateDeleted!: IEntityDate | null;
+  dateCreated!: Dto.IEntityDate;
+  dateUpdated!: Dto.IEntityDate;
+  dateDeleted!: Dto.IEntityDate | null;
 }
 
 // ======================================================

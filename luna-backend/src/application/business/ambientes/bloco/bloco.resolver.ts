@@ -16,8 +16,8 @@ export class CampusResolver {
   //
 
   @DtoOperationGqlQuery(BlocoOperations.BLOCO_FIND_ALL)
-  async blocoFindAll(@ClientAccessGraphQl() clientAccess: IClientAccess) {
-    return this.blocoService.blocoFindAll(clientAccess);
+  async blocoFindAll(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(BlocoOperations.BLOCO_FIND_ALL) dto: Dto.ISearchInputDto) {
+    return this.blocoService.blocoFindAll(clientAccess, dto);
   }
 
   //

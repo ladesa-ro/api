@@ -1,6 +1,6 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { IBlocoInputDto, IObjectUuid } from '../../../(dtos)';
+import * as Dto from '../../../(dtos)';
 import { DtoProperty, ValidationContractObjectUuid, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { BlocoDtoProperties, BlocoDtoValidationContract } from './bloco.dto';
 
@@ -20,7 +20,7 @@ export const BlocoInputDtoValidationContract = createValidationContract(() => {
 // ======================================================
 
 @InputType('BlocoInputDto')
-export class BlocoInputDto implements IBlocoInputDto {
+export class BlocoInputDto implements Dto.IBlocoInputDto {
   @DtoProperty(BlocoDtoProperties.BLOCO_NOME)
   nome!: string;
 
@@ -28,5 +28,7 @@ export class BlocoInputDto implements IBlocoInputDto {
   codigo!: string;
 
   @DtoProperty(BlocoDtoProperties.BLOCO_CAMPUS_INPUT)
-  campus!: IObjectUuid;
+  campus!: Dto.IObjectUuid;
 }
+
+// ======================================================

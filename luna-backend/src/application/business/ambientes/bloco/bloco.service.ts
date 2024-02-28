@@ -1,10 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { pick } from 'lodash';
+import { map, pick } from 'lodash';
+import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(dtos)';
 import { IClientAccess } from '../../../../domain';
+import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { BlocoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/bloco.entity';
+import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { CampusService, ICampusQueryBuilderViewOptions } from '../campus/campus.service';
 
@@ -51,7 +54,7 @@ export class BlocoService {
 
   //
 
-  async blocoFindAll(clientAccess: IClientAccess): Promise<Dtos.IBlocoFindOneResultDto[]> {
+  async blocoFindAll(clientAccess: IClientAccess, dto?: Dtos.ISearchInputDto): Promise<Dtos.IBlocoFindAllResultDto> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
@@ -59,6 +62,54 @@ export class BlocoService {
     // =========================================================
 
     await clientAccess.applyFilter('bloco:find', qb, aliasBloco, null);
+
+    // =========================================================
+
+    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+      ...paginateConfig,
+      select: [
+        //
+        'id',
+        //
+        'nome',
+        'codigo',
+        'dateCreated',
+        //
+        'campus.id',
+        'campus.razaoSocial',
+        'campus.nomeFantasia',
+      ],
+      relations: {
+        campus: true,
+      },
+      sortableColumns: [
+        //
+        'nome',
+        'codigo',
+        'dateCreated',
+        //
+        'campus.id',
+        'campus.razaoSocial',
+        'campus.nomeFantasia',
+      ],
+      searchableColumns: [
+        //
+        'id',
+        //
+        'nome',
+        'codigo',
+        //
+      ],
+      defaultSortBy: [
+        ['campus.id', 'ASC'],
+        ['codigo', 'ASC'],
+        ['nome', 'ASC'],
+        ['dateCreated', 'ASC'],
+      ],
+      filterableColumns: {
+        'campus.id': [FilterOperator.EQ],
+      },
+    });
 
     // =========================================================
 
@@ -70,15 +121,11 @@ export class BlocoService {
 
     // =========================================================
 
-    qb.orderBy(`${aliasBloco}.dateCreated`, 'ASC');
+    paginated.data = await qb.andWhereInIds(map(paginated.data, 'id')).getMany();
 
     // =========================================================
 
-    const blocos = await qb.getMany();
-
-    // =========================================================
-
-    return blocos;
+    return paginated;
   }
 
   async blocoFindById(clientAccess: IClientAccess, dto: Dtos.IBlocoFindOneByIdInputDto): Promise<Dtos.IBlocoFindOneResultDto | null> {
