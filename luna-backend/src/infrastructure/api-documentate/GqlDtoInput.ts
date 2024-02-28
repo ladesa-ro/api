@@ -2,7 +2,7 @@ import { GqlArgYup } from '../adapters';
 import { IDtoOperationOptions } from './DtoOperation';
 
 export const GqlDtoInput = (options: IDtoOperationOptions) => {
-  const { inputDtoType, inputDtoValidationContract } = options.gql;
+  const { inputNullable, inputDtoType, inputDtoValidationContract } = options.gql;
 
   if (!inputDtoType) {
     throw new TypeError('Provide options.gql.inputDtoType');
@@ -16,6 +16,7 @@ export const GqlDtoInput = (options: IDtoOperationOptions) => {
 
   return GqlArgYup('dto', schema, {
     type: inputDtoType,
+    nullable: inputNullable,
     description: 'Dados de entrada da operação.',
   });
 };

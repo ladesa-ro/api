@@ -1,19 +1,26 @@
+import { PaginatedOptionsInputDto, PaginateOptionsInputValidationContract } from 'application/core-business/common.dto';
 import { EstadoFindOneByIdInputDto, EstadoFindOneByIdInputValidationContract, EstadoFindOneByUfInputDto, EstadoFindOneByUfInputValidationContract } from '.';
-import { ValidationContractId, createDtoOperationOptions, createValidationContractPickField } from '../../../../../infrastructure';
+import { createDtoOperationOptions, createValidationContractPickField, ValidationContractId } from '../../../../../infrastructure';
+import { EstadoFindAllResultDto } from './estado-find-all.result.dto';
 import { EstadoFindOneResultDto } from './estado-find-one.result.dto';
 import { EstadoDto } from './estado.dto';
 
 export const EstadoOperations = {
   ESTADO_FIND_ALL: createDtoOperationOptions({
-    description: 'Lista de todos os estados brasileiros cadastrados no sistema.',
+    description: 'Listagem de todos os estados brasileiros cadastrados no sistema.',
 
     gql: {
       name: 'estadoFindAll',
-      returnType: () => [EstadoDto],
+      returnType: () => EstadoFindAllResultDto,
+
+      inputNullable: true,
+      inputDtoType: () => PaginatedOptionsInputDto,
+      inputDtoValidationContract: PaginateOptionsInputValidationContract,
     },
 
     swagger: {
-      returnType: [EstadoFindOneResultDto],
+      returnType: EstadoFindAllResultDto,
+      queries: ['search', 'sortBy'],
     },
   }),
 

@@ -5,15 +5,15 @@ export type IPaginatedResultDtoMeta = {
   totalPages: number;
   search: string;
   sortBy: [string, 'DESC' | 'ASC'][];
-  filter: Record<string, string | string[]>;
+  filter?: Record<string, string | string[]>;
 };
 
 export type IPaginatedResultDtoLinks = {
-  first: string;
-  previous: string;
+  first?: string;
+  previous?: string;
   current: string;
-  next: string;
-  last: string;
+  next?: string;
+  last?: string;
 };
 
 export type IPaginatedResultDto<T> = {

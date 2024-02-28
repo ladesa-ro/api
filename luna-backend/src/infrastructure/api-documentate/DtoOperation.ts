@@ -16,6 +16,7 @@ export interface IDtoOperationOptions {
     name: string;
     returnType: ReturnTypeFunc;
 
+    inputNullable?:boolean;
     inputDtoType?: ReturnTypeFunc;
     inputDtoValidationContract?: IValidationContract<any, Schema>;
   };

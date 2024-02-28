@@ -1,5 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { paginateConfig } from 'infrastructure/utils/paginateConfig';
+import { map } from 'lodash';
+import { PaginateQuery, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import * as Dto from '../../(dtos)';
 import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '../../(dtos)';
 import { IClientAccess } from '../../../../domain';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
@@ -24,7 +28,7 @@ export class EstadoService {
 
   //
 
-  async findAll(clienteAccess: IClientAccess) {
+  async findAll(clienteAccess: IClientAccess, query: PaginateQuery = { path: '/base/estados' }): Promise<Dto.IEstadoFindAllResultDto> {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
@@ -34,17 +38,28 @@ export class EstadoService {
     await clienteAccess.applyFilter('estado:find', qb, aliasEstado, null);
 
     // =========================================================
-
     qb.select([]);
     EstadoService.EstadoQueryBuilderView(aliasEstado, qb);
+    // =========================================================
 
     // =========================================================
 
-    const estados = await qb.getMany();
+    const result = await paginate(query, qb.clone(), {
+      ...paginateConfig,
+      select: ['id'],
+      searchableColumns: ['nome', 'sigla'],
+      sortableColumns: ['id', 'nome', 'sigla'],
+      defaultSortBy: [['nome', 'ASC']],
+      filterableColumns: {},
+    });
 
     // =========================================================
 
-    return estados;
+    result.data = await qb.andWhereInIds(map(result.data, 'id')).getMany();
+
+    // =========================================================
+
+    return result;
   }
 
   async findByUf(clienteAccess: IClientAccess, dto: IEstadoFindOneByUfInputDto) {

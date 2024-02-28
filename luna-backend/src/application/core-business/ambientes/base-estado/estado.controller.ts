@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
-import { IEstadoFindOneResultDto } from '../../(dtos)';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import * as Dto from '../../(dtos)';
 import { IClientAccess } from '../../../../domain';
 import { ClientAccessHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam } from '../../../../infrastructure';
 import { EstadoOperations } from './dtos/estado.operations';
@@ -16,8 +17,8 @@ export class EstadoController {
 
   @Get('/')
   @DtoOperationFindAll(EstadoOperations.ESTADO_FIND_ALL)
-  async findAll(@ClientAccessHttp() clienteAccess: IClientAccess): Promise<IEstadoFindOneResultDto[]> {
-    return this.estadoService.findAll(clienteAccess);
+  async findAll(@ClientAccessHttp() clienteAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.IEstadoFindAllResultDto> {
+    return this.estadoService.findAll(clienteAccess, query);
   }
 
   @Get('/uf/:uf')
