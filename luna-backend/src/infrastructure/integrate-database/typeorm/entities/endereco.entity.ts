@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ICidadeModel, IEnderecoModel, IEntityDate } from '../../../../application/business/(dtos)';
-import { BaseCidadeEntity } from './base-cidade.entity';
+import { BaseCidadeEntity } from './cidade.entity';
 
 @Entity('endereco')
 export class EnderecoEntity implements IEnderecoModel {

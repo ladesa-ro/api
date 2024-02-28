@@ -1,4 +1,4 @@
-import { BaseCidadeEntity } from '../entities/base-cidade.entity';
+import { BaseCidadeEntity } from '../entities/cidade.entity';
 import { IRepositoryFactoryOutput, createRepositoryFactory } from './helpers/create-repository-factory';
 
 export const createBaseCidadeRepository = createRepositoryFactory((ds) => ds.getRepository(BaseCidadeEntity).extend({}));
