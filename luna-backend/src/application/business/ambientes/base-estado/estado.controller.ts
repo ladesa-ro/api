@@ -3,11 +3,11 @@ import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(dtos)';
 import { IClientAccess } from '../../../../domain';
-import { ClientAccessHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam } from '../../../../infrastructure';
+import { ClientAccessHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../../infrastructure';
 import { EstadoOperations } from './dtos/estado.operations';
 import { EstadoService } from './estado.service';
 
-@ApiTags('Ambientes / Base / Estado')
+@ApiTags('05 Ambientes / Base / Estado')
 @Controller('/base/estados')
 export class EstadoController {
   constructor(
@@ -18,7 +18,7 @@ export class EstadoController {
   @Get('/')
   @DtoOperationFindAll(EstadoOperations.ESTADO_FIND_ALL)
   async findAll(@ClientAccessHttp() clienteAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.IEstadoFindAllResultDto> {
-    return this.estadoService.findAll(clienteAccess, query);
+    return this.estadoService.findAll(clienteAccess, getSearchInputFromPaginateQuery(query));
   }
 
   @Get('/uf/:uf')

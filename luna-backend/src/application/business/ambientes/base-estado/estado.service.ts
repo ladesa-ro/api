@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { paginateConfig } from 'infrastructure/utils/paginateConfig';
 import { map } from 'lodash';
-import { PaginateQuery, paginate } from 'nestjs-paginate';
+import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dto from '../../(dtos)';
 import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '../../(dtos)';
 import { IClientAccess } from '../../../../domain';
+import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 
 export interface IEstadoQueryBuilderViewOptions {}
@@ -28,7 +29,7 @@ export class EstadoService {
 
   //
 
-  async findAll(clienteAccess: IClientAccess, query: PaginateQuery = { path: '/base/estados' }): Promise<Dto.IEstadoFindAllResultDto> {
+  async findAll(clienteAccess: IClientAccess, dto?: Dto.ISearchInputDto): Promise<Dto.IEstadoFindAllResultDto> {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
@@ -39,7 +40,7 @@ export class EstadoService {
 
     // =========================================================
 
-    const paginated = await paginate(query, qb.clone(), {
+    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
       ...paginateConfig,
       select: ['id'],
       searchableColumns: ['nome', 'sigla'],

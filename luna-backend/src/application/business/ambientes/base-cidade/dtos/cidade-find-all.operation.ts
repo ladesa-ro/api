@@ -43,6 +43,7 @@ export const CIDADE_FIND_ALL = createDtoOperationOptions({
       'limit',
       'search',
       'sortBy',
+      //
       'filter.estado.id',
       'filter.estado.nome',
       'filter.estado.sigla',

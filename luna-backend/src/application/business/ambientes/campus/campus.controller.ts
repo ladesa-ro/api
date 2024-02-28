@@ -6,7 +6,7 @@ import { ClientAccessHttp, DtoOperationCreate, DtoOperationDelete, DtoOperationF
 import { CampusService } from './campus.service';
 import { CampusOperations } from './dtos/campus.operations';
 
-@ApiTags('Ambientes / Campus')
+@ApiTags('07 Ambientes / Campus')
 @Controller('/campi')
 export class CampusController {
   constructor(private campusService: CampusService) {}

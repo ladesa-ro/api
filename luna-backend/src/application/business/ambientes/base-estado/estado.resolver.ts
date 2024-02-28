@@ -1,7 +1,7 @@
 import { Resolver } from '@nestjs/graphql';
-import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto, IPaginatedOptionsInputDto } from '../../(dtos)';
+import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto, ISearchInputDto } from '../../(dtos)';
 import { IClientAccess } from '../../../../domain';
-import { ClientAccessGraphQl, DtoOperationGqlQuery, GqlDtoInput, getPaginateQueryByOptionsDto } from '../../../../infrastructure';
+import { ClientAccessGraphQl, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infrastructure';
 import { EstadoOperations } from './dtos/estado.operations';
 import { EstadoService } from './estado.service';
 
@@ -15,8 +15,8 @@ export class EstadoResolver {
   // ========================================================
 
   @DtoOperationGqlQuery(EstadoOperations.ESTADO_FIND_ALL)
-  async estadoFindAll(@ClientAccessGraphQl() clienteAccess: IClientAccess, @GqlDtoInput(EstadoOperations.ESTADO_FIND_ALL) dto: IPaginatedOptionsInputDto) {
-    return this.estadoService.findAll(clienteAccess, getPaginateQueryByOptionsDto(dto));
+  async estadoFindAll(@ClientAccessGraphQl() clienteAccess: IClientAccess, @GqlDtoInput(EstadoOperations.ESTADO_FIND_ALL) dto: ISearchInputDto) {
+    return this.estadoService.findAll(clienteAccess, dto);
   }
 
   // ========================================================

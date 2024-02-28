@@ -6,7 +6,7 @@ import { ClientAccessHttp, DtoOperationCreate, DtoOperationDelete, DtoOperationF
 import { BlocoService } from './bloco.service';
 import { BlocoOperations } from './dtos/bloco.operations';
 
-@ApiTags('Ambientes / Campus / Bloco')
+@ApiTags('08 Ambientes / Campus / Bloco')
 @Controller('/blocos')
 export class BlocoController {
   constructor(private blocoService: BlocoService) {}

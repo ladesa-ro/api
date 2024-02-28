@@ -6,7 +6,7 @@ import { ClientAccessHttp, DtoOperationCreate, DtoOperationDelete, DtoOperationF
 import { AmbienteService } from './ambiente.service';
 import { AmbienteOperations } from './dtos/ambiente.operations';
 
-@ApiTags('Ambientes / Campus / Bloco / Ambiente')
+@ApiTags('09 Ambientes / Campus / Bloco / Ambiente')
 @Controller('/ambientes')
 export class AmbienteController {
   constructor(private ambienteService: AmbienteService) {}

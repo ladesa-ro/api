@@ -7,7 +7,7 @@ import { ClientAccessHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoPara
 import { CidadeService } from './cidade.service';
 import { CidadeOperations } from './dtos';
 
-@ApiTags('Ambientes / Base / Cidade')
+@ApiTags('06 Ambientes / Base / Cidade')
 @Controller('/base/cidades')
 export class CidadeController {
   constructor(private cidadeService: CidadeService) {}

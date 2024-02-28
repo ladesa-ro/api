@@ -7,7 +7,7 @@ import { UsuarioOperations } from './dtos/usuario.operations';
 import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
-@ApiTags('Autenticação / Usuários')
+@ApiTags('03 Autenticação / Usuários')
 export class UsuarioController {
   constructor(private usuarioService: UsuarioService) {}
 
