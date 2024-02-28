@@ -1,10 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { get, pick } from 'lodash';
+import { get, map, pick } from 'lodash';
+import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import { ICampusDeleteOneByIdInputDto, ICampusFindOneByIdInputDto, ICampusFindOneResultDto, ICampusInputDto, ICampusUpdateDto } from '../../(dtos)';
+import * as Dto from '../../(dtos)';
 import { IClientAccess } from '../../../../domain';
+import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { CampusEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
+import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { EnderecoService, IEnderecoQueryBuilderViewOptions } from '../endereco/endereco.service';
 
@@ -53,7 +56,7 @@ export class CampusService {
 
   //
 
-  async campusFindAll(clientAccess: IClientAccess): Promise<ICampusFindOneResultDto[]> {
+  async campusFindAll(clientAccess: IClientAccess, dto?: Dto.ISearchInputDto): Promise<Dto.ICampusFindAllResultDto> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
@@ -61,6 +64,77 @@ export class CampusService {
     // =========================================================
 
     await clientAccess.applyFilter('campus:find', qb, aliasCampus, null);
+
+    // =========================================================
+
+    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+      ...paginateConfig,
+      select: [
+        //
+        'id',
+        //
+        'nomeFantasia',
+        'razaoSocial',
+        'apelido',
+        'cnpj',
+        'dateCreated',
+        //
+        'endereco.cidade.id',
+        'endereco.cidade.nome',
+        'endereco.cidade.estado.id',
+        'endereco.cidade.estado.nome',
+        'endereco.cidade.estado.sigla',
+      ],
+      relations: {
+        endereco: {
+          cidade: {
+            estado: true,
+          },
+        },
+      },
+      sortableColumns: [
+        //
+        'id',
+        //
+        'nomeFantasia',
+        'razaoSocial',
+        'apelido',
+        'cnpj',
+        'dateCreated',
+        //
+        'endereco.cidade.id',
+        'endereco.cidade.nome',
+        'endereco.cidade.estado.id',
+        'endereco.cidade.estado.nome',
+        'endereco.cidade.estado.sigla',
+      ],
+      searchableColumns: [
+        //
+        'id',
+        //
+        'nomeFantasia',
+        'razaoSocial',
+        'apelido',
+        'cnpj',
+        'dateCreated',
+        //
+        'endereco.cidade.nome',
+        'endereco.cidade.estado.nome',
+        'endereco.cidade.estado.sigla',
+      ],
+      defaultSortBy: [
+        ['endereco.cidade.estado.nome', 'ASC'],
+        ['nomeFantasia', 'ASC'],
+        ['dateCreated', 'ASC'],
+      ],
+      filterableColumns: {
+        'endereco.cidade.id': [FilterOperator.EQ],
+        'endereco.cidade.nome': [FilterOperator.EQ],
+        'endereco.cidade.estado.id': [FilterOperator.EQ],
+        'endereco.cidade.estado.nome': [FilterOperator.EQ],
+        'endereco.cidade.estado.sigla': [FilterOperator.EQ],
+      },
+    });
 
     // =========================================================
 
@@ -72,18 +146,14 @@ export class CampusService {
 
     // =========================================================
 
-    qb.orderBy(`${aliasCampus}.dateCreated`, 'ASC');
+    paginated.data = await qb.andWhereInIds(map(paginated.data, 'id')).getMany();
 
     // =========================================================
 
-    const campi = await qb.getMany();
-
-    // =========================================================
-
-    return campi;
+    return paginated;
   }
 
-  async campusFindById(clientAccess: IClientAccess, dto: ICampusFindOneByIdInputDto, options?: ICampusQueryBuilderViewOptions, selection?: string[]): Promise<ICampusFindOneResultDto | null> {
+  async campusFindById(clientAccess: IClientAccess, dto: Dto.ICampusFindOneByIdInputDto, options?: ICampusQueryBuilderViewOptions, selection?: string[]): Promise<Dto.ICampusFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
@@ -118,7 +188,7 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdStrict(clientAccess: IClientAccess, dto: ICampusFindOneByIdInputDto) {
+  async campusFindByIdStrict(clientAccess: IClientAccess, dto: Dto.ICampusFindOneByIdInputDto) {
     const campus = await this.campusFindById(clientAccess, dto);
 
     if (!campus) {
@@ -130,10 +200,10 @@ export class CampusService {
 
   async campusFindByIdSimple(
     clientAccess: IClientAccess,
-    id: ICampusFindOneByIdInputDto['id'],
+    id: Dto.ICampusFindOneByIdInputDto['id'],
     options?: ICampusQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<ICampusFindOneResultDto | null> {
+  ): Promise<Dto.ICampusFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
@@ -168,7 +238,7 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdSimpleStrict(clientAccess: IClientAccess, id: ICampusFindOneByIdInputDto['id'], options?: ICampusQueryBuilderViewOptions, selection?: string[]) {
+  async campusFindByIdSimpleStrict(clientAccess: IClientAccess, id: Dto.ICampusFindOneByIdInputDto['id'], options?: ICampusQueryBuilderViewOptions, selection?: string[]) {
     const campus = await this.campusFindByIdSimple(clientAccess, id, options, selection);
 
     if (!campus) {
@@ -180,7 +250,7 @@ export class CampusService {
 
   //
 
-  async campusCreate(clientAccess: IClientAccess, dto: ICampusInputDto) {
+  async campusCreate(clientAccess: IClientAccess, dto: Dto.ICampusInputDto) {
     // =========================================================
 
     await clientAccess.ensurePermissionCheck('campus:create', { dto });
@@ -214,7 +284,7 @@ export class CampusService {
     return this.campusFindByIdStrict(clientAccess, { id: campus.id });
   }
 
-  async campusUpdate(clientAccess: IClientAccess, dto: ICampusUpdateDto) {
+  async campusUpdate(clientAccess: IClientAccess, dto: Dto.ICampusUpdateDto) {
     // =========================================================
 
     const currentCampus = await this.campusFindByIdStrict(clientAccess, {
@@ -260,7 +330,7 @@ export class CampusService {
 
   //
 
-  async campusDeleteOneById(clientAccess: IClientAccess, dto: ICampusDeleteOneByIdInputDto) {
+  async campusDeleteOneById(clientAccess: IClientAccess, dto: Dto.ICampusDeleteOneByIdInputDto) {
     // =========================================================
 
     await clientAccess.ensureCanReach('campus:delete', { dto }, this.campusRepository.createQueryBuilder(aliasCampus), dto.id);

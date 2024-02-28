@@ -57,10 +57,13 @@ export class CidadeService {
       select: [
         //
         'id',
+        //
         'nome',
+        //
         'estado.id',
         'estado.sigla',
         'estado.nome',
+        //
       ],
       relations: {
         estado: true,

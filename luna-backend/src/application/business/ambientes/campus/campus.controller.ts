@@ -1,8 +1,19 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ICampusFindOneResultDto, ICampusInputDto, ICampusUpdateDto } from '../../(dtos)';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import * as Dto from '../../(dtos)';
 import { IClientAccess } from '../../../../domain';
-import { ClientAccessHttp, DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam } from '../../../../infrastructure';
+import {
+  ClientAccessHttp,
+  DtoOperationCreate,
+  DtoOperationDelete,
+  DtoOperationFindAll,
+  DtoOperationFindOne,
+  DtoOperationUpdate,
+  HttpDtoBody,
+  HttpDtoParam,
+  getSearchInputFromPaginateQuery,
+} from '../../../../infrastructure';
 import { CampusService } from './campus.service';
 import { CampusOperations } from './dtos/campus.operations';
 
@@ -15,8 +26,8 @@ export class CampusController {
 
   @Get('/')
   @DtoOperationFindAll(CampusOperations.CAMPUS_FIND_ALL)
-  async campusFindAll(@ClientAccessHttp() clientAccess: IClientAccess): Promise<ICampusFindOneResultDto[]> {
-    return this.campusService.campusFindAll(clientAccess);
+  async campusFindAll(@ClientAccessHttp() clientAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.ICampusFindAllResultDto> {
+    return this.campusService.campusFindAll(clientAccess, getSearchInputFromPaginateQuery(query));
   }
 
   //
@@ -35,7 +46,7 @@ export class CampusController {
 
   @Post('/')
   @DtoOperationCreate(CampusOperations.CAMPUS_CREATE)
-  async campusCreate(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(CampusOperations.CAMPUS_CREATE) dto: ICampusInputDto) {
+  async campusCreate(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(CampusOperations.CAMPUS_CREATE) dto: Dto.ICampusInputDto) {
     return this.campusService.campusCreate(clientAccess, dto);
   }
 
@@ -48,9 +59,9 @@ export class CampusController {
     @HttpDtoParam(CampusOperations.CAMPUS_UPDATE, 'id')
     id: string,
     @HttpDtoBody(CampusOperations.CAMPUS_UPDATE)
-    dto: Omit<ICampusUpdateDto, 'id'>,
+    dto: Omit<Dto.ICampusUpdateDto, 'id'>,
   ) {
-    const dtoUpdate: ICampusUpdateDto = {
+    const dtoUpdate: Dto.ICampusUpdateDto = {
       ...dto,
       id,
     };

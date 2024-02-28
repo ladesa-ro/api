@@ -1,7 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import { ICampusDeleteOneByIdInputDto } from '../../../(dtos)';
-import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { CampusDtoProperties, CampusDtoValidationContract } from './campus.dto';
 
 // ======================================================
@@ -19,5 +19,30 @@ export class CampusDeleteOneByIdInputDto implements ICampusDeleteOneByIdInputDto
   @DtoProperty(CampusDtoProperties.CAMPUS_ID)
   id!: string;
 }
+
+export const CAMPUS_DELETE_ONE_BY_ID = createDtoOperationOptions({
+  description: 'Realiza a remoção de um campus por ID.',
+
+  gql: {
+    name: 'campusDeleteOneById',
+
+    inputDtoType: () => CampusDeleteOneByIdInputDto,
+    inputDtoValidationContract: CampusDeleteOneByIdInputValidationContract,
+
+    returnType: () => Boolean,
+  },
+
+  swagger: {
+    returnType: Boolean,
+
+    params: [
+      {
+        name: 'id',
+        description: 'ID do campus.',
+        validationContract: ValidationContractUuid,
+      },
+    ],
+  },
+});
 
 // ======================================================

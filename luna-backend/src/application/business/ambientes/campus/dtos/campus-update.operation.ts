@@ -2,10 +2,10 @@ import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as yup from 'yup';
 import { ICampusUpdateDto, IEnderecoInputDto } from '../../../(dtos)';
-import { DtoProperty, createValidationContract } from '../../../../../infrastructure';
-import { CampusFindOneByIdInputValidationContract } from './campus-find-one-by-id.input.dto';
+import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { CampusFindOneByIdInputValidationContract, CampusFindOneResultDto } from './campus-find-one.operation';
 import { CampusInputDtoValidationContract } from './campus-input.dto';
-import { CampusDtoProperties } from './campus.dto';
+import { CampusDto, CampusDtoProperties } from './campus.dto';
 
 // ======================================================
 
@@ -37,3 +37,31 @@ export class CampusUpdateInputDto implements ICampusUpdateDto {
 }
 
 export class CampusUpdateWithoutIdInputDto extends OmitType(CampusUpdateInputDto, ['id'] as const) {}
+export const CAMPUS_UPDATE = createDtoOperationOptions({
+  description: 'Realiza a alteração de um campus.',
+
+  gql: {
+    name: 'campusUpdate',
+
+    inputDtoType: () => CampusUpdateInputDto,
+    inputDtoValidationContract: CampusUpdateInputDtoValidationContract,
+
+    returnType: () => CampusDto,
+  },
+
+  swagger: {
+    inputBodyType: CampusUpdateWithoutIdInputDto,
+
+    inputBodyValidationContract: createValidationContract(() => CampusUpdateInputDtoValidationContract().omit(['id'])),
+
+    params: [
+      {
+        name: 'id',
+        description: 'ID do campus.',
+        validationContract: ValidationContractUuid,
+      },
+    ],
+
+    returnType: CampusFindOneResultDto,
+  },
+});

@@ -12,10 +12,10 @@ export const CampusDtoValidationContract = createValidationContract(() => {
 
     //
 
-    // TODO: strict validation
     nomeFantasia: ValidationContractString().required().nonNullable().min(1),
     razaoSocial: ValidationContractString().required().nonNullable().min(1),
     apelido: ValidationContractString().required().nonNullable().min(1),
+    // TODO: strict validation
     cnpj: ValidationContractString().required().nonNullable().min(1),
 
     //
