@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ICampusModel, IEnderecoModel, IEntityDate } from '../../../../../application/core-business/(dtos)';
+import { ICampusModel, IEnderecoModel, IEntityDate } from '../../../../../application/business/(dtos)';
 import { UsuarioVinculoCampusEntity } from '../autenticacao/usuario-vinculo-campus.entity';
 import { EnderecoEntity } from '../endereco.entity';
 

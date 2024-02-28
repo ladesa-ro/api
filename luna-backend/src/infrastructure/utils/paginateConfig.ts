@@ -1,4 +1,3 @@
-
 export const paginateConfig: any = {
   /**
    * Required: true (must have a minimum of one column)

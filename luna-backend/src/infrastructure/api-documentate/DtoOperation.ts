@@ -16,7 +16,7 @@ export interface IDtoOperationOptions {
     name: string;
     returnType: ReturnTypeFunc;
 
-    inputNullable?:boolean;
+    inputNullable?: boolean;
     inputDtoType?: ReturnTypeFunc;
     inputDtoValidationContract?: IValidationContract<any, Schema>;
   };
@@ -72,7 +72,7 @@ export const DtoOperationCommon = (options: IDtoOperationOptions) => {
         return ApiQuery({
           name: query,
           type: 'string',
-          required:false,
+          required: false,
         });
       } else {
         return ApiQuery({

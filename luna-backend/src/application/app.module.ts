@@ -3,10 +3,10 @@ import { InfrastructureModule } from '../infrastructure/infrastructure.module';
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
-import { CoreBusinessModule } from './core-business/core.module';
+import { BusinessModule } from './business/business.module';
 
 @Module({
-  imports: [InfrastructureModule, CoreBusinessModule],
+  imports: [InfrastructureModule, BusinessModule],
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })

@@ -289,7 +289,7 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
       kind: 'filter',
       action: 'vinculo:find',
 
-      filter(context, alias) {
+      filter() {
         return (qb) => {
           qb.where('TRUE');
         };

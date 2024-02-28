@@ -1,4 +1,4 @@
-import { IUsuarioVinculoCampusModel, IEntityDate } from 'application/core-business/(dtos)';
+import { IEntityDate, IUsuarioVinculoCampusModel } from 'application/business/(dtos)';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { UsuarioEntity } from '../autenticacao/usuario.entity';
