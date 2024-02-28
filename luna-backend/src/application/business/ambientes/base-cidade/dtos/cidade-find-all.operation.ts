@@ -39,6 +39,8 @@ export const CIDADE_FIND_ALL = createDtoOperationOptions({
     returnType: CidadeFindAllResultDto,
     queries: [
       //
+      'page',
+      'limit',
       'search',
       'sortBy',
       'filter.estado.id',
