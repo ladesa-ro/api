@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'campus_bloco_ambiente';
+const tableName = 'usuario_vinculo_campus';
 
-export class CreateTableCampusBlocoAmbiente1708816227027 implements MigrationInterface {
+export class CreateTableUsuarioVinculoCampus1708901842316 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -19,40 +19,30 @@ export class CreateTableCampusBlocoAmbiente1708816227027 implements MigrationInt
           //
 
           {
-            name: 'nome',
+            name: 'ativo',
+            type: 'boolean',
+            isNullable: false,
+            default: 'TRUE',
+          },
+
+          {
+            name: 'cargo',
             type: 'text',
             isNullable: false,
-          },
-
-          {
-            name: 'descricao',
-            type: 'text',
-            isNullable: false,
-          },
-
-          {
-            name: 'codigo',
-            type: 'text',
-            isNullable: false,
-          },
-
-          {
-            name: 'capacidade',
-            type: 'int',
-            isNullable: true,
-          },
-
-          {
-            name: 'tipo',
-            type: 'text',
-            isNullable: true,
           },
 
           //
 
           {
-            name: 'id_campus_bloco_fk',
+            name: 'id_campus_fk',
             type: 'uuid',
+            isNullable: false,
+          },
+
+          {
+            name: 'id_usuario_fk',
+            type: 'uuid',
+            isNullable: false,
           },
 
           //
@@ -69,6 +59,7 @@ export class CreateTableCampusBlocoAmbiente1708816227027 implements MigrationInt
             isNullable: false,
             default: 'NOW()',
           },
+
           {
             name: 'date_deleted',
             type: 'timestamptz',
@@ -78,10 +69,16 @@ export class CreateTableCampusBlocoAmbiente1708816227027 implements MigrationInt
 
         foreignKeys: [
           {
-            name: `fk__${tableName}__pertence_a__campus_bloco`,
-            columnNames: ['id_campus_bloco_fk'],
+            name: `fk__${tableName}__campus`,
+            columnNames: ['id_campus_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'campus_bloco',
+            referencedTableName: 'campus',
+          },
+          {
+            name: `fk__${tableName}__usuario`,
+            columnNames: ['id_usuario_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'usuario',
           },
         ],
       }),
@@ -96,6 +93,6 @@ export class CreateTableCampusBlocoAmbiente1708816227027 implements MigrationInt
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable(`${tableName}`, true, true, true);
+    await queryRunner.dropTable(tableName, true, true, true);
   }
 }

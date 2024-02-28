@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IEntityDate, IUsuarioModel } from '../../../../../application/core-business/(dtos)';
+import { UsuarioVinculoCampusEntity } from './usuario-vinculo-campus.entity';
 
 @Entity('usuario')
 export class UsuarioEntity implements IUsuarioModel {
@@ -19,6 +20,11 @@ export class UsuarioEntity implements IUsuarioModel {
 
   @Column({ name: 'is_super_user', type: 'boolean', nullable: false })
   isSuperUser!: boolean;
+
+  //
+
+  @OneToMany(() => UsuarioVinculoCampusEntity, (vinculo) => vinculo.usuario)
+  vinculos!: UsuarioVinculoCampusEntity[];
 
   //
 

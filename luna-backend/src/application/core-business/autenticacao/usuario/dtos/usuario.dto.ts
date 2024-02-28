@@ -63,7 +63,7 @@ export const UsuarioDtoProperties = createDtoPropertyMap({
 
 // ======================================================
 
-@ObjectType('Usuairo')
+@ObjectType('Usuario')
 export class UsuarioDto implements IUsuarioModel {
   @DtoProperty(UsuarioDtoProperties.USUARIO_ID)
   id!: string;

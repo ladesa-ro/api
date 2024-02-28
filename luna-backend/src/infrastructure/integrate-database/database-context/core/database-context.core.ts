@@ -2,6 +2,7 @@ import { DataSource, EntityManager } from 'typeorm';
 import { createAmbienteRepository } from '../../typeorm/repositories/ambientes/ambiente.repository';
 import { createBlocoRepository } from '../../typeorm/repositories/ambientes/bloco.repository';
 import { createCampusRepository } from '../../typeorm/repositories/ambientes/campus.repository';
+import { createUsuarioVinculoCampusRepository } from '../../typeorm/repositories/autenticacao/usuario-vinculo-campus.repository';
 import { createUsuarioRepository } from '../../typeorm/repositories/autenticacao/usuario.repository';
 import { createBaseCidadeRepository } from '../../typeorm/repositories/base-cidade.repository';
 import { createBaseEstadoRepository } from '../../typeorm/repositories/base-estado.repository';
@@ -43,6 +44,10 @@ export class DatabaseContextCore {
 
   get usuarioRepository() {
     return createUsuarioRepository(this.ds);
+  }
+
+  get usuarioVinculoCampusRepository() {
+    return createUsuarioVinculoCampusRepository(this.ds).extend({});
   }
 
   // =====================================================

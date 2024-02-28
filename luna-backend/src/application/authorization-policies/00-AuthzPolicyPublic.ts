@@ -228,4 +228,19 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
   }
 
   // ========================================================
+
+  get vinculoFind(): Authz.IAuthzStatementVinculoFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'vinculo:find',
+
+      filter(context, alias) {
+        return (qb) => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  // ========================================================
 }

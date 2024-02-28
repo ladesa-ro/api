@@ -38,6 +38,10 @@ export type IAuthzStatementUsuarioFind = IBaseAuthzFilter<'usuario:find'>;
 export type IAuthzStatementUsuarioUpdate = IBaseAuthzFilter<'usuario:update', { dto: Dto.IUsuarioUpdateDto }>;
 export type IAuthzStatementUsuarioDelete = IBaseAuthzFilter<'usuario:delete', { dto: Dto.IUsuarioDeleteOneByIdInputDto }>;
 
+// =====================
+
+export type IAuthzStatementVinculoFind = IBaseAuthzFilter<'vinculo:find'>;
+
 // ===================================================================================
 
 export type IAuthzStatementCheck = IAuthzStatementCampusCreate | IAuthzStatementBlocoCreate | IAuthzStatementAmbienteCreate | IAuthzStatementUsuarioCreate;
@@ -65,7 +69,8 @@ export type IAuthzStatementFind =
   //
   | IAuthzStatementUsuarioFind
   | IAuthzStatementUsuarioUpdate
-  | IAuthzStatementUsuarioDelete;
+  | IAuthzStatementUsuarioDelete
+  | IAuthzStatementVinculoFind;
 
 // =====================
 

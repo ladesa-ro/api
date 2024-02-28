@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ICampusModel, IEnderecoModel, IEntityDate } from '../../../../../application/core-business/(dtos)';
+import { UsuarioVinculoCampusEntity } from '../autenticacao/usuario-vinculo-campus.entity';
 import { EnderecoEntity } from '../endereco.entity';
 
 @Entity('campus')
@@ -26,6 +27,11 @@ export class CampusEntity implements ICampusModel {
   @ManyToOne(() => EnderecoEntity)
   @JoinColumn({ name: 'id_endereco_fk' })
   endereco!: IEnderecoModel;
+
+  //
+
+  @OneToMany(() => UsuarioVinculoCampusEntity, (vinculo) => vinculo.campus)
+  vinculos!: UsuarioVinculoCampusEntity[];
 
   //
 

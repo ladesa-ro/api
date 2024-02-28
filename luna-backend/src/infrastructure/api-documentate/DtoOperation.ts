@@ -1,6 +1,6 @@
 import { Type, applyDecorators } from '@nestjs/common';
 import { Mutation, Query, QueryOptions, ReturnTypeFunc } from '@nestjs/graphql';
-import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { Schema } from 'yup';
 import { IValidationContract } from '../validation';
 
@@ -30,7 +30,18 @@ export interface IDtoOperationOptions {
       name: string;
       description: string;
       validationContract: IValidationContract;
+      required?: boolean;
     }[];
+
+    queries?: (
+      | string
+      | {
+          name: string;
+          description: string;
+          validationContract: IValidationContract;
+          required?: boolean;
+        }
+    )[];
   };
 }
 
@@ -50,9 +61,26 @@ export const DtoOperationCommon = (options: IDtoOperationOptions) => {
     ...(options.swagger.params ?? []).map((param) =>
       ApiParam({
         name: param.name,
+        required: param.required,
         description: param.description,
       }),
     ),
+
+    ...(options.swagger.queries ?? []).map((query) => {
+      if (typeof query === 'string') {
+        return ApiQuery({
+          name: query,
+          type: 'string',
+          required:false,
+        });
+      } else {
+        return ApiQuery({
+          name: query.name,
+          required: query.required,
+          description: query.description,
+        });
+      }
+    }),
   );
 };
 

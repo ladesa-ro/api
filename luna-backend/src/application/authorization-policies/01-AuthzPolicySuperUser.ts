@@ -283,4 +283,19 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
   }
 
   // ========================================================
+
+  get vinculoFind(): Authz.IAuthzStatementVinculoFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'vinculo:find',
+
+      filter(context, alias) {
+        return (qb) => {
+          qb.where('TRUE');
+        };
+      },
+    });
+  }
+
+  // ========================================================
 }

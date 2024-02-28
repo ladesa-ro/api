@@ -26,6 +26,8 @@ export abstract class BaseAuthzPolicy {
   abstract usuarioUpdate: Authz.IAuthzStatementUsuarioUpdate;
   abstract usuarioDelete: Authz.IAuthzStatementUsuarioDelete;
 
+  abstract vinculoFind: Authz.IAuthzStatementVinculoFind;
+
   get statements() {
     return [
       //
@@ -53,6 +55,7 @@ export abstract class BaseAuthzPolicy {
       this.usuarioUpdate,
       this.usuarioDelete,
       //
+      this.vinculoFind,
     ];
   }
 }

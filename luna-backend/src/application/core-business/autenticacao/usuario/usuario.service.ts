@@ -21,8 +21,8 @@ export type IUsuarioQueryBuilderViewOptions = never;
 @Injectable()
 export class UsuarioService {
   constructor(
-    private databaseContext: DatabaseContextService,
     private keycloakService: KeycloakService,
+    private databaseContext: DatabaseContextService,
   ) {}
 
   //
@@ -129,6 +129,53 @@ export class UsuarioService {
 
   async usuarioFindByIdStrict(clientAccess: IClientAccess, dto: Dtos.IUsuarioFindOneByIdInputDto) {
     const usuario = await this.usuarioFindById(clientAccess, dto);
+
+    if (!usuario) {
+      throw new NotFoundException();
+    }
+
+    return usuario;
+  }
+
+  async usuarioFindByIdSimple(
+    clientAccess: IClientAccess,
+    id: Dtos.IUsuarioFindOneByIdInputDto['id'],
+    options?: IUsuarioQueryBuilderViewOptions,
+    selection?: string[],
+  ): Promise<Dtos.IUsuarioFindOneResultDto | null> {
+    // =========================================================
+
+    const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
+
+    // =========================================================
+
+    await clientAccess.applyFilter('usuario:find', qb, aliasUsuario, null);
+
+    // =========================================================
+
+    qb.andWhere(`${aliasUsuario}.id = :id`, { id });
+
+    // =========================================================
+
+    qb.select([]);
+
+    UsuarioService.UsuarioQueryBuilderView(aliasUsuario, qb);
+
+    if (selection) {
+      qb.select(selection);
+    }
+
+    // =========================================================
+
+    const usuario = await qb.getOne();
+
+    // =========================================================
+
+    return usuario;
+  }
+
+  async usuarioFindByIdSimpleStrict(clientAccess: IClientAccess, id: Dtos.IUsuarioFindOneByIdInputDto['id'], options?: IUsuarioQueryBuilderViewOptions, selection?: string[]) {
+    const usuario = await this.usuarioFindByIdSimple(clientAccess, id, options, selection);
 
     if (!usuario) {
       throw new NotFoundException();
