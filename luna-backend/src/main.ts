@@ -60,6 +60,8 @@ async function bootstrap() {
 
   const port = environmentConfigService.getRuntimePort();
 
+  app.enableCors();
+
   await app.listen(port);
 }
 
