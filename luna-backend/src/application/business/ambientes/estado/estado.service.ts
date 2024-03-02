@@ -18,7 +18,7 @@ export class EstadoService {
   constructor(private databaseContext: DatabaseContextService) {}
 
   get baseEstadoRepository() {
-    return this.databaseContext.baseEstadoRepository;
+    return this.databaseContext.estadoRepository;
   }
 
   //

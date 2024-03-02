@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
-import { IEstadoModel } from '../../../../application/business/(dtos)';
-import { BaseCidadeEntity } from './cidade.entity';
+import { IEstadoModel } from '../../../../../application/business/(dtos)';
+import { CidadeEntity } from './cidade.entity';
 
 @Entity('base_estado')
-export class BaseEstadoEntity implements IEstadoModel {
+export class EstadoEntity implements IEstadoModel {
   @PrimaryColumn({ name: 'id' })
   id!: number;
 
@@ -17,6 +17,6 @@ export class BaseEstadoEntity implements IEstadoModel {
 
   // ...
 
-  @OneToMany(() => BaseCidadeEntity, (cidade) => cidade.estado)
-  cidades!: BaseCidadeEntity[];
+  @OneToMany(() => CidadeEntity, (cidade) => cidade.estado)
+  cidades!: CidadeEntity[];
 }

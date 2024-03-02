@@ -8,7 +8,7 @@ import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
-import { EstadoService, IEstadoQueryBuilderViewOptions } from '../base-estado/estado.service';
+import { EstadoService, IEstadoQueryBuilderViewOptions } from '../estado/estado.service';
 
 const aliasCidade = 'cidade';
 
@@ -36,7 +36,7 @@ export class CidadeService {
   //
 
   get cidadeRepository() {
-    return this.databaseContextService.baseCidadeRepository;
+    return this.databaseContextService.cidadeRepository;
   }
 
   //
@@ -101,7 +101,7 @@ export class CidadeService {
   async findById(clientAccess: IClientAccess, dto: Dto.ICidadeFindOneByIdInputDto) {
     // =========================================================
 
-    const { baseCidadeRepository } = this.databaseContextService;
+    const { cidadeRepository: baseCidadeRepository } = this.databaseContextService;
 
     // =========================================================
 

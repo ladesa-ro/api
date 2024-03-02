@@ -1,5 +1,5 @@
 import { IDatedObject, IEntityDate, IObjectUuid } from '../../(core)';
-import { ICidadeModel } from '../base-cidade';
+import { ICidadeModel } from '../cidade';
 
 export interface IEnderecoModel extends IObjectUuid, IDatedObject {
   //

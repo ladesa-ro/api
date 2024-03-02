@@ -2,7 +2,7 @@ import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import { ICidadeModel, IEstadoFindOneResultDto } from '../../../(dtos)';
 import { CommonPropertyId, DtoProperty, ValidationContractId, ValidationContractString, createDtoPropertyMap, createDtoPropertyOptions, createValidationContract } from '../../../../../infrastructure';
-import { EstadoDto, EstadoFindOneResultDto } from '../../base-estado/dtos';
+import { EstadoDto, EstadoFindOneResultDto } from '../../estado/dtos';
 
 // ======================================================
 

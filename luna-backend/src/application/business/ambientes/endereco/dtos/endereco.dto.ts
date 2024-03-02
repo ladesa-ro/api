@@ -13,7 +13,7 @@ import {
   createDtoPropertyMap,
   createValidationContract,
 } from '../../../../../infrastructure';
-import { CidadeDto, CidadeFindOneResultDto } from '../../base-cidade/dtos';
+import { CidadeDto, CidadeFindOneResultDto } from '../../cidade/dtos';
 
 // ======================================================
 

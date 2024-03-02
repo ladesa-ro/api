@@ -2,11 +2,11 @@ import { DataSource, EntityManager } from 'typeorm';
 import { createAmbienteRepository } from '../../typeorm/repositories/ambientes/ambiente.repository';
 import { createBlocoRepository } from '../../typeorm/repositories/ambientes/bloco.repository';
 import { createCampusRepository } from '../../typeorm/repositories/ambientes/campus.repository';
+import { createCidadeRepository } from '../../typeorm/repositories/ambientes/cidade.repository';
+import { createEnderecoRepository } from '../../typeorm/repositories/ambientes/endereco.repository';
+import { createEstadoRepository } from '../../typeorm/repositories/ambientes/estado.repository';
 import { createUsuarioVinculoCampusRepository } from '../../typeorm/repositories/autenticacao/usuario-vinculo-campus.repository';
 import { createUsuarioRepository } from '../../typeorm/repositories/autenticacao/usuario.repository';
-import { createBaseCidadeRepository } from '../../typeorm/repositories/base-cidade.repository';
-import { createBaseEstadoRepository } from '../../typeorm/repositories/base-estado.repository';
-import { createEnderecoRepository } from '../../typeorm/repositories/endereco.repository';
 
 export class DatabaseContextCore {
   constructor(readonly ds: DataSource | EntityManager) {}
@@ -54,12 +54,12 @@ export class DatabaseContextCore {
   // == [ AMBIENTES ] ====================================
   // =====================================================
 
-  get baseEstadoRepository() {
-    return createBaseEstadoRepository(this.ds);
+  get estadoRepository() {
+    return createEstadoRepository(this.ds);
   }
 
-  get baseCidadeRepository() {
-    return createBaseCidadeRepository(this.ds);
+  get cidadeRepository() {
+    return createCidadeRepository(this.ds);
   }
 
   get enderecoRepository() {

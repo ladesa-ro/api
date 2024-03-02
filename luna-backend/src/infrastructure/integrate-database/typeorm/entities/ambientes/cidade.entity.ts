@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { ICidadeModel } from '../../../../application/business/(dtos)';
-import { BaseEstadoEntity } from './estado.entity';
+import { EstadoEntity } from './estado.entity';
+import { ICidadeModel } from '../../../../../application/business/(dtos)';
 
 @Entity('base_cidade')
-export class BaseCidadeEntity implements ICidadeModel {
+export class CidadeEntity implements ICidadeModel {
   @PrimaryColumn({ name: 'id' })
   id!: number;
 
@@ -14,7 +14,7 @@ export class BaseCidadeEntity implements ICidadeModel {
 
   // ...
 
-  @ManyToOne(() => BaseEstadoEntity)
+  @ManyToOne(() => EstadoEntity)
   @JoinColumn({ name: 'id_estado_fk' })
-  estado!: BaseEstadoEntity;
+  estado!: EstadoEntity;
 }

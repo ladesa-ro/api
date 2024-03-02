@@ -6,7 +6,7 @@ import { IClientAccess } from '../../../../domain';
 import { parsePayloadYup } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
-import { CidadeService, ICidadeQueryBuilderViewOptions } from '../base-cidade/cidade.service';
+import { CidadeService, ICidadeQueryBuilderViewOptions } from '../cidade/cidade.service';
 import { EnderecoInputDtoValidationContract } from './dtos';
 
 // ============================================================================
