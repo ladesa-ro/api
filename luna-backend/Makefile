@@ -1,26 +1,32 @@
+
+d_network=sisgea-luna-net
+d_container_app=sisgea-luna-backend
+
+compose_options = --file devops/development/docker-compose.yml -p sisgea-luna-backend
+
 dev-setup:
 
 	$(shell (cd devops/development; find . -type f -name "*.example" -exec sh -c 'cp -n {} $$(basename {} .example)' \;))
 
-	$(shell (bash -c "sudo docker network create sisgea-luna-net &>/dev/null"))
+	$(shell (bash -c "sudo docker network create $(d_network) &>/dev/null"))
 
 dev-up:
 	make dev-setup;
-	sudo docker compose --file devops/development/docker-compose.yml -p sisgea-luna-backend up -d --remove-orphans;
+	sudo docker compose $(compose_options) up -d --remove-orphans;
 
 dev-shell:
 	make dev-up;
-	sudo docker compose --file devops/development/docker-compose.yml -p sisgea-luna-backend exec sisgea-luna-backend bash;
+	sudo docker compose $(compose_options) exec $(d_container_app) bash;
 
 dev-down:
-	sudo docker compose --file devops/development/docker-compose.yml -p sisgea-luna-backend stop
+	sudo docker compose $(compose_options) stop
 
 dev-logs:
-	sudo docker compose --file devops/development/docker-compose.yml -p sisgea-luna-backend logs -f
+	sudo docker compose $(compose_options) logs -f
 
 
 dev-start:
 	make dev-down;
 	make dev-up;
 
-	sudo docker compose --file devops/development/docker-compose.yml -p sisgea-luna-backend exec -u node --no-TTY -d sisgea-luna-backend bash -c "npm i && npm run db:migrate && npm run start:dev" \&;
+	sudo docker compose $(compose_options) exec -u node --no-TTY -d $(d_container_app) bash -c "npm i && npm run db:migrate && npm run start:dev" \&;
