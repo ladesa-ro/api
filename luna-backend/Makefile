@@ -2,7 +2,7 @@
 d_network=sisgea-luna-net
 d_container_app=sisgea-luna-backend
 
-compose_options = --file devops/development/docker-compose.yml -p sisgea-luna-backend
+compose_options=--file devops/development/docker-compose.yml -p sisgea-luna-backend
 
 dev-setup:
 
@@ -15,17 +15,21 @@ dev-up:
 	sudo docker compose $(compose_options) up -d --remove-orphans;
 
 dev-shell:
+	make dev-setup;
 	make dev-up;
 	sudo docker compose $(compose_options) exec $(d_container_app) bash;
 
 dev-down:
+	make dev-setup;
 	sudo docker compose $(compose_options) stop
 
 dev-logs:
+	make dev-setup;
 	sudo docker compose $(compose_options) logs -f
 
 
 dev-start:
+	make dev-setup;
 	make dev-down;
 	make dev-up;
 
