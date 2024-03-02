@@ -4,7 +4,7 @@ RUN apt install -y git
 WORKDIR /luna-container/luna-backend
 
 FROM base as prod-deps
-COPY package.json package-lock.json ./
+COPY package.json .npmrc package-lock.json ./
 RUN npm install --omit=dev
 
 FROM prod-deps as dev-deps
