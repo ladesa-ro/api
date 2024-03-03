@@ -49,9 +49,9 @@ async function bootstrap() {
   config.addBearerAuth();
 
   config.addTag("API", "SISGEA - API")
-  config.addTag("Autenticação")
-  config.addTag("Usuários", "Autenticação / Usuários")
-  config.addTag("Vínculos", "Autenticação / Usuários / Vínculos")
+  config.addTag("Autenticacao")
+  config.addTag("Usuarios", "Autenticação / Usuários")
+  config.addTag("Vinculos", "Autenticação / Usuários / Vínculos")
   config.addTag("Estados", "Ambientes / Estados")
   config.addTag("Cidades", "Ambientes / Cidades")
   config.addTag("Campi", "Ambientes / Campi")

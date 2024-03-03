@@ -8,7 +8,7 @@ import { UsuarioVinculoCampusOperations } from './dtos';
 import { UsuarioVinculoCampusService } from './usuario-vinculo-campus.service';
 
 @Controller('/vinculos')
-@ApiTags('Vínculos')
+@ApiTags('Vinculos')
 export class UsuarioVinculoCampusController {
   constructor(private usuarioVinculoCampusService: UsuarioVinculoCampusService) {}
 
