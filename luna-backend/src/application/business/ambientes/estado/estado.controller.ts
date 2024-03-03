@@ -7,7 +7,7 @@ import { ClientAccessHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoPara
 import { EstadoOperations } from './dtos/estado.operations';
 import { EstadoService } from './estado.service';
 
-@ApiTags('05 Ambientes / Base / Estado')
+@ApiTags('Estados')
 @Controller('/base/estados')
 export class EstadoController {
   constructor(

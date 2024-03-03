@@ -17,7 +17,7 @@ import {
 import { BlocoService } from './bloco.service';
 import { BlocoOperations } from './dtos/bloco.operations';
 
-@ApiTags('08 Ambientes / Campus / Bloco')
+@ApiTags('Blocos')
 @Controller('/blocos')
 export class BlocoController {
   constructor(private blocoService: BlocoService) {}
