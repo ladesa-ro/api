@@ -2,7 +2,8 @@ name: deploy to the development environment
 
 on:
   push:
-    branches: [development]
+    branches: [development---naomais]
+    # branches: [development]
 
 permissions:
   contents: read # for checkout
