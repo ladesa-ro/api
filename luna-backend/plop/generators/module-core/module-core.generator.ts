@@ -28,7 +28,6 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
     ]);
 
     const nameKebab = ChangeCase.kebabCase(awsGeneral.name);
-    const nameCamel = ChangeCase.camelCase(awsGeneral.name);
     const namePascal = ChangeCase.pascalCase(awsGeneral.name);
 
     const moduleStructure = await inquirer.prompt([
