@@ -38,145 +38,84 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         message: 'Estrutura do módulo',
         choices: [
           {
-            name: `src/application/business/${parentPrefix}${nameKebab}/${nameKebab}.service.ts`,
+            name: `Incluir ${parentPrefix}${nameKebab}/${nameKebab}.service.ts`,
             value: 'service',
+            checked: true,
           },
           {
-            name: `src/application/business/${parentPrefix}${nameKebab}/${nameKebab}.controller.ts`,
+            name: `Incluir ${parentPrefix}${nameKebab}/${nameKebab}.controller.ts`,
             value: 'controller',
+            checked: true,
           },
           {
-            name: `src/application/business/${parentPrefix}${nameKebab}/${nameKebab}.resolver.ts`,
+            name: `Incluir ${parentPrefix}${nameKebab}/${nameKebab}.resolver.ts`,
             value: 'resolver',
+            checked: true,
+          },
+          {
+            name: `Incluir application/bussiness/(dtos)/${parentPrefix}${nameKebab}/I${namePascal}Model.ts`,
+            short: `I${namePascal}Model.ts`,
+            value: 'ifc-model',
+            checked: true,
           },
         ],
       },
     ]);
 
-    const generalResources = await inquirer.prompt([
+    const resourcesToHandle = await inquirer.prompt([
       {
         type: 'checkbox',
         name: 'recursos',
-        message: 'Recursos gerais para incluir.',
+        message: 'Ações para incluir',
         choices: [
-          new inquirer.Separator(' = INTERFACES = '),
           {
-            name: `[ifc] application/bussiness/(dtos)/${parentPrefix}${nameKebab}/I${namePascal}Model.ts`,
-            short: `I${namePascal}Model.ts`,
-            value: 'ifc-model',
+            name: `${namePascal} - Create`,
+            short: `${namePascal} - Create`,
+            value: 'handle-resource-create',
           },
+          {
+            name: `${namePascal} - Read`,
+            short: `${namePascal} - Read`,
+            value: 'handle-resource-read',
+          },
+          {
+            name: `${namePascal} - Update`,
+            short: `${namePascal} - Update`,
+            value: 'handle-resource-update',
+          },
+          {
+            name: `${namePascal} - Delete`,
+            short: `${namePascal} - Delete`,
+            value: 'handle-resource-delete',
+          },
+        ],
+      },
+    ]);
 
+    const databaseResources = await inquirer.prompt([
+      {
+        type: 'checkbox',
+        name: 'recursos',
+        message: 'Integração ao banco de dados.',
+        choices: [
           new inquirer.Separator(' = DATABASE = '),
 
           {
-            name: `[db] typeorm/entities/${parentPrefix}${nameKebab}.entity.ts`,
+            name: `[db] Entity - entities/${parentPrefix}${nameKebab}.entity.ts`,
             short: `${namePascal}Entity.ts`,
             value: 'db-entity',
           },
 
           {
-            name: `[db] typeorm/repositories/${parentPrefix}${nameKebab}.repository.ts`,
+            name: `[db] Repository - repositories/${parentPrefix}${nameKebab}.repository.ts`,
             short: `${nameKebab}.repository.ts`,
             value: 'db-repository',
           },
 
           {
-            name: `[db] typeorm/migrations/${timestamp}-${parentKebab}-create-table-${nameKebab}.ts`,
+            name: `[db] Migration Create Table - migrations/${timestamp}-${parentKebab}-create-table-${nameKebab}.ts`,
             short: `${timestamp}-${parentKebab}-create-table-${nameKebab}.ts`,
             value: 'db-migration-create-table',
-          },
-
-          {
-            name: `[db] DatabaseContext#${nameCamel}Repository`,
-            short: `DatabaseContext#${nameCamel}Repository`,
-            value: 'db-database-context',
-          },
-        ],
-      },
-    ]);
-
-    const actions = await inquirer.prompt([
-      {
-        type: 'checkbox',
-        name: 'recursos',
-        message: 'Ações para incluir.',
-        choices: [
-          new inquirer.Separator(' = INPUT = '),
-
-          {
-            name: `[ifc] application/bussiness/(dtos)/${parentPrefix}${nameKebab}/${nameKebab}-input/I${namePascal}InputDto.ts`,
-            short: `${namePascal}-input/I${namePascal}InputDto.ts`,
-            value: 'ifc-input',
-          },
-
-          {
-            name: `[dto] application/bussiness/${parentPrefix}${nameKebab}/dtos/${nameKebab}-input.dto.ts`,
-            short: `dtos/${nameKebab}-input.dto.ts`,
-            value: 'dto-input',
-          },
-
-          new inquirer.Separator(' = INPUT / CREATE = '),
-
-          {
-            name: `[ifc] application/bussiness/(dtos)/${parentPrefix}${nameKebab}/${nameKebab}-input/I${namePascal}CreateDto.ts`,
-            short: `${namePascal}-input/I${namePascal}CreateDto.ts`,
-            value: 'ifc-create',
-          },
-
-          new inquirer.Separator(' = INPUT / UPDATE = '),
-
-          {
-            name: `[ifc] application/bussiness/(dtos)/${parentPrefix}${nameKebab}/${nameKebab}-input/I${namePascal}Update.ts`,
-            short: `${namePascal}-input/I${namePascal}Update.ts`,
-            value: 'ifc-update',
-          },
-
-          {
-            name: `[dto] application/bussiness/${parentPrefix}${nameKebab}/dtos/${nameKebab}-update.input.dto.ts`,
-            short: `dtos/${namePascal}-update.input.dto.ts`,
-            value: 'dto-update',
-          },
-
-          new inquirer.Separator(' = FIND ONE = '),
-
-          {
-            name: `[dto] application/bussiness/${parentPrefix}${nameKebab}/dtos/${nameKebab}-find-one.result.dto.ts`,
-            short: `dtos/${namePascal}-find-one.result.dto.ts`,
-            value: 'dto-find-one-result',
-          },
-
-          {
-            name: `[ifc] application/bussiness/(dtos)/${parentPrefix}${nameKebab}/${nameKebab}-find-one/I${namePascal}FindOneResultDto.ts`,
-            short: `${namePascal}-find-one/I${namePascal}FindOneResultDto.ts`,
-            value: 'ifc-find-one-result',
-          },
-
-          new inquirer.Separator(' = FIND ONE BY ID = '),
-
-          {
-            name: `[dto] application/bussiness/${parentPrefix}${nameKebab}/dtos/${nameKebab}-find-one-by-id.input.dto.ts`,
-            short: `dtos/${namePascal}-find-one-by-id.input.dto.ts`,
-            value: 'dto-find-one-by-id-input',
-          },
-
-          {
-            name: `[ifc] application/bussiness/(dtos)/${parentPrefix}${nameKebab}/${nameKebab}-find-one/I${namePascal}FindOneByIdInputDto.ts`,
-            short: `${namePascal}-find-one/I${namePascal}FindOneByIdInputDto.ts`,
-            value: 'ifc-find-one-by-id-input',
-          },
-
-          new inquirer.Separator(' = DELETE = '),
-
-          {
-            name: `[ifc] application/bussiness/(dtos)/${parentPrefix}${nameKebab}/${nameKebab}-delete/I${namePascal}DeleteOneByIdInputDtoDto.ts`,
-            short: `${namePascal}-delete/I${namePascal}DeleteOneByIdInputDtoDto.ts`,
-            value: 'ifc-delete-one-by-id-input',
-          },
-
-          {
-            name: `[dto] application/bussiness/${parentPrefix}${nameKebab}/dtos/${nameKebab}-delete-one-by-id.input.dto.ts`,
-            short: `dtos/${namePascal}-delete-one-by-id.input.dto.ts`,
-            value: 'dto-delete-one-by-id-input',
           },
         ],
       },
@@ -185,8 +124,8 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
     return {
       ...awsGeneral,
       ...moduleStructure,
-      ...generalResources,
-      ...actions,
+      ...databaseResources,
+      ...resourcesToHandle,
     };
   },
 
