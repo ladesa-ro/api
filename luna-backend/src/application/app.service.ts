@@ -9,13 +9,11 @@ export class AppService {
       return {
         service: 'sisgea-luna-backend',
         status: 'up',
-        egg: 'ae caralho consegui subir essa porra com https no meu notebbok com deploy automatico',
       };
     } else {
       return {
         service: 'sisgea-luna-backend',
         status: 'up',
-        egg: null,
       };
     }
   }
