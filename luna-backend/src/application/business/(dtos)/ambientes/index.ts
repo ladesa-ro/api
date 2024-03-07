@@ -4,4 +4,3 @@ export * from './campus';
 export * from './cidade';
 export * from './endereco';
 export * from './estado';
-

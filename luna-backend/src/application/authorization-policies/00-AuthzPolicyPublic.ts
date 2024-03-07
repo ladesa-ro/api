@@ -127,6 +127,58 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
 
   // ========================================================
 
+  // ========================================================
+
+  get modalidadeFind(): Authz.IAuthzStatementModalidadeFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'modalidade:find',
+
+      filter(context, alias) {
+        return (qb) => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get modalidadeCreate(): Authz.IAuthzStatementModalidadeCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'modalidade:create',
+
+      async withCheck(context) {
+        console.debug('AuthzPolicyPublic -- modalidade:create', { context });
+        return true;
+      },
+    });
+  }
+
+  get modalidadeUpdate(): Authz.IAuthzStatementModalidadeUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'modalidade:update',
+      filter() {
+        return (qb, alias = 'modalidade') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get modalidadeDelete(): Authz.IAuthzStatementModalidadeDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'modalidade:delete',
+      filter() {
+        return (qb, alias = 'modalidade') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+  // ========================================================
+
   get ambienteFind(): Authz.IAuthzStatementAmbienteFind {
     return createStatement({
       kind: 'filter',

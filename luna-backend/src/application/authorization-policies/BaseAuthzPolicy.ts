@@ -26,6 +26,11 @@ export abstract class BaseAuthzPolicy {
   abstract usuarioUpdate: Authz.IAuthzStatementUsuarioUpdate;
   abstract usuarioDelete: Authz.IAuthzStatementUsuarioDelete;
 
+  abstract modalidadeFind: Authz.IAuthzStatementModalidadeFind;
+  abstract modalidadeCreate: Authz.IAuthzStatementModalidadeCreate;
+  abstract modalidadeUpdate: Authz.IAuthzStatementModalidadeUpdate;
+  abstract modalidadeDelete: Authz.IAuthzStatementModalidadeDelete;
+
   abstract vinculoFind: Authz.IAuthzStatementVinculoFind;
 
   get statements() {
@@ -44,6 +49,11 @@ export abstract class BaseAuthzPolicy {
       this.blocoCreate,
       this.blocoUpdate,
       this.blocoDelete,
+      //
+      this.modalidadeFind,
+      this.modalidadeCreate,
+      this.modalidadeUpdate,
+      this.modalidadeDelete,
       //
       this.ambienteFind,
       this.ambienteCreate,
