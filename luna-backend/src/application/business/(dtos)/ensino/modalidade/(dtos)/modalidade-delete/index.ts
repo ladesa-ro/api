@@ -1,1 +1,1 @@
-export * from './IModalidadeDeleteOneByIdInputDto'
+export * from './IModalidadeDeleteOneByIdInputDto';

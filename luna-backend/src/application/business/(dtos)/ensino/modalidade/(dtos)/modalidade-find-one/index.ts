@@ -1,3 +1,2 @@
-export * from "./IModalidadeFindOneByIdInputDto";
-export * from "./IModalidadeFindOneResultDto";
-
+export * from './IModalidadeFindOneByIdInputDto';
+export * from './IModalidadeFindOneResultDto';

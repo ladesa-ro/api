@@ -127,8 +127,6 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
 
   // ========================================================
 
-
-
   // ========================================================
 
   get modalidadeFind(): Authz.IAuthzStatementModalidadeFind {
@@ -180,7 +178,6 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
     });
   }
   // ========================================================
-
 
   get ambienteFind(): Authz.IAuthzStatementAmbienteFind {
     return createStatement({

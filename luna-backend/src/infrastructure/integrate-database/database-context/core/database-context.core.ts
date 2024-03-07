@@ -10,7 +10,7 @@ import { createUsuarioRepository } from '../../typeorm/repositories/autenticacao
 import { createModalidadeRepository } from '../../typeorm/repositories/ensino/modalidade.repository';
 
 export class DatabaseContextCore {
-  constructor(readonly ds: DataSource | EntityManager) { }
+  constructor(readonly ds: DataSource | EntityManager) {}
 
   //
 
@@ -79,11 +79,9 @@ export class DatabaseContextCore {
     return createAmbienteRepository(this.ds);
   }
 
-
   // =====================================================
   // == [ Ensino ] =======================================
   // =====================================================
-
 
   get modalidadeRepository() {
     return createModalidadeRepository(this.ds);

@@ -2,18 +2,18 @@ import { IModalidadeFindOneByIdInputDto } from '../modalidade-find-one/IModalida
 import { IModalidadeInputDto } from './IModalidadeInputDto';
 
 export interface IModalidadeUpdateDto extends IModalidadeFindOneByIdInputDto, Partial<Omit<IModalidadeInputDto, 'campus'>> {
-    //
+  //
 
-    id: string;
+  id: string;
 
-    //
+  //
 
-    nome?: string;
-    slug?: string;
+  nome?: string;
+  slug?: string;
 
-    //
+  //
 
-    // campus?: IObjectUuid;
+  // campus?: IObjectUuid;
 
-    //
+  //
 }

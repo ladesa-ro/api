@@ -31,7 +31,6 @@ export abstract class BaseAuthzPolicy {
   abstract modalidadeUpdate: Authz.IAuthzStatementModalidadeUpdate;
   abstract modalidadeDelete: Authz.IAuthzStatementModalidadeDelete;
 
-
   abstract vinculoFind: Authz.IAuthzStatementVinculoFind;
 
   get statements() {

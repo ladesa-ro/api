@@ -1,27 +1,25 @@
-import { IDatedObject, IEntityDate, IObjectUuid } from "../../(core)";
-import { ICampusModel } from "../../ambientes";
-
-
+import { IDatedObject, IEntityDate, IObjectUuid } from '../../(core)';
+import { ICampusModel } from '../../ambientes';
 
 export interface IModalidadeModel extends IObjectUuid, IDatedObject {
-    //
+  //
 
-    id: string;
+  id: string;
 
-    //
+  //
 
-    nome: string;
-    slug: string;
+  nome: string;
+  slug: string;
 
-    //
+  //
 
-    campus: ICampusModel;
+  campus: ICampusModel;
 
-    //
+  //
 
-    dateCreated: IEntityDate;
-    dateUpdated: IEntityDate;
-    dateDeleted: null | IEntityDate;
+  dateCreated: IEntityDate;
+  dateUpdated: IEntityDate;
+  dateDeleted: null | IEntityDate;
 
-    //
+  //
 }

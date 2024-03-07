@@ -47,7 +47,6 @@ export type IAuthzStatementModalidadeDelete = IBaseAuthzFilter<'modalidade:delet
 
 // =====================
 
-
 export type IAuthzStatementVinculoFind = IBaseAuthzFilter<'vinculo:find'>;
 
 // ===================================================================================

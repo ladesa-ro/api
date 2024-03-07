@@ -1,4 +1,3 @@
-export * from "./IModalidadeCreateDto";
-export * from "./IModalidadeInputDto";
-export * from "./IModalidadeUpdateDto";
-
+export * from './IModalidadeCreateDto';
+export * from './IModalidadeInputDto';
+export * from './IModalidadeUpdateDto';

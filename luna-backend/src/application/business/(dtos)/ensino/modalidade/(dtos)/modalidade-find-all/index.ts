@@ -1,1 +1,1 @@
-export * from "./IModalidadeFindAllResultDto";
+export * from './IModalidadeFindAllResultDto';

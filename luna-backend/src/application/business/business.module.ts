@@ -6,4 +6,4 @@ import { EnsinoModule } from './ensino/ensino.module';
 @Module({
   imports: [AutenticacaoModule, AmbientesModule, EnsinoModule],
 })
-export class BusinessModule { }
+export class BusinessModule {}

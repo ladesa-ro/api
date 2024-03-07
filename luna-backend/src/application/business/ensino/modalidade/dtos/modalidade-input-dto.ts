@@ -20,7 +20,7 @@ export const ModalidadeInputDtoValidationContract = createValidationContract(() 
 // ======================================================
 
 @InputType('ModalidadeInputDto')
-export class ModalidadeInputDto implements Dto.IModalidadeInputDto{
+export class ModalidadeInputDto implements Dto.IModalidadeInputDto {
   @DtoProperty(ModalidadeDtoProperties.MODALIDADE_NOME)
   nome!: string;
 
@@ -30,5 +30,3 @@ export class ModalidadeInputDto implements Dto.IModalidadeInputDto{
   @DtoProperty(ModalidadeDtoProperties.MODALIDADE_CAMPUS_INPUT)
   campus!: Dto.IObjectUuid;
 }
-
-

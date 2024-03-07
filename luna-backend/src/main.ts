@@ -48,15 +48,15 @@ async function bootstrap() {
 
   config.addBearerAuth();
 
-  config.addTag("API", "SISGEA - API")
-  config.addTag("Autenticacao")
-  config.addTag("Usuarios", "Autenticação / Usuários")
-  config.addTag("Vinculos", "Autenticação / Usuários / Vínculos")
-  config.addTag("Estados", "Ambientes / Estados")
-  config.addTag("Cidades", "Ambientes / Cidades")
-  config.addTag("Campi", "Ambientes / Campi")
-  config.addTag("Blocos", "Ambientes / Campi / Blocos")
-  config.addTag("Ambientes", "Ambientes / Campi / Blocos / Ambiente")
+  config.addTag('API', 'SISGEA - API');
+  config.addTag('Autenticacao');
+  config.addTag('Usuarios', 'Autenticação / Usuários');
+  config.addTag('Vinculos', 'Autenticação / Usuários / Vínculos');
+  config.addTag('Estados', 'Ambientes / Estados');
+  config.addTag('Cidades', 'Ambientes / Cidades');
+  config.addTag('Campi', 'Ambientes / Campi');
+  config.addTag('Blocos', 'Ambientes / Campi / Blocos');
+  config.addTag('Ambientes', 'Ambientes / Campi / Blocos / Ambiente');
 
   const document = SwaggerModule.createDocument(app, config.build());
 
