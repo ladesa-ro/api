@@ -7,6 +7,7 @@ import { createEnderecoRepository } from '../../typeorm/repositories/ambientes/e
 import { createEstadoRepository } from '../../typeorm/repositories/ambientes/estado.repository';
 import { createUsuarioVinculoCampusRepository } from '../../typeorm/repositories/autenticacao/usuario-vinculo-campus.repository';
 import { createUsuarioRepository } from '../../typeorm/repositories/autenticacao/usuario.repository';
+import { createModalidadeRepository } from '../../typeorm/repositories/ensino/modalidade.repository';
 
 export class DatabaseContextCore {
   constructor(readonly ds: DataSource | EntityManager) {}
@@ -76,6 +77,14 @@ export class DatabaseContextCore {
 
   get ambienteRepository() {
     return createAmbienteRepository(this.ds);
+  }
+
+  // =====================================================
+  // == [ Ensino ] =======================================
+  // =====================================================
+
+  get modalidadeRepository() {
+    return createModalidadeRepository(this.ds);
   }
 
   // =====================================================

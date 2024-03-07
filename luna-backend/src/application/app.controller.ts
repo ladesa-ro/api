@@ -24,12 +24,6 @@ export class AppController {
           enum: ['up'],
           description: 'Status desta aplicação.',
         },
-        egg: {
-          type: 'string',
-          default: null,
-          description: 'Mensagem secreta que aparece em ocasiões específicas.',
-          nullable: true,
-        },
       },
       required: ['service', 'status'],
     },

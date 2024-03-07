@@ -164,6 +164,64 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
 
   // ========================================================
 
+  get modalidadeFind(): Authz.IAuthzStatementModalidadeFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'modalidade:find',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get modalidadeCreate(): Authz.IAuthzStatementModalidadeCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'modalidade:create',
+
+      withCheck: (context) => {
+        if (AuthzPolicySuperUser.shouldApply(context)) {
+          return true;
+        }
+        return false;
+      },
+    });
+  }
+
+  get modalidadeUpdate(): Authz.IAuthzStatementModalidadeUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'modalidade:update',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get modalidadeDelete(): Authz.IAuthzStatementModalidadeDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'modalidade:delete',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  // ========================================================
+
   get ambienteFind(): Authz.IAuthzStatementAmbienteFind {
     return createStatement({
       kind: 'filter',

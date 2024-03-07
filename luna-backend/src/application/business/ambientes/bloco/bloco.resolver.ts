@@ -7,11 +7,11 @@ import { BlocoService } from './bloco.service';
 import { BlocoDto, BlocoOperations } from './dtos';
 
 @Resolver(() => BlocoDto)
-export class CampusResolver {
+export class BlocoResolver {
   constructor(
     //
     private blocoService: BlocoService,
-  ) {}
+  ) { }
 
   //
 
