@@ -1,9 +1,9 @@
 // ======================================================
 
 import { createDtoOperationOptions } from "infrastructure";
+import { ModalidadeFindOneResultDto } from "./modalidade-find-one.operation";
 import { ModalidadeInputDto, ModalidadeInputDtoValidationContract } from "./modalidade-input-dto";
 import { ModalidadeDto } from "./modalidade.dto";
-import { ModalidadeFindOneResultDto } from "./modalidade-find-one.result.dto";
 
 export const MODALIDADE_CREATE = createDtoOperationOptions({
   description: 'Realiza o cadastro de uma modalidade.',

@@ -34,7 +34,7 @@ export class ModalidadeUpdateInputDto implements IModalidadeUpdateDto {
 }
 
 export class ModalidadeUpdateWithoutIdInputDto extends OmitType(ModalidadeUpdateInputDto, ['id'] as const) { }
-export const BLOCO_UPDATE = createDtoOperationOptions({
+export const MODALIDADE_UPDATE = createDtoOperationOptions({
   description: 'Realiza a alteração de uma modalidade.',
 
   gql: {

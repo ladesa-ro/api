@@ -1,19 +1,19 @@
-import { BLOCO_CREATE } from './bloco-create.operation';
-import { BLOCO_DELETE_ONE_BY_ID } from './bloco-delete-one.operation';
-import { BLOCO_FIND_ALL } from './bloco-find-all.operation';
-import { BLOCO_FIND_ONE_BY_ID } from './bloco-find-one.operation';
-import { BLOCO_UPDATE } from './bloco-update.operation';
+import { MODALIDADE_CREATE } from './modalidade-create.operation';
+import { MODALIDADE_DELETE_ONE_BY_ID } from './modalidade-delete-one.operation';
+import { MODALIDADE_FIND_ALL } from './modalidade-find-all.operation';
+import { MODALIDADE_FIND_ONE_BY_ID } from './modalidade-find-one.operation';
+import { MODALIDADE_UPDATE } from './modalidade-update.operation';
 
-export const BlocoOperations = {
+export const ModalidadeOperations = {
   // ===============================
-  BLOCO_FIND_ALL: BLOCO_FIND_ALL,
+  MODALIDADE_FIND_ALL: MODALIDADE_FIND_ALL,
   // ===============================
-  BLOCO_FIND_ONE_BY_ID: BLOCO_FIND_ONE_BY_ID,
+  MODALIDADE_FIND_ONE_BY_ID: MODALIDADE_FIND_ONE_BY_ID,
   // ===============================
-  BLOCO_CREATE: BLOCO_CREATE,
+  MODALIDADE_CREATE: MODALIDADE_CREATE,
   // ===============================
-  BLOCO_UPDATE: BLOCO_UPDATE,
+  MODALIDADE_UPDATE: MODALIDADE_UPDATE,
   // ===============================
-  BLOCO_DELETE_ONE_BY_ID: BLOCO_DELETE_ONE_BY_ID,
+  MODALIDADE_DELETE_ONE_BY_ID: MODALIDADE_DELETE_ONE_BY_ID,
   // ===============================
 };

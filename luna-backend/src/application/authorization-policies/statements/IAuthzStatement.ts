@@ -40,11 +40,19 @@ export type IAuthzStatementUsuarioDelete = IBaseAuthzFilter<'usuario:delete', { 
 
 // =====================
 
+export type IAuthzStatementModalidadeCreate = IBaseAuthzCheck<'modalidade:create', { dto: Dto.IModalidadeCreateDto }>;
+export type IAuthzStatementModalidadeFind = IBaseAuthzFilter<'modalidade:find'>;
+export type IAuthzStatementModalidadeUpdate = IBaseAuthzFilter<'modalidade:update', { dto: Dto.IModalidadeUpdateDto }>;
+export type IAuthzStatementModalidadeDelete = IBaseAuthzFilter<'modalidade:delete', { dto: Dto.IModalidadeDeleteOneByIdInputDto }>;
+
+// =====================
+
+
 export type IAuthzStatementVinculoFind = IBaseAuthzFilter<'vinculo:find'>;
 
 // ===================================================================================
 
-export type IAuthzStatementCheck = IAuthzStatementCampusCreate | IAuthzStatementBlocoCreate | IAuthzStatementAmbienteCreate | IAuthzStatementUsuarioCreate;
+export type IAuthzStatementCheck = IAuthzStatementCampusCreate | IAuthzStatementBlocoCreate | IAuthzStatementAmbienteCreate | IAuthzStatementUsuarioCreate | IAuthzStatementModalidadeCreate;
 
 // =====================
 
@@ -62,6 +70,10 @@ export type IAuthzStatementFind =
   | IAuthzStatementBlocoFind
   | IAuthzStatementBlocoUpdate
   | IAuthzStatementBlocoDelete
+  //
+  | IAuthzStatementModalidadeFind
+  | IAuthzStatementModalidadeUpdate
+  | IAuthzStatementModalidadeDelete
   //
   | IAuthzStatementAmbienteFind
   | IAuthzStatementAmbienteUpdate

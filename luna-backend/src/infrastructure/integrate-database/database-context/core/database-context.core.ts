@@ -85,7 +85,7 @@ export class DatabaseContextCore {
   // =====================================================
 
 
-  get ModalidadeRepository() {
+  get modalidadeRepository() {
     return createModalidadeRepository(this.ds);
   }
 
