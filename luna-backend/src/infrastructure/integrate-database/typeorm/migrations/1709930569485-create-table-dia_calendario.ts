@@ -18,7 +18,7 @@ export class CreateTableDiaCalendario1709930569485 implements MigrationInterface
           //
           {
             name: 'data',
-            type: 'datetime',
+            type: 'date',
             isNullable: false,
           },
           {
