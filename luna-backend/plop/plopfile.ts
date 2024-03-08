@@ -1,8 +1,8 @@
 import type { NodePlopAPI } from "plop";
 import { Generators } from "./generators";
-import { ChangeCaseHelper } from "./helpers";
+import { ChangeCaseHelperPlop } from "./helpers";
 
 export default function (plop: NodePlopAPI) {
-  ChangeCaseHelper(plop);
+  ChangeCaseHelperPlop(plop);
   Generators(plop);
 }
