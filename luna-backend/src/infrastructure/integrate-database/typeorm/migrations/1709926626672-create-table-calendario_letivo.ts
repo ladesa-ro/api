@@ -29,11 +29,6 @@ export class CreateTableCalendarioLetivo1709926626672 implements MigrationInterf
             type: 'int',
             isNullable: false,
           },
-          {
-            name: 'modalidade',
-            type: 'text',
-            isNullable: false,
-          },
           //
           {
             name: 'id_curso_fk',
