@@ -42,7 +42,7 @@ export class CreateTableEvento1709929383801 implements MigrationInterface {
           {
             name: 'id_calendario_letivo_fk',
             type: 'uuid',
-            isNullable: true,
+            isNullable: false,
           },
           //
           {
