@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'dia_calendario';
+const tableName = 'momento';
 
-export class CreateTableDiaCalendario1709930569485 implements MigrationInterface {
+export class CreateTableMomento1709930858235 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -17,24 +17,13 @@ export class CreateTableDiaCalendario1709930569485 implements MigrationInterface
           },
           //
           {
-            name: 'data',
-            type: 'date',
+            name: 'perido_inicio',
+            type: 'time',
             isNullable: false,
           },
           {
-            name: 'dia_letivo',
-            type: 'bool',
-            isNullable: false,
-          },
-          {
-            name: 'feriado',
-            type: 'bool',
-            isNullable: false,
-          },
-          //
-          {
-            name: 'id_calendario_letivo_fk',
-            type: 'uuid',
+            name: 'perido_fim',
+            type: 'time',
             isNullable: false,
           },
           //
@@ -55,14 +44,6 @@ export class CreateTableDiaCalendario1709930569485 implements MigrationInterface
             name: 'date_deleted',
             type: 'timestamptz',
             isNullable: true,
-          },
-        ],
-        foreignKeys: [
-          {
-            name: `fk__${tableName}__depende__calendario_letivo`,
-            columnNames: ['id_calendario_letivo_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'calendario_letivo',
           },
         ],
       }),
