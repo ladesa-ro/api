@@ -3,8 +3,8 @@ export interface I{{ c_pascal moduleName }}Model {
 
   {{#each propriedadesDeclaradas}}
   // {{this.descricao}}
-  {{this.nome}}: {{this.tipoInterface}};
-  {{/each}}
+  {{this.nome}}: {{this.tipoInterface}} {{ ternary this.nullable "| null" "" }};
 
+  {{/each}}
   //
 }
