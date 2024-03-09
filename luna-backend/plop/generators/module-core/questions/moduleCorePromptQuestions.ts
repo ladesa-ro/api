@@ -1,6 +1,7 @@
 import * as ChangeCase from 'change-case';
 import inq from 'inquirer';
 import { basename, dirname } from 'path';
+import { ChangeCaseHelper } from '../../../helpers';
 import { timestamp } from '../module-core.generator';
 
 export type IAnswerEstrutura = 'model' | 'service' | 'controller' | 'resolver';
@@ -30,6 +31,9 @@ export type IModuleCoreAnswers = {
   estrutura: IAnswerEstrutura[];
   operacoes: IAnswerOperacao[];
   database: IAnswerDatabase[];
+
+  modelIdType: 'uuid' | 'numeric' | null;
+  modelDated: boolean | null;
 
   propriedadesDeclaradas: IPropriedadeDeclarada[];
 };
@@ -153,7 +157,7 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
           name: `[db] Migration Create Table - migrations/${timestamp}-${moduleNameParentKebab}-create-table-${moduleNameKebab}.ts`,
           short: `${timestamp}-${moduleNameParentKebab}-create-table-${moduleNameKebab}.ts`,
           value: 'db-migration-create-table',
-          checked: true,
+          checked: false,
         },
       ],
     },
@@ -164,7 +168,42 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
   const podeDeclararPropriedades = estrutura.includes('model');
   const deveDeclararPropriedades = podeDeclararPropriedades && (await askConfirm(inq, 'Deseja declarar as propriedades do modelo?', true));
 
+  let modelIdType = null;
+  let modelDated = null;
+
   if (deveDeclararPropriedades) {
+    const aws = await inquirer.prompt<{ modelIdType: 'uuid' | 'numeric'; modelDated: boolean }>([
+      {
+        type: 'radio',
+        name: 'modelIdType',
+
+        message: `----- Tipo de identificador do I${ChangeCaseHelper.c_pascal(moduleName)}Model:`,
+
+        choices: [
+          {
+            name: `---------> uuid`,
+            short: `uuid`,
+            value: 'uuid',
+          },
+
+          {
+            name: `---------> numerico`,
+            short: `int`,
+            value: 'numeric',
+          },
+        ],
+      },
+      {
+        type: 'confirm',
+        name: 'modelDated',
+        message: `----- Inclui datas (dateCreated, dateUpdated e dateDeleted) no I${ChangeCaseHelper.c_pascal(moduleName)}Model:`,
+        default: true,
+      },
+    ]);
+
+    modelIdType = aws.modelIdType;
+    modelDated = aws.modelDated;
+
     do {
       let count = propriedadesDeclaradas.length;
 

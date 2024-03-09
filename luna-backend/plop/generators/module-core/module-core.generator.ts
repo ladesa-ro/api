@@ -120,14 +120,10 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       });
 
       if (answers.propriedadesDeclaradas.length > 0) {
-        const moduleCoreGeneratorSpecModel = new ModuleCoreGeneratorSpecModel();
-
-        moduleCoreGeneratorSpecModel.addPropertiesSignatures(modelName, answers.propriedadesDeclaradas);
-
         actions.push({
           type: 'modify',
           path: `${outputPathSpec}/${modelName}.ts`,
-          transform: async (code) => moduleCoreGeneratorSpecModel.transform(code),
+          transform: async (code) => new ModuleCoreGeneratorSpecModel().addPropertiesSignatures(modelName, answers.propriedadesDeclaradas).transform(code),
         });
       }
 

@@ -45,27 +45,30 @@ export class ModuleCoreGeneratorSpecModel extends BaseModuleCoreGenerator {
           if (n.TSPropertySignature.assert(tsPropertySignatureNode) && n.Identifier.assert(tsPropertySignatureNode.key)) {
             return tsPropertySignatureNode.key.name === propriedadeDeclarada.nome;
           }
-        } catch (e) {
-
-        }
+        } catch (e) {}
 
         return false;
-      }) ;
+      });
 
       console.log({ name: propriedadeDeclarada.nome, isPropertyAlreadyDeclared });
 
       if (!isPropertyAlreadyDeclared) {
-        const typeAnnotationNode = b.tsTypeAnnotation(b.tsTypeReference(b.identifier((propriedadeDeclarada.tipoInterface))));
+        const typeAnnotationNode = b.tsTypeAnnotation(b.tsTypeReference(b.identifier(propriedadeDeclarada.tipoInterface)));
 
         const objetTypePropertyNode = b.tsPropertySignature(b.identifier(propriedadeDeclarada.nome), typeAnnotationNode, false);
 
         tsInterfaceBodyNode.body.push(objetTypePropertyNode);
       }
     });
+
+    return this;
   }
+
   addPropertiesSignatures(modelName: string, propriedadesDeclaradas: IPropriedadeDeclarada | IPropriedadeDeclarada[]) {
     for (const propriedadeDeclarada of castArray(propriedadesDeclaradas)) {
       this.addPropertySignature(modelName, propriedadeDeclarada);
     }
+
+    return this;
   }
 }

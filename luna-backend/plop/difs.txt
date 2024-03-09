@@ -1,0 +1,63 @@
+[x] init src/application/business/parent/module/module.module.ts
+[x] init src/application/business/parent/module/module.controller.ts
+[x] init src/application/business/parent/module/module.resolver.ts
+[x] init src/application/business/parent/module/module.service.ts
+[x] init src/application/business/(dtos)/parent/module/IModuleModel.ts
+[x] init src/application/business/(dtos)/parent/module/index.ts
+
+[ ] src/infrastructure/integrate-database/typeorm/entities/parent/module.entity.ts
+[ ] src/infrastructure/integrate-database/typeorm/repositories/parent/module.repository.ts
+[ ] src/infrastructure/integrate-database/database-context/core/database-context.core.ts
+
+[ ] src/infrastructure/integrate-database/typeorm/migrations/1709647646260-create-table-modalidade.ts
+
+//
+
+[ ] src/application/business/ensino/modalidade/dtos/index.ts
+[ ] src/application/business/ensino/modalidade/dtos/modalidade.operations.ts
+[ ] src/application/business/ensino/modalidade/dtos/modalidade.dto.ts
+
+//
+
+src/application/authorization-policies/00-AuthzPolicyPublic.ts
+src/application/authorization-policies/01-AuthzPolicySuperUser.ts
+src/application/authorization-policies/BaseAuthzPolicy.ts
+src/application/authorization-policies/statements/IAuthzStatement.ts
+
+//
+
+src/application/business/(dtos)/ensino/modalidade/(dtos)/modalidade-find-one/IModalidadeFindOneResultDto.ts
+src/application/business/(dtos)/ensino/modalidade/(dtos)/modalidade-find-one/IModalidadeFindOneByIdInputDto.ts
+src/application/business/ensino/modalidade/dtos/modalidade-find-one.operation.ts
+src/application/business/(dtos)/ensino/modalidade/(dtos)/modalidade-find-one/index.ts
+
+src/application/business/(dtos)/ensino/modalidade/(dtos)/modalidade-find-all/IModalidadeFindAllResultDto.ts
+src/application/business/ensino/modalidade/dtos/modalidade-find-all.operation.ts
+src/application/business/(dtos)/ensino/modalidade/(dtos)/modalidade-find-all/index.ts
+
+//
+
+src/application/business/(dtos)/ensino/index.ts
+src/application/business/(dtos)/ensino/modalidade/(dtos)/index.ts
+
+src/application/business/(dtos)/ensino/modalidade/(dtos)/modalidade-delete/IModalidadeDeleteOneByIdInputDto.ts
+src/application/business/(dtos)/ensino/modalidade/(dtos)/modalidade-delete/index.ts
+src/application/business/ensino/modalidade/dtos/modalidade-delete-one.operation.ts
+
+src/application/business/(dtos)/ensino/modalidade/(dtos)/modalidade-input/IModalidadeInputDto.ts
+src/application/business/ensino/modalidade/dtos/modalidade-input-dto.ts
+
+src/application/business/(dtos)/ensino/modalidade/(dtos)/modalidade-input/IModalidadeCreateDto.ts
+src/application/business/ensino/modalidade/dtos/modalidade-create.operation.ts
+
+src/application/business/(dtos)/ensino/modalidade/(dtos)/modalidade-input/IModalidadeUpdateDto.ts
+src/application/business/ensino/modalidade/dtos/modalidade-update.operation.ts
+
+src/application/business/(dtos)/ensino/modalidade/(dtos)/modalidade-input/index.ts
+
+src/application/business/(dtos)/index.ts
+src/application/business/business.module.ts
+
+src/application/business/ensino/ensino.module.ts
+
+src/main.ts
