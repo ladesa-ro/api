@@ -156,6 +156,15 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       });
     }
 
+    if (answers.database.includes('db-migration-create-table')) {
+      actions.push({
+        type: 'add',
+        path: `${outputPathTypeorm}/migrations/${++answers.migrationTimestamp}-create-table-${ChangeCaseHelper.c_snake(answers.moduleName)}.ts`,
+        templateFile: `${templateBase}/database/migration-create-table.ts.hbs`,
+        skipIfExists: true,
+      });
+    }
+
     const modelName = `I${ChangeCaseHelper.c_pascal(answers.moduleName)}Model`;
 
     if (answers.estrutura.includes('model')) {

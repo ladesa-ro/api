@@ -29,6 +29,8 @@ type IPropriedadeDeclarada = {
 };
 
 export type IModuleCoreAnswers = {
+  migrationTimestamp: number;
+
   modulePath: string;
   moduleName: string;
   moduleNameParent: string;
@@ -212,7 +214,7 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
     do {
       let count = propriedadesDeclaradas.length;
 
-      const { nome, descricao, tipoInterface, nullable,nomeColuna, tipoEntidadeColuna, tipoEntidadeInterface } = await inquirer.prompt([
+      const { nome, descricao, tipoInterface, nullable, nomeColuna, tipoEntidadeColuna, tipoEntidadeInterface } = await inquirer.prompt([
         {
           name: 'nome',
           type: 'input',
@@ -271,6 +273,8 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
   }
 
   return {
+    migrationTimestamp: Date.now(),
+
     modelIdType,
     modelDated,
     //
