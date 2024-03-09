@@ -24,7 +24,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "plop": "npx esbuild plop/plopfile.ts --format=esm --external:inquirer --platform=node --bundle --outfile=plopfile.mjs 1>/dev/null && plop"
+    "plop": "npx esbuild plop/plopfile.ts --format=esm --external:inquirer --external:ast-types --external:magicast --platform=node --bundle --outfile=plopfile.mjs 1>/dev/null && plop"
   },
   "dependencies": {
     "@apollo/server": "^4.10.0",

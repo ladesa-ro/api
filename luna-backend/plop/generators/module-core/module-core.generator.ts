@@ -1,6 +1,7 @@
 import { ActionType, PlopGeneratorConfig } from 'plop';
 import { ChangeCaseHelper } from '../../helpers';
 import { BaseModuleCoreGenerator } from './generators/BaseModuleCoreGenerator';
+import { ModuleCoreGeneratorDatabaseContextCore } from './generators/ModuleCoreGeneratorDatabaseContextCore';
 import { IModuleDeclareClass, ModuleCoreGeneratorNestModule } from './generators/ModuleCoreGeneratorNestModule';
 import { ModuleCoreGeneratorSpecModel } from './generators/ModuleCoreGeneratorSpecModel';
 import { IAnswerEstrutura, IModuleCoreAnswers, moduleCorePromptQuestions } from './questions/moduleCorePromptQuestions';
@@ -146,6 +147,12 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         type: 'modify',
         path: `${outputPathTypeorm}/repositories/index.ts`,
         transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_snake(answers.moduleNameParent)}`).transform(code),
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `src/infrastructure/integrate-database/database-context/core/database-context.core.ts`,
+        transform: async (code) => new ModuleCoreGeneratorDatabaseContextCore().addRepository(answers.moduleName).transform(code),
       });
     }
 

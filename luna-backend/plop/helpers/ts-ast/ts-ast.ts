@@ -69,6 +69,7 @@ export const findNestJsModuleObjectConfigProperty = (ast: n.Node, propName: stri
                 resolve(node);
               }
             }
+
             return false;
           },
         });
@@ -144,9 +145,8 @@ export const getInterfaceNode = ($ast: n.Node, modelName: string) => {
   });
 };
 
-
 export const getClassNode = ($ast: n.Node, className: string) => {
-  return new Promise<n.TSInterfaceDeclaration | null>((resolve) => {
+  return new Promise<n.ClassDeclaration | null>((resolve) => {
     visit($ast, {
       visitClassDeclaration(path) {
         const node = path.node;
