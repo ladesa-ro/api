@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
-import { IUsuarioFindOneResultDto } from 'application/business/(dtos)';
+import { IUsuarioFindOneResultDto } from 'application/business/(spec)';
 import { DtoProperty, createDtoPropertyMap } from 'infrastructure';
-import { IAutenticacaoQuemSouEuResultDto } from '../../(dtos)/autenticacao/(dtos)/autenticacao-quem-sou-eu/IAutenticacaoQuemSouEuResultDto';
+import { IAutenticacaoQuemSouEuResultDto } from '../../(spec)/autenticacao/(dtos)/autenticacao-quem-sou-eu/IAutenticacaoQuemSouEuResultDto';
 import { UsuarioDto, UsuarioFindOneResultDto } from '../usuario/dtos';
 
 // ======================================================

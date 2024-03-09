@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { IEntityDate, IUsuarioModel } from '../../../(dtos)';
+import { IEntityDate, IUsuarioModel } from '../../../(spec)';
 import { CommonPropertyUuid, DtoProperty, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
 
 // ======================================================

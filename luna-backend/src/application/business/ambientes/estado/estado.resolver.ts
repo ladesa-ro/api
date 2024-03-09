@@ -1,5 +1,5 @@
 import { Resolver } from '@nestjs/graphql';
-import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto, ISearchInputDto } from '../../(dtos)';
+import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto, ISearchInputDto } from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
 import { ClientAccessGraphQl, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infrastructure';
 import { EstadoOperations } from './dtos/estado.operations';

@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
-import { IEstadoModel } from '../../../../../application/business/(dtos)';
+import { IEstadoModel } from '../../../../../application/business/(spec)';
 import { CidadeEntity } from './cidade.entity';
 
 @Entity('base_estado')

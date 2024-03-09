@@ -1,5 +1,5 @@
 import { Resolver } from '@nestjs/graphql';
-import { ICidadeFindOneByIdInputDto, ISearchInputDto } from '../../(dtos)';
+import { ICidadeFindOneByIdInputDto, ISearchInputDto } from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
 import { ClientAccessGraphQl, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infrastructure';
 import { CidadeService } from './cidade.service';

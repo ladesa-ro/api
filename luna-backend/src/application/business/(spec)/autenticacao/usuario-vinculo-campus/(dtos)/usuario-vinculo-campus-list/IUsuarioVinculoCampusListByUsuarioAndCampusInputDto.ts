@@ -1,4 +1,4 @@
-import { IObjectUuid } from 'application/business/(dtos)/(core)';
+import { IObjectUuid } from 'application/business/(spec)/(core)';
 
 export interface IUsuarioVinculoCampusListByUsuarioAndCampusInputDto {
   campus: IObjectUuid;

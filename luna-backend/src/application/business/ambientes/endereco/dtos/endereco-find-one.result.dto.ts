@@ -1,5 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import { ICidadeModel, IEnderecoFindOneResultDto } from '../../../(dtos)';
+import { ICidadeModel, IEnderecoFindOneResultDto } from '../../../(spec)';
 import { DtoProperty } from '../../../../../infrastructure';
 import { EnderecoDtoProperties } from './endereco.dto';
 

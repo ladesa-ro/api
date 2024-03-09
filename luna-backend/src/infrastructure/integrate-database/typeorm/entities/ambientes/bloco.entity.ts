@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { IBlocoModel, ICampusModel, IEntityDate } from '../../../../../application/business/(dtos)';
+import { IBlocoModel, ICampusModel, IEntityDate } from '../../../../../application/business/(spec)';
 import { AmbienteEntity } from './ambiente.entity';
 import { CampusEntity } from './campus.entity';
 

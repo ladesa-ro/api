@@ -1,5 +1,5 @@
 import { InputType } from '@nestjs/graphql';
-import { IAutenticacaoLoginInputDto } from 'application/business/(dtos)/autenticacao/(dtos)/autenticacao-login/IAutenticacaoLoginInputDto';
+import { IAutenticacaoLoginInputDto } from 'application/business/(spec)/autenticacao/(dtos)/autenticacao-login/IAutenticacaoLoginInputDto';
 import { DtoProperty, ValidationContractString, createDtoPropertyMap, createValidationContract, getSchemaField } from 'infrastructure';
 import * as yup from 'yup';
 import { UsuarioDtoProperties, UsuarioDtoValidationContract } from '../usuario/dtos';

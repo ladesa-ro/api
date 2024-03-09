@@ -1,5 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import { IAutenticacaoDefinirSenhaResultDto } from 'application/business/(dtos)';
+import { IAutenticacaoDefinirSenhaResultDto } from 'application/business/(spec)';
 import { DtoProperty, createDtoPropertyMap } from 'infrastructure';
 
 // ======================================================

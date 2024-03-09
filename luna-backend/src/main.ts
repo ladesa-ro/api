@@ -5,6 +5,30 @@ import { AppModule } from './application/app.module';
 import { EnvironmentConfigService } from './infrastructure/environment-config';
 import { getModuleHelmet } from './infrastructure/utils/modules/helmet/modules.helmet';
 
+
+function setupSwaggerConfig() {
+  const config = new DocumentBuilder();
+
+  config.setTitle('SISGEA - Luna - API');
+  config.setDescription('API para a consulta e manipulação de dados e procedimentos relacionados ao Sistema de Gestão Acadêmico.');
+  config.setVersion('0.0');
+
+  config.addBearerAuth();
+
+  config.addTag('API', 'SISGEA - API');
+  config.addTag('Autenticacao');
+  config.addTag('Usuarios', 'Autenticação / Usuários');
+  config.addTag('Vinculos', 'Autenticação / Usuários / Vínculos');
+  config.addTag('Estados', 'Ambientes / Estados');
+  config.addTag('Cidades', 'Ambientes / Cidades');
+  config.addTag('Campi', 'Ambientes / Campi');
+  config.addTag('Blocos', 'Ambientes / Campi / Blocos');
+  config.addTag('Ambientes', 'Ambientes / Campi / Blocos / Ambiente');
+  config.addTag('Modalidades', 'Ensnino / Modalidade');
+
+  return config;
+}
+
 async function bootstrap() {
   //
 
@@ -15,8 +39,8 @@ async function bootstrap() {
   //
 
   const isProduction = environmentConfigService.getRuntimeIsProduction();
-  const isDevelopment = environmentConfigService.getRuntimeIsDevelopment();
 
+  const port = environmentConfigService.getRuntimePort();
   //
 
   const helmet = await getModuleHelmet();
@@ -34,29 +58,7 @@ async function bootstrap() {
 
   //
 
-  const config = new DocumentBuilder();
-
-  config.setTitle('SISGEA - Luna - API');
-  config.setDescription('API para a consulta e manipulação de dados e procedimentos relacionados ao Sistema de Gestão Acadêmico.');
-  config.setVersion('0.0');
-
-  config.addServer('https://luna.sisgha.com/api/');
-
-  if (isDevelopment) {
-    config.addServer('http://localhost:3000/');
-  }
-
-  config.addBearerAuth();
-
-  config.addTag('API', 'SISGEA - API');
-  config.addTag('Autenticacao');
-  config.addTag('Usuarios', 'Autenticação / Usuários');
-  config.addTag('Vinculos', 'Autenticação / Usuários / Vínculos');
-  config.addTag('Estados', 'Ambientes / Estados');
-  config.addTag('Cidades', 'Ambientes / Cidades');
-  config.addTag('Campi', 'Ambientes / Campi');
-  config.addTag('Blocos', 'Ambientes / Campi / Blocos');
-  config.addTag('Ambientes', 'Ambientes / Campi / Blocos / Ambiente');
+  const config = setupSwaggerConfig();
 
   const document = SwaggerModule.createDocument(app, config.build());
 
@@ -66,10 +68,6 @@ async function bootstrap() {
       // operationsSorter: 'alpha',
     },
   });
-
-  //
-
-  const port = environmentConfigService.getRuntimePort();
 
   app.enableCors();
 

@@ -1,6 +1,6 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '../../(dtos)';
+import * as Dto from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
 import { ClientAccessHttp, DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam } from '../../../../infrastructure';
 import { UsuarioOperations } from './dtos/usuario.operations';

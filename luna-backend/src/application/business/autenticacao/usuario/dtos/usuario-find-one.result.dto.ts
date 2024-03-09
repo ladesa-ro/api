@@ -1,5 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import { IUsuarioFindOneResultDto } from '../../../(dtos)';
+import { IUsuarioFindOneResultDto } from '../../../(spec)';
 import { DtoProperty } from '../../../../../infrastructure';
 import { UsuarioDtoProperties } from './usuario.dto';
 

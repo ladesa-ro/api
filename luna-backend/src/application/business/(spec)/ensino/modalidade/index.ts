@@ -1,2 +1,3 @@
-export * from './(dtos)';
+export * from './(operations)';
 export * from './IModalidadeModel';
+

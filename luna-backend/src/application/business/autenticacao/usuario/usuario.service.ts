@@ -4,7 +4,7 @@ import { KeycloakService } from 'infrastructure/authentication/idp-external-conn
 import { UsuarioEntity } from 'infrastructure/integrate-database/typeorm/entities/autenticacao/usuario.entity';
 import { has, pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
-import * as Dtos from '../../(dtos)';
+import * as Dtos from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 

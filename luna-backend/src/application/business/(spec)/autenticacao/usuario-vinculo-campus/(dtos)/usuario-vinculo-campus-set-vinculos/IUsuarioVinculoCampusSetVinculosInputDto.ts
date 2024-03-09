@@ -1,4 +1,4 @@
-import { IObjectUuid } from 'application/business/(dtos)';
+import { IObjectUuid } from 'application/business/(spec)';
 
 export interface IUsuarioVinculoCampusSetVinculosInputDto {
   campus: IObjectUuid;

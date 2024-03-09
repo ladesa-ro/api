@@ -1,5 +1,5 @@
 import { Resolver } from '@nestjs/graphql';
-import * as Dto from '../../(dtos)';
+import * as Dto from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
 import { ClientAccessGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
 import { GqlDtoInput } from '../../../../infrastructure/api-documentate/GqlDtoInput';
@@ -11,7 +11,7 @@ export class BlocoResolver {
   constructor(
     //
     private blocoService: BlocoService,
-  ) { }
+  ) {}
 
   //
 

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
-import * as Dtos from '../../(dtos)';
+import * as Dtos from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { AmbienteEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/ambiente.entity';

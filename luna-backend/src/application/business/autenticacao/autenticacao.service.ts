@@ -2,7 +2,7 @@ import { BadRequestException, ForbiddenException, HttpException, Injectable, Ser
 import { DatabaseContextService } from 'infrastructure';
 import { KeycloakService } from 'infrastructure/authentication/idp-external-connect/keycloak';
 import { BaseClient } from 'openid-client';
-import * as Dto from '../(dtos)';
+import * as Dto from '../(spec)';
 import { IClientAccess } from '../../../domain';
 import { OpenidConnectService } from '../../../infrastructure/authentication/idp-external-connect/openid-connect/openid-connect.service';
 import { UsuarioService } from './usuario/usuario.service';

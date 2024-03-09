@@ -1,5 +1,6 @@
 import { namedTypes as n, visit } from 'ast-types';
 import { NodePath } from 'ast-types/lib/node-path';
+import { ProxifiedModule } from 'magicast';
 
 export const findNestJsModuleObjectConfigProperty = (ast: n.Node, propName: string) =>
   new Promise<n.ObjectProperty | null>((resolve) => {
@@ -77,3 +78,11 @@ export const findNestJsModuleObjectConfigProperty = (ast: n.Node, propName: stri
 
     resolve(null);
   });
+
+export const addImportMember = (mod: ProxifiedModule, path: string, member: string) => {
+  if (mod.imports.$items.some((i) => i.from === path && i.imported === member)) {
+    return;
+  }
+
+  mod.imports.$add({ from: path, imported: member });
+};
