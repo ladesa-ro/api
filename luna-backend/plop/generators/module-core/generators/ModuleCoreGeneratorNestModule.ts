@@ -29,7 +29,17 @@ export class ModuleCoreGeneratorNestModule extends BaseModuleCoreGenerator {
 
       if (property) {
         if (n.ArrayExpression.assert(property.value)) {
-          property.value.elements.push(b.identifier(importMember));
+          const alreadyDeclared = property.value.elements.some((i) => {
+            if (i?.type === 'Identifier') {
+              return i.name === importMember;
+            }
+
+            return false;
+          });
+
+          if (!alreadyDeclared) {
+            property.value.elements.push(b.identifier(importMember));
+          }
         }
       }
     });
