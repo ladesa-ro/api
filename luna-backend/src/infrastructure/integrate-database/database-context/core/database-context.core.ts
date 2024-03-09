@@ -1,13 +1,5 @@
 import { DataSource, EntityManager } from 'typeorm';
-import { createAmbienteRepository } from '../../typeorm/repositories/ambientes/ambiente.repository';
-import { createBlocoRepository } from '../../typeorm/repositories/ambientes/bloco.repository';
-import { createCampusRepository } from '../../typeorm/repositories/ambientes/campus.repository';
-import { createCidadeRepository } from '../../typeorm/repositories/ambientes/cidade.repository';
-import { createEnderecoRepository } from '../../typeorm/repositories/ambientes/endereco.repository';
-import { createEstadoRepository } from '../../typeorm/repositories/ambientes/estado.repository';
-import { createUsuarioVinculoCampusRepository } from '../../typeorm/repositories/autenticacao/usuario-vinculo-campus.repository';
-import { createUsuarioRepository } from '../../typeorm/repositories/autenticacao/usuario.repository';
-import { createModalidadeRepository } from '../../typeorm/repositories/ensino/modalidade.repository';
+import * as repositories from '../../typeorm/repositories';
 
 export class DatabaseContextCore {
   constructor(readonly ds: DataSource | EntityManager) {}
@@ -44,11 +36,11 @@ export class DatabaseContextCore {
   // =====================================================
 
   get usuarioRepository() {
-    return createUsuarioRepository(this.ds);
+    return repositories.createUsuarioRepository(this.ds);
   }
 
   get usuarioVinculoCampusRepository() {
-    return createUsuarioVinculoCampusRepository(this.ds).extend({});
+    return repositories.createUsuarioVinculoCampusRepository(this.ds).extend({});
   }
 
   // =====================================================
@@ -56,27 +48,27 @@ export class DatabaseContextCore {
   // =====================================================
 
   get estadoRepository() {
-    return createEstadoRepository(this.ds);
+    return repositories.createEstadoRepository(this.ds);
   }
 
   get cidadeRepository() {
-    return createCidadeRepository(this.ds);
+    return repositories.createCidadeRepository(this.ds);
   }
 
   get enderecoRepository() {
-    return createEnderecoRepository(this.ds);
+    return repositories.createEnderecoRepository(this.ds);
   }
 
   get campusRepository() {
-    return createCampusRepository(this.ds);
+    return repositories.createCampusRepository(this.ds);
   }
 
   get blocoRepository() {
-    return createBlocoRepository(this.ds);
+    return repositories.createBlocoRepository(this.ds);
   }
 
   get ambienteRepository() {
-    return createAmbienteRepository(this.ds);
+    return repositories.createAmbienteRepository(this.ds);
   }
 
   // =====================================================
@@ -84,7 +76,7 @@ export class DatabaseContextCore {
   // =====================================================
 
   get modalidadeRepository() {
-    return createModalidadeRepository(this.ds);
+    return repositories.createModalidadeRepository(this.ds);
   }
 
   // =====================================================

@@ -121,6 +121,32 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         templateFile: `${templateBase}/database/repository.ts.hbs`,
         skipIfExists: true,
       });
+
+      actions.push({
+        type: 'add',
+        path: `${outputPathTypeorm}/repositories/${ChangeCaseHelper.c_snake(answers.moduleNameParent)}/index.ts`,
+        templateFile: `${templateBase}/spec/index.ts.hbs`,
+        skipIfExists: true,
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathTypeorm}/repositories/${ChangeCaseHelper.c_snake(answers.moduleNameParent)}/index.ts`,
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}.repository`).transform(code),
+      });
+
+      actions.push({
+        type: 'add',
+        path: `${outputPathTypeorm}/repositories/index.ts`,
+        templateFile: `${templateBase}/spec/index.ts.hbs`,
+        skipIfExists: true,
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathTypeorm}/repositories/index.ts`,
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_snake(answers.moduleNameParent)}`).transform(code),
+      });
     }
 
     const modelName = `I${ChangeCaseHelper.c_pascal(answers.moduleName)}Model`;
