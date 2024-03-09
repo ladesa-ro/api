@@ -1,4 +1,15 @@
+{{#if modelDated}}
+import { IEntityDate } from 'application/business/(spec)';
+{{/if}}
+
 export interface I{{ c_pascal moduleName }}Model {
+  {{#if (eq modelIdType "uuid") }}
+  id: string;
+  {{/if}}
+  {{#if (eq modelIdType "numeric") }}
+  id: number;
+  {{/if}}
+
   //
 
   {{#each propriedadesDeclaradas}}
@@ -7,4 +18,10 @@ export interface I{{ c_pascal moduleName }}Model {
 
   {{/each}}
   //
+  {{#if modelDated}}
+
+  dateCreated: IEntityDate;
+  dateUpdated: IEntityDate;
+  dateDeleted: null | IEntityDate;
+  {{/if}}
 }

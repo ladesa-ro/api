@@ -108,8 +108,17 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
     if (answers.database.includes('db-entity')) {
       actions.push({
         type: 'add',
-        path: `${outputPathTypeorm}/${ChangeCaseHelper.c_snake(answers.moduleNameParent)}/${entityName}.ts`,
+        path: `${outputPathTypeorm}/entities/${ChangeCaseHelper.c_snake(answers.moduleNameParent)}/${entityName}.ts`,
         templateFile: `${templateBase}/database/entity.ts.hbs`,
+        skipIfExists: true,
+      });
+    }
+
+    if (answers.database.includes('db-repository')) {
+      actions.push({
+        type: 'add',
+        path: `${outputPathTypeorm}/repositories/${ChangeCaseHelper.c_snake(answers.moduleNameParent)}/${ChangeCaseHelper.c_kebab(answers.moduleName)}.repository.ts`,
+        templateFile: `${templateBase}/database/repository.ts.hbs`,
         skipIfExists: true,
       });
     }

@@ -1,21 +1,24 @@
-[x] init src/application/business/parent/module/module.module.ts
-[x] init src/application/business/parent/module/module.controller.ts
-[x] init src/application/business/parent/module/module.resolver.ts
-[x] init src/application/business/parent/module/module.service.ts
-[x] init src/application/business/(dtos)/parent/module/IModuleModel.ts
-[x] init src/application/business/(dtos)/parent/module/index.ts
+- [x] init src/application/business/parent/module/module.module.ts
+- [x] init src/application/business/parent/module/module.controller.ts
+- [x] init src/application/business/parent/module/module.resolver.ts
+- [x] init src/application/business/parent/module/module.service.ts
+- [x] init src/application/business/(dtos)/parent/module/IModuleModel.ts
+- [x] init src/application/business/(dtos)/parent/module/index.ts
 
-[ ] src/infrastructure/integrate-database/typeorm/entities/parent/module.entity.ts
-[ ] src/infrastructure/integrate-database/typeorm/repositories/parent/module.repository.ts
-[ ] src/infrastructure/integrate-database/database-context/core/database-context.core.ts
+- src/infrastructure/integrate-database/typeorm/entities/parent/module.entity.ts
+  - [x] por template - add
+  - [ ] por ast - modify
 
-[ ] src/infrastructure/integrate-database/typeorm/migrations/1709647646260-create-table-modalidade.ts
+- [x] src/infrastructure/integrate-database/typeorm/repositories/parent/module.repository.ts
+  - [ ] src/infrastructure/integrate-database/database-context/core/database-context.core.ts
+
+- [ ] src/infrastructure/integrate-database/typeorm/migrations/1709647646260-create-table-modalidade.ts
 
 //
 
-[ ] src/application/business/ensino/modalidade/dtos/index.ts
-[ ] src/application/business/ensino/modalidade/dtos/modalidade.operations.ts
-[ ] src/application/business/ensino/modalidade/dtos/modalidade.dto.ts
+- [ ] src/application/business/ensino/modalidade/dtos/index.ts
+- [ ] src/application/business/ensino/modalidade/dtos/modalidade.operations.ts
+- [ ] src/application/business/ensino/modalidade/dtos/modalidade.dto.ts
 
 //
 

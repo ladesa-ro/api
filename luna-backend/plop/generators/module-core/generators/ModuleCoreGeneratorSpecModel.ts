@@ -1,7 +1,7 @@
 import { builders as b, namedTypes as n } from 'ast-types';
 import { castArray } from 'lodash';
-import { BaseModuleCoreGenerator } from './BaseModuleCoreGenerator';
 import { getInterfaceNode } from '../../../helpers/ts-ast/ts-ast';
+import { BaseModuleCoreGenerator } from './BaseModuleCoreGenerator';
 
 export type IPropriedadeDeclarada = {
   nome: string;
@@ -32,8 +32,6 @@ export class ModuleCoreGeneratorSpecModel extends BaseModuleCoreGenerator {
 
         return false;
       });
-
-      console.log({ name: propriedadeDeclarada.nome, isPropertyAlreadyDeclared });
 
       if (!isPropertyAlreadyDeclared) {
         const typeAnnotationNode = b.tsTypeAnnotation(b.tsTypeReference(b.identifier(propriedadeDeclarada.tipoInterface)));

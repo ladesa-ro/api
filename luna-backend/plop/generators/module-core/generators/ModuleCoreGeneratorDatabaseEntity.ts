@@ -32,7 +32,6 @@ export class ModuleCoreGeneratorDatabaseEntity extends BaseModuleCoreGenerator {
         return false;
       });
 
-      console.log({ name: propriedadeDeclarada.nome, isPropertyAlreadyDeclared });
 
       if (!isPropertyAlreadyDeclared) {
         const typeAnnotationNode = b.tsTypeAnnotation(b.tsTypeReference(b.identifier(propriedadeDeclarada.tipoInterface)));
