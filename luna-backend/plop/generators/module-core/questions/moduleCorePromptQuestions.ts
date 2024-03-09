@@ -21,6 +21,11 @@ type IPropriedadeDeclarada = {
   nome: string;
   descricao: string;
   tipoInterface: string;
+
+  nullable: boolean;
+  nomeColuna: boolean;
+  tipoEntidadeColuna: string | null;
+  tipoEntidadeInterface: string | null;
 };
 
 export type IModuleCoreAnswers = {
@@ -174,20 +179,20 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
   if (deveDeclararPropriedades) {
     const aws = await inquirer.prompt<{ modelIdType: 'uuid' | 'numeric'; modelDated: boolean }>([
       {
-        type: 'radio',
+        type: 'list',
         name: 'modelIdType',
 
-        message: `----- Tipo de identificador do I${ChangeCaseHelper.c_pascal(moduleName)}Model:`,
+        message: `< Tipo de identificador do I${ChangeCaseHelper.c_pascal(moduleName)}Model:`,
 
         choices: [
           {
-            name: `---------> uuid`,
+            name: `<----> uuid`,
             short: `uuid`,
             value: 'uuid',
           },
 
           {
-            name: `---------> numerico`,
+            name: `<----> numerico`,
             short: `int`,
             value: 'numeric',
           },
@@ -196,7 +201,7 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
       {
         type: 'confirm',
         name: 'modelDated',
-        message: `----- Inclui datas (dateCreated, dateUpdated e dateDeleted) no I${ChangeCaseHelper.c_pascal(moduleName)}Model:`,
+        message: `< Incluir datas (dateCreated, dateUpdated e dateDeleted) no I${ChangeCaseHelper.c_pascal(moduleName)}Model:`,
         default: true,
       },
     ]);
@@ -207,7 +212,7 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
     do {
       let count = propriedadesDeclaradas.length;
 
-      const { nome, descricao, tipoInterface } = await inquirer.prompt([
+      const { nome, descricao, tipoInterface, nullable,nomeColuna, tipoEntidadeColuna, tipoEntidadeInterface } = await inquirer.prompt([
         {
           name: 'nome',
           type: 'input',
@@ -223,10 +228,40 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
           type: 'input',
           message: `----- Propriedade #${count} - Tipagem da propriedade na interface do modelo:`,
         },
+        {
+          name: 'tipoEntidadeColuna',
+          type: 'input',
+          when: () => database.includes('db-entity'),
+          message: `----- Propriedade #${count} - [DB] - Tipo da coluna no banco de dados (text, varchar, time, date):`,
+        },
+        {
+          name: 'nullable',
+          type: 'confirm',
+          message: `----- Propriedade #${count} - Coluna anulável?`,
+          default: false,
+        },
+        {
+          name: 'nomeColuna',
+          type: 'input',
+          when: () => database.includes('db-entity'),
+          message: `----- Propriedade #${count} - [DB] - Nome da coluna no banco de dados (a que fica na tabela):`,
+          default: (aws: any) => ChangeCaseHelper.c_snake(aws.nome),
+        },
+        {
+          name: 'tipoEntidadeInterface',
+          type: 'input',
+          when: () => database.includes('db-entity'),
+          message: `----- Propriedade #${count} - [DB] - tipagem da propriedade na classe:`,
+          default: (aws: any) => aws.tipoInterface,
+        },
       ]);
 
       if (await askConfirm(inq, 'Confirma a declaração desta propriedade?', false)) {
         propriedadesDeclaradas.push({
+          nullable,
+          nomeColuna,
+          tipoEntidadeColuna,
+          tipoEntidadeInterface,
           nome,
           descricao,
           tipoInterface,
@@ -236,6 +271,9 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
   }
 
   return {
+    modelIdType,
+    modelDated,
+    //
     modulePath,
     moduleName,
     moduleNameParent,

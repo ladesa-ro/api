@@ -1,4 +1,4 @@
-import { namedTypes as n, visit, builders as b } from 'ast-types';
+import { builders as b, namedTypes as n, visit } from 'ast-types';
 import { NodePath } from 'ast-types/lib/node-path';
 import { ProxifiedModule } from 'magicast';
 import { normalize } from 'pathe';
@@ -124,4 +124,41 @@ export const addExportAllFrom = async (mod: ProxifiedModule, pathName: string) =
       },
     });
   }
+};
+
+export const getInterfaceNode = ($ast: n.Node, modelName: string) => {
+  return new Promise<n.TSInterfaceDeclaration | null>((resolve) => {
+    visit($ast, {
+      visitTSInterfaceDeclaration(path) {
+        const node = path.node;
+
+        if (n.Identifier.assert(node.id) && node.id.name === modelName) {
+          resolve(node);
+        }
+
+        return false;
+      },
+    });
+
+    resolve(null);
+  });
+};
+
+
+export const getClassNode = ($ast: n.Node, className: string) => {
+  return new Promise<n.TSInterfaceDeclaration | null>((resolve) => {
+    visit($ast, {
+      visitClassDeclaration(path) {
+        const node = path.node;
+
+        if (n.Identifier.assert(node.id) && node.id.name === className) {
+          resolve(node);
+        }
+
+        return false;
+      },
+    });
+
+    resolve(null);
+  });
 };

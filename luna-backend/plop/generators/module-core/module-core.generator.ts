@@ -19,6 +19,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
 
     const templateBase = `./plop/generators/module-core/hbs`;
 
+    const outputPathTypeorm = `src/infrastructure/integrate-database/typeorm`;
     const outputPathSpec = `src/application/business/(spec)/{{ c_kebab moduleNameParent }}/{{ c_kebab moduleName }}`;
     const outputPathModule = `src/application/business/{{ c_kebab moduleNameParent }}/{{ c_kebab moduleName }}`;
 
@@ -102,6 +103,17 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       });
     }
 
+    const entityName = `${ChangeCaseHelper.c_snake(answers.moduleName)}.entity`;
+
+    if (answers.database.includes('db-entity')) {
+      actions.push({
+        type: 'add',
+        path: `${outputPathTypeorm}/${ChangeCaseHelper.c_snake(answers.moduleNameParent)}/${entityName}.ts`,
+        templateFile: `${templateBase}/database/entity.ts.hbs`,
+        skipIfExists: true,
+      });
+    }
+
     const modelName = `I${ChangeCaseHelper.c_pascal(answers.moduleName)}Model`;
 
     if (answers.estrutura.includes('model')) {
@@ -119,7 +131,15 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         skipIfExists: true,
       });
 
-      if (answers.propriedadesDeclaradas.length > 0) {
+      actions.push({
+        type: 'modify',
+        path: `${outputPathSpec}/index.ts`,
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${modelName}`).transform(code),
+      });
+    }
+
+    if (answers.propriedadesDeclaradas.length > 0) {
+      if (answers.estrutura.includes('model')) {
         actions.push({
           type: 'modify',
           path: `${outputPathSpec}/${modelName}.ts`,
@@ -127,11 +147,9 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         });
       }
 
-      actions.push({
-        type: 'modify',
-        path: `${outputPathSpec}/index.ts`,
-        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${modelName}`).transform(code),
-      });
+      if (answers.database.includes('db-entity')) {
+        console.log("TODO: answers.database.includes('db-entity')");
+      }
     }
 
     //

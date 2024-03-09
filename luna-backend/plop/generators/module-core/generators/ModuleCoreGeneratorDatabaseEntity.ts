@@ -1,7 +1,7 @@
 import { builders as b, namedTypes as n } from 'ast-types';
 import { castArray } from 'lodash';
-import { BaseModuleCoreGenerator } from './BaseModuleCoreGenerator';
 import { getInterfaceNode } from '../../../helpers/ts-ast/ts-ast';
+import { BaseModuleCoreGenerator } from './BaseModuleCoreGenerator';
 
 export type IPropriedadeDeclarada = {
   nome: string;
@@ -9,8 +9,7 @@ export type IPropriedadeDeclarada = {
   tipoInterface: string;
 };
 
-
-export class ModuleCoreGeneratorSpecModel extends BaseModuleCoreGenerator {
+export class ModuleCoreGeneratorDatabaseEntity extends BaseModuleCoreGenerator {
   addPropertySignature(modelName: string, propriedadeDeclarada: IPropriedadeDeclarada) {
     this.addModify(async (mod) => {
       const $ast = mod.$ast;
