@@ -35,6 +35,16 @@ export class CreateTableCalendarioLetivo1709926626672 implements MigrationInterf
             type: 'uuid',
             isNullable: false,
           },
+          {
+            name: 'id_campus_fk',
+            type: 'uuid',
+            isNullable: false,
+          },
+          {
+            name: 'id_modalidade_fk',
+            type: 'uuid',
+            isNullable: false,
+          },
           //
           {
             name: 'date_created',
@@ -61,6 +71,18 @@ export class CreateTableCalendarioLetivo1709926626672 implements MigrationInterf
             columnNames: ['id_curso_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'curso',
+          },
+          {
+            name: `fk__${tableName}__depende__campus`,
+            columnNames: ['id_campus_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'campus',
+          },
+          {
+            name: `fk__${tableName}__depende__modalidade`,
+            columnNames: ['id_modalidade_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'modalidade',
           },
         ],
       }),
