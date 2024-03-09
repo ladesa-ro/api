@@ -6,7 +6,7 @@ import { ClientAccessHttp, DtoOperationCreate, DtoOperationFindOne, HttpDtoBody 
 import { AutenticacaoService } from './autenticacao.service';
 import { AutenticacaoOperations } from './dtos';
 
-@ApiTags('Autenticação')
+@ApiTags('Autenticacao')
 @Controller('/autenticacao')
 export class AutenticacaoController {
   constructor(private readonly autenticacaoService: AutenticacaoService) {}
