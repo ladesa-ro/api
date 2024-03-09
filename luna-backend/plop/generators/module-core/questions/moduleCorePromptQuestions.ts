@@ -34,8 +34,8 @@ export type IModuleCoreAnswers = {
   propriedadesDeclaradas: IPropriedadeDeclarada[];
 };
 
-const askConfirm = async (inquirer: typeof inq, msg: string) => {
-  const aws = await inquirer.prompt<{ confirm: boolean }>([{ name: 'confirm', type: 'confirm', message: msg }]);
+const askConfirm = async (inquirer: typeof inq, msg: string, defaultValue = true) => {
+  const aws = await inquirer.prompt<{ confirm: boolean }>([{ name: 'confirm', type: 'confirm', message: msg, default: defaultValue }]);
   return aws.confirm;
 };
 
@@ -162,12 +162,12 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
   let propriedadesDeclaradas: IPropriedadeDeclarada[] = [];
 
   const podeDeclararPropriedades = estrutura.includes('model');
-  const deveDeclararPropriedades = podeDeclararPropriedades && (await askConfirm(inq, 'Deseja declarar as propriedades do modelo?'));
+  const deveDeclararPropriedades = podeDeclararPropriedades && (await askConfirm(inq, 'Deseja declarar as propriedades do modelo?', true));
 
   if (deveDeclararPropriedades) {
-    let count = propriedadesDeclaradas.length;
-
     do {
+      let count = propriedadesDeclaradas.length;
+
       const { nome, descricao, tipoInterface } = await inquirer.prompt([
         {
           name: 'nome',
@@ -186,14 +186,14 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
         },
       ]);
 
-      if (await askConfirm(inq, 'Confirma a declaração desta propriedade?')) {
+      if (await askConfirm(inq, 'Confirma a declaração desta propriedade?', false)) {
         propriedadesDeclaradas.push({
           nome,
           descricao,
           tipoInterface,
         });
       }
-    } while (await askConfirm(inq, 'Deseja declarar mais propriedades ao modelo?'));
+    } while (await askConfirm(inq, 'Deseja declarar mais propriedades ao modelo?', true));
   }
 
   return {

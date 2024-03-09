@@ -1,6 +1,7 @@
 import { ActionType, PlopGeneratorConfig } from 'plop';
 import { ChangeCaseHelper } from '../../helpers';
 import { IModuleDeclareClass, ModuleCoreGeneratorNestModule } from './generators/ModuleCoreGeneratorNestModule';
+import { ModuleCoreGeneratorSpecModel } from './generators/ModuleCoreGeneratorSpecModel';
 import { IAnswerEstrutura, IModuleCoreAnswers, moduleCorePromptQuestions } from './questions/moduleCorePromptQuestions';
 
 export const timestamp = '0000000000000';
@@ -114,6 +115,18 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         templateFile: `${templateBase}/spec/index.ts.hbs`,
         skipIfExists: true,
       });
+
+      if (answers.propriedadesDeclaradas.length > 0) {
+        const moduleCoreGeneratorSpecModel = new ModuleCoreGeneratorSpecModel();
+
+        moduleCoreGeneratorSpecModel.addPropertiesSignatures(`I${ChangeCaseHelper.c_pascal(answers.moduleName)}Model`, answers.propriedadesDeclaradas);
+
+        actions.push({
+          type: 'modify',
+          path: `${outputPathSpec}/I{{ c_pascal moduleName }}Model.ts`,
+          transform: async (code) => moduleCoreGeneratorSpecModel.transform(code),
+        });
+      }
     }
 
     //
