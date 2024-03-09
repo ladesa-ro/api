@@ -1,5 +1,6 @@
 import { ActionType, PlopGeneratorConfig } from 'plop';
 import { ChangeCaseHelper } from '../../helpers';
+import { BaseModuleCoreGenerator } from './generators/BaseModuleCoreGenerator';
 import { IModuleDeclareClass, ModuleCoreGeneratorNestModule } from './generators/ModuleCoreGeneratorNestModule';
 import { ModuleCoreGeneratorSpecModel } from './generators/ModuleCoreGeneratorSpecModel';
 import { IAnswerEstrutura, IModuleCoreAnswers, moduleCorePromptQuestions } from './questions/moduleCorePromptQuestions';
@@ -101,10 +102,12 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       });
     }
 
+    const modelName = `I${ChangeCaseHelper.c_pascal(answers.moduleName)}Model`;
+
     if (answers.estrutura.includes('model')) {
       actions.push({
         type: 'add',
-        path: `${outputPathSpec}/I{{ c_pascal moduleName }}Model.ts`,
+        path: `${outputPathSpec}/${modelName}.ts`,
         templateFile: `${templateBase}/spec/IModel.ts.hbs`,
         skipIfExists: true,
       });
@@ -119,14 +122,20 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       if (answers.propriedadesDeclaradas.length > 0) {
         const moduleCoreGeneratorSpecModel = new ModuleCoreGeneratorSpecModel();
 
-        moduleCoreGeneratorSpecModel.addPropertiesSignatures(`I${ChangeCaseHelper.c_pascal(answers.moduleName)}Model`, answers.propriedadesDeclaradas);
+        moduleCoreGeneratorSpecModel.addPropertiesSignatures(modelName, answers.propriedadesDeclaradas);
 
         actions.push({
           type: 'modify',
-          path: `${outputPathSpec}/I{{ c_pascal moduleName }}Model.ts`,
+          path: `${outputPathSpec}/${modelName}.ts`,
           transform: async (code) => moduleCoreGeneratorSpecModel.transform(code),
         });
       }
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathSpec}/index.ts`,
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${modelName}`).transform(code),
+      });
     }
 
     //

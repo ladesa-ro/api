@@ -1,6 +1,7 @@
-import { namedTypes as n, visit } from 'ast-types';
+import { namedTypes as n, visit, builders as b } from 'ast-types';
 import { NodePath } from 'ast-types/lib/node-path';
 import { ProxifiedModule } from 'magicast';
+import { normalize } from 'pathe';
 
 export const findNestJsModuleObjectConfigProperty = (ast: n.Node, propName: string) =>
   new Promise<n.ObjectProperty | null>((resolve) => {
@@ -85,4 +86,42 @@ export const addImportMember = (mod: ProxifiedModule, path: string, member: stri
   }
 
   mod.imports.$add({ from: path, imported: member });
+};
+
+const checkHasExportAllFromPathName = (ast: n.Node, pathName: string) => {
+  return new Promise<boolean>((resolve) => {
+    visit(ast, {
+      visitExportAllDeclaration(path) {
+        const node = path.node;
+
+        if (typeof node.source.value === 'string' && normalize(node.source.value) === normalize(pathName)) {
+          resolve(true);
+        }
+
+        return false;
+      },
+    });
+
+    resolve(false);
+  });
+};
+
+export const addExportAllFrom = async (mod: ProxifiedModule, pathName: string) => {
+  const isAlreadyExported = await checkHasExportAllFromPathName(mod.$ast, pathName);
+
+  if (!isAlreadyExported) {
+    visit(mod.$ast, {
+      visitProgram(path) {
+        const node = path.node;
+
+        const lastExport = node.body.findLastIndex((i) => i.type === 'ExportAllDeclaration') ?? -1;
+
+        const targetIndex = lastExport !== -1 ? lastExport : 0;
+
+        node.body.splice(targetIndex, 0, b.exportAllDeclaration(b.literal(pathName)));
+
+        return false;
+      },
+    });
+  }
 };
