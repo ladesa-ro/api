@@ -24,12 +24,6 @@ export class CreateTableModalidade1709647646260 implements MigrationInterface {
             type: 'text',
             isNullable: false,
           },
-
-          {
-            name: 'id_campus_fk',
-            type: 'uuid',
-          },
-
           {
             name: 'date_created',
             type: 'timestamptz',
@@ -46,14 +40,6 @@ export class CreateTableModalidade1709647646260 implements MigrationInterface {
             name: 'date_deleted',
             type: 'timestamptz',
             isNullable: true,
-          },
-        ],
-        foreignKeys: [
-          {
-            name: `fk__${tableName}__pertence_a__campus`,
-            columnNames: ['id_campus_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'campus',
           },
         ],
       }),
