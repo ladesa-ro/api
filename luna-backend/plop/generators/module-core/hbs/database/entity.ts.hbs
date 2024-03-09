@@ -18,7 +18,6 @@ export class {{ c_pascal moduleName }}Entity  {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
   {{/if}}
-
   {{#if (eq modelIdType "numeric") }}
   @PrimaryGeneratedColumn('identity')
   id!: number;
@@ -29,8 +28,8 @@ export class {{ c_pascal moduleName }}Entity  {
   {{#each propriedadesDeclaradas}}
   @Column({ name: '{{ c_snake this.nomeColuna }}', type: '{{ this.tipoEntidadeColuna }}', nullable: {{ ternary this.nullable "true" "false" }} })
   {{this.nome}}!: {{this.tipoEntidadeInterface }} {{ ternary this.nullable "| null" "" }};
-  {{/each}}
 
+  {{/each}}
   //
 
   {{#if modelDated}}
