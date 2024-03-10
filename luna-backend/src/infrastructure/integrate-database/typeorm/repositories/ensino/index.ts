@@ -1,2 +1,1 @@
-export * from "./modalidade.repository";
-
+export * from './modalidade.repository';

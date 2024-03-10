@@ -1,3 +1,2 @@
-export * from "./usuario-vinculo-campus.repository"
-export * from "./usuario.repository"
-
+export * from './usuario-vinculo-campus.repository';
+export * from './usuario.repository';

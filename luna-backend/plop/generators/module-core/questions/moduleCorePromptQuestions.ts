@@ -23,9 +23,12 @@ type IPropriedadeDeclarada = {
   tipoInterface: string;
 
   nullable: boolean;
-  nomeColuna: boolean;
+  nomeColuna: string;
   tipoEntidadeColuna: string | null;
   tipoEntidadeInterface: string | null;
+
+  tipoSwagger: string | null;
+  tipoGraphQl: string | null;
 };
 
 export type IModuleCoreAnswers = {
@@ -51,6 +54,35 @@ const askConfirm = async (inquirer: typeof inq, msg: string, defaultValue = true
 };
 
 export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<IModuleCoreAnswers> {
+  if ('1' === '1') {
+    return {
+      migrationTimestamp: Date.now(),
+
+      modelIdType: 'uuid',
+      modelDated: true,
+      //
+      modulePath: 'ensino/professor',
+      moduleName: 'professor',
+      moduleNameParent: 'ensino',
+      estrutura: ['controller', 'model', 'resolver', 'service'],
+      operacoes: ['handle-resource-create', 'handle-resource-delete', 'handle-resource-read', 'handle-resource-update'],
+      database: ['db-entity', 'db-migration-create-table', 'db-repository'],
+      propriedadesDeclaradas: [
+        {
+          nome: 'nome',
+          descricao: 'descricao',
+          nullable: false,
+          nomeColuna: 'nome',
+          tipoEntidadeColuna: 'text',
+          tipoEntidadeInterface: 'string',
+          tipoGraphQl: 'String',
+          tipoSwagger: "'string'",
+          tipoInterface: 'string',
+        },
+      ],
+    };
+  }
+
   const { modulePath } = await inquirer.prompt<{ modulePath: string }>([
     {
       type: 'input',
@@ -214,7 +246,7 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
     do {
       let count = propriedadesDeclaradas.length;
 
-      const { nome, descricao, tipoInterface, nullable, nomeColuna, tipoEntidadeColuna, tipoEntidadeInterface } = await inquirer.prompt([
+      const { nome, descricao, tipoInterface, nullable, nomeColuna, tipoSwagger, tipoGraphQl, tipoEntidadeColuna, tipoEntidadeInterface } = await inquirer.prompt([
         {
           name: 'nome',
           type: 'input',
@@ -235,6 +267,16 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
           type: 'input',
           when: () => database.includes('db-entity'),
           message: `----- Propriedade #${count} - [DB] - Tipo da coluna no banco de dados (text, varchar, time, date):`,
+        },
+        {
+          name: 'tipoSwagger',
+          type: 'input',
+          message: `----- Propriedade #${count} - [SWAGGER] - Tipo da propriedade na declaração do dto swagger (LEMBRE DAS ASPAS):`,
+        },
+        {
+          name: 'tipoGraphQl',
+          type: 'input',
+          message: `----- Propriedade #${count} - [GRAPHQL] - Tipo da propriedade na declaração do dto graphql:`,
         },
         {
           name: 'nullable',
@@ -260,6 +302,8 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
 
       if (await askConfirm(inq, 'Confirma a declaração desta propriedade?', false)) {
         propriedadesDeclaradas.push({
+          tipoSwagger,
+          tipoGraphQl,
           nullable,
           nomeColuna,
           tipoEntidadeColuna,

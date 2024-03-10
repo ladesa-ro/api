@@ -5,7 +5,6 @@ import { AppModule } from './application/app.module';
 import { EnvironmentConfigService } from './infrastructure/environment-config';
 import { getModuleHelmet } from './infrastructure/utils/modules/helmet/modules.helmet';
 
-
 function setupSwaggerConfig() {
   const config = new DocumentBuilder();
 
