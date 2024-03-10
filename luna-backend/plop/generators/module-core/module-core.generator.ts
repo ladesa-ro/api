@@ -3,6 +3,7 @@ import { ChangeCaseHelper } from '../../helpers';
 import { BaseModuleCoreGenerator } from './generators/BaseModuleCoreGenerator';
 import { ModuleCoreGeneratorDatabaseContextCore } from './generators/ModuleCoreGeneratorDatabaseContextCore';
 import { IModuleDeclareClass, ModuleCoreGeneratorNestModule } from './generators/ModuleCoreGeneratorNestModule';
+import { ModuleCoreGeneratorOperations } from './generators/ModuleCoreGeneratorOperations';
 import { IAnswerEstrutura, IModuleCoreAnswers, moduleCorePromptQuestions } from './questions/moduleCorePromptQuestions';
 
 export const timestamp = '0000000000000';
@@ -203,22 +204,22 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
 
       actions.push({
         type: 'add',
-        path: `${outputPathModule}/dtos/index.ts`,
-        templateFile: `${templateBase}/spec/index.ts.hbs`,
-        skipIfExists: true,
-      });
-
-      actions.push({
-        type: 'add',
         path: `${outputPathModule}/dtos/${ChangeCaseHelper.c_kebab(answers.moduleName)}.dto.ts`,
         templateFile: `${templateBase}/core-module-dto/dto.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
+        type: 'add',
+        path: `${outputPathModule}/dtos/index.ts`,
+        templateFile: `${templateBase}/spec/index.ts.hbs`,
+        skipIfExists: true,
+      });
+
+      actions.push({
         type: 'modify',
         path: `${outputPathModule}/dtos/index.ts`,
-        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}.dto.ts`).transform(code),
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}.dto`).transform(code),
       });
     }
 
@@ -233,7 +234,84 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       actions.push({
         type: 'modify',
         path: `${outputPathModule}/dtos/index.ts`,
-        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations.ts`).transform(code),
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations`).transform(code),
+      });
+
+      actions.push({
+        type: 'add',
+        path: `${outputPathSpec}/operations/index.ts`,
+        templateFile: `${templateBase}/spec/index.ts.hbs`,
+        skipIfExists: true,
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathSpec}/index.ts`,
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./operations`).transform(code),
+      });
+    }
+
+    if (answers.operacoes.includes('handle-resource-read')) {
+      actions.push({
+        type: 'addMany',
+        destination: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-find-one`,
+        base: `${templateBase}/spec/operations/find-one`,
+        templateFiles: `${templateBase}/spec/operations/find-one/**/*`,
+        skipIfExists: true,
+        verbose: true,
+      });
+
+      actions.push({
+        type: 'addMany',
+        destination: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-find-all`,
+        base: `${templateBase}/spec/operations/find-all`,
+        templateFiles: `${templateBase}/spec/operations/find-all/**/*`,
+        skipIfExists: true,
+        verbose: true,
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathSpec}/operations/index.ts`,
+        transform: async (code) =>
+          new BaseModuleCoreGenerator()
+            .addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-find-all`)
+            .addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-find-one`)
+            .transform(code),
+      });
+
+      actions.push({
+        type: 'add',
+        path: `${outputPathModule}/dtos/{{ c_kebab moduleName }}-find-all.operation.ts`,
+        templateFile: `${templateBase}/core-module-dto/find-all.operation.ts.hbs`,
+        skipIfExists: true,
+      });
+
+      actions.push({
+        type: 'add',
+        path: `${outputPathModule}/dtos/{{ c_kebab moduleName }}-find-one.operation.ts`,
+        templateFile: `${templateBase}/core-module-dto/find-one.operation.ts.hbs`,
+        skipIfExists: true,
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathModule}/dtos/index.ts`,
+        transform: async (code) =>
+          new BaseModuleCoreGenerator()
+            .addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-find-all.operation`)
+            .addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-find-one.operation`)
+            .transform(code),
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathModule}/dtos/${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations.ts`,
+        transform: async (code) =>
+          new ModuleCoreGeneratorOperations()
+            .addOperation(`${ChangeCaseHelper.c_constant(answers.moduleName)}_FIND_ALL`, `./${ChangeCaseHelper.c_kebab(answers.moduleName)}-find-all.operation`)
+            .addOperation(`${ChangeCaseHelper.c_constant(answers.moduleName)}_FIND_ONE_BY_ID`, `./${ChangeCaseHelper.c_kebab(answers.moduleName)}-find-one.operation`)
+            .transform(code),
       });
     }
 

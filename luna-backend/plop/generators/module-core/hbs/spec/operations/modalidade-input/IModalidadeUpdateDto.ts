@@ -1,4 +1,4 @@
-import { IModalidadeFindOneByIdInputDto } from '../modalidade-find-one/IModalidadeFindOneByIdInputDto';
+import { IModalidadeFindOneByIdInputDto } from '../{{ c_kebab moduleName }}-find-one/IModalidadeFindOneByIdInputDto';
 import { IModalidadeInputDto } from './IModalidadeInputDto';
 
 export interface IModalidadeUpdateDto extends IModalidadeFindOneByIdInputDto, Partial<Omit<IModalidadeInputDto, 'campus'>> {
