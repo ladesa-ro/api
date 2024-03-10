@@ -9,10 +9,10 @@
 - [x] src/infrastructure/integrate-database/typeorm/migrations/1709647646260-create-table-modalidade.ts
 - [x] src/application/business/ensino/modalidade/dtos/index.ts
 - [x] src/application/business/ensino/modalidade/dtos/modalidade.dto.ts
+- [x] src/application/business/ensino/modalidade/dtos/modalidade.operations.ts
 
 // ====================================================================================================
 
-- [ ] src/application/business/ensino/modalidade/dtos/modalidade.operations.ts
 
 //
 

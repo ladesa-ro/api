@@ -222,6 +222,21 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       });
     }
 
+    if (answers.operacoes.length > 0) {
+      actions.push({
+        type: 'add',
+        path: `${outputPathModule}/dtos/${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations.ts`,
+        templateFile: `${templateBase}/core-module-dto/operations.ts.hbs`,
+        skipIfExists: true,
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathModule}/dtos/index.ts`,
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations.ts`).transform(code),
+      });
+    }
+
     //
 
     return actions;
