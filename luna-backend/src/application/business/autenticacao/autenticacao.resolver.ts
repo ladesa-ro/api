@@ -1,6 +1,6 @@
 import { Resolver } from '@nestjs/graphql';
 import { ClientAccessGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from 'infrastructure';
-import * as Dto from '../(dtos)';
+import * as Dto from '../(spec)';
 import { IClientAccess } from '../../../domain';
 import { AutenticacaoService } from './autenticacao.service';
 import { AutenticacaoOperations } from './dtos';

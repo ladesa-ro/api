@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import * as Dtos from '../../(dtos)';
+import * as Dtos from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';

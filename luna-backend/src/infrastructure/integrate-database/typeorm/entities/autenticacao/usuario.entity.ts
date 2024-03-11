@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { IEntityDate, IUsuarioModel } from '../../../../../application/business/(dtos)';
+import { IEntityDate, IUsuarioModel } from '../../../../../application/business/(spec)';
 import { UsuarioVinculoCampusEntity } from './usuario-vinculo-campus.entity';
 
 @Entity('usuario')

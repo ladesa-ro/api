@@ -1,6 +1,6 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '../(dtos)';
+import * as Dto from '../(spec)';
 import { IClientAccess } from '../../../domain';
 import { ClientAccessHttp, DtoOperationCreate, DtoOperationFindOne, HttpDtoBody } from '../../../infrastructure';
 import { AutenticacaoService } from './autenticacao.service';

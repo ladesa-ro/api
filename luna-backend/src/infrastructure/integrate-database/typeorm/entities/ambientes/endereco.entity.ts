@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ICidadeModel, IEnderecoModel, IEntityDate } from '../../../../../application/business/(dtos)';
+import { ICidadeModel, IEnderecoModel, IEntityDate } from '../../../../../application/business/(spec)';
 import { CidadeEntity } from './cidade.entity';
 
 @Entity('endereco')

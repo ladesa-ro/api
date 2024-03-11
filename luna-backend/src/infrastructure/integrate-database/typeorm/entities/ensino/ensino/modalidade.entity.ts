@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ICampusModel, IEntityDate } from '../../../../../../application/business/(dtos)';
-import { IModalidadeModel } from '../../../../../../application/business/(dtos)/ensino/modalidade/IModalidadeModel';
+import { ICampusModel, IEntityDate } from '../../../../../../application/business/(spec)';
+import { IModalidadeModel } from '../../../../../../application/business/(spec)/ensino/modalidade/IModalidadeModel';
 import { CampusEntity } from '../../ambientes/campus.entity';
 
 @Entity('modalidade')

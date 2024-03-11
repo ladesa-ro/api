@@ -1,7 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as yup from 'yup';
-import { ICampusUpdateDto, IEnderecoInputDto } from '../../../(dtos)';
+import { ICampusUpdateDto, IEnderecoInputDto } from '../../../(spec)';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CampusFindOneByIdInputValidationContract, CampusFindOneResultDto } from './campus-find-one.operation';
 import { CampusInputDtoValidationContract } from './campus-input.dto';

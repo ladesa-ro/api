@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import * as Dto from '../../(dtos)';
+import * as Dto from '../../(spec)';
 import { IClientAccess } from '../../../../domain/client-access';
 import { ClientAccessHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../../infrastructure';
 import { CidadeService } from './cidade.service';

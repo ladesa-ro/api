@@ -1,6 +1,6 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import * as Dto from '../../../(dtos)';
+import * as Dto from '../../../(spec)';
 import { DtoProperty, ValidationContractObjectUuid, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { BlocoDtoProperties, BlocoDtoValidationContract } from './bloco.dto';
 

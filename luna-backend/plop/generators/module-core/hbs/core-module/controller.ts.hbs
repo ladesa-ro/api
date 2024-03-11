@@ -1,0 +1,8 @@
+import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags('{{ c_capital moduleName }}')
+@Controller('/{{ c_kebab moduleName }}s')
+export class {{ c_pascal moduleName }}Controller {
+  constructor() {}
+}

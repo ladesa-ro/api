@@ -1,5 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '../../../(dtos)';
+import * as Dto from '../../../(spec)';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
 import { ModalidadeDto } from './modalidade.dto';
 

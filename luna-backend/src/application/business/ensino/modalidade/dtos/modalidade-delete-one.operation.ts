@@ -1,6 +1,6 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import * as Dto from '../../../(dtos)';
+import * as Dto from '../../../(spec)';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { ModalidadeDtoProperties, ModalidadeDtoValidationContract } from './modalidade.dto';
 
@@ -26,7 +26,7 @@ export const MODALIDADE_DELETE_ONE_BY_ID = createDtoOperationOptions({
   description: 'Realiza a remoção de uma modalidade por ID.',
 
   gql: {
-    name: 'ModalidadeDeleteOneById',
+    name: 'modalidadeDeleteOneById',
 
     inputDtoType: () => ModalidadeDeleteOneByIdInputDto,
     inputDtoValidationContract: ModalidadeDeleteOneByIdInputValidationContract,

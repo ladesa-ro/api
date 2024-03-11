@@ -1,0 +1,48 @@
+- [x] init src/application/business/parent/module/module.module.ts
+- [x] init src/application/business/parent/module/module.controller.ts
+- [x] init src/application/business/parent/module/module.resolver.ts
+- [x] init src/application/business/parent/module/module.service.ts
+- [x] init src/application/business/(spec)/parent/module/IModuleModel.ts
+- [x] init src/application/business/(spec)/parent/module/index.ts
+- [x] src/infrastructure/integrate-database/typeorm/repositories/parent/module.repository.ts
+- [x] src/infrastructure/integrate-database/database-context/core/database-context.core.ts
+- [x] src/infrastructure/integrate-database/typeorm/migrations/1709647646260-create-table-modalidade.ts
+- [x] src/application/business/ensino/modalidade/dtos/index.ts
+- [x] src/application/business/ensino/modalidade/dtos/modalidade.dto.ts
+- [x] src/application/business/ensino/modalidade/dtos/modalidade.operations.ts
+- [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-find-one/index.ts
+- [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-find-one/IModalidadeFindOneResultDto.ts
+- [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-find-one/IModalidadeFindOneByIdInputDto.ts
+- [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-find-all/index.ts
+- [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-find-all/IModalidadeFindAllResultDto.ts
+
+- [x] src/application/authorization-policies/statements/IAuthzStatement.ts
+- [x] src/application/authorization-policies/BaseAuthzPolicy.ts
+- [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-delete/index.ts
+- [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-delete/IModalidadeDeleteOneByIdInputDto.ts
+- [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-input/index.ts
+- [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-input/IModalidadeInputDto.ts
+- [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-input/IModalidadeCreateDto.ts
+- [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-input/IModalidadeUpdateDto.ts
+- [x] src/application/business/ensino/modalidade/dtos/modalidade-input-dto.ts
+
+//
+- [x] src/application/business/ensino/modalidade/dtos/modalidade-find-one.operation.ts
+- [x] src/application/business/ensino/modalidade/dtos/modalidade-find-all.operation.ts
+- [x] src/application/business/ensino/modalidade/dtos/modalidade-delete-one.operation.ts
+- [x] src/application/business/ensino/modalidade/dtos/modalidade-create.operation.ts
+- [x] src/application/business/ensino/modalidade/dtos/modalidade-update.operation.ts
+- [x] import src/application/business/parent/parent.module.ts
+//
+
+- [] atualizar service, controller e resolver
+
+//
+
+- [ ]  |||||||| por ast - modify |||||||| src/infrastructure/integrate-database/typeorm/entities/parent/module.entity.ts
+- [ ]  |||||||| por ast - modify |||||||| src/application/business/ensino/modalidade/dtos/modalidade.dto.ts
+
+//
+
+src/application/authorization-policies/00-AuthzPolicyPublic.ts
+src/application/authorization-policies/01-AuthzPolicySuperUser.ts

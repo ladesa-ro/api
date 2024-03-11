@@ -1,5 +1,5 @@
 import { IBaseAuthzCheck, IBaseAuthzFilter } from '../../../domain';
-import * as Dto from '../../business/(dtos)';
+import * as Dto from '../../business/(spec)';
 
 // ===================================================================================
 

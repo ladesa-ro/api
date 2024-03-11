@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { ICidadeModel } from '../../../../../application/business/(spec)';
 import { EstadoEntity } from './estado.entity';
-import { ICidadeModel } from '../../../../../application/business/(dtos)';
 
 @Entity('base_cidade')
 export class CidadeEntity implements ICidadeModel {

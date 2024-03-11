@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
 import { CampusDto, CampusFindOneResultDto } from 'application/business/ambientes/campus/dtos';
 import * as yup from 'yup';
-import { ICampusModel, IEntityDate, IUsuarioModel, IUsuarioVinculoCampusModel } from '../../../(dtos)';
+import { ICampusModel, IEntityDate, IUsuarioModel, IUsuarioVinculoCampusModel } from '../../../(spec)';
 import { CommonPropertyUuid, DtoProperty, ObjectUuidDto, ValidationContractObjectUuid, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
 import { UsuarioDto, UsuarioFindOneResultDto } from '../../usuario/dtos';
 

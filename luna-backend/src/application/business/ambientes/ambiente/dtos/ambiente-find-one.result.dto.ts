@@ -1,5 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import { IAmbienteFindOneResultDto, IBlocoFindOneResultDto } from '../../../(dtos)';
+import { IAmbienteFindOneResultDto, IBlocoFindOneResultDto } from '../../../(spec)';
 import { DtoProperty } from '../../../../../infrastructure';
 import { AmbienteDtoProperties } from './ambiente.dto';
 

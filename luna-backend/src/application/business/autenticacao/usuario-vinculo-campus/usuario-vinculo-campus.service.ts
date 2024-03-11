@@ -5,7 +5,7 @@ import { DatabaseContextService } from 'infrastructure';
 import { paginateConfig } from 'infrastructure/utils/paginateConfig';
 import { FilterOperator, PaginateQuery, paginate } from 'nestjs-paginate';
 import { NotBrackets, SelectQueryBuilder } from 'typeorm';
-import * as Dto from '../../(dtos)';
+import * as Dto from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
 import { UsuarioService } from '../usuario/usuario.service';
 

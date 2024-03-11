@@ -2,7 +2,7 @@ import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ClientAccessHttp, DtoOperationFindAll, DtoOperationUpdate, HttpDtoBody } from 'infrastructure';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import * as Dto from '../../(dtos)';
+import * as Dto from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
 import { UsuarioVinculoCampusOperations } from './dtos';
 import { UsuarioVinculoCampusService } from './usuario-vinculo-campus.service';

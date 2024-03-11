@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import * as Dto from '../../../(dtos)';
+import * as Dto from '../../../(spec)';
 import {
   CommonPropertyUuid,
   DtoProperty,

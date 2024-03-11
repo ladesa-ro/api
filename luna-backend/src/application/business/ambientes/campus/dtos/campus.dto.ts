@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { ICampusModel, IEnderecoModel, IEntityDate } from '../../../(dtos)';
+import { ICampusModel, IEnderecoModel, IEntityDate } from '../../../(spec)';
 import { CommonPropertyUuid, DtoProperty, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
 import { EnderecoDto, EnderecoFindOneResultDto, EnderecoInputDto, EnderecoInputDtoValidationContract } from '../../endereco/dtos';
 

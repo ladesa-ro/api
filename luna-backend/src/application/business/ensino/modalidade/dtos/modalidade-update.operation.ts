@@ -1,11 +1,11 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
-import { IModalidadeUpdateDto } from 'application/business/(dtos)/ensino/modalidade/(dtos)/modalidade-input/IModalidadeUpdateDto';
 import * as yup from 'yup';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { ModalidadeFindOneByIdInputValidationContract, ModalidadeFindOneResultDto } from './modalidade-find-one.operation';
 import { ModalidadeInputDtoValidationContract } from './modalidade-input-dto';
 import { ModalidadeDto, ModalidadeDtoProperties } from './modalidade.dto';
+import { IModalidadeUpdateDto } from '../../../(spec)';
 
 // ======================================================
 

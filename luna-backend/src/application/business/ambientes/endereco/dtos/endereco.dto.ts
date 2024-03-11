@@ -1,6 +1,6 @@
 import { Int, ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { ICidadeModel, IEnderecoModel, IEntityDate } from '../../../(dtos)';
+import { ICidadeModel, IEnderecoModel, IEntityDate } from '../../../(spec)';
 import {
   CommonPropertyUuid,
   DtoProperty,
