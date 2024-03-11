@@ -1,6 +1,7 @@
 import { ActionType, PlopGeneratorConfig } from 'plop';
 import { ChangeCaseHelper } from '../../helpers';
 import { BaseModuleCoreGenerator } from './generators/BaseModuleCoreGenerator';
+import { ModuleCoreGeneratorAuthzStatement } from './generators/ModuleCoreGeneratorAuthzStatement';
 import { ModuleCoreGeneratorDatabaseContextCore } from './generators/ModuleCoreGeneratorDatabaseContextCore';
 import { IModuleDeclareClass, ModuleCoreGeneratorNestModule } from './generators/ModuleCoreGeneratorNestModule';
 import { ModuleCoreGeneratorOperations } from './generators/ModuleCoreGeneratorOperations';
@@ -311,6 +312,17 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
           new ModuleCoreGeneratorOperations()
             .addOperation(`${ChangeCaseHelper.c_constant(answers.moduleName)}_FIND_ALL`, `./${ChangeCaseHelper.c_kebab(answers.moduleName)}-find-all.operation`)
             .addOperation(`${ChangeCaseHelper.c_constant(answers.moduleName)}_FIND_ONE_BY_ID`, `./${ChangeCaseHelper.c_kebab(answers.moduleName)}-find-one.operation`)
+            .transform(code),
+      });
+
+      //
+
+      actions.push({
+        type: 'modify',
+        path: `src/application/authorization-policies/statements/IAuthzStatement.ts`,
+        transform: async (code) =>
+          new ModuleCoreGeneratorAuthzStatement()
+            .addTypeDeclarationStatement(`IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Find`, `${ChangeCaseHelper.c_snake(answers.moduleName)}:find`, 'filter', null)
             .transform(code),
       });
     }
