@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'diario_preferencia_agrupamento';
+const tableName = 'turma_disponibilidade';
 
-export class CreateTableMomento1709932370522 implements MigrationInterface {
+export class CreateTableTurmaDisponibilidade1710186218589 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -17,32 +17,18 @@ export class CreateTableMomento1709932370522 implements MigrationInterface {
           },
           //
           {
-            name: 'dia_semana_iso',
-            type: 'int',
-            isNullable: false,
-          }, 
-          {
-            name: 'aulas_seguidas',
-            type: 'int',
-            isNullable: false,
-          },
-          {
             name: 'data_inicio',
-            type: 'timestamptz',
+            type: 'date',
             isNullable: false,
           },
           {
             name: 'data_fim',
-            type: 'timestamptz',
+            type: 'date',
             isNullable: true,
           },
+          //
           {
-            name: 'id_momento_fk',
-            type: 'uuid',
-            isNullable: true,
-          },
-          {
-            name: 'id_diario_fk',
+            name: 'id_vinculo_professor_fk ',
             type: 'uuid',
             isNullable: false,
           },
@@ -68,16 +54,10 @@ export class CreateTableMomento1709932370522 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: `fk__${tableName}__depende__momento`,
-            columnNames: ['id_momento_fk'],
+            name: `fk__${tableName}__depende__turma`,
+            columnNames: ['id_vinculo_professor_fk '],
             referencedColumnNames: ['id'],
-            referencedTableName: 'momento',
-          },
-          {
-            name: `fk__${tableName}__depende__diario`,
-            columnNames: ['id_diario_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'diario',
+            referencedTableName: 'usuario_vinculo_campus',
           },
         ],
       }),

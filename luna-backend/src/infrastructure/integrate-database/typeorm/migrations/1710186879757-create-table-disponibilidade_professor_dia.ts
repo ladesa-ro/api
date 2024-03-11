@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'evento';
+const tableName = 'disponibilidade_professor_dia';
 
-export class CreateTableEvento1709929383801 implements MigrationInterface {
+export class CreateTableDisponibilidadeProfessorDia1710186879757 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -15,32 +15,20 @@ export class CreateTableEvento1709929383801 implements MigrationInterface {
             isPrimary: true,
             default: 'gen_random_uuid()',
           },
-
           //
-
           {
-            name: 'nome',
-            type: 'text',
+            name: 'dia_semana_iso',
+            type: 'int',
             isNullable: false,
           },
           {
-            name: 'data_inicio',
-            type: 'timestamptz',
+            name: 'id_momento_fk',
+            type: 'uuid',
             isNullable: false,
-          },
-          {
-            name: 'data_termino',
-            type: 'timestamptz',
-            isNullable: false,
-          },
-          {
-            name: 'cor',
-            type: 'text',
-            isNullable: true,
           },
           //
           {
-            name: 'id_calendario_letivo_fk',
+            name: 'id_vinculo_professor_fk',
             type: 'uuid',
             isNullable: false,
           },
@@ -66,10 +54,16 @@ export class CreateTableEvento1709929383801 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: `fk__${tableName}__depende__calendario_letivo`,
-            columnNames: ['id_calendario_letivo_fk'],
+            name: `fk__${tableName}__depende__momento`,
+            columnNames: ['id_momento_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'calendario_letivo',
+            referencedTableName: 'momento',
+          },
+          {
+            name: `fk__${tableName}__depende__disponibilidade_professor`,
+            columnNames: ['id_vinculo_professor_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'disponibilidade_professor',
           },
         ],
       }),

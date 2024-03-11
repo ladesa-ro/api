@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'etapa';
+const tableName = 'diario_preferencia_agrupamento';
 
-export class CreateTableEtapa1709929896434 implements MigrationInterface {
+export class CreateTableMomento1710186667700 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -17,7 +17,12 @@ export class CreateTableEtapa1709929896434 implements MigrationInterface {
           },
           //
           {
-            name: 'numero',
+            name: 'dia_semana_iso',
+            type: 'int',
+            isNullable: false,
+          },
+          {
+            name: 'aulas_seguidas',
             type: 'int',
             isNullable: false,
           },
@@ -27,18 +32,17 @@ export class CreateTableEtapa1709929896434 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'data_termino',
+            name: 'data_fim',
             type: 'timestamptz',
-            isNullable: false,
+            isNullable: true,
           },
           {
-            name: 'cor',
-            type: 'text',
-            isNullable: false,
+            name: 'id_momento_fk',
+            type: 'uuid',
+            isNullable: true,
           },
-          //
           {
-            name: 'id_calendario_letivo_fk',
+            name: 'id_diario_fk',
             type: 'uuid',
             isNullable: false,
           },
@@ -64,10 +68,16 @@ export class CreateTableEtapa1709929896434 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: `fk__${tableName}__depende__calendario_letivo`,
-            columnNames: ['id_calendario_letivo_fk'],
+            name: `fk__${tableName}__depende__momento`,
+            columnNames: ['id_momento_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'calendario_letivo',
+            referencedTableName: 'momento',
+          },
+          {
+            name: `fk__${tableName}__depende__diario`,
+            columnNames: ['id_diario_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'diario',
           },
         ],
       }),

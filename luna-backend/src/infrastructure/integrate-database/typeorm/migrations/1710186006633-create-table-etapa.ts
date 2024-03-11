@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'turma_disponibilidade';
+const tableName = 'etapa';
 
-export class CreateTableTurmaDisponibilidade1710184742900 implements MigrationInterface {
+export class CreateTableEtapa1710186006633 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -17,18 +17,28 @@ export class CreateTableTurmaDisponibilidade1710184742900 implements MigrationIn
           },
           //
           {
+            name: 'numero',
+            type: 'int',
+            isNullable: false,
+          },
+          {
             name: 'data_inicio',
             type: 'timestamptz',
             isNullable: false,
           },
           {
-            name: 'data_fim',
+            name: 'data_termino',
             type: 'timestamptz',
-            isNullable: true,
+            isNullable: false,
+          },
+          {
+            name: 'cor',
+            type: 'text',
+            isNullable: false,
           },
           //
           {
-            name: 'id_turma_fk',
+            name: 'id_calendario_letivo_fk',
             type: 'uuid',
             isNullable: false,
           },
@@ -54,10 +64,10 @@ export class CreateTableTurmaDisponibilidade1710184742900 implements MigrationIn
         ],
         foreignKeys: [
           {
-            name: `fk__${tableName}__depende__turma`,
-            columnNames: ['id_turma_fk'],
+            name: `fk__${tableName}__depende__calendario_letivo`,
+            columnNames: ['id_calendario_letivo_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'turma',
+            referencedTableName: 'calendario_letivo',
           },
         ],
       }),
