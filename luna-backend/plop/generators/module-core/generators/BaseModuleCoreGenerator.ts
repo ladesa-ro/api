@@ -1,6 +1,7 @@
+import { namedTypes as n } from 'ast-types';
 import { ProxifiedModule, generateCode, parseModule } from 'magicast';
 import { Promisable } from 'type-fest';
-import { addExportAllFrom, addImportMember } from '../../../helpers/ts-ast/ts-ast';
+import { addExportAllFrom, addImportMember, addPropertyAcessor } from '../../../helpers/ts-ast/ts-ast';
 
 type IModifyModuleMod = (mod: ProxifiedModule<any>, code: string) => Promisable<void>;
 
@@ -27,6 +28,14 @@ export class BaseModuleCoreGenerator {
 
   addModify(callback: IModifyModuleMod) {
     this.modifyModuleQueue.push({ kind: 'mod', fn: callback });
+    return this;
+  }
+
+  addModifyAcessor(className: string, accessorName: string, property: n.ClassMethod) {
+    this.addModify(async (mod) => {
+      await addPropertyAcessor(mod.$ast, className, accessorName, property);
+    });
+
     return this;
   }
 

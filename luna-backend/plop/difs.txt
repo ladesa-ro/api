@@ -21,8 +21,7 @@
 - [x] src/application/business/ensino/modalidade/dtos/modalidade-find-one.operation.ts
 - [x] src/application/business/ensino/modalidade/dtos/modalidade-find-all.operation.ts
 - [x] src/application/authorization-policies/statements/IAuthzStatement.ts
-
-- [ ] src/application/authorization-policies/BaseAuthzPolicy.ts
+- [x] src/application/authorization-policies/BaseAuthzPolicy.ts
 
 //
 

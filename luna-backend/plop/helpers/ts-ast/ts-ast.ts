@@ -162,3 +162,41 @@ export const getClassNode = ($ast: n.Node, className: string) => {
     resolve(null);
   });
 };
+
+export const addPropertyAcessor = async (ast: n.Node, className: string, accessorName: string, property: n.ClassMethod | n.ClassProperty) => {
+  const classNode = await getClassNode(ast, className);
+
+  if (!classNode) {
+    throw new Error(`Não foi possível encontrar ${className}.`);
+  }
+
+  const acessorAlreadyExists = await new Promise((resolve) => {
+    visit(classNode, {
+      visitClassMethod(path) {
+        const node = path.node;
+
+        if (node.key?.type === 'Identifier' && node.key.name === accessorName) {
+          resolve(true);
+        }
+
+        return false;
+      },
+
+      visitClassProperty(path) {
+        const node = path.node;
+
+        if (node.key?.type === 'Identifier' && node.key.name === accessorName) {
+          resolve(true);
+        }
+
+        return false;
+      },
+    });
+
+    resolve(false);
+  });
+
+  if (!acessorAlreadyExists) {
+    classNode.body.body.unshift(property);
+  }
+};
