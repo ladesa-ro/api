@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateTableEndereco1707582876864 implements MigrationInterface {
+const tableName = 'diario_preferencia_agrupamento';
+
+export class CreateTableDiarioPreferenciaAgrupamento1710186667700 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'endereco',
+        name: tableName,
 
         columns: [
           {
@@ -14,48 +16,37 @@ export class CreateTableEndereco1707582876864 implements MigrationInterface {
             default: 'gen_random_uuid()',
           },
           //
-
           {
-            name: 'cep',
-            type: 'text',
-            isNullable: false,
-          },
-
-          {
-            name: 'logradouro',
-            type: 'text',
-            isNullable: false,
-          },
-
-          {
-            name: 'numero',
+            name: 'dia_semana_iso',
             type: 'int',
             isNullable: false,
           },
-
           {
-            name: 'bairro',
-            type: 'text',
+            name: 'aulas_seguidas',
+            type: 'int',
             isNullable: false,
           },
-
           {
-            name: 'complemento',
-            type: 'text',
+            name: 'data_inicio',
+            type: 'timestamptz',
+            isNullable: false,
+          },
+          {
+            name: 'data_fim',
+            type: 'timestamptz',
             isNullable: true,
           },
-
           {
-            name: 'ponto_referencia',
-            type: 'text',
+            name: 'id_momento_fk',
+            type: 'uuid',
             isNullable: true,
           },
-
           {
-            name: 'id_cidade_fk',
-            type: 'int',
+            name: 'id_diario_fk',
+            type: 'uuid',
+            isNullable: false,
           },
-
+          //
           {
             name: 'date_created',
             type: 'timestamptz',
@@ -68,24 +59,39 @@ export class CreateTableEndereco1707582876864 implements MigrationInterface {
             isNullable: false,
             default: 'NOW()',
           },
+
           {
             name: 'date_deleted',
             type: 'timestamptz',
             isNullable: true,
           },
         ],
+        foreignKeys: [
+          {
+            name: `fk__${tableName}__depende__momento`,
+            columnNames: ['id_momento_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'momento',
+          },
+          {
+            name: `fk__${tableName}__depende__diario`,
+            columnNames: ['id_diario_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'diario',
+          },
+        ],
       }),
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_endereco
-        BEFORE UPDATE ON endereco
+      CREATE TRIGGER change_date_updated_table_${tableName}
+        BEFORE UPDATE ON ${tableName}
         FOR EACH ROW
           EXECUTE FUNCTION change_date_updated();
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('endereco', true, true, true);
+    await queryRunner.dropTable(tableName, true, true, true);
   }
 }

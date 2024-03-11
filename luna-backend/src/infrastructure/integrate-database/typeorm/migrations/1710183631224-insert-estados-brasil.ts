@@ -30,9 +30,9 @@ const allEstados = [
   { id: 53, sigla: 'DF', nome: 'Distrito Federal' },
 ];
 
-const remainingEstados = allEstados.filter((estado) => estado.id !== 11);
+const remainingEstados = allEstados;
 
-export class InsertEstadosBrasileirosQueFaltam1709087859147 implements MigrationInterface {
+export class InsertEstadosBrasil1710183631224 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     for (const estado of remainingEstados) {
       await queryRunner.query(

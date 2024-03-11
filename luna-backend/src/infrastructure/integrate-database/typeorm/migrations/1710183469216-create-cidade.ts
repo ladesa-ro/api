@@ -1,36 +1,7 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 
-export class CreateEstadoCidade1707341471026 implements MigrationInterface {
+export class CreateCidade1710183469216 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.createTable(
-      new Table({
-        name: 'base_estado',
-
-        columns: [
-          {
-            name: 'id',
-            type: 'int',
-            isPrimary: true,
-            isGenerated: false,
-          },
-
-          // ...
-
-          {
-            name: 'sigla',
-            type: 'text',
-            isNullable: false,
-          },
-
-          {
-            name: 'nome',
-            type: 'text',
-            isNullable: false,
-          },
-        ],
-      }),
-    );
-
     await queryRunner.createTable(
       new Table({
         name: 'base_cidade',
@@ -75,6 +46,5 @@ export class CreateEstadoCidade1707341471026 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropDatabase('base_cidade', true);
-    await queryRunner.dropDatabase('base_estado', true);
   }
 }

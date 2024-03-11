@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateTableCampus1707744797931 implements MigrationInterface {
+const tableName = 'ambiente';
+
+export class CreateTableAmbiente1710183953945 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'campus',
+        name: tableName,
 
         columns: [
           {
@@ -17,33 +19,39 @@ export class CreateTableCampus1707744797931 implements MigrationInterface {
           //
 
           {
-            name: 'nome_fantasia',
+            name: 'nome',
             type: 'text',
             isNullable: false,
           },
 
           {
-            name: 'razao_social',
+            name: 'descricao',
             type: 'text',
             isNullable: false,
           },
 
           {
-            name: 'apelido',
+            name: 'codigo',
             type: 'text',
             isNullable: false,
           },
 
           {
-            name: 'cnpj',
+            name: 'capacidade',
+            type: 'int',
+            isNullable: true,
+          },
+
+          {
+            name: 'tipo',
             type: 'text',
-            isNullable: false,
+            isNullable: true,
           },
 
           //
 
           {
-            name: 'id_endereco_fk',
+            name: 'id_bloco_fk',
             type: 'uuid',
           },
 
@@ -70,24 +78,24 @@ export class CreateTableCampus1707744797931 implements MigrationInterface {
 
         foreignKeys: [
           {
-            name: 'fk_campus_tem_endereco',
-            columnNames: ['id_endereco_fk'],
+            name: `fk__${tableName}__pertence_a__bloco`,
+            columnNames: ['id_bloco_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'endereco',
+            referencedTableName: 'bloco',
           },
         ],
       }),
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_campus
-        BEFORE UPDATE ON campus
+      CREATE TRIGGER change_date_updated_table_${tableName}
+        BEFORE UPDATE ON ${tableName}
         FOR EACH ROW
           EXECUTE FUNCTION change_date_updated();
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('campus', true, true, true);
+    await queryRunner.dropTable(`${tableName}`, true, true, true);
   }
 }

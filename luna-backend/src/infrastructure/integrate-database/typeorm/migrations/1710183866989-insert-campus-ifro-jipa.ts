@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class InsertCampusIfroJipa1707747982691 implements MigrationInterface {
+export class InsertCampusIfroJipa1710183866989 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       INSERT INTO "endereco"
@@ -14,7 +14,7 @@ export class InsertCampusIfroJipa1707747982691 implements MigrationInterface {
         'Jardim dos Migrantes',
         NULL,
         NULL,
-        1100015
+        1100122
       );
     `);
 

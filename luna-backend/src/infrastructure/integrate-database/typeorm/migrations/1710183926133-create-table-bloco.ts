@@ -1,12 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'usuario_vinculo_campus';
-
-export class CreateTableUsuarioVinculoCampus1708901842316 implements MigrationInterface {
+export class CreateTableBloco1710183926133 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: tableName,
+        name: 'bloco',
 
         columns: [
           {
@@ -19,14 +17,13 @@ export class CreateTableUsuarioVinculoCampus1708901842316 implements MigrationIn
           //
 
           {
-            name: 'ativo',
-            type: 'boolean',
+            name: 'nome',
+            type: 'text',
             isNullable: false,
-            default: 'TRUE',
           },
 
           {
-            name: 'cargo',
+            name: 'codigo',
             type: 'text',
             isNullable: false,
           },
@@ -35,12 +32,6 @@ export class CreateTableUsuarioVinculoCampus1708901842316 implements MigrationIn
 
           {
             name: 'id_campus_fk',
-            type: 'uuid',
-            isNullable: false,
-          },
-
-          {
-            name: 'id_usuario_fk',
             type: 'uuid',
             isNullable: false,
           },
@@ -59,7 +50,6 @@ export class CreateTableUsuarioVinculoCampus1708901842316 implements MigrationIn
             isNullable: false,
             default: 'NOW()',
           },
-
           {
             name: 'date_deleted',
             type: 'timestamptz',
@@ -69,30 +59,24 @@ export class CreateTableUsuarioVinculoCampus1708901842316 implements MigrationIn
 
         foreignKeys: [
           {
-            name: `fk__${tableName}__campus`,
+            name: 'fk__bloco__pertence_a__campus',
             columnNames: ['id_campus_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'campus',
-          },
-          {
-            name: `fk__${tableName}__usuario`,
-            columnNames: ['id_usuario_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'usuario',
           },
         ],
       }),
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_${tableName}
-        BEFORE UPDATE ON ${tableName}
+      CREATE TRIGGER change_date_updated_table_bloco
+        BEFORE UPDATE ON bloco
         FOR EACH ROW
           EXECUTE FUNCTION change_date_updated();
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable(tableName, true, true, true);
+    await queryRunner.dropTable('bloco', true, true, true);
   }
 }

@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 import { IAmbienteModel, IBlocoModel, IEntityDate } from '../../../../../application/business/(spec)';
 import { BlocoEntity } from './bloco.entity';
 
-@Entity('campus_bloco_ambiente')
+@Entity('ambiente')
 export class AmbienteEntity implements IAmbienteModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -27,7 +27,7 @@ export class AmbienteEntity implements IAmbienteModel {
   //
 
   @ManyToOne(() => BlocoEntity)
-  @JoinColumn({ name: 'id_campus_bloco_fk' })
+  @JoinColumn({ name: 'id_bloco_fk' })
   bloco!: IBlocoModel;
 
   //

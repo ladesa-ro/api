@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateTableCampusBloco1708816226027 implements MigrationInterface {
+const tableName = 'disciplina';
+
+export class CreateTableDisciplina1710184490462 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'campus_bloco',
+        name: tableName,
 
         columns: [
           {
@@ -23,20 +25,17 @@ export class CreateTableCampusBloco1708816226027 implements MigrationInterface {
           },
 
           {
-            name: 'codigo',
-            type: 'text',
+            name: 'carga_horaria',
+            type: 'int',
             isNullable: false,
           },
-
           //
-
           {
-            name: 'id_campus_fk',
+            name: 'id_curso_fk',
             type: 'uuid',
+            isNullable: false,
           },
-
           //
-
           {
             name: 'date_created',
             type: 'timestamptz',
@@ -49,33 +48,33 @@ export class CreateTableCampusBloco1708816226027 implements MigrationInterface {
             isNullable: false,
             default: 'NOW()',
           },
+
           {
             name: 'date_deleted',
             type: 'timestamptz',
             isNullable: true,
           },
         ],
-
         foreignKeys: [
           {
-            name: 'fk__campus_bloco__pertence_a__campus',
-            columnNames: ['id_campus_fk'],
+            name: `fk__${tableName}__depende__curso`,
+            columnNames: ['id_curso_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'campus',
+            referencedTableName: 'curso',
           },
         ],
       }),
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_campus_bloco
-        BEFORE UPDATE ON campus_bloco
+      CREATE TRIGGER change_date_updated_table_${tableName}
+        BEFORE UPDATE ON ${tableName}
         FOR EACH ROW
           EXECUTE FUNCTION change_date_updated();
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('campus_bloco', true, true, true);
+    await queryRunner.dropTable(tableName, true, true, true);
   }
 }

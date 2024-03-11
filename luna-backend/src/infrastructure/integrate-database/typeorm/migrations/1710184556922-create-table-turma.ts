@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'professor';
+const tableName = 'turma';
 
-export class CreateTableProfessor1709835820702 implements MigrationInterface {
+export class CreateTableTurma1710184556922 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -19,19 +19,35 @@ export class CreateTableProfessor1709835820702 implements MigrationInterface {
           //
 
           {
-            name: 'nome',
+            name: 'periodo',
             type: 'text',
             isNullable: false,
           },
 
           {
-            name: 'matricula_siape',
+            name: 'grupo',
             type: 'text',
-            isNullable: true,
+            isNullable: false,
+          },
+          {
+            name: 'nome',
+            type: 'text',
+            isNullable: false,
           },
 
           //
 
+          {
+            name: 'id_ambiente_padrao_aula_fk',
+            type: 'uuid',
+            isNullable: true,
+          },
+          {
+            name: 'id_curso_fk',
+            type: 'uuid',
+            isNullable: false,
+          },
+          //
           {
             name: 'date_created',
             type: 'timestamptz',
@@ -49,6 +65,20 @@ export class CreateTableProfessor1709835820702 implements MigrationInterface {
             name: 'date_deleted',
             type: 'timestamptz',
             isNullable: true,
+          },
+        ],
+        foreignKeys: [
+          {
+            name: `fk__${tableName}__depende__ambiente`,
+            columnNames: ['id_ambiente_padrao_aula_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'ambiente',
+          },
+          {
+            name: `fk__${tableName}__depende__curso`,
+            columnNames: ['id_curso_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'curso',
           },
         ],
       }),

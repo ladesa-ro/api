@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'modalidade';
-export class CreateTableModalidade1709647646260 implements MigrationInterface {
+export class CreateTableEndereco1710183783857 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: tableName,
+        name: 'endereco',
+
         columns: [
           {
             name: 'id',
@@ -14,21 +14,52 @@ export class CreateTableModalidade1709647646260 implements MigrationInterface {
             default: 'gen_random_uuid()',
           },
 
+          //
+
           {
-            name: 'nome',
-            type: 'text',
-            isNullable: false,
-          },
-          {
-            name: 'slug',
+            name: 'cep',
             type: 'text',
             isNullable: false,
           },
 
           {
-            name: 'id_campus_fk',
-            type: 'uuid',
+            name: 'logradouro',
+            type: 'text',
+            isNullable: false,
           },
+
+          {
+            name: 'numero',
+            type: 'int',
+            isNullable: false,
+          },
+
+          {
+            name: 'bairro',
+            type: 'text',
+            isNullable: false,
+          },
+
+          {
+            name: 'complemento',
+            type: 'text',
+            isNullable: true,
+          },
+
+          {
+            name: 'ponto_referencia',
+            type: 'text',
+            isNullable: true,
+          },
+
+          //
+
+          {
+            name: 'id_cidade_fk',
+            type: 'int',
+          },
+
+          //
 
           {
             name: 'date_created',
@@ -48,28 +79,27 @@ export class CreateTableModalidade1709647646260 implements MigrationInterface {
             isNullable: true,
           },
         ],
+
         foreignKeys: [
           {
-            name: `fk__${tableName}__pertence_a__campus`,
-            columnNames: ['id_campus_fk'],
+            name: 'fk_endereco_tem_cidade',
+            columnNames: ['id_cidade_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'campus',
+            referencedTableName: 'base_cidade',
           },
         ],
       }),
     );
 
-    await queryRunner.query(
-      `
-            CREATE TRIGGER change_date_updated_table_modalidade
-            BEFORE UPDATE ON modalidade
-            FOR EACH ROW
-            EXECUTE FUNCTION change_date_updated();
-            `,
-    );
+    await queryRunner.query(`
+      CREATE TRIGGER change_date_updated_table_endereco
+        BEFORE UPDATE ON endereco
+        FOR EACH ROW
+          EXECUTE FUNCTION change_date_updated();
+    `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('modalidade');
+    await queryRunner.dropTable('endereco', true, true, true);
   }
 }
