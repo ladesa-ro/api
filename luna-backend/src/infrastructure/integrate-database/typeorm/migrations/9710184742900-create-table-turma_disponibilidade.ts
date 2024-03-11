@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'usuario_vinculo_campus';
+const tableName = 'turma_disponibilidade';
 
-export class CreateTableUsuarioVinculoCampus1708901842316 implements MigrationInterface {
+export class CreateTableTurmaDisponibilidade1710184742900 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -15,38 +15,24 @@ export class CreateTableUsuarioVinculoCampus1708901842316 implements MigrationIn
             isPrimary: true,
             default: 'gen_random_uuid()',
           },
-
           //
-
           {
-            name: 'ativo',
-            type: 'boolean',
-            isNullable: false,
-            default: 'TRUE',
-          },
-
-          {
-            name: 'cargo',
-            type: 'text',
+            name: 'data_inicio',
+            type: 'timestamptz',
             isNullable: false,
           },
-
-          //
-
           {
-            name: 'id_campus_fk',
+            name: 'data_fim',
+            type: 'timestamptz',
+            isNullable: true,
+          },
+          //
+          {
+            name: 'id_turma_fk',
             type: 'uuid',
             isNullable: false,
           },
-
-          {
-            name: 'id_usuario_fk',
-            type: 'uuid',
-            isNullable: false,
-          },
-
           //
-
           {
             name: 'date_created',
             type: 'timestamptz',
@@ -66,19 +52,12 @@ export class CreateTableUsuarioVinculoCampus1708901842316 implements MigrationIn
             isNullable: true,
           },
         ],
-
         foreignKeys: [
           {
-            name: `fk__${tableName}__campus`,
-            columnNames: ['id_campus_fk'],
+            name: `fk__${tableName}__depende__turma`,
+            columnNames: ['id_turma_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'campus',
-          },
-          {
-            name: `fk__${tableName}__usuario`,
-            columnNames: ['id_usuario_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'usuario',
+            referencedTableName: 'turma',
           },
         ],
       }),

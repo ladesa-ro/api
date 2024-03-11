@@ -1,13 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'ambiente';
+const tableName = 'modalidade';
 
-export class CreateTableAmbiente1708816227027 implements MigrationInterface {
+export class CreateTableModalidade17101841710184210042210042 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: tableName,
-
         columns: [
           {
             name: 'id',
@@ -15,48 +14,18 @@ export class CreateTableAmbiente1708816227027 implements MigrationInterface {
             isPrimary: true,
             default: 'gen_random_uuid()',
           },
-
           //
-
           {
             name: 'nome',
             type: 'text',
             isNullable: false,
           },
-
           {
-            name: 'descricao',
+            name: 'slug',
             type: 'text',
             isNullable: false,
           },
-
-          {
-            name: 'codigo',
-            type: 'text',
-            isNullable: false,
-          },
-
-          {
-            name: 'capacidade',
-            type: 'int',
-            isNullable: true,
-          },
-
-          {
-            name: 'tipo',
-            type: 'text',
-            isNullable: true,
-          },
-
           //
-
-          {
-            name: 'id_bloco_fk',
-            type: 'uuid',
-          },
-
-          //
-
           {
             name: 'date_created',
             type: 'timestamptz',
@@ -75,27 +44,20 @@ export class CreateTableAmbiente1708816227027 implements MigrationInterface {
             isNullable: true,
           },
         ],
-
-        foreignKeys: [
-          {
-            name: `fk__${tableName}__pertence_a__bloco`,
-            columnNames: ['id_bloco_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'bloco',
-          },
-        ],
       }),
     );
 
-    await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_${tableName}
-        BEFORE UPDATE ON ${tableName}
-        FOR EACH ROW
-          EXECUTE FUNCTION change_date_updated();
-    `);
+    await queryRunner.query(
+      `
+            CREATE TRIGGER change_date_updated_table_modalidade
+            BEFORE UPDATE ON modalidade
+            FOR EACH ROW
+            EXECUTE FUNCTION change_date_updated();
+            `,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable(`${tableName}`, true, true, true);
+    await queryRunner.dropTable('modalidade');
   }
 }

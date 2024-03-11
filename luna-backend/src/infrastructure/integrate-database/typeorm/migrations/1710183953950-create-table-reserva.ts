@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateTableCampus1707744797931 implements MigrationInterface {
+const tableName = 'reserva';
+
+export class CreateTableReserva1710183953950 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'campus',
+        name: tableName,
 
         columns: [
           {
@@ -17,38 +19,42 @@ export class CreateTableCampus1707744797931 implements MigrationInterface {
           //
 
           {
-            name: 'nome_fantasia',
+            name: 'situacao',
             type: 'text',
             isNullable: false,
           },
 
           {
-            name: 'razao_social',
+            name: 'motivo',
+            type: 'text',
+            isNullable: true,
+          },
+          {
+            name: 'tipo',
             type: 'text',
             isNullable: false,
           },
-
           {
-            name: 'apelido',
-            type: 'text',
+            name: 'data_inicio',
+            type: 'timestamptz',
             isNullable: false,
           },
-
           {
-            name: 'cnpj',
-            type: 'text',
-            isNullable: false,
+            name: 'data_termino',
+            type: 'timestamptz',
+            isNullable: true,
           },
-
-          //
-
           {
-            name: 'id_endereco_fk',
+            name: 'id_ambiente_fk',
             type: 'uuid',
+            isNullable: false,
           },
-
+          {
+            name: 'id_usuario_fk',
+            type: 'uuid',
+            isNullable: false,
+          },
           //
-
           {
             name: 'date_created',
             type: 'timestamptz',
@@ -61,33 +67,39 @@ export class CreateTableCampus1707744797931 implements MigrationInterface {
             isNullable: false,
             default: 'NOW()',
           },
+
           {
             name: 'date_deleted',
             type: 'timestamptz',
             isNullable: true,
           },
         ],
-
         foreignKeys: [
           {
-            name: 'fk_campus_tem_endereco',
-            columnNames: ['id_endereco_fk'],
+            name: `fk__${tableName}__depende__ambiente`,
+            columnNames: ['id_ambiente_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'endereco',
+            referencedTableName: 'ambiente',
           },
-        ],
+          {
+            name: `fk__${tableName}__depende__usuario`,
+            columnNames: ['id_usuario_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'usuario',
+          },
+        ]
       }),
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_campus
-        BEFORE UPDATE ON campus
+      CREATE TRIGGER change_date_updated_table_${tableName}
+        BEFORE UPDATE ON ${tableName}
         FOR EACH ROW
           EXECUTE FUNCTION change_date_updated();
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('campus', true, true, true);
+    await queryRunner.dropTable(tableName, true, true, true);
   }
 }

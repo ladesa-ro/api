@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'curso';
+const tableName = 'ambiente';
 
-export class CreateTableCurso1709842838059 implements MigrationInterface {
+export class CreateTableAmbiente1710183953945 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -25,23 +25,38 @@ export class CreateTableCurso1709842838059 implements MigrationInterface {
           },
 
           {
-            name: 'nome_abreviado',
+            name: 'descricao',
             type: 'text',
             isNullable: false,
           },
 
-          //
           {
-            name: 'id_campus_fk',
-            type: 'uuid',
+            name: 'codigo',
+            type: 'text',
             isNullable: false,
           },
+
           {
-            name: 'id_modalidade_fk',
-            type: 'uuid',
-            isNullable: false,
+            name: 'capacidade',
+            type: 'int',
+            isNullable: true,
           },
+
+          {
+            name: 'tipo',
+            type: 'text',
+            isNullable: true,
+          },
+
           //
+
+          {
+            name: 'id_bloco_fk',
+            type: 'uuid',
+          },
+
+          //
+
           {
             name: 'date_created',
             type: 'timestamptz',
@@ -54,25 +69,19 @@ export class CreateTableCurso1709842838059 implements MigrationInterface {
             isNullable: false,
             default: 'NOW()',
           },
-
           {
             name: 'date_deleted',
             type: 'timestamptz',
             isNullable: true,
           },
         ],
+
         foreignKeys: [
           {
-            name: `fk__${tableName}__depende__campus`,
-            columnNames: ['id_campus_fk'],
+            name: `fk__${tableName}__pertence_a__bloco`,
+            columnNames: ['id_bloco_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'campus',
-          },
-          {
-            name: `fk__${tableName}__depende__modalidade`,
-            columnNames: ['id_modalidade_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'modalidade',
+            referencedTableName: 'bloco',
           },
         ],
       }),
@@ -87,6 +96,6 @@ export class CreateTableCurso1709842838059 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable(tableName, true, true, true);
+    await queryRunner.dropTable(`${tableName}`, true, true, true);
   }
 }

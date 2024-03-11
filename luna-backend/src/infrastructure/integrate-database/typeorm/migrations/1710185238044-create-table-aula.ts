@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'diario';
+const tableName = 'aula';
 
-export class CreateTableDiario1709925805523 implements MigrationInterface {
+export class CreateTableAula1710185238044 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -19,29 +19,29 @@ export class CreateTableDiario1709925805523 implements MigrationInterface {
           //
 
           {
-            name: 'situacao',
-            type: 'text',
-            isNullable: false,
-          },
-
-          {
-            name: 'ano',
-            type: 'int',
-            isNullable: false,
-          },
-          {
-            name: 'etapa',
+            name: 'formato',
             type: 'text',
             isNullable: true,
           },
-          //
+
           {
-            name: 'id_turma_fk',
+            name: 'data',
+            type: 'date',
+            isNullable: true,
+          },
+
+          {
+            name: 'id_momento_fk',
+            type: 'uuid',
+            isNullable: true,
+          },
+          {
+            name: 'id_diario_fk',
             type: 'uuid',
             isNullable: false,
           },
           {
-            name: 'id_ambiente_padrao_fk',
+            name: 'id_ambiente_fk',
             type: 'uuid',
             isNullable: true,
           },
@@ -67,14 +67,26 @@ export class CreateTableDiario1709925805523 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: `fk__${tableName}__depende__turma`,
-            columnNames: ['id_turma_fk'],
+            name: `fk__${tableName}__depende__momento`,
+            columnNames: ['id_momento_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'turma',
+            referencedTableName: 'momento',
+          },
+          {
+            name: `fk__${tableName}__depende__diario`,
+            columnNames: ['id_diario_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'diario',
+          },
+          {
+            name: `fk__${tableName}__depende__disciplina`,
+            columnNames: ['id_disciplina_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'disciplina',
           },
           {
             name: `fk__${tableName}__depende__ambiente`,
-            columnNames: ['id_ambiente_padrao_fk'],
+            columnNames: ['id_ambiente_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'ambiente',
           },

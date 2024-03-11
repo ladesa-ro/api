@@ -55,9 +55,9 @@ const allCidades = [
   { id: 1101807, nome: 'Vale do Paraíso', estado: { id: 11 } },
 ];
 
-const remainingCidades = allCidades.filter((cidade) => cidade.id !== 1100122);
+const remainingCidades = allCidades
 
-export class InsertCidadesRondonia1709119562277 implements MigrationInterface {
+export class InsertCidadesRondonia1710183669681 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       ALTER TABLE endereco DROP CONSTRAINT fk_endereco_tem_cidade;

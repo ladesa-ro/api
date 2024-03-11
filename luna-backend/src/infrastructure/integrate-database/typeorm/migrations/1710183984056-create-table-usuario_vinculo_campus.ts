@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'aula';
+const tableName = 'usuario_vinculo_campus';
 
-export class CreateTableAula1709928128835 implements MigrationInterface {
+export class CreateTableUsuarioVinculoCampus1710183984056 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -19,44 +19,34 @@ export class CreateTableAula1709928128835 implements MigrationInterface {
           //
 
           {
-            name: 'formato',
+            name: 'ativo',
+            type: 'boolean',
+            isNullable: false,
+            default: 'TRUE',
+          },
+
+          {
+            name: 'cargo',
             type: 'text',
-            isNullable: true,
+            isNullable: false,
           },
-          {
-            name: 'data_inicio',
-            type: 'timestamptz',
-            isNullable: true,
-          },
-          {
-            name: 'data_fim',
-            type: 'timestamptz',
-            isNullable: true,
-          },
+
           //
+
           {
-            name: 'id_diario_fk',
+            name: 'id_campus_fk',
             type: 'uuid',
             isNullable: false,
           },
-          //
+
           {
-            name: 'id_disciplina_fk',
+            name: 'id_usuario_fk',
             type: 'uuid',
             isNullable: false,
           },
-          {
-            name: 'id_ambiente_fk',
-            type: 'uuid',
-            isNullable: true,
-          },
+
           //
-          {
-            name: 'id_professor_fk',
-            type: 'uuid',
-            isNullable: true,
-          },
-          //
+
           {
             name: 'date_created',
             type: 'timestamptz',
@@ -76,30 +66,19 @@ export class CreateTableAula1709928128835 implements MigrationInterface {
             isNullable: true,
           },
         ],
+
         foreignKeys: [
           {
-            name: `fk__${tableName}__depende__diario`,
-            columnNames: ['id_diario_fk'],
+            name: `fk__${tableName}__campus`,
+            columnNames: ['id_campus_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'diario',
+            referencedTableName: 'campus',
           },
           {
-            name: `fk__${tableName}__depende__disciplina`,
-            columnNames: ['id_disciplina_fk'],
+            name: `fk__${tableName}__usuario`,
+            columnNames: ['id_usuario_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'disciplina',
-          },
-          {
-            name: `fk__${tableName}__depende__ambiente`,
-            columnNames: ['id_ambiente_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'ambiente',
-          },
-          {
-            name: `fk__${tableName}__depende__professor`,
-            columnNames: ['id_professor_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'professor',
+            referencedTableName: 'usuario',
           },
         ],
       }),

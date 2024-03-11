@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateTableBloco1708816226027 implements MigrationInterface {
+export class CreateTableEndereco1710183783857 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'bloco',
+        name: 'endereco',
 
         columns: [
           {
@@ -17,22 +17,46 @@ export class CreateTableBloco1708816226027 implements MigrationInterface {
           //
 
           {
-            name: 'nome',
+            name: 'cep',
             type: 'text',
             isNullable: false,
           },
 
           {
-            name: 'codigo',
+            name: 'logradouro',
             type: 'text',
             isNullable: false,
+          },
+
+          {
+            name: 'numero',
+            type: 'int',
+            isNullable: false,
+          },
+
+          {
+            name: 'bairro',
+            type: 'text',
+            isNullable: false,
+          },
+
+          {
+            name: 'complemento',
+            type: 'text',
+            isNullable: true,
+          },
+
+          {
+            name: 'ponto_referencia',
+            type: 'text',
+            isNullable: true,
           },
 
           //
 
           {
-            name: 'id_campus_fk',
-            type: 'uuid',
+            name: 'id_cidade_fk',
+            type: 'int',
           },
 
           //
@@ -58,24 +82,24 @@ export class CreateTableBloco1708816226027 implements MigrationInterface {
 
         foreignKeys: [
           {
-            name: 'fk__bloco__pertence_a__campus',
-            columnNames: ['id_campus_fk'],
+            name: 'fk_endereco_tem_cidade',
+            columnNames: ['id_cidade_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'campus',
+            referencedTableName: 'base_cidade',
           },
         ],
       }),
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_bloco
-        BEFORE UPDATE ON bloco
+      CREATE TRIGGER change_date_updated_table_endereco
+        BEFORE UPDATE ON endereco
         FOR EACH ROW
           EXECUTE FUNCTION change_date_updated();
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('bloco', true, true, true);
+    await queryRunner.dropTable('endereco', true, true, true);
   }
 }

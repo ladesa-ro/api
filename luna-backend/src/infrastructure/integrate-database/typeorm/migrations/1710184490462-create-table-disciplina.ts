@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'calendario_letivo';
+const tableName = 'disciplina';
 
-export class CreateTableCalendarioLetivo1709926626672 implements MigrationInterface {
+export class CreateTableDisciplina1710184490462 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -25,23 +25,13 @@ export class CreateTableCalendarioLetivo1709926626672 implements MigrationInterf
           },
 
           {
-            name: 'ano_letivo',
+            name: 'carga_horaria',
             type: 'int',
             isNullable: false,
           },
           //
           {
             name: 'id_curso_fk',
-            type: 'uuid',
-            isNullable: false,
-          },
-          {
-            name: 'id_campus_fk',
-            type: 'uuid',
-            isNullable: false,
-          },
-          {
-            name: 'id_modalidade_fk',
             type: 'uuid',
             isNullable: false,
           },
@@ -71,18 +61,6 @@ export class CreateTableCalendarioLetivo1709926626672 implements MigrationInterf
             columnNames: ['id_curso_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'curso',
-          },
-          {
-            name: `fk__${tableName}__depende__campus`,
-            columnNames: ['id_campus_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'campus',
-          },
-          {
-            name: `fk__${tableName}__depende__modalidade`,
-            columnNames: ['id_modalidade_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'modalidade',
           },
         ],
       }),

@@ -1,12 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'professor';
-
-export class CreateTableProfessor1709835820702 implements MigrationInterface {
+export class CreateTableCampus1710183840854 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: tableName,
+        name: 'campus',
 
         columns: [
           {
@@ -19,15 +17,34 @@ export class CreateTableProfessor1709835820702 implements MigrationInterface {
           //
 
           {
-            name: 'nome',
+            name: 'nome_fantasia',
             type: 'text',
             isNullable: false,
           },
 
           {
-            name: 'matricula_siape',
+            name: 'razao_social',
             type: 'text',
-            isNullable: true,
+            isNullable: false,
+          },
+
+          {
+            name: 'apelido',
+            type: 'text',
+            isNullable: false,
+          },
+
+          {
+            name: 'cnpj',
+            type: 'text',
+            isNullable: false,
+          },
+
+          //
+
+          {
+            name: 'id_endereco_fk',
+            type: 'uuid',
           },
 
           //
@@ -44,25 +61,33 @@ export class CreateTableProfessor1709835820702 implements MigrationInterface {
             isNullable: false,
             default: 'NOW()',
           },
-
           {
             name: 'date_deleted',
             type: 'timestamptz',
             isNullable: true,
           },
         ],
+
+        foreignKeys: [
+          {
+            name: 'fk_campus_tem_endereco',
+            columnNames: ['id_endereco_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'endereco',
+          },
+        ],
       }),
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_${tableName}
-        BEFORE UPDATE ON ${tableName}
+      CREATE TRIGGER change_date_updated_table_campus
+        BEFORE UPDATE ON campus
         FOR EACH ROW
           EXECUTE FUNCTION change_date_updated();
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable(tableName, true, true, true);
+    await queryRunner.dropTable('campus', true, true, true);
   }
 }

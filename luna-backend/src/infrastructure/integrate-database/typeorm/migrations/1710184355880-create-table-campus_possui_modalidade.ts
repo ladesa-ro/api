@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 const tableName = 'campus_possui_modalidade';
 
-export class CreateTableCampusPossuiDisponibilidade1710001641949 implements MigrationInterface {
+export class CreateTableCampusPossuiDisponibilidade1710184355880 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({

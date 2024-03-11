@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'reserva';
+const tableName = 'diario';
 
-export class CreateTableReserva1709840964371 implements MigrationInterface {
+export class CreateTableDiario1710184970531 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -25,34 +25,25 @@ export class CreateTableReserva1709840964371 implements MigrationInterface {
           },
 
           {
-            name: 'motivo',
-            type: 'text',
-            isNullable: true,
-          },
-          {
-            name: 'tipo',
-            type: 'text',
+            name: 'ano',
+            type: 'int',
             isNullable: false,
           },
           {
-            name: 'data_inicio',
-            type: 'timestamptz',
-            isNullable: false,
-          },
-          {
-            name: 'data_termino',
-            type: 'timestamptz',
+            name: 'etapa',
+            type: 'text',
             isNullable: true,
           },
+          //
           {
-            name: 'id_ambiente_fk',
+            name: 'id_turma_fk',
             type: 'uuid',
             isNullable: false,
           },
           {
-            name: 'id_usuario_fk',
+            name: 'id_ambiente_padrao_fk',
             type: 'uuid',
-            isNullable: false,
+            isNullable: true,
           },
           //
           {
@@ -76,18 +67,18 @@ export class CreateTableReserva1709840964371 implements MigrationInterface {
         ],
         foreignKeys: [
           {
+            name: `fk__${tableName}__depende__turma`,
+            columnNames: ['id_turma_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'turma',
+          },
+          {
             name: `fk__${tableName}__depende__ambiente`,
-            columnNames: ['id_ambiente_fk'],
+            columnNames: ['id_ambiente_padrao_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'ambiente',
           },
-          {
-            name: `fk__${tableName}__depende__usuario`,
-            columnNames: ['id_usuario_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'usuario',
-          },
-        ]
+        ],
       }),
     );
 

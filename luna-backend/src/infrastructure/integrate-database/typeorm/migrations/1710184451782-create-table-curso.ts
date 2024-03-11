@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'turma';
+const tableName = 'curso';
 
-export class CreateTableTurma1709921955465 implements MigrationInterface {
+export class CreateTableCurso1710184451782 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -19,29 +19,25 @@ export class CreateTableTurma1709921955465 implements MigrationInterface {
           //
 
           {
-            name: 'periodo',
+            name: 'nome',
             type: 'text',
             isNullable: false,
           },
 
           {
-            name: 'grupo',
+            name: 'nome_abreviado',
             type: 'text',
             isNullable: false,
           },
-          {
-            name:'nome',
-            type:'text',
-            isNullable:false
-          },
+
           //
           {
-            name: 'id_ambiente_padrao_fk',
+            name: 'id_campus_fk',
             type: 'uuid',
-            isNullable: true,
+            isNullable: false,
           },
           {
-            name: 'id_curso_fk',
+            name: 'id_modalidade_fk',
             type: 'uuid',
             isNullable: false,
           },
@@ -67,18 +63,18 @@ export class CreateTableTurma1709921955465 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: `fk__${tableName}__depende__ambiente`,
-            columnNames: ['id_ambiente_padrao_fk'],
+            name: `fk__${tableName}__depende__campus`,
+            columnNames: ['id_campus_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'ambiente',
+            referencedTableName: 'campus',
           },
           {
-            name: `fk__${tableName}__depende__curso`,
-            columnNames: ['id_curso_fk'],
+            name: `fk__${tableName}__depende__modalidade`,
+            columnNames: ['id_modalidade_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'curso',
+            referencedTableName: 'modalidade',
           },
-        ]
+        ],
       }),
     );
 
