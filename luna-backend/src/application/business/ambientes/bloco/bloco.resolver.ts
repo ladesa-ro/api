@@ -11,7 +11,7 @@ export class BlocoResolver {
   constructor(
     //
     private blocoService: BlocoService,
-  ) { }
+  ) {}
 
   //
 

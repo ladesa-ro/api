@@ -30,9 +30,9 @@ export class CreateTableTurma1710184556922 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name:'nome',
-            type:'text',
-            isNullable:false
+            name: 'nome',
+            type: 'text',
+            isNullable: false,
           },
 
           //
@@ -80,7 +80,7 @@ export class CreateTableTurma1710184556922 implements MigrationInterface {
             referencedColumnNames: ['id'],
             referencedTableName: 'curso',
           },
-        ]
+        ],
       }),
     );
 

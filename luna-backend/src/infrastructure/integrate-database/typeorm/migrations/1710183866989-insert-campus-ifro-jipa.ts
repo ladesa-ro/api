@@ -14,7 +14,7 @@ export class InsertCampusIfroJipa1710183866989 implements MigrationInterface {
         'Jardim dos Migrantes',
         NULL,
         NULL,
-        1100022
+        1100122
       );
     `);
 

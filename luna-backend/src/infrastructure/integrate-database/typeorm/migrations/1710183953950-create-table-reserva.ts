@@ -87,7 +87,7 @@ export class CreateTableReserva1710183953950 implements MigrationInterface {
             referencedColumnNames: ['id'],
             referencedTableName: 'usuario',
           },
-        ]
+        ],
       }),
     );
 
