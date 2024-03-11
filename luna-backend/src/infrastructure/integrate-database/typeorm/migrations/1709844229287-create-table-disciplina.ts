@@ -29,6 +29,7 @@ export class CreateTableDisciplina1709844229287 implements MigrationInterface {
             type: 'int',
             isNullable: false,
           },
+          //
           {
             name: 'id_curso_fk',
             type: 'uuid',

@@ -3,7 +3,7 @@ import { IBlocoModel, ICampusModel, IEntityDate } from '../../../../../applicati
 import { AmbienteEntity } from './ambiente.entity';
 import { CampusEntity } from './campus.entity';
 
-@Entity('campus_bloco')
+@Entity('bloco')
 export class BlocoEntity implements IBlocoModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;

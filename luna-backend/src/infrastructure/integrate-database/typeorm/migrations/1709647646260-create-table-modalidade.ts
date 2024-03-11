@@ -13,7 +13,7 @@ export class CreateTableModalidade1709647646260 implements MigrationInterface {
             isPrimary: true,
             default: 'gen_random_uuid()',
           },
-
+          //
           {
             name: 'nome',
             type: 'text',
@@ -24,6 +24,7 @@ export class CreateTableModalidade1709647646260 implements MigrationInterface {
             type: 'text',
             isNullable: false,
           },
+          //
           {
             name: 'date_created',
             type: 'timestamptz',

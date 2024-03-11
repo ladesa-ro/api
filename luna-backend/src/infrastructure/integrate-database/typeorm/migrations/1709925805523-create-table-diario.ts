@@ -76,7 +76,7 @@ export class CreateTableDiario1709925805523 implements MigrationInterface {
             name: `fk__${tableName}__depende__ambiente`,
             columnNames: ['id_ambiente_padrao_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'campus_bloco_ambiente',
+            referencedTableName: 'ambiente',
           },
         ],
       }),

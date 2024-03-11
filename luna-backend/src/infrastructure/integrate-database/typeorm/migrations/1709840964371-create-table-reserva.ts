@@ -79,7 +79,7 @@ export class CreateTableReserva1709840964371 implements MigrationInterface {
             name: `fk__${tableName}__depende__ambiente`,
             columnNames: ['id_ambiente_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'campus_bloco_ambiente',
+            referencedTableName: 'ambiente',
           },
           {
             name: `fk__${tableName}__depende__usuario`,

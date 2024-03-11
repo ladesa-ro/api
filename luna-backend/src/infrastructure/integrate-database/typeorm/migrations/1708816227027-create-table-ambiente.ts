@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'campus_bloco_ambiente';
+const tableName = 'ambiente';
 
-export class CreateTableCampusBlocoAmbiente1708816227027 implements MigrationInterface {
+export class CreateTableAmbiente1708816227027 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -51,7 +51,7 @@ export class CreateTableCampusBlocoAmbiente1708816227027 implements MigrationInt
           //
 
           {
-            name: 'id_campus_bloco_fk',
+            name: 'id_bloco_fk',
             type: 'uuid',
           },
 
@@ -78,10 +78,10 @@ export class CreateTableCampusBlocoAmbiente1708816227027 implements MigrationInt
 
         foreignKeys: [
           {
-            name: `fk__${tableName}__pertence_a__campus_bloco`,
-            columnNames: ['id_campus_bloco_fk'],
+            name: `fk__${tableName}__pertence_a__bloco`,
+            columnNames: ['id_bloco_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'campus_bloco',
+            referencedTableName: 'bloco',
           },
         ],
       }),

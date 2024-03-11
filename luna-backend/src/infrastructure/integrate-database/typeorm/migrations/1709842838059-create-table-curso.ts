@@ -29,6 +29,8 @@ export class CreateTableCurso1709842838059 implements MigrationInterface {
             type: 'text',
             isNullable: false,
           },
+
+          //
           {
             name: 'id_campus_fk',
             type: 'uuid',
@@ -72,7 +74,7 @@ export class CreateTableCurso1709842838059 implements MigrationInterface {
             referencedColumnNames: ['id'],
             referencedTableName: 'modalidade',
           },
-        ]
+        ],
       }),
     );
 

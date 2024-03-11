@@ -36,7 +36,7 @@ export class CreateTableTurma1709921955465 implements MigrationInterface {
           },
           //
           {
-            name: 'id_ambiente_fk',
+            name: 'id_ambiente_padrao_fk',
             type: 'uuid',
             isNullable: true,
           },
@@ -68,9 +68,9 @@ export class CreateTableTurma1709921955465 implements MigrationInterface {
         foreignKeys: [
           {
             name: `fk__${tableName}__depende__ambiente`,
-            columnNames: ['id_ambiente_fk'],
+            columnNames: ['id_ambiente_padrao_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'campus_bloco_ambiente',
+            referencedTableName: 'ambiente',
           },
           {
             name: `fk__${tableName}__depende__curso`,

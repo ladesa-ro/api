@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateTableCampusBloco1708816226027 implements MigrationInterface {
+export class CreateTableBloco1708816226027 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'campus_bloco',
+        name: 'bloco',
 
         columns: [
           {
@@ -58,7 +58,7 @@ export class CreateTableCampusBloco1708816226027 implements MigrationInterface {
 
         foreignKeys: [
           {
-            name: 'fk__campus_bloco__pertence_a__campus',
+            name: 'fk__bloco__pertence_a__campus',
             columnNames: ['id_campus_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'campus',
@@ -68,14 +68,14 @@ export class CreateTableCampusBloco1708816226027 implements MigrationInterface {
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_campus_bloco
-        BEFORE UPDATE ON campus_bloco
+      CREATE TRIGGER change_date_updated_table_bloco
+        BEFORE UPDATE ON bloco
         FOR EACH ROW
           EXECUTE FUNCTION change_date_updated();
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('campus_bloco', true, true, true);
+    await queryRunner.dropTable('bloco', true, true, true);
   }
 }

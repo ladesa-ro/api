@@ -9,12 +9,12 @@ export class InsertEstadoCidadeRoJiparana1707346289620 implements MigrationInter
 
     await queryRunner.query(`
       INSERT INTO base_cidade ("id", "id_estado_fk", "nome") VALUES
-          (1100015, 11, 'Ji-Paraná');
+          (1100122, 11, 'Ji-Paraná');
   `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DELETE FROM base_cidade WHERE 'id' = 1100015;`);
+    await queryRunner.query(`DELETE FROM base_cidade WHERE 'id' = 1100122;`);
     await queryRunner.query(`DELETE FROM base_estado WHERE 'id' = 11;`);
   }
 }
