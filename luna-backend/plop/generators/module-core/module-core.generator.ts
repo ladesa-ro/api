@@ -253,6 +253,85 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       });
     }
 
+    if (answers.operacoes.includes('handle-resource-create') || answers.operacoes.includes('handle-resource-update')) {
+      actions.push({
+        type: 'add',
+        path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/index.ts`,
+        templateFile: `${templateBase}/spec/index.ts.hbs`,
+        skipIfExists: true,
+      });
+
+      actions.push({
+        type: 'add',
+        path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/I{{ c_pascal moduleName }}InputDto.ts`,
+        templateFile: `${templateBase}/spec/operations/input/IInputDto.ts.hbs`,
+        skipIfExists: true,
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/index.ts`,
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_pascal(answers.moduleName)}InputDto.ts.hbs`).transform(code),
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathSpec}/operations/index.ts`,
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_kebab(answers.moduleName)}-input`).transform(code),
+      });
+
+      if (answers.operacoes.includes('handle-resource-create')) {
+        actions.push({
+          type: 'add',
+          path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/I{{ c_pascal moduleName }}CreateDto.ts`,
+          templateFile: `${templateBase}/spec/operations/input/ICreateDto.ts.hbs`,
+          skipIfExists: true,
+        });
+
+        actions.push({
+          type: 'modify',
+          path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/index.ts`,
+          transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_pascal(answers.moduleName)}CreateDto.ts.hbs`).transform(code),
+        });
+      }
+
+      if (answers.operacoes.includes('handle-resource-update')) {
+        actions.push({
+          type: 'add',
+          path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/I{{ c_pascal moduleName }}UpdateDto.ts`,
+          templateFile: `${templateBase}/spec/operations/input/IUpdateDto.ts.hbs`,
+          skipIfExists: true,
+        });
+
+        actions.push({
+          type: 'modify',
+          path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/index.ts`,
+          transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_pascal(answers.moduleName)}UpdateDto.ts.hbs`).transform(code),
+        });
+      }
+    }
+
+    if (answers.operacoes.includes('handle-resource-delete')) {
+      actions.push({
+        type: 'addMany',
+        destination: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-delete`,
+        base: `${templateBase}/spec/operations/delete`,
+        templateFiles: `${templateBase}/spec/operations/delete/**/*`,
+        skipIfExists: true,
+        verbose: true,
+      });
+
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathSpec}/operations/index.ts`,
+        transform: async (code) =>
+          new BaseModuleCoreGenerator()
+            .addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-delete`)
+            .transform(code),
+      });
+    }
+
     if (answers.operacoes.includes('handle-resource-read')) {
       actions.push({
         type: 'addMany',

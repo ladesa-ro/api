@@ -1,0 +1,5 @@
+import { IObjectUuid } from '../../../../(core)';
+import { I{{ c_pascal moduleName }}Model } from '../../I{{ c_pascal moduleName }}Model';
+
+export interface I{{ c_pascal moduleName }}InputDto extends Pick<I{{ c_pascal moduleName }}Model, never {{#each propriedadesDeclaradas}} | '{{this.nome}}'{{/each}}> {
+}
