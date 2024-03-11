@@ -29,9 +29,29 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
 
     actions.push({
       type: 'add',
+      path: `src/application/business/{{ c_kebab moduleNameParent }}/{{ c_kebab moduleNameParent }}.module.ts`,
+      templateFile: `${templateBase}/core-module/module.ts.hbs`,
+      skipIfExists: true,
+    });
+
+    actions.push({
+      type: 'add',
       path: `${outputPathModule}/{{ c_kebab moduleName }}.module.ts`,
       templateFile: `${templateBase}/core-module/module.ts.hbs`,
       skipIfExists: true,
+    });
+
+    actions.push({
+      type: 'modify',
+      path: `src/application/business/{{ c_kebab moduleNameParent }}/{{ c_kebab moduleNameParent }}.module.ts`,
+      transform: async (code) =>
+        new ModuleCoreGeneratorNestModule()
+          .appendModuleConfig({
+            declareInModuleProperty: 'imports',
+            classImportName: `${ChangeCaseHelper.c_pascal(answers.moduleName)}Module`,
+            classImportPath: `./${ChangeCaseHelper.c_kebab(answers.moduleName)}`,
+          })
+          .transform(code),
     });
 
     const moduleCoreGeneratorNestModule = new ModuleCoreGeneratorNestModule();

@@ -49,5 +49,7 @@ export class ModuleCoreGeneratorNestModule extends BaseModuleCoreGenerator {
     for (const property of castArray(moduleDeclareClass.declareInModuleProperty)) {
       this.addItemToModule(property, moduleDeclareClass.classImportName, moduleDeclareClass.classImportPath);
     }
+
+    return this;
   }
 }
