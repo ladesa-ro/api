@@ -55,15 +55,10 @@ const allCidades = [
   { id: 1101807, nome: 'Vale do Paraíso', estado: { id: 11 } },
 ];
 
-const remainingCidades = allCidades
+const remainingCidades = allCidades;
 
 export class InsertCidadesRondonia1710183669681 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`
-      ALTER TABLE endereco DROP CONSTRAINT fk_endereco_tem_cidade;
-      ALTER TABLE endereco ADD CONSTRAINT fk_endereco_tem_cidade FOREIGN KEY (id_cidade_fk) REFERENCES base_cidade(id) ON UPDATE CASCADE;
-    `);
-
     for (const cidade of remainingCidades) {
       await queryRunner.query(
         `INSERT INTO "base_cidade" ("id", "nome", "id_estado_fk") VALUES

@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'disponibilidade_professor_dia';
+const tableName = 'turma_disponibilidade_dia';
 
-export class CreateTableDisponibilidadeProfessorDia1709946143205 implements MigrationInterface {
+export class CreateTableTurmaDisponibilidadeDia1710186549006 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -28,29 +28,11 @@ export class CreateTableDisponibilidadeProfessorDia1709946143205 implements Migr
           },
           //
           {
-            name: 'id_disponibilidade_professor_fk',
+            name: 'id_turma_disponibilidade_fk',
             type: 'uuid',
             isNullable: false,
           },
           //
-          {
-            name: 'date_created',
-            type: 'timestamptz',
-            isNullable: false,
-            default: 'NOW()',
-          },
-          {
-            name: 'date_updated',
-            type: 'timestamptz',
-            isNullable: false,
-            default: 'NOW()',
-          },
-
-          {
-            name: 'date_deleted',
-            type: 'timestamptz',
-            isNullable: true,
-          },
         ],
         foreignKeys: [
           {
@@ -60,21 +42,14 @@ export class CreateTableDisponibilidadeProfessorDia1709946143205 implements Migr
             referencedTableName: 'momento',
           },
           {
-            name: `fk__${tableName}__depende__disponibilidade_professor`,
-            columnNames: ['id_disponibilidade_professor_fk'],
+            name: `fk__${tableName}__depende__turma_disponibilidade`,
+            columnNames: ['id_turma_disponibilidade_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'disponibilidade_professor',
+            referencedTableName: 'turma_disponibilidade',
           },
         ],
       }),
     );
-
-    await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_${tableName}
-        BEFORE UPDATE ON ${tableName}
-        FOR EACH ROW
-          EXECUTE FUNCTION change_date_updated();
-    `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

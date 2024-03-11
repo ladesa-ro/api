@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'reserva';
+const tableName = 'evento';
 
-export class CreateTableReserva1710183953950 implements MigrationInterface {
+export class CreateTableEvento1710185657965 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -19,18 +19,7 @@ export class CreateTableReserva1710183953950 implements MigrationInterface {
           //
 
           {
-            name: 'situacao',
-            type: 'text',
-            isNullable: false,
-          },
-
-          {
-            name: 'motivo',
-            type: 'text',
-            isNullable: true,
-          },
-          {
-            name: 'tipo',
+            name: 'nome',
             type: 'text',
             isNullable: false,
           },
@@ -42,15 +31,16 @@ export class CreateTableReserva1710183953950 implements MigrationInterface {
           {
             name: 'data_termino',
             type: 'timestamptz',
-            isNullable: true,
-          },
-          {
-            name: 'id_ambiente_fk',
-            type: 'uuid',
             isNullable: false,
           },
           {
-            name: 'id_usuario_fk',
+            name: 'cor',
+            type: 'text',
+            isNullable: true,
+          },
+          //
+          {
+            name: 'id_calendario_letivo_fk',
             type: 'uuid',
             isNullable: false,
           },
@@ -76,16 +66,10 @@ export class CreateTableReserva1710183953950 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: `fk__${tableName}__depende__ambiente`,
-            columnNames: ['id_ambiente_fk'],
+            name: `fk__${tableName}__depende__calendario_letivo`,
+            columnNames: ['id_calendario_letivo_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'ambiente',
-          },
-          {
-            name: `fk__${tableName}__depende__usuario`,
-            columnNames: ['id_usuario_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'usuario',
+            referencedTableName: 'calendario_letivo',
           },
         ],
       }),

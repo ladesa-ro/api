@@ -79,12 +79,6 @@ export class CreateTableAula1710185238044 implements MigrationInterface {
             referencedTableName: 'diario',
           },
           {
-            name: `fk__${tableName}__depende__disciplina`,
-            columnNames: ['id_disciplina_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'disciplina',
-          },
-          {
             name: `fk__${tableName}__depende__ambiente`,
             columnNames: ['id_ambiente_fk'],
             referencedColumnNames: ['id'],

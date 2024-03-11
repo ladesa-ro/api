@@ -10,4 +10,4 @@ import { BlocoService } from './bloco.service';
   providers: [BlocoService, BlocoResolver],
   exports: [BlocoService],
 })
-export class BlocoModule { }
+export class BlocoModule {}

@@ -30,7 +30,7 @@ const allEstados = [
   { id: 53, sigla: 'DF', nome: 'Distrito Federal' },
 ];
 
-const remainingEstados = allEstados
+const remainingEstados = allEstados;
 
 export class InsertEstadosBrasil1710183631224 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {

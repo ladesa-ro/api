@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 const tableName = 'disponibilidade_professor';
 
-export class CreateTableDisponibilidadeProfessor1709942032718 implements MigrationInterface {
+export class CreateTableDisponibilidadeProfessor1710186865440 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -18,17 +18,17 @@ export class CreateTableDisponibilidadeProfessor1709942032718 implements Migrati
           //
           {
             name: 'data_inicio',
-            type: 'timestamptz',
+            type: 'date',
             isNullable: false,
           },
           {
             name: 'data_fim',
-            type: 'timestamptz',
+            type: 'date',
             isNullable: true,
           },
           //
           {
-            name: 'id_usuario_vinculo_campus_fk',
+            name: 'id_vinculo_professor_fk',
             type: 'uuid',
             isNullable: false,
           },
@@ -55,7 +55,7 @@ export class CreateTableDisponibilidadeProfessor1709942032718 implements Migrati
         foreignKeys: [
           {
             name: `fk__${tableName}__depende__usuario_vinculo_campus`,
-            columnNames: ['id_usuario_vinculo_campus_fk'],
+            columnNames: ['id_vinculo_professor_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'usuario_vinculo_campus',
           },

@@ -66,7 +66,7 @@ export class CreateTableDiarioProfessor1710185001807 implements MigrationInterfa
             name: `fk__${tableName}__relaciona__vinculo_professor`,
             columnNames: ['id_vinculo_professor_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'vinculo_professor',
+            referencedTableName: 'usuario_vinculo_campus',
           },
         ],
       }),

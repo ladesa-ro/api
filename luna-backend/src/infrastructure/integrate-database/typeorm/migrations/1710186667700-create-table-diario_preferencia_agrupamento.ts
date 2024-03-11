@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 const tableName = 'diario_preferencia_agrupamento';
 
-export class CreateTableMomento1709932370522 implements MigrationInterface {
+export class CreateTableDiarioPreferenciaAgrupamento1710186667700 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -20,7 +20,7 @@ export class CreateTableMomento1709932370522 implements MigrationInterface {
             name: 'dia_semana_iso',
             type: 'int',
             isNullable: false,
-          }, 
+          },
           {
             name: 'aulas_seguidas',
             type: 'int',
