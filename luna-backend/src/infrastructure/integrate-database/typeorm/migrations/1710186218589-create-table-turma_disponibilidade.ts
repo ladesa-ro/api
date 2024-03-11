@@ -28,7 +28,7 @@ export class CreateTableTurmaDisponibilidade1710186218589 implements MigrationIn
           },
           //
           {
-            name: 'id_vinculo_professor_fk ',
+            name: 'id_turma_fk ',
             type: 'uuid',
             isNullable: false,
           },
@@ -55,9 +55,9 @@ export class CreateTableTurmaDisponibilidade1710186218589 implements MigrationIn
         foreignKeys: [
           {
             name: `fk__${tableName}__depende__turma`,
-            columnNames: ['id_vinculo_professor_fk '],
+            columnNames: ['id_turma_fk '],
             referencedColumnNames: ['id'],
-            referencedTableName: 'usuario_vinculo_campus',
+            referencedTableName: 'turma',
           },
         ],
       }),

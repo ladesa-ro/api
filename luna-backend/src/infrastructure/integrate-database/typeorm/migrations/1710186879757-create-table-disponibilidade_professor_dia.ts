@@ -28,7 +28,7 @@ export class CreateTableDisponibilidadeProfessorDia1710186879757 implements Migr
           },
           //
           {
-            name: 'id_vinculo_professor_fk',
+            name: 'id_disponibilidade_professor_fk',
             type: 'uuid',
             isNullable: false,
           },
@@ -61,7 +61,7 @@ export class CreateTableDisponibilidadeProfessorDia1710186879757 implements Migr
           },
           {
             name: `fk__${tableName}__depende__disponibilidade_professor`,
-            columnNames: ['id_vinculo_professor_fk'],
+            columnNames: ['id_disponibilidade_professor_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'disponibilidade_professor',
           },
