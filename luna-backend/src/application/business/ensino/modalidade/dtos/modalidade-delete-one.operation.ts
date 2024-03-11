@@ -26,7 +26,7 @@ export const MODALIDADE_DELETE_ONE_BY_ID = createDtoOperationOptions({
   description: 'Realiza a remoção de uma modalidade por ID.',
 
   gql: {
-    name: 'ModalidadeDeleteOneById',
+    name: 'modalidadeDeleteOneById',
 
     inputDtoType: () => ModalidadeDeleteOneByIdInputDto,
     inputDtoValidationContract: ModalidadeDeleteOneByIdInputValidationContract,

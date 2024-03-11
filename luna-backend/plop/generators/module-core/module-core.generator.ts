@@ -271,13 +271,28 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       actions.push({
         type: 'modify',
         path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/index.ts`,
-        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_pascal(answers.moduleName)}InputDto.ts.hbs`).transform(code),
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_pascal(answers.moduleName)}InputDto`).transform(code),
       });
 
       actions.push({
         type: 'modify',
         path: `${outputPathSpec}/operations/index.ts`,
-        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_kebab(answers.moduleName)}-input`).transform(code),
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-input`).transform(code),
+      });
+
+      //
+
+      actions.push({
+        type: 'add',
+        path: `${outputPathModule}/dtos/{{ c_kebab moduleName }}-input.operation.ts`,
+        templateFile: `${templateBase}/core-module-dto/input.operation.ts.hbs`,
+        skipIfExists: true,
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathModule}/dtos/index.ts`,
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-input.operation`).transform(code),
       });
 
       if (answers.operacoes.includes('handle-resource-create')) {
@@ -291,7 +306,56 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         actions.push({
           type: 'modify',
           path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/index.ts`,
-          transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_pascal(answers.moduleName)}CreateDto.ts.hbs`).transform(code),
+          transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_pascal(answers.moduleName)}CreateDto`).transform(code),
+        });
+
+        //
+
+        actions.push({
+          type: 'add',
+          path: `${outputPathModule}/dtos/{{ c_kebab moduleName }}-create.operation.ts`,
+          templateFile: `${templateBase}/core-module-dto/create.operation.ts.hbs`,
+          skipIfExists: true,
+        });
+
+        actions.push({
+          type: 'modify',
+          path: `${outputPathModule}/dtos/index.ts`,
+          transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-create.operation`).transform(code),
+        });
+
+        actions.push({
+          type: 'modify',
+          path: `${outputPathModule}/dtos/${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations.ts`,
+          transform: async (code) =>
+            new ModuleCoreGeneratorOperations()
+              .addOperation(`${ChangeCaseHelper.c_constant(answers.moduleName)}_CREATE`, `./${ChangeCaseHelper.c_kebab(answers.moduleName)}-create.operation`)
+              .transform(code),
+        });
+
+        //
+
+        actions.push({
+          type: 'modify',
+          path: `src/application/authorization-policies/statements/IAuthzStatement.ts`,
+          transform: async (code) =>
+            new ModuleCoreGeneratorAuthzStatement()
+              .addTypeDeclarationStatement(
+                `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Create`,
+                `${ChangeCaseHelper.c_snake(answers.moduleName)}:create`,
+                'check',
+                `Dto.I${ChangeCaseHelper.c_pascal(answers.moduleName)}InputDto`,
+              )
+              .transform(code),
+        });
+
+        actions.push({
+          type: 'modify',
+          path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
+          transform: async (code) =>
+            new ModuleCoreGeneratorBaseAuthzPolicy()
+              .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Create`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Create`)
+              .transform(code),
         });
       }
 
@@ -306,7 +370,56 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         actions.push({
           type: 'modify',
           path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/index.ts`,
-          transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_pascal(answers.moduleName)}UpdateDto.ts.hbs`).transform(code),
+          transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_pascal(answers.moduleName)}UpdateDto`).transform(code),
+        });
+
+        //
+
+        actions.push({
+          type: 'add',
+          path: `${outputPathModule}/dtos/{{ c_kebab moduleName }}-update.operation.ts`,
+          templateFile: `${templateBase}/core-module-dto/update.operation.ts.hbs`,
+          skipIfExists: true,
+        });
+
+        actions.push({
+          type: 'modify',
+          path: `${outputPathModule}/dtos/index.ts`,
+          transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-update.operation`).transform(code),
+        });
+
+        actions.push({
+          type: 'modify',
+          path: `${outputPathModule}/dtos/${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations.ts`,
+          transform: async (code) =>
+            new ModuleCoreGeneratorOperations()
+              .addOperation(`${ChangeCaseHelper.c_constant(answers.moduleName)}_UPDATE`, `./${ChangeCaseHelper.c_kebab(answers.moduleName)}-update.operation`)
+              .transform(code),
+        });
+
+        //
+
+        actions.push({
+          type: 'modify',
+          path: `src/application/authorization-policies/statements/IAuthzStatement.ts`,
+          transform: async (code) =>
+            new ModuleCoreGeneratorAuthzStatement()
+              .addTypeDeclarationStatement(
+                `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Update`,
+                `${ChangeCaseHelper.c_snake(answers.moduleName)}:Update`,
+                'check',
+                `Dto.I${ChangeCaseHelper.c_pascal(answers.moduleName)}UpdateDto`,
+              )
+              .transform(code),
+        });
+
+        actions.push({
+          type: 'modify',
+          path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
+          transform: async (code) =>
+            new ModuleCoreGeneratorBaseAuthzPolicy()
+              .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Update`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Update`)
+              .transform(code),
         });
       }
     }
@@ -321,13 +434,58 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         verbose: true,
       });
 
-
       actions.push({
         type: 'modify',
         path: `${outputPathSpec}/operations/index.ts`,
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-delete`).transform(code),
+      });
+
+      //
+
+      actions.push({
+        type: 'add',
+        path: `${outputPathModule}/dtos/{{ c_kebab moduleName }}-delete-one.operation.ts`,
+        templateFile: `${templateBase}/core-module-dto/delete-one.operation.ts.hbs`,
+        skipIfExists: true,
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathModule}/dtos/index.ts`,
+        transform: async (code) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-delete-one.operation`).transform(code),
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `${outputPathModule}/dtos/${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations.ts`,
         transform: async (code) =>
-          new BaseModuleCoreGenerator()
-            .addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-delete`)
+          new ModuleCoreGeneratorOperations()
+            .addOperation(`${ChangeCaseHelper.c_constant(answers.moduleName)}_DELETE_ONE_BY_ID`, `./${ChangeCaseHelper.c_kebab(answers.moduleName)}-delete-one.operation`)
+            .transform(code),
+      });
+
+      //
+
+      actions.push({
+        type: 'modify',
+        path: `src/application/authorization-policies/statements/IAuthzStatement.ts`,
+        transform: async (code) =>
+          new ModuleCoreGeneratorAuthzStatement()
+            .addTypeDeclarationStatement(
+              `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Delete`,
+              `${ChangeCaseHelper.c_snake(answers.moduleName)}:delete`,
+              'filter',
+              `Dto.I${ChangeCaseHelper.c_pascal(answers.moduleName)}DeleteOneByIdInputDto`,
+            )
+            .transform(code),
+      });
+
+      actions.push({
+        type: 'modify',
+        path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
+        transform: async (code) =>
+          new ModuleCoreGeneratorBaseAuthzPolicy()
+            .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Delete`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Delete`)
             .transform(code),
       });
     }

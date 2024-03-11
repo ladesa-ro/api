@@ -9,7 +9,12 @@ import { {{ c_pascal moduleName }}Dto, {{ c_pascal moduleName }}DtoProperties, {
 @ObjectType('{{ c_pascal moduleName }}FindOneResultDto')
 export class {{ c_pascal moduleName }}FindOneResultDto implements Dto.I{{ c_pascal moduleName }}FindOneResultDto {
   @DtoProperty({{ c_pascal moduleName }}DtoProperties.{{ c_constant moduleName }}_ID)
-  id!: string;
+  {{#if (eq modelIdType "uuid") }}
+  id: string;
+  {{/if}}
+  {{#if (eq modelIdType "numeric") }}
+  id: number;
+  {{/if}}
 
   //
 
@@ -34,7 +39,12 @@ export const {{ c_pascal moduleName }}FindOneByIdInputValidationContract = creat
 @InputType('{{ c_pascal moduleName }}FindOneByIdInputDto')
 export class {{ c_pascal moduleName }}FindOneByIdInputDto implements Dto.I{{ c_pascal moduleName }}FindOneByIdInputDto {
   @DtoProperty({{ c_pascal moduleName }}DtoProperties.{{ c_constant moduleName }}_ID)
-  id!: string;
+  {{#if (eq modelIdType "uuid") }}
+  id: string;
+  {{/if}}
+  {{#if (eq modelIdType "numeric") }}
+  id: number;
+  {{/if}}
 }
 
 export const {{ c_constant moduleName }}_FIND_ONE_BY_ID = createDtoOperationOptions({

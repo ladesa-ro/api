@@ -10,9 +10,6 @@
 - [x] src/application/business/ensino/modalidade/dtos/index.ts
 - [x] src/application/business/ensino/modalidade/dtos/modalidade.dto.ts
 - [x] src/application/business/ensino/modalidade/dtos/modalidade.operations.ts
-
-// ====================================================================================================
-
 - [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-find-one/index.ts
 - [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-find-one/IModalidadeFindOneResultDto.ts
 - [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-find-one/IModalidadeFindOneByIdInputDto.ts
@@ -22,35 +19,32 @@
 - [x] src/application/business/ensino/modalidade/dtos/modalidade-find-all.operation.ts
 - [x] src/application/authorization-policies/statements/IAuthzStatement.ts
 - [x] src/application/authorization-policies/BaseAuthzPolicy.ts
-
 - [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-delete/index.ts
 - [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-delete/IModalidadeDeleteOneByIdInputDto.ts
 - [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-input/index.ts
 - [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-input/IModalidadeInputDto.ts
 - [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-input/IModalidadeCreateDto.ts
 - [x] src/application/business/(spec)/ensino/modalidade/operations/modalidade-input/IModalidadeUpdateDto.ts
+- [x] src/application/business/ensino/modalidade/dtos/modalidade-delete-one.operation.ts
+- [x] src/application/business/ensino/modalidade/dtos/modalidade-input-dto.ts
 
 //
 
-src/application/business/ensino/modalidade/dtos/modalidade-delete-one.operation.ts
-src/application/business/ensino/modalidade/dtos/modalidade-input-dto.ts
-src/application/business/ensino/modalidade/dtos/modalidade-create.operation.ts
-src/application/business/ensino/modalidade/dtos/modalidade-update.operation.ts
 
-src/application/business/(spec)/index.ts
+- [x] src/application/business/ensino/modalidade/dtos/modalidade-create.operation.ts
+- [x] src/application/business/ensino/modalidade/dtos/modalidade-update.operation.ts
 
-src/application/business/business.module.ts
-src/application/business/ensino/ensino.module.ts
+//
 
-src/main.ts
-
-src/application/business/(spec)/ensino/index.ts
-src/application/business/(spec)/ensino/modalidade/operations/index.ts
-
-src/application/authorization-policies/00-AuthzPolicyPublic.ts
-src/application/authorization-policies/01-AuthzPolicySuperUser.ts
+- [] import src/application/business/ensino/ensino.module.ts
+- [] atualizar service, controller e resolver
 
 //
 
 - [ ]  |||||||| por ast - modify |||||||| src/infrastructure/integrate-database/typeorm/entities/parent/module.entity.ts
 - [ ]  |||||||| por ast - modify |||||||| src/application/business/ensino/modalidade/dtos/modalidade.dto.ts
+
+//
+
+src/application/authorization-policies/00-AuthzPolicyPublic.ts
+src/application/authorization-policies/01-AuthzPolicySuperUser.ts
