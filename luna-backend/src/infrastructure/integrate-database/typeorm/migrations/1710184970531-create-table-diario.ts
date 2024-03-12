@@ -36,6 +36,11 @@ export class CreateTableDiario1710184970531 implements MigrationInterface {
           },
           //
           {
+            name: 'id_disciplina_fk',
+            type: 'uuid',
+            isNullable: false,
+          },
+          {
             name: 'id_turma_fk',
             type: 'uuid',
             isNullable: false,
@@ -66,6 +71,12 @@ export class CreateTableDiario1710184970531 implements MigrationInterface {
           },
         ],
         foreignKeys: [
+          {
+            name: `fk__${tableName}__depende__disciplina`,
+            columnNames: ['id_disciplina_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'disciplina',
+          },
           {
             name: `fk__${tableName}__depende__turma`,
             columnNames: ['id_turma_fk'],
