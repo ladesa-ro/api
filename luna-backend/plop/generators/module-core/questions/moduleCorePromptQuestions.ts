@@ -54,7 +54,7 @@ const askConfirm = async (inquirer: typeof inq, msg: string, defaultValue = true
 };
 
 export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<IModuleCoreAnswers> {
-  if ('1' === '1') {
+  if ('1' === '2') {
     return {
       migrationTimestamp: Date.now(),
 
