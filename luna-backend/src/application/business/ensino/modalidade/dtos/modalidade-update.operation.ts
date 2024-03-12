@@ -1,11 +1,11 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as yup from 'yup';
+import { IModalidadeUpdateDto } from '../../../(spec)';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { ModalidadeFindOneByIdInputValidationContract, ModalidadeFindOneResultDto } from './modalidade-find-one.operation';
 import { ModalidadeInputDtoValidationContract } from './modalidade-input-dto';
 import { ModalidadeDto, ModalidadeDtoProperties } from './modalidade.dto';
-import { IModalidadeUpdateDto } from '../../../(spec)';
 
 // ======================================================
 
@@ -13,9 +13,8 @@ export const ModalidadeUpdateInputDtoValidationContract = createValidationContra
   return yup
     .object()
     .concat(ModalidadeFindOneByIdInputValidationContract())
-    .concat(ModalidadeInputDtoValidationContract().partial().omit(['campus']))
+    .concat(ModalidadeInputDtoValidationContract().partial().omit([]))
     .shape({
-      campus: yup.mixed().strip().optional().nullable(),
     });
 });
 

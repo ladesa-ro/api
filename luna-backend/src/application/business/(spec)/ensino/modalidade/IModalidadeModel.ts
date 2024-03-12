@@ -1,5 +1,4 @@
 import { IDatedObject, IEntityDate, IObjectUuid } from '../../(core)';
-import { ICampusModel } from '../../ambientes';
 
 export interface IModalidadeModel extends IObjectUuid, IDatedObject {
   //
@@ -10,10 +9,6 @@ export interface IModalidadeModel extends IObjectUuid, IDatedObject {
 
   nome: string;
   slug: string;
-
-  //
-
-  campus: ICampusModel;
 
   //
 

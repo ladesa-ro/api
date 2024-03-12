@@ -1,7 +1,7 @@
 import { IModalidadeFindOneByIdInputDto } from '../modalidade-find-one/IModalidadeFindOneByIdInputDto';
 import { IModalidadeInputDto } from './IModalidadeInputDto';
 
-export interface IModalidadeUpdateDto extends IModalidadeFindOneByIdInputDto, Partial<Omit<IModalidadeInputDto, 'campus'>> {
+export interface IModalidadeUpdateDto extends IModalidadeFindOneByIdInputDto, Partial<Omit<IModalidadeInputDto, never>> {
   //
 
   id: string;
@@ -10,10 +10,6 @@ export interface IModalidadeUpdateDto extends IModalidadeFindOneByIdInputDto, Pa
 
   nome?: string;
   slug?: string;
-
-  //
-
-  // campus?: IObjectUuid;
 
   //
 }

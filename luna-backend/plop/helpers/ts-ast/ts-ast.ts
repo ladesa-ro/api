@@ -115,7 +115,7 @@ export const addExportAllFrom = async (mod: ProxifiedModule, pathName: string) =
       visitProgram(path) {
         const node = path.node;
 
-        const lastExport = node.body.findLastIndex((i) => i.type === 'ExportAllDeclaration') ?? -1;
+        const lastExport = (node.body as any).findLastIndex((i: n.Node) => i.type === 'ExportAllDeclaration') ?? -1;
 
         const targetIndex = lastExport !== -1 ? lastExport : 0;
 

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { map, pick } from 'lodash';
-import { FilterOperator, paginate } from 'nestjs-paginate';
+import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
@@ -8,8 +8,6 @@ import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { ModalidadeEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
-import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
 
 // ============================================================================
 
@@ -17,18 +15,13 @@ const aliasModalidade = 'modalidade';
 
 // ============================================================================
 
-export type IModalidadeQueryBuilderViewOptions = {
-  loadCampus?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
-};
+export type IModalidadeQueryBuilderViewOptions = {};
 
 // ============================================================================
 
 @Injectable()
 export class ModalidadeService {
-  constructor(
-    private campusService: CampusService,
-    private databaseContext: DatabaseContextService,
-  ) {}
+  constructor(private databaseContext: DatabaseContextService) {}
 
   get modalidadeRepository() {
     return this.databaseContext.modalidadeRepository;
@@ -36,20 +29,13 @@ export class ModalidadeService {
 
   //
 
-  static ModalidadeQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IModalidadeQueryBuilderViewOptions = {}) {
-    const loadCampus = getQueryBuilderViewLoadMeta(options.loadCampus, true, `${alias}_campus`); // VERIFICAR DEPOIS
-
+  static ModalidadeQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, _: IModalidadeQueryBuilderViewOptions = {}) {
     qb.addSelect([
       //
       `${alias}.id`,
       `${alias}.nome`,
       `${alias}.slug`,
     ]);
-
-    if (loadCampus) {
-      qb.innerJoin(`${alias}.campus`, `${loadCampus.alias}`);
-      CampusService.CampusQueryBuilderView(loadCampus.alias, qb, loadCampus.options);
-    }
   }
 
   //
@@ -75,22 +61,12 @@ export class ModalidadeService {
         'slug',
         'dateCreated',
         //
-        'campus.id',
-        'campus.razaoSocial',
-        'campus.nomeFantasia',
       ],
-      relations: {
-        campus: true,
-      },
       sortableColumns: [
         //
         'nome',
         'slug',
         'dateCreated',
-        //
-        'campus.id',
-        'campus.razaoSocial',
-        'campus.nomeFantasia',
       ],
       searchableColumns: [
         //
@@ -101,23 +77,18 @@ export class ModalidadeService {
         //
       ],
       defaultSortBy: [
-        ['campus.id', 'ASC'],
         ['slug', 'ASC'],
         ['nome', 'ASC'],
         ['dateCreated', 'ASC'],
       ],
-      filterableColumns: {
-        'campus.id': [FilterOperator.EQ],
-      },
+      filterableColumns: {},
     });
 
     // =========================================================
 
     qb.select([]);
 
-    ModalidadeService.ModalidadeQueryBuilderView(aliasModalidade, qb, {
-      loadCampus: true,
-    });
+    ModalidadeService.ModalidadeQueryBuilderView(aliasModalidade, qb, {});
 
     // =========================================================
 
@@ -145,9 +116,7 @@ export class ModalidadeService {
 
     qb.select([]);
 
-    ModalidadeService.ModalidadeQueryBuilderView(aliasModalidade, qb, {
-      loadCampus: true,
-    });
+    ModalidadeService.ModalidadeQueryBuilderView(aliasModalidade, qb, {});
 
     // =========================================================
 
@@ -191,7 +160,6 @@ export class ModalidadeService {
     qb.select([]);
 
     ModalidadeService.ModalidadeQueryBuilderView(aliasModalidade, qb, {
-      loadCampus: false,
       ...options,
     });
 
@@ -233,16 +201,6 @@ export class ModalidadeService {
 
     this.modalidadeRepository.merge(modalidade, {
       ...dtoModalidade,
-    });
-
-    // =========================================================
-
-    const campus = await this.campusService.campusFindByIdSimpleStrict(clientAccess, dto.campus.id);
-
-    this.modalidadeRepository.merge(modalidade, {
-      campus: {
-        id: campus.id,
-      },
     });
 
     // =========================================================
