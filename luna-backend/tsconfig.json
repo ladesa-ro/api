@@ -19,5 +19,4 @@
     "incremental": true,
     "skipLibCheck": true
   },
-  "exclude": ["./plop"]
 }
