@@ -53,7 +53,7 @@ const askConfirm = async (inquirer: typeof inq, msg: string, defaultValue = true
   return aws.confirm;
 };
 
-const ENABLE_MOCK_PROFESSOR = true;
+const ENABLE_MOCK_PROFESSOR = false;
 
 export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<IModuleCoreAnswers> {
   if (ENABLE_MOCK_PROFESSOR) {
