@@ -49,39 +49,29 @@ export type IAuthzStatementModalidadeDelete = IBaseAuthzFilter<'modalidade:delet
 
 export type IAuthzStatementVinculoFind = IBaseAuthzFilter<'vinculo:find'>;
 
+export type IAuthzStatementCursoCreate = IBaseAuthzCheck<'curso:create', { dto: Dto.ICursoInputDto }>;
+
+export type IAuthzStatementCursoUpdate = IBaseAuthzCheck<'curso:Update', { dto: Dto.ICursoUpdateDto }>;
+
+export type IAuthzStatementCursoDelete = IBaseAuthzFilter<'curso:delete', { dto: Dto.ICursoDeleteOneByIdInputDto }>;
+
+export type IAuthzStatementCursoFind = IBaseAuthzFilter<'curso:find'>;
+
 // ===================================================================================
 
-export type IAuthzStatementCheck = IAuthzStatementCampusCreate | IAuthzStatementBlocoCreate | IAuthzStatementAmbienteCreate | IAuthzStatementUsuarioCreate | IAuthzStatementModalidadeCreate;
+export type IAuthzStatementCheck = IAuthzStatementCampusCreate | IAuthzStatementBlocoCreate | IAuthzStatementAmbienteCreate | IAuthzStatementUsuarioCreate | IAuthzStatementModalidadeCreate | IAuthzStatementCursoCreate | IAuthzStatementCursoUpdate;
 
 // =====================
 
 export type IAuthzStatementFind =
-  | IAuthzStatementEnderecoFind
   //
-  | IAuthzStatementEstadoFind
   //
-  | IAuthzStatementCidadeFind
-  //
-  | IAuthzStatementCampusFind
-  | IAuthzStatementCampusUpdate
-  | IAuthzStatementCampusDelete
-  //
-  | IAuthzStatementBlocoFind
-  | IAuthzStatementBlocoUpdate
-  | IAuthzStatementBlocoDelete
-  //
-  | IAuthzStatementModalidadeFind
-  | IAuthzStatementModalidadeUpdate
-  | IAuthzStatementModalidadeDelete
-  //
-  | IAuthzStatementAmbienteFind
-  | IAuthzStatementAmbienteUpdate
-  | IAuthzStatementAmbienteDelete
-  //
-  | IAuthzStatementUsuarioFind
-  | IAuthzStatementUsuarioUpdate
-  | IAuthzStatementUsuarioDelete
-  | IAuthzStatementVinculoFind;
+  IAuthzStatementEnderecoFind | //
+  IAuthzStatementEstadoFind | IAuthzStatementCidadeFind | IAuthzStatementCampusFind | //
+  IAuthzStatementCampusUpdate | IAuthzStatementCampusDelete | IAuthzStatementBlocoFind | //
+  IAuthzStatementBlocoUpdate | IAuthzStatementBlocoDelete | IAuthzStatementModalidadeFind | //
+  IAuthzStatementModalidadeUpdate | IAuthzStatementModalidadeDelete | IAuthzStatementAmbienteFind | //
+  IAuthzStatementAmbienteUpdate | IAuthzStatementAmbienteDelete | IAuthzStatementUsuarioFind | IAuthzStatementUsuarioUpdate | IAuthzStatementUsuarioDelete | IAuthzStatementVinculoFind | IAuthzStatementCursoDelete | IAuthzStatementCursoFind;
 
 // =====================
 

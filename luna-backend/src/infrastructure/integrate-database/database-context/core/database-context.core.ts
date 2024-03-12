@@ -2,6 +2,9 @@ import { DataSource, EntityManager } from 'typeorm';
 import * as repositories from '../../typeorm/repositories';
 
 export class DatabaseContextCore {
+  get cursoRepository() {
+    return repositories.createCursoRepository(this.ds);
+  }
   constructor(readonly ds: DataSource | EntityManager) {}
 
   //
