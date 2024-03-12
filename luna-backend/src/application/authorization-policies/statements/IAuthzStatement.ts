@@ -51,7 +51,7 @@ export type IAuthzStatementVinculoFind = IBaseAuthzFilter<'vinculo:find'>;
 
 export type IAuthzStatementCursoCreate = IBaseAuthzCheck<'curso:create', { dto: Dto.ICursoInputDto }>;
 
-export type IAuthzStatementCursoUpdate = IBaseAuthzCheck<'curso:Update', { dto: Dto.ICursoUpdateDto }>;
+export type IAuthzStatementCursoUpdate = IBaseAuthzFilter<'curso:update', { dto: Dto.ICursoUpdateDto }>;
 
 export type IAuthzStatementCursoDelete = IBaseAuthzFilter<'curso:delete', { dto: Dto.ICursoDeleteOneByIdInputDto }>;
 

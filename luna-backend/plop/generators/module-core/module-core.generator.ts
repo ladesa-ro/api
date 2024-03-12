@@ -426,8 +426,8 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
             new ModuleCoreGeneratorAuthzStatement()
               .addTypeDeclarationStatement(
                 `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Update`,
-                `${ChangeCaseHelper.c_snake(answers.moduleName)}:Update`,
-                'check',
+                `${ChangeCaseHelper.c_snake(answers.moduleName)}:update`,
+                'filter',
                 `Dto.I${ChangeCaseHelper.c_pascal(answers.moduleName)}UpdateDto`,
               )
               .transform(code),

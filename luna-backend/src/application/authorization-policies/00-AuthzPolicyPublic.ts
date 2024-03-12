@@ -179,6 +179,57 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
   }
   // ========================================================
 
+  get cursoFind(): Authz.IAuthzStatementCursoFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'curso:find',
+
+      filter(context, alias) {
+        return (qb) => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get cursoCreate(): Authz.IAuthzStatementCursoCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'curso:create',
+
+      async withCheck(context) {
+        console.debug('AuthzPolicyPublic -- curso:create', { context });
+        return true;
+      },
+    });
+  }
+
+  get cursoUpdate(): Authz.IAuthzStatementCursoUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'curso:update',
+      filter() {
+        return (qb, alias = 'modalidade') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get cursoDelete(): Authz.IAuthzStatementCursoDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'curso:delete',
+      filter() {
+        return (qb, alias = 'modalidade') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  // ========================================================
+
   get ambienteFind(): Authz.IAuthzStatementAmbienteFind {
     return createStatement({
       kind: 'filter',
