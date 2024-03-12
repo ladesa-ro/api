@@ -22,7 +22,7 @@ export class CreateTableDisponibilidadeProfessorDia1710186879757 implements Migr
             isNullable: false,
           },
           {
-            name: 'id_momento_fk',
+            name: 'id_intervalo_de_tempo_fk',
             type: 'uuid',
             isNullable: false,
           },
@@ -54,10 +54,10 @@ export class CreateTableDisponibilidadeProfessorDia1710186879757 implements Migr
         ],
         foreignKeys: [
           {
-            name: `fk__${tableName}__depende__momento`,
-            columnNames: ['id_momento_fk'],
+            name: `fk__${tableName}__depende__intervalo_de_tempo`,
+            columnNames: ['id_intervalo_de_tempo_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'momento',
+            referencedTableName: 'intervalo_de_tempo',
           },
           {
             name: `fk__${tableName}__depende__disponibilidade_professor`,

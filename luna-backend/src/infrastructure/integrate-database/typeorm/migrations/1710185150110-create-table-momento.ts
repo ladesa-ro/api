@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'momento';
+const tableName = 'intervalo_de_tempo';
 
-export class CreateTableMomento1710185150110 implements MigrationInterface {
+export class CreateTableIntervaloDeTempo1710185150110 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
