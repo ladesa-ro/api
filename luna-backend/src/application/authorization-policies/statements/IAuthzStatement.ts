@@ -59,19 +59,41 @@ export type IAuthzStatementCursoFind = IBaseAuthzFilter<'curso:find'>;
 
 // ===================================================================================
 
-export type IAuthzStatementCheck = IAuthzStatementCampusCreate | IAuthzStatementBlocoCreate | IAuthzStatementAmbienteCreate | IAuthzStatementUsuarioCreate | IAuthzStatementModalidadeCreate | IAuthzStatementCursoCreate | IAuthzStatementCursoUpdate;
+export type IAuthzStatementCheck =
+  | IAuthzStatementCampusCreate
+  | IAuthzStatementBlocoCreate
+  | IAuthzStatementAmbienteCreate
+  | IAuthzStatementUsuarioCreate
+  | IAuthzStatementModalidadeCreate
+  | IAuthzStatementCursoCreate;
 
 // =====================
 
 export type IAuthzStatementFind =
   //
   //
-  IAuthzStatementEnderecoFind | //
-  IAuthzStatementEstadoFind | IAuthzStatementCidadeFind | IAuthzStatementCampusFind | //
-  IAuthzStatementCampusUpdate | IAuthzStatementCampusDelete | IAuthzStatementBlocoFind | //
-  IAuthzStatementBlocoUpdate | IAuthzStatementBlocoDelete | IAuthzStatementModalidadeFind | //
-  IAuthzStatementModalidadeUpdate | IAuthzStatementModalidadeDelete | IAuthzStatementAmbienteFind | //
-  IAuthzStatementAmbienteUpdate | IAuthzStatementAmbienteDelete | IAuthzStatementUsuarioFind | IAuthzStatementUsuarioUpdate | IAuthzStatementUsuarioDelete | IAuthzStatementVinculoFind | IAuthzStatementCursoDelete | IAuthzStatementCursoFind;
+  | IAuthzStatementEnderecoFind //
+  | IAuthzStatementEstadoFind
+  | IAuthzStatementCidadeFind
+  | IAuthzStatementCampusFind //
+  | IAuthzStatementCampusUpdate
+  | IAuthzStatementCampusDelete
+  | IAuthzStatementBlocoFind //
+  | IAuthzStatementBlocoUpdate
+  | IAuthzStatementBlocoDelete
+  | IAuthzStatementModalidadeFind //
+  | IAuthzStatementModalidadeUpdate
+  | IAuthzStatementModalidadeDelete
+  | IAuthzStatementAmbienteFind //
+  | IAuthzStatementAmbienteUpdate
+  | IAuthzStatementAmbienteDelete
+  | IAuthzStatementUsuarioFind
+  | IAuthzStatementUsuarioUpdate
+  | IAuthzStatementUsuarioDelete
+  | IAuthzStatementVinculoFind
+  | IAuthzStatementCursoDelete
+  | IAuthzStatementCursoFind
+  | IAuthzStatementCursoUpdate;
 
 // =====================
 

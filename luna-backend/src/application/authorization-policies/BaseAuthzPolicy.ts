@@ -3,10 +3,6 @@
 import * as Authz from './statements/IAuthzStatement';
 
 export abstract class BaseAuthzPolicy {
-  abstract cursoFind: Authz.IAuthzStatementCursoFind;
-  abstract cursoDelete: Authz.IAuthzStatementCursoDelete;
-  abstract cursoUpdate: Authz.IAuthzStatementCursoUpdate;
-  abstract cursoCreate: Authz.IAuthzStatementCursoCreate;
   abstract estadoFind: Authz.IAuthzStatementEstadoFind;
   abstract cidadeFind: Authz.IAuthzStatementCidadeFind;
 
@@ -35,17 +31,45 @@ export abstract class BaseAuthzPolicy {
   abstract modalidadeUpdate: Authz.IAuthzStatementModalidadeUpdate;
   abstract modalidadeDelete: Authz.IAuthzStatementModalidadeDelete;
 
+  abstract cursoFind: Authz.IAuthzStatementCursoFind;
+  abstract cursoDelete: Authz.IAuthzStatementCursoDelete;
+  abstract cursoUpdate: Authz.IAuthzStatementCursoUpdate;
+  abstract cursoCreate: Authz.IAuthzStatementCursoCreate;
+
   abstract vinculoFind: Authz.IAuthzStatementVinculoFind;
 
   get statements() {
-    return [//
-    //
-    //
-    this.estadoFind, this.cidadeFind, this.campusFind, //
-    this.campusCreate, this.campusUpdate, this.campusDelete, this.blocoFind, //
-    this.blocoCreate, this.blocoUpdate, this.blocoDelete, this.modalidadeFind, //
-    this.modalidadeCreate, this.modalidadeUpdate, this.modalidadeDelete, this.ambienteFind, //
-    this.ambienteCreate, this.ambienteUpdate, this.ambienteDelete, this.usuarioFind, //
-    this.usuarioCreate, this.usuarioUpdate, this.usuarioDelete, this.vinculoFind, this.cursoCreate, this.cursoUpdate, this.cursoDelete, this.cursoFind];
+    return [
+      //
+      //
+      //
+      this.estadoFind,
+      this.cidadeFind,
+      this.campusFind,
+      this.campusCreate,
+      this.campusUpdate,
+      this.campusDelete,
+      this.blocoFind,
+      this.blocoCreate,
+      this.blocoUpdate,
+      this.blocoDelete,
+      this.modalidadeFind,
+      this.modalidadeCreate,
+      this.modalidadeUpdate,
+      this.modalidadeDelete,
+      this.ambienteFind,
+      this.ambienteCreate,
+      this.ambienteUpdate,
+      this.ambienteDelete,
+      this.usuarioFind,
+      this.usuarioCreate,
+      this.usuarioUpdate,
+      this.usuarioDelete,
+      this.vinculoFind,
+      this.cursoCreate,
+      this.cursoUpdate,
+      this.cursoDelete,
+      this.cursoFind,
+    ];
   }
 }

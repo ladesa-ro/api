@@ -44,6 +44,11 @@ export const CURSO_FIND_ALL = createDtoOperationOptions({
       'search',
       'sortBy',
       //
+      'filter.campus.id',
+      'filter.campus.cnpj',
+      'filter.modalidade.id',
+      'filter.modalidade.nome',
+      'filter.modalidade.slug',
     ],
   },
 });

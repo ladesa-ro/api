@@ -1,4 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
+import { CampusDto, CampusFindOneResultDto } from 'application/business/ambientes/campus/dtos';
+import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
+import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import {
@@ -11,10 +14,7 @@ import {
   createDtoPropertyMap,
   createValidationContract,
 } from '../../../../../infrastructure';
-import { CampusDto, CampusFindOneResultDto } from 'application/business/ambientes/campus/dtos';
 import { ModalidadeDto, ModalidadeFindOneResultDto } from '../../modalidade/dtos';
-import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
-import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
 
 // ======================================================
 
@@ -24,18 +24,15 @@ export const CursoDtoValidationContract = createValidationContract(() => {
 
     //
 
-    nome: yup.mixed(), // curso
+    nome: ValidationContractString().required().nonNullable(),
+    nomeAbreviado: ValidationContractString().required().nonNullable(),
 
-    nomeAbreviado: yup.mixed(), // curso
-
-    campus: yup.mixed(), // curso
-
-    modalidade: yup.mixed(), // curso
+    campus: ValidationContractObjectUuid({ required: true }).defined().required(),
+    modalidade: ValidationContractObjectUuid({ required: true }).defined().required(),
 
     //
   });
 });
-
 
 // ======================================================
 
@@ -46,7 +43,7 @@ export const CursoDtoProperties = createDtoPropertyMap({
 
   CURSO_NOME: {
     nullable: false,
-    description: 'NomeDoCurso',
+    description: 'Nome do curso.',
     //
     gql: {
       type: () => String,
@@ -57,7 +54,7 @@ export const CursoDtoProperties = createDtoPropertyMap({
   },
   CURSO_NOME_ABREVIADO: {
     nullable: false,
-    description: 'NomeAbreviadoDoCurso',
+    description: 'Nome abreviado do curso.',
     //
     gql: {
       type: () => String,
@@ -66,9 +63,22 @@ export const CursoDtoProperties = createDtoPropertyMap({
       type: 'string',
     },
   },
-  CURSO_CAMPUS: {
+  // ==============================================
+  CURSO_CAMPUS_INPUT: {
     nullable: false,
-    description: 'CampusQueOCursoPertence',
+    description: 'Campus que o curso pertence.',
+    //
+    gql: {
+      type: () => ObjectUuidDto,
+    },
+    swagger: {
+      type: ObjectUuidDto,
+    },
+  },
+  // ===================
+  CURSO_CAMPUS_OUTPUT: {
+    nullable: false,
+    description: 'Campus que o curso pertence.',
     //
     gql: {
       type: () => CampusDto,
@@ -77,9 +87,22 @@ export const CursoDtoProperties = createDtoPropertyMap({
       type: CampusFindOneResultDto,
     },
   },
-  CURSO_MODALIDADE: {
+  // ==============================================
+  CURSO_MODALIDADE_INPUT: {
     nullable: false,
-    description: 'ModalidadeAQueOCursoPertence',
+    description: 'Modalidade a que o curso pertence.',
+    //
+    gql: {
+      type: () => ObjectUuidDto,
+    },
+    swagger: {
+      type: ObjectUuidDto,
+    },
+  },
+  // ===================
+  CURSO_MODALIDADE_OUTPUT: {
+    nullable: false,
+    description: 'Modalidade a que o curso pertence.',
     //
     gql: {
       type: () => ModalidadeDto,
@@ -87,9 +110,8 @@ export const CursoDtoProperties = createDtoPropertyMap({
     swagger: {
       type: ModalidadeFindOneResultDto,
     },
-  }
-  //
-
+  },
+  // ==============================================
 });
 
 // ======================================================
@@ -99,7 +121,6 @@ export class CursoDto implements Dto.ICursoModel {
   @DtoProperty(CursoDtoProperties.CURSO_ID)
   id!: string;
 
-
   //
 
   @DtoProperty(CursoDtoProperties.CURSO_NOME)
@@ -108,10 +129,10 @@ export class CursoDto implements Dto.ICursoModel {
   @DtoProperty(CursoDtoProperties.CURSO_NOME_ABREVIADO)
   nomeAbreviado!: string;
 
-  @DtoProperty(CursoDtoProperties.CURSO_CAMPUS)
+  @DtoProperty(CursoDtoProperties.CURSO_CAMPUS_OUTPUT)
   campus!: CampusEntity;
 
-  @DtoProperty(CursoDtoProperties.CURSO_MODALIDADE)
+  @DtoProperty(CursoDtoProperties.CURSO_MODALIDADE_OUTPUT)
   modalidade!: ModalidadeEntity;
 
   //
@@ -119,5 +140,4 @@ export class CursoDto implements Dto.ICursoModel {
   dateCreated!: Dto.IEntityDate;
   dateUpdated!: Dto.IEntityDate;
   dateDeleted!: Dto.IEntityDate | null;
-
 }

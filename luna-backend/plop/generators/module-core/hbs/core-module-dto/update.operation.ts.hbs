@@ -42,7 +42,7 @@ export class {{ c_pascal moduleName }}UpdateInputDto implements I{{ c_pascal mod
 
 export class {{ c_pascal moduleName }}UpdateWithoutIdInputDto extends OmitType({{ c_pascal moduleName }}UpdateInputDto, ['id'] as const) {}
 export const {{ c_constant moduleName }}_UPDATE = createDtoOperationOptions({
-  description: 'Realiza a alteração de uma "{{ c_no moduleName }}".',
+  description: 'Realiza a alteração de "{{ c_no moduleName }}".',
 
   gql: {
     name: '{{ c_camel moduleName }}Update',
@@ -61,7 +61,7 @@ export const {{ c_constant moduleName }}_UPDATE = createDtoOperationOptions({
     params: [
       {
         name: 'id',
-        description: 'ID da "{{ c_no moduleName }}".',
+        description: 'ID de "{{ c_no moduleName }}".',
         validationContract: ValidationContractUuid,
       },
     ],

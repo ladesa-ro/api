@@ -31,7 +31,7 @@ export const {{ c_constant moduleName }}_DELETE_ONE_BY_ID = createDtoOperationOp
   description: 'Realiza a remoção de "{{ c_no moduleName }}" por ID.',
 
   gql: {
-    name: '{{ c_pascal moduleName }}DeleteOneById',
+    name: '{{ c_camel moduleName }}DeleteOneById',
 
     inputDtoType: () => {{ c_pascal moduleName }}DeleteOneByIdInputDto,
     inputDtoValidationContract: {{ c_pascal moduleName }}DeleteOneByIdInputValidationContract,

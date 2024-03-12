@@ -5,16 +5,16 @@ export interface ICursoModel {
 
   //
 
-  // Nome do Curso
+  // Nome do curso
   nome: string;
 
   // Nome abreviado do curso
   nomeAbreviado: string;
 
-  // Campus que o Curso pertence
+  // Campus que o curso pertence
   campus: ICampusModel;
 
-  // Modalidade a que o Curso Pertence
+  // Modalidade a que o curso pertence
   modalidade: IModalidadeModel;
 
   //

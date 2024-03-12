@@ -1,4 +1,7 @@
+import { IObjectUuid } from '../../../../(core)';
 import { ICursoModel } from '../../ICursoModel';
 
-export interface ICursoInputDto extends Pick<ICursoModel, never  | 'nome' | 'nomeAbreviado' | 'campus' | 'modalidade'> {
+export interface ICursoInputDto extends Pick<ICursoModel, 'nome' | 'nomeAbreviado'> {
+  campus: IObjectUuid;
+  modalidade: IObjectUuid;
 }

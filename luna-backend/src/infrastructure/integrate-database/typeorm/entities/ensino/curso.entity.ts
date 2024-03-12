@@ -1,7 +1,5 @@
-import { Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { ICampusModel, IEntityDate, IModalidadeModel } from 'application/business/(spec)';
-import { PrimaryGeneratedColumn } from 'typeorm';
-import { Column } from 'typeorm';
+import { IEntityDate } from 'application/business/(spec)';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { ModalidadeEntity } from './ensino/modalidade.entity';
 
@@ -20,11 +18,11 @@ export class CursoEntity {
 
   @ManyToOne(() => CampusEntity)
   @JoinColumn({ name: "id_campus_fk" })
-  campus!: ICampusModel;
+  campus!: CampusEntity;
 
   @ManyToOne(() => ModalidadeEntity)
   @JoinColumn({ name: "id_modalidade_fk" })
-  modalidade!: IModalidadeModel;
+  modalidade!: ModalidadeEntity;
 
   //
 

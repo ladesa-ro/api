@@ -1,13 +1,13 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
+import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
+import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
 import * as yup from 'yup';
+import { ICursoUpdateDto } from '../../../(spec)';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CursoFindOneByIdInputValidationContract, CursoFindOneResultDto } from './curso-find-one.operation';
 import { CursoInputDtoValidationContract } from './curso-input.operation';
 import { CursoDto, CursoDtoProperties } from './curso.dto';
-import { ICursoUpdateDto } from '../../../(spec)';
-import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
-import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
 
 // ======================================================
 
@@ -35,10 +35,10 @@ export class CursoUpdateInputDto implements ICursoUpdateDto {
   @DtoProperty(CursoDtoProperties.CURSO_NOME_ABREVIADO, { required: false })
   nomeAbreviado?: string;
 
-  @DtoProperty(CursoDtoProperties.CURSO_CAMPUS, { required: false })
+  @DtoProperty(CursoDtoProperties.CURSO_CAMPUS_OUTPUT, { required: false })
   campus?: CampusEntity;
 
-  @DtoProperty(CursoDtoProperties.CURSO_MODALIDADE, { required: false })
+  @DtoProperty(CursoDtoProperties.CURSO_MODALIDADE_OUTPUT, { required: false })
   modalidade?: ModalidadeEntity;
 
   //
@@ -46,7 +46,7 @@ export class CursoUpdateInputDto implements ICursoUpdateDto {
 
 export class CursoUpdateWithoutIdInputDto extends OmitType(CursoUpdateInputDto, ['id'] as const) { }
 export const CURSO_UPDATE = createDtoOperationOptions({
-  description: 'Realiza a alteração de uma "curso".',
+  description: 'Realiza a alteração de "curso".',
 
   gql: {
     name: 'cursoUpdate',
@@ -65,7 +65,7 @@ export const CURSO_UPDATE = createDtoOperationOptions({
     params: [
       {
         name: 'id',
-        description: 'ID da "curso".',
+        description: 'ID de "curso".',
         validationContract: ValidationContractUuid,
       },
     ],
