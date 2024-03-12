@@ -1,7 +1,7 @@
 import { I{{ c_pascal moduleName }}FindOneByIdInputDto } from '../{{ c_kebab moduleName }}-find-one/I{{ c_pascal moduleName }}FindOneByIdInputDto';
 import { I{{ c_pascal moduleName }}InputDto } from './I{{ c_pascal moduleName }}InputDto';
 
-export interface I{{ c_pascal moduleName }}UpdateDto extends I{{ c_pascal moduleName }}FindOneByIdInputDto, Partial<Omit<I{{ c_pascal moduleName }}InputDto, 'id'{{#each propriedadesDeclaradas}} | '{{this.nome}}'{{/each}}>> {
+export interface I{{ c_pascal moduleName }}UpdateDto extends I{{ c_pascal moduleName }}FindOneByIdInputDto, Partial<Omit<I{{ c_pascal moduleName }}InputDto, 'id'>> {
   {{#if (eq modelIdType "uuid") }}
   id: string;
   {{/if}}
