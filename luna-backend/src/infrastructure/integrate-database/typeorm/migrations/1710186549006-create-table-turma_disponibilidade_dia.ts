@@ -22,7 +22,7 @@ export class CreateTableTurmaDisponibilidadeDia1710186549006 implements Migratio
             isNullable: false,
           },
           {
-            name: 'id_momento_fk',
+            name: 'id_intervalo_de_tempo_fk',
             type: 'uuid',
             isNullable: false,
           },
@@ -36,10 +36,10 @@ export class CreateTableTurmaDisponibilidadeDia1710186549006 implements Migratio
         ],
         foreignKeys: [
           {
-            name: `fk__${tableName}__depende__momento`,
-            columnNames: ['id_momento_fk'],
+            name: `fk__${tableName}__depende__intervalo_de_tempo`,
+            columnNames: ['id_intervalo_de_tempo_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'momento',
+            referencedTableName: 'intervalo_de_tempo',
           },
           {
             name: `fk__${tableName}__depende__turma_disponibilidade`,
