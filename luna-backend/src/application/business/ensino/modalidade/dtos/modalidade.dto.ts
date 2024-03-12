@@ -4,14 +4,11 @@ import * as Dto from '../../../(spec)';
 import {
   CommonPropertyUuid,
   DtoProperty,
-  ObjectUuidDto,
-  ValidationContractObjectUuid,
   ValidationContractString,
   ValidationContractUuid,
   createDtoPropertyMap,
-  createValidationContract,
+  createValidationContract
 } from '../../../../../infrastructure';
-import { CampusDto, CampusFindOneResultDto } from '../../../ambientes/campus/dtos';
 
 // ======================================================
 
@@ -25,8 +22,6 @@ export const ModalidadeDtoValidationContract = createValidationContract(() => {
     slug: ValidationContractString().required().nonNullable(),
 
     //
-
-    campus: ValidationContractObjectUuid({ required: true }).defined().required(),
   });
 });
 
@@ -58,30 +53,6 @@ export const ModalidadeDtoProperties = createDtoPropertyMap({
       type: 'string',
     },
   },
-
-  MODALIDADE_CAMPUS_INPUT: {
-    nullable: false,
-    description: 'Campus que a modalidade pertence.',
-    //
-    gql: {
-      type: () => ObjectUuidDto,
-    },
-    swagger: {
-      type: () => ObjectUuidDto,
-    },
-  },
-
-  MODALIDADE_CAMPUS_OUTPUT: {
-    nullable: false,
-    description: 'Campus que a modalidade pertence.',
-    //
-    gql: {
-      type: () => CampusDto,
-    },
-    swagger: {
-      type: () => CampusFindOneResultDto,
-    },
-  },
 });
 
 // ======================================================
@@ -98,11 +69,6 @@ export class ModalidadeDto implements Dto.IModalidadeModel {
 
   @DtoProperty(ModalidadeDtoProperties.MODALIDADE_SLUG)
   slug!: string;
-
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_CAMPUS_OUTPUT)
-  campus!: Dto.ICampusModel;
-
-  //
 
   //
 

@@ -31,12 +31,6 @@ export class CreateTableDisciplina1710184490462 implements MigrationInterface {
           },
           //
           {
-            name: 'id_curso_fk',
-            type: 'uuid',
-            isNullable: false,
-          },
-          //
-          {
             name: 'date_created',
             type: 'timestamptz',
             isNullable: false,
@@ -55,14 +49,7 @@ export class CreateTableDisciplina1710184490462 implements MigrationInterface {
             isNullable: true,
           },
         ],
-        foreignKeys: [
-          {
-            name: `fk__${tableName}__depende__curso`,
-            columnNames: ['id_curso_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'curso',
-          },
-        ],
+        foreignKeys: [],
       }),
     );
 

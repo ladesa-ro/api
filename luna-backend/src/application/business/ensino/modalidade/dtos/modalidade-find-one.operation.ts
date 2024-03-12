@@ -17,10 +17,6 @@ export class ModalidadeFindOneResultDto implements Dto.IModalidadeFindOneResultD
 
   @DtoProperty(ModalidadeDtoProperties.MODALIDADE_SLUG)
   slug!: string;
-
-  //
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_CAMPUS_OUTPUT)
-  campus!: Dto.ICampusFindOneResultDto;
 }
 
 // ======================================================

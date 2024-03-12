@@ -25,6 +25,9 @@ function setupSwaggerConfig() {
   config.addTag('Ambientes', 'Ambientes / Campi / Blocos / Ambiente');
   config.addTag('Modalidades', 'Ensnino / Modalidade');
 
+  config.addServer("https://luna.sisgha.com/api/")
+  config.addServer("http://localhost:3000/")
+
   return config;
 }
 

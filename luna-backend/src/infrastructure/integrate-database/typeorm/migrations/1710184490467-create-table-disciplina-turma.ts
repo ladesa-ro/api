@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'momento';
+const tableName = 'disciplina_turma';
 
-export class CreateTableMomento1710185150110 implements MigrationInterface {
+export class CreateTableDisciplinaTurma1710184490467 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -15,15 +15,16 @@ export class CreateTableMomento1710185150110 implements MigrationInterface {
             isPrimary: true,
             default: 'gen_random_uuid()',
           },
+
           //
           {
-            name: 'perido_inicio',
-            type: 'time',
+            name: 'id_disciplina_fk',
+            type: 'uuid',
             isNullable: false,
           },
           {
-            name: 'perido_fim',
-            type: 'time',
+            name: 'id_turma_fk',
+            type: 'uuid',
             isNullable: false,
           },
           //
@@ -46,15 +47,22 @@ export class CreateTableMomento1710185150110 implements MigrationInterface {
             isNullable: true,
           },
         ],
+        foreignKeys: [
+          {
+            name: `fk__${tableName}__depende__disciplina`,
+            columnNames: ['id_disciplina_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'disciplina',
+          },
+          {
+            name: `fk__${tableName}__depende__turma`,
+            columnNames: ['id_turma_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'turma',
+          },
+        ],
       }),
     );
-
-    await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_${tableName}
-        BEFORE UPDATE ON ${tableName}
-        FOR EACH ROW
-          EXECUTE FUNCTION change_date_updated();
-    `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

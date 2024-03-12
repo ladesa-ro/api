@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'disponibilidade_professor_dia';
+const tableName = 'intervalo_de_tempo';
 
-export class CreateTableDisponibilidadeProfessorDia1710186879757 implements MigrationInterface {
+export class CreateTableIntervaloDeTempo1710185150110 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -17,19 +17,13 @@ export class CreateTableDisponibilidadeProfessorDia1710186879757 implements Migr
           },
           //
           {
-            name: 'dia_semana_iso',
-            type: 'int',
+            name: 'perido_inicio',
+            type: 'time',
             isNullable: false,
           },
           {
-            name: 'id_intervalo_de_tempo_fk',
-            type: 'uuid',
-            isNullable: false,
-          },
-          //
-          {
-            name: 'id_disponibilidade_professor_fk',
-            type: 'uuid',
+            name: 'perido_fim',
+            type: 'time',
             isNullable: false,
           },
           //
@@ -50,20 +44,6 @@ export class CreateTableDisponibilidadeProfessorDia1710186879757 implements Migr
             name: 'date_deleted',
             type: 'timestamptz',
             isNullable: true,
-          },
-        ],
-        foreignKeys: [
-          {
-            name: `fk__${tableName}__depende__intervalo_de_tempo`,
-            columnNames: ['id_intervalo_de_tempo_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'intervalo_de_tempo',
-          },
-          {
-            name: `fk__${tableName}__depende__disponibilidade_professor`,
-            columnNames: ['id_disponibilidade_professor_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'disponibilidade_professor',
           },
         ],
       }),

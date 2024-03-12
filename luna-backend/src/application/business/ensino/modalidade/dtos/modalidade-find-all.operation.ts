@@ -44,7 +44,6 @@ export const MODALIDADE_FIND_ALL = createDtoOperationOptions({
       'search',
       'sortBy',
       //
-      'filter.campus.id',
     ],
   },
 });
