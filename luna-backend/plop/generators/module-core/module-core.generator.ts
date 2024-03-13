@@ -49,7 +49,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
           .appendModuleConfig({
             declareInModuleProperty: 'imports',
             classImportName: `${ChangeCaseHelper.c_pascal(answers.moduleName)}Module`,
-            classImportPath: `./${ChangeCaseHelper.c_kebab(answers.moduleName)}`,
+            classImportPath: `./${ChangeCaseHelper.c_kebab(answers.moduleName)}/${ChangeCaseHelper.c_kebab(answers.moduleName)}.module`,
           })
           .transform(code),
     });
@@ -221,7 +221,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       actions.push({
         type: 'modify',
         path: `${pathSpecBase}/{{ c_kebab moduleNameParent }}/index.ts`,
-        transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}/${ChangeCaseHelper.c_kebab(answers.moduleName)}.module`).transform(code),
+        transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}`).transform(code),
       });
 
       actions.push({

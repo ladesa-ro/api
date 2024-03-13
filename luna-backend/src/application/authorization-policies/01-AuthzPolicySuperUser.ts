@@ -220,6 +220,8 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
     });
   }
 
+  // ========================================================
+
   get cursoFind(): Authz.IAuthzStatementCursoFind {
     return createStatement({
       kind: 'filter',
@@ -277,6 +279,65 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
   }
 
   // ========================================================
+
+  get disciplinaFind(): Authz.IAuthzStatementDisciplinaFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'disciplina:find',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get disciplinaCreate(): Authz.IAuthzStatementDisciplinaCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'disciplina:create',
+
+      withCheck: (context) => {
+        if (AuthzPolicySuperUser.shouldApply(context)) {
+          return true;
+        }
+        return false;
+      },
+    });
+  }
+
+  get disciplinaUpdate(): Authz.IAuthzStatementDisciplinaUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'disciplina:update',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get disciplinaDelete(): Authz.IAuthzStatementDisciplinaDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'disciplina:delete',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  // ========================================================
+
 
   get ambienteFind(): Authz.IAuthzStatementAmbienteFind {
     return createStatement({

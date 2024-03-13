@@ -57,6 +57,14 @@ export type IAuthzStatementCursoDelete = IBaseAuthzFilter<'curso:delete', { dto:
 
 export type IAuthzStatementCursoFind = IBaseAuthzFilter<'curso:find'>;
 
+export type IAuthzStatementDisciplinaCreate = IBaseAuthzCheck<'disciplina:create', { dto: Dto.IDisciplinaInputDto }>;
+
+export type IAuthzStatementDisciplinaUpdate = IBaseAuthzFilter<'disciplina:update', { dto: Dto.IDisciplinaUpdateDto }>;
+
+export type IAuthzStatementDisciplinaDelete = IBaseAuthzFilter<'disciplina:delete', { dto: Dto.IDisciplinaDeleteOneByIdInputDto }>;
+
+export type IAuthzStatementDisciplinaFind = IBaseAuthzFilter<'disciplina:find'>;
+
 // ===================================================================================
 
 export type IAuthzStatementCheck =
@@ -65,11 +73,13 @@ export type IAuthzStatementCheck =
   | IAuthzStatementAmbienteCreate
   | IAuthzStatementUsuarioCreate
   | IAuthzStatementModalidadeCreate
-  | IAuthzStatementCursoCreate;
+  | IAuthzStatementCursoCreate
+  | IAuthzStatementDisciplinaCreate;
 
 // =====================
 
 export type IAuthzStatementFind =
+  //
   //
   //
   | IAuthzStatementEnderecoFind //
@@ -84,7 +94,7 @@ export type IAuthzStatementFind =
   | IAuthzStatementModalidadeFind //
   | IAuthzStatementModalidadeUpdate
   | IAuthzStatementModalidadeDelete
-  | IAuthzStatementAmbienteFind //
+  | IAuthzStatementAmbienteFind
   | IAuthzStatementAmbienteUpdate
   | IAuthzStatementAmbienteDelete
   | IAuthzStatementUsuarioFind
@@ -93,7 +103,10 @@ export type IAuthzStatementFind =
   | IAuthzStatementVinculoFind
   | IAuthzStatementCursoDelete
   | IAuthzStatementCursoFind
-  | IAuthzStatementCursoUpdate;
+  | IAuthzStatementCursoUpdate
+  | IAuthzStatementDisciplinaUpdate
+  | IAuthzStatementDisciplinaDelete
+  | IAuthzStatementDisciplinaFind;
 
 // =====================
 

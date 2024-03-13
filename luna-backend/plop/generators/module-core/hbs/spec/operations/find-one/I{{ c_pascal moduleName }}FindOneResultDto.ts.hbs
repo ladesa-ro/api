@@ -1,4 +1,4 @@
-import { I{{ c_pascal moduleName }}Model } from "../../../../../(spec)";
+import { I{{ c_pascal moduleName }}Model } from "../../{{ c_pascal moduleName }}";
 
 export interface I{{ c_pascal moduleName }}FindOneResultDto extends Pick<I{{ c_pascal moduleName }}Model, 'id'{{#each propriedadesDeclaradas}} | '{{this.nome}}'{{/each}}> {
 }
