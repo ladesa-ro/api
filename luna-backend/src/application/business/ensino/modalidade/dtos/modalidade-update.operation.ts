@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { IModalidadeUpdateDto } from '../../../(spec)';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { ModalidadeFindOneByIdInputValidationContract, ModalidadeFindOneResultDto } from './modalidade-find-one.operation';
-import { ModalidadeInputDtoValidationContract } from './modalidade-input-dto';
+import { ModalidadeInputDtoValidationContract } from './modalidade-input.operation';
 import { ModalidadeDto, ModalidadeDtoProperties } from './modalidade.dto';
 
 // ======================================================
@@ -35,6 +35,9 @@ export class ModalidadeUpdateInputDto implements IModalidadeUpdateDto {
 }
 
 export class ModalidadeUpdateWithoutIdInputDto extends OmitType(ModalidadeUpdateInputDto, ['id'] as const) {}
+
+// ======================================================
+
 export const MODALIDADE_UPDATE = createDtoOperationOptions({
   description: 'Realiza a alteração de uma modalidade.',
 
@@ -63,3 +66,5 @@ export const MODALIDADE_UPDATE = createDtoOperationOptions({
     returnType: ModalidadeFindOneResultDto,
   },
 });
+
+// ======================================================

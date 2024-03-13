@@ -2,10 +2,10 @@ import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
-import { DtoProperty, createValidationContract } from '../../../../../infrastructure';
-import { AmbienteFindOneByIdInputValidationContract } from './ambiente-find-one-by-id.input.dto';
-import { AmbienteInputDtoValidationContract } from './ambiente-input.dto';
-import { AmbienteDtoProperties } from './ambiente.dto';
+import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { AmbienteFindOneByIdInputValidationContract, AmbienteFindOneResultDto } from './ambiente-find-one.operation';
+import { AmbienteInputDtoValidationContract } from './ambiente-input.operation';
+import { AmbienteDto, AmbienteDtoProperties } from './ambiente.dto';
 
 // ======================================================
 
@@ -46,4 +46,39 @@ export class AmbienteUpdateInputDto implements Dto.IAmbienteUpdateDto {
   //
 }
 
+// ======================================================
+
 export class AmbienteUpdateWithoutIdInputDto extends OmitType(AmbienteUpdateInputDto, ['id'] as const) {}
+
+// ======================================================
+
+export const AMBIENTE_UPDATE = createDtoOperationOptions({
+  description: 'Realiza a alteração de um ambiente.',
+
+  gql: {
+    name: 'ambienteUpdate',
+
+    inputDtoType: () => AmbienteUpdateInputDto,
+    inputDtoValidationContract: AmbienteUpdateInputDtoValidationContract,
+
+    returnType: () => AmbienteDto,
+  },
+
+  swagger: {
+    inputBodyType: AmbienteUpdateWithoutIdInputDto,
+
+    inputBodyValidationContract: createValidationContract(() => AmbienteUpdateInputDtoValidationContract().omit(['id'])),
+
+    params: [
+      {
+        name: 'id',
+        description: 'ID do ambiente.',
+        validationContract: ValidationContractUuid,
+      },
+    ],
+
+    returnType: AmbienteFindOneResultDto,
+  },
+});
+
+// ======================================================

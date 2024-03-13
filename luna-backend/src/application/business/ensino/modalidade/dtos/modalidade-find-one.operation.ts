@@ -35,6 +35,8 @@ export class ModalidadeFindOneByIdInputDto implements Dto.IModalidadeFindOneById
   id!: string;
 }
 
+// ======================================================
+
 export const MODALIDADE_FIND_ONE_BY_ID = createDtoOperationOptions({
   description: 'Realiza a consulta a uma modalidade por ID.',
 

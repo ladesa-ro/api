@@ -1,7 +1,16 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
-import { CommonPropertyUuid, DtoProperty, ObjectUuidDto, ValidationContractObjectUuid, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
+import {
+  CommonPropertyUuid,
+  DtoProperty,
+  ObjectUuidDto,
+  ValidationContractObjectUuid,
+  ValidationContractString,
+  ValidationContractUuid,
+  createDtoPropertyMap,
+  createValidationContract,
+} from '../../../../../infrastructure';
 import { AmbienteDto, AmbienteFindOneResultDto } from '../../../ambientes/ambiente/dtos';
 import { CursoDto, CursoFindOneResultDto } from '../../curso/dtos';
 
