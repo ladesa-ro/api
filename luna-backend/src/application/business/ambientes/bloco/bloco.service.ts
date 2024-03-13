@@ -47,7 +47,7 @@ export class BlocoService {
     ]);
 
     if (loadCampus) {
-      qb.innerJoin(`${alias}.campus`, `${loadCampus.alias}`);
+      qb.leftJoin(`${alias}.campus`, `${loadCampus.alias}`);
       CampusService.CampusQueryBuilderView(loadCampus.alias, qb, loadCampus.options);
     }
   }

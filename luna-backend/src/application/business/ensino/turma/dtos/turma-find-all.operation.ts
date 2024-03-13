@@ -44,6 +44,16 @@ export const TURMA_FIND_ALL = createDtoOperationOptions({
       'search',
       'sortBy',
       //
+      'filter.ambientePadraoAula.nome',
+      'filter.ambientePadraoAula.codigo',
+      'filter.ambientePadraoAula.capacidade',
+      'filter.ambientePadraoAula.tipo',
+      'filter.curso.nome',
+      'filter.curso.nomeAbreviado',
+      'filter.curso.campus.id',
+      'filter.curso.modalidade.id',
+      'filter.curso.modalidade.nome',
+      'filter.curso.modalidade.slug',
     ],
   },
 });

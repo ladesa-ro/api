@@ -23,7 +23,7 @@ export class TurmaEntity {
   @JoinColumn({ name: 'id_ambiente_padrao_aula_fk' })
   ambientePadraoAula!: AmbienteEntity | null;
 
-  @ManyToOne(() => AmbienteEntity)
+  @ManyToOne(() => CursoEntity)
   @JoinColumn({ name: 'id_curso_fk' })
   curso!: CursoEntity;
 

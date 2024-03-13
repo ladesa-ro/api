@@ -49,7 +49,7 @@ export class CampusService {
     ]);
 
     if (loadEndereco) {
-      qb.innerJoin(`${alias}.endereco`, `${loadEndereco.alias}`);
+      qb.leftJoin(`${alias}.endereco`, `${loadEndereco.alias}`);
       EnderecoService.EnderecoQueryBuilderView(loadEndereco.alias, qb, loadEndereco.options);
     }
   }

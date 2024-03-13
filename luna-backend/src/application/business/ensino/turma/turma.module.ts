@@ -1,10 +1,12 @@
+import { Module } from '@nestjs/common';
+import { AmbienteModule } from '../../ambientes/ambiente/ambiente.module';
+import { CursoModule } from '../curso/curso.module';
+import { TurmaController } from './turma.controller';
 import { TurmaResolver } from './turma.resolver';
 import { TurmaService } from './turma.service';
-import { TurmaController } from './turma.controller';
-import { Module } from '@nestjs/common';
 
 @Module({
-  imports: [],
+  imports: [AmbienteModule, CursoModule],
   controllers: [TurmaController],
   providers: [TurmaService, TurmaResolver],
   exports: [TurmaService],

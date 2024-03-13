@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { map, pick } from 'lodash';
-import { paginate } from 'nestjs-paginate';
+import { has, map, pick } from 'lodash';
+import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
@@ -8,6 +8,9 @@ import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { TurmaEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/turma.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
+import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambientes/ambiente/ambiente.service';
+import { CursoService, ICursoQueryBuilderViewOptions } from '../curso/curso.service';
 
 // ============================================================================
 
@@ -15,13 +18,20 @@ const aliasTurma = 'turma';
 
 // ============================================================================
 
-export type ITurmaQueryBuilderViewOptions = {};
+export type ITurmaQueryBuilderViewOptions = {
+  loadCurso?: IQueryBuilderViewOptionsLoad<ICursoQueryBuilderViewOptions>;
+  loadAmbientePadraoAula?: IQueryBuilderViewOptionsLoad<IAmbienteQueryBuilderViewOptions>;
+};
 
 // ============================================================================
 
 @Injectable()
 export class TurmaService {
-  constructor(private databaseContext: DatabaseContextService) {}
+  constructor(
+    private databaseContext: DatabaseContextService,
+    private ambienteService: AmbienteService,
+    private cursoService: CursoService,
+  ) {}
 
   get turmaRepository() {
     return this.databaseContext.turmaRepository;
@@ -29,16 +39,28 @@ export class TurmaService {
 
   //
 
-  static TurmaQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, _: ITurmaQueryBuilderViewOptions = {}) {
+  static TurmaQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: ITurmaQueryBuilderViewOptions = {}) {
     qb.addSelect([
       //
       `${alias}.id`,
       `${alias}.periodo`,
       `${alias}.grupo`,
       `${alias}.nome`,
-      `${alias}.ambientePadraoAula`,
-      `${alias}.curso`,
     ]);
+
+    const loadCurso = getQueryBuilderViewLoadMeta(options.loadCurso, true, `${alias}_curso`);
+
+    if (loadCurso) {
+      qb.innerJoin(`${alias}.curso`, `${loadCurso.alias}`);
+      CursoService.CursoQueryBuilderView(loadCurso.alias, qb, loadCurso.options);
+    }
+
+    const loadAmbientePadraoAula = getQueryBuilderViewLoadMeta(options.loadAmbientePadraoAula, true, `${alias}_ambientePadraoAula`);
+
+    if (loadAmbientePadraoAula) {
+      qb.leftJoin(`${alias}.ambientePadraoAula`, `${loadAmbientePadraoAula.alias}`);
+      AmbienteService.AmbienteQueryBuilderView(loadAmbientePadraoAula.alias, qb, loadAmbientePadraoAula.options);
+    }
   }
 
   //
@@ -63,8 +85,7 @@ export class TurmaService {
         'periodo',
         'grupo',
         'nome',
-        'ambientePadraoAula',
-        'curso',
+
         //
       ],
       sortableColumns: [
@@ -72,9 +93,25 @@ export class TurmaService {
         'periodo',
         'grupo',
         'nome',
-        'ambientePadraoAula',
-        'curso',
+        //
+        'ambientePadraoAula.nome',
+        'ambientePadraoAula.descricao',
+        'ambientePadraoAula.codigo',
+        'ambientePadraoAula.capacidade',
+        'ambientePadraoAula.tipo',
+        //
+        'curso.nome',
+        'curso.nomeAbreviado',
+        'curso.campus.id',
+        'curso.modalidade.id',
+        'curso.modalidade.nome',
       ],
+      relations: {
+        curso: {
+          campus: true,
+        },
+        ambientePadraoAula: true,
+      },
       searchableColumns: [
         //
         'id',
@@ -82,12 +119,23 @@ export class TurmaService {
         'periodo',
         'grupo',
         'nome',
-        'ambientePadraoAula',
-        'curso',
         //
       ],
       defaultSortBy: [],
-      filterableColumns: {},
+      filterableColumns: {
+        //
+        'ambientePadraoAula.nome': [FilterOperator.EQ],
+        'ambientePadraoAula.codigo': [FilterOperator.EQ],
+        'ambientePadraoAula.capacidade': [FilterOperator.EQ, FilterOperator.GT, FilterOperator.GTE, FilterOperator.LT, FilterOperator.LTE],
+        'ambientePadraoAula.tipo': [FilterOperator.EQ],
+        //
+        'curso.nome': [FilterOperator.EQ],
+        'curso.nomeAbreviado': [FilterOperator.EQ],
+        'curso.campus.id': [FilterOperator.EQ],
+        'curso.modalidade.id': [FilterOperator.EQ],
+        'curso.modalidade.nome': [FilterOperator.EQ],
+        'curso.modalidade.slug': [FilterOperator.EQ],
+      },
     });
 
     // =========================================================
@@ -201,12 +249,38 @@ export class TurmaService {
 
     // =========================================================
 
-    const dtoTurma = pick(dto, ['periodo', 'grupo', 'nome', 'ambientePadraoAula', 'curso']);
+    const dtoTurma = pick(dto, ['periodo', 'grupo', 'nome']);
 
     const turma = this.turmaRepository.create();
 
     this.turmaRepository.merge(turma, {
       ...dtoTurma,
+    });
+
+    // =========================================================
+
+    if (dto.ambientePadraoAula !== null) {
+      const ambientePadraoAula = await this.ambienteService.ambienteFindByIdStrict(clientAccess, { id: dto.ambientePadraoAula.id });
+
+      this.turmaRepository.merge(turma, {
+        ambientePadraoAula: {
+          id: ambientePadraoAula.id,
+        },
+      });
+    } else {
+      this.turmaRepository.merge(turma, {
+        ambientePadraoAula: null,
+      });
+    }
+
+    // =========================================================
+
+    const curso = await this.cursoService.cursoFindByIdSimpleStrict(clientAccess, dto.curso.id);
+
+    this.turmaRepository.merge(turma, {
+      curso: {
+        id: curso.id,
+      },
     });
 
     // =========================================================
@@ -229,7 +303,7 @@ export class TurmaService {
 
     await clientAccess.ensureCanReach('turma:update', { dto }, this.turmaRepository.createQueryBuilder(aliasTurma), dto.id);
 
-    const dtoTurma = pick(dto, ['periodo', 'grupo', 'nome', 'ambientePadraoAula', 'curso']);
+    const dtoTurma = pick(dto, ['periodo', 'grupo', 'nome']);
 
     const turma = <TurmaEntity>{
       id: currentTurma.id,
@@ -238,6 +312,36 @@ export class TurmaService {
     this.turmaRepository.merge(turma, {
       ...dtoTurma,
     });
+
+    // =========================================================
+
+    if (has(dto, 'ambientePadraoAula') && dto.ambientePadraoAula !== undefined) {
+      if (dto.ambientePadraoAula !== null) {
+        const ambientePadraoAula = await this.ambienteService.ambienteFindByIdStrict(clientAccess, { id: dto.ambientePadraoAula.id });
+
+        this.turmaRepository.merge(turma, {
+          ambientePadraoAula: {
+            id: ambientePadraoAula.id,
+          },
+        });
+      } else {
+        this.turmaRepository.merge(turma, {
+          ambientePadraoAula: null,
+        });
+      }
+    }
+
+    // =========================================================
+
+    if (has(dto, 'curso') && dto.curso !== undefined) {
+      const curso = await this.cursoService.cursoFindByIdSimpleStrict(clientAccess, dto.curso.id);
+
+      this.turmaRepository.merge(turma, {
+        curso: {
+          id: curso.id,
+        },
+      });
+    }
 
     // =========================================================
 

@@ -48,7 +48,7 @@ export class AmbienteService {
     const loadBloco = getQueryBuilderViewLoadMeta(options.loadBloco, true, `${alias}_bloco`);
 
     if (loadBloco) {
-      qb.innerJoin(`${alias}.bloco`, `${loadBloco.alias}`);
+      qb.leftJoin(`${alias}.bloco`, `${loadBloco.alias}`);
       BlocoService.BlocoQueryBuilderView(loadBloco.alias, qb, loadBloco.options);
     }
   }
