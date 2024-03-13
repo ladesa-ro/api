@@ -18,4 +18,5 @@ Continue em [luna-backend/README.md](./luna-backend/README.md).
 ## Licença
 
 [MIT - Ladesa e Contribuidores, 2024](./LICENSE).
+
 [MIT - Gabriel R. Antunes, 2024](./LICENSE).
