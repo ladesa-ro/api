@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { map, pick } from 'lodash';
+import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
@@ -27,7 +27,11 @@ export type ICursoQueryBuilderViewOptions = {
 
 @Injectable()
 export class CursoService {
-  constructor(private databaseContext: DatabaseContextService) {}
+  constructor(
+    private databaseContext: DatabaseContextService,
+    private campusService: CampusService,
+    private modalidadeService: ModalidadeService,
+  ) {}
 
   get cursoRepository() {
     return this.databaseContext.cursoRepository;
@@ -244,6 +248,26 @@ export class CursoService {
 
     // =========================================================
 
+    const campus = await this.campusService.campusFindByIdSimpleStrict(clientAccess, dto.campus.id);
+
+    this.cursoRepository.merge(curso, {
+      campus: {
+        id: campus.id,
+      },
+    });
+
+    // =========================================================
+
+    const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(clientAccess, dto.modalidade.id);
+
+    this.cursoRepository.merge(curso, {
+      modalidade: {
+        id: modalidade.id,
+      },
+    });
+
+    // =========================================================
+
     await this.cursoRepository.save(curso);
 
     // =========================================================
@@ -271,6 +295,30 @@ export class CursoService {
     this.cursoRepository.merge(curso, {
       ...dtoCurso,
     });
+
+    // =========================================================
+
+    if (has(dto, 'campus.id') && dto.campus !== undefined) {
+      const campus = await this.campusService.campusFindByIdSimpleStrict(clientAccess, dto.campus.id);
+
+      this.cursoRepository.merge(curso, {
+        campus: {
+          id: campus.id,
+        },
+      });
+    }
+
+    // =========================================================
+
+    if (has(dto, 'modalidade.id') && dto.modalidade !== undefined) {
+      const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(clientAccess, dto.modalidade.id);
+
+      this.cursoRepository.merge(curso, {
+        modalidade: {
+          id: modalidade.id,
+        },
+      });
+    }
 
     // =========================================================
 
