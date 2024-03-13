@@ -193,7 +193,11 @@ export class {{ c_pascal moduleName }}Service {
 
     // =========================================================
 
-    const dto{{ c_pascal moduleName }} = pick(dto, ['nome', 'slug']);
+    const dto{{ c_pascal moduleName }} = pick(dto, [
+      {{#each propriedadesDeclaradas}}
+      "{{this.nome}}",
+      {{/each}}
+    ]);
 
     const {{ c_camel moduleName }} = this.{{ c_camel moduleName }}Repository.create();
 
@@ -221,7 +225,11 @@ export class {{ c_pascal moduleName }}Service {
 
     await clientAccess.ensureCanReach('{{ c_snake moduleName }}:update', { dto }, this.{{ c_camel moduleName }}Repository.createQueryBuilder(alias{{ c_pascal moduleName }}), dto.id);
 
-    const dto{{ c_pascal moduleName }} = pick(dto, ['nome', 'slug']);
+    const dto{{ c_pascal moduleName }} = pick(dto, [
+      {{#each propriedadesDeclaradas}}
+      "{{this.nome}}",
+      {{/each}}
+    ]);
 
     const {{ c_camel moduleName }} = <{{ c_pascal moduleName }}Entity>{
       id: current{{ c_pascal moduleName }}.id,
