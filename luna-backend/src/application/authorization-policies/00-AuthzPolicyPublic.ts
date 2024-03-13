@@ -209,7 +209,7 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
       kind: 'filter',
       action: 'curso:update',
       filter() {
-        return (qb, alias = 'modalidade') => {
+        return (qb, alias = 'curso') => {
           qb.where(`${alias}.dateDeleted IS NULL`);
         };
       },
@@ -221,7 +221,58 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
       kind: 'filter',
       action: 'curso:delete',
       filter() {
-        return (qb, alias = 'modalidade') => {
+        return (qb, alias = 'curso') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  // ========================================================
+
+  get disciplinaFind(): Authz.IAuthzStatementDisciplinaFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'disciplina:find',
+
+      filter(context, alias) {
+        return (qb) => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get disciplinaCreate(): Authz.IAuthzStatementDisciplinaCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'disciplina:create',
+
+      async withCheck(context) {
+        console.debug('AuthzPolicyPublic -- disciplina:create', { context });
+        return true;
+      },
+    });
+  }
+
+  get disciplinaUpdate(): Authz.IAuthzStatementDisciplinaUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'disciplina:update',
+      filter() {
+        return (qb, alias = 'disciplina') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get disciplinaDelete(): Authz.IAuthzStatementDisciplinaDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'disciplina:delete',
+      filter() {
+        return (qb, alias = 'disciplina') => {
           qb.where(`${alias}.dateDeleted IS NULL`);
         };
       },

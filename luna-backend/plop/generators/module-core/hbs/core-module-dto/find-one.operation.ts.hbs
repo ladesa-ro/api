@@ -40,10 +40,10 @@ export const {{ c_pascal moduleName }}FindOneByIdInputValidationContract = creat
 export class {{ c_pascal moduleName }}FindOneByIdInputDto implements Dto.I{{ c_pascal moduleName }}FindOneByIdInputDto {
   @DtoProperty({{ c_pascal moduleName }}DtoProperties.{{ c_constant moduleName }}_ID)
   {{#if (eq modelIdType "uuid") }}
-  id: string;
+  id!: string;
   {{/if}}
   {{#if (eq modelIdType "numeric") }}
-  id: number;
+  id!: number;
   {{/if}}
 }
 
