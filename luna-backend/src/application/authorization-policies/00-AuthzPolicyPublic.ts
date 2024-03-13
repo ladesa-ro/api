@@ -281,6 +281,57 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
 
   // ========================================================
 
+  get turmaFind(): Authz.IAuthzStatementTurmaFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'turma:find',
+
+      filter(context, alias) {
+        return (qb) => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get turmaCreate(): Authz.IAuthzStatementTurmaCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'turma:create',
+
+      async withCheck(context) {
+        console.debug('AuthzPolicyPublic -- turma:create', { context });
+        return true;
+      },
+    });
+  }
+
+  get turmaUpdate(): Authz.IAuthzStatementTurmaUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'turma:update',
+      filter() {
+        return (qb, alias = 'turma') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get turmaDelete(): Authz.IAuthzStatementTurmaDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'turma:delete',
+      filter() {
+        return (qb, alias = 'turma') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  // ========================================================
+
   get ambienteFind(): Authz.IAuthzStatementAmbienteFind {
     return createStatement({
       kind: 'filter',

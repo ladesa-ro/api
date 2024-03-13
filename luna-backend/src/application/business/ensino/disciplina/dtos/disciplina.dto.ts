@@ -8,7 +8,7 @@ import {
   ValidationContractString,
   ValidationContractUuid,
   createDtoPropertyMap,
-  createValidationContract
+  createValidationContract,
 } from '../../../../../infrastructure';
 
 // ======================================================
