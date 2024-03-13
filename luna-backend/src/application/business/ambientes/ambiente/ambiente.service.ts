@@ -34,8 +34,6 @@ export class AmbienteService {
   //
 
   static AmbienteQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IAmbienteQueryBuilderViewOptions = {}) {
-    const loadBloco = getQueryBuilderViewLoadMeta(options.loadBloco, true, `${alias}_bloco`);
-
     qb.addSelect([
       //
       `${alias}.id`,
@@ -46,6 +44,8 @@ export class AmbienteService {
       `${alias}.capacidade`,
       `${alias}.tipo`,
     ]);
+
+    const loadBloco = getQueryBuilderViewLoadMeta(options.loadBloco, true, `${alias}_bloco`);
 
     if (loadBloco) {
       qb.innerJoin(`${alias}.bloco`, `${loadBloco.alias}`);

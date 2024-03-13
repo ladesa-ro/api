@@ -17,4 +17,6 @@ export function Helpers(plop: NodePlopAPI) {
   });
 
   plop.setHelper('ternary', (cond, a, b) => (cond ? a : b));
+
+  plop.setHelper('append', (a) => a);
 }

@@ -49,39 +49,51 @@ export type IAuthzStatementModalidadeDelete = IBaseAuthzFilter<'modalidade:delet
 
 export type IAuthzStatementVinculoFind = IBaseAuthzFilter<'vinculo:find'>;
 
+export type IAuthzStatementCursoCreate = IBaseAuthzCheck<'curso:create', { dto: Dto.ICursoInputDto }>;
+
+export type IAuthzStatementCursoUpdate = IBaseAuthzFilter<'curso:update', { dto: Dto.ICursoUpdateDto }>;
+
+export type IAuthzStatementCursoDelete = IBaseAuthzFilter<'curso:delete', { dto: Dto.ICursoDeleteOneByIdInputDto }>;
+
+export type IAuthzStatementCursoFind = IBaseAuthzFilter<'curso:find'>;
+
 // ===================================================================================
 
-export type IAuthzStatementCheck = IAuthzStatementCampusCreate | IAuthzStatementBlocoCreate | IAuthzStatementAmbienteCreate | IAuthzStatementUsuarioCreate | IAuthzStatementModalidadeCreate;
+export type IAuthzStatementCheck =
+  | IAuthzStatementCampusCreate
+  | IAuthzStatementBlocoCreate
+  | IAuthzStatementAmbienteCreate
+  | IAuthzStatementUsuarioCreate
+  | IAuthzStatementModalidadeCreate
+  | IAuthzStatementCursoCreate;
 
 // =====================
 
 export type IAuthzStatementFind =
-  | IAuthzStatementEnderecoFind
   //
+  //
+  | IAuthzStatementEnderecoFind //
   | IAuthzStatementEstadoFind
-  //
   | IAuthzStatementCidadeFind
-  //
-  | IAuthzStatementCampusFind
+  | IAuthzStatementCampusFind //
   | IAuthzStatementCampusUpdate
   | IAuthzStatementCampusDelete
-  //
-  | IAuthzStatementBlocoFind
+  | IAuthzStatementBlocoFind //
   | IAuthzStatementBlocoUpdate
   | IAuthzStatementBlocoDelete
-  //
-  | IAuthzStatementModalidadeFind
+  | IAuthzStatementModalidadeFind //
   | IAuthzStatementModalidadeUpdate
   | IAuthzStatementModalidadeDelete
-  //
-  | IAuthzStatementAmbienteFind
+  | IAuthzStatementAmbienteFind //
   | IAuthzStatementAmbienteUpdate
   | IAuthzStatementAmbienteDelete
-  //
   | IAuthzStatementUsuarioFind
   | IAuthzStatementUsuarioUpdate
   | IAuthzStatementUsuarioDelete
-  | IAuthzStatementVinculoFind;
+  | IAuthzStatementVinculoFind
+  | IAuthzStatementCursoDelete
+  | IAuthzStatementCursoFind
+  | IAuthzStatementCursoUpdate;
 
 // =====================
 

@@ -221,7 +221,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       actions.push({
         type: 'modify',
         path: `${pathSpecBase}/{{ c_kebab moduleNameParent }}/index.ts`,
-        transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}`).transform(code),
+        transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}/${ChangeCaseHelper.c_kebab(answers.moduleName)}.module`).transform(code),
       });
 
       actions.push({
@@ -426,8 +426,8 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
             new ModuleCoreGeneratorAuthzStatement()
               .addTypeDeclarationStatement(
                 `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Update`,
-                `${ChangeCaseHelper.c_snake(answers.moduleName)}:Update`,
-                'check',
+                `${ChangeCaseHelper.c_snake(answers.moduleName)}:update`,
+                'filter',
                 `Dto.I${ChangeCaseHelper.c_pascal(answers.moduleName)}UpdateDto`,
               )
               .transform(code),

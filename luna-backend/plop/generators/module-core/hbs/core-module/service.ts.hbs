@@ -1,6 +1,280 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { map, pick } from 'lodash';
+import { paginate } from 'nestjs-paginate';
+import { SelectQueryBuilder } from 'typeorm';
+import * as Dtos from '../../(spec)';
+import { IClientAccess } from '../../../../domain';
+import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
+import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
+import { {{ c_pascal moduleName }}Entity } from '../../../../infrastructure/integrate-database/typeorm/entities/{{ c_kebab moduleNameParent }}/{{ c_kebab moduleName }}.entity';
+import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
+
+// ============================================================================
+
+const alias{{ c_pascal moduleName }} = '{{ c_snake moduleName }}';
+
+// ============================================================================
+
+export type I{{ c_pascal moduleName }}QueryBuilderViewOptions = {};
+
+// ============================================================================
 
 @Injectable()
 export class {{ c_pascal moduleName }}Service {
-  constructor() {}
+  constructor(private databaseContext: DatabaseContextService) {}
+
+  get {{ c_camel moduleName }}Repository() {
+    return this.databaseContext.{{ c_camel moduleName }}Repository;
+  }
+
+  //
+
+  static {{ c_pascal moduleName }}QueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, _: I{{ c_pascal moduleName }}QueryBuilderViewOptions = {}) {
+    qb.addSelect([
+      `${alias}.id`,
+      {{#each propriedadesDeclaradas}}
+      `${alias}.{{this.nome}}`,
+      {{/each}}
+    ]);
+  }
+
+  //
+
+  async {{ c_camel moduleName }}FindAll(clientAccess: IClientAccess, dto?: Dtos.ISearchInputDto): Promise<Dtos.I{{ c_pascal moduleName }}FindAllResultDto> {
+    // =========================================================
+
+    const qb = this.{{ c_camel moduleName }}Repository.createQueryBuilder(alias{{ c_pascal moduleName }});
+
+    // =========================================================
+
+    await clientAccess.applyFilter('{{ c_snake moduleName }}:find', qb, alias{{ c_pascal moduleName }}, null);
+
+    // =========================================================
+
+    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+      ...paginateConfig,
+      select: [
+        //
+        'id',
+        //
+        {{#each propriedadesDeclaradas}}
+        "{{this.nome}}",
+        {{/each}}
+        //
+      ],
+      sortableColumns: [
+        //
+        {{#each propriedadesDeclaradas}}
+        "{{this.nome}}",
+        {{/each}}
+      ],
+      searchableColumns: [
+        //
+        'id',
+        //
+        {{#each propriedadesDeclaradas}}
+        "{{this.nome}}",
+        {{/each}}
+        //
+      ],
+      defaultSortBy: [
+      ],
+      filterableColumns: {},
+    });
+
+    // =========================================================
+
+    qb.select([]);
+
+    {{ c_pascal moduleName }}Service.{{ c_pascal moduleName }}QueryBuilderView(alias{{ c_pascal moduleName }}, qb, {});
+
+    // =========================================================
+
+    paginated.data = await qb.andWhereInIds(map(paginated.data, 'id')).getMany();
+
+    // =========================================================
+
+    return paginated;
+  }
+
+  async {{ c_camel moduleName }}FindById(clientAccess: IClientAccess, dto: Dtos.I{{ c_pascal moduleName }}FindOneByIdInputDto): Promise<Dtos.I{{ c_pascal moduleName }}FindOneResultDto | null> {
+    // =========================================================
+
+    const qb = this.{{ c_camel moduleName }}Repository.createQueryBuilder(alias{{ c_pascal moduleName }});
+
+    // =========================================================
+
+    await clientAccess.applyFilter('{{ c_snake moduleName }}:find', qb, alias{{ c_pascal moduleName }}, null);
+
+    // =========================================================
+
+    qb.andWhere(`${{append '{'}}alias{{ c_pascal moduleName }}{{append '}'}}.id = :id`, { id: dto.id });
+
+    // =========================================================
+
+    qb.select([]);
+
+    {{ c_pascal moduleName }}Service.{{ c_pascal moduleName }}QueryBuilderView(alias{{ c_pascal moduleName }}, qb, {});
+
+    // =========================================================
+
+    const {{ c_camel moduleName }} = await qb.getOne();
+
+    // =========================================================
+
+    return {{ c_camel moduleName }};
+  }
+
+  async {{ c_camel moduleName }}FindByIdStrict(clientAccess: IClientAccess, dto: Dtos.I{{ c_pascal moduleName }}FindOneByIdInputDto) {
+    const {{ c_camel moduleName }} = await this.{{ c_camel moduleName }}FindById(clientAccess, dto);
+
+    if (!{{ c_camel moduleName }}) {
+      throw new NotFoundException();
+    }
+
+    return {{ c_camel moduleName }};
+  }
+
+  async {{ c_camel moduleName }}FindByIdSimple(
+    clientAccess: IClientAccess,
+    id: Dtos.I{{ c_pascal moduleName }}FindOneByIdInputDto['id'],
+    options?: I{{ c_pascal moduleName }}QueryBuilderViewOptions,
+    selection?: string[],
+  ): Promise<Dtos.I{{ c_pascal moduleName }}FindOneResultDto | null> {
+    // =========================================================
+
+    const qb = this.{{ c_camel moduleName }}Repository.createQueryBuilder(alias{{ c_pascal moduleName }});
+
+    // =========================================================
+
+    await clientAccess.applyFilter('{{ c_snake moduleName }}:find', qb, alias{{ c_pascal moduleName }}, null);
+
+    // =========================================================
+
+    qb.andWhere(`${{append '{'}}alias{{ c_pascal moduleName }}{{append '}'}}.id = :id`, { id });
+
+    // =========================================================
+
+    qb.select([]);
+
+    {{ c_pascal moduleName }}Service.{{ c_pascal moduleName }}QueryBuilderView(alias{{ c_pascal moduleName }}, qb, {
+      ...options,
+    });
+
+    if (selection) {
+      qb.select(selection);
+    }
+
+    // =========================================================
+
+    const {{ c_camel moduleName }} = await qb.getOne();
+
+    // =========================================================
+
+    return {{ c_camel moduleName }};
+  }
+
+  async {{ c_camel moduleName }}FindByIdSimpleStrict(clientAccess: IClientAccess, id: Dtos.I{{ c_pascal moduleName }}FindOneByIdInputDto['id'], options?: I{{ c_pascal moduleName }}QueryBuilderViewOptions, selection?: string[]) {
+    const {{ c_camel moduleName }} = await this.{{ c_camel moduleName }}FindByIdSimple(clientAccess, id, options, selection);
+
+    if (!{{ c_camel moduleName }}) {
+      throw new NotFoundException();
+    }
+
+    return {{ c_camel moduleName }};
+  }
+
+  //
+
+  async {{ c_camel moduleName }}Create(clientAccess: IClientAccess, dto: Dtos.I{{ c_pascal moduleName }}InputDto) {
+    // =========================================================
+
+    await clientAccess.ensurePermissionCheck('{{ c_snake moduleName }}:create', { dto });
+
+    // =========================================================
+
+    const dto{{ c_pascal moduleName }} = pick(dto, [
+      {{#each propriedadesDeclaradas}}
+      "{{this.nome}}",
+      {{/each}}
+    ]);
+
+    const {{ c_camel moduleName }} = this.{{ c_camel moduleName }}Repository.create();
+
+    this.{{ c_camel moduleName }}Repository.merge({{ c_camel moduleName }}, {
+      ...dto{{ c_pascal moduleName }},
+    });
+
+    // =========================================================
+
+    await this.{{ c_camel moduleName }}Repository.save({{ c_camel moduleName }});
+
+    // =========================================================
+
+    return this.{{ c_camel moduleName }}FindByIdStrict(clientAccess, { id: {{ c_camel moduleName }}.id });
+  }
+
+  async {{ c_camel moduleName }}Update(clientAccess: IClientAccess, dto: Dtos.I{{ c_pascal moduleName }}UpdateDto) {
+    // =========================================================
+
+    const current{{ c_pascal moduleName }} = await this.{{ c_camel moduleName }}FindByIdStrict(clientAccess, {
+      id: dto.id,
+    });
+
+    // =========================================================
+
+    await clientAccess.ensureCanReach('{{ c_snake moduleName }}:update', { dto }, this.{{ c_camel moduleName }}Repository.createQueryBuilder(alias{{ c_pascal moduleName }}), dto.id);
+
+    const dto{{ c_pascal moduleName }} = pick(dto, [
+      {{#each propriedadesDeclaradas}}
+      "{{this.nome}}",
+      {{/each}}
+    ]);
+
+    const {{ c_camel moduleName }} = <{{ c_pascal moduleName }}Entity>{
+      id: current{{ c_pascal moduleName }}.id,
+    };
+
+    this.{{ c_camel moduleName }}Repository.merge({{ c_camel moduleName }}, {
+      ...dto{{ c_pascal moduleName }},
+    });
+
+    // =========================================================
+
+    await this.{{ c_camel moduleName }}Repository.save({{ c_camel moduleName }});
+
+    // =========================================================
+
+    return this.{{ c_camel moduleName }}FindByIdStrict(clientAccess, { id: {{ c_camel moduleName }}.id });
+  }
+
+  //
+
+  async {{ c_camel moduleName }}DeleteOneById(clientAccess: IClientAccess, dto: Dtos.I{{ c_pascal moduleName }}DeleteOneByIdInputDto) {
+    // =========================================================
+
+    await clientAccess.ensureCanReach('{{ c_snake moduleName }}:delete', { dto }, this.{{ c_camel moduleName }}Repository.createQueryBuilder(alias{{ c_pascal moduleName }}), dto.id);
+
+    // =========================================================
+
+    const {{ c_camel moduleName }} = await this.{{ c_camel moduleName }}FindByIdStrict(clientAccess, dto);
+
+    // =========================================================
+
+    if ({{ c_camel moduleName }}) {
+      await this.{{ c_camel moduleName }}Repository
+        .createQueryBuilder(alias{{ c_pascal moduleName }})
+        .update()
+        .set({
+          dateDeleted: 'NOW()',
+        })
+        .where('id = :{{ c_camel moduleName }}Id', { {{ c_camel moduleName }}Id: {{ c_camel moduleName }}.id })
+        .andWhere('dateDeleted IS NULL')
+        .execute();
+    }
+
+    // =========================================================
+
+    return true;
+  }
 }

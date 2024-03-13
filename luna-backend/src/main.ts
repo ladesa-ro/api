@@ -15,18 +15,23 @@ function setupSwaggerConfig() {
   config.addBearerAuth();
 
   config.addTag('API', 'SISGEA - API');
+
   config.addTag('Autenticacao');
   config.addTag('Usuarios', 'Autenticação / Usuários');
-  config.addTag('Vinculos', 'Autenticação / Usuários / Vínculos');
+
   config.addTag('Estados', 'Ambientes / Estados');
   config.addTag('Cidades', 'Ambientes / Cidades');
   config.addTag('Campi', 'Ambientes / Campi');
   config.addTag('Blocos', 'Ambientes / Campi / Blocos');
   config.addTag('Ambientes', 'Ambientes / Campi / Blocos / Ambiente');
-  config.addTag('Modalidades', 'Ensnino / Modalidade');
 
-  config.addServer("https://luna.sisgha.com/api/")
-  config.addServer("http://localhost:3000/")
+  config.addTag('Vinculos', 'Autenticação / Usuários / Vínculos');
+
+  config.addTag('Modalidades', 'Ensino / Modalidade');
+  config.addTag('Cursos', 'Ensino / Cursos');
+
+  config.addServer('https://luna.sisgha.com/api/');
+  config.addServer('http://localhost:3000/');
 
   return config;
 }

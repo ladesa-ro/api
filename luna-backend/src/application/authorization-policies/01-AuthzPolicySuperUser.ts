@@ -220,6 +220,62 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
     });
   }
 
+  get cursoFind(): Authz.IAuthzStatementCursoFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'curso:find',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get cursoCreate(): Authz.IAuthzStatementCursoCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'curso:create',
+
+      withCheck: (context) => {
+        if (AuthzPolicySuperUser.shouldApply(context)) {
+          return true;
+        }
+        return false;
+      },
+    });
+  }
+
+  get cursoUpdate(): Authz.IAuthzStatementCursoUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'curso:update',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get cursoDelete(): Authz.IAuthzStatementCursoDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'curso:delete',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
   // ========================================================
 
   get ambienteFind(): Authz.IAuthzStatementAmbienteFind {
