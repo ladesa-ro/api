@@ -210,7 +210,7 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
   const deveDeclararPropriedades = podeDeclararPropriedades && (await askConfirm(inq, 'Deseja declarar as propriedades do modelo?', true));
 
   let modelIdType: 'uuid' | 'numeric' | null = null;
-  let modelDated: 'uuid' | 'numeric' | null = null;
+  let modelDated: boolean | null = null;
 
   if (deveDeclararPropriedades) {
     const aws = await inquirer.prompt<{ modelIdType: 'uuid' | 'numeric'; modelDated: boolean }>([
