@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'turma';
+const tableName = 'disciplina_turma';
 
-export class CreateTableTurma1710184556922 implements MigrationInterface {
+export class CreateTableDisciplinaTurma1710184556922 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -17,33 +17,13 @@ export class CreateTableTurma1710184556922 implements MigrationInterface {
           },
 
           //
-
           {
-            name: 'periodo',
-            type: 'text',
-            isNullable: false,
-          },
-
-          {
-            name: 'grupo',
-            type: 'text',
-            isNullable: false,
-          },
-          {
-            name: 'nome',
-            type: 'text',
-            isNullable: false,
-          },
-
-          //
-
-          {
-            name: 'id_ambiente_padrao_aula_fk',
+            name: 'id_disciplina_fk',
             type: 'uuid',
-            isNullable: true,
+            isNullable: false,
           },
           {
-            name: 'id_curso_fk',
+            name: 'id_turma_fk',
             type: 'uuid',
             isNullable: false,
           },
@@ -69,27 +49,20 @@ export class CreateTableTurma1710184556922 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: `fk__${tableName}__depende__ambiente`,
-            columnNames: ['id_ambiente_padrao_aula_fk'],
+            name: `fk__${tableName}__depende__disciplina`,
+            columnNames: ['id_disciplina_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'ambiente',
+            referencedTableName: 'disciplina',
           },
           {
-            name: `fk__${tableName}__depende__curso`,
-            columnNames: ['id_curso_fk'],
+            name: `fk__${tableName}__depende__turma`,
+            columnNames: ['id_turma_fk'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'curso',
+            referencedTableName: 'turma',
           },
         ],
       }),
     );
-
-    await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_${tableName}
-        BEFORE UPDATE ON ${tableName}
-        FOR EACH ROW
-          EXECUTE FUNCTION change_date_updated();
-    `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
