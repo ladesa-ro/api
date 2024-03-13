@@ -1,2 +1,2 @@
-export * from "./operations";
-export * from "./ICursoModel";
+export * from './operations';
+export * from './ICursoModel';

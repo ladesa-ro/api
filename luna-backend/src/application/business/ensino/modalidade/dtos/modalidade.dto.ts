@@ -1,14 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
-import {
-  CommonPropertyUuid,
-  DtoProperty,
-  ValidationContractString,
-  ValidationContractUuid,
-  createDtoPropertyMap,
-  createValidationContract
-} from '../../../../../infrastructure';
+import { CommonPropertyUuid, DtoProperty, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
 
 // ======================================================
 

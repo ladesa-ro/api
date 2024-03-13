@@ -17,11 +17,11 @@ export class CursoEntity {
   nomeAbreviado!: string;
 
   @ManyToOne(() => CampusEntity)
-  @JoinColumn({ name: "id_campus_fk" })
+  @JoinColumn({ name: 'id_campus_fk' })
   campus!: CampusEntity;
 
   @ManyToOne(() => ModalidadeEntity)
-  @JoinColumn({ name: "id_modalidade_fk" })
+  @JoinColumn({ name: 'id_modalidade_fk' })
   modalidade!: ModalidadeEntity;
 
   //

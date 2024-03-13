@@ -10,12 +10,14 @@ import { ModalidadeDto, ModalidadeDtoProperties } from './modalidade.dto';
 // ======================================================
 
 export const ModalidadeUpdateInputDtoValidationContract = createValidationContract(() => {
-  return yup
-    .object()
-    .concat(ModalidadeFindOneByIdInputValidationContract())
-    .concat(ModalidadeInputDtoValidationContract().partial().omit([]))
-    .shape({
-    });
+  return (
+    yup
+      //
+      .object()
+      .concat(ModalidadeFindOneByIdInputValidationContract())
+      .concat(ModalidadeInputDtoValidationContract().partial().omit([]))
+      .shape({})
+  );
 });
 
 // ======================================================

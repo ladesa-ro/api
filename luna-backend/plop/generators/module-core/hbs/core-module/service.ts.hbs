@@ -58,14 +58,14 @@ export class {{ c_pascal moduleName }}Service {
         'id',
         //
         {{#each propriedadesDeclaradas}}
-        `${alias{{ c_pascal ../moduleName }}{{ append "}" }}.{{this.nome}}`,
+        "{{this.nome}}",
         {{/each}}
         //
       ],
       sortableColumns: [
         //
         {{#each propriedadesDeclaradas}}
-        `${alias{{ c_pascal ../moduleName }}{{ append "}" }}.{{this.nome}}`,
+        "{{this.nome}}",
         {{/each}}
       ],
       searchableColumns: [
@@ -73,7 +73,7 @@ export class {{ c_pascal moduleName }}Service {
         'id',
         //
         {{#each propriedadesDeclaradas}}
-        `${alias{{ c_pascal ../moduleName }}{{ append "}" }}.{{this.nome}}`,
+        "{{this.nome}}",
         {{/each}}
         //
       ],

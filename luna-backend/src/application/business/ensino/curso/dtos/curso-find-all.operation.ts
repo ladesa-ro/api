@@ -46,6 +46,8 @@ export const CURSO_FIND_ALL = createDtoOperationOptions({
       //
       'filter.campus.id',
       'filter.campus.cnpj',
+      'filter.campus.razaoSocial',
+      'filter.campus.nomeFantasia',
       'filter.modalidade.id',
       'filter.modalidade.nome',
       'filter.modalidade.slug',

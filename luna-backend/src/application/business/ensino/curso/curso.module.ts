@@ -1,7 +1,7 @@
-import {CursoResolver} from './curso.resolver';
-import {CursoService} from './curso.service';
-import {CursoController} from './curso.controller';
 import { Module } from '@nestjs/common';
+import { CursoController } from './curso.controller';
+import { CursoResolver } from './curso.resolver';
+import { CursoService } from './curso.service';
 
 @Module({
   imports: [],
