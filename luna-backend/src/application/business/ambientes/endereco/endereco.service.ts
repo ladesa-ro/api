@@ -48,7 +48,7 @@ export class EnderecoService {
     ]);
 
     if (loadCidade) {
-      qb.innerJoin(`${alias}.cidade`, `${loadCidade.alias}`);
+      qb.leftJoin(`${alias}.cidade`, `${loadCidade.alias}`);
       CidadeService.CidadeQueryBuilderView(loadCidade.alias, qb, loadCidade.options);
     }
   }

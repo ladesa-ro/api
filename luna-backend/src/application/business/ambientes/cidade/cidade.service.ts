@@ -28,7 +28,7 @@ export class CidadeService {
     qb.addSelect([`${alias}.id`, `${alias}.nome`]);
 
     if (loadEstado) {
-      qb.innerJoin(`${alias}.estado`, `${loadEstado.alias}`);
+      qb.leftJoin(`${alias}.estado`, `${loadEstado.alias}`);
       EstadoService.EstadoQueryBuilderView(loadEstado.alias, qb);
     }
   }

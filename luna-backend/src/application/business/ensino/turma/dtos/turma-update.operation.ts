@@ -1,0 +1,79 @@
+import { InputType } from '@nestjs/graphql';
+import { OmitType } from '@nestjs/swagger';
+import * as yup from 'yup';
+import * as Dto from '../../../(spec)';
+import { ITurmaUpdateDto } from '../../../(spec)';
+import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { TurmaFindOneByIdInputValidationContract, TurmaFindOneResultDto } from './turma-find-one.operation';
+import { TurmaInputDtoValidationContract } from './turma-input.operation';
+import { TurmaDto, TurmaDtoProperties } from './turma.dto';
+
+// ======================================================
+
+export const TurmaUpdateInputDtoValidationContract = createValidationContract(() => {
+  return (
+    yup
+      //
+      .object()
+      .concat(TurmaFindOneByIdInputValidationContract())
+      .concat(TurmaInputDtoValidationContract().partial().omit([]))
+      .shape({})
+  );
+});
+
+// ======================================================
+
+@InputType('TurmaUpdateInputDto')
+export class TurmaUpdateInputDto implements ITurmaUpdateDto {
+  @DtoProperty(TurmaDtoProperties.TURMA_ID)
+  id!: string;
+
+  //
+
+  @DtoProperty(TurmaDtoProperties.TURMA_PERIODO, { required: false })
+  periodo?: string;
+
+  @DtoProperty(TurmaDtoProperties.TURMA_GRUPO, { required: false })
+  grupo?: string;
+
+  @DtoProperty(TurmaDtoProperties.TURMA_NOME, { required: false })
+  nome?: string;
+
+  @DtoProperty(TurmaDtoProperties.TURMA_AMBIENTE_PADRAO_AULA_INPUT, { required: false })
+  ambientePadraoAula?: Dto.IObjectUuid | null;
+
+  @DtoProperty(TurmaDtoProperties.TURMA_CURSO_INPUT, { required: false })
+  curso?: Dto.IObjectUuid;
+
+  //
+}
+
+export class TurmaUpdateWithoutIdInputDto extends OmitType(TurmaUpdateInputDto, ['id'] as const) {}
+export const TURMA_UPDATE = createDtoOperationOptions({
+  description: 'Realiza a alteração de "turma".',
+
+  gql: {
+    name: 'turmaUpdate',
+
+    inputDtoType: () => TurmaUpdateInputDto,
+    inputDtoValidationContract: TurmaUpdateInputDtoValidationContract,
+
+    returnType: () => TurmaDto,
+  },
+
+  swagger: {
+    inputBodyType: TurmaUpdateWithoutIdInputDto,
+
+    inputBodyValidationContract: createValidationContract(() => TurmaUpdateInputDtoValidationContract().omit(['id'])),
+
+    params: [
+      {
+        name: 'id',
+        description: 'ID de "turma".',
+        validationContract: ValidationContractUuid,
+      },
+    ],
+
+    returnType: TurmaFindOneResultDto,
+  },
+});

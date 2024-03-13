@@ -30,6 +30,7 @@ function setupSwaggerConfig() {
   config.addTag('Modalidades', 'Ensino / Modalidade');
   config.addTag('Cursos', 'Ensino / Cursos');
   config.addTag('Disciplinas', 'Ensino / Disciplinas');
+  config.addTag('Turmas', 'Ensino / Turmas');
 
   config.addServer('https://luna.sisgha.com/api/');
   config.addServer('http://localhost:3000/');

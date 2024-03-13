@@ -41,6 +41,11 @@ export abstract class BaseAuthzPolicy {
   abstract disciplinaUpdate: Authz.IAuthzStatementDisciplinaUpdate;
   abstract disciplinaCreate: Authz.IAuthzStatementDisciplinaCreate;
 
+  abstract turmaFind: Authz.IAuthzStatementTurmaFind;
+  abstract turmaDelete: Authz.IAuthzStatementTurmaDelete;
+  abstract turmaUpdate: Authz.IAuthzStatementTurmaUpdate;
+  abstract turmaCreate: Authz.IAuthzStatementTurmaCreate;
+
   abstract vinculoFind: Authz.IAuthzStatementVinculoFind;
 
   get statements() {
@@ -79,6 +84,10 @@ export abstract class BaseAuthzPolicy {
       this.disciplinaUpdate,
       this.disciplinaDelete,
       this.disciplinaFind,
+      this.turmaCreate,
+      this.turmaUpdate,
+      this.turmaDelete,
+      this.turmaFind,
     ];
   }
 }

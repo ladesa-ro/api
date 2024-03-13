@@ -2,12 +2,6 @@ import { DataSource, EntityManager } from 'typeorm';
 import * as repositories from '../../typeorm/repositories';
 
 export class DatabaseContextCore {
-  get disciplinaRepository() {
-    return repositories.createDisciplinaRepository(this.ds);
-  }
-  get cursoRepository() {
-    return repositories.createCursoRepository(this.ds);
-  }
   constructor(readonly ds: DataSource | EntityManager) {}
 
   //
@@ -83,6 +77,18 @@ export class DatabaseContextCore {
 
   get modalidadeRepository() {
     return repositories.createModalidadeRepository(this.ds);
+  }
+
+  get cursoRepository() {
+    return repositories.createCursoRepository(this.ds);
+  }
+
+  get disciplinaRepository() {
+    return repositories.createDisciplinaRepository(this.ds);
+  }
+
+  get turmaRepository() {
+    return repositories.createTurmaRepository(this.ds);
   }
 
   // =====================================================

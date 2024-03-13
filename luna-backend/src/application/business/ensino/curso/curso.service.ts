@@ -238,7 +238,7 @@ export class CursoService {
 
     // =========================================================
 
-    const dtoCurso = pick(dto, ['nome', 'nomeAbreviado', 'campus', 'modalidade']);
+    const dtoCurso = pick(dto, ['nome', 'nomeAbreviado']);
 
     const curso = this.cursoRepository.create();
 
@@ -298,7 +298,7 @@ export class CursoService {
 
     // =========================================================
 
-    if (has(dto, 'campus.id') && dto.campus !== undefined) {
+    if (has(dto, 'campus') && dto.campus !== undefined) {
       const campus = await this.campusService.campusFindByIdSimpleStrict(clientAccess, dto.campus.id);
 
       this.cursoRepository.merge(curso, {
@@ -310,7 +310,7 @@ export class CursoService {
 
     // =========================================================
 
-    if (has(dto, 'modalidade.id') && dto.modalidade !== undefined) {
+    if (has(dto, 'modalidade') && dto.modalidade !== undefined) {
       const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(clientAccess, dto.modalidade.id);
 
       this.cursoRepository.merge(curso, {

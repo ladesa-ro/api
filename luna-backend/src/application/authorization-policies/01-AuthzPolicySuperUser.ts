@@ -338,6 +338,63 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
 
   // ========================================================
 
+  get turmaFind(): Authz.IAuthzStatementTurmaFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'turma:find',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get turmaCreate(): Authz.IAuthzStatementTurmaCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'turma:create',
+
+      withCheck: (context) => {
+        if (AuthzPolicySuperUser.shouldApply(context)) {
+          return true;
+        }
+        return false;
+      },
+    });
+  }
+
+  get turmaUpdate(): Authz.IAuthzStatementTurmaUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'turma:update',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get turmaDelete(): Authz.IAuthzStatementTurmaDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'turma:delete',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  // ========================================================
 
   get ambienteFind(): Authz.IAuthzStatementAmbienteFind {
     return createStatement({
