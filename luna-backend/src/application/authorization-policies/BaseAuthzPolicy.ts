@@ -3,6 +3,10 @@
 import * as Authz from './statements/IAuthzStatement';
 
 export abstract class BaseAuthzPolicy {
+  abstract diarioFind: Authz.IAuthzStatementDiarioFind;
+  abstract diarioDelete: Authz.IAuthzStatementDiarioDelete;
+  abstract diarioUpdate: Authz.IAuthzStatementDiarioUpdate;
+  abstract diarioCreate: Authz.IAuthzStatementDiarioCreate;
   abstract estadoFind: Authz.IAuthzStatementEstadoFind;
   abstract cidadeFind: Authz.IAuthzStatementCidadeFind;
 
@@ -88,6 +92,10 @@ export abstract class BaseAuthzPolicy {
       this.turmaUpdate,
       this.turmaDelete,
       this.turmaFind,
+      this.diarioCreate,
+      this.diarioUpdate,
+      this.diarioDelete,
+      this.diarioFind,
     ];
   }
 }

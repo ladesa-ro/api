@@ -2,6 +2,9 @@ import { DataSource, EntityManager } from 'typeorm';
 import * as repositories from '../../typeorm/repositories';
 
 export class DatabaseContextCore {
+  get diarioRepository() {
+    return repositories.createDiarioRepository(this.ds);
+  }
   constructor(readonly ds: DataSource | EntityManager) {}
 
   //

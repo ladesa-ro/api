@@ -73,6 +73,14 @@ export type IAuthzStatementTurmaDelete = IBaseAuthzFilter<'turma:delete', { dto:
 
 export type IAuthzStatementTurmaFind = IBaseAuthzFilter<'turma:find'>;
 
+export type IAuthzStatementDiarioCreate = IBaseAuthzCheck<'diario:create', { dto: Dto.IDiarioInputDto }>;
+
+export type IAuthzStatementDiarioUpdate = IBaseAuthzFilter<'diario:update', { dto: Dto.IDiarioUpdateDto }>;
+
+export type IAuthzStatementDiarioDelete = IBaseAuthzFilter<'diario:delete', { dto: Dto.IDiarioDeleteOneByIdInputDto }>;
+
+export type IAuthzStatementDiarioFind = IBaseAuthzFilter<'diario:find'>;
+
 // ===================================================================================
 
 export type IAuthzStatementCheck =
@@ -83,11 +91,13 @@ export type IAuthzStatementCheck =
   | IAuthzStatementModalidadeCreate
   | IAuthzStatementCursoCreate
   | IAuthzStatementDisciplinaCreate
-  | IAuthzStatementTurmaCreate;
+  | IAuthzStatementTurmaCreate
+  | IAuthzStatementDiarioCreate;
 
 // =====================
 
 export type IAuthzStatementFind =
+  //
   //
   //
   //
@@ -98,7 +108,7 @@ export type IAuthzStatementFind =
   | IAuthzStatementCampusFind //
   | IAuthzStatementCampusUpdate
   | IAuthzStatementCampusDelete
-  | IAuthzStatementBlocoFind //
+  | IAuthzStatementBlocoFind
   | IAuthzStatementBlocoUpdate
   | IAuthzStatementBlocoDelete
   | IAuthzStatementModalidadeFind
@@ -119,7 +129,10 @@ export type IAuthzStatementFind =
   | IAuthzStatementDisciplinaFind
   | IAuthzStatementTurmaUpdate
   | IAuthzStatementTurmaDelete
-  | IAuthzStatementTurmaFind;
+  | IAuthzStatementTurmaFind
+  | IAuthzStatementDiarioUpdate
+  | IAuthzStatementDiarioDelete
+  | IAuthzStatementDiarioFind;
 
 // =====================
 
