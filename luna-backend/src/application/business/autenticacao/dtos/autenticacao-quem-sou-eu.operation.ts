@@ -43,5 +43,4 @@ export const AUTENTICACAO_QUEM_SOU_EU = createDtoOperationOptions({
   },
 });
 
-
 // ======================================================

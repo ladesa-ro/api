@@ -174,7 +174,6 @@ export class AutenticacaoLoginResultDto implements Dto.IAutenticacaoLoginResultD
   scope!: string | null;
 }
 
-
 // ======================================================
 
 export const AUTENTICACAO_LOGIN = createDtoOperationOptions({
