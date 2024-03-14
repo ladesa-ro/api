@@ -1,5 +1,5 @@
-export * from './autenticacao-definir-senha.input.dto';
-export * from './autenticacao-login.input.dto';
-export * from './autenticacao-login.result.dto';
-export * from './autenticacao-quem-sou-eu.result.dto';
+export * from './autenticacao-definir-senha.operation';
+export * from './autenticacao-login.operation';
+export * from './autenticacao-quem-sou-eu.operation';
 export * from './autenticacao.operations';
+

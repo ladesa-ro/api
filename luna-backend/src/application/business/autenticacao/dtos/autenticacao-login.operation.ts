@@ -1,6 +1,48 @@
-import { Int, ObjectType } from '@nestjs/graphql';
-import { IAutenticacaoLoginResultDto } from 'application/business/(spec)';
-import { DtoProperty, createDtoPropertyMap } from 'infrastructure';
+import { InputType, Int, ObjectType } from '@nestjs/graphql';
+import { DtoProperty, ValidationContractString, createDtoOperationOptions, createDtoPropertyMap, createValidationContract, getSchemaField } from 'infrastructure';
+import * as yup from 'yup';
+import * as Dto from '../../(spec)';
+import { UsuarioDtoProperties, UsuarioDtoValidationContract } from '../usuario/dtos';
+
+// ======================================================
+
+export const AutenticacaoLoginDtoValidationContract = createValidationContract(() => {
+  const usuarioSchema = UsuarioDtoValidationContract();
+
+  return yup.object().shape({
+    matriculaSiape: getSchemaField(usuarioSchema, 'matriculaSiape'),
+    senha: ValidationContractString().required().nonNullable().min(1),
+  });
+});
+
+// ======================================================
+
+export const AutenticacaoLoginDtoProperties = createDtoPropertyMap({
+  LOGIN_MATRICULA_SIAPE: UsuarioDtoProperties.USUARIO_MATRICULA_SIAPE,
+
+  LOGIN_SENHA: {
+    nullable: false,
+    description: 'Senha.',
+    //
+    gql: {
+      type: () => String,
+    },
+    swagger: {
+      type: 'string',
+    },
+  },
+});
+
+// ======================================================
+
+@InputType('AutenticacaoLoginInputDto')
+export class AutenticacaoLoginInputDto implements Dto.IAutenticacaoLoginInputDto {
+  @DtoProperty(AutenticacaoLoginDtoProperties.LOGIN_MATRICULA_SIAPE)
+  matriculaSiape!: string;
+
+  @DtoProperty(AutenticacaoLoginDtoProperties.LOGIN_SENHA)
+  senha!: string;
+}
 
 // ======================================================
 
@@ -106,7 +148,7 @@ export const AutenticacaoLoginResultDtoProperties = createDtoPropertyMap({
 // ======================================================
 
 @ObjectType('AutenticacaoLoginResultDto')
-export class AutenticacaoLoginResultDto implements IAutenticacaoLoginResultDto {
+export class AutenticacaoLoginResultDto implements Dto.IAutenticacaoLoginResultDto {
   @DtoProperty(AutenticacaoLoginResultDtoProperties.LOGIN_RESULT_ACCESS_TOKEN)
   access_token!: string | null;
 
@@ -132,4 +174,24 @@ export class AutenticacaoLoginResultDto implements IAutenticacaoLoginResultDto {
   scope!: string | null;
 }
 
+
 // ======================================================
+
+export const AUTENTICACAO_LOGIN = createDtoOperationOptions({
+  description: 'Realiza o login no sistema e retorna as credenciais de acesso.',
+
+  gql: {
+    name: 'autenticacaoLogin',
+
+    inputDtoType: () => AutenticacaoLoginInputDto,
+    inputDtoValidationContract: AutenticacaoLoginDtoValidationContract,
+
+    returnType: () => AutenticacaoLoginResultDto,
+  },
+
+  swagger: {
+    inputBodyType: AutenticacaoLoginInputDto,
+    inputBodyValidationContract: AutenticacaoLoginDtoValidationContract,
+    returnType: AutenticacaoLoginResultDto,
+  },
+});

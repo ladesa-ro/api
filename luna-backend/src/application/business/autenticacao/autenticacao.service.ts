@@ -1,7 +1,7 @@
 import { BadRequestException, ForbiddenException, HttpException, Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { DatabaseContextService } from 'infrastructure';
 import { KeycloakService } from 'infrastructure/authentication/idp-external-connect/keycloak';
-import { BaseClient } from 'openid-client';
+import { BaseClient, TokenSet } from 'openid-client';
 import * as Dto from '../(spec)';
 import { IClientAccess } from '../../../domain';
 import { OpenidConnectService } from '../../../infrastructure/authentication/idp-external-connect/openid-connect/openid-connect.service';
@@ -56,20 +56,48 @@ export class AutenticacaoService {
           scope: 'openid profile',
         });
 
-        return {
-          access_token: tokenset.access_token ?? null,
-          token_type: tokenset.token_type ?? null,
-          id_token: tokenset.id_token ?? null,
-          refresh_token: tokenset.refresh_token ?? null,
-          expires_in: tokenset.expires_in ?? null,
-          expires_at: tokenset.expires_at ?? null,
-          session_state: tokenset.session_state ?? null,
-          scope: tokenset.scope ?? null,
-        };
+        const formattedTokenSet = this.formatTokenSet(tokenset);
+
+        return formattedTokenSet;
       }
     } catch (error) {}
 
     throw new ForbiddenException('Credenciais inválidas.');
+  }
+
+  async refresh(_: IClientAccess, dto: Dto.IAutenticacaoRefreshInputDto): Promise<Dto.IAutenticacaoLoginResultDto> {
+    let trustIssuerClient: BaseClient;
+
+    try {
+      trustIssuerClient = await this.openidConnectService.getTrustIssuerClient();
+    } catch (error) {
+      throw new ServiceUnavailableException();
+    }
+
+    try {
+      const refreshToken = dto.refreshToken;
+
+      if (refreshToken) {
+        const tokenset = await trustIssuerClient.refresh(refreshToken);
+        const formattedTokenSet = this.formatTokenSet(tokenset);
+        return formattedTokenSet;
+      }
+    } catch (error) {}
+
+    throw new ForbiddenException('Credenciais inválidas ou expiradas.');
+  }
+
+  private formatTokenSet(tokenset: TokenSet) {
+    return {
+      access_token: tokenset.access_token ?? null,
+      token_type: tokenset.token_type ?? null,
+      id_token: tokenset.id_token ?? null,
+      refresh_token: tokenset.refresh_token ?? null,
+      expires_in: tokenset.expires_in ?? null,
+      expires_at: tokenset.expires_at ?? null,
+      session_state: tokenset.session_state ?? null,
+      scope: tokenset.scope ?? null,
+    };
   }
 
   private async findByMatriculaSiape(matriculaSiape: string) {
