@@ -17,6 +17,7 @@ export class CalendarioLetivoEntity implements ICalendarioLetivoModel {
     @Column({ name: 'ano_letivo' })
     ano!: number;
 
+    //Chaves Estrangeiras
 
     @ManyToOne(() => CampusEntity)
     @JoinColumn({ name: 'id_campus_fk' })
@@ -26,8 +27,14 @@ export class CalendarioLetivoEntity implements ICalendarioLetivoModel {
     @JoinColumn({ name: 'id_modalidade_fk' })
     modalidade!: IModalidadeModel;
 
-    dateCreated!: IEntityDate;
-    dateUpdated!: IEntityDate;
-    dateDeleted!: IEntityDate | null;
+    //
 
+    @Column({name:'date_created', type:'timestamptz', nullable:false})
+    dateCreated!: IEntityDate;
+
+
+    @Column({name: 'data_updated', type:'timestamptz', nullable: false})
+    dateUpdated!: IEntityDate;
+
+    dateDeleted!: IEntityDate | null;
 }
