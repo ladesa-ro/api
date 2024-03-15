@@ -30,7 +30,6 @@ export class AutenticacaoResolver {
     return this.autenticacaoService.login(clientAccess, dto);
   }
 
-
   //
 
   @DtoOperationGqlMutation(AutenticacaoOperations.AUTENTICACAO_REFRESH)

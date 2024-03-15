@@ -73,6 +73,14 @@ export type IAuthzStatementTurmaDelete = IBaseAuthzFilter<'turma:delete', { dto:
 
 export type IAuthzStatementTurmaFind = IBaseAuthzFilter<'turma:find'>;
 
+export type IAuthzStatementReservaCreate = IBaseAuthzCheck<'reserva:create', { dto: Dto.IReservaInputDto }>;
+
+export type IAuthzStatementReservaUpdate = IBaseAuthzFilter<'reserva:update', { dto: Dto.IReservaUpdateDto }>;
+
+export type IAuthzStatementReservaDelete = IBaseAuthzFilter<'reserva:delete', { dto: Dto.IReservaDeleteOneByIdInputDto }>;
+
+export type IAuthzStatementReservaFind = IBaseAuthzFilter<'reserva:find'>;
+
 // ===================================================================================
 
 export type IAuthzStatementCheck =
@@ -83,11 +91,13 @@ export type IAuthzStatementCheck =
   | IAuthzStatementModalidadeCreate
   | IAuthzStatementCursoCreate
   | IAuthzStatementDisciplinaCreate
-  | IAuthzStatementTurmaCreate;
+  | IAuthzStatementTurmaCreate
+  | IAuthzStatementReservaCreate;
 
 // =====================
 
 export type IAuthzStatementFind =
+  //
   //
   //
   //
@@ -98,7 +108,7 @@ export type IAuthzStatementFind =
   | IAuthzStatementCampusFind //
   | IAuthzStatementCampusUpdate
   | IAuthzStatementCampusDelete
-  | IAuthzStatementBlocoFind //
+  | IAuthzStatementBlocoFind
   | IAuthzStatementBlocoUpdate
   | IAuthzStatementBlocoDelete
   | IAuthzStatementModalidadeFind
@@ -119,7 +129,10 @@ export type IAuthzStatementFind =
   | IAuthzStatementDisciplinaFind
   | IAuthzStatementTurmaUpdate
   | IAuthzStatementTurmaDelete
-  | IAuthzStatementTurmaFind;
+  | IAuthzStatementTurmaFind
+  | IAuthzStatementReservaUpdate
+  | IAuthzStatementReservaDelete
+  | IAuthzStatementReservaFind;
 
 // =====================
 
