@@ -15,13 +15,15 @@ O projeto conta com um [arquivo make](./Makefile) que comporta scrips destinados
 
 ```Makefile
 dev-setup:
-  # Configura o ambiente de deselvolvimento, como a criação da rede sisgea-net e os arquivos .env
+  # Configura o ambiente de deselvolvimento, como a criação da rede sisgea-net e os arquivos .env.
 dev-up:
-  # Inicia os containers docker
+  # Inicia os containers docker.
 dev-shell:
-  # Inicia os containers docker e abre o bash na aplicação node
+  # Inicia os containers docker e abre o bash na aplicação node.
 dev-down:
-  # Para todos os containers
+  # Para todos os containers.
+dev-cleanup:
+  # Para todos os containers e remove os containers e volumes associados.
 dev-logs:
   # Mostra os registros dos containers
 ```
