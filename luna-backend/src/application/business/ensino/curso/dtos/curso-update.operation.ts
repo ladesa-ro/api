@@ -17,10 +17,10 @@ export const CursoUpdateInputDtoValidationContract = createValidationContract(()
       //
       .object()
       .concat(CursoFindOneByIdInputValidationContract())
-      .concat(CursoInputDtoValidationContract().partial().omit(["campus", "modalidade"]))
+      .concat(CursoInputDtoValidationContract().partial().omit(['campus', 'modalidade']))
       .shape({
-        campus: ValidationContractObjectUuid({ required: true }).optional(),
-        modalidade: ValidationContractObjectUuid({ required: true }).optional(),
+        campus: ValidationContractObjectUuid({ required: false }).optional().nonNullable(),
+        modalidade: ValidationContractObjectUuid({ required: false }).optional().nonNullable(),
       })
   );
 });
