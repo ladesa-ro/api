@@ -2,6 +2,7 @@ import { DataSource, EntityManager } from 'typeorm';
 import * as repositories from '../../typeorm/repositories';
 
 export class DatabaseContextCore {
+
   constructor(readonly ds: DataSource | EntityManager) {}
 
   //
@@ -69,6 +70,10 @@ export class DatabaseContextCore {
 
   get ambienteRepository() {
     return repositories.createAmbienteRepository(this.ds);
+  }
+
+  get reservaRepository() {
+    return repositories.createReservaRepository(this.ds);
   }
 
   // =====================================================

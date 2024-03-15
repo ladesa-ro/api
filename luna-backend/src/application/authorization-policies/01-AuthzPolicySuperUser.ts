@@ -456,6 +456,66 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
 
   // ========================================================
 
+  get reservaFind(): Authz.IAuthzStatementReservaFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'reserva:find',
+
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get reservaCreate(): Authz.IAuthzStatementReservaCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'reserva:create',
+
+      withCheck: (context) => {
+        if (AuthzPolicySuperUser.shouldApply(context)) {
+          return true;
+        }
+
+        return false;
+      },
+    });
+  }
+
+  get reservaUpdate(): Authz.IAuthzStatementReservaUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'reserva:update',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get reservaDelete(): Authz.IAuthzStatementReservaDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'reserva:delete',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  // ========================================================
+
   get usuarioFind(): Authz.IAuthzStatementUsuarioFind {
     return createStatement({
       kind: 'filter',

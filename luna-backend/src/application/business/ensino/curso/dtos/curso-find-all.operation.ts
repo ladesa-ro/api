@@ -1,6 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as Dto from '../../../(spec)';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
+import { CursoFindOneResultDto } from './curso-find-one.operation';
 import { CursoDto } from './curso.dto';
 
 // ======================================================
@@ -14,7 +15,7 @@ export class CursoFindAllResultDto extends PaginatedResultDto<Dto.ICursoFindOneR
       type: () => [CursoDto],
     },
     swagger: {
-      type: [CursoFindAllResultDto],
+      type: [CursoFindOneResultDto],
     },
   })
   data!: Dto.ICursoFindOneResultDto[];

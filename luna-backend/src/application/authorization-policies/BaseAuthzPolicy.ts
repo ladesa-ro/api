@@ -21,6 +21,11 @@ export abstract class BaseAuthzPolicy {
   abstract ambienteUpdate: Authz.IAuthzStatementAmbienteUpdate;
   abstract ambienteDelete: Authz.IAuthzStatementAmbienteDelete;
 
+  abstract reservaFind: Authz.IAuthzStatementReservaFind;
+  abstract reservaDelete: Authz.IAuthzStatementReservaDelete;
+  abstract reservaUpdate: Authz.IAuthzStatementReservaUpdate;
+  abstract reservaCreate: Authz.IAuthzStatementReservaCreate;
+
   abstract usuarioFind: Authz.IAuthzStatementUsuarioFind;
   abstract usuarioCreate: Authz.IAuthzStatementUsuarioCreate;
   abstract usuarioUpdate: Authz.IAuthzStatementUsuarioUpdate;
@@ -71,6 +76,10 @@ export abstract class BaseAuthzPolicy {
       this.ambienteCreate,
       this.ambienteUpdate,
       this.ambienteDelete,
+      this.reservaCreate,
+      this.reservaUpdate,
+      this.reservaDelete,
+      this.reservaFind,
       this.usuarioFind,
       this.usuarioCreate,
       this.usuarioUpdate,

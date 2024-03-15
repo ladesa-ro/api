@@ -60,7 +60,6 @@ export class AutenticacaoDefinirSenhaInputDto implements IAutenticacaoDefinirSen
   confirmarSenha!: string;
 }
 
-
 // ======================================================
 
 export const AutenticacaoDefinirSenhaResultDtoProperties = createDtoPropertyMap({
