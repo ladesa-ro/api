@@ -1,7 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
-import { DtoProperty, ValidationContractObjectUuid, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { BlocoDtoProperties, BlocoDtoValidationContract } from './bloco.dto';
 
 // ======================================================
@@ -12,8 +12,7 @@ export const BlocoInputDtoValidationContract = createValidationContract(() => {
   return yup.object().shape({
     nome: getSchemaField(schema, 'nome'),
     codigo: getSchemaField(schema, 'codigo'),
-
-    campus: ValidationContractObjectUuid({ required: true }).defined().required(),
+    campus: getSchemaField(schema, 'campus'),
   });
 });
 

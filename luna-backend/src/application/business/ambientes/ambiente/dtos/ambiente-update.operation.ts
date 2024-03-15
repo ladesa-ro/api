@@ -2,7 +2,7 @@ import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaSubpath } from '../../../../../infrastructure';
 import { AmbienteFindOneByIdInputValidationContract, AmbienteFindOneResultDto } from './ambiente-find-one.operation';
 import { AmbienteInputDtoValidationContract } from './ambiente-input.operation';
 import { AmbienteDto, AmbienteDtoProperties } from './ambiente.dto';
@@ -10,12 +10,14 @@ import { AmbienteDto, AmbienteDtoProperties } from './ambiente.dto';
 // ======================================================
 
 export const AmbienteUpdateInputDtoValidationContract = createValidationContract(() => {
+  const schema = AmbienteInputDtoValidationContract();
+
   return yup
     .object()
     .concat(AmbienteFindOneByIdInputValidationContract())
-    .concat(AmbienteInputDtoValidationContract().partial().omit(['bloco']))
+    .concat(schema.partial().omit(['bloco']))
     .shape({
-      bloco: yup.mixed().strip().optional().nullable(),
+      bloco: (getSchemaSubpath(schema, 'bloco') as yup.ObjectSchema<any,any>).nonNullable().optional().default(() => undefined),
     });
 });
 

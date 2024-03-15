@@ -3,7 +3,7 @@ import { OmitType } from '@nestjs/swagger';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import { ITurmaUpdateDto } from '../../../(spec)';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaSubpath } from '../../../../../infrastructure';
 import { TurmaFindOneByIdInputValidationContract, TurmaFindOneResultDto } from './turma-find-one.operation';
 import { TurmaInputDtoValidationContract } from './turma-input.operation';
 import { TurmaDto, TurmaDtoProperties } from './turma.dto';
@@ -11,13 +11,24 @@ import { TurmaDto, TurmaDtoProperties } from './turma.dto';
 // ======================================================
 
 export const TurmaUpdateInputDtoValidationContract = createValidationContract(() => {
+  const schema = TurmaInputDtoValidationContract();
   return (
     yup
       //
       .object()
       .concat(TurmaFindOneByIdInputValidationContract())
-      .concat(TurmaInputDtoValidationContract().partial().omit([]))
-      .shape({})
+      .concat(schema.partial().omit([]))
+      .shape({
+        ambientePadraoAula: (getSchemaSubpath(schema, 'ambientePadraoAula') as yup.ObjectSchema<any, any>)
+          .nonNullable()
+          .optional()
+          .default(() => undefined),
+
+        curso: (getSchemaSubpath(schema, 'curso') as yup.ObjectSchema<any, any>)
+          .nonNullable()
+          .optional()
+          .default(() => undefined),
+      })
   );
 });
 
