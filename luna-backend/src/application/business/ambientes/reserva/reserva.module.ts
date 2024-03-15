@@ -1,10 +1,12 @@
+import { Module } from '@nestjs/common';
+import { UsuarioModule } from '../../autenticacao/usuario/usuario.module';
+import { AmbienteModule } from '../ambiente/ambiente.module';
+import { ReservaController } from './reserva.controller';
 import { ReservaResolver } from './reserva.resolver';
 import { ReservaService } from './reserva.service';
-import { ReservaController } from './reserva.controller';
-import { Module } from '@nestjs/common';
 
 @Module({
-  imports: [],
+  imports: [UsuarioModule, AmbienteModule],
   controllers: [ReservaController],
   providers: [ReservaService, ReservaResolver],
   exports: [ReservaService],

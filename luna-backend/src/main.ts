@@ -24,7 +24,7 @@ function setupSwaggerConfig() {
   config.addTag('Campi', 'Ambientes / Campi');
   config.addTag('Blocos', 'Ambientes / Campi / Blocos');
   config.addTag('Ambientes', 'Ambientes / Campi / Blocos / Ambiente');
-  config.addTag('Rerservas', 'Ambientes / Campi / Blocos / Ambiente / Rerservas');
+  config.addTag('Reservas', 'Ambientes / Campi / Blocos / Ambiente / Reservas');
 
   config.addTag('Vinculos', 'Autenticação / Usuários / Vínculos');
 
