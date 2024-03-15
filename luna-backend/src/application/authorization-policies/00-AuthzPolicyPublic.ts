@@ -381,6 +381,58 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
     });
   }
 
+  
+  // ========================================================
+
+  get reservaFind(): Authz.IAuthzStatementReservaFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'reserva:find',
+
+      filter(context, alias) {
+        return (qb) => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get reservaCreate(): Authz.IAuthzStatementReservaCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'reserva:create',
+
+      async withCheck(context) {
+        console.debug('AuthzPolicyPublic -- reserva:create', { context });
+        return true;
+      },
+    });
+  }
+
+  get reservaUpdate(): Authz.IAuthzStatementReservaUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'reserva:update',
+      filter() {
+        return (qb, alias = 'reserva') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get reservaDelete(): Authz.IAuthzStatementReservaDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'reserva:delete',
+      filter() {
+        return (qb, alias = 'reserva') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
   // ========================================================
 
   get usuarioFind(): Authz.IAuthzStatementUsuarioFind {
