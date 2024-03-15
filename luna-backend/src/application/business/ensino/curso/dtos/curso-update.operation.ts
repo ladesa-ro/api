@@ -4,7 +4,7 @@ import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities
 import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
 import * as yup from 'yup';
 import { ICursoUpdateDto } from '../../../(spec)';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { DtoProperty, ValidationContractObjectUuid, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CursoFindOneByIdInputValidationContract, CursoFindOneResultDto } from './curso-find-one.operation';
 import { CursoInputDtoValidationContract } from './curso-input.operation';
 import { CursoDto, CursoDtoProperties } from './curso.dto';
@@ -17,8 +17,11 @@ export const CursoUpdateInputDtoValidationContract = createValidationContract(()
       //
       .object()
       .concat(CursoFindOneByIdInputValidationContract())
-      .concat(CursoInputDtoValidationContract().partial().omit([]))
-      .shape({})
+      .concat(CursoInputDtoValidationContract().partial().omit(["campus", "modalidade"]))
+      .shape({
+        campus: ValidationContractObjectUuid({ required: true }).optional(),
+        modalidade: ValidationContractObjectUuid({ required: true }).optional(),
+      })
   );
 });
 

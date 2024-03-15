@@ -13,11 +13,9 @@ export const CursoInputDtoValidationContract = createValidationContract(() => {
     //
 
     nome: getSchemaField(schema, 'nome'),
-
     nomeAbreviado: getSchemaField(schema, 'nomeAbreviado'),
 
     campus: getSchemaField(schema, 'campus'),
-
     modalidade: getSchemaField(schema, 'modalidade'),
 
     //
