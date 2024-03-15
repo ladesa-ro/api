@@ -29,12 +29,14 @@ export class CalendarioLetivoEntity implements ICalendarioLetivoModel {
 
     //
 
-    @Column({name:'date_created', type:'timestamptz', nullable:false})
+
+    @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
     dateCreated!: IEntityDate;
 
 
-    @Column({name: 'data_updated', type:'timestamptz', nullable: false})
+    @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
     dateUpdated!: IEntityDate;
 
+    @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
     dateDeleted!: IEntityDate | null;
 }

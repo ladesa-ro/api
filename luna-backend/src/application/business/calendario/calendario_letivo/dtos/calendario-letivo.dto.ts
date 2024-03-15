@@ -1,0 +1,143 @@
+import { Int, ObjectType } from '@nestjs/graphql';
+import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
+import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
+import * as yup from 'yup';
+import * as Dto from '../../../(spec)';
+import {
+    CommonPropertyUuid,
+    DtoProperty,
+    ObjectUuidDto,
+    ValidationContractNumber,
+    ValidationContractObjectUuid,
+    ValidationContractString,
+    ValidationContractUuid,
+    createDtoPropertyMap,
+    createValidationContract,
+} from '../../../../../infrastructure';
+import { CursoDto, CursoFindOneResultDto } from '../../../ensino/curso/dtos';
+import { ModalidadeDto, ModalidadeFindOneResultDto } from '../../../ensino/modalidade/dtos';
+
+
+
+export const CalendarioLetivoDtoValidationContract = createValidationContract(() => {
+    return yup.object({
+        id: ValidationContractUuid(),
+
+        //
+
+        nome: ValidationContractString().required().nonNullable(),
+
+        ano: ValidationContractNumber().required().nonNullable(),
+
+        campus: ValidationContractObjectUuid({ required: true }).defined().required(),
+
+        modalidade: ValidationContractObjectUuid({ required: true }).defined().required(),
+    });
+});
+
+export const CalendarioLetivoDtoProperties = createDtoPropertyMap({
+    CALENDARIO_LETIVO_ID: CommonPropertyUuid('ID do Calendario Letivo'),
+
+    //
+
+    CALENDARIO_LETIVO_NOME: {
+        nullable: false,
+        description: 'Nome do Calendario Letivo',
+        //
+        gql: {
+            type: () => String,
+        },
+        swagger: {
+            type: 'string',
+        },
+    },
+
+    CALENDARIO_LETIVO_ANO: {
+        nullable: false,
+        description: 'Ano do calendário.',
+        gql: {
+            type: () => Int,
+        },
+        swagger: {
+            type: 'integer',
+        },
+    },
+    //==============================================
+    CALENDARIO_LETIVO_CAMPUS_INPUT: {
+        nullable: false,
+        description: 'Campus que o calendario letivo pertence',
+        //
+        gql: {
+            type: () => ObjectUuidDto,
+        },
+        swagger: {
+            type: ObjectUuidDto,
+        },
+    },
+
+    CALENDARIO_LETIVO_CAMPUS_OUTPUT: {
+        nullable: false,
+        description: 'Campus que o calendario letivo pertence',
+        //
+        gql: {
+            type: () => CursoDto,
+        },
+        swagger: {
+            type: CursoFindOneResultDto,
+        },
+    },
+    //============================================
+
+    CALENDARIO_LETIVO_MODALIDADE_INPUT: {
+        nullable: false,
+        description: 'Modalidade a que o calendario letivo pertence.',
+        gql: {
+            type: () => ObjectUuidDto,
+        },
+        swagger: {
+            type: ObjectUuidDto,
+        },
+    },
+
+    CALENDARIO_LETIVO_MODALIDADE_OUTPUT: {
+        nullable: false,
+        description: 'Modalidade a que o curso pertence.',
+        //
+        gql: {
+            type: () => ModalidadeDto,
+        },
+        swagger: {
+            type: ModalidadeFindOneResultDto,
+        },
+    },
+    //============================================
+
+});
+
+@ObjectType('Calendario-letivo')
+export class CalendarioLetivoDto implements Dto.ICalendarioLetivoModel {
+
+    @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_ID)
+    id!: string;
+
+    //
+
+    @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_NOME)
+    nome!: string;
+
+    @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_ANO)
+    ano!: number;
+
+
+    @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_CAMPUS_OUTPUT)
+    campus!: CampusEntity;
+
+    @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_MODALIDADE_OUTPUT)
+    modalidade!: ModalidadeEntity;
+
+    //============================================
+
+    dateCreated!: Dto.IEntityDate;
+    dateUpdated!: Dto.IEntityDate;
+    dateDeleted!: Dto.IEntityDate;
+}
