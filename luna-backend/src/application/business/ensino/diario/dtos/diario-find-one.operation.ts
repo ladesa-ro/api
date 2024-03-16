@@ -28,10 +28,10 @@ export class DiarioFindOneResultDto implements Dto.IDiarioFindOneResultDto {
   @DtoProperty(DiarioDtoProperties.DIARIO_TURMA)
   turma!: TurmaEntity;
 
-  @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA)
+  @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA_OUTPUT)
   disciplina!: DisciplinaEntity;
 
-  @DtoProperty(DiarioDtoProperties.DIARIO_AMBIENTE_PADRAO)
+  @DtoProperty(DiarioDtoProperties.DIARIO_AMBIENTE_PADRAO_OUTPUT)
   ambientePadrao!: AmbienteEntity | null;
 
   //

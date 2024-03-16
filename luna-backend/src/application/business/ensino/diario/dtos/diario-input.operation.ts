@@ -1,9 +1,8 @@
 import { InputType } from '@nestjs/graphql';
-import { AmbienteEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/ambiente.entity';
-import { DisciplinaEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/disciplina.entity';
 import { TurmaEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/turma.entity';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
+import { IObjectUuid } from '../../../(spec)';
 import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { DiarioDtoProperties, DiarioDtoValidationContract } from './diario.dto';
 
@@ -49,11 +48,11 @@ export class DiarioInputDto implements Dto.IDiarioInputDto {
   @DtoProperty(DiarioDtoProperties.DIARIO_TURMA)
   turma!: TurmaEntity;
 
-  @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA)
-  disciplina!: DisciplinaEntity;
+  @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA_INPUT)
+  disciplina!: IObjectUuid;
 
-  @DtoProperty(DiarioDtoProperties.DIARIO_AMBIENTE_PADRAO)
-  ambientePadrao!: AmbienteEntity | null;
+  @DtoProperty(DiarioDtoProperties.DIARIO_AMBIENTE_PADRAO_INPUT)
+  ambientePadrao!: IObjectUuid | null;
 
   //
 }

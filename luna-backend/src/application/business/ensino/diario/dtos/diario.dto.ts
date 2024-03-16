@@ -93,7 +93,9 @@ export const DiarioDtoProperties = createDtoPropertyMap({
       type: TurmaFindOneResultDto,
     },
   },
-  DIARIO_DISCIPLINA: {
+
+  // =======================
+  DIARIO_DISCIPLINA_OUTPUT: {
     nullable: false,
     description: 'disciplina a qual o diario pertence',
     //
@@ -104,7 +106,38 @@ export const DiarioDtoProperties = createDtoPropertyMap({
       type: DisciplinaFindOneResultDto,
     },
   },
-  DIARIO_AMBIENTE_PADRAO: {
+
+
+  // =======================
+  DIARIO_DISCIPLINA_INPUT: {
+    nullable: false,
+    description: 'disciplina a qual o diario pertence',
+    //
+    gql: {
+      type: () => ObjectUuidDto,
+    },
+    swagger: {
+      type: ObjectUuidDto,
+    },
+  },
+
+
+  // =======================
+  DIARIO_AMBIENTE_PADRAO_INPUT: {
+    nullable: true,
+    description: 'Ambiente Padrao do diario',
+    //
+    gql: {
+      type: () => ObjectUuidDto,
+    },
+    swagger: {
+      type: ObjectUuidDto,
+    },
+  },
+
+
+  // =======================
+  DIARIO_AMBIENTE_PADRAO_OUTPUT: {
     nullable: true,
     description: 'Ambiente Padrao do diario',
     //
@@ -139,10 +172,10 @@ export class DiarioDto implements Dto.IDiarioModel {
   @DtoProperty(DiarioDtoProperties.DIARIO_TURMA)
   turma!: TurmaEntity;
 
-  @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA)
+  @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA_OUTPUT)
   disciplina!: DisciplinaEntity;
 
-  @DtoProperty(DiarioDtoProperties.DIARIO_AMBIENTE_PADRAO)
+  @DtoProperty(DiarioDtoProperties.DIARIO_AMBIENTE_PADRAO_OUTPUT)
   ambientePadrao!: AmbienteEntity | null;
 
   //

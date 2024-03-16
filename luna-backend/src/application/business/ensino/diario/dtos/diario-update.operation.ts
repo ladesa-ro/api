@@ -37,10 +37,10 @@ export class DiarioUpdateInputDto implements IDiarioUpdateDto {
   @DtoProperty(DiarioDtoProperties.DIARIO_TURMA, { required: false })
   turma?: TurmaEntity;
 
-  @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA, { required: false })
+  @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA_INPUT, { required: false })
   disciplina?: DisciplinaEntity;
 
-  @DtoProperty(DiarioDtoProperties.DIARIO_AMBIENTE_PADRAO, { required: false })
+  @DtoProperty(DiarioDtoProperties.DIARIO_AMBIENTE_PADRAO_INPUT, { required: false })
   ambientePadrao?: AmbienteEntity | null;
 
   //
