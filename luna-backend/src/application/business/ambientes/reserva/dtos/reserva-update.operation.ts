@@ -2,7 +2,7 @@ import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaSubpath } from '../../../../../infrastructure';
+import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { ReservaFindOneByIdInputValidationContract, ReservaFindOneResultDto } from './reserva-find-one.operation';
 import { ReservaInputDtoValidationContract } from './reserva-input.operation';
 import { ReservaDto, ReservaDtoProperties } from './reserva.dto';
@@ -15,17 +15,10 @@ export const ReservaUpdateInputDtoValidationContract = createValidationContract(
   return yup
     .object()
     .concat(ReservaFindOneByIdInputValidationContract())
-    .concat(schema.partial().omit([]))
+    .concat(schema.pick(['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino']))
     .shape({
-      usuario: (getSchemaSubpath(schema, 'usuario') as yup.ObjectSchema<any, any>)
-        .nonNullable()
-        .optional()
-        .default(() => undefined),
-
-      ambiente: (getSchemaSubpath(schema, 'ambiente') as yup.ObjectSchema<any, any>)
-        .nonNullable()
-        .optional()
-        .default(() => undefined),
+      ambiente: ValidationContractObjectUuidBase({ required: true, optional: true }),
+      usuario: ValidationContractObjectUuidBase({ required: true, optional: true }),
     });
 });
 

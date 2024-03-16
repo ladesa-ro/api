@@ -15,8 +15,6 @@ export const ReservaInputDtoValidationContract = createValidationContract(() => 
     tipo: getSchemaField(schema, 'tipo'),
     dataInicio: getSchemaField(schema, 'dataInicio'),
     dataTermino: getSchemaField(schema, 'dataTermino'),
-    ambiente: getSchemaField(schema, 'ambiente'),
-    usuario: getSchemaField(schema, 'usuario'),
   });
 });
 

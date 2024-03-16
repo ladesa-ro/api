@@ -381,7 +381,6 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
     });
   }
 
-  
   // ========================================================
 
   get reservaFind(): Authz.IAuthzStatementReservaFind {
