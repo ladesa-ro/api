@@ -1,6 +1,6 @@
-import { InputType } from '@nestjs/graphql';
-import { IAutenticacaoDefinirSenhaInputDto } from 'application/business/(spec)';
-import { DtoProperty, ValidationContractString, createDtoPropertyMap, createValidationContract, getSchemaField } from 'infrastructure';
+import { InputType, ObjectType } from '@nestjs/graphql';
+import { IAutenticacaoDefinirSenhaInputDto, IAutenticacaoDefinirSenhaResultDto } from 'application/business/(spec)';
+import { DtoProperty, ValidationContractString, createDtoOperationOptions, createDtoPropertyMap, createValidationContract, getSchemaField } from 'infrastructure';
 import * as yup from 'yup';
 import { UsuarioDtoProperties, UsuarioDtoValidationContract } from '../usuario/dtos';
 
@@ -59,3 +59,49 @@ export class AutenticacaoDefinirSenhaInputDto implements IAutenticacaoDefinirSen
   @DtoProperty(AutenticacaoDefinirSenhaDtoProperties.DEFINIR_SENHA_CONFIRMAR_SENHA)
   confirmarSenha!: string;
 }
+
+// ======================================================
+
+export const AutenticacaoDefinirSenhaResultDtoProperties = createDtoPropertyMap({
+  DEFINIR_SENHA_RESULT: {
+    nullable: true,
+    description: 'Resultado da operação.',
+    //
+    gql: {
+      type: () => String,
+    },
+    swagger: {
+      type: 'string',
+    },
+  },
+});
+
+// ======================================================
+
+@ObjectType('AutenticacaoDefinirSenhaResultDto')
+export class AutenticacaoDefinirSenhaResultDto implements IAutenticacaoDefinirSenhaResultDto {
+  @DtoProperty(AutenticacaoDefinirSenhaResultDtoProperties.DEFINIR_SENHA_RESULT)
+  result!: string;
+}
+
+// ======================================================
+
+export const AUTENTICACAO_DEFINIR_SENHA = createDtoOperationOptions({
+  description: 'Define a primeira senha de um usuário no sistema.',
+
+  gql: {
+    name: 'autenticacaoDefinirSenha',
+
+    inputDtoType: () => AutenticacaoDefinirSenhaInputDto,
+    inputDtoValidationContract: AutenticacaoDefinirSenhaDtoValidationContract,
+
+    returnType: () => AutenticacaoDefinirSenhaResultDto,
+  },
+
+  swagger: {
+    inputBodyType: AutenticacaoDefinirSenhaInputDto,
+    inputBodyValidationContract: AutenticacaoDefinirSenhaDtoValidationContract,
+
+    returnType: AutenticacaoDefinirSenhaResultDto,
+  },
+});

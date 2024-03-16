@@ -5,6 +5,7 @@ export class DatabaseContextCore {
   get diarioRepository() {
     return repositories.createDiarioRepository(this.ds);
   }
+
   constructor(readonly ds: DataSource | EntityManager) {}
 
   //
@@ -72,6 +73,10 @@ export class DatabaseContextCore {
 
   get ambienteRepository() {
     return repositories.createAmbienteRepository(this.ds);
+  }
+
+  get reservaRepository() {
+    return repositories.createReservaRepository(this.ds);
   }
 
   // =====================================================

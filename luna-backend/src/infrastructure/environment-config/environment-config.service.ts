@@ -40,6 +40,21 @@ export class EnvironmentConfigService implements IConfig {
     return !this.getRuntimeIsProduction();
   }
 
+  getSwaggerServers(): string[] | null {
+    const swaggerServersRaw = this.nestConfigService.get<string>('SWAGGER_SERVERS');
+
+    if (typeof swaggerServersRaw === 'string') {
+      const servers = swaggerServersRaw
+        .split(',')
+        .map((i) => i.trim())
+        .filter(Boolean);
+
+      return servers;
+    }
+
+    return null;
+  }
+
   getTypeOrmBasePath(): string {
     return join(__dirname, '..', 'integrate-database/typeorm');
   }

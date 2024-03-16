@@ -21,7 +21,7 @@ dev-shell:
 
 dev-down:
 	make dev-setup;
-	sudo docker compose $(compose_options) stop
+	sudo docker compose $(compose_options) stop;
 
 dev-logs:
 	make dev-setup;
@@ -34,3 +34,7 @@ dev-start:
 	make dev-up;
 
 	sudo docker compose $(compose_options) exec -u node --no-TTY -d $(d_container_app) bash -c "npm i && npm run db:migrate && npm run start:dev" \&;
+
+dev-cleanup:
+	make dev-down;
+	sudo docker compose $(compose_options) down -v;

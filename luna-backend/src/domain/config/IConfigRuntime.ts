@@ -6,4 +6,6 @@ export interface IConfigRuntime {
   getRuntimeIsProduction(): boolean;
 
   getRuntimeIsDevelopment(): boolean;
+
+  getSwaggerServers(): null | string[];
 }

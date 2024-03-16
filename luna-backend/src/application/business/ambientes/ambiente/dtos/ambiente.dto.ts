@@ -32,7 +32,7 @@ export const AmbienteDtoValidationContract = createValidationContract(() => {
 
     //
 
-    bloco: ValidationContractObjectUuid({ required: true }).defined().required(),
+    bloco: ValidationContractObjectUuid({ required: true }).defined().required().nonNullable(),
   });
 });
 
