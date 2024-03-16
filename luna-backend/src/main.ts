@@ -2,10 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
 import { AppModule } from './application/app.module';
+import { IConfig } from './domain';
 import { EnvironmentConfigService } from './infrastructure/environment-config';
 import { getModuleHelmet } from './infrastructure/utils/modules/helmet/modules.helmet';
 
-function setupSwaggerConfig() {
+function setupSwaggerConfig(configService: IConfig | null = null) {
   const config = new DocumentBuilder();
 
   config.setTitle('SISGEA - Luna - API');
@@ -33,8 +34,13 @@ function setupSwaggerConfig() {
   config.addTag('Disciplinas', 'Ensino / Disciplinas');
   config.addTag('Turmas', 'Ensino / Turmas');
 
-  config.addServer('https://luna.sisgha.com/api/');
-  config.addServer('http://localhost:3000/');
+  const servers = configService?.getSwaggerServers();
+
+  if (servers) {
+    for (const server of servers) {
+      config.addServer(server);
+    }
+  }
 
   return config;
 }
@@ -68,7 +74,7 @@ async function bootstrap() {
 
   //
 
-  const config = setupSwaggerConfig();
+  const config = setupSwaggerConfig(environmentConfigService);
 
   const document = SwaggerModule.createDocument(app, config.build());
 
