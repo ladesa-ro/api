@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'imagem';
+const tableName = 'imagem_arquivo';
 
 export class CreateImagemArquivo1710029021977 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
