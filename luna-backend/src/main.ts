@@ -16,6 +16,7 @@ function setupSwaggerConfig() {
 
   config.addTag('API', 'SISGEA - API');
 
+  config.addTag('Calendarios');
   config.addTag('Autenticacao');
   config.addTag('Usuarios', 'Autenticação / Usuários');
 

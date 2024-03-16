@@ -50,7 +50,7 @@ export const CALENDARIO_LETIVO_FIND_ONE_BY_ID = createDtoOperationOptions({
   description: 'Realiza a consulta a "calendario letivo" por ID.',
 
   gql: {
-    name: 'calendario-letivoFindOneById',
+    name: 'calendarioLetivoFindOneById',
 
     inputDtoType: () => CalendarioLetivoFindOneByIdInputDto,
     inputDtoValidationContract: CalendarioLetivoFindOneByIdInputValidationContract,
