@@ -1,10 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { pick } from 'lodash';
+import { map, pick } from 'lodash';
+import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
+import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { AmbienteEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/ambiente.entity';
+import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { BlocoService, IBlocoQueryBuilderViewOptions } from '../bloco/bloco.service';
 
@@ -55,7 +58,7 @@ export class AmbienteService {
 
   //
 
-  async ambienteFindAll(clientAccess: IClientAccess): Promise<Dtos.IAmbienteFindOneResultDto[]> {
+  async ambienteFindAll(clientAccess: IClientAccess, dto?: Dtos.ISearchInputDto): Promise<Dtos.IAmbienteFindAllResultDto> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
@@ -63,6 +66,66 @@ export class AmbienteService {
     // =========================================================
 
     await clientAccess.applyFilter('ambiente:find', qb, aliasAmbiente, null);
+
+    // =========================================================
+
+    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+      ...paginateConfig,
+      select: [
+        //
+        'id',
+        //
+        'nome',
+        'descricao',
+        'codigo',
+        'capacidade',
+        'tipo',
+        'dateCreated',
+        //
+        'bloco.id',
+        'bloco.campus.id',
+      ],
+      relations: {
+        bloco: {
+          campus: true,
+        },
+      },
+      sortableColumns: [
+        //
+        'nome',
+        'descricao',
+        'codigo',
+        'capacidade',
+        'tipo',
+        //
+        'dateCreated',
+        //
+        'bloco.id',
+        'bloco.campus.id',
+      ],
+      searchableColumns: [
+        //
+        'id',
+        //
+        'nome',
+        'descricao',
+        'codigo',
+        'capacidade',
+        'tipo',
+        //
+      ],
+      defaultSortBy: [
+        ['bloco.campus.id', 'ASC'],
+        ['bloco.id', 'ASC'],
+        ['codigo', 'ASC'],
+        ['nome', 'ASC'],
+        ['dateCreated', 'ASC'],
+      ],
+      filterableColumns: {
+        'bloco.id': [FilterOperator.EQ],
+        'bloco.campus.id': [FilterOperator.EQ],
+      },
+    });
 
     // =========================================================
 
@@ -74,15 +137,11 @@ export class AmbienteService {
 
     // =========================================================
 
-    qb.orderBy(`${aliasAmbiente}.dateCreated`, 'ASC');
+    paginated.data = await qb.andWhereInIds(map(paginated.data, 'id')).getMany();
 
     // =========================================================
 
-    const ambientes = await qb.getMany();
-
-    // =========================================================
-
-    return ambientes;
+    return paginated;
   }
 
   async ambienteFindById(clientAccess: IClientAccess, dto: Dtos.IAmbienteFindOneByIdInputDto): Promise<Dtos.IAmbienteFindOneResultDto | null> {

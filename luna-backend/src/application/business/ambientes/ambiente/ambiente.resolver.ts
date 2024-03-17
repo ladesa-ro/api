@@ -16,8 +16,8 @@ export class AmbienteResolver {
   //
 
   @DtoOperationGqlQuery(AmbienteOperations.AMBIENTE_FIND_ALL)
-  async ambienteFindAll(@ClientAccessGraphQl() clientAccess: IClientAccess) {
-    return this.ambienteService.ambienteFindAll(clientAccess);
+  async ambienteFindAll(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(AmbienteOperations.AMBIENTE_FIND_ALL) dto: Dto.ISearchInputDto) {
+    return this.ambienteService.ambienteFindAll(clientAccess, dto);
   }
 
   //
