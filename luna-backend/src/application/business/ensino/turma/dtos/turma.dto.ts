@@ -5,7 +5,7 @@ import {
   CommonPropertyUuid,
   DtoProperty,
   ObjectUuidDto,
-  ValidationContractObjectUuid,
+  ValidationContractObjectUuidBase,
   ValidationContractString,
   ValidationContractUuid,
   createDtoPropertyMap,
@@ -19,17 +19,14 @@ import { CursoDto, CursoFindOneResultDto } from '../../curso/dtos';
 export const TurmaDtoValidationContract = createValidationContract(() => {
   return yup.object({
     id: ValidationContractUuid(),
-
+    //
+    periodo: ValidationContractString().required().nonNullable(),
+    grupo: ValidationContractString().required().nonNullable(),
+    nome: ValidationContractString().required().nonNullable(),
     //
 
-    periodo: ValidationContractString().required().nonNullable(), // turma
-    grupo: ValidationContractString().required().nonNullable(), // turma
-    nome: ValidationContractString().required().nonNullable(), // turma
-
-    ambientePadraoAula: ValidationContractObjectUuid({ required: false }).defined().nullable(), // turma
-    curso: ValidationContractObjectUuid({ required: true }).defined().required(), // turma
-
-    //
+    ambientePadraoAula: ValidationContractObjectUuidBase({ required: false, optional: false }),
+    curso: ValidationContractObjectUuidBase({ required: true, optional: false }),
   });
 });
 

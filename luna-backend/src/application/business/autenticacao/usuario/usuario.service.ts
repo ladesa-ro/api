@@ -41,6 +41,23 @@ export class UsuarioService {
       `${alias}.matriculaSiape`,
       `${alias}.email`,
     ]);
+
+    qb.leftJoinAndMapMany(`${alias}.vinculosAtivos`, `${alias}.vinculos`, `${alias}_vinculo`, `${alias}_vinculo.ativo = TRUE`);
+    qb.expressionMap.selects.splice(qb.expressionMap.selects.length - 1, 1);
+
+    qb.leftJoin(`${alias}_vinculo.campus`, `${alias}_vinculo_campus`);
+
+    qb.addSelect([
+      //
+      `${alias}_vinculo.id`,
+      `${alias}_vinculo.ativo`,
+      `${alias}_vinculo.cargo`,
+      //
+      `${alias}_vinculo_campus.id`,
+      `${alias}_vinculo_campus.apelido`,
+      `${alias}_vinculo_campus.nomeFantasia`,
+      `${alias}_vinculo_campus.razaoSocial`,
+    ]);
   }
 
   //

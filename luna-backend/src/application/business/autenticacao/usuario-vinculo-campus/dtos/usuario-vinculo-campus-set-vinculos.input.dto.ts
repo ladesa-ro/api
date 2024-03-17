@@ -1,7 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
-import { DtoProperty, createDtoPropertyMap, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { DtoProperty, ValidationContractObjectUuidBase, createDtoPropertyMap, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { UsuarioVinculoCampusDtoProperties, UsuarioVinculoCampusDtoValidationContract } from './usuario-vinculo-campus.dto';
 
 // ======================================================
@@ -11,8 +11,9 @@ export const UsuarioVinculoCampusSetVinculosInputValidationContract = createVali
 
   return yup.object().shape({
     cargos: yup.array(getSchemaField(schema, 'cargo')).defined().nonNullable(),
-    campus: getSchemaField(schema, 'campus'),
-    usuario: getSchemaField(schema, 'usuario'),
+    //
+    usuario: ValidationContractObjectUuidBase({ required: true, optional: false }),
+    campus: ValidationContractObjectUuidBase({ required: true, optional: false }),
   });
 });
 

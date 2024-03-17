@@ -5,7 +5,7 @@ import {
   CommonPropertyUuid,
   DtoProperty,
   ObjectUuidDto,
-  ValidationContractObjectUuid,
+  ValidationContractObjectUuidBase,
   ValidationContractString,
   ValidationContractUuid,
   createDtoPropertyMap,
@@ -21,18 +21,15 @@ export const ReservaDtoValidationContract = createValidationContract(() => {
     id: ValidationContractUuid(),
 
     //
-
     situacao: ValidationContractString().required().nonNullable(),
     motivo: ValidationContractString().required().nonNullable(),
     tipo: ValidationContractString().required().nonNullable(),
-
+    // TODO: validar Date | number | timetstamp
     dataInicio: yup.mixed(),
     dataTermino: yup.mixed(),
-
-    ambiente: ValidationContractObjectUuid({ required: true }).defined().required(),
-    usuario: ValidationContractObjectUuid({ required: true }).defined().required(),
-
     //
+    ambiente: ValidationContractObjectUuidBase({ required: true, optional: false }),
+    usuario: ValidationContractObjectUuidBase({ required: true, optional: false }),
   });
 });
 
