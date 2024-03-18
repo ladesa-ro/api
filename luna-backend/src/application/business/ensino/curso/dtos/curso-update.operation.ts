@@ -4,7 +4,7 @@ import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities
 import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
 import * as yup from 'yup';
 import { ICursoUpdateDto } from '../../../(spec)';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CursoFindOneByIdInputValidationContract, CursoFindOneResultDto } from './curso-find-one.operation';
 import { CursoInputDtoValidationContract } from './curso-input.operation';
 import { CursoDto, CursoDtoProperties } from './curso.dto';
@@ -12,13 +12,18 @@ import { CursoDto, CursoDtoProperties } from './curso.dto';
 // ======================================================
 
 export const CursoUpdateInputDtoValidationContract = createValidationContract(() => {
+  const schema = CursoInputDtoValidationContract().partial();
+
   return (
     yup
       //
       .object()
       .concat(CursoFindOneByIdInputValidationContract())
-      .concat(CursoInputDtoValidationContract().partial().omit([]))
-      .shape({})
+      .concat(schema.pick(['nome', 'nomeAbreviado']))
+      .shape({
+        campus: ValidationContractObjectUuidBase({ required: true, optional: true }),
+        modalidade: ValidationContractObjectUuidBase({ required: true, optional: true }),
+      })
   );
 });
 

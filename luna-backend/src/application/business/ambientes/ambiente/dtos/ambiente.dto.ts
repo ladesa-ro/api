@@ -6,7 +6,7 @@ import {
   DtoProperty,
   ObjectUuidDto,
   ValidationContractNumber,
-  ValidationContractObjectUuid,
+  ValidationContractObjectUuidBase,
   ValidationContractString,
   ValidationContractUuid,
   createDtoPropertyMap,
@@ -21,18 +21,14 @@ export const AmbienteDtoValidationContract = createValidationContract(() => {
     id: ValidationContractUuid(),
 
     //
-
     nome: ValidationContractString().required().nonNullable().min(1),
     descricao: ValidationContractString().required().nonNullable().min(1),
-
     codigo: ValidationContractString().required().nonNullable().min(1),
     capacidade: ValidationContractNumber().integer().moreThan(0).nullable(),
-
     tipo: ValidationContractString().nullable(),
-
     //
 
-    bloco: ValidationContractObjectUuid({ required: true }).defined().required(),
+    bloco: ValidationContractObjectUuidBase({ required: true, optional: false }),
   });
 });
 

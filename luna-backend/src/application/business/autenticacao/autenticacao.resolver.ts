@@ -32,6 +32,17 @@ export class AutenticacaoResolver {
 
   //
 
+  @DtoOperationGqlMutation(AutenticacaoOperations.AUTENTICACAO_REFRESH)
+  async autenticacaoRefresh(
+    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @GqlDtoInput(AutenticacaoOperations.AUTENTICACAO_REFRESH)
+    dto: Dto.IAutenticacaoRefreshInputDto,
+  ) {
+    return this.autenticacaoService.refresh(clientAccess, dto);
+  }
+
+  //
+
   @DtoOperationGqlMutation(AutenticacaoOperations.AUTENTICACAO_DEFINIR_SENHA)
   async autenticacaoDefinirSenha(
     @ClientAccessGraphQl() clientAccess: IClientAccess,

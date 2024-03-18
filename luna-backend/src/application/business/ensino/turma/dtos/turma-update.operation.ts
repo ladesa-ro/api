@@ -3,7 +3,7 @@ import { OmitType } from '@nestjs/swagger';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import { ITurmaUpdateDto } from '../../../(spec)';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { TurmaFindOneByIdInputValidationContract, TurmaFindOneResultDto } from './turma-find-one.operation';
 import { TurmaInputDtoValidationContract } from './turma-input.operation';
 import { TurmaDto, TurmaDtoProperties } from './turma.dto';
@@ -11,13 +11,18 @@ import { TurmaDto, TurmaDtoProperties } from './turma.dto';
 // ======================================================
 
 export const TurmaUpdateInputDtoValidationContract = createValidationContract(() => {
+  const schema = TurmaInputDtoValidationContract();
+
   return (
     yup
       //
       .object()
       .concat(TurmaFindOneByIdInputValidationContract())
-      .concat(TurmaInputDtoValidationContract().partial().omit([]))
-      .shape({})
+      .concat(schema.pick(['nome', 'periodo', 'grupo']))
+      .shape({
+        ambientePadraoAula: ValidationContractObjectUuidBase({ required: false, optional: true }),
+        curso: ValidationContractObjectUuidBase({ required: true, optional: true }),
+      })
   );
 });
 

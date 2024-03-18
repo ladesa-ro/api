@@ -23,6 +23,12 @@ export class AutenticacaoController {
     return this.autenticacaoService.login(clientAccess, dto);
   }
 
+  @Post('/login/refresh')
+  @DtoOperationCreate(AutenticacaoOperations.AUTENTICACAO_REFRESH)
+  refresh(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(AutenticacaoOperations.AUTENTICACAO_REFRESH) dto: Dto.IAutenticacaoRefreshInputDto) {
+    return this.autenticacaoService.refresh(clientAccess, dto);
+  }
+
   @Post('/definir-senha')
   @DtoOperationCreate(AutenticacaoOperations.AUTENTICACAO_DEFINIR_SENHA)
   definirSenha(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(AutenticacaoOperations.AUTENTICACAO_DEFINIR_SENHA) dto: Dto.IAutenticacaoDefinirSenhaInputDto) {

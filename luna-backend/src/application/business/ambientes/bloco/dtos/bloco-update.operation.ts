@@ -2,7 +2,7 @@ import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as yup from 'yup';
 import { IBlocoUpdateDto } from '../../../(spec)';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { BlocoFindOneByIdInputValidationContract, BlocoFindOneResultDto } from './bloco-find-one.operation';
 import { BlocoInputDtoValidationContract } from './bloco-input.dto';
 import { BlocoDto, BlocoDtoProperties } from './bloco.dto';
@@ -10,12 +10,14 @@ import { BlocoDto, BlocoDtoProperties } from './bloco.dto';
 // ======================================================
 
 export const BlocoUpdateInputDtoValidationContract = createValidationContract(() => {
+  const schema = BlocoInputDtoValidationContract();
+
   return yup
     .object()
     .concat(BlocoFindOneByIdInputValidationContract())
-    .concat(BlocoInputDtoValidationContract().partial().omit(['campus']))
+    .concat(schema.pick(['nome', 'codigo']))
     .shape({
-      campus: yup.mixed().strip().optional().nullable(),
+      campus: ValidationContractObjectUuidBase({ required: true, optional: true }),
     });
 });
 

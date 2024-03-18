@@ -1,7 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import { IAmbienteInputDto, IObjectUuid } from '../../../(spec)';
-import { DtoProperty, ValidationContractObjectUuid, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { AmbienteDtoProperties, AmbienteDtoValidationContract } from './ambiente.dto';
 
 // ======================================================
@@ -13,11 +13,8 @@ export const AmbienteInputDtoValidationContract = createValidationContract(() =>
     nome: getSchemaField(schema, 'nome'),
     descricao: getSchemaField(schema, 'descricao'),
     codigo: getSchemaField(schema, 'codigo'),
-
     capacidade: getSchemaField(schema, 'capacidade'),
     tipo: getSchemaField(schema, 'tipo'),
-
-    bloco: ValidationContractObjectUuid({ required: true }).defined().required(),
   });
 });
 

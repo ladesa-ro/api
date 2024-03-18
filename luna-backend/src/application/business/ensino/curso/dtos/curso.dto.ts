@@ -8,7 +8,7 @@ import {
   CommonPropertyUuid,
   DtoProperty,
   ObjectUuidDto,
-  ValidationContractObjectUuid,
+  ValidationContractObjectUuidBase,
   ValidationContractString,
   ValidationContractUuid,
   createDtoPropertyMap,
@@ -23,14 +23,12 @@ export const CursoDtoValidationContract = createValidationContract(() => {
     id: ValidationContractUuid(),
 
     //
-
     nome: ValidationContractString().required().nonNullable(),
     nomeAbreviado: ValidationContractString().required().nonNullable(),
-
-    campus: ValidationContractObjectUuid({ required: true }).defined().required(),
-    modalidade: ValidationContractObjectUuid({ required: true }).defined().required(),
-
     //
+
+    campus: ValidationContractObjectUuidBase({ required: true, optional: false }),
+    modalidade: ValidationContractObjectUuidBase({ required: true, optional: false }),
   });
 });
 

@@ -5,7 +5,7 @@ import {
   CommonPropertyUuid,
   DtoProperty,
   ObjectUuidDto,
-  ValidationContractObjectUuid,
+  ValidationContractObjectUuidBase,
   ValidationContractString,
   ValidationContractUuid,
   createDtoPropertyMap,
@@ -20,13 +20,11 @@ export const BlocoDtoValidationContract = createValidationContract(() => {
     id: ValidationContractUuid(),
 
     //
-
     nome: ValidationContractString().required().nonNullable(),
     codigo: ValidationContractString().required().nonNullable(),
-
     //
 
-    campus: ValidationContractObjectUuid({ required: true }).defined().required(),
+    campus: ValidationContractObjectUuidBase({ required: true, optional: false }),
   });
 });
 

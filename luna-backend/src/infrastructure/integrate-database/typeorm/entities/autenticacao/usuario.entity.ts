@@ -36,4 +36,8 @@ export class UsuarioEntity implements IUsuarioModel {
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
   dateDeleted!: null | IEntityDate;
+
+  //
+
+  vinculosAtivos!: UsuarioVinculoCampusEntity[];
 }

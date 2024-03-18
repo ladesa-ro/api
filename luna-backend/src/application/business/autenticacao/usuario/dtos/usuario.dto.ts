@@ -59,6 +59,8 @@ export const UsuarioDtoProperties = createDtoPropertyMap({
       type: 'string',
     },
   },
+
+  //
 });
 
 // ======================================================

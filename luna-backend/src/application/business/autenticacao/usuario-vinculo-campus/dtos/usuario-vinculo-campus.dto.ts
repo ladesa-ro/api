@@ -2,7 +2,15 @@ import { ObjectType } from '@nestjs/graphql';
 import { CampusDto, CampusFindOneResultDto } from 'application/business/ambientes/campus/dtos';
 import * as yup from 'yup';
 import { ICampusModel, IEntityDate, IUsuarioModel, IUsuarioVinculoCampusModel } from '../../../(spec)';
-import { CommonPropertyUuid, DtoProperty, ObjectUuidDto, ValidationContractObjectUuid, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
+import {
+  CommonPropertyUuid,
+  DtoProperty,
+  ObjectUuidDto,
+  ValidationContractObjectUuidBase,
+  ValidationContractUuid,
+  createDtoPropertyMap,
+  createValidationContract,
+} from '../../../../../infrastructure';
 import { UsuarioDto, UsuarioFindOneResultDto } from '../../usuario/dtos';
 
 // ======================================================
@@ -10,16 +18,12 @@ import { UsuarioDto, UsuarioFindOneResultDto } from '../../usuario/dtos';
 export const UsuarioVinculoCampusDtoValidationContract = createValidationContract(() => {
   return yup.object({
     id: ValidationContractUuid(),
-
     //
-
     ativo: yup.bool(),
     cargo: yup.string().oneOf(['dape', 'professor']).required().nonNullable(),
-
     //
-
-    usuario: ValidationContractObjectUuid({ required: true }).defined().required(),
-    campus: ValidationContractObjectUuid({ required: true }).defined().required(),
+    usuario: ValidationContractObjectUuidBase({ required: true, optional: false }),
+    campus: ValidationContractObjectUuidBase({ required: true, optional: false }),
   });
 });
 

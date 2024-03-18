@@ -29,11 +29,13 @@ export class CreateTableReserva1710183953950 implements MigrationInterface {
             type: 'text',
             isNullable: true,
           },
+
           {
             name: 'tipo',
             type: 'text',
-            isNullable: false,
+            isNullable: true,
           },
+
           {
             name: 'data_inicio',
             type: 'timestamptz',
