@@ -50,6 +50,11 @@ export class CreateTableDiario1710184970531 implements MigrationInterface {
             type: 'uuid',
             isNullable: true,
           },
+          {
+            name: 'id_imagem_capa_fk',
+            type: 'uuid',
+            isNullable: true,
+          },
           //
           {
             name: 'date_created',
@@ -88,6 +93,14 @@ export class CreateTableDiario1710184970531 implements MigrationInterface {
             columnNames: ['id_ambiente_padrao_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'ambiente',
+          },
+          {
+            name: `fk__${tableName}__possui__imagem_capa`,
+            columnNames: ['id_imagem_capa_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'imagem',
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
           },
         ],
       }),
