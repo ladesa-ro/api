@@ -187,8 +187,6 @@ export class EnvironmentConfigService implements IConfig {
   getTypeOrmMigrationDataSourceOptions(): DataSourceOptions {
     const options = {
       ...this.getTypeOrmSharedDataSourceOptions(),
-      dropSchema: true,
-      syncronize: true,
       migrations: [`${this.getTypeOrmPathMigrations()}/**/*{.ts,.js}`],
       migrationsTableName: 'app_migration_db',
     };
