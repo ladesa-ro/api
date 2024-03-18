@@ -15,7 +15,7 @@ export const AmbienteUpdateInputDtoValidationContract = createValidationContract
   return yup
     .object()
     .concat(AmbienteFindOneByIdInputValidationContract())
-    .concat(schema.pick(['nome', 'descricao', 'codigo', 'capacidade', 'tipo']))
+    .concat(schema.pick(['nome', 'descricao', 'codigo', 'capacidade', 'tipo']).partial())
     .shape({
       bloco: ValidationContractObjectUuidBase({ required: true, optional: true }),
     });

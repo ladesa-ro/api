@@ -1,6 +1,6 @@
 import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from 'infrastructure';
 import * as yup from 'yup';
-import { CursoFindOneByIdInputValidationContract, CursoFindOneResultDto } from './curso-find-one.operation';
+import { CursoFindOneResultDto } from './curso-find-one.operation';
 import { CursoInputDto, CursoInputDtoValidationContract } from './curso-input.operation';
 import { CursoDto } from './curso.dto';
 
@@ -13,7 +13,6 @@ export const CursoCreateInputDtoValidationContract = createValidationContract(()
     yup
       //
       .object()
-      .concat(CursoFindOneByIdInputValidationContract())
       .concat(schema.pick(['nome', 'nomeAbreviado']))
       .shape({
         campus: ValidationContractObjectUuidBase({ required: true, optional: false }).defined(),

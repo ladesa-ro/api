@@ -18,10 +18,10 @@ export const TurmaUpdateInputDtoValidationContract = createValidationContract(()
       //
       .object()
       .concat(TurmaFindOneByIdInputValidationContract())
-      .concat(schema.pick(['nome', 'periodo', 'grupo']))
+      .concat(schema.pick(['nome', 'periodo', 'grupo']).partial())
       .shape({
-        ambientePadraoAula: ValidationContractObjectUuidBase({ required: false, optional: true }),
         curso: ValidationContractObjectUuidBase({ required: true, optional: true }),
+        ambientePadraoAula: ValidationContractObjectUuidBase({ required: false, optional: true }),
       })
   );
 });

@@ -2,6 +2,7 @@ import { ObjectType } from '@nestjs/graphql';
 import * as Dto from '../../../(spec)';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
 import { ModalidadeDto } from './modalidade.dto';
+import { ModalidadeFindOneResultDto } from './modalidade-find-one.operation';
 
 // ======================================================
 
@@ -14,7 +15,7 @@ export class ModalidadeFindAllResultDto extends PaginatedResultDto<Dto.IModalida
       type: () => [ModalidadeDto],
     },
     swagger: {
-      type: [ModalidadeFindAllResultDto],
+      type: [ModalidadeFindOneResultDto],
     },
   })
   data!: Dto.IModalidadeFindOneResultDto[];

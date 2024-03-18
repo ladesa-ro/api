@@ -15,7 +15,7 @@ export const BlocoUpdateInputDtoValidationContract = createValidationContract(()
   return yup
     .object()
     .concat(BlocoFindOneByIdInputValidationContract())
-    .concat(schema.pick(['nome', 'codigo']))
+    .concat(schema.pick(['nome', 'codigo']).partial())
     .shape({
       campus: ValidationContractObjectUuidBase({ required: true, optional: true }),
     });

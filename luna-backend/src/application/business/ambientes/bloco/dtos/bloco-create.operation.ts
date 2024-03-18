@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
-import { BlocoFindOneByIdInputValidationContract, BlocoFindOneResultDto } from './bloco-find-one.operation';
+import { BlocoFindOneResultDto } from './bloco-find-one.operation';
 import { BlocoInputDto, BlocoInputDtoValidationContract } from './bloco-input.dto';
 import { BlocoDto } from './bloco.dto';
 
@@ -11,7 +11,6 @@ export const BlocoCreateInputDtoValidationContract = createValidationContract(()
 
   return yup
     .object()
-    .concat(BlocoFindOneByIdInputValidationContract())
     .concat(schema.pick(['nome', 'codigo']))
     .shape({
       campus: ValidationContractObjectUuidBase({ required: true, optional: false }),

@@ -10,7 +10,14 @@ import { DisciplinaDto, DisciplinaDtoProperties } from './disciplina.dto';
 // ======================================================
 
 export const DisciplinaUpdateInputDtoValidationContract = createValidationContract(() => {
-  return yup.object().concat(DisciplinaFindOneByIdInputValidationContract()).concat(DisciplinaInputDtoValidationContract().partial().omit([])).shape({});
+  return (
+    yup
+      //
+      .object()
+      .concat(DisciplinaFindOneByIdInputValidationContract())
+      .concat(DisciplinaInputDtoValidationContract().partial())
+      .shape({})
+  );
 });
 
 // ======================================================

@@ -19,7 +19,7 @@ export const CursoUpdateInputDtoValidationContract = createValidationContract(()
       //
       .object()
       .concat(CursoFindOneByIdInputValidationContract())
-      .concat(schema.pick(['nome', 'nomeAbreviado']))
+      .concat(schema.pick(['nome', 'nomeAbreviado']).partial())
       .shape({
         campus: ValidationContractObjectUuidBase({ required: true, optional: true }),
         modalidade: ValidationContractObjectUuidBase({ required: true, optional: true }),

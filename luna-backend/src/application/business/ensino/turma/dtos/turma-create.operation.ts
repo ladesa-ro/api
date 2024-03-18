@@ -1,6 +1,6 @@
 import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from 'infrastructure';
 import * as yup from 'yup';
-import { TurmaFindOneByIdInputValidationContract, TurmaFindOneResultDto } from './turma-find-one.operation';
+import { TurmaFindOneResultDto } from './turma-find-one.operation';
 import { TurmaInputDto, TurmaInputDtoValidationContract } from './turma-input.operation';
 import { TurmaDto } from './turma.dto';
 
@@ -13,7 +13,6 @@ export const TurmaCreateInputDtoValidationContract = createValidationContract(()
     yup
       //
       .object()
-      .concat(TurmaFindOneByIdInputValidationContract())
       .concat(schema.pick(['nome', 'periodo', 'grupo']))
       .shape({
         ambientePadraoAula: ValidationContractObjectUuidBase({ required: false, optional: false }),
