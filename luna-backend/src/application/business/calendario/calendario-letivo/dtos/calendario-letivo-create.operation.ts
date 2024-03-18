@@ -1,11 +1,11 @@
-// // ======================================================
+// ======================================================
 
-// import { createDtoOperationOptions } from "infrastructure";
+import { createDtoOperationOptions } from "infrastructure";
 
-// export const CALENDARIO_LETIVO_CREATE = createDtoOperationOptions({
-//     description: 'Realiza o cadastro "calendario-letivo".',
-//     gql:{
-//         name:'calendario_letivoCreate',
+export const CALENDARIO_LETIVO_CREATE = createDtoOperationOptions({
+    description: 'Realiza o cadastro "calendario-letivo".',
+    gql:{
+        name:'calendario_letivoCreate',
         
-//     }
-// }) 
+    }
+}) 
