@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { map, pick } from 'lodash';
-import { paginate } from 'nestjs-paginate';
+import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
@@ -21,7 +21,7 @@ export type IDiarioQueryBuilderViewOptions = {};
 
 @Injectable()
 export class DiarioService {
-  constructor(private databaseContext: DatabaseContextService) {}
+  constructor(private databaseContext: DatabaseContextService) { }
 
   get diarioRepository() {
     return this.databaseContext.diarioRepository;
@@ -30,7 +30,7 @@ export class DiarioService {
   //
 
   static DiarioQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, _: IDiarioQueryBuilderViewOptions = {}) {
-    qb.addSelect([`${alias}.id`, `${alias}.situacao`, `${alias}.ano`, `${alias}.etapa`, `${alias}.turma`, `${alias}.disciplina`, `${alias}.ambientePadrao`]);
+    qb.addSelect([`${alias}.id`, `${alias}.situacao`, `${alias}.ano`, `${alias}.etapa`]);
   }
 
   //
@@ -55,9 +55,9 @@ export class DiarioService {
         'situacao',
         'ano',
         'etapa',
-        'turma',
-        'disciplina',
-        'ambientePadrao',
+        'turma.id',
+        'disciplina.id',
+        'ambientePadrao.id',
         //
       ],
       sortableColumns: [
@@ -65,9 +65,9 @@ export class DiarioService {
         'situacao',
         'ano',
         'etapa',
-        'turma',
-        'disciplina',
-        'ambientePadrao',
+        'turma.nome',
+        'disciplina.nome',
+        'ambientePadrao.nome',
       ],
       searchableColumns: [
         //
@@ -76,13 +76,18 @@ export class DiarioService {
         'situacao',
         'ano',
         'etapa',
-        'turma',
-        'disciplina',
-        'ambientePadrao',
+        'turma.periodo',
+        'turma.grupo',
+        'turma.nome',
+        'disciplina.nome',
         //
       ],
       defaultSortBy: [],
-      filterableColumns: {},
+      filterableColumns: {
+        'turma.id': [FilterOperator.EQ],
+        'disciplina.id': [FilterOperator.EQ],
+        'ambientePadrao.id': [FilterOperator.EQ],
+      },
     });
 
     // =========================================================

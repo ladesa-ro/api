@@ -43,6 +43,7 @@ export const DIARIO_FIND_ALL = createDtoOperationOptions({
       'limit',
       'search',
       'sortBy',
+      'filter'
       //
     ],
   },

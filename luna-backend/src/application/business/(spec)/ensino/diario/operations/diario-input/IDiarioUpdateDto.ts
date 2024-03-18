@@ -1,3 +1,4 @@
+import { IObjectUuid } from 'application/business/(spec)/(core)';
 import { IAmbienteModel } from 'application/business/(spec)/ambientes';
 import { IDisciplinaModel } from '../../../disciplina';
 import { ITurmaModel } from '../../../turma';
@@ -19,13 +20,13 @@ export interface IDiarioUpdateDto extends IDiarioFindOneByIdInputDto, Partial<Om
   etapa?: string | null;
 
   // turma que o diario pertence
-  turma?: ITurmaModel;
+  turma?: IObjectUuid;
 
   // disciplina a qual o diario pertence
-  disciplina?: IDisciplinaModel;
+  disciplina?: IObjectUuid;
 
   // Ambiente Padrao do diario
-  ambientePadrao?: IAmbienteModel | null;
+  ambientePadrao?: IObjectUuid | null;
 
   //
 }

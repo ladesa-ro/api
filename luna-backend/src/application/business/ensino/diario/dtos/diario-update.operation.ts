@@ -5,7 +5,7 @@ import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createV
 import { DiarioFindOneByIdInputValidationContract, DiarioFindOneResultDto } from './diario-find-one.operation';
 import { DiarioInputDtoValidationContract } from './diario-input.operation';
 import { DiarioDto, DiarioDtoProperties } from './diario.dto';
-import { IDiarioUpdateDto } from '../../../(spec)';
+import { IDiarioUpdateDto, IObjectUuid } from '../../../(spec)';
 import { TurmaEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/turma.entity';
 import { DisciplinaEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/disciplina.entity';
 import { AmbienteEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/ambiente.entity';
@@ -38,10 +38,10 @@ export class DiarioUpdateInputDto implements IDiarioUpdateDto {
   turma?: TurmaEntity;
 
   @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA_INPUT, { required: false })
-  disciplina?: DisciplinaEntity;
+  disciplina?: IObjectUuid;
 
   @DtoProperty(DiarioDtoProperties.DIARIO_AMBIENTE_PADRAO_INPUT, { required: false })
-  ambientePadrao?: AmbienteEntity | null;
+  ambientePadrao?: IObjectUuid | null;
 
   //
 }

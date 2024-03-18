@@ -4,6 +4,7 @@ import { DisciplinaEntity } from 'infrastructure/integrate-database/typeorm/enti
 import { TurmaEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/turma.entity';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
+import { IAmbienteModel, IDisciplinaModel } from '../../../(spec)';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { DiarioDto, DiarioDtoProperties, DiarioDtoValidationContract } from './diario.dto';
 
@@ -29,10 +30,10 @@ export class DiarioFindOneResultDto implements Dto.IDiarioFindOneResultDto {
   turma!: TurmaEntity;
 
   @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA_OUTPUT)
-  disciplina!: DisciplinaEntity;
+  disciplina!: IDisciplinaModel;
 
   @DtoProperty(DiarioDtoProperties.DIARIO_AMBIENTE_PADRAO_OUTPUT)
-  ambientePadrao!: AmbienteEntity | null;
+  ambientePadrao!: IAmbienteModel | null;
 
   //
 }
