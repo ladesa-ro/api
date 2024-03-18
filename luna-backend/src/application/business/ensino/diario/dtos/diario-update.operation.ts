@@ -1,25 +1,35 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import * as Dto from '../../../(spec)';
+import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { DiarioFindOneByIdInputValidationContract, DiarioFindOneResultDto } from './diario-find-one.operation';
 import { DiarioInputDtoValidationContract } from './diario-input.operation';
 import { DiarioDto, DiarioDtoProperties } from './diario.dto';
-import { IDiarioUpdateDto, IObjectUuid } from '../../../(spec)';
-import { TurmaEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/turma.entity';
-import { DisciplinaEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/disciplina.entity';
-import { AmbienteEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/ambiente.entity';
 
 // ======================================================
 
 export const DiarioUpdateInputDtoValidationContract = createValidationContract(() => {
-  return yup.object().concat(DiarioFindOneByIdInputValidationContract()).concat(DiarioInputDtoValidationContract().partial().omit([])).shape({});
+  const schema = DiarioInputDtoValidationContract();
+
+  return (
+    yup
+      //
+      .object()
+      .concat(DiarioFindOneByIdInputValidationContract())
+      .concat(schema.pick(['situacao', 'ano', 'etapa']).partial())
+      .shape({
+        turma: ValidationContractObjectUuidBase({ required: true, optional: true }),
+        disciplina: ValidationContractObjectUuidBase({ required: true, optional: true }),
+        ambientePadrao: ValidationContractObjectUuidBase({ required: false, optional: true }),
+      })
+  );
 });
 
 // ======================================================
 
 @InputType('DiarioUpdateInputDto')
-export class DiarioUpdateInputDto implements IDiarioUpdateDto {
+export class DiarioUpdateInputDto implements Dto.IDiarioUpdateDto {
   @DtoProperty(DiarioDtoProperties.DIARIO_ID)
   id!: string;
 
@@ -34,19 +44,19 @@ export class DiarioUpdateInputDto implements IDiarioUpdateDto {
   @DtoProperty(DiarioDtoProperties.DIARIO_ETAPA, { required: false })
   etapa?: string | null;
 
-  @DtoProperty(DiarioDtoProperties.DIARIO_TURMA, { required: false })
-  turma?: TurmaEntity;
+  @DtoProperty(DiarioDtoProperties.DIARIO_TURMA_INPUT, { required: false })
+  turma?: Dto.IObjectUuid;
 
   @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA_INPUT, { required: false })
-  disciplina?: IObjectUuid;
+  disciplina?: Dto.IObjectUuid;
 
   @DtoProperty(DiarioDtoProperties.DIARIO_AMBIENTE_PADRAO_INPUT, { required: false })
-  ambientePadrao?: IObjectUuid | null;
+  ambientePadrao?: Dto.IObjectUuid | null;
 
   //
 }
 
-export class DiarioUpdateWithoutIdInputDto extends OmitType(DiarioUpdateInputDto, ['id'] as const) { }
+export class DiarioUpdateWithoutIdInputDto extends OmitType(DiarioUpdateInputDto, ['id'] as const) {}
 export const DIARIO_UPDATE = createDtoOperationOptions({
   description: 'Realiza a alteração de "diario".',
 

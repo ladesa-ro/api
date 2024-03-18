@@ -2,6 +2,7 @@ import { ObjectType } from '@nestjs/graphql';
 import * as Dto from '../../../(spec)';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
 import { TurmaDto } from './turma.dto';
+import { TurmaFindOneResultDto } from './turma-find-one.operation';
 
 // ======================================================
 
@@ -14,7 +15,7 @@ export class TurmaFindAllResultDto extends PaginatedResultDto<Dto.ITurmaFindOneR
       type: () => [TurmaDto],
     },
     swagger: {
-      type: [TurmaFindAllResultDto],
+      type: [TurmaFindOneResultDto],
     },
   })
   data!: Dto.ITurmaFindOneResultDto[];

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { map, pick } from 'lodash';
+import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
@@ -8,6 +8,10 @@ import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { DiarioEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/diario.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
+import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambientes/ambiente/ambiente.service';
+import { DisciplinaService, IDisciplinaQueryBuilderViewOptions } from '../disciplina/disciplina.service';
+import { ITurmaQueryBuilderViewOptions, TurmaService } from '../turma/turma.service';
 
 // ============================================================================
 
@@ -15,13 +19,22 @@ const aliasDiario = 'diario';
 
 // ============================================================================
 
-export type IDiarioQueryBuilderViewOptions = {};
+export type IDiarioQueryBuilderViewOptions = {
+  loadTurma?: IQueryBuilderViewOptionsLoad<ITurmaQueryBuilderViewOptions>;
+  loadDisciplina?: IQueryBuilderViewOptionsLoad<IDisciplinaQueryBuilderViewOptions>;
+  loadAmbientePadrao?: IQueryBuilderViewOptionsLoad<IAmbienteQueryBuilderViewOptions>;
+};
 
 // ============================================================================
 
 @Injectable()
 export class DiarioService {
-  constructor(private databaseContext: DatabaseContextService) { }
+  constructor(
+    private databaseContext: DatabaseContextService,
+    private turmaService: TurmaService,
+    private disciplinaService: DisciplinaService,
+    private ambienteService: AmbienteService,
+  ) {}
 
   get diarioRepository() {
     return this.databaseContext.diarioRepository;
@@ -29,8 +42,29 @@ export class DiarioService {
 
   //
 
-  static DiarioQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, _: IDiarioQueryBuilderViewOptions = {}) {
+  static DiarioQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IDiarioQueryBuilderViewOptions = {}) {
     qb.addSelect([`${alias}.id`, `${alias}.situacao`, `${alias}.ano`, `${alias}.etapa`]);
+
+    const loadAmbientePadrao = getQueryBuilderViewLoadMeta(options.loadAmbientePadrao, true, `${alias}_ambientePadrao`);
+
+    if (loadAmbientePadrao) {
+      qb.leftJoin(`${alias}.ambientePadrao`, `${loadAmbientePadrao.alias}`);
+      AmbienteService.AmbienteQueryBuilderView(loadAmbientePadrao.alias, qb, loadAmbientePadrao.options);
+    }
+
+    const loadDisciplina = getQueryBuilderViewLoadMeta(options.loadDisciplina, true, `${alias}_disciplina`);
+
+    if (loadDisciplina) {
+      qb.leftJoin(`${alias}.disciplina`, `${loadDisciplina.alias}`);
+      DisciplinaService.DisciplinaQueryBuilderView(loadDisciplina.alias, qb, loadDisciplina.options);
+    }
+
+    const loadTurma = getQueryBuilderViewLoadMeta(options.loadTurma, true, `${alias}_turma`);
+
+    if (loadTurma) {
+      qb.leftJoin(`${alias}.turma`, `${loadTurma.alias}`);
+      TurmaService.TurmaQueryBuilderView(loadTurma.alias, qb, loadTurma.options);
+    }
   }
 
   //
@@ -55,9 +89,15 @@ export class DiarioService {
         'situacao',
         'ano',
         'etapa',
+        //
         'turma.id',
+        'turma.nome',
+        'turma.grupo',
+        'turma.periodo',
         'disciplina.id',
+        'disciplina.nome',
         'ambientePadrao.id',
+        'ambientePadrao.nome',
         //
       ],
       sortableColumns: [
@@ -65,10 +105,16 @@ export class DiarioService {
         'situacao',
         'ano',
         'etapa',
+        //
         'turma.nome',
         'disciplina.nome',
         'ambientePadrao.nome',
       ],
+      relations: {
+        turma: true,
+        disciplina: true,
+        ambientePadrao: true,
+      },
       searchableColumns: [
         //
         'id',
@@ -201,12 +247,48 @@ export class DiarioService {
 
     // =========================================================
 
-    const dtoDiario = pick(dto, ['situacao', 'ano', 'etapa', 'turma', 'disciplina', 'ambientePadrao']);
+    const dtoDiario = pick(dto, ['situacao', 'ano', 'etapa']);
 
     const diario = this.diarioRepository.create();
 
     this.diarioRepository.merge(diario, {
       ...dtoDiario,
+    });
+
+    // =========================================================
+
+    if (dto.ambientePadrao !== null) {
+      const ambientePadrao = await this.ambienteService.ambienteFindByIdStrict(clientAccess, { id: dto.ambientePadrao.id });
+
+      this.diarioRepository.merge(diario, {
+        ambientePadrao: {
+          id: ambientePadrao.id,
+        },
+      });
+    } else {
+      this.diarioRepository.merge(diario, {
+        ambientePadrao: null,
+      });
+    }
+
+    // =========================================================
+
+    const disciplina = await this.disciplinaService.disciplinaFindByIdSimpleStrict(clientAccess, dto.disciplina.id);
+
+    this.diarioRepository.merge(diario, {
+      disciplina: {
+        id: disciplina.id,
+      },
+    });
+
+    // =========================================================
+
+    const turma = await this.turmaService.turmaFindByIdSimpleStrict(clientAccess, dto.turma.id);
+
+    this.diarioRepository.merge(diario, {
+      turma: {
+        id: turma.id,
+      },
     });
 
     // =========================================================
@@ -238,6 +320,48 @@ export class DiarioService {
     this.diarioRepository.merge(diario, {
       ...dtoDiario,
     });
+
+    // =========================================================
+
+    if (has(dto, 'ambientePadrao') && dto.ambientePadrao !== undefined) {
+      if (dto.ambientePadrao !== null) {
+        const ambientePadrao = await this.ambienteService.ambienteFindByIdStrict(clientAccess, { id: dto.ambientePadrao.id });
+
+        this.diarioRepository.merge(diario, {
+          ambientePadrao: {
+            id: ambientePadrao.id,
+          },
+        });
+      } else {
+        this.diarioRepository.merge(diario, {
+          ambientePadrao: null,
+        });
+      }
+    }
+
+    // =========================================================
+
+    if (has(dto, 'disciplina') && dto.disciplina !== undefined) {
+      const disciplina = await this.disciplinaService.disciplinaFindByIdSimpleStrict(clientAccess, dto.disciplina.id);
+
+      this.diarioRepository.merge(diario, {
+        disciplina: {
+          id: disciplina.id,
+        },
+      });
+    }
+
+    // =========================================================
+
+    if (has(dto, 'turma') && dto.turma !== undefined) {
+      const turma = await this.turmaService.turmaFindByIdSimpleStrict(clientAccess, dto.turma.id);
+
+      this.diarioRepository.merge(diario, {
+        turma: {
+          id: turma.id,
+        },
+      });
+    }
 
     // =========================================================
 

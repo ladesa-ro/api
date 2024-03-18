@@ -2,7 +2,7 @@
 
 import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from 'infrastructure';
 import * as yup from 'yup';
-import { ReservaFindOneByIdInputValidationContract, ReservaFindOneResultDto } from './reserva-find-one.operation';
+import { ReservaFindOneResultDto } from './reserva-find-one.operation';
 import { ReservaInputDto, ReservaInputDtoValidationContract } from './reserva-input.operation';
 import { ReservaDto } from './reserva.dto';
 
@@ -13,7 +13,6 @@ export const ReservaCreateInputDtoValidationContract = createValidationContract(
 
   return yup
     .object()
-    .concat(ReservaFindOneByIdInputValidationContract())
     .concat(schema.pick(['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino']))
     .shape({
       ambiente: ValidationContractObjectUuidBase({ required: true, optional: false }),

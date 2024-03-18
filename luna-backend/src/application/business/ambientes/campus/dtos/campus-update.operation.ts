@@ -10,7 +10,13 @@ import { CampusDto, CampusDtoProperties } from './campus.dto';
 // ======================================================
 
 export const CampusUpdateInputDtoValidationContract = createValidationContract(() => {
-  return yup.object().concat(CampusFindOneByIdInputValidationContract()).concat(CampusInputDtoValidationContract());
+  return (
+    yup
+      //
+      .object()
+      .concat(CampusFindOneByIdInputValidationContract())
+      .concat(CampusInputDtoValidationContract().partial())
+  );
 });
 
 // ======================================================

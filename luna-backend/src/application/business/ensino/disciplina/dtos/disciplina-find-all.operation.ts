@@ -2,6 +2,7 @@ import { ObjectType } from '@nestjs/graphql';
 import * as Dto from '../../../(spec)';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
 import { DisciplinaDto } from './disciplina.dto';
+import { DisciplinaFindOneResultDto } from './disciplina-find-one.operation';
 
 // ======================================================
 
@@ -14,7 +15,7 @@ export class DisciplinaFindAllResultDto extends PaginatedResultDto<Dto.IDiscipli
       type: () => [DisciplinaDto],
     },
     swagger: {
-      type: [DisciplinaFindAllResultDto],
+      type: [DisciplinaFindOneResultDto],
     },
   })
   data!: Dto.IDisciplinaFindOneResultDto[];

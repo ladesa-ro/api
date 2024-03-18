@@ -396,6 +396,64 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
 
   // ========================================================
 
+  get diarioFind(): Authz.IAuthzStatementDiarioFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'diario:find',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get diarioCreate(): Authz.IAuthzStatementDiarioCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'diario:create',
+
+      withCheck: (context) => {
+        if (AuthzPolicySuperUser.shouldApply(context)) {
+          return true;
+        }
+        return false;
+      },
+    });
+  }
+
+  get diarioUpdate(): Authz.IAuthzStatementDiarioUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'diario:update',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get diarioDelete(): Authz.IAuthzStatementDiarioDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'diario:delete',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  // ========================================================
+
   get ambienteFind(): Authz.IAuthzStatementAmbienteFind {
     return createStatement({
       kind: 'filter',

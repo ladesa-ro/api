@@ -1,9 +1,8 @@
-import { Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { IAmbienteModel, IDisciplinaModel, IEntityDate, ITurmaModel } from 'application/business/(spec)';
-import { PrimaryGeneratedColumn } from 'typeorm';
-import { Column } from 'typeorm';
+import { IEntityDate } from 'application/business/(spec)';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { AmbienteEntity } from '../ambientes/ambiente.entity';
+import { DisciplinaEntity } from './disciplina.entity';
 import { TurmaEntity } from './turma.entity';
-import { DisciplinaEntity } from "./disciplina.entity"
 
 @Entity('diario')
 export class DiarioEntity {
@@ -23,14 +22,15 @@ export class DiarioEntity {
 
   @ManyToOne(() => TurmaEntity)
   @JoinColumn({ name: 'id_turma_fk' })
-  turma!: ITurmaModel;
+  turma!: TurmaEntity;
 
   @ManyToOne(() => DisciplinaEntity)
   @JoinColumn({ name: 'id_disciplina_fk' })
-  disciplina!: IDisciplinaModel;
+  disciplina!: DisciplinaEntity;
 
+  @ManyToOne(() => AmbienteEntity)
   @JoinColumn({ name: 'id_ambiente_padrao_fk' })
-  ambientePadrao!: IAmbienteModel | null;
+  ambientePadrao!: AmbienteEntity | null;
 
   //
 

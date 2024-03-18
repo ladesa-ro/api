@@ -10,7 +10,14 @@ import { UsuarioDtoProperties } from './usuario.dto';
 // ======================================================
 
 export const UsuarioUpdateInputDtoValidationContract = createValidationContract(() => {
-  return yup.object().concat(UsuarioFindOneByIdInputValidationContract()).concat(UsuarioInputDtoValidationContract().partial()).shape({});
+  return (
+    yup
+      //
+      .object()
+      .concat(UsuarioFindOneByIdInputValidationContract())
+      .concat(UsuarioInputDtoValidationContract().partial())
+      .shape({})
+  );
 });
 
 // ======================================================

@@ -33,6 +33,7 @@ function setupSwaggerConfig(configService: IConfig | null = null) {
   config.addTag('Cursos', 'Ensino / Cursos');
   config.addTag('Disciplinas', 'Ensino / Disciplinas');
   config.addTag('Turmas', 'Ensino / Turmas');
+  config.addTag('Diarios', 'Ensino / Diarios');
 
   const servers = configService?.getSwaggerServers();
 

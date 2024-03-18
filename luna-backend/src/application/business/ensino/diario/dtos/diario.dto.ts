@@ -1,8 +1,5 @@
 import { Int, ObjectType } from '@nestjs/graphql';
 import { AmbienteDto, AmbienteFindOneResultDto } from 'application/business/ambientes/ambiente/dtos';
-import { AmbienteEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/ambiente.entity';
-import { DisciplinaEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/disciplina.entity';
-import { TurmaEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/turma.entity';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import { IAmbienteModel, IDisciplinaModel, ITurmaModel } from '../../../(spec)';
@@ -10,11 +7,12 @@ import {
   CommonPropertyUuid,
   DtoProperty,
   ObjectUuidDto,
+  ValidationContractNumber,
+  ValidationContractObjectUuidBase,
   ValidationContractString,
   ValidationContractUuid,
   createDtoPropertyMap,
   createValidationContract,
-  ValidationContractNumber,
 } from '../../../../../infrastructure';
 import { DisciplinaDto, DisciplinaFindOneResultDto } from '../../disciplina/dtos';
 import { TurmaDto, TurmaFindOneResultDto } from '../../turma/dtos';
@@ -26,19 +24,13 @@ export const DiarioDtoValidationContract = createValidationContract(() => {
     id: ValidationContractUuid(),
 
     //
-
     situacao: ValidationContractString().required().defined(), // diario
-
     ano: ValidationContractNumber().integer().positive().required(), // diario
-
     etapa: ValidationContractString().required().defined(), // diario
-
-    turma: yup.mixed(), // diario
-
-    disciplina: yup.mixed(), // diario
-
-    ambientePadrao: yup.mixed(), // diario
-
+    //
+    turma: ValidationContractObjectUuidBase({ required: true, optional: false }),
+    disciplina: ValidationContractObjectUuidBase({ required: true, optional: false }),
+    ambientePadrao: ValidationContractObjectUuidBase({ required: false, optional: false }),
     //
   });
 });
@@ -83,9 +75,10 @@ export const DiarioDtoProperties = createDtoPropertyMap({
       type: 'string',
     },
   },
-  DIARIO_TURMA: {
+
+  DIARIO_TURMA_OUTPUT: {
     nullable: false,
-    description: 'turma que o diario pertence',
+    description: 'Turma que o diario pertence',
     //
     gql: {
       type: () => TurmaDto,
@@ -95,7 +88,20 @@ export const DiarioDtoProperties = createDtoPropertyMap({
     },
   },
 
+  DIARIO_TURMA_INPUT: {
+    nullable: false,
+    description: 'Turma que o diario pertence',
+    //
+    gql: {
+      type: () => ObjectUuidDto,
+    },
+    swagger: {
+      type: ObjectUuidDto,
+    },
+  },
+
   // =======================
+
   DIARIO_DISCIPLINA_OUTPUT: {
     nullable: false,
     description: 'disciplina a qual o diario pertence',
@@ -107,7 +113,6 @@ export const DiarioDtoProperties = createDtoPropertyMap({
       type: DisciplinaFindOneResultDto,
     },
   },
-
 
   // =======================
   DIARIO_DISCIPLINA_INPUT: {
@@ -122,7 +127,6 @@ export const DiarioDtoProperties = createDtoPropertyMap({
     },
   },
 
-
   // =======================
   DIARIO_AMBIENTE_PADRAO_INPUT: {
     nullable: true,
@@ -135,7 +139,6 @@ export const DiarioDtoProperties = createDtoPropertyMap({
       type: ObjectUuidDto,
     },
   },
-
 
   // =======================
   DIARIO_AMBIENTE_PADRAO_OUTPUT: {
@@ -170,7 +173,7 @@ export class DiarioDto implements Dto.IDiarioModel {
   @DtoProperty(DiarioDtoProperties.DIARIO_ETAPA)
   etapa!: string | null;
 
-  @DtoProperty(DiarioDtoProperties.DIARIO_TURMA)
+  @DtoProperty(DiarioDtoProperties.DIARIO_TURMA_OUTPUT)
   turma!: ITurmaModel;
 
   @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA_OUTPUT)

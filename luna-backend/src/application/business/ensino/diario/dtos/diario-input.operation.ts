@@ -1,5 +1,4 @@
 import { InputType } from '@nestjs/graphql';
-import { TurmaEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/turma.entity';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import { IObjectUuid } from '../../../(spec)';
@@ -13,19 +12,9 @@ export const DiarioInputDtoValidationContract = createValidationContract(() => {
 
   return yup.object().shape({
     //
-
     situacao: getSchemaField(schema, 'situacao'),
-
     ano: getSchemaField(schema, 'ano'),
-
     etapa: getSchemaField(schema, 'etapa'),
-
-    turma: getSchemaField(schema, 'turma'),
-
-    disciplina: getSchemaField(schema, 'disciplina'),
-
-    ambientePadrao: getSchemaField(schema, 'ambientePadrao'),
-
     //
   });
 });
@@ -45,8 +34,8 @@ export class DiarioInputDto implements Dto.IDiarioInputDto {
   @DtoProperty(DiarioDtoProperties.DIARIO_ETAPA)
   etapa!: string | null;
 
-  @DtoProperty(DiarioDtoProperties.DIARIO_TURMA)
-  turma!: TurmaEntity;
+  @DtoProperty(DiarioDtoProperties.DIARIO_TURMA_INPUT)
+  turma!: IObjectUuid;
 
   @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA_INPUT)
   disciplina!: IObjectUuid;

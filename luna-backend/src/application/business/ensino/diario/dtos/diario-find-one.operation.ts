@@ -1,7 +1,4 @@
 import { InputType, ObjectType } from '@nestjs/graphql';
-import { AmbienteEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/ambiente.entity';
-import { DisciplinaEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/disciplina.entity';
-import { TurmaEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/turma.entity';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import { IAmbienteModel, IDisciplinaModel } from '../../../(spec)';
@@ -26,8 +23,8 @@ export class DiarioFindOneResultDto implements Dto.IDiarioFindOneResultDto {
   @DtoProperty(DiarioDtoProperties.DIARIO_ETAPA)
   etapa!: string | null;
 
-  @DtoProperty(DiarioDtoProperties.DIARIO_TURMA)
-  turma!: TurmaEntity;
+  @DtoProperty(DiarioDtoProperties.DIARIO_TURMA_OUTPUT)
+  turma!: Dto.ITurmaModel;
 
   @DtoProperty(DiarioDtoProperties.DIARIO_DISCIPLINA_OUTPUT)
   disciplina!: IDisciplinaModel;
@@ -55,7 +52,7 @@ export class DiarioFindOneByIdInputDto implements Dto.IDiarioFindOneByIdInputDto
 }
 
 export const DIARIO_FIND_ONE_BY_ID = createDtoOperationOptions({
-  description: 'Realiza a consulta a "diario"" por ID.',
+  description: 'Realiza a consulta a um diario por ID.',
 
   gql: {
     name: 'diarioFindOneById',

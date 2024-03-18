@@ -94,7 +94,7 @@ export class DatabaseContextCore {
   get turmaRepository() {
     return repositories.createTurmaRepository(this.ds);
   }
-  
+
   get diarioRepository() {
     return repositories.createDiarioRepository(this.ds);
   }

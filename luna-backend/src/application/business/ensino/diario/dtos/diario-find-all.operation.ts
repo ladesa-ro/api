@@ -1,6 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as Dto from '../../../(spec)';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
+import { DiarioFindOneResultDto } from './diario-find-one.operation';
 import { DiarioDto } from './diario.dto';
 
 // ======================================================
@@ -14,7 +15,7 @@ export class DiarioFindAllResultDto extends PaginatedResultDto<Dto.IDiarioFindOn
       type: () => [DiarioDto],
     },
     swagger: {
-      type: [DiarioFindAllResultDto],
+      type: [DiarioFindOneResultDto],
     },
   })
   data!: Dto.IDiarioFindOneResultDto[];
@@ -43,7 +44,10 @@ export const DIARIO_FIND_ALL = createDtoOperationOptions({
       'limit',
       'search',
       'sortBy',
-      'filter'
+      //
+      'filter.turma.id',
+      'filter.disciplina.id',
+      'filter.ambientePadrao.id',
       //
     ],
   },

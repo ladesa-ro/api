@@ -15,7 +15,7 @@ export const ModalidadeUpdateInputDtoValidationContract = createValidationContra
       //
       .object()
       .concat(ModalidadeFindOneByIdInputValidationContract())
-      .concat(ModalidadeInputDtoValidationContract().partial().omit([]))
+      .concat(ModalidadeInputDtoValidationContract().partial())
       .shape({})
   );
 });
