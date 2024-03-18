@@ -177,6 +177,8 @@ export class EnvironmentConfigService implements IConfig {
   getTypeOrmAppDataSourceOptions(): DataSourceOptions {
     const options = {
       ...this.getTypeOrmSharedDataSourceOptions(),
+      dropSchema: true,
+      syncronize: true,
       entities: [`${this.getTypeOrmPathEntities()}/**/*{.ts,.js}`],
       subscribers: [`${this.getTypeOrmPathSubscribers()}/**/*{.ts,.js}`],
     };
