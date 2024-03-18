@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 const tableName = 'usuario';
 
-export class CreateUsuario1710183412777 implements MigrationInterface {
+export class CreateTableUsuario1710183412777 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -44,6 +44,12 @@ export class CreateUsuario1710183412777 implements MigrationInterface {
             isNullable: true,
           },
 
+          {
+            name: 'id_imagem_capa_fk',
+            type: 'uuid',
+            isNullable: true,
+          },
+
           //
 
           {
@@ -72,6 +78,25 @@ export class CreateUsuario1710183412777 implements MigrationInterface {
             name: 'date_deleted',
             type: 'timestamptz',
             isNullable: true,
+          },
+        ],
+
+        foreignKeys: [
+          {
+            name: `fk__${tableName}__possui__imagem_perfil`,
+            columnNames: ['id_imagem_perfil_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'imagem',
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
+          },
+          {
+            name: `fk__${tableName}__possui__imagem_capa`,
+            columnNames: ['id_imagem_capa_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'imagem',
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
           },
         ],
       }),

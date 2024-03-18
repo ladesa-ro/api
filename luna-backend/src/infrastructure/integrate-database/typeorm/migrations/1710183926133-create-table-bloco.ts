@@ -1,10 +1,11 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
+const tableName = 'bloco';
 export class CreateTableBloco1710183926133 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'bloco',
+        name: tableName,
 
         columns: [
           {
@@ -36,6 +37,12 @@ export class CreateTableBloco1710183926133 implements MigrationInterface {
             isNullable: false,
           },
 
+          {
+            name: 'id_imagem_capa_fk',
+            type: 'uuid',
+            isNullable: true,
+          },
+
           //
 
           {
@@ -59,10 +66,19 @@ export class CreateTableBloco1710183926133 implements MigrationInterface {
 
         foreignKeys: [
           {
-            name: 'fk__bloco__pertence_a__campus',
+            name: `fk__${tableName}__pertence_a__campus`,
             columnNames: ['id_campus_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'campus',
+          },
+
+          {
+            name: `fk__${tableName}__possui__imagem_capa`,
+            columnNames: ['id_imagem_capa_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'imagem',
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
           },
         ],
       }),

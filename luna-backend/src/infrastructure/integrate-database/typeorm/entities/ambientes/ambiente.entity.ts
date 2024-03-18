@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { IAmbienteModel, IBlocoModel, IEntityDate } from '../../../../../application/business/(spec)';
+import { IAmbienteModel, IEntityDate } from '../../../../../application/business/(spec)';
+import { ImagemEntity } from '../base/imagem.entity';
 import { BlocoEntity } from './bloco.entity';
 
 @Entity('ambiente')
@@ -28,7 +29,11 @@ export class AmbienteEntity implements IAmbienteModel {
 
   @ManyToOne(() => BlocoEntity)
   @JoinColumn({ name: 'id_bloco_fk' })
-  bloco!: IBlocoModel;
+  bloco!: BlocoEntity;
+
+  @ManyToOne(() => ImagemEntity)
+  @JoinColumn({ name: 'id_imagem_capa_fk' })
+  imagemCapa!: ImagemEntity | null;
 
   //
 

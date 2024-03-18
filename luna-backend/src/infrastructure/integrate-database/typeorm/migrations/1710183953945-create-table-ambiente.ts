@@ -55,6 +55,12 @@ export class CreateTableAmbiente1710183953945 implements MigrationInterface {
             type: 'uuid',
           },
 
+          {
+            name: 'id_imagem_capa_fk',
+            type: 'uuid',
+            isNullable: true,
+          },
+
           //
 
           {
@@ -82,6 +88,15 @@ export class CreateTableAmbiente1710183953945 implements MigrationInterface {
             columnNames: ['id_bloco_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'bloco',
+          },
+
+          {
+            name: `fk__${tableName}__possui__imagem_capa`,
+            columnNames: ['id_imagem_capa_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'imagem',
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
           },
         ],
       }),

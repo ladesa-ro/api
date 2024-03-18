@@ -1,6 +1,7 @@
 import { IEntityDate } from 'application/business/(spec)';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
+import { ImagemEntity } from '../base/imagem.entity';
 import { ModalidadeEntity } from './ensino/modalidade.entity';
 
 @Entity('curso')
@@ -23,6 +24,10 @@ export class CursoEntity {
   @ManyToOne(() => ModalidadeEntity)
   @JoinColumn({ name: 'id_modalidade_fk' })
   modalidade!: ModalidadeEntity;
+
+  @ManyToOne(() => ImagemEntity)
+  @JoinColumn({ name: 'id_imagem_capa_fk' })
+  imagemCapa!: ImagemEntity | null;
 
   //
 

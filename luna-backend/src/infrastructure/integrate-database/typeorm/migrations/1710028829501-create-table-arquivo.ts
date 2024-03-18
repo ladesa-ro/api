@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-const tableName = 'imagem';
+const tableName = 'arquivo';
 
-export class CreateImagem1710029021977 implements MigrationInterface {
+export class CreateTableArquivo1710028829501 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -19,8 +19,32 @@ export class CreateImagem1710029021977 implements MigrationInterface {
           //
 
           {
-            name: 'descricao',
+            name: 'nome',
             type: 'text',
+            isNullable: true,
+          },
+
+          {
+            name: 'mime_type',
+            type: 'text',
+            isNullable: true,
+          },
+
+          {
+            name: 'size_bytes',
+            type: 'int',
+            isNullable: true,
+          },
+
+          {
+            name: 'storage_type',
+            type: 'text',
+            isNullable: true,
+          },
+
+          {
+            name: 'storage_database_data',
+            type: 'bytea',
             isNullable: true,
           },
 

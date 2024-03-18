@@ -1,6 +1,7 @@
 import { IEntityDate } from 'application/business/(spec)';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { AmbienteEntity } from '../ambientes/ambiente.entity';
+import { ImagemEntity } from '../base/imagem.entity';
 import { CursoEntity } from './curso.entity';
 
 @Entity('turma')
@@ -19,6 +20,8 @@ export class TurmaEntity {
   @Column({ name: 'nome', type: 'text', nullable: false })
   nome!: string;
 
+  //
+
   @ManyToOne(() => AmbienteEntity)
   @JoinColumn({ name: 'id_ambiente_padrao_aula_fk' })
   ambientePadraoAula!: AmbienteEntity | null;
@@ -26,6 +29,10 @@ export class TurmaEntity {
   @ManyToOne(() => CursoEntity)
   @JoinColumn({ name: 'id_curso_fk' })
   curso!: CursoEntity;
+
+  @ManyToOne(() => ImagemEntity)
+  @JoinColumn({ name: 'id_imagem_capa_fk' })
+  imagemCapa!: ImagemEntity | null;
 
   //
 
