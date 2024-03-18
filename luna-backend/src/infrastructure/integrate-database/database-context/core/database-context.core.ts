@@ -96,5 +96,13 @@ export class DatabaseContextCore {
     return repositories.createTurmaRepository(this.ds);
   }
 
+// =====================================================
+  // == [ Calendario ] =======================================
+  // =====================================================
+
+  get calendarioLetivoRepository() {
+    return repositories.createCalendarioLetivoRepository(this.ds);
+  }
+
   // =====================================================
 }

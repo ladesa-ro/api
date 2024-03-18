@@ -81,6 +81,15 @@ export type IAuthzStatementReservaDelete = IBaseAuthzFilter<'reserva:delete', { 
 
 export type IAuthzStatementReservaFind = IBaseAuthzFilter<'reserva:find'>;
 
+
+export type IAuthzStatementCalendarioLetivoCreate = IBaseAuthzCheck<'calendarioLetivo:create', { dto: Dto.ICalendarioLetivoCreateDto }>;
+
+export type IAuthzStatementCalendarioLetivoUpdate = IBaseAuthzFilter<'calendarioLetivo:update', { dto: Dto.ICalendarioLetivoUpdateDto }>;
+
+export type IAuthzStatementCalendarioLetivoDelete = IBaseAuthzFilter<'calendarioLetivo:delete', { dto: Dto.ICalendarioLetivoDeleteOneByIdInputDto }>;
+
+export type IAuthzStatementCalendarioLetivoFind = IBaseAuthzFilter<'calendarioLetivo:find'>;
+
 // ===================================================================================
 
 export type IAuthzStatementCheck =
@@ -92,6 +101,7 @@ export type IAuthzStatementCheck =
   | IAuthzStatementCursoCreate
   | IAuthzStatementDisciplinaCreate
   | IAuthzStatementTurmaCreate
+  | IAuthzStatementCalendarioLetivoCreate
   | IAuthzStatementReservaCreate;
 
 // =====================
@@ -132,7 +142,10 @@ export type IAuthzStatementFind =
   | IAuthzStatementTurmaFind
   | IAuthzStatementReservaUpdate
   | IAuthzStatementReservaDelete
-  | IAuthzStatementReservaFind;
+  | IAuthzStatementReservaFind
+  | IAuthzStatementCalendarioLetivoDelete
+  | IAuthzStatementCalendarioLetivoFind
+  | IAuthzStatementCalendarioLetivoUpdate;
 
 // =====================
 

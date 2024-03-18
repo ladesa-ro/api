@@ -6,4 +6,6 @@ export const createCalendarioLetivoRepository = createRepositoryFactory((ds) => 
 
 }));
 
+
+
 export type CalendarioLetivoRepository = IRepositoryFactoryOutput<typeof createCalendarioLetivoRepository>;
