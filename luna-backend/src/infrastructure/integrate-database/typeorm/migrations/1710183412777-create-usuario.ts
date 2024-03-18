@@ -36,6 +36,16 @@ export class CreateUsuario1710183412777 implements MigrationInterface {
             isNullable: true,
           },
 
+          //
+
+          {
+            name: 'id_imagem_perfil_fk',
+            type: 'uuid',
+            isNullable: true,
+          },
+
+          //
+
           {
             name: 'is_super_user',
             type: 'boolean',

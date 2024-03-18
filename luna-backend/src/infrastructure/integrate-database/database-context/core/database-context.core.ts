@@ -43,6 +43,24 @@ export class DatabaseContextCore {
     return repositories.createUsuarioVinculoCampusRepository(this.ds).extend({});
   }
 
+  //
+
+  // =====================================================
+  // == [ BASE ] =========================================
+  // =====================================================
+
+  get arquivoRepository() {
+    return repositories.createArquivoRepository(this.ds);
+  }
+
+  get imagemRepository() {
+    return repositories.createImagemRepository(this.ds);
+  }
+
+  get imagemArquivoRepository() {
+    return repositories.createImagemArquivoRepository(this.ds);
+  }
+
   // =====================================================
   // == [ AMBIENTES ] ====================================
   // =====================================================
