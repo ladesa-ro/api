@@ -4,7 +4,7 @@ import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities
 import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
 import * as yup from 'yup';
 import { ICursoUpdateDto } from '../../../(spec)';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaSubpath } from '../../../../../infrastructure';
+import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CursoFindOneByIdInputValidationContract, CursoFindOneResultDto } from './curso-find-one.operation';
 import { CursoInputDtoValidationContract } from './curso-input.operation';
 import { CursoDto, CursoDtoProperties } from './curso.dto';
@@ -13,22 +13,16 @@ import { CursoDto, CursoDtoProperties } from './curso.dto';
 
 export const CursoUpdateInputDtoValidationContract = createValidationContract(() => {
   const schema = CursoInputDtoValidationContract().partial();
+
   return (
     yup
       //
       .object()
       .concat(CursoFindOneByIdInputValidationContract())
-      .concat(schema.omit(['campus', 'modalidade']))
+      .concat(schema.pick(['nome', 'nomeAbreviado']).partial())
       .shape({
-        campus: (getSchemaSubpath(schema, 'campus') as yup.ObjectSchema<any, any>)
-          .nonNullable()
-          .optional()
-          .default(() => undefined),
-
-        modalidade: (getSchemaSubpath(schema, 'modalidade') as yup.ObjectSchema<any, any>)
-          .nonNullable()
-          .optional()
-          .default(() => undefined),
+        campus: ValidationContractObjectUuidBase({ required: true, optional: true }),
+        modalidade: ValidationContractObjectUuidBase({ required: true, optional: true }),
       })
   );
 });

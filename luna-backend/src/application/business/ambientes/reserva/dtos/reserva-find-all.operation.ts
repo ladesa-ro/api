@@ -2,6 +2,7 @@ import { ObjectType } from '@nestjs/graphql';
 import * as Dto from '../../../(spec)';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
 import { ReservaDto } from './reserva.dto';
+import { ReservaFindOneResultDto } from './reserva-find-one.operation';
 
 // ======================================================
 
@@ -14,7 +15,7 @@ export class ReservaFindAllResultDto extends PaginatedResultDto<Dto.IReservaFind
       type: () => [ReservaDto],
     },
     swagger: {
-      type: [ReservaFindAllResultDto],
+      type: [ReservaFindOneResultDto],
     },
   })
   data!: Dto.IReservaFindOneResultDto[];

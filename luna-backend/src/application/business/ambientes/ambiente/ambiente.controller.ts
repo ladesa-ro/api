@@ -1,8 +1,19 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
-import { ClientAccessHttp, DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam } from '../../../../infrastructure';
+import {
+  ClientAccessHttp,
+  DtoOperationCreate,
+  DtoOperationDelete,
+  DtoOperationFindAll,
+  DtoOperationFindOne,
+  DtoOperationUpdate,
+  HttpDtoBody,
+  HttpDtoParam,
+  getSearchInputFromPaginateQuery,
+} from '../../../../infrastructure';
 import { AmbienteService } from './ambiente.service';
 import { AmbienteOperations } from './dtos/ambiente.operations';
 
@@ -15,8 +26,8 @@ export class AmbienteController {
 
   @Get('/')
   @DtoOperationFindAll(AmbienteOperations.AMBIENTE_FIND_ALL)
-  async ambienteFindAll(@ClientAccessHttp() clientAccess: IClientAccess): Promise<Dto.IAmbienteFindOneResultDto[]> {
-    return this.ambienteService.ambienteFindAll(clientAccess);
+  async ambienteFindAll(@ClientAccessHttp() clientAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.IAmbienteFindAllResultDto> {
+    return this.ambienteService.ambienteFindAll(clientAccess, getSearchInputFromPaginateQuery(query));
   }
 
   //

@@ -12,7 +12,6 @@ export const BlocoInputDtoValidationContract = createValidationContract(() => {
   return yup.object().shape({
     nome: getSchemaField(schema, 'nome'),
     codigo: getSchemaField(schema, 'codigo'),
-    campus: getSchemaField(schema, 'campus'),
   });
 });
 

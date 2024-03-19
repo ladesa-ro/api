@@ -41,6 +41,11 @@ export class CreateTableCurso1710184451782 implements MigrationInterface {
             type: 'uuid',
             isNullable: false,
           },
+          {
+            name: 'id_imagem_capa_fk',
+            type: 'uuid',
+            isNullable: true,
+          },
           //
           {
             name: 'date_created',
@@ -73,6 +78,14 @@ export class CreateTableCurso1710184451782 implements MigrationInterface {
             columnNames: ['id_modalidade_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'modalidade',
+          },
+          {
+            name: `fk__${tableName}__possui__imagem_capa`,
+            columnNames: ['id_imagem_capa_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'imagem',
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
           },
         ],
       }),

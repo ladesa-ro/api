@@ -1,7 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
-import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { DtoProperty, ValidationContractObjectUuidBase, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { TurmaDtoProperties, TurmaDtoValidationContract } from './turma.dto';
 
 // ======================================================
@@ -13,14 +13,11 @@ export const TurmaInputDtoValidationContract = createValidationContract(() => {
     //
 
     periodo: getSchemaField(schema, 'periodo'),
-
     grupo: getSchemaField(schema, 'grupo'),
-
     nome: getSchemaField(schema, 'nome'),
 
-    ambientePadraoAula: getSchemaField(schema, 'ambientePadraoAula'),
-
-    curso: getSchemaField(schema, 'curso'),
+    ambientePadraoAula: ValidationContractObjectUuidBase({ required: false }),
+    curso: ValidationContractObjectUuidBase({ required: true }),
 
     //
   });

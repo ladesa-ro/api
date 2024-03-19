@@ -2,7 +2,6 @@ import { DataSource, EntityManager } from 'typeorm';
 import * as repositories from '../../typeorm/repositories';
 
 export class DatabaseContextCore {
-
   constructor(readonly ds: DataSource | EntityManager) {}
 
   //
@@ -42,6 +41,24 @@ export class DatabaseContextCore {
 
   get usuarioVinculoCampusRepository() {
     return repositories.createUsuarioVinculoCampusRepository(this.ds).extend({});
+  }
+
+  //
+
+  // =====================================================
+  // == [ BASE ] =========================================
+  // =====================================================
+
+  get arquivoRepository() {
+    return repositories.createArquivoRepository(this.ds);
+  }
+
+  get imagemRepository() {
+    return repositories.createImagemRepository(this.ds);
+  }
+
+  get imagemArquivoRepository() {
+    return repositories.createImagemArquivoRepository(this.ds);
   }
 
   // =====================================================
@@ -96,13 +113,18 @@ export class DatabaseContextCore {
     return repositories.createTurmaRepository(this.ds);
   }
 
-// =====================================================
+  get diarioRepository() {
+    return repositories.createDiarioRepository(this.ds);
+  }
+  
+  // =====================================================
   // == [ Calendario ] =======================================
   // =====================================================
 
   get calendarioLetivoRepository() {
     return repositories.createCalendarioLetivoRepository(this.ds);
   }
+
 
   // =====================================================
 }

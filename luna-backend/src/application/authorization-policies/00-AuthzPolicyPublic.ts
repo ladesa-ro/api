@@ -332,6 +332,57 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
 
   // ========================================================
 
+  get diarioFind(): Authz.IAuthzStatementDiarioFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'diario:find',
+
+      filter(context, alias) {
+        return (qb) => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get diarioCreate(): Authz.IAuthzStatementDiarioCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'diario:create',
+
+      async withCheck(context) {
+        console.debug('AuthzPolicyPublic -- diario:create', { context });
+        return true;
+      },
+    });
+  }
+
+  get diarioUpdate(): Authz.IAuthzStatementDiarioUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'diario:update',
+      filter() {
+        return (qb, alias = 'diario') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get diarioDelete(): Authz.IAuthzStatementDiarioDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'diario:delete',
+      filter() {
+        return (qb, alias = 'diario') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  // ========================================================
+
   get ambienteFind(): Authz.IAuthzStatementAmbienteFind {
     return createStatement({
       kind: 'filter',
@@ -381,7 +432,6 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
     });
   }
 
-  
   // ========================================================
 
   get reservaFind(): Authz.IAuthzStatementReservaFind {

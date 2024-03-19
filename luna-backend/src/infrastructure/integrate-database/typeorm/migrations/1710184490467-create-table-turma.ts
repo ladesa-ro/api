@@ -47,6 +47,11 @@ export class CreateTableTurma1710184490467 implements MigrationInterface {
             type: 'uuid',
             isNullable: false,
           },
+          {
+            name: 'id_imagem_capa_fk',
+            type: 'uuid',
+            isNullable: true,
+          },
           //
           {
             name: 'date_created',
@@ -79,6 +84,14 @@ export class CreateTableTurma1710184490467 implements MigrationInterface {
             columnNames: ['id_curso_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'curso',
+          },
+          {
+            name: `fk__${tableName}__possui__imagem_capa`,
+            columnNames: ['id_imagem_capa_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'imagem',
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
           },
         ],
       }),

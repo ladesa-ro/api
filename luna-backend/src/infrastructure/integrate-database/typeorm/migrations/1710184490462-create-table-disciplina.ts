@@ -30,6 +30,13 @@ export class CreateTableDisciplina1710184490462 implements MigrationInterface {
             isNullable: false,
           },
           //
+
+          {
+            name: 'id_imagem_capa_fk',
+            type: 'uuid',
+            isNullable: true,
+          },
+          //
           {
             name: 'date_created',
             type: 'timestamptz',
@@ -49,7 +56,16 @@ export class CreateTableDisciplina1710184490462 implements MigrationInterface {
             isNullable: true,
           },
         ],
-        foreignKeys: [],
+        foreignKeys: [
+          {
+            name: `fk__${tableName}__possui__imagem_capa`,
+            columnNames: ['id_imagem_capa_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'imagem',
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
+          },
+        ],
       }),
     );
 

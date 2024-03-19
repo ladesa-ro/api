@@ -128,9 +128,9 @@ export class ReservaService {
         tipo: [FilterOperator.EQ],
         dataInicio: [FilterOperator.EQ, FilterOperator.GT, FilterOperator.GTE, FilterOperator.LT, FilterOperator.LTE],
         dataTermino: [FilterOperator.EQ, FilterOperator.GT, FilterOperator.GTE, FilterOperator.LT, FilterOperator.LTE, FilterOperator.NULL],
-        "ambiente.id": [FilterOperator.EQ],
-        "ambiente.bloco.id": [FilterOperator.EQ],
-        "ambiente.bloco.campus.id": [FilterOperator.EQ],
+        'ambiente.id': [FilterOperator.EQ],
+        'ambiente.bloco.id': [FilterOperator.EQ],
+        'ambiente.bloco.campus.id': [FilterOperator.EQ],
       },
     });
 

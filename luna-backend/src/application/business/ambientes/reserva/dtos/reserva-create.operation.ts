@@ -1,9 +1,26 @@
 // ======================================================
 
-import { createDtoOperationOptions } from 'infrastructure';
+import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from 'infrastructure';
+import * as yup from 'yup';
 import { ReservaFindOneResultDto } from './reserva-find-one.operation';
 import { ReservaInputDto, ReservaInputDtoValidationContract } from './reserva-input.operation';
 import { ReservaDto } from './reserva.dto';
+
+// ======================================================
+
+export const ReservaCreateInputDtoValidationContract = createValidationContract(() => {
+  const schema = ReservaInputDtoValidationContract();
+
+  return yup
+    .object()
+    .concat(schema.pick(['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino']))
+    .shape({
+      ambiente: ValidationContractObjectUuidBase({ required: true, optional: false }),
+      usuario: ValidationContractObjectUuidBase({ required: true, optional: false }),
+    });
+});
+
+// ======================================================
 
 export const RESERVA_CREATE = createDtoOperationOptions({
   description: 'Realiza o cadastro de "reserva".',
@@ -12,14 +29,14 @@ export const RESERVA_CREATE = createDtoOperationOptions({
     name: 'reservaCreate',
 
     inputDtoType: () => ReservaInputDto,
-    inputDtoValidationContract: ReservaInputDtoValidationContract,
+    inputDtoValidationContract: ReservaCreateInputDtoValidationContract,
 
     returnType: () => ReservaDto,
   },
 
   swagger: {
     inputBodyType: ReservaInputDto,
-    inputBodyValidationContract: ReservaInputDtoValidationContract,
+    inputBodyValidationContract: ReservaCreateInputDtoValidationContract,
 
     returnType: ReservaFindOneResultDto,
   },

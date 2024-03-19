@@ -13,11 +13,8 @@ export const AmbienteInputDtoValidationContract = createValidationContract(() =>
     nome: getSchemaField(schema, 'nome'),
     descricao: getSchemaField(schema, 'descricao'),
     codigo: getSchemaField(schema, 'codigo'),
-
     capacidade: getSchemaField(schema, 'capacidade'),
     tipo: getSchemaField(schema, 'tipo'),
-
-    bloco: getSchemaField(schema, 'bloco'),
   });
 });
 

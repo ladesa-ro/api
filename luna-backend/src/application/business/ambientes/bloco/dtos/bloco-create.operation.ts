@@ -1,7 +1,21 @@
-import { createDtoOperationOptions } from '../../../../../infrastructure';
+import * as yup from 'yup';
+import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { BlocoFindOneResultDto } from './bloco-find-one.operation';
 import { BlocoInputDto, BlocoInputDtoValidationContract } from './bloco-input.dto';
 import { BlocoDto } from './bloco.dto';
+
+// ======================================================
+
+export const BlocoCreateInputDtoValidationContract = createValidationContract(() => {
+  const schema = BlocoInputDtoValidationContract();
+
+  return yup
+    .object()
+    .concat(schema.pick(['nome', 'codigo']))
+    .shape({
+      campus: ValidationContractObjectUuidBase({ required: true, optional: false }),
+    });
+});
 
 // ======================================================
 
@@ -12,14 +26,14 @@ export const BLOCO_CREATE = createDtoOperationOptions({
     name: 'blocoCreate',
 
     inputDtoType: () => BlocoInputDto,
-    inputDtoValidationContract: BlocoInputDtoValidationContract,
+    inputDtoValidationContract: BlocoCreateInputDtoValidationContract,
 
     returnType: () => BlocoDto,
   },
 
   swagger: {
     inputBodyType: BlocoInputDto,
-    inputBodyValidationContract: BlocoInputDtoValidationContract,
+    inputBodyValidationContract: BlocoCreateInputDtoValidationContract,
 
     returnType: BlocoFindOneResultDto,
   },

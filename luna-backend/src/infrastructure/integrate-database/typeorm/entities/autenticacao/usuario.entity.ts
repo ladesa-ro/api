@@ -1,5 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IEntityDate, IUsuarioModel } from '../../../../../application/business/(spec)';
+import { ImagemEntity } from '../base/imagem.entity';
 import { UsuarioVinculoCampusEntity } from './usuario-vinculo-campus.entity';
 
 @Entity('usuario')
@@ -23,6 +24,16 @@ export class UsuarioEntity implements IUsuarioModel {
 
   //
 
+  @ManyToOne(() => ImagemEntity)
+  @JoinColumn({ name: 'id_imagem_capa_fk' })
+  imagemCapa!: ImagemEntity | null;
+
+  @ManyToOne(() => ImagemEntity)
+  @JoinColumn({ name: 'id_imagem_perfil_fk' })
+  imagemPerfil!: ImagemEntity | null;
+
+  //
+
   @OneToMany(() => UsuarioVinculoCampusEntity, (vinculo) => vinculo.usuario)
   vinculos!: UsuarioVinculoCampusEntity[];
 
@@ -36,4 +47,8 @@ export class UsuarioEntity implements IUsuarioModel {
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
   dateDeleted!: null | IEntityDate;
+
+  //
+
+  vinculosAtivos!: UsuarioVinculoCampusEntity[];
 }

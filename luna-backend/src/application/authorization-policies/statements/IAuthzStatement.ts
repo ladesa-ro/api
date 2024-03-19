@@ -73,6 +73,14 @@ export type IAuthzStatementTurmaDelete = IBaseAuthzFilter<'turma:delete', { dto:
 
 export type IAuthzStatementTurmaFind = IBaseAuthzFilter<'turma:find'>;
 
+export type IAuthzStatementDiarioCreate = IBaseAuthzCheck<'diario:create', { dto: Dto.IDiarioInputDto }>;
+
+export type IAuthzStatementDiarioUpdate = IBaseAuthzFilter<'diario:update', { dto: Dto.IDiarioUpdateDto }>;
+
+export type IAuthzStatementDiarioDelete = IBaseAuthzFilter<'diario:delete', { dto: Dto.IDiarioDeleteOneByIdInputDto }>;
+
+export type IAuthzStatementDiarioFind = IBaseAuthzFilter<'diario:find'>;
+
 export type IAuthzStatementReservaCreate = IBaseAuthzCheck<'reserva:create', { dto: Dto.IReservaInputDto }>;
 
 export type IAuthzStatementReservaUpdate = IBaseAuthzFilter<'reserva:update', { dto: Dto.IReservaUpdateDto }>;
@@ -102,6 +110,7 @@ export type IAuthzStatementCheck =
   | IAuthzStatementDisciplinaCreate
   | IAuthzStatementTurmaCreate
   | IAuthzStatementCalendarioLetivoCreate
+  | IAuthzStatementDiarioCreate
   | IAuthzStatementReservaCreate;
 
 // =====================
@@ -140,6 +149,9 @@ export type IAuthzStatementFind =
   | IAuthzStatementTurmaUpdate
   | IAuthzStatementTurmaDelete
   | IAuthzStatementTurmaFind
+  | IAuthzStatementDiarioUpdate
+  | IAuthzStatementDiarioDelete
+  | IAuthzStatementDiarioFind
   | IAuthzStatementReservaUpdate
   | IAuthzStatementReservaDelete
   | IAuthzStatementReservaFind
