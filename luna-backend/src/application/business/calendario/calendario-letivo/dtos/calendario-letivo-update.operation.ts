@@ -1,7 +1,6 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
-import { ICalendarioLetivoUpdateDto } from 'application/business/(spec)';
-import * as Dto from 'application/business/(spec)/(core)';
+import * as Dto from 'application/business/(spec)';
 import * as yup from 'yup';
 import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CalendarioLetivoFindOneByIdInputValidationContract, CalendarioLetivoFindOneResultDto } from './calendario-letivo-find-one.operation';
@@ -29,7 +28,7 @@ export const CalendarioLetivoUpdateInputDtoValidationContract = createValidation
 // ======================================================
 
 @InputType('CalendarioLetivoUpdateInputDto')
-export class CalendarioLetivoUpdateInputDto implements ICalendarioLetivoUpdateDto {
+export class CalendarioLetivoUpdateInputDto implements Dto.ICalendarioLetivoUpdateDto {
   @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_ID)
   id!: string;
 
