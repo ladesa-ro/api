@@ -1,7 +1,7 @@
 import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from 'infrastructure';
 import * as yup from 'yup';
 import { CalendarioLetivoFindOneByIdInputValidationContract, CalendarioLetivoFindOneResultDto } from './calendario-letivo-find-one.operation';
-import { CalendarioLetivoInputDtoValidationContract } from './calendario-letivo-input.operation';
+import { CalendarioLetivoInputDto, CalendarioLetivoInputDtoValidationContract } from './calendario-letivo-input.operation';
 import { CalendarioLetivoDto } from './calendario-letivo.dto';
 
 export const CalendarioLetivoCreateInputDtoValidationContract = createValidationContract(() => {
@@ -26,13 +26,13 @@ export const CALENDARIO_LETIVO_CREATE = createDtoOperationOptions({
   gql: {
     name: 'calendarioLetivoCreate',
 
-    inputDtoType: () => CalendarioLetivoDto,
+    inputDtoType: () => CalendarioLetivoInputDto,
     inputDtoValidationContract: CalendarioLetivoCreateInputDtoValidationContract,
 
     returnType: () => CalendarioLetivoDto,
   },
   swagger: {
-    inputBodyType: CalendarioLetivoDto,
+    inputBodyType: CalendarioLetivoInputDto,
     inputBodyValidationContract: CalendarioLetivoCreateInputDtoValidationContract,
 
     returnType: CalendarioLetivoFindOneResultDto,
