@@ -35,7 +35,7 @@ export const CursoDtoValidationContract = createValidationContract(() => {
 // ======================================================
 
 export const CursoDtoProperties = createDtoPropertyMap({
-  CURSO_ID: CommonPropertyUuid('ID da Curso'),
+  CURSO_ID: CommonPropertyUuid('ID do Curso'),
 
   //
 

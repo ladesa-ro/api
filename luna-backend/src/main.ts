@@ -35,6 +35,8 @@ function setupSwaggerConfig(configService: IConfig | null = null) {
   config.addTag('Turmas', 'Ensino / Turmas');
   config.addTag('Diarios', 'Ensino / Diarios');
 
+  config.addTag('Calendarios Letivos', 'Calendario / Calendarios Letivos');
+
   const servers = configService?.getSwaggerServers();
 
   if (servers) {

@@ -118,4 +118,12 @@ export class DatabaseContextCore {
   }
 
   // =====================================================
+  // == [ Calendario ] =======================================
+  // =====================================================
+
+  get calendarioLetivoRepository() {
+    return repositories.createCalendarioLetivoRepository(this.ds);
+  }
+
+  // =====================================================
 }

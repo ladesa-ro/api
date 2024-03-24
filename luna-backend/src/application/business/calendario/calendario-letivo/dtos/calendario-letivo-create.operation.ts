@@ -1,0 +1,40 @@
+import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from 'infrastructure';
+import * as yup from 'yup';
+import { CalendarioLetivoFindOneByIdInputValidationContract, CalendarioLetivoFindOneResultDto } from './calendario-letivo-find-one.operation';
+import { CalendarioLetivoInputDtoValidationContract } from './calendario-letivo-input.operation';
+import { CalendarioLetivoDto } from './calendario-letivo.dto';
+
+export const CalendarioLetivoCreateInputDtoValidationContract = createValidationContract(() => {
+  const schema = CalendarioLetivoInputDtoValidationContract();
+
+  return (
+    yup
+      //
+      .object()
+      .concat(CalendarioLetivoFindOneByIdInputValidationContract())
+      .concat(schema.pick(['nome', 'ano']))
+      .shape({
+        campus: ValidationContractObjectUuidBase({ required: true, optional: false }),
+        modalidade: ValidationContractObjectUuidBase({ required: true, optional: false }),
+      })
+  );
+});
+
+export const CALENDARIO_LETIVO_CREATE = createDtoOperationOptions({
+  description: 'Realiza o cadastro de um calendário letivo.',
+
+  gql: {
+    name: 'calendarioLetivoCreate',
+
+    inputDtoType: () => CalendarioLetivoDto,
+    inputDtoValidationContract: CalendarioLetivoCreateInputDtoValidationContract,
+
+    returnType: () => CalendarioLetivoDto,
+  },
+  swagger: {
+    inputBodyType: CalendarioLetivoDto,
+    inputBodyValidationContract: CalendarioLetivoCreateInputDtoValidationContract,
+
+    returnType: CalendarioLetivoFindOneResultDto,
+  },
+});
