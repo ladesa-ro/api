@@ -1,6 +1,6 @@
-import { ICampusModel, IEntityDate, IModalidadeModel } from 'application/business/(spec)';
+import * as Dto from 'application/business/(spec)';
 
-export interface ICursoModel {
+export interface ICursoModel extends Dto.IObjectUuid, Dto.IDatedObject {
   id: string;
 
   //
@@ -12,14 +12,14 @@ export interface ICursoModel {
   nomeAbreviado: string;
 
   // Campus que o curso pertence
-  campus: ICampusModel;
+  campus: Dto.ICampusModel;
 
   // Modalidade a que o curso pertence
-  modalidade: IModalidadeModel;
+  modalidade: Dto.IModalidadeModel;
 
   //
 
-  dateCreated: IEntityDate;
-  dateUpdated: IEntityDate;
-  dateDeleted: null | IEntityDate;
+  dateCreated: Dto.IEntityDate;
+  dateUpdated: Dto.IEntityDate;
+  dateDeleted: null | Dto.IEntityDate;
 }

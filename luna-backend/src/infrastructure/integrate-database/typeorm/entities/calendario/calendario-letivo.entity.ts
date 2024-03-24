@@ -9,6 +9,8 @@ export class CalendarioLetivoEntity implements ICalendarioLetivoModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
+  //
+
   @Column({ name: 'nome' })
   nome!: string;
 

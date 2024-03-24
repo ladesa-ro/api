@@ -20,9 +20,6 @@ export class ArquivoEntity {
   @Column({ name: 'storage_type', type: 'text', nullable: true })
   storageType!: string | null;
 
-  @Column({ name: 'storage_database_data', type: 'bytea', nullable: true })
-  storageDatabaseData!: Blob | null;
-
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })

@@ -42,12 +42,6 @@ export class CreateTableArquivo1710028829501 implements MigrationInterface {
             isNullable: true,
           },
 
-          {
-            name: 'storage_database_data',
-            type: 'bytea',
-            isNullable: true,
-          },
-
           //
 
           {

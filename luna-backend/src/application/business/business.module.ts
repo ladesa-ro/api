@@ -1,10 +1,18 @@
 import { Module } from '@nestjs/common';
 import { AmbientesModule } from './ambientes/ambientes.module';
 import { AutenticacaoModule } from './autenticacao/autenticacao.module';
-import { EnsinoModule } from './ensino/ensino.module';
+import { BaseModule } from './base/base.module';
 import { CalendarioModule } from './calendario/calendario.module';
+import { EnsinoModule } from './ensino/ensino.module';
 
 @Module({
-  imports: [AutenticacaoModule, AmbientesModule, EnsinoModule, CalendarioModule],
+  imports: [
+    //
+    BaseModule,
+    AutenticacaoModule,
+    AmbientesModule,
+    EnsinoModule,
+    CalendarioModule,
+  ],
 })
 export class BusinessModule {}
