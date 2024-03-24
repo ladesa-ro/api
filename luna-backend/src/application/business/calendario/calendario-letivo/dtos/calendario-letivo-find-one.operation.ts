@@ -1,6 +1,4 @@
 import { InputType, ObjectType } from '@nestjs/graphql';
-import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
-import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
@@ -47,7 +45,7 @@ export class CalendarioLetivoFindOneByIdInputDto implements Dto.ICalendarioLetiv
 }
 
 export const CALENDARIO_LETIVO_FIND_ONE_BY_ID = createDtoOperationOptions({
-  description: 'Realiza a consulta a "calendario letivo" por ID.',
+  description: 'Realiza a consulta a um calendário letivo por ID.',
 
   gql: {
     name: 'calendarioLetivoFindOneById',
@@ -64,7 +62,7 @@ export const CALENDARIO_LETIVO_FIND_ONE_BY_ID = createDtoOperationOptions({
     params: [
       {
         name: 'id',
-        description: 'ID da calendario.',
+        description: 'ID do calendario.',
         validationContract: ValidationContractUuid,
       },
     ],
