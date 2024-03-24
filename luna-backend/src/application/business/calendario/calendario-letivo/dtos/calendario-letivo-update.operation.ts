@@ -17,7 +17,7 @@ export const CalendarioLetivoUpdateInputDtoValidationContract = createValidation
       //
       .object()
       .concat(CalendarioLetivoFindOneByIdInputValidationContract())
-      .concat(schema.pick(['nome', 'ano']))
+      .concat(schema.pick(['nome', 'ano']).partial())
       .shape({
         campus: ValidationContractObjectUuidBase({ required: true, optional: true }),
         modalidade: ValidationContractObjectUuidBase({ required: true, optional: true }),
