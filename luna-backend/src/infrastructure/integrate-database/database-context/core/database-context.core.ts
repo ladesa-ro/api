@@ -29,6 +29,42 @@ export class DatabaseContextCore {
     });
   }
 
+  async startTransaction() {
+    const transactionManager = {
+      finished: false,
+      transactionPromise: {} as Promise<void>,
+      databaseContext: {} as DatabaseContextCore,
+      commit: {} as () => Promise<void>,
+      rollback: {} as () => Promise<void>,
+    };
+
+    transactionManager.transactionPromise = this.transaction((ds) => {
+      transactionManager.databaseContext = ds.databaseContext;
+
+      return new Promise<void>((resolve, reject) => {
+        transactionManager.commit = () => {
+          if (!transactionManager.finished) {
+            resolve();
+          }
+
+          return transactionManager.transactionPromise;
+        };
+
+        transactionManager.rollback = () => {
+          if (!transactionManager.finished) {
+            reject();
+          }
+
+          return transactionManager.transactionPromise.finally();
+        };
+      });
+    });
+
+    transactionManager.transactionPromise.finally();
+
+    return transactionManager;
+  }
+
   //
 
   // =====================================================

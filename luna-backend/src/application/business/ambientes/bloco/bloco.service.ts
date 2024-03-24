@@ -9,6 +9,7 @@ import { DatabaseContextService } from '../../../../infrastructure/integrate-dat
 import { BlocoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/bloco.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
+import { ImagemService } from '../../base/imagem/imagem.service';
 import { CampusService, ICampusQueryBuilderViewOptions } from '../campus/campus.service';
 
 // ============================================================================
@@ -28,6 +29,7 @@ export class BlocoService {
   constructor(
     private campusService: CampusService,
     private databaseContext: DatabaseContextService,
+    private imagemService: ImagemService,
   ) {}
 
   get blocoRepository() {
@@ -265,6 +267,8 @@ export class BlocoService {
 
     await clientAccess.ensureCanReach('bloco:update', { dto }, this.blocoRepository.createQueryBuilder(aliasBloco), dto.id);
 
+    // =========================================================
+
     const dtoBloco = pick(dto, ['nome', 'codigo']);
 
     const bloco = <BlocoEntity>{
@@ -282,6 +286,36 @@ export class BlocoService {
     // =========================================================
 
     return this.blocoFindByIdStrict(clientAccess, { id: bloco.id });
+  }
+
+  async blocoUpdateImagemCapa(clientAccess: IClientAccess, dto: Dtos.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
+    // =========================================================
+
+    const currentBloco = await this.blocoFindByIdStrict(clientAccess, { id: dto.id });
+
+    // =========================================================
+
+    await clientAccess.ensureCanReach('bloco:update', { dto: { id: currentBloco.id } }, this.blocoRepository.createQueryBuilder(aliasBloco), currentBloco.id);
+
+    // =========================================================
+
+    const { imagem } = await this.imagemService.saveBlocoCapa(file);
+
+    const bloco = <BlocoEntity>{
+      id: currentBloco.id,
+    };
+
+    this.blocoRepository.merge(bloco, {
+      imagemCapa: {
+        id: imagem.id,
+      },
+    });
+
+    await this.blocoRepository.save(bloco);
+
+    // =========================================================
+
+    return this.blocoFindByIdStrict(clientAccess, { id: currentBloco.id });
   }
 
   //

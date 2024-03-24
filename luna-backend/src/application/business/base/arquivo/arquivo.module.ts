@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
+import { ArquivoController } from './arquivo.controller';
 import { ArquivoService } from './arquivo.service';
-import { ImagemModule } from './imagem/imagem.module';
 
+@Global()
 @Module({
-  imports: [ImagemModule],
-  controllers: [],
+  imports: [],
+  controllers: [ArquivoController],
   providers: [ArquivoService],
   exports: [ArquivoService],
 })

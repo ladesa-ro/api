@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IEntityDate } from '../../../../../application/business/(spec)';
+import { ImagemArquivoEntity } from './imagem_arquivo.entity';
 
 @Entity('imagem')
 export class ImagemEntity {
@@ -10,6 +11,11 @@ export class ImagemEntity {
 
   @Column({ name: 'descricao', type: 'text', nullable: true })
   descricao!: string | null;
+
+  //
+
+  @OneToMany(() => ImagemArquivoEntity, (entity) => entity.imagem, { cascade: true })
+  imagemArquivo!: ImagemArquivoEntity[];
 
   //
 

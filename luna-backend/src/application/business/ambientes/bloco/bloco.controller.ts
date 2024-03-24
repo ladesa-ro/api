@@ -1,5 +1,6 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
@@ -67,6 +68,23 @@ export class BlocoController {
     };
 
     return this.blocoService.blocoUpdate(clientAccess, dtoUpdate);
+  }
+
+  @Put('/:id/imagens/capa')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @UseInterceptors(FileInterceptor('file', { limits: { fileSize: 10 * 1024 * 1024, files: 1 } }))
+  async blocoImagemCapaSave(@ClientAccessHttp() clientAccess: IClientAccess, @Param('id', ParseUUIDPipe) id: string, @UploadedFile() file: Express.Multer.File) {
+    return this.blocoService.blocoUpdateImagemCapa(clientAccess, { id }, file);
   }
 
   //
