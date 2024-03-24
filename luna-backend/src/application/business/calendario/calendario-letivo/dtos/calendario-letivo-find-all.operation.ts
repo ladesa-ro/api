@@ -1,12 +1,9 @@
-import { InputType, ObjectType } from '@nestjs/graphql';
-import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
-import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
+import { ObjectType } from '@nestjs/graphql';
 
-import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
-import { CalendarioLetivoDto, CalendarioLetivoDtoProperties, CalendarioLetivoDtoValidationContract } from './calendario-letivo.dto';
 import { CalendarioLetivoFindOneResultDto } from './calendario-letivo-find-one.operation';
+import { CalendarioLetivoDto } from './calendario-letivo.dto';
 
 //====================================================
 
@@ -26,10 +23,10 @@ export class CalendarioLetivoFindAllResultDto extends PaginatedResultDto<Dto.ICa
 }
 //==========================================================================
 export const CALENDARIO_LETIVO_FIND_ALL = createDtoOperationOptions({
-  description: 'Lista de "curso" cadastrados no sistema.',
+  description: 'Listagem de calendários letivos cadastrados no sistema.',
 
   gql: {
-    name: 'cursoFindAll',
+    name: 'calendarioLetivoFindAll',
     returnType: () => CalendarioLetivoFindAllResultDto,
 
     inputNullable: true,
