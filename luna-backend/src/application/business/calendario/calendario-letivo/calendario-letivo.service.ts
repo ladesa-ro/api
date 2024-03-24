@@ -14,7 +14,7 @@ import { IModalidadeQueryBuilderViewOptions, ModalidadeService } from '../../ens
 
 // ============================================================================
 
-const aliasCalendarioLetivo = 'calendario-letivo';
+const aliasCalendarioLetivo = 'calendarioLetivo';
 
 // ============================================================================
 
