@@ -71,7 +71,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    await clientAccess.applyFilter('calendarioLetivo:find', qb, aliasCalendarioLetivo, null);
+    await clientAccess.applyFilter('calendario_letivo:find', qb, aliasCalendarioLetivo, null);
 
     // =========================================================
 
@@ -158,7 +158,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    await clientAccess.applyFilter('calendarioLetivo:find', qb, aliasCalendarioLetivo, null);
+    await clientAccess.applyFilter('calendario_letivo:find', qb, aliasCalendarioLetivo, null);
 
     // =========================================================
 
@@ -201,7 +201,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    await clientAccess.applyFilter('calendarioLetivo:find', qb, aliasCalendarioLetivo, null);
+    await clientAccess.applyFilter('calendario_letivo:find', qb, aliasCalendarioLetivo, null);
 
     // =========================================================
 
@@ -248,7 +248,7 @@ export class CalendarioLetivoService {
   async calendarioLetivoCreate(clientAccess: IClientAccess, dto: Dtos.ICalendarioLetivoInputDto) {
     // =========================================================
 
-    await clientAccess.ensurePermissionCheck('calendarioLetivo:create', { dto });
+    await clientAccess.ensurePermissionCheck('calendario_letivo:create', { dto });
 
     // =========================================================
 
@@ -298,7 +298,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    await clientAccess.ensureCanReach('calendarioLetivo:update', { dto }, this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo), dto.id);
+    await clientAccess.ensureCanReach('calendario_letivo:update', { dto }, this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo), dto.id);
 
     const dtoCalendarioLetivo = pick(dto, ['nome', 'ano']);
 
@@ -348,7 +348,7 @@ export class CalendarioLetivoService {
   async calendarioLetivoDeleteOneById(clientAccess: IClientAccess, dto: Dtos.ICalendarioLetivoDeleteOneByIdInputDto) {
     // =========================================================
 
-    await clientAccess.ensureCanReach('calendarioLetivo:delete', { dto }, this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo), dto.id);
+    await clientAccess.ensureCanReach('calendario_letivo:delete', { dto }, this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo), dto.id);
 
     // =========================================================
 
