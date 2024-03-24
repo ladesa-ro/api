@@ -27,8 +27,10 @@ export class CalendarioLetivoController {
     @DtoOperationFindOne(CalendarioLetivoOperations.CALENDARIO_LETIVO_FIND_ONE_BY_ID)
     async calendarioLetivoFindById(
         @ClientAccessHttp() clientAccess: IClientAccess,
-        @HttpDtoBody(CalendarioLetivoOperations.CALENDARIO_LETIVO_CREATE) dto: Dto.ICalendarioLetivoInputDto) {
-        return this.calendarioLetivoService.calendarioLetivoCreate(clientAccess, dto);
+        @HttpDtoParam(CalendarioLetivoOperations.CALENDARIO_LETIVO_FIND_ONE_BY_ID, 'id')
+        id: string,
+    ) {
+        return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(clientAccess, { id });
     }
 
     //

@@ -17,8 +17,8 @@ export class CalendarioLetivoResolver {
     //
 
     @DtoOperationGqlQuery(CalendarioLetivoOperations.CALENDARIO_LETIVO_FIND_ALL)
-    async calendarioLetivoFindAll(@ClientAccessGraphQl() cleintAcess: IClientAccess, @GqlDtoInput(CalendarioLetivoOperations.CALENDARIO_LETIVO_FIND_ALL) dto: Dto.ISearchInputDto) {
-        return this.calendarioLetivoService.calendarioLetivoFindAll
+    async calendarioLetivoFindAll(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(CalendarioLetivoOperations.CALENDARIO_LETIVO_FIND_ALL) dto: Dto.ISearchInputDto) {
+        return this.calendarioLetivoService.calendarioLetivoFindAll(clientAccess, dto)
     }
 
     //

@@ -19,7 +19,8 @@ function setupSwaggerConfig(configService: IConfig | null = null) {
 
   config.addTag('Autenticacao');
   config.addTag('Usuarios', 'Autenticação / Usuários');
-  
+
+
   config.addTag('Estados', 'Ambientes / Estados');
   config.addTag('Cidades', 'Ambientes / Cidades');
   config.addTag('Campi', 'Ambientes / Campi');
@@ -34,12 +35,11 @@ function setupSwaggerConfig(configService: IConfig | null = null) {
   config.addTag('Disciplinas', 'Ensino / Disciplinas');
   config.addTag('Turmas', 'Ensino / Turmas');
   config.addTag('Diarios', 'Ensino / Diarios');
-  
-  config.addTag('Calendarios');
+
   config.addTag('Calendarios Letivos', 'Calendario / Calendarios Letivos');
-  
+
   const servers = configService?.getSwaggerServers();
-  
+
   if (servers) {
     for (const server of servers) {
       config.addServer(server);
