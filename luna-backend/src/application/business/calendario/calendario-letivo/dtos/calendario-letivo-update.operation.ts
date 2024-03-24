@@ -49,7 +49,7 @@ export class CalendarioLetivoUpdateInputDto implements ICalendarioLetivoUpdateDt
   //
 }
 
-export class CalendarioLetivoUpdateWithoutIdInputDto extends OmitType(CalendarioLetivoUpdateInputDto, ['id'] as const) { }
+export class CalendarioLetivoUpdateWithoutIdInputDto extends OmitType(CalendarioLetivoUpdateInputDto, ['id'] as const) {}
 export const CALENDARIO_LETIVO_UPDATE = createDtoOperationOptions({
   description: 'Realiza a alteração de "calendario letivo".',
 

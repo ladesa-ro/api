@@ -24,38 +24,38 @@ export class CalendarioLetivoFindAllResultDto extends PaginatedResultDto<Dto.ICa
   })
   data!: Dto.ICalendarioLetivoFindOneResultDto[];
 }
-  //==========================================================================
-  export const CALENDARIO_LETIVO_FIND_ALL = createDtoOperationOptions({
-    description: 'Lista de "curso" cadastrados no sistema.',
+//==========================================================================
+export const CALENDARIO_LETIVO_FIND_ALL = createDtoOperationOptions({
+  description: 'Lista de "curso" cadastrados no sistema.',
 
-    gql: {
-      name: 'cursoFindAll',
-      returnType: () => CalendarioLetivoFindAllResultDto,
+  gql: {
+    name: 'cursoFindAll',
+    returnType: () => CalendarioLetivoFindAllResultDto,
 
-      inputNullable: true,
-      inputDtoType: () => SearchInputDto,
-      inputDtoValidationContract: SearchInputValidationContract,
-    },
+    inputNullable: true,
+    inputDtoType: () => SearchInputDto,
+    inputDtoValidationContract: SearchInputValidationContract,
+  },
 
-    swagger: {
-      returnType: CalendarioLetivoFindAllResultDto,
+  swagger: {
+    returnType: CalendarioLetivoFindAllResultDto,
 
-      queries: [
-        //
-        'page',
-        'limit',
-        'search',
-        'sortBy',
-        //
-        'filter.campus.id',
-        'filter.campus.cnpj',
-        'filter.campus.razaoSocial',
-        'filter.campus.nomeFantasia',
-        'filter.modalidade.id',
-        'filter.modalidade.nome',
-        'filter.modalidade.slug',
-      ],
-    },
-  });
+    queries: [
+      //
+      'page',
+      'limit',
+      'search',
+      'sortBy',
+      //
+      'filter.campus.id',
+      'filter.campus.cnpj',
+      'filter.campus.razaoSocial',
+      'filter.campus.nomeFantasia',
+      'filter.modalidade.id',
+      'filter.modalidade.nome',
+      'filter.modalidade.slug',
+    ],
+  },
+});
 
 // ======================================================

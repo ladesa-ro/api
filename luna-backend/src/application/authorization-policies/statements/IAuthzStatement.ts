@@ -89,7 +89,6 @@ export type IAuthzStatementReservaDelete = IBaseAuthzFilter<'reserva:delete', { 
 
 export type IAuthzStatementReservaFind = IBaseAuthzFilter<'reserva:find'>;
 
-
 export type IAuthzStatementCalendarioLetivoCreate = IBaseAuthzCheck<'calendarioLetivo:create', { dto: Dto.ICalendarioLetivoCreateDto }>;
 
 export type IAuthzStatementCalendarioLetivoUpdate = IBaseAuthzFilter<'calendarioLetivo:update', { dto: Dto.ICalendarioLetivoUpdateDto }>;

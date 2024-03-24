@@ -6,4 +6,3 @@ export * from './curso-input.operation';
 export * from './curso-update.operation';
 export * from './curso.dto';
 export * from './curso.operations';
-

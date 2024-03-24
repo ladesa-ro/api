@@ -20,7 +20,6 @@ function setupSwaggerConfig(configService: IConfig | null = null) {
   config.addTag('Autenticacao');
   config.addTag('Usuarios', 'Autenticação / Usuários');
 
-
   config.addTag('Estados', 'Ambientes / Estados');
   config.addTag('Cidades', 'Ambientes / Cidades');
   config.addTag('Campi', 'Ambientes / Campi');

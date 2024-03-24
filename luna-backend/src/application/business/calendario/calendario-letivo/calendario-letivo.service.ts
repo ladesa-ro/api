@@ -31,7 +31,7 @@ export class CalendarioLetivoService {
     private databaseContext: DatabaseContextService,
     private campusService: CampusService,
     private modalidadeService: ModalidadeService,
-  ) { }
+  ) {}
 
   get calendarioLetivoRepository() {
     return this.databaseContext.calendarioLetivoRepository;
@@ -228,7 +228,12 @@ export class CalendarioLetivoService {
     return calendarioLetivo;
   }
 
-  async CalendarioLetivoFindByIdSimpleStrict(clientAccess: IClientAccess, id: Dtos.ICalendarioLetivoFindOneByIdInputDto['id'], options?: ICalendarioLetivoQueryBuilderViewOptions, selection?: string[]) {
+  async CalendarioLetivoFindByIdSimpleStrict(
+    clientAccess: IClientAccess,
+    id: Dtos.ICalendarioLetivoFindOneByIdInputDto['id'],
+    options?: ICalendarioLetivoQueryBuilderViewOptions,
+    selection?: string[],
+  ) {
     const calendarioLetivo = await this.calendarioLetivoFindByIdSimple(clientAccess, id, options, selection);
 
     if (!calendarioLetivo) {

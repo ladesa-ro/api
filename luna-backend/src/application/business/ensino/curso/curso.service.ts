@@ -31,7 +31,7 @@ export class CursoService {
     private databaseContext: DatabaseContextService,
     private campusService: CampusService,
     private modalidadeService: ModalidadeService,
-  ) { }
+  ) {}
 
   get cursoRepository() {
     return this.databaseContext.cursoRepository;

@@ -116,7 +116,7 @@ export class DatabaseContextCore {
   get diarioRepository() {
     return repositories.createDiarioRepository(this.ds);
   }
-  
+
   // =====================================================
   // == [ Calendario ] =======================================
   // =====================================================
@@ -124,7 +124,6 @@ export class DatabaseContextCore {
   get calendarioLetivoRepository() {
     return repositories.createCalendarioLetivoRepository(this.ds);
   }
-
 
   // =====================================================
 }
