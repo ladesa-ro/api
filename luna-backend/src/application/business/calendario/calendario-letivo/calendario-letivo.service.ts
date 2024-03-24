@@ -86,6 +86,15 @@ export class CalendarioLetivoService {
         'campus',
         'modalidade',
         //
+        'campus.id',
+        'campus.cnpj',
+        'campus.razaoSocial',
+        'campus.nomeFantasia',
+        //
+        'modalidade.id',
+        'modalidade.nome',
+        'modalidade.slug',
+        //
       ],
       sortableColumns: [
         //

@@ -2,7 +2,7 @@ import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { CalendarioLetivoDtoProperties, CalendarioLetivoCreateInputDtoValidationContract } from './calendario-letivo.dto';
+import { CalendarioLetivoCreateInputDtoValidationContract, CalendarioLetivoDtoProperties } from './calendario-letivo.dto';
 
 // ======================================================
 
@@ -32,11 +32,11 @@ export class CalendarioLetivoInputDto implements Dto.ICalendarioLetivoInputDto {
   ano!: number;
 
   @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_CAMPUS_INPUT)
-  campus!: Dto.ICampusModel;
+  campus!: Dto.IObjectUuid;
 
 
   @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_MODALIDADE_INPUT)
-  modalidade!: Dto.IModalidadeModel;
+  modalidade!: Dto.IObjectUuid;
 
   //
 }
