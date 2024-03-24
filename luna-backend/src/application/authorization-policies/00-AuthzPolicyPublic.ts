@@ -550,4 +550,55 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
   }
 
   // ========================================================
+
+  get calendarioLetivoFind(): Authz.IAuthzStatementCalendarioLetivoFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'calendario_letivo:find',
+
+      filter(context, alias) {
+        return (qb) => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get calendarioLetivoCreate(): Authz.IAuthzStatementCalendarioLetivoCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'calendario_letivo:create',
+
+      async withCheck(context) {
+        console.debug('AuthzPolicyPublic -- calendario_letivo:create', { context });
+        return true;
+      },
+    });
+  }
+
+  get calendarioLetivoUpdate(): Authz.IAuthzStatementCalendarioLetivoUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'calendario_letivo:update',
+      filter() {
+        return (qb, alias = 'calendario_letivo') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  get calendarioLetivoDelete(): Authz.IAuthzStatementCalendarioLetivoDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'calendario_letivo:delete',
+      filter() {
+        return (qb, alias = 'calendario_letivo') => {
+          qb.where(`${alias}.dateDeleted IS NULL`);
+        };
+      },
+    });
+  }
+
+  // ========================================================
 }

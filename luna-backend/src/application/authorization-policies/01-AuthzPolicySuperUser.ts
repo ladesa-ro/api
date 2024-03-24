@@ -648,4 +648,64 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
   }
 
   // ========================================================
+
+  get calendarioLetivoFind(): Authz.IAuthzStatementCalendarioLetivoFind {
+    return createStatement({
+      kind: 'filter',
+      action: 'calendario_letivo:find',
+
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get calendarioLetivoCreate(): Authz.IAuthzStatementCalendarioLetivoCreate {
+    return createStatement({
+      kind: 'check',
+      action: 'calendario_letivo:create',
+
+      withCheck: (context) => {
+        if (AuthzPolicySuperUser.shouldApply(context)) {
+          return true;
+        }
+
+        return false;
+      },
+    });
+  }
+
+  get calendarioLetivoUpdate(): Authz.IAuthzStatementCalendarioLetivoUpdate {
+    return createStatement({
+      kind: 'filter',
+      action: 'calendario_letivo:update',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  get calendarioLetivoDelete(): Authz.IAuthzStatementCalendarioLetivoDelete {
+    return createStatement({
+      kind: 'filter',
+      action: 'calendario_letivo:delete',
+      filter: (context) => {
+        return (qb) => {
+          if (AuthzPolicySuperUser.shouldApply(context)) {
+            qb.where('TRUE');
+          }
+        };
+      },
+    });
+  }
+
+  // ========================================================
 }

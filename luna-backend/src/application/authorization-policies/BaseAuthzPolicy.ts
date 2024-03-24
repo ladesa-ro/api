@@ -57,6 +57,11 @@ export abstract class BaseAuthzPolicy {
 
   abstract vinculoFind: Authz.IAuthzStatementVinculoFind;
 
+  abstract calendarioLetivoFind: Authz.IAuthzStatementCalendarioLetivoFind;
+  abstract calendarioLetivoDelete: Authz.IAuthzStatementCalendarioLetivoDelete;
+  abstract calendarioLetivoUpdate: Authz.IAuthzStatementCalendarioLetivoUpdate;
+  abstract calendarioLetivoCreate: Authz.IAuthzStatementCalendarioLetivoCreate;
+
   get statements() {
     return [
       //
@@ -105,6 +110,10 @@ export abstract class BaseAuthzPolicy {
       this.diarioUpdate,
       this.diarioDelete,
       this.diarioFind,
+      this.calendarioLetivoCreate,
+      this.calendarioLetivoUpdate,
+      this.calendarioLetivoDelete,
+      this.calendarioLetivoFind,
     ];
   }
 }
