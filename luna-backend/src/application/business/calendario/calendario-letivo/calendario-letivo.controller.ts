@@ -1,6 +1,16 @@
-import { Controller, Delete, Get, Patch } from '@nestjs/common';
+import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ClientAccessHttp, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from 'infrastructure';
+import {
+  ClientAccessHttp,
+  DtoOperationCreate,
+  DtoOperationDelete,
+  DtoOperationFindAll,
+  DtoOperationFindOne,
+  DtoOperationUpdate,
+  HttpDtoBody,
+  HttpDtoParam,
+  getSearchInputFromPaginateQuery,
+} from 'infrastructure';
 import * as Dto from '../../(spec)';
 import { IClientAccess } from '../../../../domain';
 
@@ -8,9 +18,8 @@ import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { CalendarioLetivoService } from './calendario-letivo.service';
 import { CalendarioLetivoOperations } from './dtos/calendario-letivo.operations';
 
-// GET https://localhost:3000/calendario-letivo/
 @ApiTags('Calendarios Letivos')
-@Controller('/calendario-letivo')
+@Controller('/calendarios-letivos')
 export class CalendarioLetivoController {
   constructor(private calendarioLetivoService: CalendarioLetivoService) {}
 
@@ -30,6 +39,14 @@ export class CalendarioLetivoController {
     id: string,
   ) {
     return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(clientAccess, { id });
+  }
+
+  //
+
+  @Post('/')
+  @DtoOperationCreate(CalendarioLetivoOperations.CALENDARIO_LETIVO_CREATE)
+  async campusCreate(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(CalendarioLetivoOperations.CALENDARIO_LETIVO_CREATE) dto: Dto.ICalendarioLetivoInputDto) {
+    return this.calendarioLetivoService.calendarioLetivoCreate(clientAccess, dto);
   }
 
   //
