@@ -180,7 +180,7 @@ export class CalendarioLetivoService {
     return calendarioLetivo;
   }
 
-  async CalendarioLetivoFindByIdSimple(
+  async calendarioLetivoFindByIdSimple(
     clientAccess: IClientAccess,
     id: Dtos.ICalendarioLetivoFindOneByIdInputDto['id'],
     options?: ICalendarioLetivoQueryBuilderViewOptions,
@@ -220,7 +220,7 @@ export class CalendarioLetivoService {
   }
 
   async CalendarioLetivoFindByIdSimpleStrict(clientAccess: IClientAccess, id: Dtos.ICalendarioLetivoFindOneByIdInputDto['id'], options?: ICalendarioLetivoQueryBuilderViewOptions, selection?: string[]) {
-    const calendarioLetivo = await this.CalendarioLetivoFindByIdSimple(clientAccess, id, options, selection);
+    const calendarioLetivo = await this.calendarioLetivoFindByIdSimple(clientAccess, id, options, selection);
 
     if (!calendarioLetivo) {
       throw new NotFoundException();
@@ -284,9 +284,9 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    await clientAccess.ensureCanReach('calendarioLetivo:update', { dto }, this.calendarioLetivoRepository.createQueryBuilder(aliascalendarioLetivo), dto.id);
+    await clientAccess.ensureCanReach('calendarioLetivo:update', { dto }, this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo), dto.id);
 
-    const dtoCalendarioLetivo = pick(dto, ['nome', 'ano', 'campus', 'modalidade']);
+    const dtoCalendarioLetivo = pick(dto, ['nome', 'ano']);
 
     const calendarioLetivo = <CalendarioLetivoEntity>{
       id: currentCalendarioLetivo.id,

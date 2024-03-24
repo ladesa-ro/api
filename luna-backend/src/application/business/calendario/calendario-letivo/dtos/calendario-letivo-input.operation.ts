@@ -2,23 +2,18 @@ import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { CalendarioLetivoDtoProperties, CalendarioLetivoDtoValidationContract } from './calendario-letivo.dto';
-import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
-import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
+import { CalendarioLetivoDtoProperties, CalendarioLetivoCreateInputDtoValidationContract } from './calendario-letivo.dto';
 
 // ======================================================
 
 export const CalendarioLetivoInputDtoValidationContract = createValidationContract(() => {
-  const schema = CalendarioLetivoDtoValidationContract();
+  const schema = CalendarioLetivoCreateInputDtoValidationContract();
 
   return yup.object().shape({
     //
 
     nome: getSchemaField(schema, 'nome'),
     nomeAbreviado: getSchemaField(schema, 'nomeAbreviado'),
-
-    campus: getSchemaField(schema, 'campus'),
-    modalidade: getSchemaField(schema, 'modalidade'),
 
     //
   });
@@ -36,12 +31,12 @@ export class CalendarioLetivoInputDto implements Dto.ICalendarioLetivoInputDto {
   @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_ANO)
   ano!: number;
 
-  @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_CAMPUS_OUTPUT)
-  campus!: CampusEntity;
+  @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_CAMPUS_INPUT)
+  campus!: Dto.ICampusModel;
 
 
-  @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_MODALIDADE_OUTPUT)
-  modalidade!: ModalidadeEntity;
+  @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_MODALIDADE_INPUT)
+  modalidade!: Dto.IModalidadeModel;
 
   //
 }

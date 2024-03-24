@@ -1,7 +1,7 @@
 
 import { createDtoOperationOptions } from 'infrastructure';
-import { CalendarioLetivoDto, CalendarioLetivoDtoValidationContract } from './calendario-letivo.dto';
 import { CalendarioLetivoFindOneResultDto } from './calendario-letivo-find-one.operation';
+import { CalendarioLetivoCreateInputDtoValidationContract, CalendarioLetivoDto } from './calendario-letivo.dto';
 
 export const CALENDARIO_LETIVO_CREATE = createDtoOperationOptions({
     description: 'Realiza o cadastro "calendario-letivo".',
@@ -9,15 +9,15 @@ export const CALENDARIO_LETIVO_CREATE = createDtoOperationOptions({
         name: 'calendario_letivoCreate',
         inputDtoType: () => CalendarioLetivoDto,
 
-        inputDtoValidationContract: CalendarioLetivoDtoValidationContract,
+        inputDtoValidationContract: CalendarioLetivoCreateInputDtoValidationContract,
 
         returnType: () => CalendarioLetivoDto,
     },
     swagger: {
         inputBodyType: CalendarioLetivoDto,
 
-        inputBodyValidationContract: CalendarioLetivoDtoValidationContract,
+        inputBodyValidationContract: CalendarioLetivoCreateInputDtoValidationContract,
 
-        returnType:CalendarioLetivoFindOneResultDto,
+        returnType: CalendarioLetivoFindOneResultDto,
     }
 }) 

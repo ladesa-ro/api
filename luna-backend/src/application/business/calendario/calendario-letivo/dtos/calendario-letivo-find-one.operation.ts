@@ -25,7 +25,7 @@ export class CalendarioLetivoFindOneResultDto implements Dto.ICalendarioLetivoFi
   campus!: CampusEntity;
 
   @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_MODALIDADE_OUTPUT)
-  modalidade!: ModalidadeEntity;
+  modalidade!: Dto.IModalidadeModel;
 
   //
 }

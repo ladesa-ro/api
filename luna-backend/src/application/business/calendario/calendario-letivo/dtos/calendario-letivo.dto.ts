@@ -1,6 +1,4 @@
 import { Int, ObjectType } from '@nestjs/graphql';
-import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
-import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import {
@@ -9,6 +7,7 @@ import {
     ObjectUuidDto,
     ValidationContractNumber,
     ValidationContractObjectUuid,
+    ValidationContractObjectUuidBase,
     ValidationContractString,
     ValidationContractUuid,
     createDtoPropertyMap,
@@ -16,10 +15,11 @@ import {
 } from '../../../../../infrastructure';
 import { CursoDto, CursoFindOneResultDto } from '../../../ensino/curso/dtos';
 import { ModalidadeDto, ModalidadeFindOneResultDto } from '../../../ensino/modalidade/dtos';
+import { CampusDto, CampusFindOneResultDto } from 'application/business/ambientes/campus/dtos';
 
 
 
-export const CalendarioLetivoDtoValidationContract = createValidationContract(() => {
+export const CalendarioLetivoCreateInputDtoValidationContract = createValidationContract(() => {
     return yup.object({
         id: ValidationContractUuid(),
 
@@ -29,9 +29,9 @@ export const CalendarioLetivoDtoValidationContract = createValidationContract(()
 
         ano: ValidationContractNumber().required().nonNullable(),
 
-        campus: ValidationContractObjectUuid({ required: true }).defined().required(),
+        campus: ValidationContractObjectUuidBase({ required: false, optional: false }),
 
-        modalidade: ValidationContractObjectUuid({ required: true }).defined().required(),
+        modalidade: ValidationContractObjectUuidBase({ required: false, optional: false }),
     });
 });
 
@@ -80,10 +80,10 @@ export const CalendarioLetivoDtoProperties = createDtoPropertyMap({
         description: 'Campus que o calendario letivo pertence',
         //
         gql: {
-            type: () => CursoDto,
+            type: () => CampusDto,
         },
         swagger: {
-            type: CursoFindOneResultDto,
+            type: CampusFindOneResultDto,
         },
     },
     //============================================
@@ -114,7 +114,7 @@ export const CalendarioLetivoDtoProperties = createDtoPropertyMap({
 
 });
 
-@ObjectType('Calendario-letivo')
+@ObjectType('CalendarioLetivo')
 export class CalendarioLetivoDto implements Dto.ICalendarioLetivoModel {
 
     @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_ID)
@@ -130,10 +130,10 @@ export class CalendarioLetivoDto implements Dto.ICalendarioLetivoModel {
 
 
     @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_CAMPUS_OUTPUT)
-    campus!: CampusEntity;
+    campus!: Dto.ICampusModel;
 
     @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_MODALIDADE_OUTPUT)
-    modalidade!: ModalidadeEntity;
+    modalidade!: Dto.IModalidadeModel;
 
     //============================================
 

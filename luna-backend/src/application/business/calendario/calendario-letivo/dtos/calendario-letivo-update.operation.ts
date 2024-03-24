@@ -1,34 +1,26 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
-import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
-import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
+import { ICalendarioLetivoUpdateDto, ICampusModel, IModalidadeModel } from 'application/business/(spec)';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaSubpath } from '../../../../../infrastructure';
-import { CalendarioLetivoFindOneByIdInputValidationContract, CalendarioLetivoFindOneResultDto } from './calendario-letivo-find-one.operation'
+import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { CalendarioLetivoFindOneByIdInputValidationContract, CalendarioLetivoFindOneResultDto } from './calendario-letivo-find-one.operation';
 import { CalendarioLetivoInputDtoValidationContract } from './calendario-letivo-input.operation';
 import { CalendarioLetivoDto, CalendarioLetivoDtoProperties } from './calendario-letivo.dto';
-import { ICalendarioLetivoUpdateDto } from 'application/business/(spec)';
 
 // ======================================================
 
 export const CalendarioLetivoUpdateInputDtoValidationContract = createValidationContract(() => {
-  const schema = CalendarioLetivoInputDtoValidationContract().partial();
+  const schema = CalendarioLetivoInputDtoValidationContract();
+
   return (
     yup
       //
       .object()
       .concat(CalendarioLetivoFindOneByIdInputValidationContract())
-      .concat(schema.omit(['campus', 'modalidade']))
+      .concat(schema.pick(['nome', 'ano']))
       .shape({
-        campus: (getSchemaSubpath(schema, 'campus') as yup.ObjectSchema<any, any>)
-          .nonNullable()
-          .optional()
-          .default(() => undefined),
-
-        modalidade: (getSchemaSubpath(schema, 'modalidade') as yup.ObjectSchema<any, any>)
-          .nonNullable()
-          .optional()
-          .default(() => undefined),
+        campus: ValidationContractObjectUuidBase({ required: true, optional: true }),
+        modalidade: ValidationContractObjectUuidBase({ required: true, optional: true }),
       })
   );
 });
@@ -49,15 +41,15 @@ export class CalendarioLetivoUpdateInputDto implements ICalendarioLetivoUpdateDt
   ano!: number;
 
   @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_CAMPUS_OUTPUT)
-  campus!: CampusEntity;
+  campus!: ICampusModel;
 
   @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_MODALIDADE_OUTPUT)
-  modalidade!: ModalidadeEntity;
+  modalidade!: IModalidadeModel;
 
   //
 }
 
-export class CalendarioLetivoUpdateWithoutIdInputDto extends OmitType(CalendarioLetivoUpdateInputDto, ['id'] as const) {}
+export class CalendarioLetivoUpdateWithoutIdInputDto extends OmitType(CalendarioLetivoUpdateInputDto, ['id'] as const) { }
 export const CALENDARIO_LETIVO_UPDATE = createDtoOperationOptions({
   description: 'Realiza a alteração de "calendario letivo".',
 
