@@ -22,7 +22,7 @@ export class CalendarioLetivoFindOneResultDto implements Dto.ICalendarioLetivoFi
   ano!: number;
 
   @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_CAMPUS_OUTPUT)
-  campus!: CampusEntity;
+  campus!: Dto.ICampusModel;
 
   @DtoProperty(CalendarioLetivoDtoProperties.CALENDARIO_LETIVO_MODALIDADE_OUTPUT)
   modalidade!: Dto.IModalidadeModel;
