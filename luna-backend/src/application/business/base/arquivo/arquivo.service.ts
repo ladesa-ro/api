@@ -4,10 +4,19 @@ import { writeFile } from 'node:fs/promises';
 import { ReadableStream } from 'node:stream/web';
 import { v4 } from 'uuid';
 import * as Dto from '../../(spec)';
+import { DatabaseContextService } from '../../../../infrastructure';
+import { ArquivoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/base/arquivo.entity';
 
 @Injectable()
 export class ArquivoService {
+  constructor(private databaseContextService: DatabaseContextService) {}
+
+  get arquivoRepository() {
+    return this.databaseContextService.arquivoRepository;
+  }
+
   private get dataFileBasePath() {
+    // TODO: path from env
     return `/var/data/arquivos`;
   }
 
@@ -37,7 +46,7 @@ export class ArquivoService {
     return true;
   }
 
-  async arquivoCreate(dto: Pick<Dto.IArquivoModel, 'nome' | 'mimeType'>, data: NodeJS.ArrayBufferView | ReadableStream) {
+  async arquivoCreate(dto: Pick<Dto.IArquivoModel, 'nome' | 'mimeType'>, data: NodeJS.ArrayBufferView | ReadableStream): Promise<Pick<ArquivoEntity, 'id'>> {
     let id: string;
 
     do {
@@ -46,9 +55,23 @@ export class ArquivoService {
 
     await this.dataSave(id, data);
 
+    // TODO: sizeBytes
+    const sizeBytes = null;
+    // TODO: mimeType
+    const mimeType = dto.mimeType;
+
+    await this.arquivoRepository.save(<ArquivoEntity>{
+      id,
+      //
+      nome: dto.nome,
+      mimeType: mimeType,
+      sizeBytes: sizeBytes,
+      storageType: 'filesystem',
+      //
+    });
+
     return {
       id,
-      ...dto,
     };
   }
 }
