@@ -252,7 +252,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    const dtoCalendarioLetivo = pick(dto, ['nome', 'nomeAbreviado']);
+    const dtoCalendarioLetivo = pick(dto, ['nome', 'ano']);
 
     const calendarioLetivo = this.calendarioLetivoRepository.create();
 
