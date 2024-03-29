@@ -32,6 +32,16 @@ export class EnvironmentConfigService implements IConfig {
     return runtimeNodeEnv;
   }
 
+  getStoragePath(): string {
+    const storagePath = this.nestConfigService.get<string>('STORAGE_PATH');
+
+    if (!storagePath) {
+      throw new Error('Please provide env.STORAGE_PATH (e.g. /tmp/uploaded)');
+    }
+
+    return storagePath;
+  }
+
   getRuntimeIsProduction(): boolean {
     return this.getRuntimeNodeEnv() === 'production';
   }

@@ -8,27 +8,15 @@ services:
     depends_on:
       - sisgea-luna-backend-db
     networks:
-      # - traefik-net
       - sisgea-luna-net
     ports:
       - 3000:3000
     volumes:
       - ../../../../../libs:/sisgea/env-dev/libs
       - ../../:/container/code
-    # labels:
-    #   #
-    #   - 'traefik.enable=true'
-    #   - 'traefik.docker.network=traefik-net'
-    #   #
-    #   - 'traefik.http.routers.luna-api.entrypoints=main'
-    #   - 'traefik.http.routers.luna-api.rule=Host(`luna.sisgha.com`) && PathPrefix(`/api/`)'
-    #   - 'traefik.http.routers.luna-api.tls=true'
-    #   - 'traefik.http.services.luna-api.loadbalancer.server.port=3000'
-    #   #
-    #   - 'traefik.http.middlewares.luna-api-strip.stripprefix.prefixes=/api'
-    #   - 'traefik.http.middlewares.luna-api-strip.stripprefix.forceslash=false'
-    #   - 'traefik.http.routers.luna-api.middlewares=luna-api-strip'
-      #
+      - ./volumes/uploaded:/container/uploaded
+    environment:
+      - STORAGE_PATH=/container/uploaded
     env_file:
       - .env
 
@@ -37,7 +25,7 @@ services:
     container_name: sisgea-luna-backend-db
     volumes:
       - 'sisgea-luna-backend-db-data:/bitnami/postgresql'
-      - './volumes/db/scripts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'
+      # - './volumes/db/scripts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'
     networks:
       - sisgea-luna-net
     ports:
@@ -48,8 +36,7 @@ services:
 networks:
   sisgea-luna-net:
     external: true
-  # traefik-net:
-  #   external: true
 
 volumes:
+  sisgea-luna-backend-uploaded-files:
   sisgea-luna-backend-db-data:

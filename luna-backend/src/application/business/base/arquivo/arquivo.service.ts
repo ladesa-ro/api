@@ -1,34 +1,36 @@
-import { Injectable, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import jetpack, { createReadStream } from 'fs-jetpack';
 import { writeFile } from 'node:fs/promises';
 import { Readable } from 'node:stream';
 import { v4 } from 'uuid';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
-import { DatabaseContextService } from '../../../../infrastructure';
+import { DatabaseContextService, EnvironmentConfigService, ValidationContractUuid } from '../../../../infrastructure';
 import { ArquivoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/base/arquivo.entity';
 
 type IGetFileAcesso = null | {
-  recurso: string;
-  id: string;
+  nome?: string;
+  id?: string;
 };
 
 @Injectable()
 export class ArquivoService {
-  constructor(private databaseContextService: DatabaseContextService) {}
+  constructor(
+    private databaseContextService: DatabaseContextService,
+    private environmentConfigService: EnvironmentConfigService,
+  ) {}
 
   get arquivoRepository() {
     return this.databaseContextService.arquivoRepository;
   }
 
-  private get dataFileBasePath() {
-    // TODO: path from env
-    return `/tmp/data/arquivos`;
+  private get storagePath() {
+    return this.environmentConfigService.getStoragePath();
   }
 
   private datGetFilePath(id: Dto.IArquivoModel['id']) {
-    jetpack.dir(this.dataFileBasePath);
-    return `${this.dataFileBasePath}/${id}`;
+    jetpack.dir(this.storagePath);
+    return `${this.storagePath}/${id}`;
   }
 
   async dataExists(id: Dto.IArquivoModel['id']) {
@@ -49,24 +51,32 @@ export class ArquivoService {
   async getFile(contextoDeAcesso: IContextoDeAcesso, id: Dto.IArquivoModel['id'], acesso: IGetFileAcesso | null) {
     const qb = this.arquivoRepository.createQueryBuilder('arquivo');
 
+    qb.whereInIds([id]);
+
+    const exists = await qb.getExists();
+
+    if (!exists) {
+      throw new NotFoundException();
+    }
+
     if (acesso) {
-      if (acesso.recurso === 'bloco') {
+      if (acesso.nome === 'bloco' && ValidationContractUuid().isValidSync(acesso.id)) {
         qb
           //
           .innerJoin('arquivo.imagemArquivo', 'imagemArquivo')
-          .innerJoin('imagemArquivo.imagem', 'imagem', 'imagem.id = :imagemId', { imagemId: acesso.id })
-          .leftJoin('imagem.blocoCapa', 'blocoCapa');
-
-        qb.andWhere('blocoCapa.id is not null');
+          .innerJoin('imagemArquivo.imagem', 'imagem')
+          .innerJoin('imagem.blocoCapa', 'blocoCapa', 'blocoCapa.id = :blocoCapa', { blocoCapa: acesso.id });
 
         await contextoDeAcesso.aplicarFiltro('bloco:find', qb, 'blocoCapa', null);
+      } else {
+        qb.andWhere('FALSE');
       }
     }
 
     const arquivo = await qb.getOne();
 
     if (!arquivo) {
-      throw new NotFoundException();
+      throw new ForbiddenException();
     }
 
     if (!(await this.dataExists(id))) {

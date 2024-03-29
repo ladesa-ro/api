@@ -7,19 +7,22 @@ import { IValidationContract } from '../validation';
 // ==============================================================
 
 export type IDtoOperationSwaggerType = Type<unknown> | any | [any] | string;
+
 export type IDtoOperationGqlType = ReturnTypeFunc;
 
 export interface IDtoOperationOptions {
   description: string;
 
-  gql: Omit<QueryOptions, 'description' | 'name' | 'type'> & {
-    name: string;
-    returnType: ReturnTypeFunc;
+  gql:
+    | null
+    | (Omit<QueryOptions, 'description' | 'name' | 'type'> & {
+        name: string;
+        returnType: ReturnTypeFunc;
 
-    inputNullable?: boolean;
-    inputDtoType?: ReturnTypeFunc;
-    inputDtoValidationContract?: IValidationContract<any, Schema>;
-  };
+        inputNullable?: boolean;
+        inputDtoType?: ReturnTypeFunc;
+        inputDtoValidationContract?: IValidationContract<any, Schema>;
+      });
 
   swagger: {
     returnType: IDtoOperationSwaggerType;
@@ -186,6 +189,10 @@ export const DtoOperationDelete = (options: IDtoOperationOptions) => {
 // ==============================================================
 
 export const DtoOperationGqlQuery = (options: IDtoOperationOptions) => {
+  if (!options.gql) {
+    throw new TypeError('Provide options.gql');
+  }
+
   return Query(options.gql.returnType, {
     name: options.gql.name,
     description: options.description,
@@ -193,6 +200,10 @@ export const DtoOperationGqlQuery = (options: IDtoOperationOptions) => {
 };
 
 export const DtoOperationGqlMutation = (options: IDtoOperationOptions) => {
+  if (!options.gql) {
+    throw new TypeError('Provide options.gql');
+  }
+
   return Mutation(options.gql.returnType, {
     name: options.gql.name,
     description: options.description,

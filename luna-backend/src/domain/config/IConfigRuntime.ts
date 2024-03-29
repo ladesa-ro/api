@@ -8,4 +8,8 @@ export interface IConfigRuntime {
   getRuntimeIsDevelopment(): boolean;
 
   getSwaggerServers(): null | string[];
+
+  //
+
+  getStoragePath(): string;
 }

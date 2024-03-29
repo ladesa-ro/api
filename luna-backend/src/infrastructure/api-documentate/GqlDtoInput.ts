@@ -2,6 +2,10 @@ import { GqlArgYup } from '../adapters';
 import { IDtoOperationOptions } from './DtoOperation';
 
 export const GqlDtoInput = (options: IDtoOperationOptions) => {
+  if (!options.gql) {
+    throw new TypeError('Provide options.gql');
+  }
+
   const { inputNullable, inputDtoType, inputDtoValidationContract } = options.gql;
 
   if (!inputDtoType) {
