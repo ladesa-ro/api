@@ -80,7 +80,7 @@ export class BlocoController {
     return this.blocoService.blocoUpdate(contextoDeAcesso, dtoUpdate);
   }
 
-  @Put('/:id/imagens/capa')
+  @Put('/:id/imagem/capa')
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
