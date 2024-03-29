@@ -8,9 +8,8 @@ import * as Dtos from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
-import { ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { ImagemService } from '../../base/imagem/imagem.service';
+import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 
 // ============================================================================
 
@@ -19,8 +18,8 @@ const aliasUsuario = 'usuario';
 // ============================================================================
 
 export type IUsuarioQueryBuilderViewOptions = {
-  loadImagemCapa?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
-  loadImagemPerfil?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
+  loadImagemCapa?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
+  loadImagemPerfil?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
 };
 
 // ============================================================================

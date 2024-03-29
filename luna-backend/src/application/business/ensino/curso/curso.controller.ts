@@ -1,4 +1,5 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiProduces, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
@@ -16,7 +17,6 @@ import {
 } from '../../../../infrastructure';
 import { CursoService } from './curso.service';
 import { CursoOperations } from './dtos';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Cursos')
 @Controller('/cursos')

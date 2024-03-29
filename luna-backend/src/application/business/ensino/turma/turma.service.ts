@@ -11,7 +11,7 @@ import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig'
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambientes/ambiente/ambiente.service';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { ImagemService } from '../../base/imagem/imagem.service';
+import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { CursoService, ICursoQueryBuilderViewOptions } from '../curso/curso.service';
 
 // ============================================================================
@@ -23,6 +23,7 @@ const aliasTurma = 'turma';
 export type ITurmaQueryBuilderViewOptions = {
   loadCurso?: IQueryBuilderViewOptionsLoad<ICursoQueryBuilderViewOptions>;
   loadAmbientePadraoAula?: IQueryBuilderViewOptionsLoad<IAmbienteQueryBuilderViewOptions>;
+  loadImagemCapa?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
 };
 
 // ============================================================================
@@ -64,6 +65,13 @@ export class TurmaService {
     if (loadAmbientePadraoAula) {
       qb.leftJoin(`${alias}.ambientePadraoAula`, `${loadAmbientePadraoAula.alias}`);
       AmbienteService.AmbienteQueryBuilderView(loadAmbientePadraoAula.alias, qb, loadAmbientePadraoAula.options);
+    }
+
+    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
+
+    if (loadImagemCapa) {
+      qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
+      ImagemService.ImagemQueryBuilderView(loadImagemCapa.alias, qb, loadImagemCapa.options);
     }
   }
 

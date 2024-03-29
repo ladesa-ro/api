@@ -10,7 +10,7 @@ import { BlocoEntity } from '../../../../infrastructure/integrate-database/typeo
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { ImagemService } from '../../base/imagem/imagem.service';
+import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { CampusService, ICampusQueryBuilderViewOptions } from '../campus/campus.service';
 
 // ============================================================================
@@ -21,7 +21,7 @@ const aliasBloco = 'bloco';
 
 export type IBlocoQueryBuilderViewOptions = {
   loadCampus?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
-  loadImagemCapa?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
+  loadImagemCapa?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
 };
 
 // ============================================================================

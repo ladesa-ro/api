@@ -10,9 +10,8 @@ import { AmbienteEntity } from '../../../../infrastructure/integrate-database/ty
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { ImagemService } from '../../base/imagem/imagem.service';
+import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { BlocoService, IBlocoQueryBuilderViewOptions } from '../bloco/bloco.service';
-import { ICampusQueryBuilderViewOptions } from '../campus/campus.service';
 
 // ============================================================================
 
@@ -22,7 +21,7 @@ const aliasAmbiente = 'ambiente';
 
 export type IAmbienteQueryBuilderViewOptions = {
   loadBloco?: IQueryBuilderViewOptionsLoad<IBlocoQueryBuilderViewOptions>;
-  loadImagemCapa?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
+  loadImagemCapa?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
 };
 
 // ============================================================================

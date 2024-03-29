@@ -8,8 +8,9 @@ import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { DisciplinaEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/disciplina.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { ImagemService } from '../../base/imagem/imagem.service';
+import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 
 // ============================================================================
 
@@ -17,7 +18,9 @@ const aliasDisciplina = 'disciplina';
 
 // ============================================================================
 
-export type IDisciplinaQueryBuilderViewOptions = any;
+export type IDisciplinaQueryBuilderViewOptions = {
+  loadImagemCapa?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
+};
 
 // ============================================================================
 
@@ -36,13 +39,20 @@ export class DisciplinaService {
   //
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  static DisciplinaQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, _: IDisciplinaQueryBuilderViewOptions = {}) {
+  static DisciplinaQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IDisciplinaQueryBuilderViewOptions = {}) {
     qb.addSelect([
       //
       `${alias}.id`,
       `${alias}.nome`,
       `${alias}.cargaHoraria`,
     ]);
+
+    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
+
+    if (loadImagemCapa) {
+      qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
+      ImagemService.ImagemQueryBuilderView(loadImagemCapa.alias, qb, loadImagemCapa.options);
+    }
   }
 
   //
