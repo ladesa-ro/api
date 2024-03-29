@@ -9,9 +9,10 @@ import { DatabaseContextService } from '../../../../infrastructure/integrate-dat
 import { AmbienteEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/ambiente.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
+import { ArquivoService } from '../../base/arquivo/arquivo.service';
+import { ImagemService } from '../../base/imagem/imagem.service';
 import { BlocoService, IBlocoQueryBuilderViewOptions } from '../bloco/bloco.service';
 import { ICampusQueryBuilderViewOptions } from '../campus/campus.service';
-import { ImagemService } from '../../base/imagem/imagem.service';
 
 // ============================================================================
 
@@ -31,6 +32,8 @@ export class AmbienteService {
   constructor(
     private blocoService: BlocoService,
     private databaseContext: DatabaseContextService,
+    private imagemService: ImagemService,
+    private arquivoService: ArquivoService,
   ) {}
 
   get ambienteRepository() {
@@ -154,14 +157,16 @@ export class AmbienteService {
     return paginated;
   }
 
-  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IAmbienteFindOneByIdInputDto): Promise<Dtos.IAmbienteFindOneResultDto | null> {
+  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IAmbienteFindOneByIdInputDto): Promise<Dtos.IAmbienteFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('ambiente:find', qb, aliasAmbiente, null);
+    if (contextoDeAcesso) {
+      await contextoDeAcesso.aplicarFiltro('ambiente:find', qb, aliasAmbiente, null);
+    }
 
     // =========================================================
 
@@ -184,7 +189,7 @@ export class AmbienteService {
     return ambiente;
   }
 
-  async ambienteFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IAmbienteFindOneByIdInputDto) {
+  async ambienteFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IAmbienteFindOneByIdInputDto) {
     const ambiente = await this.ambienteFindById(contextoDeAcesso, dto);
 
     if (!ambiente) {
@@ -258,6 +263,62 @@ export class AmbienteService {
     // =========================================================
 
     return this.ambienteFindByIdStrict(contextoDeAcesso, { id: ambiente.id });
+  }
+
+  //
+
+  async ambienteGetImagemCapa(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
+    const ambiente = await this.ambienteFindByIdStrict(contextoDeAcesso, { id: id });
+
+    if (ambiente.imagemCapa) {
+      const [imagemArquivo] = ambiente.imagemCapa.imagemArquivo;
+
+      if (imagemArquivo) {
+        const { arquivo } = imagemArquivo;
+        return this.arquivoService.getStreamableFile(null, arquivo.id, null);
+      }
+    }
+
+    throw new NotFoundException();
+  }
+
+  async ambienteUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
+    // =========================================================
+
+    const currentAmbiente = await this.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.id });
+
+    // =========================================================
+
+    await contextoDeAcesso.ensurePermission(
+      'ambiente:update',
+      {
+        dto: {
+          id: currentAmbiente.id,
+        },
+      },
+      currentAmbiente.id,
+      this.ambienteRepository.createQueryBuilder(aliasAmbiente),
+    );
+
+    // =========================================================
+
+    const { imagem } = await this.imagemService.saveAmbienteCapa(file);
+
+    const ambiente = this.ambienteRepository.merge(this.ambienteRepository.create(), {
+      id: currentAmbiente.id,
+    });
+
+    this.ambienteRepository.merge(ambiente, {
+      imagemCapa: {
+        id: imagem.id,
+      },
+    });
+
+    await this.ambienteRepository.save(ambiente);
+
+    // =========================================================
+
+    return true;
   }
 
   //

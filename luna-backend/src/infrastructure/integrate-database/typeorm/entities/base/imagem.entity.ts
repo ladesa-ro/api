@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IEntityDate } from '../../../../../application/business/(spec)';
 import { IImagemModel } from '../../../../../application/business/(spec)/base/imagem';
+import { AmbienteEntity } from '../ambientes/ambiente.entity';
 import { BlocoEntity } from '../ambientes/bloco.entity';
 import { UsuarioEntity } from '../autenticacao/usuario.entity';
 import { ImagemArquivoEntity } from './imagem_arquivo.entity';
@@ -35,6 +36,9 @@ export class ImagemEntity implements IImagemModel {
 
   @OneToMany(() => BlocoEntity, (row) => row.imagemCapa)
   blocoCapa!: BlocoEntity[];
+
+  @OneToMany(() => AmbienteEntity, (entity) => entity.imagemCapa)
+  ambienteCapa!: AmbienteEntity[];
 
   @OneToMany(() => UsuarioEntity, (entity) => entity.imagemCapa)
   usuarioCapa!: UsuarioEntity[];

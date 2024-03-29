@@ -72,7 +72,19 @@ export class ArquivoService {
           await contextoDeAcesso.aplicarFiltro('bloco:find', qb, 'blocoCapa', null);
         }
 
-        qb.andWhere('blocoCapa.id = :blocoCapa', { blocoCapa: acesso.id });
+        qb.andWhere('blocoCapa.id = :blocoId', { blocoId: acesso.id });
+      } else if (acesso.nome === 'ambiente' && ValidationContractUuid().isValidSync(acesso.id)) {
+        qb
+          //
+          .innerJoin('arquivo.imagemArquivo', 'imagemArquivo')
+          .innerJoin('imagemArquivo.imagem', 'imagem')
+          .innerJoin('imagem.ambienteCapa', 'ambienteCapa');
+
+        if (contextoDeAcesso) {
+          await contextoDeAcesso.aplicarFiltro('ambiente:find', qb, 'ambienteCapa', null);
+        }
+
+        qb.andWhere('ambienteCapa.id = :ambienteId', { ambienteId: acesso.id });
       } else if (acesso.nome === 'usuario' && ValidationContractUuid().isValidSync(acesso.id)) {
         qb
           //

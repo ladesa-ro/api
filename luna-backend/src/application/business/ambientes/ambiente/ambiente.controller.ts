@@ -1,5 +1,6 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiProduces, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
@@ -67,6 +68,51 @@ export class AmbienteController {
     };
 
     return this.ambienteService.ambienteUpdate(contextoDeAcesso, dtoUpdate);
+  }
+
+  //
+
+  @Get('/:id/imagem/capa')
+  @ApiProduces('application/octet-stream', 'image/jpeg')
+  @DtoOperationFindOne(AmbienteOperations.AMBIENTE_GET_IMAGEM_CAPA)
+  async blocoGetImagemCapa(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @HttpDtoParam(AmbienteOperations.AMBIENTE_GET_IMAGEM_CAPA, 'id')
+    id: string,
+  ) {
+    return this.ambienteService.ambienteGetImagemCapa(contextoDeAcesso, id);
+  }
+
+  @Put('/:id/imagem/capa')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['file'],
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+          nullable: false,
+        },
+      },
+    },
+  })
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: {
+        files: 1,
+        fileSize: 10 * 1024 * 1024,
+      },
+    }),
+  )
+  async blocoImagemCapaSave(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @Param('id', ParseUUIDPipe) id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.ambienteService.ambienteUpdateImagemCapa(contextoDeAcesso, { id }, file);
   }
 
   //
