@@ -6,6 +6,7 @@ import { v4 } from 'uuid';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import { DatabaseContextService, EnvironmentConfigService, ValidationContractUuid } from '../../../../infrastructure';
+import { UsuarioEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/autenticacao/usuario.entity';
 import { ArquivoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/base/arquivo.entity';
 
 type IGetFileAcesso = null | {
@@ -51,7 +52,7 @@ export class ArquivoService {
   async getFile(contextoDeAcesso: IContextoDeAcesso | null, id: Dto.IArquivoModel['id'], acesso: IGetFileAcesso | null) {
     const qb = this.arquivoRepository.createQueryBuilder('arquivo');
 
-    qb.whereInIds([id]);
+    qb.where('arquivo.id = :arquivoId', { arquivoId: id });
 
     const exists = await qb.getExists();
 
@@ -67,17 +68,29 @@ export class ArquivoService {
           .innerJoin('imagemArquivo.imagem', 'imagem')
           .innerJoin('imagem.blocoCapa', 'blocoCapa');
 
-        if (acesso.id) {
-          qb.andWhere('blocoCapa.id = :blocoCapa', { blocoCapa: acesso.id });
-        }
-
         if (contextoDeAcesso) {
           await contextoDeAcesso.aplicarFiltro('bloco:find', qb, 'blocoCapa', null);
         }
+
+        qb.andWhere('blocoCapa.id = :blocoCapa', { blocoCapa: acesso.id });
+      } else if (acesso.nome === 'usuario' && ValidationContractUuid().isValidSync(acesso.id)) {
+        qb
+          //
+          .innerJoin('arquivo.imagemArquivo', 'imagemArquivo')
+          .innerJoin('imagemArquivo.imagem', 'imagem')
+          .leftJoin(UsuarioEntity, 'usuario', '(usuario.id_imagem_capa_fk = imagem.id OR usuario.id_imagem_perfil_fk = imagem.id)');
+
+        if (contextoDeAcesso) {
+          await contextoDeAcesso.aplicarFiltro('usuario:find', qb, 'usuario', null);
+        }
+
+        qb.andWhere('usuario.id = :usuarioId', { usuarioId: acesso.id });
       } else {
         qb.andWhere('FALSE');
       }
     }
+
+    qb.andWhere('arquivo.id = :arquivoId', { arquivoId: id });
 
     const arquivo = await qb.getOne();
 

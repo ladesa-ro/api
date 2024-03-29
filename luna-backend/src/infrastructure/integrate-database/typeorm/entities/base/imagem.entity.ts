@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IEntityDate } from '../../../../../application/business/(spec)';
 import { IImagemModel } from '../../../../../application/business/(spec)/base/imagem';
 import { BlocoEntity } from '../ambientes/bloco.entity';
+import { UsuarioEntity } from '../autenticacao/usuario.entity';
 import { ImagemArquivoEntity } from './imagem_arquivo.entity';
 
 @Entity('imagem')
@@ -34,4 +35,10 @@ export class ImagemEntity implements IImagemModel {
 
   @OneToMany(() => BlocoEntity, (row) => row.imagemCapa)
   blocoCapa!: BlocoEntity[];
+
+  @OneToMany(() => UsuarioEntity, (entity) => entity.imagemCapa)
+  usuarioCapa!: UsuarioEntity[];
+
+  @OneToMany(() => UsuarioEntity, (entity) => entity.imagemPerfil)
+  usuarioPerfil!: UsuarioEntity[];
 }

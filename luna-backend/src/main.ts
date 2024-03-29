@@ -17,10 +17,10 @@ function setupSwaggerConfig(configService: IConfig | null = null) {
 
   config.addTag('API', 'SISGEA - API');
 
+  config.addTag('Arquivos', 'Armazenamento / Arquivos');
+
   config.addTag('Autenticacao');
   config.addTag('Usuarios', 'Autenticação / Usuários');
-
-  config.addTag('Arquivos', 'Armazenamento / Arquivos');
 
   config.addTag('Estados', 'Ambientes / Estados');
   config.addTag('Cidades', 'Ambientes / Cidades');
