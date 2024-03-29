@@ -41,7 +41,7 @@ export class ModuleCoreGeneratorAuthzStatement extends BaseModuleCoreGenerator {
         const nodeToAdd = (mod.$ast.body.find((i) => {
           if (i.type === 'ExportNamedDeclaration' && i.exportKind === 'type') {
             if (i.declaration?.type === 'TSTypeAliasDeclaration') {
-              return (i.declaration.id.name === 'IAuthzStatementCheck' && type === 'check') || (i.declaration.id.name === 'IAuthzStatementFind' && type === 'filter');
+              return (i.declaration.id.name === 'IAuthzStatementCheck' && type === 'check') || (i.declaration.id.name === 'IAuthzStatementFilter' && type === 'filter');
             }
           }
           return false;

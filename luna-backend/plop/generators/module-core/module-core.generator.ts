@@ -580,7 +580,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         path: `src/application/authorization-policies/statements/IAuthzStatement.ts`,
         transform: async (code: string) =>
           new ModuleCoreGeneratorAuthzStatement()
-            .addTypeDeclarationStatement(`IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Find`, `${ChangeCaseHelper.c_snake(answers.moduleName)}:find`, 'filter', null)
+            .addTypeDeclarationStatement(`IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Filter`, `${ChangeCaseHelper.c_snake(answers.moduleName)}:find`, 'filter', null)
             .transform(code),
       });
 
@@ -589,7 +589,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
         transform: async (code: string) =>
           new ModuleCoreGeneratorBaseAuthzPolicy()
-            .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Find`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Find`)
+            .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Filter`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Filter`)
             .transform(code),
       });
     }
