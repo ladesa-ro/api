@@ -10,6 +10,8 @@ import { AmbienteEntity } from '../../../../infrastructure/integrate-database/ty
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { BlocoService, IBlocoQueryBuilderViewOptions } from '../bloco/bloco.service';
+import { ICampusQueryBuilderViewOptions } from '../campus/campus.service';
+import { ImagemService } from '../../base/imagem/imagem.service';
 
 // ============================================================================
 
@@ -19,6 +21,7 @@ const aliasAmbiente = 'ambiente';
 
 export type IAmbienteQueryBuilderViewOptions = {
   loadBloco?: IQueryBuilderViewOptionsLoad<IBlocoQueryBuilderViewOptions>;
+  loadImagemCapa?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
 };
 
 // ============================================================================
@@ -53,6 +56,13 @@ export class AmbienteService {
     if (loadBloco) {
       qb.leftJoin(`${alias}.bloco`, `${loadBloco.alias}`);
       BlocoService.BlocoQueryBuilderView(loadBloco.alias, qb, loadBloco.options);
+    }
+
+    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
+
+    if (loadImagemCapa) {
+      qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
+      ImagemService.ImagemQueryBuilderView(loadImagemCapa.alias, qb, loadImagemCapa.options);
     }
   }
 

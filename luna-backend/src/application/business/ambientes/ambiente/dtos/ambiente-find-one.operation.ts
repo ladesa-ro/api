@@ -33,6 +33,9 @@ export class AmbienteFindOneResultDto implements IAmbienteFindOneResultDto {
 
   @DtoProperty(AmbienteDtoProperties.AMBIENTE_BLOCO_OUTPUT)
   bloco!: IBlocoFindOneResultDto;
+
+  @DtoProperty(AmbienteDtoProperties.AMBIENTE_IMAGEM_CAPA_OUTPUT)
+  imagemCapa!: Dto.IImagemModel | null;
 }
 
 // ======================================================

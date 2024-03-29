@@ -16,11 +16,11 @@ export interface IBlocoModel extends IObjectUuid, IDatedObject {
   // =================================
 
   campus: ICampusModel;
+  imagemCapa: IImagemModel | null;
 
-  //
+  // =================================
 
   ambientes: IAmbienteModel[];
-  imagemCapa: IImagemModel | null;
 
   // =================================
 

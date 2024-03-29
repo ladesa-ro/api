@@ -1,6 +1,6 @@
 import { Int, ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { IAmbienteModel, IBlocoModel, IEntityDate } from '../../../(spec)';
+import { IAmbienteModel, IBlocoModel, IEntityDate, IImagemModel } from '../../../(spec)';
 import {
   CommonPropertyUuid,
   DtoProperty,
@@ -12,6 +12,7 @@ import {
   createDtoPropertyMap,
   createValidationContract,
 } from '../../../../../infrastructure';
+import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/dtos';
 import { BlocoDto, BlocoFindOneResultDto } from '../../bloco/dtos';
 
 // ======================================================
@@ -120,6 +121,18 @@ export const AmbienteDtoProperties = createDtoPropertyMap({
       type: () => BlocoFindOneResultDto,
     },
   },
+
+  AMBIENTE_IMAGEM_CAPA_OUTPUT: {
+    nullable: true,
+    description: 'Imagem de capa do ambiente.',
+    //
+    gql: {
+      type: () => ImagemDto,
+    },
+    swagger: {
+      type: ImagemFindOneResultDto,
+    },
+  },
 });
 
 // ======================================================
@@ -148,6 +161,9 @@ export class AmbienteDto implements IAmbienteModel {
 
   @DtoProperty(AmbienteDtoProperties.AMBIENTE_BLOCO_OUTPUT)
   bloco!: IBlocoModel;
+
+  @DtoProperty(AmbienteDtoProperties.AMBIENTE_IMAGEM_CAPA_OUTPUT)
+  imagemCapa!: IImagemModel | null;
 
   //
 
