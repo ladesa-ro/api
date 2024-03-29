@@ -1,4 +1,6 @@
-import { Resolver } from '@nestjs/graphql';
+import { Info, Resolver } from '@nestjs/graphql';
+import { GraphQLResolveInfo } from 'graphql';
+import getFieldNames from 'graphql-list-fields';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
@@ -16,8 +18,9 @@ export class BlocoResolver {
   //
 
   @DtoOperationGqlQuery(BlocoOperations.BLOCO_FIND_ALL)
-  async blocoFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(BlocoOperations.BLOCO_FIND_ALL) dto: Dto.ISearchInputDto) {
-    return this.blocoService.blocoFindAll(contextoDeAcesso, dto);
+  async blocoFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(BlocoOperations.BLOCO_FIND_ALL) dto: Dto.ISearchInputDto, @Info() info: GraphQLResolveInfo) {
+    const fields = getFieldNames(<any>info);
+    return this.blocoService.blocoFindAll(contextoDeAcesso, dto, fields);
   }
 
   //
