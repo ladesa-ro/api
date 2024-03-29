@@ -2,9 +2,9 @@ import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import {
-  ClientAccessHttp,
+  ContextoDeAcessoHttp,
   DtoOperationCreate,
   DtoOperationDelete,
   DtoOperationFindAll,
@@ -26,8 +26,8 @@ export class ModalidadeController {
 
   @Get('/')
   @DtoOperationFindAll(ModalidadeOperations.MODALIDADE_FIND_ALL)
-  async modalidadeFindAll(@ClientAccessHttp() clientAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.IModalidadeFindAllResultDto> {
-    return this.modalidadeService.modalidadeFindAll(clientAccess, getSearchInputFromPaginateQuery(query));
+  async modalidadeFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IModalidadeFindAllResultDto> {
+    return this.modalidadeService.modalidadeFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
@@ -35,19 +35,19 @@ export class ModalidadeController {
   @Get('/:id')
   @DtoOperationFindOne(ModalidadeOperations.MODALIDADE_FIND_ONE_BY_ID)
   async modalidadeFindById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(ModalidadeOperations.MODALIDADE_FIND_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.modalidadeService.modalidadeFindByIdStrict(clientAccess, { id });
+    return this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, { id });
   }
 
   //
 
   @Post('/')
   @DtoOperationCreate(ModalidadeOperations.MODALIDADE_CREATE)
-  async modalidadeCreate(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(ModalidadeOperations.MODALIDADE_CREATE) dto: Dto.IModalidadeInputDto) {
-    return this.modalidadeService.modalidadeCreate(clientAccess, dto);
+  async modalidadeCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(ModalidadeOperations.MODALIDADE_CREATE) dto: Dto.IModalidadeInputDto) {
+    return this.modalidadeService.modalidadeCreate(contextoDeAcesso, dto);
   }
 
   //
@@ -55,7 +55,7 @@ export class ModalidadeController {
   @Patch('/:id')
   @DtoOperationUpdate(ModalidadeOperations.MODALIDADE_UPDATE)
   async modalidadeUpdate(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(ModalidadeOperations.MODALIDADE_UPDATE, 'id')
     id: string,
     @HttpDtoBody(ModalidadeOperations.MODALIDADE_UPDATE)
@@ -66,7 +66,7 @@ export class ModalidadeController {
       id,
     };
 
-    return this.modalidadeService.modalidadeUpdate(clientAccess, dtoUpdate);
+    return this.modalidadeService.modalidadeUpdate(contextoDeAcesso, dtoUpdate);
   }
 
   //
@@ -74,11 +74,11 @@ export class ModalidadeController {
   @Delete('/:id')
   @DtoOperationDelete(ModalidadeOperations.MODALIDADE_DELETE_ONE_BY_ID)
   async modalidadeDeleteOneById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(ModalidadeOperations.MODALIDADE_DELETE_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.modalidadeService.modalidadeDeleteOneById(clientAccess, { id });
+    return this.modalidadeService.modalidadeDeleteOneById(contextoDeAcesso, { id });
   }
 
   //

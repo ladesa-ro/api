@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { IEnderecoFindOneByIdInputDto, IEnderecoFindOneResultDto, IEnderecoInputDto, IEnderecoModel } from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import { parsePayloadYup } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
@@ -105,15 +105,12 @@ export class EnderecoService {
 
   //
 
-  async findById(clientAccess: IClientAccess, dto: IEnderecoFindOneByIdInputDto): Promise<IEnderecoFindOneResultDto | null> {
+  async findById(contextoDeAcesso: IContextoDeAcesso, dto: IEnderecoFindOneByIdInputDto): Promise<IEnderecoFindOneResultDto | null> {
     const qb = this.enderecoRepository.createQueryBuilder(aliasEndereco);
 
     // =========================================================
 
-    await clientAccess.applyFilter('endereco:find', qb, aliasEndereco, {
-      from: 'find-by-id',
-      dto: dto,
-    });
+    await contextoDeAcesso.aplicarFiltro('endereco:find', qb, aliasEndereco, null);
 
     // =========================================================
 
@@ -138,7 +135,7 @@ export class EnderecoService {
     return endereco;
   }
 
-  async findByIdStrict(requestContext: IClientAccess, dto: IEnderecoFindOneByIdInputDto) {
+  async findByIdStrict(requestContext: IContextoDeAcesso, dto: IEnderecoFindOneByIdInputDto) {
     const endereco = await this.findById(requestContext, dto);
 
     if (!endereco) {

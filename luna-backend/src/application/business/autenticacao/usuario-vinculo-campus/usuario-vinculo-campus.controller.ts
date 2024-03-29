@@ -1,9 +1,9 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ClientAccessHttp, DtoOperationFindAll, DtoOperationUpdate, HttpDtoBody } from 'infrastructure';
+import { ContextoDeAcessoHttp, DtoOperationFindAll, DtoOperationUpdate, HttpDtoBody } from 'infrastructure';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import { UsuarioVinculoCampusOperations } from './dtos';
 import { UsuarioVinculoCampusService } from './usuario-vinculo-campus.service';
 
@@ -14,13 +14,16 @@ export class UsuarioVinculoCampusController {
 
   @Get('/')
   @DtoOperationFindAll(UsuarioVinculoCampusOperations.VINCULO_FIND_ALL)
-  async findAll(@ClientAccessHttp() clientAccess: IClientAccess, @Paginate() query: PaginateQuery) {
-    return this.usuarioVinculoCampusService.vinculoFindAll(clientAccess, query);
+  async findAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery) {
+    return this.usuarioVinculoCampusService.vinculoFindAll(contextoDeAcesso, query);
   }
 
   @Post('/')
   @DtoOperationUpdate(UsuarioVinculoCampusOperations.VINCULO_SET_VINCULOS)
-  async vinculoSetVinculos(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(UsuarioVinculoCampusOperations.VINCULO_SET_VINCULOS) dto: Dto.IUsuarioVinculoCampusSetVinculosInputDto) {
-    return this.usuarioVinculoCampusService.vinculoSetVinculos(clientAccess, dto);
+  async vinculoSetVinculos(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @HttpDtoBody(UsuarioVinculoCampusOperations.VINCULO_SET_VINCULOS) dto: Dto.IUsuarioVinculoCampusSetVinculosInputDto,
+  ) {
+    return this.usuarioVinculoCampusService.vinculoSetVinculos(contextoDeAcesso, dto);
   }
 }

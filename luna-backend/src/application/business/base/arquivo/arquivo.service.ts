@@ -4,8 +4,14 @@ import { writeFile } from 'node:fs/promises';
 import { Readable } from 'node:stream';
 import { v4 } from 'uuid';
 import * as Dto from '../../(spec)';
+import { IContextoDeAcesso } from '../../../../domain';
 import { DatabaseContextService } from '../../../../infrastructure';
 import { ArquivoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/base/arquivo.entity';
+
+type IGetFileAcesso = null | {
+  recurso: string;
+  id: string;
+};
 
 @Injectable()
 export class ArquivoService {
@@ -40,8 +46,24 @@ export class ArquivoService {
     return null;
   }
 
-  async getFile(id: Dto.IArquivoModel['id']) {
-    const arquivo = await this.arquivoRepository.findOne({ where: { id } });
+  async getFile(contextoDeAcesso: IContextoDeAcesso, id: Dto.IArquivoModel['id'], acesso: IGetFileAcesso | null) {
+    const qb = this.arquivoRepository.createQueryBuilder('arquivo');
+
+    if (acesso) {
+      if (acesso.recurso === 'bloco') {
+        qb
+          //
+          .innerJoin('arquivo.imagemArquivo', 'imagemArquivo')
+          .innerJoin('imagemArquivo.imagem', 'imagem', 'imagem.id = :imagemId', { imagemId: acesso.id })
+          .leftJoin('imagem.blocoCapa', 'blocoCapa');
+
+        qb.andWhere('blocoCapa.id is not null');
+
+        await contextoDeAcesso.aplicarFiltro('bloco:find', qb, 'blocoCapa', null);
+      }
+    }
+
+    const arquivo = await qb.getOne();
 
     if (!arquivo) {
       throw new NotFoundException();

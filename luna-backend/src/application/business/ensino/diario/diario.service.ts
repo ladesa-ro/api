@@ -3,7 +3,7 @@ import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { DiarioEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/diario.entity';
@@ -69,14 +69,14 @@ export class DiarioService {
 
   //
 
-  async diarioFindAll(clientAccess: IClientAccess, dto?: Dtos.ISearchInputDto): Promise<Dtos.IDiarioFindAllResultDto> {
+  async diarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IDiarioFindAllResultDto> {
     // =========================================================
 
     const qb = this.diarioRepository.createQueryBuilder(aliasDiario);
 
     // =========================================================
 
-    await clientAccess.applyFilter('diario:find', qb, aliasDiario, null);
+    await contextoDeAcesso.aplicarFiltro('diario:find', qb, aliasDiario, null);
 
     // =========================================================
 
@@ -151,14 +151,14 @@ export class DiarioService {
     return paginated;
   }
 
-  async diarioFindById(clientAccess: IClientAccess, dto: Dtos.IDiarioFindOneByIdInputDto): Promise<Dtos.IDiarioFindOneResultDto | null> {
+  async diarioFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioFindOneByIdInputDto): Promise<Dtos.IDiarioFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.diarioRepository.createQueryBuilder(aliasDiario);
 
     // =========================================================
 
-    await clientAccess.applyFilter('diario:find', qb, aliasDiario, null);
+    await contextoDeAcesso.aplicarFiltro('diario:find', qb, aliasDiario, null);
 
     // =========================================================
 
@@ -179,8 +179,8 @@ export class DiarioService {
     return diario;
   }
 
-  async diarioFindByIdStrict(clientAccess: IClientAccess, dto: Dtos.IDiarioFindOneByIdInputDto) {
-    const diario = await this.diarioFindById(clientAccess, dto);
+  async diarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioFindOneByIdInputDto) {
+    const diario = await this.diarioFindById(contextoDeAcesso, dto);
 
     if (!diario) {
       throw new NotFoundException();
@@ -190,7 +190,7 @@ export class DiarioService {
   }
 
   async diarioFindByIdSimple(
-    clientAccess: IClientAccess,
+    contextoDeAcesso: IContextoDeAcesso,
     id: Dtos.IDiarioFindOneByIdInputDto['id'],
     options?: IDiarioQueryBuilderViewOptions,
     selection?: string[],
@@ -201,7 +201,7 @@ export class DiarioService {
 
     // =========================================================
 
-    await clientAccess.applyFilter('diario:find', qb, aliasDiario, null);
+    await contextoDeAcesso.aplicarFiltro('diario:find', qb, aliasDiario, null);
 
     // =========================================================
 
@@ -228,8 +228,8 @@ export class DiarioService {
     return diario;
   }
 
-  async diarioFindByIdSimpleStrict(clientAccess: IClientAccess, id: Dtos.IDiarioFindOneByIdInputDto['id'], options?: IDiarioQueryBuilderViewOptions, selection?: string[]) {
-    const diario = await this.diarioFindByIdSimple(clientAccess, id, options, selection);
+  async diarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IDiarioFindOneByIdInputDto['id'], options?: IDiarioQueryBuilderViewOptions, selection?: string[]) {
+    const diario = await this.diarioFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!diario) {
       throw new NotFoundException();
@@ -240,10 +240,10 @@ export class DiarioService {
 
   //
 
-  async diarioCreate(clientAccess: IClientAccess, dto: Dtos.IDiarioInputDto) {
+  async diarioCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioInputDto) {
     // =========================================================
 
-    await clientAccess.ensurePermissionCheck('diario:create', { dto });
+    await contextoDeAcesso.ensurePermission('diario:create', { dto });
 
     // =========================================================
 
@@ -258,7 +258,7 @@ export class DiarioService {
     // =========================================================
 
     if (dto.ambientePadrao !== null) {
-      const ambientePadrao = await this.ambienteService.ambienteFindByIdStrict(clientAccess, { id: dto.ambientePadrao.id });
+      const ambientePadrao = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.ambientePadrao.id });
 
       this.diarioRepository.merge(diario, {
         ambientePadrao: {
@@ -273,7 +273,7 @@ export class DiarioService {
 
     // =========================================================
 
-    const disciplina = await this.disciplinaService.disciplinaFindByIdSimpleStrict(clientAccess, dto.disciplina.id);
+    const disciplina = await this.disciplinaService.disciplinaFindByIdSimpleStrict(contextoDeAcesso, dto.disciplina.id);
 
     this.diarioRepository.merge(diario, {
       disciplina: {
@@ -283,7 +283,7 @@ export class DiarioService {
 
     // =========================================================
 
-    const turma = await this.turmaService.turmaFindByIdSimpleStrict(clientAccess, dto.turma.id);
+    const turma = await this.turmaService.turmaFindByIdSimpleStrict(contextoDeAcesso, dto.turma.id);
 
     this.diarioRepository.merge(diario, {
       turma: {
@@ -297,19 +297,19 @@ export class DiarioService {
 
     // =========================================================
 
-    return this.diarioFindByIdStrict(clientAccess, { id: diario.id });
+    return this.diarioFindByIdStrict(contextoDeAcesso, { id: diario.id });
   }
 
-  async diarioUpdate(clientAccess: IClientAccess, dto: Dtos.IDiarioUpdateDto) {
+  async diarioUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioUpdateDto) {
     // =========================================================
 
-    const currentDiario = await this.diarioFindByIdStrict(clientAccess, {
+    const currentDiario = await this.diarioFindByIdStrict(contextoDeAcesso, {
       id: dto.id,
     });
 
     // =========================================================
 
-    await clientAccess.ensureCanReach('diario:update', { dto }, this.diarioRepository.createQueryBuilder(aliasDiario), dto.id);
+    await contextoDeAcesso.ensurePermission('diario:update', { dto }, dto.id, this.diarioRepository.createQueryBuilder(aliasDiario));
 
     const dtoDiario = pick(dto, ['situacao', 'ano', 'etapa', 'turma', 'disciplina', 'ambientePadrao']);
 
@@ -325,7 +325,7 @@ export class DiarioService {
 
     if (has(dto, 'ambientePadrao') && dto.ambientePadrao !== undefined) {
       if (dto.ambientePadrao !== null) {
-        const ambientePadrao = await this.ambienteService.ambienteFindByIdStrict(clientAccess, { id: dto.ambientePadrao.id });
+        const ambientePadrao = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.ambientePadrao.id });
 
         this.diarioRepository.merge(diario, {
           ambientePadrao: {
@@ -342,7 +342,7 @@ export class DiarioService {
     // =========================================================
 
     if (has(dto, 'disciplina') && dto.disciplina !== undefined) {
-      const disciplina = await this.disciplinaService.disciplinaFindByIdSimpleStrict(clientAccess, dto.disciplina.id);
+      const disciplina = await this.disciplinaService.disciplinaFindByIdSimpleStrict(contextoDeAcesso, dto.disciplina.id);
 
       this.diarioRepository.merge(diario, {
         disciplina: {
@@ -354,7 +354,7 @@ export class DiarioService {
     // =========================================================
 
     if (has(dto, 'turma') && dto.turma !== undefined) {
-      const turma = await this.turmaService.turmaFindByIdSimpleStrict(clientAccess, dto.turma.id);
+      const turma = await this.turmaService.turmaFindByIdSimpleStrict(contextoDeAcesso, dto.turma.id);
 
       this.diarioRepository.merge(diario, {
         turma: {
@@ -369,19 +369,19 @@ export class DiarioService {
 
     // =========================================================
 
-    return this.diarioFindByIdStrict(clientAccess, { id: diario.id });
+    return this.diarioFindByIdStrict(contextoDeAcesso, { id: diario.id });
   }
 
   //
 
-  async diarioDeleteOneById(clientAccess: IClientAccess, dto: Dtos.IDiarioDeleteOneByIdInputDto) {
+  async diarioDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioDeleteOneByIdInputDto) {
     // =========================================================
 
-    await clientAccess.ensureCanReach('diario:delete', { dto }, this.diarioRepository.createQueryBuilder(aliasDiario), dto.id);
+    await contextoDeAcesso.ensurePermission('diario:delete', { dto }, dto.id, this.diarioRepository.createQueryBuilder(aliasDiario));
 
     // =========================================================
 
-    const diario = await this.diarioFindByIdStrict(clientAccess, dto);
+    const diario = await this.diarioFindByIdStrict(contextoDeAcesso, dto);
 
     // =========================================================
 

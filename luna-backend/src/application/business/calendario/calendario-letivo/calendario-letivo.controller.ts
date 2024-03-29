@@ -1,7 +1,7 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {
-  ClientAccessHttp,
+  ContextoDeAcessoHttp,
   DtoOperationCreate,
   DtoOperationDelete,
   DtoOperationFindAll,
@@ -12,7 +12,7 @@ import {
   getSearchInputFromPaginateQuery,
 } from 'infrastructure';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { CalendarioLetivoService } from './calendario-letivo.service';
@@ -25,7 +25,7 @@ export class CalendarioLetivoController {
 
   @Get('/')
   @DtoOperationFindAll(CalendarioLetivoOperations.CALENDARIO_LETIVO_FIND_ALL)
-  async calendarioFindAll(@ClientAccessHttp() clienttAcess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.ICalendarioLetivoFindAllResultDto> {
+  async calendarioFindAll(@ContextoDeAcessoHttp() clienttAcess: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.ICalendarioLetivoFindAllResultDto> {
     return this.calendarioLetivoService.calendarioLetivoFindAll(clienttAcess, getSearchInputFromPaginateQuery(query));
   }
 
@@ -34,19 +34,19 @@ export class CalendarioLetivoController {
   @Get('/:id')
   @DtoOperationFindOne(CalendarioLetivoOperations.CALENDARIO_LETIVO_FIND_ONE_BY_ID)
   async calendarioLetivoFindById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(CalendarioLetivoOperations.CALENDARIO_LETIVO_FIND_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(clientAccess, { id });
+    return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(contextoDeAcesso, { id });
   }
 
   //
 
   @Post('/')
   @DtoOperationCreate(CalendarioLetivoOperations.CALENDARIO_LETIVO_CREATE)
-  async campusCreate(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(CalendarioLetivoOperations.CALENDARIO_LETIVO_CREATE) dto: Dto.ICalendarioLetivoInputDto) {
-    return this.calendarioLetivoService.calendarioLetivoCreate(clientAccess, dto);
+  async campusCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(CalendarioLetivoOperations.CALENDARIO_LETIVO_CREATE) dto: Dto.ICalendarioLetivoInputDto) {
+    return this.calendarioLetivoService.calendarioLetivoCreate(contextoDeAcesso, dto);
   }
 
   //
@@ -54,7 +54,7 @@ export class CalendarioLetivoController {
   @Patch('/:id')
   @DtoOperationUpdate(CalendarioLetivoOperations.CALENDARIO_LETIVO_UPDATE)
   async calendarioLetivoUpdate(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(CalendarioLetivoOperations.CALENDARIO_LETIVO_UPDATE, 'id')
     id: string,
     @HttpDtoBody(CalendarioLetivoOperations.CALENDARIO_LETIVO_UPDATE)
@@ -65,7 +65,7 @@ export class CalendarioLetivoController {
       id,
     };
 
-    return this.calendarioLetivoService.calendarioLetivoUpdate(clientAccess, dtoUpdate);
+    return this.calendarioLetivoService.calendarioLetivoUpdate(contextoDeAcesso, dtoUpdate);
   }
 
   //
@@ -73,11 +73,11 @@ export class CalendarioLetivoController {
   @Delete('/:id')
   @DtoOperationDelete(CalendarioLetivoOperations.CALENDARIO_LETIVO_DELETE_ONE_BY_ID)
   async CalendarioLetivoDeleteOneById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(CalendarioLetivoOperations.CALENDARIO_LETIVO_DELETE_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.calendarioLetivoService.calendarioLetivoDeleteOneById(clientAccess, { id });
+    return this.calendarioLetivoService.calendarioLetivoDeleteOneById(contextoDeAcesso, { id });
   }
 
   //

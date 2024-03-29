@@ -2,9 +2,9 @@ import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import {
-  ClientAccessHttp,
+  ContextoDeAcessoHttp,
   DtoOperationCreate,
   DtoOperationDelete,
   DtoOperationFindAll,
@@ -26,8 +26,8 @@ export class ReservaController {
 
   @Get('/')
   @DtoOperationFindAll(ReservaOperations.RESERVA_FIND_ALL)
-  async reservaFindAll(@ClientAccessHttp() clientAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.IReservaFindAllResultDto> {
-    return this.reservaService.reservaFindAll(clientAccess, getSearchInputFromPaginateQuery(query));
+  async reservaFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IReservaFindAllResultDto> {
+    return this.reservaService.reservaFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
@@ -35,19 +35,19 @@ export class ReservaController {
   @Get('/:id')
   @DtoOperationFindOne(ReservaOperations.RESERVA_FIND_ONE_BY_ID)
   async reservaFindById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(ReservaOperations.RESERVA_FIND_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.reservaService.reservaFindByIdStrict(clientAccess, { id });
+    return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, { id });
   }
 
   //
 
   @Post('/')
   @DtoOperationCreate(ReservaOperations.RESERVA_CREATE)
-  async reservaCreate(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(ReservaOperations.RESERVA_CREATE) dto: Dto.IReservaInputDto) {
-    return this.reservaService.reservaCreate(clientAccess, dto);
+  async reservaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(ReservaOperations.RESERVA_CREATE) dto: Dto.IReservaInputDto) {
+    return this.reservaService.reservaCreate(contextoDeAcesso, dto);
   }
 
   //
@@ -55,7 +55,7 @@ export class ReservaController {
   @Patch('/:id')
   @DtoOperationUpdate(ReservaOperations.RESERVA_UPDATE)
   async reservaUpdate(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(ReservaOperations.RESERVA_UPDATE, 'id')
     id: string,
     @HttpDtoBody(ReservaOperations.RESERVA_UPDATE)
@@ -66,7 +66,7 @@ export class ReservaController {
       id,
     };
 
-    return this.reservaService.reservaUpdate(clientAccess, dtoUpdate);
+    return this.reservaService.reservaUpdate(contextoDeAcesso, dtoUpdate);
   }
 
   //
@@ -74,11 +74,11 @@ export class ReservaController {
   @Delete('/:id')
   @DtoOperationDelete(ReservaOperations.RESERVA_DELETE_ONE_BY_ID)
   async reservaDeleteOneById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(ReservaOperations.RESERVA_DELETE_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.reservaService.reservaDeleteOneById(clientAccess, { id });
+    return this.reservaService.reservaDeleteOneById(contextoDeAcesso, { id });
   }
 
   //

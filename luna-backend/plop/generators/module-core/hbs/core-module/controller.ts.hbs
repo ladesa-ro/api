@@ -2,9 +2,9 @@ import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import {
-  ClientAccessHttp,
+  ContextoDeAcessoHttp,
   DtoOperationCreate,
   DtoOperationDelete,
   DtoOperationFindAll,
@@ -26,8 +26,8 @@ export class {{ c_pascal moduleName }}Controller {
 
   @Get('/')
   @DtoOperationFindAll({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_FIND_ALL)
-  async {{ c_camel moduleName }}FindAll(@ClientAccessHttp() clientAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.I{{ c_pascal moduleName }}FindAllResultDto> {
-    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}FindAll(clientAccess, getSearchInputFromPaginateQuery(query));
+  async {{ c_camel moduleName }}FindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.I{{ c_pascal moduleName }}FindAllResultDto> {
+    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}FindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
@@ -35,19 +35,19 @@ export class {{ c_pascal moduleName }}Controller {
   @Get('/:id')
   @DtoOperationFindOne({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_FIND_ONE_BY_ID)
   async {{ c_camel moduleName }}FindById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_FIND_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}FindByIdStrict(clientAccess, { id });
+    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}FindByIdStrict(contextoDeAcesso, { id });
   }
 
   //
 
   @Post('/')
   @DtoOperationCreate({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_CREATE)
-  async {{ c_camel moduleName }}Create(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_CREATE) dto: Dto.I{{ c_pascal moduleName }}InputDto) {
-    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}Create(clientAccess, dto);
+  async {{ c_camel moduleName }}Create(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_CREATE) dto: Dto.I{{ c_pascal moduleName }}InputDto) {
+    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}Create(contextoDeAcesso, dto);
   }
 
   //
@@ -55,7 +55,7 @@ export class {{ c_pascal moduleName }}Controller {
   @Patch('/:id')
   @DtoOperationUpdate({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_UPDATE)
   async {{ c_camel moduleName }}Update(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_UPDATE, 'id')
     id: string,
     @HttpDtoBody({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_UPDATE)
@@ -66,7 +66,7 @@ export class {{ c_pascal moduleName }}Controller {
       id,
     };
 
-    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}Update(clientAccess, dtoUpdate);
+    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}Update(contextoDeAcesso, dtoUpdate);
   }
 
   //
@@ -74,11 +74,11 @@ export class {{ c_pascal moduleName }}Controller {
   @Delete('/:id')
   @DtoOperationDelete({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_DELETE_ONE_BY_ID)
   async {{ c_camel moduleName }}DeleteOneById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_DELETE_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}DeleteOneById(clientAccess, { id });
+    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}DeleteOneById(contextoDeAcesso, { id });
   }
 
   //

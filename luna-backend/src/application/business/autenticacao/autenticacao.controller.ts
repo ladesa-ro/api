@@ -1,8 +1,8 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '../(spec)';
-import { IClientAccess } from '../../../domain';
-import { ClientAccessHttp, DtoOperationCreate, DtoOperationFindOne, HttpDtoBody } from '../../../infrastructure';
+import { IContextoDeAcesso } from '../../../domain';
+import { ContextoDeAcessoHttp, DtoOperationCreate, DtoOperationFindOne, HttpDtoBody } from '../../../infrastructure';
 import { AutenticacaoService } from './autenticacao.service';
 import { AutenticacaoOperations } from './dtos';
 
@@ -13,25 +13,25 @@ export class AutenticacaoController {
 
   @Get('/quem-sou-eu')
   @DtoOperationFindOne(AutenticacaoOperations.AUTENTICACAO_QUEM_SOU_EU)
-  quemSouEu(@ClientAccessHttp() clientAccess: IClientAccess) {
-    return this.autenticacaoService.quemSouEu(clientAccess);
+  quemSouEu(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso) {
+    return this.autenticacaoService.quemSouEu(contextoDeAcesso);
   }
 
   @Post('/login')
   @DtoOperationCreate(AutenticacaoOperations.AUTENTICACAO_LOGIN)
-  login(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(AutenticacaoOperations.AUTENTICACAO_LOGIN) dto: Dto.IAutenticacaoLoginInputDto) {
-    return this.autenticacaoService.login(clientAccess, dto);
+  login(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(AutenticacaoOperations.AUTENTICACAO_LOGIN) dto: Dto.IAutenticacaoLoginInputDto) {
+    return this.autenticacaoService.login(contextoDeAcesso, dto);
   }
 
   @Post('/login/refresh')
   @DtoOperationCreate(AutenticacaoOperations.AUTENTICACAO_REFRESH)
-  refresh(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(AutenticacaoOperations.AUTENTICACAO_REFRESH) dto: Dto.IAutenticacaoRefreshInputDto) {
-    return this.autenticacaoService.refresh(clientAccess, dto);
+  refresh(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(AutenticacaoOperations.AUTENTICACAO_REFRESH) dto: Dto.IAutenticacaoRefreshInputDto) {
+    return this.autenticacaoService.refresh(contextoDeAcesso, dto);
   }
 
   @Post('/definir-senha')
   @DtoOperationCreate(AutenticacaoOperations.AUTENTICACAO_DEFINIR_SENHA)
-  definirSenha(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(AutenticacaoOperations.AUTENTICACAO_DEFINIR_SENHA) dto: Dto.IAutenticacaoDefinirSenhaInputDto) {
-    return this.autenticacaoService.definirSenha(clientAccess, dto);
+  definirSenha(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(AutenticacaoOperations.AUTENTICACAO_DEFINIR_SENHA) dto: Dto.IAutenticacaoDefinirSenhaInputDto) {
+    return this.autenticacaoService.definirSenha(contextoDeAcesso, dto);
   }
 }

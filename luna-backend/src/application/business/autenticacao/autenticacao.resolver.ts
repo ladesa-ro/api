@@ -1,7 +1,7 @@
 import { Resolver } from '@nestjs/graphql';
-import { ClientAccessGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from 'infrastructure';
+import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from 'infrastructure';
 import * as Dto from '../(spec)';
-import { IClientAccess } from '../../../domain';
+import { IContextoDeAcesso } from '../../../domain';
 import { AutenticacaoService } from './autenticacao.service';
 import { AutenticacaoOperations } from './dtos';
 
@@ -15,41 +15,41 @@ export class AutenticacaoResolver {
   //
 
   @DtoOperationGqlQuery(AutenticacaoOperations.AUTENTICACAO_QUEM_SOU_EU)
-  async usuarioFindOneById(@ClientAccessGraphQl() clientAccess: IClientAccess) {
-    return this.autenticacaoService.quemSouEu(clientAccess);
+  async usuarioFindOneById(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso) {
+    return this.autenticacaoService.quemSouEu(contextoDeAcesso);
   }
 
   //
 
   @DtoOperationGqlMutation(AutenticacaoOperations.AUTENTICACAO_LOGIN)
   async autenticacaoLogin(
-    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @GqlDtoInput(AutenticacaoOperations.AUTENTICACAO_LOGIN)
     dto: Dto.IAutenticacaoLoginInputDto,
   ) {
-    return this.autenticacaoService.login(clientAccess, dto);
+    return this.autenticacaoService.login(contextoDeAcesso, dto);
   }
 
   //
 
   @DtoOperationGqlMutation(AutenticacaoOperations.AUTENTICACAO_REFRESH)
   async autenticacaoRefresh(
-    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @GqlDtoInput(AutenticacaoOperations.AUTENTICACAO_REFRESH)
     dto: Dto.IAutenticacaoRefreshInputDto,
   ) {
-    return this.autenticacaoService.refresh(clientAccess, dto);
+    return this.autenticacaoService.refresh(contextoDeAcesso, dto);
   }
 
   //
 
   @DtoOperationGqlMutation(AutenticacaoOperations.AUTENTICACAO_DEFINIR_SENHA)
   async autenticacaoDefinirSenha(
-    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @GqlDtoInput(AutenticacaoOperations.AUTENTICACAO_DEFINIR_SENHA)
     dto: Dto.IAutenticacaoDefinirSenhaInputDto,
   ) {
-    return this.autenticacaoService.definirSenha(clientAccess, dto);
+    return this.autenticacaoService.definirSenha(contextoDeAcesso, dto);
   }
 
   //

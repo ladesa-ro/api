@@ -1,11 +1,11 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
-import { ClientAccessGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
+import { IContextoDeAcesso } from '../../../../domain';
+import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
 import { GqlDtoInput } from '../../../../infrastructure/api-documentate/GqlDtoInput';
+import { DisciplinaService } from './disciplina.service';
 import { DisciplinaOperations } from './dtos';
 import { DisciplinaDto } from './dtos/disciplina.dto';
-import { DisciplinaService } from './disciplina.service';
 
 @Resolver(() => DisciplinaDto)
 export class DisciplinaResolver {
@@ -17,39 +17,39 @@ export class DisciplinaResolver {
   //
 
   @DtoOperationGqlQuery(DisciplinaOperations.DISCIPLINA_FIND_ALL)
-  async disciplinaFindAll(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(DisciplinaOperations.DISCIPLINA_FIND_ALL) dto: Dto.ISearchInputDto) {
-    return this.disciplinaService.disciplinaFindAll(clientAccess, dto);
+  async disciplinaFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(DisciplinaOperations.DISCIPLINA_FIND_ALL) dto: Dto.ISearchInputDto) {
+    return this.disciplinaService.disciplinaFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @DtoOperationGqlQuery(DisciplinaOperations.DISCIPLINA_FIND_ONE_BY_ID)
   async disciplinaFindOneById(
-    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @GqlDtoInput(DisciplinaOperations.DISCIPLINA_FIND_ONE_BY_ID)
     dto: Dto.IDisciplinaFindOneByIdInputDto,
   ) {
-    return this.disciplinaService.disciplinaFindByIdStrict(clientAccess, dto);
+    return this.disciplinaService.disciplinaFindByIdStrict(contextoDeAcesso, dto);
   }
 
   //
 
   @DtoOperationGqlMutation(DisciplinaOperations.DISCIPLINA_CREATE)
-  async disciplinaCreate(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(DisciplinaOperations.DISCIPLINA_CREATE) dto: Dto.IDisciplinaInputDto) {
-    return this.disciplinaService.disciplinaCreate(clientAccess, dto);
+  async disciplinaCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(DisciplinaOperations.DISCIPLINA_CREATE) dto: Dto.IDisciplinaInputDto) {
+    return this.disciplinaService.disciplinaCreate(contextoDeAcesso, dto);
   }
 
   @DtoOperationGqlMutation(DisciplinaOperations.DISCIPLINA_UPDATE)
-  async disciplinaUpdate(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(DisciplinaOperations.DISCIPLINA_UPDATE) dto: Dto.IDisciplinaUpdateDto) {
-    return this.disciplinaService.disciplinaUpdate(clientAccess, dto);
+  async disciplinaUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(DisciplinaOperations.DISCIPLINA_UPDATE) dto: Dto.IDisciplinaUpdateDto) {
+    return this.disciplinaService.disciplinaUpdate(contextoDeAcesso, dto);
   }
 
   @DtoOperationGqlMutation(DisciplinaOperations.DISCIPLINA_DELETE_ONE_BY_ID)
   async disciplinaDeleteOneById(
-    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @GqlDtoInput(DisciplinaOperations.DISCIPLINA_DELETE_ONE_BY_ID)
     dto: Dto.IDisciplinaDeleteOneByIdInputDto,
   ) {
-    return this.disciplinaService.disciplinaDeleteOneById(clientAccess, dto);
+    return this.disciplinaService.disciplinaDeleteOneById(contextoDeAcesso, dto);
   }
 }

@@ -3,7 +3,7 @@ import { map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { DisciplinaEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/disciplina.entity';
@@ -40,14 +40,14 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaFindAll(clientAccess: IClientAccess, dto?: Dtos.ISearchInputDto): Promise<Dtos.IDisciplinaFindAllResultDto> {
+  async disciplinaFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IDisciplinaFindAllResultDto> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
 
     // =========================================================
 
-    await clientAccess.applyFilter('disciplina:find', qb, aliasDisciplina, null);
+    await contextoDeAcesso.aplicarFiltro('disciplina:find', qb, aliasDisciplina, null);
 
     // =========================================================
 
@@ -93,14 +93,14 @@ export class DisciplinaService {
     return paginated;
   }
 
-  async disciplinaFindById(clientAccess: IClientAccess, dto: Dtos.IDisciplinaFindOneByIdInputDto): Promise<Dtos.IDisciplinaFindOneResultDto | null> {
+  async disciplinaFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDisciplinaFindOneByIdInputDto): Promise<Dtos.IDisciplinaFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
 
     // =========================================================
 
-    await clientAccess.applyFilter('disciplina:find', qb, aliasDisciplina, null);
+    await contextoDeAcesso.aplicarFiltro('disciplina:find', qb, aliasDisciplina, null);
 
     // =========================================================
 
@@ -121,8 +121,8 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdStrict(clientAccess: IClientAccess, dto: Dtos.IDisciplinaFindOneByIdInputDto) {
-    const disciplina = await this.disciplinaFindById(clientAccess, dto);
+  async disciplinaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDisciplinaFindOneByIdInputDto) {
+    const disciplina = await this.disciplinaFindById(contextoDeAcesso, dto);
 
     if (!disciplina) {
       throw new NotFoundException();
@@ -132,7 +132,7 @@ export class DisciplinaService {
   }
 
   async disciplinaFindByIdSimple(
-    clientAccess: IClientAccess,
+    contextoDeAcesso: IContextoDeAcesso,
     id: Dtos.IDisciplinaFindOneByIdInputDto['id'],
     options?: IDisciplinaQueryBuilderViewOptions,
     selection?: string[],
@@ -143,7 +143,7 @@ export class DisciplinaService {
 
     // =========================================================
 
-    await clientAccess.applyFilter('disciplina:find', qb, aliasDisciplina, null);
+    await contextoDeAcesso.aplicarFiltro('disciplina:find', qb, aliasDisciplina, null);
 
     // =========================================================
 
@@ -170,8 +170,8 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdSimpleStrict(clientAccess: IClientAccess, id: Dtos.IDisciplinaFindOneByIdInputDto['id'], options?: IDisciplinaQueryBuilderViewOptions, selection?: string[]) {
-    const disciplina = await this.disciplinaFindByIdSimple(clientAccess, id, options, selection);
+  async disciplinaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IDisciplinaFindOneByIdInputDto['id'], options?: IDisciplinaQueryBuilderViewOptions, selection?: string[]) {
+    const disciplina = await this.disciplinaFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!disciplina) {
       throw new NotFoundException();
@@ -182,10 +182,10 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaCreate(clientAccess: IClientAccess, dto: Dtos.IDisciplinaInputDto) {
+  async disciplinaCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDisciplinaInputDto) {
     // =========================================================
 
-    await clientAccess.ensurePermissionCheck('disciplina:create', { dto });
+    await contextoDeAcesso.ensurePermission('disciplina:create', { dto });
 
     // =========================================================
 
@@ -203,19 +203,19 @@ export class DisciplinaService {
 
     // =========================================================
 
-    return this.disciplinaFindByIdStrict(clientAccess, { id: disciplina.id });
+    return this.disciplinaFindByIdStrict(contextoDeAcesso, { id: disciplina.id });
   }
 
-  async disciplinaUpdate(clientAccess: IClientAccess, dto: Dtos.IDisciplinaUpdateDto) {
+  async disciplinaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDisciplinaUpdateDto) {
     // =========================================================
 
-    const currentDisciplina = await this.disciplinaFindByIdStrict(clientAccess, {
+    const currentDisciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, {
       id: dto.id,
     });
 
     // =========================================================
 
-    await clientAccess.ensureCanReach('disciplina:update', { dto }, this.disciplinaRepository.createQueryBuilder(aliasDisciplina), dto.id);
+    await contextoDeAcesso.ensurePermission('disciplina:update', { dto }, dto.id, this.disciplinaRepository.createQueryBuilder(aliasDisciplina));
 
     const dtoDisciplina = pick(dto, ['nome', 'cargaHoraria']);
 
@@ -233,19 +233,19 @@ export class DisciplinaService {
 
     // =========================================================
 
-    return this.disciplinaFindByIdStrict(clientAccess, { id: disciplina.id });
+    return this.disciplinaFindByIdStrict(contextoDeAcesso, { id: disciplina.id });
   }
 
   //
 
-  async disciplinaDeleteOneById(clientAccess: IClientAccess, dto: Dtos.IDisciplinaDeleteOneByIdInputDto) {
+  async disciplinaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDisciplinaDeleteOneByIdInputDto) {
     // =========================================================
 
-    await clientAccess.ensureCanReach('disciplina:delete', { dto }, this.disciplinaRepository.createQueryBuilder(aliasDisciplina), dto.id);
+    await contextoDeAcesso.ensurePermission('disciplina:delete', { dto }, dto.id, this.disciplinaRepository.createQueryBuilder(aliasDisciplina));
 
     // =========================================================
 
-    const disciplina = await this.disciplinaFindByIdStrict(clientAccess, dto);
+    const disciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, dto);
 
     // =========================================================
 

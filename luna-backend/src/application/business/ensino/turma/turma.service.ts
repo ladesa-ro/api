@@ -3,7 +3,7 @@ import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { TurmaEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/turma.entity';
@@ -65,14 +65,14 @@ export class TurmaService {
 
   //
 
-  async turmaFindAll(clientAccess: IClientAccess, dto?: Dtos.ISearchInputDto): Promise<Dtos.ITurmaFindAllResultDto> {
+  async turmaFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.ITurmaFindAllResultDto> {
     // =========================================================
 
     const qb = this.turmaRepository.createQueryBuilder(aliasTurma);
 
     // =========================================================
 
-    await clientAccess.applyFilter('turma:find', qb, aliasTurma, null);
+    await contextoDeAcesso.aplicarFiltro('turma:find', qb, aliasTurma, null);
 
     // =========================================================
 
@@ -153,14 +153,14 @@ export class TurmaService {
     return paginated;
   }
 
-  async turmaFindById(clientAccess: IClientAccess, dto: Dtos.ITurmaFindOneByIdInputDto): Promise<Dtos.ITurmaFindOneResultDto | null> {
+  async turmaFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ITurmaFindOneByIdInputDto): Promise<Dtos.ITurmaFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.turmaRepository.createQueryBuilder(aliasTurma);
 
     // =========================================================
 
-    await clientAccess.applyFilter('turma:find', qb, aliasTurma, null);
+    await contextoDeAcesso.aplicarFiltro('turma:find', qb, aliasTurma, null);
 
     // =========================================================
 
@@ -181,8 +181,8 @@ export class TurmaService {
     return turma;
   }
 
-  async turmaFindByIdStrict(clientAccess: IClientAccess, dto: Dtos.ITurmaFindOneByIdInputDto) {
-    const turma = await this.turmaFindById(clientAccess, dto);
+  async turmaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ITurmaFindOneByIdInputDto) {
+    const turma = await this.turmaFindById(contextoDeAcesso, dto);
 
     if (!turma) {
       throw new NotFoundException();
@@ -192,7 +192,7 @@ export class TurmaService {
   }
 
   async turmaFindByIdSimple(
-    clientAccess: IClientAccess,
+    contextoDeAcesso: IContextoDeAcesso,
     id: Dtos.ITurmaFindOneByIdInputDto['id'],
     options?: ITurmaQueryBuilderViewOptions,
     selection?: string[],
@@ -203,7 +203,7 @@ export class TurmaService {
 
     // =========================================================
 
-    await clientAccess.applyFilter('turma:find', qb, aliasTurma, null);
+    await contextoDeAcesso.aplicarFiltro('turma:find', qb, aliasTurma, null);
 
     // =========================================================
 
@@ -230,8 +230,8 @@ export class TurmaService {
     return turma;
   }
 
-  async turmaFindByIdSimpleStrict(clientAccess: IClientAccess, id: Dtos.ITurmaFindOneByIdInputDto['id'], options?: ITurmaQueryBuilderViewOptions, selection?: string[]) {
-    const turma = await this.turmaFindByIdSimple(clientAccess, id, options, selection);
+  async turmaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.ITurmaFindOneByIdInputDto['id'], options?: ITurmaQueryBuilderViewOptions, selection?: string[]) {
+    const turma = await this.turmaFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!turma) {
       throw new NotFoundException();
@@ -242,10 +242,10 @@ export class TurmaService {
 
   //
 
-  async turmaCreate(clientAccess: IClientAccess, dto: Dtos.ITurmaInputDto) {
+  async turmaCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ITurmaInputDto) {
     // =========================================================
 
-    await clientAccess.ensurePermissionCheck('turma:create', { dto });
+    await contextoDeAcesso.ensurePermission('turma:create', { dto });
 
     // =========================================================
 
@@ -260,7 +260,7 @@ export class TurmaService {
     // =========================================================
 
     if (dto.ambientePadraoAula !== null) {
-      const ambientePadraoAula = await this.ambienteService.ambienteFindByIdStrict(clientAccess, { id: dto.ambientePadraoAula.id });
+      const ambientePadraoAula = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.ambientePadraoAula.id });
 
       this.turmaRepository.merge(turma, {
         ambientePadraoAula: {
@@ -275,7 +275,7 @@ export class TurmaService {
 
     // =========================================================
 
-    const curso = await this.cursoService.cursoFindByIdSimpleStrict(clientAccess, dto.curso.id);
+    const curso = await this.cursoService.cursoFindByIdSimpleStrict(contextoDeAcesso, dto.curso.id);
 
     this.turmaRepository.merge(turma, {
       curso: {
@@ -289,19 +289,19 @@ export class TurmaService {
 
     // =========================================================
 
-    return this.turmaFindByIdStrict(clientAccess, { id: turma.id });
+    return this.turmaFindByIdStrict(contextoDeAcesso, { id: turma.id });
   }
 
-  async turmaUpdate(clientAccess: IClientAccess, dto: Dtos.ITurmaUpdateDto) {
+  async turmaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ITurmaUpdateDto) {
     // =========================================================
 
-    const currentTurma = await this.turmaFindByIdStrict(clientAccess, {
+    const currentTurma = await this.turmaFindByIdStrict(contextoDeAcesso, {
       id: dto.id,
     });
 
     // =========================================================
 
-    await clientAccess.ensureCanReach('turma:update', { dto }, this.turmaRepository.createQueryBuilder(aliasTurma), dto.id);
+    await contextoDeAcesso.ensurePermission('turma:update', { dto }, dto.id, this.turmaRepository.createQueryBuilder(aliasTurma));
 
     const dtoTurma = pick(dto, ['periodo', 'grupo', 'nome']);
 
@@ -317,7 +317,7 @@ export class TurmaService {
 
     if (has(dto, 'ambientePadraoAula') && dto.ambientePadraoAula !== undefined) {
       if (dto.ambientePadraoAula !== null) {
-        const ambientePadraoAula = await this.ambienteService.ambienteFindByIdStrict(clientAccess, { id: dto.ambientePadraoAula.id });
+        const ambientePadraoAula = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.ambientePadraoAula.id });
 
         this.turmaRepository.merge(turma, {
           ambientePadraoAula: {
@@ -334,7 +334,7 @@ export class TurmaService {
     // =========================================================
 
     if (has(dto, 'curso') && dto.curso !== undefined) {
-      const curso = await this.cursoService.cursoFindByIdSimpleStrict(clientAccess, dto.curso.id);
+      const curso = await this.cursoService.cursoFindByIdSimpleStrict(contextoDeAcesso, dto.curso.id);
 
       this.turmaRepository.merge(turma, {
         curso: {
@@ -349,19 +349,19 @@ export class TurmaService {
 
     // =========================================================
 
-    return this.turmaFindByIdStrict(clientAccess, { id: turma.id });
+    return this.turmaFindByIdStrict(contextoDeAcesso, { id: turma.id });
   }
 
   //
 
-  async turmaDeleteOneById(clientAccess: IClientAccess, dto: Dtos.ITurmaDeleteOneByIdInputDto) {
+  async turmaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ITurmaDeleteOneByIdInputDto) {
     // =========================================================
 
-    await clientAccess.ensureCanReach('turma:delete', { dto }, this.turmaRepository.createQueryBuilder(aliasTurma), dto.id);
+    await contextoDeAcesso.ensurePermission('turma:delete', { dto }, dto.id, this.turmaRepository.createQueryBuilder(aliasTurma));
 
     // =========================================================
 
-    const turma = await this.turmaFindByIdStrict(clientAccess, dto);
+    const turma = await this.turmaFindByIdStrict(contextoDeAcesso, dto);
 
     // =========================================================
 

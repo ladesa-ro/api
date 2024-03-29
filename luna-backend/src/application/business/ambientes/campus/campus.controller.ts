@@ -2,9 +2,9 @@ import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import {
-  ClientAccessHttp,
+  ContextoDeAcessoHttp,
   DtoOperationCreate,
   DtoOperationDelete,
   DtoOperationFindAll,
@@ -26,8 +26,8 @@ export class CampusController {
 
   @Get('/')
   @DtoOperationFindAll(CampusOperations.CAMPUS_FIND_ALL)
-  async campusFindAll(@ClientAccessHttp() clientAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.ICampusFindAllResultDto> {
-    return this.campusService.campusFindAll(clientAccess, getSearchInputFromPaginateQuery(query));
+  async campusFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.ICampusFindAllResultDto> {
+    return this.campusService.campusFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
@@ -35,19 +35,19 @@ export class CampusController {
   @Get('/:id')
   @DtoOperationFindOne(CampusOperations.CAMPUS_FIND_ONE_BY_ID)
   async campusFindById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(CampusOperations.CAMPUS_FIND_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.campusService.campusFindByIdStrict(clientAccess, { id });
+    return this.campusService.campusFindByIdStrict(contextoDeAcesso, { id });
   }
 
   //
 
   @Post('/')
   @DtoOperationCreate(CampusOperations.CAMPUS_CREATE)
-  async campusCreate(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(CampusOperations.CAMPUS_CREATE) dto: Dto.ICampusInputDto) {
-    return this.campusService.campusCreate(clientAccess, dto);
+  async campusCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(CampusOperations.CAMPUS_CREATE) dto: Dto.ICampusInputDto) {
+    return this.campusService.campusCreate(contextoDeAcesso, dto);
   }
 
   //
@@ -55,7 +55,7 @@ export class CampusController {
   @Patch('/:id')
   @DtoOperationUpdate(CampusOperations.CAMPUS_UPDATE)
   async campusUpdate(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(CampusOperations.CAMPUS_UPDATE, 'id')
     id: string,
     @HttpDtoBody(CampusOperations.CAMPUS_UPDATE)
@@ -66,7 +66,7 @@ export class CampusController {
       id,
     };
 
-    return this.campusService.campusUpdate(clientAccess, dtoUpdate);
+    return this.campusService.campusUpdate(contextoDeAcesso, dtoUpdate);
   }
 
   //
@@ -74,11 +74,11 @@ export class CampusController {
   @Delete('/:id')
   @DtoOperationDelete(CampusOperations.CAMPUS_DELETE_ONE_BY_ID)
   async campusDeleteOneById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(CampusOperations.CAMPUS_DELETE_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.campusService.campusDeleteOneById(clientAccess, { id });
+    return this.campusService.campusDeleteOneById(contextoDeAcesso, { id });
   }
 
   //

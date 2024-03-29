@@ -1,7 +1,7 @@
 import { Resolver } from '@nestjs/graphql';
 import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto, ISearchInputDto } from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
-import { ClientAccessGraphQl, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infrastructure';
+import { IContextoDeAcesso } from '../../../../domain';
+import { ContextoDeAcessoGraphQl, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infrastructure';
 import { EstadoOperations } from './dtos/estado.operations';
 import { EstadoService } from './estado.service';
 
@@ -15,7 +15,7 @@ export class EstadoResolver {
   // ========================================================
 
   @DtoOperationGqlQuery(EstadoOperations.ESTADO_FIND_ALL)
-  async estadoFindAll(@ClientAccessGraphQl() clienteAccess: IClientAccess, @GqlDtoInput(EstadoOperations.ESTADO_FIND_ALL) dto: ISearchInputDto) {
+  async estadoFindAll(@ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso, @GqlDtoInput(EstadoOperations.ESTADO_FIND_ALL) dto: ISearchInputDto) {
     return this.estadoService.findAll(clienteAccess, dto);
   }
 
@@ -23,7 +23,7 @@ export class EstadoResolver {
 
   @DtoOperationGqlQuery(EstadoOperations.ESTADO_FIND_ONE_BY_UF)
   async estadoFindOneByUf(
-    @ClientAccessGraphQl() clienteAccess: IClientAccess,
+    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
 
     @GqlDtoInput(EstadoOperations.ESTADO_FIND_ONE_BY_UF)
     dto: IEstadoFindOneByUfInputDto,
@@ -35,7 +35,7 @@ export class EstadoResolver {
 
   @DtoOperationGqlQuery(EstadoOperations.ESTADO_FIND_ONE_BY_ID)
   async estadoFindOneById(
-    @ClientAccessGraphQl() clienteAccess: IClientAccess,
+    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
     @GqlDtoInput(EstadoOperations.ESTADO_FIND_ONE_BY_ID)
     dto: IEstadoFindOneByIdInputDto,
   ) {

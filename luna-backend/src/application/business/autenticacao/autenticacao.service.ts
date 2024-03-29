@@ -3,7 +3,7 @@ import { DatabaseContextService } from 'infrastructure';
 import { KeycloakService } from 'infrastructure/authentication/idp-external-connect/keycloak';
 import { BaseClient, TokenSet } from 'openid-client';
 import * as Dto from '../(spec)';
-import { IClientAccess } from '../../../domain';
+import { IContextoDeAcesso } from '../../../domain';
 import { OpenidConnectService } from '../../../infrastructure/authentication/idp-external-connect/openid-connect/openid-connect.service';
 import { UsuarioService } from './usuario/usuario.service';
 
@@ -24,16 +24,16 @@ export class AutenticacaoService {
 
   //
 
-  async quemSouEu(clientAccess: IClientAccess) {
-    const usuario = clientAccess.currentUsuario ? await this.usuarioService.usuarioFindById(clientAccess, { id: clientAccess.currentUsuario.id }) : null;
+  async quemSouEu(contextoDeAcesso: IContextoDeAcesso) {
+    const usuario = contextoDeAcesso.usuario ? await this.usuarioService.usuarioFindById(contextoDeAcesso, { id: contextoDeAcesso.usuario.id }) : null;
 
     return {
       usuario: usuario,
     };
   }
 
-  async login(clientAccess: IClientAccess, dto: Dto.IAutenticacaoLoginInputDto): Promise<Dto.IAutenticacaoLoginResultDto> {
-    if (clientAccess.currentUsuario !== null) {
+  async login(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IAutenticacaoLoginInputDto): Promise<Dto.IAutenticacaoLoginResultDto> {
+    if (contextoDeAcesso.usuario !== null) {
       throw new BadRequestException('Você não pode usar a rota de login caso já esteja logado.');
     }
 
@@ -65,7 +65,7 @@ export class AutenticacaoService {
     throw new ForbiddenException('Credenciais inválidas.');
   }
 
-  async refresh(_: IClientAccess, dto: Dto.IAutenticacaoRefreshInputDto): Promise<Dto.IAutenticacaoLoginResultDto> {
+  async refresh(_: IContextoDeAcesso, dto: Dto.IAutenticacaoRefreshInputDto): Promise<Dto.IAutenticacaoLoginResultDto> {
     let trustIssuerClient: BaseClient;
 
     try {
@@ -117,7 +117,7 @@ export class AutenticacaoService {
     };
   }
 
-  async definirSenha(_clientAccess: IClientAccess, dto: Dto.IAutenticacaoDefinirSenhaInputDto): Promise<Dto.IAutenticacaoDefinirSenhaResultDto> {
+  async definirSenha(_contextoDeAcesso: IContextoDeAcesso, dto: Dto.IAutenticacaoDefinirSenhaInputDto): Promise<Dto.IAutenticacaoDefinirSenhaResultDto> {
     try {
       const kcAdminClient = await this.keycloakService.getAdminClient();
 

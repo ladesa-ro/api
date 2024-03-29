@@ -1,7 +1,7 @@
 import { Resolver } from '@nestjs/graphql';
 import { ICidadeFindOneByIdInputDto, ISearchInputDto } from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
-import { ClientAccessGraphQl, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infrastructure';
+import { IContextoDeAcesso } from '../../../../domain';
+import { ContextoDeAcessoGraphQl, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infrastructure';
 import { CidadeService } from './cidade.service';
 import { CidadeOperations } from './dtos';
 
@@ -15,7 +15,7 @@ export class CidadeResolver {
   // ========================================================
 
   @DtoOperationGqlQuery(CidadeOperations.CIDADE_FIND_ALL)
-  async cidadeFindAll(@ClientAccessGraphQl() clienteAccess: IClientAccess, @GqlDtoInput(CidadeOperations.CIDADE_FIND_ALL) dto: ISearchInputDto) {
+  async cidadeFindAll(@ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso, @GqlDtoInput(CidadeOperations.CIDADE_FIND_ALL) dto: ISearchInputDto) {
     return this.cidadeService.findAll(clienteAccess, dto);
   }
 
@@ -23,7 +23,7 @@ export class CidadeResolver {
 
   @DtoOperationGqlQuery(CidadeOperations.CIDADE_FIND_ONE_BY_ID)
   async cidadeFindById(
-    @ClientAccessGraphQl() clienteAccess: IClientAccess,
+    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
     @GqlDtoInput(CidadeOperations.CIDADE_FIND_ONE_BY_ID)
     dto: ICidadeFindOneByIdInputDto,
   ) {

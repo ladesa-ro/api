@@ -1,8 +1,8 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
-import { ClientAccessHttp, DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam } from '../../../../infrastructure';
+import { IContextoDeAcesso } from '../../../../domain';
+import { ContextoDeAcessoHttp, DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam } from '../../../../infrastructure';
 import { UsuarioOperations } from './dtos/usuario.operations';
 import { UsuarioService } from './usuario.service';
 
@@ -15,8 +15,8 @@ export class UsuarioController {
 
   @Get('/')
   @DtoOperationFindAll(UsuarioOperations.USUARIO_FIND_ALL)
-  async usuarioFindAll(@ClientAccessHttp() clientAccess: IClientAccess): Promise<Dto.IUsuarioFindOneResultDto[]> {
-    return this.usuarioService.usuarioFindAll(clientAccess);
+  async usuarioFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso): Promise<Dto.IUsuarioFindOneResultDto[]> {
+    return this.usuarioService.usuarioFindAll(contextoDeAcesso);
   }
 
   //
@@ -24,19 +24,19 @@ export class UsuarioController {
   @Get('/:id')
   @DtoOperationFindOne(UsuarioOperations.USUARIO_FIND_ONE_BY_ID)
   async usuarioFindById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(UsuarioOperations.USUARIO_FIND_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.usuarioService.usuarioFindByIdStrict(clientAccess, { id });
+    return this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, { id });
   }
 
   //
 
   @Post('/')
   @DtoOperationCreate(UsuarioOperations.USUARIO_CREATE)
-  async usuarioCreate(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(UsuarioOperations.USUARIO_CREATE) dto: Dto.IUsuarioInputDto) {
-    return this.usuarioService.usuarioCreate(clientAccess, dto);
+  async usuarioCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(UsuarioOperations.USUARIO_CREATE) dto: Dto.IUsuarioInputDto) {
+    return this.usuarioService.usuarioCreate(contextoDeAcesso, dto);
   }
 
   //
@@ -44,7 +44,7 @@ export class UsuarioController {
   @Patch('/:id')
   @DtoOperationUpdate(UsuarioOperations.USUARIO_UPDATE)
   async usuarioUpdate(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(UsuarioOperations.USUARIO_UPDATE, 'id')
     id: string,
     @HttpDtoBody(UsuarioOperations.USUARIO_UPDATE)
@@ -55,7 +55,7 @@ export class UsuarioController {
       id,
     };
 
-    return this.usuarioService.usuarioUpdate(clientAccess, dtoUpdate);
+    return this.usuarioService.usuarioUpdate(contextoDeAcesso, dtoUpdate);
   }
 
   //
@@ -63,11 +63,11 @@ export class UsuarioController {
   @Delete('/:id')
   @DtoOperationDelete(UsuarioOperations.USUARIO_DELETE_ONE_BY_ID)
   async usuarioDeleteOneById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(UsuarioOperations.USUARIO_DELETE_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.usuarioService.usuarioDeleteOneById(clientAccess, { id });
+    return this.usuarioService.usuarioDeleteOneById(contextoDeAcesso, { id });
   }
 
   //

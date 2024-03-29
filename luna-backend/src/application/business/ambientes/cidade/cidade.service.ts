@@ -3,7 +3,7 @@ import { map } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain/client-access';
+import { IContextoDeAcesso } from '../../../../domain/contexto-de-acesso';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
@@ -41,14 +41,14 @@ export class CidadeService {
 
   //
 
-  async findAll(clientAccess: IClientAccess, dto?: Dto.ISearchInputDto) {
+  async findAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dto.ISearchInputDto) {
     // =========================================================
 
     const qb = this.cidadeRepository.createQueryBuilder('cidade');
 
     // =========================================================
 
-    await clientAccess.applyFilter('cidade:find', qb, aliasCidade, null);
+    await contextoDeAcesso.aplicarFiltro('cidade:find', qb, aliasCidade, null);
 
     // =========================================================
 
@@ -98,7 +98,7 @@ export class CidadeService {
     return paginated;
   }
 
-  async findById(clientAccess: IClientAccess, dto: Dto.ICidadeFindOneByIdInputDto) {
+  async findById(contextoDeAcesso: IContextoDeAcesso, dto: Dto.ICidadeFindOneByIdInputDto) {
     // =========================================================
 
     const { cidadeRepository: baseCidadeRepository } = this.databaseContextService;
@@ -109,7 +109,7 @@ export class CidadeService {
 
     // =========================================================
 
-    await clientAccess.applyFilter('cidade:find', qb, aliasCidade, null);
+    await contextoDeAcesso.aplicarFiltro('cidade:find', qb, aliasCidade, null);
 
     // =========================================================
 
@@ -132,8 +132,8 @@ export class CidadeService {
     return cidade;
   }
 
-  async findByIdStrict(clientAccess: IClientAccess, dto: Dto.ICidadeFindOneByIdInputDto) {
-    const cidade = await this.findById(clientAccess, dto);
+  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dto.ICidadeFindOneByIdInputDto) {
+    const cidade = await this.findById(contextoDeAcesso, dto);
 
     if (!cidade) {
       throw new NotFoundException();

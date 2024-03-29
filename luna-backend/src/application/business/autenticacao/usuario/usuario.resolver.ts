@@ -1,7 +1,7 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
-import { ClientAccessGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
+import { IContextoDeAcesso } from '../../../../domain';
+import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
 import { GqlDtoInput } from '../../../../infrastructure/api-documentate/GqlDtoInput';
 import { UsuarioDto, UsuarioOperations } from './dtos';
 import { UsuarioService } from './usuario.service';
@@ -16,39 +16,39 @@ export class UsuarioResolver {
   //
 
   @DtoOperationGqlQuery(UsuarioOperations.USUARIO_FIND_ALL)
-  async usuarioFindAll(@ClientAccessGraphQl() clientAccess: IClientAccess) {
-    return this.usuarioService.usuarioFindAll(clientAccess);
+  async usuarioFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso) {
+    return this.usuarioService.usuarioFindAll(contextoDeAcesso);
   }
 
   //
 
   @DtoOperationGqlQuery(UsuarioOperations.USUARIO_FIND_ONE_BY_ID)
   async usuarioFindOneById(
-    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @GqlDtoInput(UsuarioOperations.USUARIO_FIND_ONE_BY_ID)
     dto: Dto.IUsuarioFindOneByIdInputDto,
   ) {
-    return this.usuarioService.usuarioFindByIdStrict(clientAccess, dto);
+    return this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, dto);
   }
 
   //
 
   @DtoOperationGqlMutation(UsuarioOperations.USUARIO_CREATE)
-  async usuarioCreate(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(UsuarioOperations.USUARIO_CREATE) dto: Dto.IUsuarioInputDto) {
-    return this.usuarioService.usuarioCreate(clientAccess, dto);
+  async usuarioCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(UsuarioOperations.USUARIO_CREATE) dto: Dto.IUsuarioInputDto) {
+    return this.usuarioService.usuarioCreate(contextoDeAcesso, dto);
   }
 
   @DtoOperationGqlMutation(UsuarioOperations.USUARIO_UPDATE)
-  async usuarioUpdate(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(UsuarioOperations.USUARIO_UPDATE) dto: Dto.IUsuarioUpdateDto) {
-    return this.usuarioService.usuarioUpdate(clientAccess, dto);
+  async usuarioUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(UsuarioOperations.USUARIO_UPDATE) dto: Dto.IUsuarioUpdateDto) {
+    return this.usuarioService.usuarioUpdate(contextoDeAcesso, dto);
   }
 
   @DtoOperationGqlMutation(UsuarioOperations.USUARIO_DELETE_ONE_BY_ID)
   async usuarioDeleteOneById(
-    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @GqlDtoInput(UsuarioOperations.USUARIO_DELETE_ONE_BY_ID)
     dto: Dto.IUsuarioDeleteOneByIdInputDto,
   ) {
-    return this.usuarioService.usuarioDeleteOneById(clientAccess, dto);
+    return this.usuarioService.usuarioDeleteOneById(contextoDeAcesso, dto);
   }
 }

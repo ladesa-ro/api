@@ -2,9 +2,9 @@ import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import {
-  ClientAccessHttp,
+  ContextoDeAcessoHttp,
   DtoOperationCreate,
   DtoOperationDelete,
   DtoOperationFindAll,
@@ -26,8 +26,8 @@ export class TurmaController {
 
   @Get('/')
   @DtoOperationFindAll(TurmaOperations.TURMA_FIND_ALL)
-  async turmaFindAll(@ClientAccessHttp() clientAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.ITurmaFindAllResultDto> {
-    return this.turmaService.turmaFindAll(clientAccess, getSearchInputFromPaginateQuery(query));
+  async turmaFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.ITurmaFindAllResultDto> {
+    return this.turmaService.turmaFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
@@ -35,19 +35,19 @@ export class TurmaController {
   @Get('/:id')
   @DtoOperationFindOne(TurmaOperations.TURMA_FIND_ONE_BY_ID)
   async turmaFindById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(TurmaOperations.TURMA_FIND_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.turmaService.turmaFindByIdStrict(clientAccess, { id });
+    return this.turmaService.turmaFindByIdStrict(contextoDeAcesso, { id });
   }
 
   //
 
   @Post('/')
   @DtoOperationCreate(TurmaOperations.TURMA_CREATE)
-  async turmaCreate(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(TurmaOperations.TURMA_CREATE) dto: Dto.ITurmaInputDto) {
-    return this.turmaService.turmaCreate(clientAccess, dto);
+  async turmaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(TurmaOperations.TURMA_CREATE) dto: Dto.ITurmaInputDto) {
+    return this.turmaService.turmaCreate(contextoDeAcesso, dto);
   }
 
   //
@@ -55,7 +55,7 @@ export class TurmaController {
   @Patch('/:id')
   @DtoOperationUpdate(TurmaOperations.TURMA_UPDATE)
   async turmaUpdate(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(TurmaOperations.TURMA_UPDATE, 'id')
     id: string,
     @HttpDtoBody(TurmaOperations.TURMA_UPDATE)
@@ -66,7 +66,7 @@ export class TurmaController {
       id,
     };
 
-    return this.turmaService.turmaUpdate(clientAccess, dtoUpdate);
+    return this.turmaService.turmaUpdate(contextoDeAcesso, dtoUpdate);
   }
 
   //
@@ -74,11 +74,11 @@ export class TurmaController {
   @Delete('/:id')
   @DtoOperationDelete(TurmaOperations.TURMA_DELETE_ONE_BY_ID)
   async turmaDeleteOneById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(TurmaOperations.TURMA_DELETE_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.turmaService.turmaDeleteOneById(clientAccess, { id });
+    return this.turmaService.turmaDeleteOneById(contextoDeAcesso, { id });
   }
 
   //

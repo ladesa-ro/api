@@ -2,9 +2,9 @@ import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import {
-  ClientAccessHttp,
+  ContextoDeAcessoHttp,
   DtoOperationCreate,
   DtoOperationDelete,
   DtoOperationFindAll,
@@ -26,8 +26,8 @@ export class AmbienteController {
 
   @Get('/')
   @DtoOperationFindAll(AmbienteOperations.AMBIENTE_FIND_ALL)
-  async ambienteFindAll(@ClientAccessHttp() clientAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.IAmbienteFindAllResultDto> {
-    return this.ambienteService.ambienteFindAll(clientAccess, getSearchInputFromPaginateQuery(query));
+  async ambienteFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IAmbienteFindAllResultDto> {
+    return this.ambienteService.ambienteFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
@@ -35,19 +35,19 @@ export class AmbienteController {
   @Get('/:id')
   @DtoOperationFindOne(AmbienteOperations.AMBIENTE_FIND_ONE_BY_ID)
   async ambienteFindById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(AmbienteOperations.AMBIENTE_FIND_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.ambienteService.ambienteFindByIdStrict(clientAccess, { id });
+    return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id });
   }
 
   //
 
   @Post('/')
   @DtoOperationCreate(AmbienteOperations.AMBIENTE_CREATE)
-  async ambienteCreate(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(AmbienteOperations.AMBIENTE_CREATE) dto: Dto.IAmbienteInputDto) {
-    return this.ambienteService.ambienteCreate(clientAccess, dto);
+  async ambienteCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(AmbienteOperations.AMBIENTE_CREATE) dto: Dto.IAmbienteInputDto) {
+    return this.ambienteService.ambienteCreate(contextoDeAcesso, dto);
   }
 
   //
@@ -55,7 +55,7 @@ export class AmbienteController {
   @Patch('/:id')
   @DtoOperationUpdate(AmbienteOperations.AMBIENTE_UPDATE)
   async ambienteUpdate(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(AmbienteOperations.AMBIENTE_UPDATE, 'id')
     id: string,
     @HttpDtoBody(AmbienteOperations.AMBIENTE_UPDATE)
@@ -66,7 +66,7 @@ export class AmbienteController {
       id,
     };
 
-    return this.ambienteService.ambienteUpdate(clientAccess, dtoUpdate);
+    return this.ambienteService.ambienteUpdate(contextoDeAcesso, dtoUpdate);
   }
 
   //
@@ -74,11 +74,11 @@ export class AmbienteController {
   @Delete('/:id')
   @DtoOperationDelete(AmbienteOperations.AMBIENTE_DELETE_ONE_BY_ID)
   async ambienteDeleteOneById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(AmbienteOperations.AMBIENTE_DELETE_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.ambienteService.ambienteDeleteOneById(clientAccess, { id });
+    return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, { id });
   }
 
   //

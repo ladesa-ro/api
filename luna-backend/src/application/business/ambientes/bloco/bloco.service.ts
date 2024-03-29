@@ -3,7 +3,7 @@ import { map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { BlocoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/bloco.entity';
@@ -56,14 +56,14 @@ export class BlocoService {
 
   //
 
-  async blocoFindAll(clientAccess: IClientAccess, dto?: Dtos.ISearchInputDto): Promise<Dtos.IBlocoFindAllResultDto> {
+  async blocoFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IBlocoFindAllResultDto> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
 
     // =========================================================
 
-    await clientAccess.applyFilter('bloco:find', qb, aliasBloco, null);
+    await contextoDeAcesso.aplicarFiltro('bloco:find', qb, aliasBloco, null);
 
     // =========================================================
 
@@ -130,14 +130,14 @@ export class BlocoService {
     return paginated;
   }
 
-  async blocoFindById(clientAccess: IClientAccess, dto: Dtos.IBlocoFindOneByIdInputDto): Promise<Dtos.IBlocoFindOneResultDto | null> {
+  async blocoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoFindOneByIdInputDto): Promise<Dtos.IBlocoFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
 
     // =========================================================
 
-    await clientAccess.applyFilter('bloco:find', qb, aliasBloco, null);
+    await contextoDeAcesso.aplicarFiltro('bloco:find', qb, aliasBloco, null);
 
     // =========================================================
 
@@ -160,8 +160,8 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdStrict(clientAccess: IClientAccess, dto: Dtos.IBlocoFindOneByIdInputDto) {
-    const bloco = await this.blocoFindById(clientAccess, dto);
+  async blocoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoFindOneByIdInputDto) {
+    const bloco = await this.blocoFindById(contextoDeAcesso, dto);
 
     if (!bloco) {
       throw new NotFoundException();
@@ -171,7 +171,7 @@ export class BlocoService {
   }
 
   async blocoFindByIdSimple(
-    clientAccess: IClientAccess,
+    contextoDeAcesso: IContextoDeAcesso,
     id: Dtos.IBlocoFindOneByIdInputDto['id'],
     options?: IBlocoQueryBuilderViewOptions,
     selection?: string[],
@@ -182,7 +182,7 @@ export class BlocoService {
 
     // =========================================================
 
-    await clientAccess.applyFilter('bloco:find', qb, aliasBloco, null);
+    await contextoDeAcesso.aplicarFiltro('bloco:find', qb, aliasBloco, null);
 
     // =========================================================
 
@@ -210,8 +210,8 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdSimpleStrict(clientAccess: IClientAccess, id: Dtos.IBlocoFindOneByIdInputDto['id'], options?: IBlocoQueryBuilderViewOptions, selection?: string[]) {
-    const bloco = await this.blocoFindByIdSimple(clientAccess, id, options, selection);
+  async blocoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IBlocoFindOneByIdInputDto['id'], options?: IBlocoQueryBuilderViewOptions, selection?: string[]) {
+    const bloco = await this.blocoFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!bloco) {
       throw new NotFoundException();
@@ -222,10 +222,10 @@ export class BlocoService {
 
   //
 
-  async blocoCreate(clientAccess: IClientAccess, dto: Dtos.IBlocoInputDto) {
+  async blocoCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoInputDto) {
     // =========================================================
 
-    await clientAccess.ensurePermissionCheck('bloco:create', { dto });
+    await contextoDeAcesso.ensurePermission('bloco:create', { dto });
 
     // =========================================================
 
@@ -239,7 +239,7 @@ export class BlocoService {
 
     // =========================================================
 
-    const campus = await this.campusService.campusFindByIdSimpleStrict(clientAccess, dto.campus.id);
+    const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.campus.id);
 
     this.blocoRepository.merge(bloco, {
       campus: {
@@ -253,19 +253,19 @@ export class BlocoService {
 
     // =========================================================
 
-    return this.blocoFindByIdStrict(clientAccess, { id: bloco.id });
+    return this.blocoFindByIdStrict(contextoDeAcesso, { id: bloco.id });
   }
 
-  async blocoUpdate(clientAccess: IClientAccess, dto: Dtos.IBlocoUpdateDto) {
+  async blocoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoUpdateDto) {
     // =========================================================
 
-    const currentBloco = await this.blocoFindByIdStrict(clientAccess, {
+    const currentBloco = await this.blocoFindByIdStrict(contextoDeAcesso, {
       id: dto.id,
     });
 
     // =========================================================
 
-    await clientAccess.ensureCanReach('bloco:update', { dto }, this.blocoRepository.createQueryBuilder(aliasBloco), dto.id);
+    await contextoDeAcesso.ensurePermission('bloco:update', { dto }, dto.id, this.blocoRepository.createQueryBuilder(aliasBloco));
 
     // =========================================================
 
@@ -285,17 +285,17 @@ export class BlocoService {
 
     // =========================================================
 
-    return this.blocoFindByIdStrict(clientAccess, { id: bloco.id });
+    return this.blocoFindByIdStrict(contextoDeAcesso, { id: bloco.id });
   }
 
-  async blocoUpdateImagemCapa(clientAccess: IClientAccess, dto: Dtos.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
+  async blocoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
     // =========================================================
 
-    const currentBloco = await this.blocoFindByIdStrict(clientAccess, { id: dto.id });
+    const currentBloco = await this.blocoFindByIdStrict(contextoDeAcesso, { id: dto.id });
 
     // =========================================================
 
-    await clientAccess.ensureCanReach('bloco:update', { dto: { id: currentBloco.id } }, this.blocoRepository.createQueryBuilder(aliasBloco), currentBloco.id);
+    await contextoDeAcesso.ensurePermission('bloco:update', { dto: { id: currentBloco.id } }, currentBloco.id, this.blocoRepository.createQueryBuilder(aliasBloco));
 
     // =========================================================
 
@@ -315,19 +315,19 @@ export class BlocoService {
 
     // =========================================================
 
-    return this.blocoFindByIdStrict(clientAccess, { id: currentBloco.id });
+    return true;
   }
 
   //
 
-  async blocoDeleteOneById(clientAccess: IClientAccess, dto: Dtos.IBlocoDeleteOneByIdInputDto) {
+  async blocoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoDeleteOneByIdInputDto) {
     // =========================================================
 
-    await clientAccess.ensureCanReach('bloco:delete', { dto }, this.blocoRepository.createQueryBuilder(aliasBloco), dto.id);
+    await contextoDeAcesso.ensurePermission('bloco:delete', { dto }, dto.id, this.blocoRepository.createQueryBuilder(aliasBloco));
 
     // =========================================================
 
-    const bloco = await this.blocoFindByIdStrict(clientAccess, dto);
+    const bloco = await this.blocoFindByIdStrict(contextoDeAcesso, dto);
 
     // =========================================================
 

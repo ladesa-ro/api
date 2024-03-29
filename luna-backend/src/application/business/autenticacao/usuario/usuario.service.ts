@@ -5,7 +5,7 @@ import { UsuarioEntity } from 'infrastructure/integrate-database/typeorm/entitie
 import { has, pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 
 // ============================================================================
@@ -88,14 +88,14 @@ export class UsuarioService {
 
   //
 
-  async usuarioFindAll(clientAccess: IClientAccess): Promise<Dtos.IUsuarioFindOneResultDto[]> {
+  async usuarioFindAll(contextoDeAcesso: IContextoDeAcesso): Promise<Dtos.IUsuarioFindOneResultDto[]> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
 
     // =========================================================
 
-    await clientAccess.applyFilter('usuario:find', qb, aliasUsuario, null);
+    await contextoDeAcesso.aplicarFiltro('usuario:find', qb, aliasUsuario, null);
 
     // =========================================================
 
@@ -116,14 +116,14 @@ export class UsuarioService {
     return usuarios;
   }
 
-  async usuarioFindById(clientAccess: IClientAccess, dto: Dtos.IUsuarioFindOneByIdInputDto): Promise<Dtos.IUsuarioFindOneResultDto | null> {
+  async usuarioFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioFindOneByIdInputDto): Promise<Dtos.IUsuarioFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
 
     // =========================================================
 
-    await clientAccess.applyFilter('usuario:find', qb, aliasUsuario, null);
+    await contextoDeAcesso.aplicarFiltro('usuario:find', qb, aliasUsuario, null);
 
     // =========================================================
 
@@ -144,8 +144,8 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdStrict(clientAccess: IClientAccess, dto: Dtos.IUsuarioFindOneByIdInputDto) {
-    const usuario = await this.usuarioFindById(clientAccess, dto);
+  async usuarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioFindOneByIdInputDto) {
+    const usuario = await this.usuarioFindById(contextoDeAcesso, dto);
 
     if (!usuario) {
       throw new NotFoundException();
@@ -155,7 +155,7 @@ export class UsuarioService {
   }
 
   async usuarioFindByIdSimple(
-    clientAccess: IClientAccess,
+    contextoDeAcesso: IContextoDeAcesso,
     id: Dtos.IUsuarioFindOneByIdInputDto['id'],
     options?: IUsuarioQueryBuilderViewOptions,
     selection?: string[],
@@ -166,7 +166,7 @@ export class UsuarioService {
 
     // =========================================================
 
-    await clientAccess.applyFilter('usuario:find', qb, aliasUsuario, null);
+    await contextoDeAcesso.aplicarFiltro('usuario:find', qb, aliasUsuario, null);
 
     // =========================================================
 
@@ -191,8 +191,8 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdSimpleStrict(clientAccess: IClientAccess, id: Dtos.IUsuarioFindOneByIdInputDto['id'], options?: IUsuarioQueryBuilderViewOptions, selection?: string[]) {
-    const usuario = await this.usuarioFindByIdSimple(clientAccess, id, options, selection);
+  async usuarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IUsuarioFindOneByIdInputDto['id'], options?: IUsuarioQueryBuilderViewOptions, selection?: string[]) {
+    const usuario = await this.usuarioFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!usuario) {
       throw new NotFoundException();
@@ -308,10 +308,10 @@ export class UsuarioService {
 
   //
 
-  async usuarioCreate(clientAccess: IClientAccess, dto: Dtos.IUsuarioInputDto) {
+  async usuarioCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioInputDto) {
     // =========================================================
 
-    await clientAccess.ensurePermissionCheck('usuario:create', { dto });
+    await contextoDeAcesso.ensurePermission('usuario:create', { dto });
 
     // =========================================================
 
@@ -352,13 +352,13 @@ export class UsuarioService {
         throw new InternalServerErrorException();
       });
 
-    return this.usuarioFindByIdStrict(clientAccess, { id: usuario.id });
+    return this.usuarioFindByIdStrict(contextoDeAcesso, { id: usuario.id });
   }
 
-  async usuarioUpdate(clientAccess: IClientAccess, dto: Dtos.IUsuarioUpdateDto) {
+  async usuarioUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioUpdateDto) {
     // =========================================================
 
-    const currentUsuario = await this.usuarioFindByIdStrict(clientAccess, {
+    const currentUsuario = await this.usuarioFindByIdStrict(contextoDeAcesso, {
       id: dto.id,
     });
 
@@ -372,7 +372,7 @@ export class UsuarioService {
 
     // =========================================================
 
-    await clientAccess.ensureCanReach('usuario:update', { dto }, this.usuarioRepository.createQueryBuilder(aliasUsuario), dto.id);
+    await contextoDeAcesso.ensurePermission('usuario:update', { dto }, dto.id, this.usuarioRepository.createQueryBuilder(aliasUsuario));
 
     const input = pick(dto, ['nome', 'matriculaSiape', 'email']);
 
@@ -422,19 +422,19 @@ export class UsuarioService {
 
     // =========================================================
 
-    return this.usuarioFindByIdStrict(clientAccess, { id: usuario.id });
+    return this.usuarioFindByIdStrict(contextoDeAcesso, { id: usuario.id });
   }
 
   //
 
-  async usuarioDeleteOneById(clientAccess: IClientAccess, dto: Dtos.IUsuarioDeleteOneByIdInputDto) {
+  async usuarioDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioDeleteOneByIdInputDto) {
     // =========================================================
 
-    await clientAccess.ensureCanReach('usuario:delete', { dto }, this.usuarioRepository.createQueryBuilder(aliasUsuario), dto.id);
+    await contextoDeAcesso.ensurePermission('usuario:delete', { dto }, dto.id, this.usuarioRepository.createQueryBuilder(aliasUsuario));
 
     // =========================================================
 
-    const usuario = await this.usuarioFindByIdStrict(clientAccess, dto);
+    const usuario = await this.usuarioFindByIdStrict(contextoDeAcesso, dto);
 
     // =========================================================
 

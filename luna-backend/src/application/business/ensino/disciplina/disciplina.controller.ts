@@ -2,9 +2,9 @@ import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import {
-  ClientAccessHttp,
+  ContextoDeAcessoHttp,
   DtoOperationCreate,
   DtoOperationDelete,
   DtoOperationFindAll,
@@ -14,8 +14,8 @@ import {
   HttpDtoParam,
   getSearchInputFromPaginateQuery,
 } from '../../../../infrastructure';
-import { DisciplinaOperations } from './dtos';
 import { DisciplinaService } from './disciplina.service';
+import { DisciplinaOperations } from './dtos';
 
 @ApiTags('Disciplinas')
 @Controller('/disciplinas')
@@ -26,8 +26,8 @@ export class DisciplinaController {
 
   @Get('/')
   @DtoOperationFindAll(DisciplinaOperations.DISCIPLINA_FIND_ALL)
-  async disciplinaFindAll(@ClientAccessHttp() clientAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.IDisciplinaFindAllResultDto> {
-    return this.disciplinaService.disciplinaFindAll(clientAccess, getSearchInputFromPaginateQuery(query));
+  async disciplinaFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IDisciplinaFindAllResultDto> {
+    return this.disciplinaService.disciplinaFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
@@ -35,19 +35,19 @@ export class DisciplinaController {
   @Get('/:id')
   @DtoOperationFindOne(DisciplinaOperations.DISCIPLINA_FIND_ONE_BY_ID)
   async disciplinaFindById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(DisciplinaOperations.DISCIPLINA_FIND_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.disciplinaService.disciplinaFindByIdStrict(clientAccess, { id });
+    return this.disciplinaService.disciplinaFindByIdStrict(contextoDeAcesso, { id });
   }
 
   //
 
   @Post('/')
   @DtoOperationCreate(DisciplinaOperations.DISCIPLINA_CREATE)
-  async disciplinaCreate(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(DisciplinaOperations.DISCIPLINA_CREATE) dto: Dto.IDisciplinaInputDto) {
-    return this.disciplinaService.disciplinaCreate(clientAccess, dto);
+  async disciplinaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(DisciplinaOperations.DISCIPLINA_CREATE) dto: Dto.IDisciplinaInputDto) {
+    return this.disciplinaService.disciplinaCreate(contextoDeAcesso, dto);
   }
 
   //
@@ -55,7 +55,7 @@ export class DisciplinaController {
   @Patch('/:id')
   @DtoOperationUpdate(DisciplinaOperations.DISCIPLINA_UPDATE)
   async disciplinaUpdate(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(DisciplinaOperations.DISCIPLINA_UPDATE, 'id')
     id: string,
     @HttpDtoBody(DisciplinaOperations.DISCIPLINA_UPDATE)
@@ -66,7 +66,7 @@ export class DisciplinaController {
       id,
     };
 
-    return this.disciplinaService.disciplinaUpdate(clientAccess, dtoUpdate);
+    return this.disciplinaService.disciplinaUpdate(contextoDeAcesso, dtoUpdate);
   }
 
   //
@@ -74,11 +74,11 @@ export class DisciplinaController {
   @Delete('/:id')
   @DtoOperationDelete(DisciplinaOperations.DISCIPLINA_DELETE_ONE_BY_ID)
   async disciplinaDeleteOneById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(DisciplinaOperations.DISCIPLINA_DELETE_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.disciplinaService.disciplinaDeleteOneById(clientAccess, { id });
+    return this.disciplinaService.disciplinaDeleteOneById(contextoDeAcesso, { id });
   }
 
   //

@@ -3,7 +3,7 @@ import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { CursoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/curso.entity';
@@ -64,14 +64,14 @@ export class CursoService {
 
   //
 
-  async cursoFindAll(clientAccess: IClientAccess, dto?: Dtos.ISearchInputDto): Promise<Dtos.ICursoFindAllResultDto> {
+  async cursoFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.ICursoFindAllResultDto> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
 
     // =========================================================
 
-    await clientAccess.applyFilter('curso:find', qb, aliasCurso, null);
+    await contextoDeAcesso.aplicarFiltro('curso:find', qb, aliasCurso, null);
 
     // =========================================================
 
@@ -142,14 +142,14 @@ export class CursoService {
     return paginated;
   }
 
-  async cursoFindById(clientAccess: IClientAccess, dto: Dtos.ICursoFindOneByIdInputDto): Promise<Dtos.ICursoFindOneResultDto | null> {
+  async cursoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICursoFindOneByIdInputDto): Promise<Dtos.ICursoFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
 
     // =========================================================
 
-    await clientAccess.applyFilter('curso:find', qb, aliasCurso, null);
+    await contextoDeAcesso.aplicarFiltro('curso:find', qb, aliasCurso, null);
 
     // =========================================================
 
@@ -170,8 +170,8 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdStrict(clientAccess: IClientAccess, dto: Dtos.ICursoFindOneByIdInputDto) {
-    const curso = await this.cursoFindById(clientAccess, dto);
+  async cursoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICursoFindOneByIdInputDto) {
+    const curso = await this.cursoFindById(contextoDeAcesso, dto);
 
     if (!curso) {
       throw new NotFoundException();
@@ -181,7 +181,7 @@ export class CursoService {
   }
 
   async cursoFindByIdSimple(
-    clientAccess: IClientAccess,
+    contextoDeAcesso: IContextoDeAcesso,
     id: Dtos.ICursoFindOneByIdInputDto['id'],
     options?: ICursoQueryBuilderViewOptions,
     selection?: string[],
@@ -192,7 +192,7 @@ export class CursoService {
 
     // =========================================================
 
-    await clientAccess.applyFilter('curso:find', qb, aliasCurso, null);
+    await contextoDeAcesso.aplicarFiltro('curso:find', qb, aliasCurso, null);
 
     // =========================================================
 
@@ -219,8 +219,8 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdSimpleStrict(clientAccess: IClientAccess, id: Dtos.ICursoFindOneByIdInputDto['id'], options?: ICursoQueryBuilderViewOptions, selection?: string[]) {
-    const curso = await this.cursoFindByIdSimple(clientAccess, id, options, selection);
+  async cursoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.ICursoFindOneByIdInputDto['id'], options?: ICursoQueryBuilderViewOptions, selection?: string[]) {
+    const curso = await this.cursoFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!curso) {
       throw new NotFoundException();
@@ -231,10 +231,10 @@ export class CursoService {
 
   //
 
-  async cursoCreate(clientAccess: IClientAccess, dto: Dtos.ICursoInputDto) {
+  async cursoCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICursoInputDto) {
     // =========================================================
 
-    await clientAccess.ensurePermissionCheck('curso:create', { dto });
+    await contextoDeAcesso.ensurePermission('curso:create', { dto });
 
     // =========================================================
 
@@ -248,7 +248,7 @@ export class CursoService {
 
     // =========================================================
 
-    const campus = await this.campusService.campusFindByIdSimpleStrict(clientAccess, dto.campus.id);
+    const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.campus.id);
 
     this.cursoRepository.merge(curso, {
       campus: {
@@ -258,7 +258,7 @@ export class CursoService {
 
     // =========================================================
 
-    const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(clientAccess, dto.modalidade.id);
+    const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(contextoDeAcesso, dto.modalidade.id);
 
     this.cursoRepository.merge(curso, {
       modalidade: {
@@ -272,19 +272,19 @@ export class CursoService {
 
     // =========================================================
 
-    return this.cursoFindByIdStrict(clientAccess, { id: curso.id });
+    return this.cursoFindByIdStrict(contextoDeAcesso, { id: curso.id });
   }
 
-  async cursoUpdate(clientAccess: IClientAccess, dto: Dtos.ICursoUpdateDto) {
+  async cursoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICursoUpdateDto) {
     // =========================================================
 
-    const currentCurso = await this.cursoFindByIdStrict(clientAccess, {
+    const currentCurso = await this.cursoFindByIdStrict(contextoDeAcesso, {
       id: dto.id,
     });
 
     // =========================================================
 
-    await clientAccess.ensureCanReach('curso:update', { dto }, this.cursoRepository.createQueryBuilder(aliasCurso), dto.id);
+    await contextoDeAcesso.ensurePermission('curso:update', { dto }, dto.id, this.cursoRepository.createQueryBuilder(aliasCurso));
 
     const dtoCurso = pick(dto, ['nome', 'nomeAbreviado', 'campus', 'modalidade']);
 
@@ -299,7 +299,7 @@ export class CursoService {
     // =========================================================
 
     if (has(dto, 'campus') && dto.campus !== undefined) {
-      const campus = await this.campusService.campusFindByIdSimpleStrict(clientAccess, dto.campus.id);
+      const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.campus.id);
 
       this.cursoRepository.merge(curso, {
         campus: {
@@ -311,7 +311,7 @@ export class CursoService {
     // =========================================================
 
     if (has(dto, 'modalidade') && dto.modalidade !== undefined) {
-      const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(clientAccess, dto.modalidade.id);
+      const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(contextoDeAcesso, dto.modalidade.id);
 
       this.cursoRepository.merge(curso, {
         modalidade: {
@@ -326,19 +326,19 @@ export class CursoService {
 
     // =========================================================
 
-    return this.cursoFindByIdStrict(clientAccess, { id: curso.id });
+    return this.cursoFindByIdStrict(contextoDeAcesso, { id: curso.id });
   }
 
   //
 
-  async cursoDeleteOneById(clientAccess: IClientAccess, dto: Dtos.ICursoDeleteOneByIdInputDto) {
+  async cursoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICursoDeleteOneByIdInputDto) {
     // =========================================================
 
-    await clientAccess.ensureCanReach('curso:delete', { dto }, this.cursoRepository.createQueryBuilder(aliasCurso), dto.id);
+    await contextoDeAcesso.ensurePermission('curso:delete', { dto }, dto.id, this.cursoRepository.createQueryBuilder(aliasCurso));
 
     // =========================================================
 
-    const curso = await this.cursoFindByIdStrict(clientAccess, dto);
+    const curso = await this.cursoFindByIdStrict(contextoDeAcesso, dto);
 
     // =========================================================
 

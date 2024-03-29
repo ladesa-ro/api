@@ -2,8 +2,8 @@ import { Controller, Get } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
-import { ClientAccessHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../../infrastructure';
+import { IContextoDeAcesso } from '../../../../domain';
+import { ContextoDeAcessoHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../../infrastructure';
 import { EstadoOperations } from './dtos/estado.operations';
 import { EstadoService } from './estado.service';
 
@@ -17,7 +17,7 @@ export class EstadoController {
 
   @Get('/')
   @DtoOperationFindAll(EstadoOperations.ESTADO_FIND_ALL)
-  async findAll(@ClientAccessHttp() clienteAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.IEstadoFindAllResultDto> {
+  async findAll(@ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IEstadoFindAllResultDto> {
     return this.estadoService.findAll(clienteAccess, getSearchInputFromPaginateQuery(query));
   }
 
@@ -28,7 +28,7 @@ export class EstadoController {
     description: 'Sigla do estado.',
   })
   async findByUf(
-    @ClientAccessHttp() clienteAccess: IClientAccess,
+    @ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso,
     @HttpDtoParam(EstadoOperations.ESTADO_FIND_ONE_BY_UF, 'uf')
     uf: string,
   ) {
@@ -42,7 +42,7 @@ export class EstadoController {
     description: 'ID IBGE do estado.',
   })
   async findById(
-    @ClientAccessHttp() clienteAccess: IClientAccess,
+    @ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso,
     @HttpDtoParam(EstadoOperations.ESTADO_FIND_ONE_BY_ID, 'id')
     id: number,
   ) {

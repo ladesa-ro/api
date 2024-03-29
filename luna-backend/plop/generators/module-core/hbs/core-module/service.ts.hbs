@@ -3,7 +3,7 @@ import { map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { {{ c_pascal moduleName }}Entity } from '../../../../infrastructure/integrate-database/typeorm/entities/{{ c_kebab moduleNameParent }}/{{ c_kebab moduleName }}.entity';
@@ -40,14 +40,14 @@ export class {{ c_pascal moduleName }}Service {
 
   //
 
-  async {{ c_camel moduleName }}FindAll(clientAccess: IClientAccess, dto?: Dtos.ISearchInputDto): Promise<Dtos.I{{ c_pascal moduleName }}FindAllResultDto> {
+  async {{ c_camel moduleName }}FindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.I{{ c_pascal moduleName }}FindAllResultDto> {
     // =========================================================
 
     const qb = this.{{ c_camel moduleName }}Repository.createQueryBuilder(alias{{ c_pascal moduleName }});
 
     // =========================================================
 
-    await clientAccess.applyFilter('{{ c_snake moduleName }}:find', qb, alias{{ c_pascal moduleName }}, null);
+    await contextoDeAcesso.applyFilter('{{ c_snake moduleName }}:find', qb, alias{{ c_pascal moduleName }}, null);
 
     // =========================================================
 
@@ -97,14 +97,14 @@ export class {{ c_pascal moduleName }}Service {
     return paginated;
   }
 
-  async {{ c_camel moduleName }}FindById(clientAccess: IClientAccess, dto: Dtos.I{{ c_pascal moduleName }}FindOneByIdInputDto): Promise<Dtos.I{{ c_pascal moduleName }}FindOneResultDto | null> {
+  async {{ c_camel moduleName }}FindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.I{{ c_pascal moduleName }}FindOneByIdInputDto): Promise<Dtos.I{{ c_pascal moduleName }}FindOneResultDto | null> {
     // =========================================================
 
     const qb = this.{{ c_camel moduleName }}Repository.createQueryBuilder(alias{{ c_pascal moduleName }});
 
     // =========================================================
 
-    await clientAccess.applyFilter('{{ c_snake moduleName }}:find', qb, alias{{ c_pascal moduleName }}, null);
+    await contextoDeAcesso.applyFilter('{{ c_snake moduleName }}:find', qb, alias{{ c_pascal moduleName }}, null);
 
     // =========================================================
 
@@ -125,8 +125,8 @@ export class {{ c_pascal moduleName }}Service {
     return {{ c_camel moduleName }};
   }
 
-  async {{ c_camel moduleName }}FindByIdStrict(clientAccess: IClientAccess, dto: Dtos.I{{ c_pascal moduleName }}FindOneByIdInputDto) {
-    const {{ c_camel moduleName }} = await this.{{ c_camel moduleName }}FindById(clientAccess, dto);
+  async {{ c_camel moduleName }}FindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.I{{ c_pascal moduleName }}FindOneByIdInputDto) {
+    const {{ c_camel moduleName }} = await this.{{ c_camel moduleName }}FindById(contextoDeAcesso, dto);
 
     if (!{{ c_camel moduleName }}) {
       throw new NotFoundException();
@@ -136,7 +136,7 @@ export class {{ c_pascal moduleName }}Service {
   }
 
   async {{ c_camel moduleName }}FindByIdSimple(
-    clientAccess: IClientAccess,
+    contextoDeAcesso: IContextoDeAcesso,
     id: Dtos.I{{ c_pascal moduleName }}FindOneByIdInputDto['id'],
     options?: I{{ c_pascal moduleName }}QueryBuilderViewOptions,
     selection?: string[],
@@ -147,7 +147,7 @@ export class {{ c_pascal moduleName }}Service {
 
     // =========================================================
 
-    await clientAccess.applyFilter('{{ c_snake moduleName }}:find', qb, alias{{ c_pascal moduleName }}, null);
+    await contextoDeAcesso.applyFilter('{{ c_snake moduleName }}:find', qb, alias{{ c_pascal moduleName }}, null);
 
     // =========================================================
 
@@ -174,8 +174,8 @@ export class {{ c_pascal moduleName }}Service {
     return {{ c_camel moduleName }};
   }
 
-  async {{ c_camel moduleName }}FindByIdSimpleStrict(clientAccess: IClientAccess, id: Dtos.I{{ c_pascal moduleName }}FindOneByIdInputDto['id'], options?: I{{ c_pascal moduleName }}QueryBuilderViewOptions, selection?: string[]) {
-    const {{ c_camel moduleName }} = await this.{{ c_camel moduleName }}FindByIdSimple(clientAccess, id, options, selection);
+  async {{ c_camel moduleName }}FindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.I{{ c_pascal moduleName }}FindOneByIdInputDto['id'], options?: I{{ c_pascal moduleName }}QueryBuilderViewOptions, selection?: string[]) {
+    const {{ c_camel moduleName }} = await this.{{ c_camel moduleName }}FindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!{{ c_camel moduleName }}) {
       throw new NotFoundException();
@@ -186,10 +186,10 @@ export class {{ c_pascal moduleName }}Service {
 
   //
 
-  async {{ c_camel moduleName }}Create(clientAccess: IClientAccess, dto: Dtos.I{{ c_pascal moduleName }}InputDto) {
+  async {{ c_camel moduleName }}Create(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.I{{ c_pascal moduleName }}InputDto) {
     // =========================================================
 
-    await clientAccess.ensurePermissionCheck('{{ c_snake moduleName }}:create', { dto });
+    await contextoDeAcesso.ensurePermissionCheck('{{ c_snake moduleName }}:create', { dto });
 
     // =========================================================
 
@@ -211,19 +211,19 @@ export class {{ c_pascal moduleName }}Service {
 
     // =========================================================
 
-    return this.{{ c_camel moduleName }}FindByIdStrict(clientAccess, { id: {{ c_camel moduleName }}.id });
+    return this.{{ c_camel moduleName }}FindByIdStrict(contextoDeAcesso, { id: {{ c_camel moduleName }}.id });
   }
 
-  async {{ c_camel moduleName }}Update(clientAccess: IClientAccess, dto: Dtos.I{{ c_pascal moduleName }}UpdateDto) {
+  async {{ c_camel moduleName }}Update(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.I{{ c_pascal moduleName }}UpdateDto) {
     // =========================================================
 
-    const current{{ c_pascal moduleName }} = await this.{{ c_camel moduleName }}FindByIdStrict(clientAccess, {
+    const current{{ c_pascal moduleName }} = await this.{{ c_camel moduleName }}FindByIdStrict(contextoDeAcesso, {
       id: dto.id,
     });
 
     // =========================================================
 
-    await clientAccess.ensureCanReach('{{ c_snake moduleName }}:update', { dto }, this.{{ c_camel moduleName }}Repository.createQueryBuilder(alias{{ c_pascal moduleName }}), dto.id);
+    await contextoDeAcesso.ensureCanReach('{{ c_snake moduleName }}:update', { dto }, dto.id, this.{{ c_camel moduleName }}Repository.createQueryBuilder(alias{{ c_pascal moduleName }}));
 
     const dto{{ c_pascal moduleName }} = pick(dto, [
       {{#each propriedadesDeclaradas}}
@@ -245,19 +245,19 @@ export class {{ c_pascal moduleName }}Service {
 
     // =========================================================
 
-    return this.{{ c_camel moduleName }}FindByIdStrict(clientAccess, { id: {{ c_camel moduleName }}.id });
+    return this.{{ c_camel moduleName }}FindByIdStrict(contextoDeAcesso, { id: {{ c_camel moduleName }}.id });
   }
 
   //
 
-  async {{ c_camel moduleName }}DeleteOneById(clientAccess: IClientAccess, dto: Dtos.I{{ c_pascal moduleName }}DeleteOneByIdInputDto) {
+  async {{ c_camel moduleName }}DeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.I{{ c_pascal moduleName }}DeleteOneByIdInputDto) {
     // =========================================================
 
-    await clientAccess.ensureCanReach('{{ c_snake moduleName }}:delete', { dto }, this.{{ c_camel moduleName }}Repository.createQueryBuilder(alias{{ c_pascal moduleName }}), dto.id);
+    await contextoDeAcesso.ensureCanReach('{{ c_snake moduleName }}:delete', { dto }, dto.id, this.{{ c_camel moduleName }}Repository.createQueryBuilder(alias{{ c_pascal moduleName }}));
 
     // =========================================================
 
-    const {{ c_camel moduleName }} = await this.{{ c_camel moduleName }}FindByIdStrict(clientAccess, dto);
+    const {{ c_camel moduleName }} = await this.{{ c_camel moduleName }}FindByIdStrict(contextoDeAcesso, dto);
 
     // =========================================================
 

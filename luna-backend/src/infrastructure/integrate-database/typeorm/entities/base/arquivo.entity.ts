@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IEntityDate } from '../../../../../application/business/(spec)';
+import { ImagemArquivoEntity } from './imagem_arquivo.entity';
 
 @Entity('arquivo')
 export class ArquivoEntity {
@@ -30,4 +31,9 @@ export class ArquivoEntity {
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
   dateDeleted!: null | IEntityDate;
+
+  //
+
+  @OneToMany(() => ImagemArquivoEntity, (row) => row.arquivo)
+  imagemArquivo!: ImagemArquivoEntity[];
 }

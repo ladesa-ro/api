@@ -1,7 +1,7 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
-import { ClientAccessGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
+import { IContextoDeAcesso } from '../../../../domain';
+import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
 import { GqlDtoInput } from '../../../../infrastructure/api-documentate/GqlDtoInput';
 import { BlocoService } from './bloco.service';
 import { BlocoDto, BlocoOperations } from './dtos';
@@ -16,39 +16,39 @@ export class BlocoResolver {
   //
 
   @DtoOperationGqlQuery(BlocoOperations.BLOCO_FIND_ALL)
-  async blocoFindAll(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(BlocoOperations.BLOCO_FIND_ALL) dto: Dto.ISearchInputDto) {
-    return this.blocoService.blocoFindAll(clientAccess, dto);
+  async blocoFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(BlocoOperations.BLOCO_FIND_ALL) dto: Dto.ISearchInputDto) {
+    return this.blocoService.blocoFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @DtoOperationGqlQuery(BlocoOperations.BLOCO_FIND_ONE_BY_ID)
   async blocoFindOneById(
-    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @GqlDtoInput(BlocoOperations.BLOCO_FIND_ONE_BY_ID)
     dto: Dto.IBlocoFindOneByIdInputDto,
   ) {
-    return this.blocoService.blocoFindByIdStrict(clientAccess, dto);
+    return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, dto);
   }
 
   //
 
   @DtoOperationGqlMutation(BlocoOperations.BLOCO_CREATE)
-  async blocoCreate(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(BlocoOperations.BLOCO_CREATE) dto: Dto.IBlocoInputDto) {
-    return this.blocoService.blocoCreate(clientAccess, dto);
+  async blocoCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(BlocoOperations.BLOCO_CREATE) dto: Dto.IBlocoInputDto) {
+    return this.blocoService.blocoCreate(contextoDeAcesso, dto);
   }
 
   @DtoOperationGqlMutation(BlocoOperations.BLOCO_UPDATE)
-  async blocoUpdate(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput(BlocoOperations.BLOCO_UPDATE) dto: Dto.IBlocoUpdateDto) {
-    return this.blocoService.blocoUpdate(clientAccess, dto);
+  async blocoUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(BlocoOperations.BLOCO_UPDATE) dto: Dto.IBlocoUpdateDto) {
+    return this.blocoService.blocoUpdate(contextoDeAcesso, dto);
   }
 
   @DtoOperationGqlMutation(BlocoOperations.BLOCO_DELETE_ONE_BY_ID)
   async blocoDeleteOneById(
-    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @GqlDtoInput(BlocoOperations.BLOCO_DELETE_ONE_BY_ID)
     dto: Dto.IBlocoDeleteOneByIdInputDto,
   ) {
-    return this.blocoService.blocoDeleteOneById(clientAccess, dto);
+    return this.blocoService.blocoDeleteOneById(contextoDeAcesso, dto);
   }
 }

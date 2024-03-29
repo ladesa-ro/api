@@ -6,7 +6,7 @@ import { paginateConfig } from 'infrastructure/utils/paginateConfig';
 import { FilterOperator, PaginateQuery, paginate } from 'nestjs-paginate';
 import { NotBrackets, SelectQueryBuilder } from 'typeorm';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import { UsuarioService } from '../usuario/usuario.service';
 
 // ============================================================================
@@ -66,12 +66,12 @@ export class UsuarioVinculoCampusService {
 
   //
 
-  async vinculoFindAll(clientAccess: IClientAccess, query: PaginateQuery = { path: '' }) {
+  async vinculoFindAll(contextoDeAcesso: IContextoDeAcesso, query: PaginateQuery = { path: '' }) {
     const qb = this.usuarioVinculoCampusRepository.createQueryBuilder(aliasUsuarioVinculoCampus);
 
     UsuarioVinculoCampusService.UsuarioVinculoCampusQueryBuilderView(aliasUsuarioVinculoCampus, qb);
 
-    await clientAccess.applyFilter('vinculo:find', qb, aliasUsuarioVinculoCampus, null);
+    await contextoDeAcesso.aplicarFiltro('vinculo:find', qb, aliasUsuarioVinculoCampus, null);
 
     return paginate(query, qb, {
       ...paginateConfig,
@@ -107,9 +107,9 @@ export class UsuarioVinculoCampusService {
     });
   }
 
-  async vinculoSetVinculos(clientAccess: IClientAccess, dto: Dto.IUsuarioVinculoCampusSetVinculosInputDto) {
-    const campus = await this.campusService.campusFindByIdSimpleStrict(clientAccess, dto.campus.id);
-    const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(clientAccess, dto.usuario.id);
+  async vinculoSetVinculos(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IUsuarioVinculoCampusSetVinculosInputDto) {
+    const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.campus.id);
+    const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(contextoDeAcesso, dto.usuario.id);
 
     const vinculosParaManter = new Set();
 
@@ -159,7 +159,7 @@ export class UsuarioVinculoCampusService {
       .andWhere(new NotBrackets((qb) => qb.whereInIds([...vinculosParaManter])))
       .execute();
 
-    return this.vinculoFindAll(clientAccess, {
+    return this.vinculoFindAll(contextoDeAcesso, {
       path: '/vinculos',
       filter: {
         ativo: 'true',

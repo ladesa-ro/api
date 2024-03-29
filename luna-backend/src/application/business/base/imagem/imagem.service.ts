@@ -31,7 +31,7 @@ export class ImagemService {
     const metadata = await originalImage.metadata().catch(() => null);
 
     if (!metadata) {
-      throw new UnprocessableEntityException('Invalid image.');
+      throw new UnprocessableEntityException('Formato de imagem não suportada ou inválida.');
     }
 
     if ((options.minWidth !== null && (!metadata.width || metadata.width < options.minWidth)) || (options.minHeight !== null && (!metadata.height || metadata.height < options.minHeight))) {

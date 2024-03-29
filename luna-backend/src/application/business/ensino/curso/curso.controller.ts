@@ -2,9 +2,9 @@ import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import {
-  ClientAccessHttp,
+  ContextoDeAcessoHttp,
   DtoOperationCreate,
   DtoOperationDelete,
   DtoOperationFindAll,
@@ -14,8 +14,8 @@ import {
   HttpDtoParam,
   getSearchInputFromPaginateQuery,
 } from '../../../../infrastructure';
-import { CursoOperations } from './dtos';
 import { CursoService } from './curso.service';
+import { CursoOperations } from './dtos';
 
 @ApiTags('Cursos')
 @Controller('/cursos')
@@ -26,8 +26,8 @@ export class CursoController {
 
   @Get('/')
   @DtoOperationFindAll(CursoOperations.CURSO_FIND_ALL)
-  async cursoFindAll(@ClientAccessHttp() clientAccess: IClientAccess, @Paginate() query: PaginateQuery): Promise<Dto.ICursoFindAllResultDto> {
-    return this.cursoService.cursoFindAll(clientAccess, getSearchInputFromPaginateQuery(query));
+  async cursoFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.ICursoFindAllResultDto> {
+    return this.cursoService.cursoFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
@@ -35,19 +35,19 @@ export class CursoController {
   @Get('/:id')
   @DtoOperationFindOne(CursoOperations.CURSO_FIND_ONE_BY_ID)
   async cursoFindById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(CursoOperations.CURSO_FIND_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.cursoService.cursoFindByIdStrict(clientAccess, { id });
+    return this.cursoService.cursoFindByIdStrict(contextoDeAcesso, { id });
   }
 
   //
 
   @Post('/')
   @DtoOperationCreate(CursoOperations.CURSO_CREATE)
-  async cursoCreate(@ClientAccessHttp() clientAccess: IClientAccess, @HttpDtoBody(CursoOperations.CURSO_CREATE) dto: Dto.ICursoInputDto) {
-    return this.cursoService.cursoCreate(clientAccess, dto);
+  async cursoCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(CursoOperations.CURSO_CREATE) dto: Dto.ICursoInputDto) {
+    return this.cursoService.cursoCreate(contextoDeAcesso, dto);
   }
 
   //
@@ -55,7 +55,7 @@ export class CursoController {
   @Patch('/:id')
   @DtoOperationUpdate(CursoOperations.CURSO_UPDATE)
   async cursoUpdate(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(CursoOperations.CURSO_UPDATE, 'id')
     id: string,
     @HttpDtoBody(CursoOperations.CURSO_UPDATE)
@@ -66,7 +66,7 @@ export class CursoController {
       id,
     };
 
-    return this.cursoService.cursoUpdate(clientAccess, dtoUpdate);
+    return this.cursoService.cursoUpdate(contextoDeAcesso, dtoUpdate);
   }
 
   //
@@ -74,11 +74,11 @@ export class CursoController {
   @Delete('/:id')
   @DtoOperationDelete(CursoOperations.CURSO_DELETE_ONE_BY_ID)
   async cursoDeleteOneById(
-    @ClientAccessHttp() clientAccess: IClientAccess,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(CursoOperations.CURSO_DELETE_ONE_BY_ID, 'id')
     id: string,
   ) {
-    return this.cursoService.cursoDeleteOneById(clientAccess, { id });
+    return this.cursoService.cursoDeleteOneById(contextoDeAcesso, { id });
   }
 
   //

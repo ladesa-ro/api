@@ -5,7 +5,7 @@ import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dto from '../../(spec)';
 import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '../../(spec)';
-import { IClientAccess } from '../../../../domain';
+import { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 
@@ -29,14 +29,14 @@ export class EstadoService {
 
   //
 
-  async findAll(clienteAccess: IClientAccess, dto?: Dto.ISearchInputDto): Promise<Dto.IEstadoFindAllResultDto> {
+  async findAll(clienteAccess: IContextoDeAcesso, dto?: Dto.ISearchInputDto): Promise<Dto.IEstadoFindAllResultDto> {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
 
     // =========================================================
 
-    await clienteAccess.applyFilter('estado:find', qb, aliasEstado, null);
+    await clienteAccess.aplicarFiltro('estado:find', qb, aliasEstado, null);
 
     // =========================================================
 
@@ -63,14 +63,14 @@ export class EstadoService {
     return paginated;
   }
 
-  async findByUf(clienteAccess: IClientAccess, dto: IEstadoFindOneByUfInputDto) {
+  async findByUf(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto) {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
 
     // =========================================================
 
-    await clienteAccess.applyFilter('estado:find', qb, aliasEstado, null);
+    await clienteAccess.aplicarFiltro('estado:find', qb, aliasEstado, null);
 
     // =========================================================
 
@@ -90,7 +90,7 @@ export class EstadoService {
     return estado;
   }
 
-  async findByUfStrict(clienteAccess: IClientAccess, dto: IEstadoFindOneByUfInputDto) {
+  async findByUfStrict(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto) {
     const estado = await this.findByUf(clienteAccess, dto);
 
     if (!estado) {
@@ -100,14 +100,14 @@ export class EstadoService {
     return estado;
   }
 
-  async findById(clienteAccess: IClientAccess, dto: IEstadoFindOneByIdInputDto) {
+  async findById(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto) {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder('estado');
 
     // =========================================================
 
-    await clienteAccess.applyFilter('estado:find', qb, aliasEstado, null);
+    await clienteAccess.aplicarFiltro('estado:find', qb, aliasEstado, null);
 
     // =========================================================
 
@@ -127,7 +127,7 @@ export class EstadoService {
     return estado;
   }
 
-  async findByIdStrict(clienteAccess: IClientAccess, dto: IEstadoFindOneByIdInputDto) {
+  async findByIdStrict(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto) {
     const estado = await this.findById(clienteAccess, dto);
 
     if (!estado) {
