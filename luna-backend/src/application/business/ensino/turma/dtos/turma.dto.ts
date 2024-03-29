@@ -13,6 +13,7 @@ import {
 } from '../../../../../infrastructure';
 import { AmbienteDto, AmbienteFindOneResultDto } from '../../../ambientes/ambiente/dtos';
 import { CursoDto, CursoFindOneResultDto } from '../../curso/dtos';
+import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/dtos';
 
 // ======================================================
 
@@ -118,6 +119,18 @@ export const TurmaDtoProperties = createDtoPropertyMap({
       type: CursoFindOneResultDto,
     },
   },
+
+  TURMA_IMAGEM_CAPA_OUTPUT: {
+    nullable: true,
+    description: 'Imagem de capa da turma.',
+    //
+    gql: {
+      type: () => ImagemDto,
+    },
+    swagger: {
+      type: ImagemFindOneResultDto,
+    },
+  },
   //
 });
 
@@ -144,6 +157,9 @@ export class TurmaDto implements Dto.ITurmaModel {
 
   @DtoProperty(TurmaDtoProperties.TURMA_CURSO_OUTPUT)
   curso!: Dto.ICursoModel;
+
+  @DtoProperty(TurmaDtoProperties.TURMA_IMAGEM_CAPA_OUTPUT)
+  imagemCapa!: Dto.IImagemModel | null;
 
   //
 

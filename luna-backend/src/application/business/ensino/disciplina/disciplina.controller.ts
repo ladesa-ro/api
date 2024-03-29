@@ -1,5 +1,5 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { ApiBody, ApiConsumes, ApiProduces, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
@@ -16,6 +16,7 @@ import {
 } from '../../../../infrastructure';
 import { DisciplinaService } from './disciplina.service';
 import { DisciplinaOperations } from './dtos';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Disciplinas')
 @Controller('/disciplinas')
@@ -67,6 +68,51 @@ export class DisciplinaController {
     };
 
     return this.disciplinaService.disciplinaUpdate(contextoDeAcesso, dtoUpdate);
+  }
+
+  //
+
+  @Get('/:id/imagem/capa')
+  @ApiProduces('application/octet-stream', 'image/jpeg')
+  @DtoOperationFindOne(DisciplinaOperations.DISCIPLINA_GET_IMAGEM_CAPA)
+  async disciplinaGetImagemCapa(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @HttpDtoParam(DisciplinaOperations.DISCIPLINA_GET_IMAGEM_CAPA, 'id')
+    id: string,
+  ) {
+    return this.disciplinaService.disciplinaGetImagemCapa(contextoDeAcesso, id);
+  }
+
+  @Put('/:id/imagem/capa')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['file'],
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+          nullable: false,
+        },
+      },
+    },
+  })
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: {
+        files: 1,
+        fileSize: 10 * 1024 * 1024,
+      },
+    }),
+  )
+  async disciplinaImagemCapaSave(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @Param('id', ParseUUIDPipe) id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.disciplinaService.disciplinaUpdateImagemCapa(contextoDeAcesso, { id }, file);
   }
 
   //

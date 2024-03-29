@@ -28,6 +28,9 @@ export class TurmaFindOneResultDto implements Dto.ITurmaFindOneResultDto {
   @DtoProperty(TurmaDtoProperties.TURMA_CURSO_OUTPUT)
   curso!: Dto.ICursoFindOneResultDto;
 
+  @DtoProperty(TurmaDtoProperties.TURMA_IMAGEM_CAPA_OUTPUT)
+  imagemCapa!: Dto.IImagemModel | null;
+
   //
 }
 

@@ -1,4 +1,4 @@
-import { IAmbienteModel, ICursoModel, IEntityDate } from 'application/business/(spec)';
+import * as Dto from 'application/business/(spec)';
 
 export interface ITurmaModel {
   id: string;
@@ -15,14 +15,17 @@ export interface ITurmaModel {
   nome: string;
 
   // Ambiente padrão da sala de aula.
-  ambientePadraoAula: IAmbienteModel | null;
+  ambientePadraoAula: Dto.IAmbienteModel | null;
 
   // Curso que a turma pertence.
-  curso: ICursoModel;
+  curso: Dto.ICursoModel;
+
+  // Imagem de capa da turma.
+  imagemCapa: Dto.IImagemModel | null;
 
   //
 
-  dateCreated: IEntityDate;
-  dateUpdated: IEntityDate;
-  dateDeleted: null | IEntityDate;
+  dateCreated: Dto.IEntityDate;
+  dateUpdated: Dto.IEntityDate;
+  dateDeleted: null | Dto.IEntityDate;
 }

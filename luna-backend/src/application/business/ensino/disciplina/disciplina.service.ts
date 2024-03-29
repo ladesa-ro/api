@@ -8,6 +8,8 @@ import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { DisciplinaEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/disciplina.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
+import { ArquivoService } from '../../base/arquivo/arquivo.service';
+import { ImagemService } from '../../base/imagem/imagem.service';
 
 // ============================================================================
 
@@ -15,13 +17,17 @@ const aliasDisciplina = 'disciplina';
 
 // ============================================================================
 
-export type IDisciplinaQueryBuilderViewOptions = {};
+export type IDisciplinaQueryBuilderViewOptions = any;
 
 // ============================================================================
 
 @Injectable()
 export class DisciplinaService {
-  constructor(private databaseContext: DatabaseContextService) {}
+  constructor(
+    private databaseContext: DatabaseContextService,
+    private imagemService: ImagemService,
+    private arquivoService: ArquivoService,
+  ) {}
 
   get disciplinaRepository() {
     return this.databaseContext.disciplinaRepository;
@@ -29,6 +35,7 @@ export class DisciplinaService {
 
   //
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static DisciplinaQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, _: IDisciplinaQueryBuilderViewOptions = {}) {
     qb.addSelect([
       //
@@ -93,14 +100,16 @@ export class DisciplinaService {
     return paginated;
   }
 
-  async disciplinaFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDisciplinaFindOneByIdInputDto): Promise<Dtos.IDisciplinaFindOneResultDto | null> {
+  async disciplinaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IDisciplinaFindOneByIdInputDto): Promise<Dtos.IDisciplinaFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('disciplina:find', qb, aliasDisciplina, null);
+    if (contextoDeAcesso) {
+      await contextoDeAcesso.aplicarFiltro('disciplina:find', qb, aliasDisciplina, null);
+    }
 
     // =========================================================
 
@@ -121,7 +130,7 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDisciplinaFindOneByIdInputDto) {
+  async disciplinaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IDisciplinaFindOneByIdInputDto) {
     const disciplina = await this.disciplinaFindById(contextoDeAcesso, dto);
 
     if (!disciplina) {
@@ -234,6 +243,61 @@ export class DisciplinaService {
     // =========================================================
 
     return this.disciplinaFindByIdStrict(contextoDeAcesso, { id: disciplina.id });
+  }
+
+  //
+
+  async disciplinaGetImagemCapa(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
+    const disciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, { id: id });
+
+    if (disciplina.imagemCapa) {
+      const [imagemArquivo] = disciplina.imagemCapa.imagemArquivo;
+
+      if (imagemArquivo) {
+        const { arquivo } = imagemArquivo;
+        return this.arquivoService.getStreamableFile(null, arquivo.id, null);
+      }
+    }
+
+    throw new NotFoundException();
+  }
+
+  async disciplinaUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDisciplinaFindOneByIdInputDto, file: Express.Multer.File) {
+    // =========================================================
+
+    const currentDisciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, { id: dto.id });
+
+    // =========================================================
+
+    await contextoDeAcesso.ensurePermission(
+      'disciplina:update',
+      {
+        dto: {
+          id: currentDisciplina.id,
+        },
+      },
+      currentDisciplina.id,
+    );
+
+    // =========================================================
+
+    const { imagem } = await this.imagemService.saveDisciplinaCapa(file);
+
+    const disciplina = this.disciplinaRepository.merge(this.disciplinaRepository.create(), {
+      id: currentDisciplina.id,
+    });
+
+    this.disciplinaRepository.merge(disciplina, {
+      imagemCapa: {
+        id: imagem.id,
+      },
+    });
+
+    await this.disciplinaRepository.save(disciplina);
+
+    // =========================================================
+
+    return true;
   }
 
   //

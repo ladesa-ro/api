@@ -1,4 +1,4 @@
-import { IEntityDate } from 'application/business/(spec)';
+import * as Dto from 'application/business/(spec)';
 
 export interface IDisciplinaModel {
   id: string;
@@ -11,9 +11,12 @@ export interface IDisciplinaModel {
   // Carga horária da disciplina.
   cargaHoraria: number;
 
+  // Imagem de capa do diário.
+  imagemCapa: Dto.IImagemModel | null;
+
   //
 
-  dateCreated: IEntityDate;
-  dateUpdated: IEntityDate;
-  dateDeleted: null | IEntityDate;
+  dateCreated: Dto.IEntityDate;
+  dateUpdated: Dto.IEntityDate;
+  dateDeleted: null | Dto.IEntityDate;
 }

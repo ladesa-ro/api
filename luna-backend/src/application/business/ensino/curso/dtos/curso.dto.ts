@@ -14,6 +14,7 @@ import {
   createDtoPropertyMap,
   createValidationContract,
 } from '../../../../../infrastructure';
+import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/dtos';
 import { ModalidadeDto, ModalidadeFindOneResultDto } from '../../modalidade/dtos';
 
 // ======================================================
@@ -109,6 +110,18 @@ export const CursoDtoProperties = createDtoPropertyMap({
       type: ModalidadeFindOneResultDto,
     },
   },
+
+  CURSO_IMAGEM_CAPA_OUTPUT: {
+    nullable: true,
+    description: 'Imagem de capa do curso.',
+    //
+    gql: {
+      type: () => ImagemDto,
+    },
+    swagger: {
+      type: ImagemFindOneResultDto,
+    },
+  },
   // ==============================================
 });
 
@@ -132,6 +145,9 @@ export class CursoDto implements Dto.ICursoModel {
 
   @DtoProperty(CursoDtoProperties.CURSO_MODALIDADE_OUTPUT)
   modalidade!: ModalidadeEntity;
+
+  @DtoProperty(CursoDtoProperties.CURSO_IMAGEM_CAPA_OUTPUT)
+  imagemCapa!: Dto.IImagemModel | null;
 
   //
 

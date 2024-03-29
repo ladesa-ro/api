@@ -10,6 +10,8 @@ import { TurmaEntity } from '../../../../infrastructure/integrate-database/typeo
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambientes/ambiente/ambiente.service';
+import { ArquivoService } from '../../base/arquivo/arquivo.service';
+import { ImagemService } from '../../base/imagem/imagem.service';
 import { CursoService, ICursoQueryBuilderViewOptions } from '../curso/curso.service';
 
 // ============================================================================
@@ -31,6 +33,8 @@ export class TurmaService {
     private databaseContext: DatabaseContextService,
     private ambienteService: AmbienteService,
     private cursoService: CursoService,
+    private imagemService: ImagemService,
+    private arquivoService: ArquivoService,
   ) {}
 
   get turmaRepository() {
@@ -153,14 +157,16 @@ export class TurmaService {
     return paginated;
   }
 
-  async turmaFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ITurmaFindOneByIdInputDto): Promise<Dtos.ITurmaFindOneResultDto | null> {
+  async turmaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.ITurmaFindOneByIdInputDto): Promise<Dtos.ITurmaFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.turmaRepository.createQueryBuilder(aliasTurma);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('turma:find', qb, aliasTurma, null);
+    if (contextoDeAcesso) {
+      await contextoDeAcesso.aplicarFiltro('turma:find', qb, aliasTurma, null);
+    }
 
     // =========================================================
 
@@ -181,7 +187,7 @@ export class TurmaService {
     return turma;
   }
 
-  async turmaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ITurmaFindOneByIdInputDto) {
+  async turmaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.ITurmaFindOneByIdInputDto) {
     const turma = await this.turmaFindById(contextoDeAcesso, dto);
 
     if (!turma) {
@@ -350,6 +356,61 @@ export class TurmaService {
     // =========================================================
 
     return this.turmaFindByIdStrict(contextoDeAcesso, { id: turma.id });
+  }
+
+  //
+
+  async turmaGetImagemCapa(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
+    const turma = await this.turmaFindByIdStrict(contextoDeAcesso, { id: id });
+
+    if (turma.imagemCapa) {
+      const [imagemArquivo] = turma.imagemCapa.imagemArquivo;
+
+      if (imagemArquivo) {
+        const { arquivo } = imagemArquivo;
+        return this.arquivoService.getStreamableFile(null, arquivo.id, null);
+      }
+    }
+
+    throw new NotFoundException();
+  }
+
+  async turmaUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ITurmaFindOneByIdInputDto, file: Express.Multer.File) {
+    // =========================================================
+
+    const currentTurma = await this.turmaFindByIdStrict(contextoDeAcesso, { id: dto.id });
+
+    // =========================================================
+
+    await contextoDeAcesso.ensurePermission(
+      'turma:update',
+      {
+        dto: {
+          id: currentTurma.id,
+        },
+      },
+      currentTurma.id,
+    );
+
+    // =========================================================
+
+    const { imagem } = await this.imagemService.saveTurmaCapa(file);
+
+    const turma = this.turmaRepository.merge(this.turmaRepository.create(), {
+      id: currentTurma.id,
+    });
+
+    this.turmaRepository.merge(turma, {
+      imagemCapa: {
+        id: imagem.id,
+      },
+    });
+
+    await this.turmaRepository.save(turma);
+
+    // =========================================================
+
+    return true;
   }
 
   //

@@ -1,9 +1,9 @@
-import { IEntityDate } from 'application/business/(spec)';
+import * as Dto from 'application/business/(spec)';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ImagemEntity } from '../base/imagem.entity';
 
 @Entity('disciplina')
-export class DisciplinaEntity {
+export class DisciplinaEntity implements Dto.IDisciplinaModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -24,11 +24,11 @@ export class DisciplinaEntity {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Dto.IEntityDate;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Dto.IEntityDate;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Dto.IEntityDate;
 }

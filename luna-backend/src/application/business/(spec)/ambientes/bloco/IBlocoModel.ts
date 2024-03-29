@@ -1,6 +1,5 @@
-import { IDatedObject, IEntityDate, IObjectUuid } from '../../(core)';
-import { IImagemModel } from '../../base/imagem';
-import { IAmbienteModel } from '../ambiente';
+import * as Dto from 'application/business/(spec)';
+import { IDatedObject, IObjectUuid } from '../../(core)';
 import { ICampusModel } from '../campus';
 
 export interface IBlocoModel extends IObjectUuid, IDatedObject {
@@ -16,17 +15,17 @@ export interface IBlocoModel extends IObjectUuid, IDatedObject {
   // =================================
 
   campus: ICampusModel;
-  imagemCapa: IImagemModel | null;
+  imagemCapa: Dto.IImagemModel | null;
 
   // =================================
 
-  ambientes: IAmbienteModel[];
+  ambientes: Dto.IAmbienteModel[];
 
   // =================================
 
-  dateCreated: IEntityDate;
-  dateUpdated: IEntityDate;
-  dateDeleted: null | IEntityDate;
+  dateCreated: Dto.IEntityDate;
+  dateUpdated: Dto.IEntityDate;
+  dateDeleted: null | Dto.IEntityDate;
 
   // =================================
 }

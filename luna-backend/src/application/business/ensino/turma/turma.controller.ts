@@ -1,5 +1,5 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { ApiBody, ApiConsumes, ApiProduces, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
@@ -16,6 +16,7 @@ import {
 } from '../../../../infrastructure';
 import { TurmaOperations } from './dtos';
 import { TurmaService } from './turma.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Turmas')
 @Controller('/turmas')
@@ -67,6 +68,51 @@ export class TurmaController {
     };
 
     return this.turmaService.turmaUpdate(contextoDeAcesso, dtoUpdate);
+  }
+
+  //
+
+  @Get('/:id/imagem/capa')
+  @ApiProduces('application/octet-stream', 'image/jpeg')
+  @DtoOperationFindOne(TurmaOperations.TURMA_GET_IMAGEM_CAPA)
+  async turmaGetImagemCapa(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @HttpDtoParam(TurmaOperations.TURMA_GET_IMAGEM_CAPA, 'id')
+    id: string,
+  ) {
+    return this.turmaService.turmaGetImagemCapa(contextoDeAcesso, id);
+  }
+
+  @Put('/:id/imagem/capa')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['file'],
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+          nullable: false,
+        },
+      },
+    },
+  })
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: {
+        files: 1,
+        fileSize: 10 * 1024 * 1024,
+      },
+    }),
+  )
+  async turmaImagemCapaSave(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @Param('id', ParseUUIDPipe) id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.turmaService.turmaUpdateImagemCapa(contextoDeAcesso, { id }, file);
   }
 
   //

@@ -172,4 +172,40 @@ export class ImagemService {
       ],
     });
   }
+
+  async saveCursoCapa(file: Express.Multer.File) {
+    return this.saveImage(file, {
+      minWidth: 1,
+      minHeight: 1,
+      transforms: [
+        {
+          outputAs: 'jpeg',
+        },
+      ],
+    });
+  }
+
+  async saveDisciplinaCapa(file: Express.Multer.File) {
+    return this.saveImage(file, {
+      minWidth: 1,
+      minHeight: 1,
+      transforms: [
+        {
+          outputAs: 'jpeg',
+        },
+      ],
+    });
+  }
+
+  async saveTurmaCapa(file: Express.Multer.File) {
+    return this.saveImage(file, {
+      minWidth: 1,
+      minHeight: 1,
+      transforms: [
+        {
+          outputAs: 'jpeg',
+        },
+      ],
+    });
+  }
 }

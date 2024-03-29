@@ -5,17 +5,20 @@ export interface ICursoModel extends Dto.IObjectUuid, Dto.IDatedObject {
 
   //
 
-  // Nome do curso
+  // Nome do curso.
   nome: string;
 
-  // Nome abreviado do curso
+  // Nome abreviado do curso.
   nomeAbreviado: string;
 
-  // Campus que o curso pertence
+  // Campus que o curso pertence.
   campus: Dto.ICampusModel;
 
-  // Modalidade a que o curso pertence
+  // Modalidade a que o curso pertence.
   modalidade: Dto.IModalidadeModel;
+
+  // Imagem de capa do curso.
+  imagemCapa: Dto.IImagemModel | null;
 
   //
 

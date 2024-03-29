@@ -10,6 +10,8 @@ import { CursoEntity } from '../../../../infrastructure/integrate-database/typeo
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
+import { ArquivoService } from '../../base/arquivo/arquivo.service';
+import { ImagemService } from '../../base/imagem/imagem.service';
 import { IModalidadeQueryBuilderViewOptions, ModalidadeService } from '../modalidade/modalidade.service';
 
 // ============================================================================
@@ -31,6 +33,8 @@ export class CursoService {
     private databaseContext: DatabaseContextService,
     private campusService: CampusService,
     private modalidadeService: ModalidadeService,
+    private imagemService: ImagemService,
+    private arquivoService: ArquivoService,
   ) {}
 
   get cursoRepository() {
@@ -142,14 +146,16 @@ export class CursoService {
     return paginated;
   }
 
-  async cursoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICursoFindOneByIdInputDto): Promise<Dtos.ICursoFindOneResultDto | null> {
+  async cursoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.ICursoFindOneByIdInputDto): Promise<Dtos.ICursoFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('curso:find', qb, aliasCurso, null);
+    if (contextoDeAcesso) {
+      await contextoDeAcesso.aplicarFiltro('curso:find', qb, aliasCurso, null);
+    }
 
     // =========================================================
 
@@ -170,7 +176,7 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICursoFindOneByIdInputDto) {
+  async cursoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.ICursoFindOneByIdInputDto) {
     const curso = await this.cursoFindById(contextoDeAcesso, dto);
 
     if (!curso) {
@@ -327,6 +333,61 @@ export class CursoService {
     // =========================================================
 
     return this.cursoFindByIdStrict(contextoDeAcesso, { id: curso.id });
+  }
+
+  //
+
+  async cursoGetImagemCapa(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
+    const curso = await this.cursoFindByIdStrict(contextoDeAcesso, { id: id });
+
+    if (curso.imagemCapa) {
+      const [imagemArquivo] = curso.imagemCapa.imagemArquivo;
+
+      if (imagemArquivo) {
+        const { arquivo } = imagemArquivo;
+        return this.arquivoService.getStreamableFile(null, arquivo.id, null);
+      }
+    }
+
+    throw new NotFoundException();
+  }
+
+  async cursoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICursoFindOneByIdInputDto, file: Express.Multer.File) {
+    // =========================================================
+
+    const currentCurso = await this.cursoFindByIdStrict(contextoDeAcesso, { id: dto.id });
+
+    // =========================================================
+
+    await contextoDeAcesso.ensurePermission(
+      'curso:update',
+      {
+        dto: {
+          id: currentCurso.id,
+        },
+      },
+      currentCurso.id,
+    );
+
+    // =========================================================
+
+    const { imagem } = await this.imagemService.saveCursoCapa(file);
+
+    const curso = this.cursoRepository.merge(this.cursoRepository.create(), {
+      id: currentCurso.id,
+    });
+
+    this.cursoRepository.merge(curso, {
+      imagemCapa: {
+        id: imagem.id,
+      },
+    });
+
+    await this.cursoRepository.save(curso);
+
+    // =========================================================
+
+    return true;
   }
 
   //

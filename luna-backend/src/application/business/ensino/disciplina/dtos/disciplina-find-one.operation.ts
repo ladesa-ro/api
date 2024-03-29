@@ -19,6 +19,9 @@ export class DisciplinaFindOneResultDto implements Dto.IDisciplinaFindOneResultD
   @DtoProperty(DisciplinaDtoProperties.DISCIPLINA_CARGA_HORARIA)
   cargaHoraria!: number;
 
+  @DtoProperty(DisciplinaDtoProperties.DISCIPLINA_IMAGEM_CAPA_OUTPUT)
+  imagemCapa!: Dto.IImagemModel | null;
+
   //
 }
 

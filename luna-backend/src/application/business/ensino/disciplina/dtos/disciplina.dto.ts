@@ -10,6 +10,7 @@ import {
   createDtoPropertyMap,
   createValidationContract,
 } from '../../../../../infrastructure';
+import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/dtos';
 
 // ======================================================
 
@@ -55,6 +56,18 @@ export const DisciplinaDtoProperties = createDtoPropertyMap({
       type: 'integer',
     },
   },
+
+  DISCIPLINA_IMAGEM_CAPA_OUTPUT: {
+    nullable: true,
+    description: 'Imagem de capa da disciplina.',
+    //
+    gql: {
+      type: () => ImagemDto,
+    },
+    swagger: {
+      type: ImagemFindOneResultDto,
+    },
+  },
   //
 });
 
@@ -72,6 +85,9 @@ export class DisciplinaDto implements Dto.IDisciplinaModel {
 
   @DtoProperty(DisciplinaDtoProperties.DISCIPLINA_CARGA_HORARIA)
   cargaHoraria!: number;
+
+  @DtoProperty(DisciplinaDtoProperties.DISCIPLINA_IMAGEM_CAPA_OUTPUT)
+  imagemCapa!: Dto.IImagemModel | null;
 
   //
 

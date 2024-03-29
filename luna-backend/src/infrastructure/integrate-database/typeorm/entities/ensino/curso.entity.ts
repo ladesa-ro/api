@@ -1,11 +1,11 @@
-import { IEntityDate } from 'application/business/(spec)';
+import * as Dto from 'application/business/(spec)';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { ImagemEntity } from '../base/imagem.entity';
 import { ModalidadeEntity } from './ensino/modalidade.entity';
 
 @Entity('curso')
-export class CursoEntity {
+export class CursoEntity implements Dto.ICursoModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -32,11 +32,11 @@ export class CursoEntity {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Dto.IEntityDate;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Dto.IEntityDate;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Dto.IEntityDate;
 }

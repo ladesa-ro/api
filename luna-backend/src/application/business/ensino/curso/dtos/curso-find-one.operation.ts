@@ -27,6 +27,9 @@ export class CursoFindOneResultDto implements Dto.ICursoFindOneResultDto {
   @DtoProperty(CursoDtoProperties.CURSO_MODALIDADE_OUTPUT)
   modalidade!: ModalidadeEntity;
 
+  @DtoProperty(CursoDtoProperties.CURSO_IMAGEM_CAPA_OUTPUT)
+  imagemCapa!: Dto.IImagemModel | null;
+
   //
 }
 

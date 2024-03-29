@@ -1,4 +1,4 @@
-import { IAmbienteModel, IDisciplinaModel, IEntityDate, ITurmaModel } from 'application/business/(spec)';
+import * as Dto from 'application/business/(spec)';
 
 export interface IDiarioModel {
   id: string;
@@ -14,18 +14,18 @@ export interface IDiarioModel {
   // Etapa/período do diário.
   etapa: string | null;
 
-  // turma que o diario pertence
-  turma: ITurmaModel;
+  // turma que o diario pertence.
+  turma: Dto.ITurmaModel;
 
-  // disciplina a qual o diario pertence
-  disciplina: IDisciplinaModel;
+  // disciplina a qual o diario pertence.
+  disciplina: Dto.IDisciplinaModel;
 
-  // Ambiente Padrao do diario
-  ambientePadrao: IAmbienteModel | null;
+  // Ambiente Padrao do diario.
+  ambientePadrao: Dto.IAmbienteModel | null;
 
   //
 
-  dateCreated: IEntityDate;
-  dateUpdated: IEntityDate;
-  dateDeleted: null | IEntityDate;
+  dateCreated: Dto.IEntityDate;
+  dateUpdated: Dto.IEntityDate;
+  dateDeleted: null | Dto.IEntityDate;
 }
