@@ -1,6 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
+import { IImagemModel } from '../../../(spec)/base/imagem';
 import {
   CommonPropertyUuid,
   DtoProperty,
@@ -103,6 +104,7 @@ export class BlocoDto implements Dto.IBlocoModel {
   //
 
   ambientes!: Dto.IAmbienteModel[];
+  imagemCapa!: IImagemModel | null;
 
   //
 

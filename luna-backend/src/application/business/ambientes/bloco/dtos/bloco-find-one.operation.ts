@@ -1,6 +1,7 @@
 import { InputType, ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
+import { IImagemFindOneResultDto } from '../../../(spec)/base/imagem/operations';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { BlocoDto, BlocoDtoProperties, BlocoDtoValidationContract } from './bloco.dto';
 
@@ -21,6 +22,9 @@ export class BlocoFindOneResultDto implements Dto.IBlocoFindOneResultDto {
   //
   @DtoProperty(BlocoDtoProperties.BLOCO_CAMPUS_OUTPUT)
   campus!: Dto.ICampusFindOneResultDto;
+
+  //
+  imagemCapa!: IImagemFindOneResultDto | null;
 }
 
 // ======================================================

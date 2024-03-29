@@ -1,10 +1,11 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IEntityDate } from '../../../../../application/business/(spec)';
+import { IImagemModel } from '../../../../../application/business/(spec)/base/imagem';
 import { BlocoEntity } from '../ambientes/bloco.entity';
 import { ImagemArquivoEntity } from './imagem_arquivo.entity';
 
 @Entity('imagem')
-export class ImagemEntity {
+export class ImagemEntity implements IImagemModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

@@ -1,12 +1,41 @@
 import { Type, applyDecorators } from '@nestjs/common';
 import { Mutation, Query, QueryOptions, ReturnTypeFunc } from '@nestjs/graphql';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ReferenceObject, SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
+import { has } from 'lodash';
 import { Schema } from 'yup';
 import { IValidationContract } from '../validation';
 
 // ==============================================================
 
-export type IDtoOperationSwaggerType = Type<unknown> | any | [any] | string;
+export type IDtoOperationSwaggerType =
+  | Type<unknown>
+  | any
+  | [any]
+  | string
+  | {
+      schema: SchemaObject & Partial<ReferenceObject>;
+    };
+
+const isTypeSchema = (
+  value: unknown,
+): value is {
+  schema: SchemaObject & Partial<ReferenceObject>;
+} => {
+  return has(value, 'schema');
+};
+
+const responseDeclarationFromDtoOperationSwaggerType = (returnType: IDtoOperationSwaggerType) => {
+  if (isTypeSchema(returnType)) {
+    return {
+      schema: returnType.schema,
+    };
+  }
+
+  return {
+    type: returnType,
+  };
+};
 
 export type IDtoOperationGqlType = ReturnTypeFunc;
 
@@ -94,7 +123,7 @@ export const DtoOperationFindAll = (options: IDtoOperationOptions) => {
 
     ApiResponse({
       status: 200,
-      type: options.swagger.returnType,
+      ...responseDeclarationFromDtoOperationSwaggerType(options.swagger.returnType),
       description: options.description ?? 'Lista os recursos cadastrados no sistema.',
     }),
   );
@@ -108,7 +137,7 @@ export const DtoOperationFindOne = (options: IDtoOperationOptions) => {
 
     ApiResponse({
       status: 200,
-      type: options.swagger.returnType,
+      ...responseDeclarationFromDtoOperationSwaggerType(options.swagger.returnType),
       description: options.description ?? 'Retorna a consulta a um registro.',
     }),
 
@@ -131,7 +160,7 @@ export const DtoOperationCreate = (options: IDtoOperationOptions) => {
 
     ApiResponse({
       status: 200,
-      type: options.swagger.returnType,
+      ...responseDeclarationFromDtoOperationSwaggerType(options.swagger.returnType),
       description: options.description ?? 'Retorna o registro cadastrado.',
     }),
 
@@ -153,7 +182,7 @@ export const DtoOperationUpdate = (options: IDtoOperationOptions) => {
 
     ApiResponse({
       status: 200,
-      type: options.swagger.returnType,
+      ...responseDeclarationFromDtoOperationSwaggerType(options.swagger.returnType),
       description: options.description ?? 'Retorna o registro cadastrado.',
     }),
 
@@ -176,7 +205,7 @@ export const DtoOperationDelete = (options: IDtoOperationOptions) => {
 
     ApiResponse({
       status: 200,
-      type: options.swagger.returnType,
+      ...responseDeclarationFromDtoOperationSwaggerType(options.swagger.returnType),
       description: options.description ?? 'Registro marcado como apagado.',
     }),
 

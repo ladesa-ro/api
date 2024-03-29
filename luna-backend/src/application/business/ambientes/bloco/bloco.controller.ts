@@ -43,6 +43,16 @@ export class BlocoController {
     return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, { id });
   }
 
+  @Get('/:id/imagem/capa')
+  @DtoOperationFindOne(BlocoOperations.BLOCO_GET_IMAGEM_CAPA)
+  async blocoGetImagemCapa(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @HttpDtoParam(BlocoOperations.BLOCO_GET_IMAGEM_CAPA, 'id')
+    id: string,
+  ) {
+    return this.blocoService.blocoGetImagemCapa(contextoDeAcesso, id);
+  }
+
   //
 
   @Post('/')

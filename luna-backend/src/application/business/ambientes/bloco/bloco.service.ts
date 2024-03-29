@@ -9,6 +9,7 @@ import { DatabaseContextService } from '../../../../infrastructure/integrate-dat
 import { BlocoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/bloco.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
+import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { ImagemService } from '../../base/imagem/imagem.service';
 import { CampusService, ICampusQueryBuilderViewOptions } from '../campus/campus.service';
 
@@ -31,6 +32,7 @@ export class BlocoService {
     private campusService: CampusService,
     private databaseContext: DatabaseContextService,
     private imagemService: ImagemService,
+    private arquivoService: ArquivoService,
   ) {}
 
   get blocoRepository() {
@@ -137,14 +139,16 @@ export class BlocoService {
     return paginated;
   }
 
-  async blocoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoFindOneByIdInputDto): Promise<Dtos.IBlocoFindOneResultDto | null> {
+  async blocoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IBlocoFindOneByIdInputDto): Promise<Dtos.IBlocoFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('bloco:find', qb, aliasBloco, null);
+    if (contextoDeAcesso) {
+      await contextoDeAcesso.aplicarFiltro('bloco:find', qb, aliasBloco, null);
+    }
 
     // =========================================================
 
@@ -167,7 +171,7 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoFindOneByIdInputDto) {
+  async blocoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IBlocoFindOneByIdInputDto) {
     const bloco = await this.blocoFindById(contextoDeAcesso, dto);
 
     if (!bloco) {
@@ -225,6 +229,23 @@ export class BlocoService {
     }
 
     return bloco;
+  }
+
+  //
+
+  async blocoGetImagemCapa(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
+    const bloco = await this.blocoFindByIdStrict(contextoDeAcesso, { id: id });
+
+    if (bloco.imagemCapa) {
+      const [imagemArquivo] = bloco.imagemCapa.imagemArquivo;
+
+      if (imagemArquivo) {
+        const { arquivo } = imagemArquivo;
+        return this.arquivoService.getStreamableFile(null, arquivo.id, null);
+      }
+    }
+
+    throw new NotFoundException();
   }
 
   //

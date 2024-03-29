@@ -1,10 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { IEntityDate } from '../../../../../application/business/(spec)';
+import { IImagemArquivoModel } from '../../../../../application/business/(spec)/base/imagem-arquivo';
 import { ArquivoEntity } from './arquivo.entity';
 import { ImagemEntity } from './imagem.entity';
 
 @Entity('imagem_arquivo')
-export class ImagemArquivoEntity {
+export class ImagemArquivoEntity implements IImagemArquivoModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -36,4 +37,7 @@ export class ImagemArquivoEntity {
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
   dateCreated!: IEntityDate;
+
+  // dateUpdated!: IEntityDate;
+  // dateDeleted!: IEntityDate | null;
 }

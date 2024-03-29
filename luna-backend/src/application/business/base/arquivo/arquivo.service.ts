@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, ServiceUnavailableException, StreamableFile } from '@nestjs/common';
 import jetpack, { createReadStream } from 'fs-jetpack';
 import { writeFile } from 'node:fs/promises';
 import { Readable } from 'node:stream';
@@ -38,7 +38,7 @@ export class ArquivoService {
     return jetpack.exists(fileFullPath);
   }
 
-  async dataReadAsStream(id: Dto.IArquivoModel['id']) {
+  async dataReadAsStream(id: Dto.IArquivoModel['id']): Promise<Readable | null> {
     if (await this.dataExists(id)) {
       const fileFullPath = this.datGetFilePath(id);
       const fileReadStream = createReadStream(fileFullPath);
@@ -48,7 +48,7 @@ export class ArquivoService {
     return null;
   }
 
-  async getFile(contextoDeAcesso: IContextoDeAcesso, id: Dto.IArquivoModel['id'], acesso: IGetFileAcesso | null) {
+  async getFile(contextoDeAcesso: IContextoDeAcesso | null, id: Dto.IArquivoModel['id'], acesso: IGetFileAcesso | null) {
     const qb = this.arquivoRepository.createQueryBuilder('arquivo');
 
     qb.whereInIds([id]);
@@ -71,7 +71,9 @@ export class ArquivoService {
           qb.andWhere('blocoCapa.id = :blocoCapa', { blocoCapa: acesso.id });
         }
 
-        await contextoDeAcesso.aplicarFiltro('bloco:find', qb, 'blocoCapa', null);
+        if (contextoDeAcesso) {
+          await contextoDeAcesso.aplicarFiltro('bloco:find', qb, 'blocoCapa', null);
+        }
       } else {
         qb.andWhere('FALSE');
       }
@@ -95,6 +97,19 @@ export class ArquivoService {
       mimeType: arquivo.mimeType,
       stream,
     };
+  }
+
+  async getStreamableFile(contextoDeAcesso: IContextoDeAcesso | null, id: Dto.IArquivoModel['id'], acesso: IGetFileAcesso | null) {
+    const file = await this.getFile(contextoDeAcesso, id, acesso);
+
+    if (!file.stream) {
+      throw new ServiceUnavailableException();
+    }
+
+    return new StreamableFile(file.stream, {
+      type: file.mimeType ?? undefined,
+      disposition: `attachment; filename="${encodeURIComponent(file.nome ?? file.id)}"`,
+    });
   }
 
   async dataSave(id: Dto.IArquivoModel['id'], data: NodeJS.ArrayBufferView | Readable) {
