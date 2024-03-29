@@ -1,4 +1,6 @@
 export * from './CommonPropertyId';
+export * from './CommonPropertyInteger';
+export * from './CommonPropertyString';
 export * from './CommonPropertyUuid';
-export * from './search-dto';
 export * from './dtos';
+export * from './search-dto';

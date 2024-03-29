@@ -1,7 +1,9 @@
-import { Int, ObjectType } from '@nestjs/graphql';
+import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import {
+  CommonPropertyInteger,
+  CommonPropertyString,
   CommonPropertyUuid,
   DtoProperty,
   ValidationContractNumber,
@@ -13,65 +15,52 @@ import {
 
 // ======================================================
 
-export const DisciplinaDtoValidationContract = createValidationContract(() => {
+export const ArquivoDtoValidationContract = createValidationContract(() => {
   return yup.object({
     id: ValidationContractUuid(),
-
     //
-
-    nome: ValidationContractString().required().nonNullable(), // disciplina
-    cargaHoraria: ValidationContractNumber().required().nonNullable().integer().moreThan(0), // disciplina
-
     //
+    nome: ValidationContractString().nullable(),
+    mimeType: ValidationContractString().nullable(),
+    //
+    sizeBytes: ValidationContractNumber().integer().positive().required().nullable(),
+    storageType: ValidationContractString().nullable(),
   });
 });
 
 // ======================================================
 
-export const DisciplinaDtoProperties = createDtoPropertyMap({
-  DISCIPLINA_ID: CommonPropertyUuid('ID de "disciplina"'),
+export const ArquivoDtoProperties = createDtoPropertyMap({
+  ARQUIVO_ID: CommonPropertyUuid('ID do arquivo'),
 
   //
 
-  DISCIPLINA_NOME: {
-    nullable: false,
-    description: 'Nome da disciplina.',
-    //
-    gql: {
-      type: () => String,
-    },
-    swagger: {
-      type: 'string',
-    },
-  },
-  DISCIPLINA_CARGA_HORARIA: {
-    nullable: false,
-    description: 'Carga horária da disciplina.',
-    //
-    gql: {
-      type: () => Int,
-    },
-    swagger: {
-      type: 'integer',
-    },
-  },
-  //
+  ARQUIVO_NOME: CommonPropertyString('Nome do arquivo', true),
+  ARQUIVO_MIME_TYPE: CommonPropertyString('Mime-type do arquivo', true),
+  ARQUIVO_SIZE_BYTES: CommonPropertyInteger('Tamanho do arquivo (em bytes)', true),
+  ARQUIVO_STORAGE_TYPE: CommonPropertyString('Estratégia de armazenamento do arquivo', true),
 });
 
 // ======================================================
 
-@ObjectType('Disciplina')
-export class DisciplinaDto implements Dto.IDisciplinaModel {
-  @DtoProperty(DisciplinaDtoProperties.DISCIPLINA_ID)
+@ObjectType('Arquivo')
+export class ArquivoDto implements Dto.IArquivoModel {
+  @DtoProperty(ArquivoDtoProperties.ARQUIVO_ID)
   id!: string;
 
   //
 
-  @DtoProperty(DisciplinaDtoProperties.DISCIPLINA_NOME)
-  nome!: string;
+  @DtoProperty(ArquivoDtoProperties.ARQUIVO_NOME)
+  nome!: string | null;
 
-  @DtoProperty(DisciplinaDtoProperties.DISCIPLINA_CARGA_HORARIA)
-  cargaHoraria!: number;
+  @DtoProperty(ArquivoDtoProperties.ARQUIVO_MIME_TYPE)
+  mimeType!: string | null;
+
+  @DtoProperty(ArquivoDtoProperties.ARQUIVO_SIZE_BYTES)
+  sizeBytes!: number | null;
+
+  @DtoProperty(ArquivoDtoProperties.ARQUIVO_STORAGE_TYPE)
+  storageType!: string | null;
 
   //
 

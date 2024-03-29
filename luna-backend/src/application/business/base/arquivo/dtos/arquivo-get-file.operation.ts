@@ -9,7 +9,12 @@ export const ARQUIVO_GET_FILE = createDtoOperationOptions({
   gql: null,
 
   swagger: {
-    returnType: '',
+    returnType: {
+      schema: {
+        type: 'string',
+        format: 'binary',
+      },
+    },
 
     params: [
       {

@@ -12,6 +12,7 @@ import {
   createDtoPropertyMap,
   createValidationContract,
 } from '../../../../../infrastructure';
+import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/dtos';
 import { CampusDto, CampusFindOneResultDto } from '../../campus/dtos';
 
 // ======================================================
@@ -81,6 +82,18 @@ export const BlocoDtoProperties = createDtoPropertyMap({
       type: () => CampusFindOneResultDto,
     },
   },
+
+  BLOCO_IMAGEM_CAPA_OUTPUT: {
+    nullable: true,
+    description: 'Imagem de capa do bloco.',
+    //
+    gql: {
+      type: () => ImagemDto,
+    },
+    swagger: {
+      type: ImagemFindOneResultDto,
+    },
+  },
 });
 
 // ======================================================
@@ -103,9 +116,11 @@ export class BlocoDto implements Dto.IBlocoModel {
 
   //
 
-  ambientes!: Dto.IAmbienteModel[];
+  @DtoProperty(BlocoDtoProperties.BLOCO_IMAGEM_CAPA_OUTPUT)
   imagemCapa!: IImagemModel | null;
 
+  //
+  ambientes!: Dto.IAmbienteModel[];
   //
 
   dateCreated!: Dto.IEntityDate;

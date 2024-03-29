@@ -1,5 +1,5 @@
 import { Controller, Get, StreamableFile } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiProduces, ApiTags } from '@nestjs/swagger';
 import { IContextoDeAcesso } from '../../../../domain';
 import { ContextoDeAcessoHttp, DtoOperationFindOne, HttpDtoParam } from '../../../../infrastructure';
 import { HttpDtoQuery } from '../../../../infrastructure/api-documentate/HttpDtoQuery';
@@ -12,6 +12,7 @@ export class ArquivoController {
   constructor(private arquivoService: ArquivoService) {}
 
   @Get(':id')
+  @ApiProduces('application/octet-stream')
   @DtoOperationFindOne(ArquivoOperations.ARQUIVO_GET_FILE)
   async getFile(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,

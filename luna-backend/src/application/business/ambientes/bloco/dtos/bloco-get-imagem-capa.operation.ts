@@ -3,7 +3,7 @@ import { ValidationContractUuid, createDtoOperationOptions } from '../../../../.
 // ======================================================
 
 export const BLOCO_GET_IMAGEM_CAPA = createDtoOperationOptions({
-  description: 'Realiza a consulta a um bloco por ID.',
+  description: 'Obtêm a imagem de capa do bloco.',
 
   gql: null,
 
