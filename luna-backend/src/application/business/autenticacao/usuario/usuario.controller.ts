@@ -1,5 +1,6 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiProduces, ApiTags } from '@nestjs/swagger';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import { ContextoDeAcessoHttp, DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam } from '../../../../infrastructure';
@@ -56,6 +57,96 @@ export class UsuarioController {
     };
 
     return this.usuarioService.usuarioUpdate(contextoDeAcesso, dtoUpdate);
+  }
+
+  //
+
+  @Get('/:id/imagem/capa')
+  @ApiProduces('application/octet-stream', 'image/jpeg')
+  @DtoOperationFindOne(UsuarioOperations.USUARIO_GET_IMAGEM_CAPA)
+  async usuarioGetImagemCapa(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @HttpDtoParam(UsuarioOperations.USUARIO_GET_IMAGEM_CAPA, 'id')
+    id: string,
+  ) {
+    return this.usuarioService.usuarioGetImagemCapa(contextoDeAcesso, id);
+  }
+
+  @Put('/:id/imagem/capa')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['file'],
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+          nullable: false,
+        },
+      },
+    },
+  })
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: {
+        files: 1,
+        fileSize: 10 * 1024 * 1024,
+      },
+    }),
+  )
+  async usuarioImagemCapaSave(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @Param('id', ParseUUIDPipe) id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.usuarioService.usuarioUpdateImagemCapa(contextoDeAcesso, { id }, file);
+  }
+
+  //
+
+  @Get('/:id/imagem/perfil')
+  @ApiProduces('application/octet-stream', 'image/jpeg')
+  @DtoOperationFindOne(UsuarioOperations.USUARIO_GET_IMAGEM_PERFIL)
+  async usuarioGetImagemPerfil(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @HttpDtoParam(UsuarioOperations.USUARIO_GET_IMAGEM_PERFIL, 'id')
+    id: string,
+  ) {
+    return this.usuarioService.usuarioGetImagemPerfil(contextoDeAcesso, id);
+  }
+
+  @Put('/:id/imagem/perfil')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['file'],
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+          nullable: false,
+        },
+      },
+    },
+  })
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: {
+        files: 1,
+        fileSize: 10 * 1024 * 1024,
+      },
+    }),
+  )
+  async usuarioImagemPerfilSave(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @Param('id', ParseUUIDPipe) id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.usuarioService.usuarioUpdateImagemPerfil(contextoDeAcesso, { id }, file);
   }
 
   //

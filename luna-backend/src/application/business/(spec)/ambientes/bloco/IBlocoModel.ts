@@ -1,6 +1,6 @@
-import { IAmbienteModel } from '..';
 import { IDatedObject, IEntityDate, IObjectUuid } from '../../(core)';
 import { IImagemModel } from '../../base/imagem';
+import { IAmbienteModel } from '../ambiente';
 import { ICampusModel } from '../campus';
 
 export interface IBlocoModel extends IObjectUuid, IDatedObject {

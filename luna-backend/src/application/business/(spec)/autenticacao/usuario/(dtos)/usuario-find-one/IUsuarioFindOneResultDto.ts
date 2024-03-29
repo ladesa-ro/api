@@ -1,4 +1,5 @@
 import { ICampusModel } from '../../../../ambientes';
+import { IImagemFindOneResultDto } from '../../../../base';
 import { IUsuarioVinculoCampusModel } from '../../../usuario-vinculo-campus';
 import { IUsuarioModel } from '../../IUsuarioModel';
 
@@ -10,4 +11,7 @@ export interface IUsuarioFindOneResultDtoVinculoAtivo extends Pick<IUsuarioVincu
 
 export interface IUsuarioFindOneResultDto extends Pick<IUsuarioModel, 'id' | 'nome' | 'matriculaSiape' | 'email'> {
   vinculosAtivos: IUsuarioFindOneResultDtoVinculoAtivo[];
+
+  imagemCapa: IImagemFindOneResultDto | null;
+  imagemPerfil: IImagemFindOneResultDto | null;
 }

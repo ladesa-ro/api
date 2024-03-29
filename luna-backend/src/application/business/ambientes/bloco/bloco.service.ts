@@ -42,9 +42,6 @@ export class BlocoService {
   //
 
   static BlocoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IBlocoQueryBuilderViewOptions = {}) {
-    const loadCampus = getQueryBuilderViewLoadMeta(options.loadCampus, true, `${alias}_campus`);
-    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
-
     qb.addSelect([
       //
       `${alias}.id`,
@@ -52,10 +49,14 @@ export class BlocoService {
       `${alias}.codigo`,
     ]);
 
+    const loadCampus = getQueryBuilderViewLoadMeta(options.loadCampus, true, `${alias}_campus`);
+
     if (loadCampus) {
       qb.leftJoin(`${alias}.campus`, `${loadCampus.alias}`);
       CampusService.CampusQueryBuilderView(loadCampus.alias, qb, loadCampus.options);
     }
+
+    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
 
     if (loadImagemCapa) {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
@@ -256,6 +257,36 @@ export class BlocoService {
     throw new NotFoundException();
   }
 
+  async blocoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
+    // =========================================================
+
+    const currentBloco = await this.blocoFindByIdStrict(contextoDeAcesso, { id: dto.id });
+
+    // =========================================================
+
+    await contextoDeAcesso.ensurePermission('bloco:update', { dto: { id: currentBloco.id } }, currentBloco.id, this.blocoRepository.createQueryBuilder(aliasBloco));
+
+    // =========================================================
+
+    const { imagem } = await this.imagemService.saveBlocoCapa(file);
+
+    const bloco = <BlocoEntity>{
+      id: currentBloco.id,
+    };
+
+    this.blocoRepository.merge(bloco, {
+      imagemCapa: {
+        id: imagem.id,
+      },
+    });
+
+    await this.blocoRepository.save(bloco);
+
+    // =========================================================
+
+    return true;
+  }
+
   //
 
   async blocoCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoInputDto) {
@@ -322,36 +353,6 @@ export class BlocoService {
     // =========================================================
 
     return this.blocoFindByIdStrict(contextoDeAcesso, { id: bloco.id });
-  }
-
-  async blocoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
-    // =========================================================
-
-    const currentBloco = await this.blocoFindByIdStrict(contextoDeAcesso, { id: dto.id });
-
-    // =========================================================
-
-    await contextoDeAcesso.ensurePermission('bloco:update', { dto: { id: currentBloco.id } }, currentBloco.id, this.blocoRepository.createQueryBuilder(aliasBloco));
-
-    // =========================================================
-
-    const { imagem } = await this.imagemService.saveBlocoCapa(file);
-
-    const bloco = <BlocoEntity>{
-      id: currentBloco.id,
-    };
-
-    this.blocoRepository.merge(bloco, {
-      imagemCapa: {
-        id: imagem.id,
-      },
-    });
-
-    await this.blocoRepository.save(bloco);
-
-    // =========================================================
-
-    return true;
   }
 
   //

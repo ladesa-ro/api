@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import { PickType } from '@nestjs/swagger';
-import { ICampusFindOneResultDto, IUsuarioFindOneResultDto, IUsuarioFindOneResultDtoVinculoAtivo } from '../../../(spec)';
+import { ICampusFindOneResultDto, IImagemModel, IUsuarioFindOneResultDto, IUsuarioFindOneResultDtoVinculoAtivo } from '../../../(spec)';
 import { DtoProperty, createDtoPropertyMap } from '../../../../../infrastructure';
 import { CampusFindOneResultDto } from '../../../ambientes/campus/dtos';
 import { UsuarioVinculoCampusDto, UsuarioVinculoCampusDtoProperties, UsuarioVinculoCampusFindOneResultDto } from '../../usuario-vinculo-campus/dtos';
@@ -48,6 +48,14 @@ export class UsuarioFindOneResultDto implements IUsuarioFindOneResultDto {
 
   @DtoProperty(UsuarioDtoProperties.USUARIO_EMAIL)
   email!: string;
+
+  //
+
+  @DtoProperty(UsuarioDtoProperties.USUARIO_IMAGEM_CAPA_OUTPUT)
+  imagemCapa!: IImagemModel | null;
+
+  @DtoProperty(UsuarioDtoProperties.USUARIO_IMAGEM_PERFIL_OUTPUT)
+  imagemPerfil!: IImagemModel | null;
 
   //
 

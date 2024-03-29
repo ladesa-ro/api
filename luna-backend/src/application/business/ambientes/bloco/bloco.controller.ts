@@ -43,17 +43,6 @@ export class BlocoController {
     return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, { id });
   }
 
-  @Get('/:id/imagem/capa')
-  @ApiProduces('application/octet-stream', 'image/jpeg')
-  @DtoOperationFindOne(BlocoOperations.BLOCO_GET_IMAGEM_CAPA)
-  async blocoGetImagemCapa(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(BlocoOperations.BLOCO_GET_IMAGEM_CAPA, 'id')
-    id: string,
-  ) {
-    return this.blocoService.blocoGetImagemCapa(contextoDeAcesso, id);
-  }
-
   //
 
   @Post('/')
@@ -79,6 +68,19 @@ export class BlocoController {
     };
 
     return this.blocoService.blocoUpdate(contextoDeAcesso, dtoUpdate);
+  }
+
+  //
+
+  @Get('/:id/imagem/capa')
+  @ApiProduces('application/octet-stream', 'image/jpeg')
+  @DtoOperationFindOne(BlocoOperations.BLOCO_GET_IMAGEM_CAPA)
+  async blocoGetImagemCapa(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @HttpDtoParam(BlocoOperations.BLOCO_GET_IMAGEM_CAPA, 'id')
+    id: string,
+  ) {
+    return this.blocoService.blocoGetImagemCapa(contextoDeAcesso, id);
   }
 
   @Put('/:id/imagem/capa')

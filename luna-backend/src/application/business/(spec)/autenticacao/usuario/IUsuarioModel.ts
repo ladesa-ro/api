@@ -1,6 +1,7 @@
-import { IDatedObject, IEntityDate, IObjectUuid } from '../../(core)';
+import * as Dto from '../../(core)';
+import { IImagemModel } from '../../base';
 
-export interface IUsuarioModel extends IObjectUuid, IDatedObject {
+export interface IUsuarioModel extends Dto.IObjectUuid, Dto.IDatedObject {
   //
 
   id: string;
@@ -17,9 +18,14 @@ export interface IUsuarioModel extends IObjectUuid, IDatedObject {
 
   //
 
-  dateCreated: IEntityDate;
-  dateUpdated: IEntityDate;
-  dateDeleted: null | IEntityDate;
+  imagemCapa: IImagemModel | null;
+  imagemPerfil: IImagemModel | null;
+
+  //
+
+  dateCreated: Dto.IEntityDate;
+  dateUpdated: Dto.IEntityDate;
+  dateDeleted: null | Dto.IEntityDate;
 
   //
 }

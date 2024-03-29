@@ -7,6 +7,10 @@ import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
+import { ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
+import { ArquivoService } from '../../base/arquivo/arquivo.service';
+import { ImagemService } from '../../base/imagem/imagem.service';
 
 // ============================================================================
 
@@ -14,7 +18,10 @@ const aliasUsuario = 'usuario';
 
 // ============================================================================
 
-export type IUsuarioQueryBuilderViewOptions = never;
+export type IUsuarioQueryBuilderViewOptions = {
+  loadImagemCapa?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
+  loadImagemPerfil?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
+};
 
 // ============================================================================
 
@@ -23,6 +30,8 @@ export class UsuarioService {
   constructor(
     private keycloakService: KeycloakService,
     private databaseContext: DatabaseContextService,
+    private imagemService: ImagemService,
+    private arquivoService: ArquivoService,
   ) {}
 
   //
@@ -33,7 +42,7 @@ export class UsuarioService {
 
   //
 
-  static UsuarioQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>) {
+  static UsuarioQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IUsuarioQueryBuilderViewOptions = {}) {
     qb.addSelect([
       //
       `${alias}.id`,
@@ -58,6 +67,20 @@ export class UsuarioService {
       `${alias}_vinculo_campus.nomeFantasia`,
       `${alias}_vinculo_campus.razaoSocial`,
     ]);
+
+    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
+
+    if (loadImagemCapa) {
+      qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
+      ImagemService.ImagemQueryBuilderView(loadImagemCapa.alias, qb, loadImagemCapa.options);
+    }
+
+    const loadImagemPerfil = getQueryBuilderViewLoadMeta(options.loadImagemPerfil, true, `${alias}_imagemPerfil`);
+
+    if (loadImagemPerfil) {
+      qb.leftJoin(`${alias}.imagemPerfil`, `${loadImagemPerfil.alias}`);
+      ImagemService.ImagemQueryBuilderView(loadImagemPerfil.alias, qb, loadImagemPerfil.options);
+    }
   }
 
   //
@@ -116,14 +139,16 @@ export class UsuarioService {
     return usuarios;
   }
 
-  async usuarioFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioFindOneByIdInputDto): Promise<Dtos.IUsuarioFindOneResultDto | null> {
+  async usuarioFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IUsuarioFindOneByIdInputDto): Promise<Dtos.IUsuarioFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('usuario:find', qb, aliasUsuario, null);
+    if (contextoDeAcesso) {
+      await contextoDeAcesso.aplicarFiltro('usuario:find', qb, aliasUsuario, null);
+    }
 
     // =========================================================
 
@@ -144,7 +169,7 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioFindOneByIdInputDto) {
+  async usuarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IUsuarioFindOneByIdInputDto) {
     const usuario = await this.usuarioFindById(contextoDeAcesso, dto);
 
     if (!usuario) {
@@ -304,6 +329,114 @@ export class UsuarioService {
 
   private async internalResolveMatriculaSiape(id: string) {
     return this.internalResolveSimpleProperty(id, 'matriculaSiape');
+  }
+
+  //
+
+  async usuarioGetImagemCapa(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
+    const usuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: id });
+
+    if (usuario.imagemCapa) {
+      const [imagemArquivo] = usuario.imagemCapa.imagemArquivo;
+
+      if (imagemArquivo) {
+        const { arquivo } = imagemArquivo;
+        return this.arquivoService.getStreamableFile(null, arquivo.id, null);
+      }
+    }
+
+    throw new NotFoundException();
+  }
+
+  async usuarioUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioFindOneByIdInputDto, file: Express.Multer.File) {
+    // =========================================================
+
+    const currentUsuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.id });
+
+    // =========================================================
+
+    await contextoDeAcesso.ensurePermission(
+      'usuario:update',
+      {
+        dto: {
+          id: currentUsuario.id,
+        },
+      },
+      currentUsuario.id,
+    );
+
+    // =========================================================
+
+    const { imagem } = await this.imagemService.saveUsuarioCapa(file);
+
+    const usuario = this.usuarioRepository.merge(this.usuarioRepository.create(), {
+      id: currentUsuario.id,
+    });
+
+    this.usuarioRepository.merge(usuario, {
+      imagemCapa: {
+        id: imagem.id,
+      },
+    });
+
+    await this.usuarioRepository.save(usuario);
+
+    // =========================================================
+
+    return true;
+  }
+
+  async usuarioGetImagemPerfil(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
+    const usuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: id });
+
+    if (usuario.imagemPerfil) {
+      const [imagemArquivo] = usuario.imagemPerfil.imagemArquivo;
+
+      if (imagemArquivo) {
+        const { arquivo } = imagemArquivo;
+        return this.arquivoService.getStreamableFile(null, arquivo.id, null);
+      }
+    }
+
+    throw new NotFoundException();
+  }
+
+  async usuarioUpdateImagemPerfil(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioFindOneByIdInputDto, file: Express.Multer.File) {
+    // =========================================================
+
+    const currentUsuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.id });
+
+    // =========================================================
+
+    await contextoDeAcesso.ensurePermission(
+      'usuario:update',
+      {
+        dto: {
+          id: currentUsuario.id,
+        },
+      },
+      currentUsuario.id,
+    );
+
+    // =========================================================
+
+    const { imagem } = await this.imagemService.saveUsuarioPerfil(file);
+
+    const usuario = this.usuarioRepository.merge(this.usuarioRepository.create(), {
+      id: currentUsuario.id,
+    });
+
+    this.usuarioRepository.merge(usuario, {
+      imagemPerfil: {
+        id: imagem.id,
+      },
+    });
+
+    await this.usuarioRepository.save(usuario);
+
+    // =========================================================
+
+    return true;
   }
 
   //

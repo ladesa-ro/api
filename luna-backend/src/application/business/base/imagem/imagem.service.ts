@@ -136,4 +136,28 @@ export class ImagemService {
       ],
     });
   }
+
+  async saveUsuarioCapa(file: Express.Multer.File) {
+    return this.saveImage(file, {
+      minWidth: 1,
+      minHeight: 1,
+      transforms: [
+        {
+          outputAs: 'jpeg',
+        },
+      ],
+    });
+  }
+
+  async saveUsuarioPerfil(file: Express.Multer.File) {
+    return this.saveImage(file, {
+      minWidth: 1,
+      minHeight: 1,
+      transforms: [
+        {
+          outputAs: 'jpeg',
+        },
+      ],
+    });
+  }
 }
