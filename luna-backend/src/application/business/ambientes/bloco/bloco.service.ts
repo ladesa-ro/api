@@ -20,6 +20,7 @@ const aliasBloco = 'bloco';
 
 export type IBlocoQueryBuilderViewOptions = {
   loadCampus?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
+  loadImagemCapa?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
 };
 
 // ============================================================================
@@ -40,6 +41,7 @@ export class BlocoService {
 
   static BlocoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IBlocoQueryBuilderViewOptions = {}) {
     const loadCampus = getQueryBuilderViewLoadMeta(options.loadCampus, true, `${alias}_campus`);
+    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
 
     qb.addSelect([
       //
@@ -51,6 +53,11 @@ export class BlocoService {
     if (loadCampus) {
       qb.leftJoin(`${alias}.campus`, `${loadCampus.alias}`);
       CampusService.CampusQueryBuilderView(loadCampus.alias, qb, loadCampus.options);
+    }
+
+    if (loadImagemCapa) {
+      qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
+      ImagemService.ImagemQueryBuilderView(loadImagemCapa.alias, qb, loadImagemCapa.options);
     }
   }
 

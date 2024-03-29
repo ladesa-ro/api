@@ -65,7 +65,11 @@ export class ArquivoService {
           //
           .innerJoin('arquivo.imagemArquivo', 'imagemArquivo')
           .innerJoin('imagemArquivo.imagem', 'imagem')
-          .innerJoin('imagem.blocoCapa', 'blocoCapa', 'blocoCapa.id = :blocoCapa', { blocoCapa: acesso.id });
+          .innerJoin('imagem.blocoCapa', 'blocoCapa');
+
+        if (acesso.id) {
+          qb.andWhere('blocoCapa.id = :blocoCapa', { blocoCapa: acesso.id });
+        }
 
         await contextoDeAcesso.aplicarFiltro('bloco:find', qb, 'blocoCapa', null);
       } else {
