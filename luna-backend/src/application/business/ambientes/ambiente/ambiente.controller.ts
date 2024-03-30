@@ -1,6 +1,5 @@
-import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
@@ -16,6 +15,7 @@ import {
   HttpDtoParam,
   getSearchInputFromPaginateQuery,
 } from '../../../../infrastructure';
+import { DtoOperationSaveFile } from '../../../../infrastructure/api-documentate/DtoOperation';
 import { AmbienteService } from './ambiente.service';
 import { AmbienteOperations } from './dtos/ambiente.operations';
 
@@ -84,28 +84,7 @@ export class AmbienteController {
   }
 
   @Put('/:id/imagem/capa')
-  @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    schema: {
-      type: 'object',
-      required: ['file'],
-      properties: {
-        file: {
-          type: 'string',
-          format: 'binary',
-          nullable: false,
-        },
-      },
-    },
-  })
-  @UseInterceptors(
-    FileInterceptor('file', {
-      limits: {
-        files: 1,
-        fileSize: 10 * 1024 * 1024,
-      },
-    }),
-  )
+  @DtoOperationSaveFile()
   async blocoImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,

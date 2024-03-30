@@ -1,6 +1,7 @@
 import { Type, UseInterceptors, applyDecorators } from '@nestjs/common';
 import { Mutation, Query, QueryOptions, ReturnTypeFunc } from '@nestjs/graphql';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiParam, ApiProduces, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { ReferenceObject, SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { castArray, has } from 'lodash';
@@ -40,18 +41,23 @@ const responseDeclarationFromDtoOperationSwaggerType = (returnType: IDtoOperatio
 
 export type IDtoOperationGqlType = ReturnTypeFunc;
 
-type IMetaGetFile = {
+type IDtoOperationOptionsMetaGetFile = {
   mimeType: string | string[];
 };
 
-type IMeta = {
-  getFile?: IMetaGetFile;
+type IDtoOperationOptionsMetaSaveFile = {
+  localOptions?: MulterOptions | undefined;
+};
+
+type IDtoOperationOptionsMeta = {
+  getFile?: IDtoOperationOptionsMetaGetFile;
+  saveFile?: IDtoOperationOptionsMetaSaveFile;
 };
 
 export interface IDtoOperationOptions {
   description: string;
 
-  meta?: IMeta;
+  meta?: IDtoOperationOptionsMeta;
 
   gql:
     | null
@@ -109,7 +115,7 @@ export const createDtoOperationGetFileOptions = (options: Omit<IDtoOperationOpti
 
 // ==============================================================
 
-export const DtoOperationCommon = (options: IDtoOperationOptions) => {
+export const DtoOperationCommon = (options?: IDtoOperationOptions) => {
   return applyDecorators(
     ApiBearerAuth(),
 
@@ -118,7 +124,7 @@ export const DtoOperationCommon = (options: IDtoOperationOptions) => {
       description: 'O solicitante não tem permissão para executar esta ação.',
     }),
 
-    ...(options.swagger.params ?? []).map((param) =>
+    ...(options?.swagger.params ?? []).map((param) =>
       ApiParam({
         name: param.name,
         required: param.required,
@@ -126,7 +132,7 @@ export const DtoOperationCommon = (options: IDtoOperationOptions) => {
       }),
     ),
 
-    ...(options.swagger.queries ?? []).map((query) => {
+    ...(options?.swagger.queries ?? []).map((query) => {
       if (typeof query === 'string') {
         return ApiQuery({
           name: query,
@@ -202,7 +208,9 @@ export const DtoOperationGetFile = (options: IDtoOperationOptions) => {
   );
 };
 
-export const DtoOperationSaveFile = (options: IDtoOperationOptions) => {
+export const DtoOperationSaveFile = (options?: IDtoOperationOptions) => {
+  const saveFile = options?.meta?.saveFile;
+
   return applyDecorators(
     DtoOperationCommon(options),
     ApiConsumes('multipart/form-data'),
@@ -219,14 +227,7 @@ export const DtoOperationSaveFile = (options: IDtoOperationOptions) => {
         },
       },
     }),
-    UseInterceptors(
-      FileInterceptor('file', {
-        limits: {
-          files: 1,
-          fileSize: 10 * 1024 * 1024,
-        },
-      }),
-    ),
+    UseInterceptors(FileInterceptor('file', saveFile?.localOptions)),
   );
 };
 
