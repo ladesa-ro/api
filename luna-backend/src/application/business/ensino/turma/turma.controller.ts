@@ -74,7 +74,7 @@ export class TurmaController {
   //
 
   @Get('/:id/imagem/capa')
-  @DtoOperationGetFile(TurmaOperations.TURMA_GET_IMAGEM_CAPA, 'image/jpeg')
+  @DtoOperationGetFile(TurmaOperations.TURMA_GET_IMAGEM_CAPA)
   async turmaGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(TurmaOperations.TURMA_GET_IMAGEM_CAPA, 'id')

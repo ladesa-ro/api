@@ -74,7 +74,7 @@ export class CursoController {
   //
 
   @Get('/:id/imagem/capa')
-  @DtoOperationGetFile(CursoOperations.CURSO_GET_IMAGEM_CAPA, 'image/jpeg')
+  @DtoOperationGetFile(CursoOperations.CURSO_GET_IMAGEM_CAPA)
   async cursoGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(CursoOperations.CURSO_GET_IMAGEM_CAPA, 'id')

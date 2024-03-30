@@ -74,7 +74,7 @@ export class BlocoController {
   //
 
   @Get('/:id/imagem/capa')
-  @DtoOperationGetFile(BlocoOperations.BLOCO_GET_IMAGEM_CAPA, 'image/jpeg')
+  @DtoOperationGetFile(BlocoOperations.BLOCO_GET_IMAGEM_CAPA)
   async blocoGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(BlocoOperations.BLOCO_GET_IMAGEM_CAPA, 'id')

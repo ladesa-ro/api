@@ -74,7 +74,7 @@ export class AmbienteController {
   //
 
   @Get('/:id/imagem/capa')
-  @DtoOperationGetFile(AmbienteOperations.AMBIENTE_GET_IMAGEM_CAPA, 'image/jpeg')
+  @DtoOperationGetFile(AmbienteOperations.AMBIENTE_GET_IMAGEM_CAPA)
   async blocoGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(AmbienteOperations.AMBIENTE_GET_IMAGEM_CAPA, 'id')

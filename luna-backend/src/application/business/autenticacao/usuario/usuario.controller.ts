@@ -72,7 +72,7 @@ export class UsuarioController {
   //
 
   @Get('/:id/imagem/capa')
-  @DtoOperationGetFile(UsuarioOperations.USUARIO_GET_IMAGEM_CAPA, 'image/jpeg')
+  @DtoOperationGetFile(UsuarioOperations.USUARIO_GET_IMAGEM_CAPA)
   async usuarioGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(UsuarioOperations.USUARIO_GET_IMAGEM_CAPA, 'id')
@@ -116,7 +116,7 @@ export class UsuarioController {
   //
 
   @Get('/:id/imagem/perfil')
-  @DtoOperationGetFile(UsuarioOperations.USUARIO_GET_IMAGEM_PERFIL, 'image/jpeg')
+  @DtoOperationGetFile(UsuarioOperations.USUARIO_GET_IMAGEM_PERFIL)
   async usuarioGetImagemPerfil(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(UsuarioOperations.USUARIO_GET_IMAGEM_PERFIL, 'id')

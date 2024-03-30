@@ -10,6 +10,7 @@ export const BlocoOperations = {
   BLOCO_FIND_ALL: BLOCO_FIND_ALL,
   // ===============================
   BLOCO_FIND_ONE_BY_ID: BLOCO_FIND_ONE_BY_ID,
+  // ===============================
   BLOCO_GET_IMAGEM_CAPA: BLOCO_GET_IMAGEM_CAPA,
   // ===============================
   BLOCO_CREATE: BLOCO_CREATE,

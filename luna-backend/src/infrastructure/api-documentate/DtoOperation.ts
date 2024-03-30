@@ -1,8 +1,9 @@
-import { Type, applyDecorators } from '@nestjs/common';
+import { Type, UseInterceptors, applyDecorators } from '@nestjs/common';
 import { Mutation, Query, QueryOptions, ReturnTypeFunc } from '@nestjs/graphql';
-import { ApiBearerAuth, ApiBody, ApiParam, ApiProduces, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiParam, ApiProduces, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { ReferenceObject, SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
-import { has } from 'lodash';
+import { castArray, has } from 'lodash';
 import { Schema } from 'yup';
 import { IValidationContract } from '../validation';
 
@@ -39,8 +40,18 @@ const responseDeclarationFromDtoOperationSwaggerType = (returnType: IDtoOperatio
 
 export type IDtoOperationGqlType = ReturnTypeFunc;
 
+type IMetaGetFile = {
+  mimeType: string | string[];
+};
+
+type IMeta = {
+  getFile?: IMetaGetFile;
+};
+
 export interface IDtoOperationOptions {
   description: string;
+
+  meta?: IMeta;
 
   gql:
     | null
@@ -166,11 +177,17 @@ export const DtoOperationFindOne = (options: IDtoOperationOptions) => {
 
 // ==============================================================
 
-export const DtoOperationGetFile = (options: IDtoOperationOptions, mimeType = 'application/octet-stream', ...mimeTypes: string[]) => {
+export const DtoOperationGetFile = (options: IDtoOperationOptions) => {
+  const getFile = options.meta?.getFile;
+
+  if (!getFile) {
+    throw new TypeError('Provide options.meta.getFile');
+  }
+
   return applyDecorators(
     DtoOperationCommon(options),
 
-    ApiProduces(mimeType, ...mimeTypes),
+    ApiProduces(...castArray(getFile.mimeType)),
 
     ApiResponse({
       status: 200,
@@ -182,6 +199,34 @@ export const DtoOperationGetFile = (options: IDtoOperationOptions, mimeType = 'a
       status: 404,
       description: 'Registro não encontrado.',
     }),
+  );
+};
+
+export const DtoOperationSaveFile = (options: IDtoOperationOptions) => {
+  return applyDecorators(
+    DtoOperationCommon(options),
+    ApiConsumes('multipart/form-data'),
+    ApiBody({
+      schema: {
+        type: 'object',
+        required: ['file'],
+        properties: {
+          file: {
+            type: 'string',
+            format: 'binary',
+            nullable: false,
+          },
+        },
+      },
+    }),
+    UseInterceptors(
+      FileInterceptor('file', {
+        limits: {
+          files: 1,
+          fileSize: 10 * 1024 * 1024,
+        },
+      }),
+    ),
   );
 };
 

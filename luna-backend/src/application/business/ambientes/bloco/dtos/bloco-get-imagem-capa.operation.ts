@@ -5,6 +5,12 @@ import { ValidationContractUuid, createDtoOperationGetFileOptions } from '../../
 export const BLOCO_GET_IMAGEM_CAPA = createDtoOperationGetFileOptions({
   description: 'Obtêm a imagem de capa do bloco.',
 
+  meta: {
+    getFile: {
+      mimeType: 'image/jpeg',
+    },
+  },
+
   swagger: {
     params: [
       {

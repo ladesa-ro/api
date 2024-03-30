@@ -5,6 +5,12 @@ import { ValidationContractUuid, createDtoOperationGetFileOptions } from '../../
 export const USUARIO_GET_IMAGEM_PERFIL = createDtoOperationGetFileOptions({
   description: 'Obtêm a imagem de perfil do usuário.',
 
+  meta: {
+    getFile: {
+      mimeType: 'image/jpeg',
+    },
+  },
+
   swagger: {
     params: [
       {

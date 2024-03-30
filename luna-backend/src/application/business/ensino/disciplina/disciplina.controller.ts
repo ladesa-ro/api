@@ -74,7 +74,7 @@ export class DisciplinaController {
   //
 
   @Get('/:id/imagem/capa')
-  @DtoOperationGetFile(DisciplinaOperations.DISCIPLINA_GET_IMAGEM_CAPA, 'image/jpeg')
+  @DtoOperationGetFile(DisciplinaOperations.DISCIPLINA_GET_IMAGEM_CAPA)
   async disciplinaGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(DisciplinaOperations.DISCIPLINA_GET_IMAGEM_CAPA, 'id')
