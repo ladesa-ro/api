@@ -10,6 +10,7 @@ export const AmbienteOperations = {
   AMBIENTE_FIND_ALL: AMBIENTE_FIND_ALL,
   // ===============================
   AMBIENTE_FIND_ONE_BY_ID: AMBIENTE_FIND_ONE_BY_ID,
+  // ===============================
   AMBIENTE_GET_IMAGEM_CAPA: AMBIENTE_GET_IMAGEM_CAPA,
   // ===============================
   AMBIENTE_CREATE: AMBIENTE_CREATE,

@@ -18,6 +18,7 @@ import { UsuarioDto } from './usuario.dto';
 export const UsuarioOperations = {
   // ===============================
   USUARIO_GET_IMAGEM_CAPA: USUARIO_GET_IMAGEM_CAPA,
+  // ===============================
   USUARIO_GET_IMAGEM_PERFIL: USUARIO_GET_IMAGEM_PERFIL,
   // ===============================
 

@@ -16,6 +16,7 @@ export const CursoOperations = {
   CURSO_FIND_ALL: CURSO_FIND_ALL,
   //
   CURSO_FIND_ONE_BY_ID: CURSO_FIND_ONE_BY_ID,
+  //
   CURSO_GET_IMAGEM_CAPA: CURSO_GET_IMAGEM_CAPA,
   //
 };

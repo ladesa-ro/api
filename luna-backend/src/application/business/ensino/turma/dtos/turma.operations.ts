@@ -16,6 +16,7 @@ export const TurmaOperations = {
   TURMA_FIND_ALL: TURMA_FIND_ALL,
   //
   TURMA_FIND_ONE_BY_ID: TURMA_FIND_ONE_BY_ID,
+  //
   TURMA_GET_IMAGEM_CAPA: TURMA_GET_IMAGEM_CAPA,
   //
 };

@@ -1,5 +1,6 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { ApiBody, ApiConsumes, ApiProduces, ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
@@ -9,6 +10,7 @@ import {
   DtoOperationDelete,
   DtoOperationFindAll,
   DtoOperationFindOne,
+  DtoOperationGetFile,
   DtoOperationUpdate,
   HttpDtoBody,
   HttpDtoParam,
@@ -16,7 +18,6 @@ import {
 } from '../../../../infrastructure';
 import { TurmaOperations } from './dtos';
 import { TurmaService } from './turma.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Turmas')
 @Controller('/turmas')
@@ -73,8 +74,7 @@ export class TurmaController {
   //
 
   @Get('/:id/imagem/capa')
-  @ApiProduces('application/octet-stream', 'image/jpeg')
-  @DtoOperationFindOne(TurmaOperations.TURMA_GET_IMAGEM_CAPA)
+  @DtoOperationGetFile(TurmaOperations.TURMA_GET_IMAGEM_CAPA, 'image/jpeg')
   async turmaGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(TurmaOperations.TURMA_GET_IMAGEM_CAPA, 'id')

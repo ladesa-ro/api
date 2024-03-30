@@ -1,24 +1,15 @@
-import { ValidationContractUuid, createDtoOperationOptions } from '../../../../../infrastructure';
+import { ValidationContractUuid, createDtoOperationGetFileOptions } from '../../../../../infrastructure';
 
 // ======================================================
 
-export const DISCIPLINA_GET_IMAGEM_CAPA = createDtoOperationOptions({
+export const DISCIPLINA_GET_IMAGEM_CAPA = createDtoOperationGetFileOptions({
   description: 'Obtêm a imagem de capa da disciplina.',
 
-  gql: null,
-
   swagger: {
-    returnType: {
-      schema: {
-        type: 'string',
-        format: 'binary',
-      },
-    },
-
     params: [
       {
         name: 'id',
-        description: 'ID do bloco.',
+        description: 'ID da disciplina.',
         validationContract: ValidationContractUuid,
       },
     ],

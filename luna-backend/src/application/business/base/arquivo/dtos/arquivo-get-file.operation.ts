@@ -1,21 +1,12 @@
 import * as yup from 'yup';
-import { ValidationContractUuid, createDtoOperationOptions } from '../../../../../infrastructure';
+import { ValidationContractUuid, createDtoOperationGetFileOptions } from '../../../../../infrastructure';
 
 // ======================================================
 
-export const ARQUIVO_GET_FILE = createDtoOperationOptions({
+export const ARQUIVO_GET_FILE = createDtoOperationGetFileOptions({
   description: 'Obtêm o conteúdo de um arquivo.',
 
-  gql: null,
-
   swagger: {
-    returnType: {
-      schema: {
-        type: 'string',
-        format: 'binary',
-      },
-    },
-
     params: [
       {
         name: 'id',

@@ -1,6 +1,6 @@
 import { Type, applyDecorators } from '@nestjs/common';
 import { Mutation, Query, QueryOptions, ReturnTypeFunc } from '@nestjs/graphql';
-import { ApiBearerAuth, ApiBody, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiProduces, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { ReferenceObject, SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { has } from 'lodash';
 import { Schema } from 'yup';
@@ -80,6 +80,22 @@ export interface IDtoOperationOptions {
 
 export const createDtoOperationOptions = (options: IDtoOperationOptions) => options;
 
+export const createDtoOperationGetFileOptions = (options: Omit<IDtoOperationOptions, 'gql' | 'swagger'> & { swagger: Omit<IDtoOperationOptions['swagger'], 'returnType'> }) =>
+  createDtoOperationOptions({
+    ...options,
+    gql: null,
+    swagger: {
+      returnType: {
+        schema: {
+          type: 'string',
+          format: 'binary',
+          nullable: false,
+        },
+      },
+      ...options.swagger,
+    },
+  });
+
 // ==============================================================
 
 export const DtoOperationCommon = (options: IDtoOperationOptions) => {
@@ -134,6 +150,27 @@ export const DtoOperationFindAll = (options: IDtoOperationOptions) => {
 export const DtoOperationFindOne = (options: IDtoOperationOptions) => {
   return applyDecorators(
     DtoOperationCommon(options),
+
+    ApiResponse({
+      status: 200,
+      ...responseDeclarationFromDtoOperationSwaggerType(options.swagger.returnType),
+      description: options.description ?? 'Retorna a consulta a um registro.',
+    }),
+
+    ApiResponse({
+      status: 404,
+      description: 'Registro não encontrado.',
+    }),
+  );
+};
+
+// ==============================================================
+
+export const DtoOperationGetFile = (options: IDtoOperationOptions, mimeType = 'application/octet-stream', ...mimeTypes: string[]) => {
+  return applyDecorators(
+    DtoOperationCommon(options),
+
+    ApiProduces(mimeType, ...mimeTypes),
 
     ApiResponse({
       status: 200,

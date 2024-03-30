@@ -1,6 +1,6 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiProduces, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
@@ -10,6 +10,7 @@ import {
   DtoOperationDelete,
   DtoOperationFindAll,
   DtoOperationFindOne,
+  DtoOperationGetFile,
   DtoOperationUpdate,
   HttpDtoBody,
   HttpDtoParam,
@@ -73,8 +74,7 @@ export class AmbienteController {
   //
 
   @Get('/:id/imagem/capa')
-  @ApiProduces('application/octet-stream', 'image/jpeg')
-  @DtoOperationFindOne(AmbienteOperations.AMBIENTE_GET_IMAGEM_CAPA)
+  @DtoOperationGetFile(AmbienteOperations.AMBIENTE_GET_IMAGEM_CAPA, 'image/jpeg')
   async blocoGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(AmbienteOperations.AMBIENTE_GET_IMAGEM_CAPA, 'id')

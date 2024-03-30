@@ -1,9 +1,19 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiProduces, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
-import { ContextoDeAcessoHttp, DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam } from '../../../../infrastructure';
+import {
+  ContextoDeAcessoHttp,
+  DtoOperationCreate,
+  DtoOperationDelete,
+  DtoOperationFindAll,
+  DtoOperationFindOne,
+  DtoOperationGetFile,
+  DtoOperationUpdate,
+  HttpDtoBody,
+  HttpDtoParam,
+} from '../../../../infrastructure';
 import { UsuarioOperations } from './dtos/usuario.operations';
 import { UsuarioService } from './usuario.service';
 
@@ -62,8 +72,7 @@ export class UsuarioController {
   //
 
   @Get('/:id/imagem/capa')
-  @ApiProduces('application/octet-stream', 'image/jpeg')
-  @DtoOperationFindOne(UsuarioOperations.USUARIO_GET_IMAGEM_CAPA)
+  @DtoOperationGetFile(UsuarioOperations.USUARIO_GET_IMAGEM_CAPA, 'image/jpeg')
   async usuarioGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(UsuarioOperations.USUARIO_GET_IMAGEM_CAPA, 'id')
@@ -107,8 +116,7 @@ export class UsuarioController {
   //
 
   @Get('/:id/imagem/perfil')
-  @ApiProduces('application/octet-stream', 'image/jpeg')
-  @DtoOperationFindOne(UsuarioOperations.USUARIO_GET_IMAGEM_PERFIL)
+  @DtoOperationGetFile(UsuarioOperations.USUARIO_GET_IMAGEM_PERFIL, 'image/jpeg')
   async usuarioGetImagemPerfil(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(UsuarioOperations.USUARIO_GET_IMAGEM_PERFIL, 'id')
