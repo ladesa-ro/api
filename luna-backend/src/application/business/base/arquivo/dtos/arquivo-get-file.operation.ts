@@ -6,6 +6,12 @@ import { ValidationContractUuid, createDtoOperationGetFileOptions } from '../../
 export const ARQUIVO_GET_FILE = createDtoOperationGetFileOptions({
   description: 'Obtêm o conteúdo de um arquivo.',
 
+  meta: {
+    getFile: {
+      mimeType: 'application/octet-stream',
+    },
+  },
+
   swagger: {
     params: [
       {
