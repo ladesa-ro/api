@@ -6,7 +6,7 @@ import * as Dtos from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
-import { ModalidadeEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
+import { ModalidadeEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 
 // ============================================================================

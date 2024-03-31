@@ -1,13 +1,13 @@
 import { InputType, ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { ICampusFindOneByIdInputDto, ICampusFindOneResultDto, IEnderecoFindOneResultDto } from '../../../(spec)';
+import * as Dto from '../../../(spec)';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { CampusDto, CampusDtoProperties, CampusDtoValidationContract } from './campus.dto';
 
 // ======================================================
 
 @ObjectType('CampusFindOneResultDto')
-export class CampusFindOneResultDto implements ICampusFindOneResultDto {
+export class CampusFindOneResultDto implements Dto.ICampusFindOneResultDto {
   @DtoProperty(CampusDtoProperties.CAMPUS_ID)
   id!: string;
 
@@ -28,7 +28,10 @@ export class CampusFindOneResultDto implements ICampusFindOneResultDto {
   //
 
   @DtoProperty(CampusDtoProperties.CAMPUS_ENDERECO_OUTPUT)
-  endereco!: IEnderecoFindOneResultDto;
+  endereco!: Dto.IEnderecoFindOneResultDto;
+
+  @DtoProperty(CampusDtoProperties.CAMPUS_MODALIDADES_OUTPUT)
+  modalidades!: Dto.IModalidadeFindOneResultDto[];
 }
 
 // ======================================================
@@ -41,7 +44,7 @@ export const CampusFindOneByIdInputValidationContract = createValidationContract
 // ======================================================
 
 @InputType('CampusFindOneByIdInputDto')
-export class CampusFindOneByIdInputDto implements ICampusFindOneByIdInputDto {
+export class CampusFindOneByIdInputDto implements Dto.ICampusFindOneByIdInputDto {
   @DtoProperty(CampusDtoProperties.CAMPUS_ID)
   id!: string;
 }

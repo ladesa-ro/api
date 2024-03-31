@@ -2,7 +2,7 @@ import { ICampusModel, IEntityDate, IModalidadeModel } from 'application/busines
 import { ICalendarioLetivoModel } from 'application/business/(spec)/calendario';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
-import { ModalidadeEntity } from '../ensino/ensino/modalidade.entity';
+import { ModalidadeEntity } from '../ensino/modalidade.entity';
 
 @Entity('calendario_letivo')
 export class CalendarioLetivoEntity implements ICalendarioLetivoModel {

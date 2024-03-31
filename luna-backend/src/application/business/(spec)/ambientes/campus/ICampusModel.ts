@@ -1,7 +1,6 @@
-import { IDatedObject, IEntityDate, IObjectUuid } from '../../(core)';
-import { IEnderecoModel } from '../endereco';
+import * as Dto from '../../../(spec)';
 
-export interface ICampusModel extends IObjectUuid, IDatedObject {
+export interface ICampusModel extends Dto.IObjectUuid, Dto.IDatedObject {
   //
 
   id: string;
@@ -15,13 +14,17 @@ export interface ICampusModel extends IObjectUuid, IDatedObject {
 
   //
 
-  endereco: IEnderecoModel;
+  endereco: Dto.IEnderecoModel;
 
   //
 
-  dateCreated: IEntityDate;
-  dateUpdated: IEntityDate;
-  dateDeleted: null | IEntityDate;
+  modalidades: Dto.IModalidadeModel[];
+
+  //
+
+  dateCreated: Dto.IEntityDate;
+  dateUpdated: Dto.IEntityDate;
+  dateDeleted: null | Dto.IEntityDate;
 
   //
 }

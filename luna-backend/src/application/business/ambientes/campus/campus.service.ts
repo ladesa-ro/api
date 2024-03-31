@@ -7,8 +7,10 @@ import { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { CampusEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
+import { ModalidadeEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
+import { IModalidadeQueryBuilderViewOptions, ModalidadeService } from '../../ensino/modalidade/modalidade.service';
 import { EnderecoService, IEnderecoQueryBuilderViewOptions } from '../endereco/endereco.service';
 
 // ============================================================================
@@ -19,6 +21,7 @@ const aliasCampus = 'campus';
 
 export type ICampusQueryBuilderViewOptions = {
   loadEndereco?: IQueryBuilderViewOptionsLoad<IEnderecoQueryBuilderViewOptions>;
+  loadModalidades?: IQueryBuilderViewOptionsLoad<IModalidadeQueryBuilderViewOptions>;
 };
 
 // ============================================================================
@@ -37,8 +40,6 @@ export class CampusService {
   //
 
   static CampusQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: ICampusQueryBuilderViewOptions = {}) {
-    const loadEndereco = getQueryBuilderViewLoadMeta(options.loadEndereco, true, `${alias}_endereco`);
-
     qb.addSelect([
       //
       `${alias}.id`,
@@ -48,9 +49,23 @@ export class CampusService {
       `${alias}.cnpj`,
     ]);
 
+    const loadEndereco = getQueryBuilderViewLoadMeta(options.loadEndereco, true, `${alias}_endereco`);
+
     if (loadEndereco) {
       qb.leftJoin(`${alias}.endereco`, `${loadEndereco.alias}`);
       EnderecoService.EnderecoQueryBuilderView(loadEndereco.alias, qb, loadEndereco.options);
+    }
+
+    const loadModalidades = getQueryBuilderViewLoadMeta(options.loadModalidades, true, `${alias}_modalidade`);
+
+    if (loadModalidades) {
+      const aliasCampusPossuiModalidade = `${alias}_campus_possui_modalidade`;
+      qb.leftJoin(`${alias}.campusPossuiModalidade`, aliasCampusPossuiModalidade);
+
+      qb.leftJoinAndMapMany(`${alias}.modalidades`, ModalidadeEntity, `${loadModalidades.alias}`, `${loadModalidades.alias}.id = ${aliasCampusPossuiModalidade}.id_modalidade_fk`);
+      qb.expressionMap.selects.splice(qb.expressionMap.selects.length - 1, 1);
+
+      ModalidadeService.ModalidadeQueryBuilderView(loadModalidades.alias, qb, loadModalidades.options);
     }
   }
 

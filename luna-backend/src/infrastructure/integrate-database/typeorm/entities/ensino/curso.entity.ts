@@ -2,7 +2,7 @@ import * as Dto from 'application/business/(spec)';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { ImagemEntity } from '../base/imagem.entity';
-import { ModalidadeEntity } from './ensino/modalidade.entity';
+import { ModalidadeEntity } from './modalidade.entity';
 
 @Entity('curso')
 export class CursoEntity implements Dto.ICursoModel {

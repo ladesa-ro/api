@@ -1,7 +1,8 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { ICampusModel, IEnderecoModel, IEntityDate } from '../../../(spec)';
+import * as Dto from '../../../(spec)';
 import { CommonPropertyUuid, DtoProperty, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
+import { ModalidadeDto, ModalidadeFindOneResultDto } from '../../../ensino/modalidade/dtos';
 import { EnderecoDto, EnderecoFindOneResultDto, EnderecoInputDto, EnderecoInputDtoValidationContract } from '../../endereco/dtos';
 
 // ======================================================
@@ -100,12 +101,24 @@ export const CampusDtoProperties = createDtoPropertyMap({
       type: () => EnderecoFindOneResultDto,
     },
   },
+
+  CAMPUS_MODALIDADES_OUTPUT: {
+    nullable: false,
+    description: 'Modalidades do campus.',
+    //
+    gql: {
+      type: () => [ModalidadeDto],
+    },
+    swagger: {
+      type: () => [ModalidadeFindOneResultDto],
+    },
+  },
 });
 
 // ======================================================
 
 @ObjectType('Campus')
-export class CampusDto implements ICampusModel {
+export class CampusDto implements Dto.ICampusModel {
   @DtoProperty(CampusDtoProperties.CAMPUS_ID)
   id!: string;
 
@@ -124,13 +137,16 @@ export class CampusDto implements ICampusModel {
   cnpj!: string;
 
   @DtoProperty(CampusDtoProperties.CAMPUS_ENDERECO_OUTPUT)
-  endereco!: IEnderecoModel;
+  endereco!: Dto.IEnderecoModel;
+
+  @DtoProperty(CampusDtoProperties.CAMPUS_MODALIDADES_OUTPUT)
+  modalidades!: Dto.IModalidadeModel[];
 
   //
 
-  dateCreated!: IEntityDate;
-  dateUpdated!: IEntityDate;
-  dateDeleted!: IEntityDate | null;
+  dateCreated!: Dto.IEntityDate;
+  dateUpdated!: Dto.IEntityDate;
+  dateDeleted!: Dto.IEntityDate | null;
 }
 
 // ======================================================

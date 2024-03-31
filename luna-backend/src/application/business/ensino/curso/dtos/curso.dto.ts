@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
 import { CampusDto, CampusFindOneResultDto } from 'application/business/ambientes/campus/dtos';
 import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
-import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/ensino/modalidade.entity';
+import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
 import {

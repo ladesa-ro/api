@@ -137,6 +137,10 @@ export class DatabaseContextCore {
     return repositories.createModalidadeRepository(this.ds);
   }
 
+  get campusPossuiModalidadeRepository() {
+    return repositories.createCampusPossuiModalidadeRepository(this.ds);
+  }
+
   get cursoRepository() {
     return repositories.createCursoRepository(this.ds);
   }

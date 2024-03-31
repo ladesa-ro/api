@@ -1,10 +1,12 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ICampusModel, IEnderecoModel, IEntityDate } from '../../../../../application/business/(spec)';
+import * as Dto from '../../../../../application/business/(spec)';
 import { UsuarioVinculoCampusEntity } from '../autenticacao/usuario-vinculo-campus.entity';
+import { CampusPossuiModalidadeEntity } from '../ensino/campus_possui_modalidade.entity';
+import { ModalidadeEntity } from '../ensino/modalidade.entity';
 import { EnderecoEntity } from './endereco.entity';
 
 @Entity('campus')
-export class CampusEntity implements ICampusModel {
+export class CampusEntity implements Dto.ICampusModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -26,21 +28,26 @@ export class CampusEntity implements ICampusModel {
 
   @ManyToOne(() => EnderecoEntity)
   @JoinColumn({ name: 'id_endereco_fk' })
-  endereco!: IEnderecoModel;
+  endereco!: Dto.IEnderecoModel;
 
   //
 
   @OneToMany(() => UsuarioVinculoCampusEntity, (vinculo) => vinculo.campus)
   vinculos!: UsuarioVinculoCampusEntity[];
 
+  @OneToMany(() => CampusPossuiModalidadeEntity, (campusPossuiModalidade) => campusPossuiModalidade.campus)
+  campusPossuiModalidade!: CampusPossuiModalidadeEntity[];
+
+  modalidades!: ModalidadeEntity[];
+
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Dto.IEntityDate;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Dto.IEntityDate;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Dto.IEntityDate;
 }
