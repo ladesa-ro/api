@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { get, map, pick } from 'lodash';
+import { get, has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { v4 } from 'uuid';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
@@ -30,11 +31,16 @@ export type ICampusQueryBuilderViewOptions = {
 export class CampusService {
   constructor(
     private enderecoService: EnderecoService,
+    private modalidadeService: ModalidadeService,
     private databaseContext: DatabaseContextService,
   ) {}
 
   get campusRepository() {
     return this.databaseContext.campusRepository;
+  }
+
+  get campusPossuiModalidadeRepository() {
+    return this.databaseContext.campusPossuiModalidadeRepository;
   }
 
   //
@@ -277,29 +283,64 @@ export class CampusService {
 
     // =========================================================
 
-    const dtoCampus = pick(dto, ['nomeFantasia', 'razaoSocial', 'apelido', 'cnpj']);
+    const campus = await this.databaseContext.transaction(async ({ databaseContext: { campusRepository, campusPossuiModalidadeRepository } }) => {
+      // =========================================================
 
-    const campus = this.campusRepository.create();
+      const dtoCampus = pick(dto, ['nomeFantasia', 'razaoSocial', 'apelido', 'cnpj']);
 
-    this.campusRepository.merge(campus, {
-      ...dtoCampus,
+      const campus = campusRepository.create();
+
+      campusRepository.merge(campus, {
+        ...dtoCampus,
+      });
+
+      campusRepository.merge(campus, {
+        id: v4(),
+      });
+
+      // =========================================================
+
+      const endereco = await this.enderecoService.internalEnderecoCreateOrUpdate(null, dto.endereco);
+
+      campusRepository.merge(campus, {
+        endereco: {
+          id: endereco.id,
+        },
+      });
+
+      // =========================================================
+
+      await campusRepository.save(campus);
+
+      // =========================================================
+
+      const modalidades = get(dto, 'modalidades')!;
+
+      for (const modalidadeRef of modalidades) {
+        const modalidade = await this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, { id: modalidadeRef.id });
+
+        const campusPossuiModalidade = campusPossuiModalidadeRepository.create();
+
+        campusPossuiModalidadeRepository.merge(campusPossuiModalidade, {
+          id: v4(),
+        });
+
+        campusPossuiModalidadeRepository.merge(campusPossuiModalidade, {
+          modalidade: {
+            id: modalidade.id,
+          },
+          campus: {
+            id: campus.id,
+          },
+        });
+
+        await campusPossuiModalidadeRepository.save(campusPossuiModalidade);
+      }
+
+      // =========================================================
+
+      return campus;
     });
-
-    // =========================================================
-
-    const endereco = await this.enderecoService.internalEnderecoCreateOrUpdate(null, dto.endereco);
-
-    this.campusRepository.merge(campus, {
-      endereco: {
-        id: endereco.id,
-      },
-    });
-
-    // =========================================================
-
-    await this.campusRepository.save(campus);
-
-    // =========================================================
 
     return this.campusFindByIdStrict(contextoDeAcesso, { id: campus.id });
   }
@@ -315,33 +356,87 @@ export class CampusService {
 
     await contextoDeAcesso.ensurePermission('campus:update', { dto }, dto.id, this.campusRepository.createQueryBuilder(aliasCampus));
 
-    const dtoCampus = pick(dto, ['nomeFantasia', 'razaoSocial', 'apelido', 'cnpj']);
+    const campus = await this.databaseContext.transaction(async ({ databaseContext: { campusRepository, campusPossuiModalidadeRepository } }) => {
+      const dtoCampus = pick(dto, ['nomeFantasia', 'razaoSocial', 'apelido', 'cnpj']);
 
-    const campus = <CampusEntity>{
-      id: currentCampus.id,
-    };
+      const campus = <CampusEntity>{
+        id: currentCampus.id,
+      };
 
-    this.campusRepository.merge(campus, {
-      ...dtoCampus,
-    });
-
-    // =========================================================
-
-    const dtoEndereco = get(dto, 'endereco');
-
-    if (dtoEndereco) {
-      const endereco = await this.enderecoService.internalEnderecoCreateOrUpdate(currentCampus.endereco.id, dtoEndereco);
-
-      this.campusRepository.merge(campus, {
-        endereco: {
-          id: endereco.id,
-        },
+      campusRepository.merge(campus, {
+        ...dtoCampus,
       });
-    }
 
-    // =========================================================
+      campusRepository.merge(campus, {
+        id: campus.id,
+      });
 
-    await this.campusRepository.save(campus);
+      // =========================================================
+
+      const dtoEndereco = get(dto, 'endereco');
+
+      if (dtoEndereco) {
+        const endereco = await this.enderecoService.internalEnderecoCreateOrUpdate(currentCampus.endereco.id, dtoEndereco);
+
+        campusRepository.merge(campus, {
+          endereco: {
+            id: endereco.id,
+          },
+        });
+      }
+
+      // =========================================================
+
+      await campusRepository.save(campus);
+
+      // =========================================================
+
+      if (has(dto, 'modalidades')) {
+        const modalidades = get(dto, 'modalidades')!;
+
+        const currentCampusPossuiModalidades = await campusPossuiModalidadeRepository
+          //
+          .createQueryBuilder('c_p_m')
+          .select('c_p_m.id')
+          .innerJoin('c_p_m.campus', 'campus')
+          .where('campus.id = :campusId', { campusId: campus.id })
+          .getMany();
+
+        await campusPossuiModalidadeRepository
+          //
+          .createQueryBuilder()
+          .delete()
+          .whereInIds(map(currentCampusPossuiModalidades, 'id'))
+          .execute();
+
+        for (const modalidadeRef of modalidades) {
+          const modalidade = await this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, {
+            id: modalidadeRef.id,
+          });
+
+          const campusPossuiModalidade = campusPossuiModalidadeRepository.create();
+
+          campusPossuiModalidadeRepository.merge(campusPossuiModalidade, {
+            id: v4(),
+          });
+
+          campusPossuiModalidadeRepository.merge(campusPossuiModalidade, {
+            modalidade: {
+              id: modalidade.id,
+            },
+            campus: {
+              id: campus.id,
+            },
+          });
+
+          await campusPossuiModalidadeRepository.save(campusPossuiModalidade);
+        }
+      }
+
+      // =========================================================
+
+      return campus;
+    });
 
     // =========================================================
 

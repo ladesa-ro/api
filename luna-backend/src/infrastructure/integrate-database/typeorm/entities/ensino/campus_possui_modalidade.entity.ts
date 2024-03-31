@@ -15,7 +15,7 @@ export class CampusPossuiModalidadeEntity implements Dto.ICampusPossuiModalidade
   campus!: CampusEntity;
 
   @ManyToOne(() => ModalidadeEntity, (modalidade) => modalidade.campusPossuiModalidade)
-  @JoinColumn({ name: 'id_campus_fk' })
+  @JoinColumn({ name: 'id_modalidade_fk' })
   modalidade!: ModalidadeEntity;
 
   //

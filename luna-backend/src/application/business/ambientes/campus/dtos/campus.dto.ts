@@ -1,7 +1,17 @@
 import { ObjectType } from '@nestjs/graphql';
+import { uniqBy } from 'lodash';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
-import { CommonPropertyUuid, DtoProperty, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
+import {
+  CommonPropertyUuid,
+  DtoProperty,
+  ObjectUuidDto,
+  ValidationContractObjectUuidBase,
+  ValidationContractString,
+  ValidationContractUuid,
+  createDtoPropertyMap,
+  createValidationContract,
+} from '../../../../../infrastructure';
 import { ModalidadeDto, ModalidadeFindOneResultDto } from '../../../ensino/modalidade/dtos';
 import { EnderecoDto, EnderecoFindOneResultDto, EnderecoInputDto, EnderecoInputDtoValidationContract } from '../../endereco/dtos';
 
@@ -10,18 +20,23 @@ import { EnderecoDto, EnderecoFindOneResultDto, EnderecoInputDto, EnderecoInputD
 export const CampusDtoValidationContract = createValidationContract(() => {
   return yup.object({
     id: ValidationContractUuid(),
-
     //
-
     nomeFantasia: ValidationContractString().required().nonNullable().min(1),
     razaoSocial: ValidationContractString().required().nonNullable().min(1),
     apelido: ValidationContractString().required().nonNullable().min(1),
     // TODO: strict validation
     cnpj: ValidationContractString().required().nonNullable().min(1),
-
     //
-
     endereco: EnderecoInputDtoValidationContract(),
+    //
+    modalidades: yup.array(ValidationContractObjectUuidBase({ required: true, optional: false })).test('', (arr) => {
+      if (Array.isArray(arr)) {
+        const validRefs = arr.filter((i) => i?.id);
+        const uniqueRefs = uniqBy(validRefs, 'id');
+        return uniqueRefs.length === arr.length;
+      }
+      return false;
+    }),
   });
 });
 
@@ -99,6 +114,18 @@ export const CampusDtoProperties = createDtoPropertyMap({
     },
     swagger: {
       type: () => EnderecoFindOneResultDto,
+    },
+  },
+
+  CAMPUS_MODALIDADES_INPUT: {
+    nullable: false,
+    description: 'Modalidades do campus.',
+    //
+    gql: {
+      type: () => [ObjectUuidDto],
+    },
+    swagger: {
+      type: () => [ObjectUuidDto],
     },
   },
 

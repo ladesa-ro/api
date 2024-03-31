@@ -1,7 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as yup from 'yup';
-import { ICampusUpdateDto, IEnderecoInputDto } from '../../../(spec)';
+import * as Dto from '../../../(spec)';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CampusFindOneByIdInputValidationContract, CampusFindOneResultDto } from './campus-find-one.operation';
 import { CampusInputDtoValidationContract } from './campus-input.dto';
@@ -16,13 +16,16 @@ export const CampusUpdateInputDtoValidationContract = createValidationContract((
       .object()
       .concat(CampusFindOneByIdInputValidationContract())
       .concat(CampusInputDtoValidationContract().partial())
+      .shape({
+        // endereco: EnderecoInputDtoValidationContract().optional(),
+      })
   );
 });
 
 // ======================================================
 
 @InputType('CampusUpdateInputDto')
-export class CampusUpdateInputDto implements ICampusUpdateDto {
+export class CampusUpdateInputDto implements Dto.ICampusUpdateDto {
   @DtoProperty(CampusDtoProperties.CAMPUS_ID)
   id!: string;
 
@@ -39,7 +42,10 @@ export class CampusUpdateInputDto implements ICampusUpdateDto {
   cnpj?: string;
 
   @DtoProperty(CampusDtoProperties.CAMPUS_ENDERECO_INPUT, { required: false })
-  endereco?: IEnderecoInputDto;
+  endereco?: Dto.IEnderecoInputDto;
+
+  @DtoProperty(CampusDtoProperties.CAMPUS_MODALIDADES_INPUT, { required: false })
+  modalidades!: Dto.IObjectUuid[];
 }
 
 export class CampusUpdateWithoutIdInputDto extends OmitType(CampusUpdateInputDto, ['id'] as const) {}

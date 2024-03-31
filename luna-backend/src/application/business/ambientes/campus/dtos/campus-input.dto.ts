@@ -1,8 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { ICampusInputDto, IEnderecoInputDto } from '../../../(spec)';
+import * as Dto from '../../../(spec)';
 import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { EnderecoInputDtoValidationContract } from '../../endereco/dtos';
 import { CampusDtoProperties, CampusDtoValidationContract } from './campus.dto';
 
 // ======================================================
@@ -12,19 +11,16 @@ export const CampusInputDtoValidationContract = createValidationContract(() => {
 
   return yup.object().shape({
     nomeFantasia: getSchemaField(schema, 'nomeFantasia'),
-
     razaoSocial: getSchemaField(schema, 'razaoSocial'),
     apelido: getSchemaField(schema, 'apelido'),
     cnpj: getSchemaField(schema, 'cnpj'),
-
-    endereco: EnderecoInputDtoValidationContract(),
   });
 });
 
 // ======================================================
 
 @InputType('CampusInputDto')
-export class CampusInputDto implements ICampusInputDto {
+export class CampusInputDto implements Dto.ICampusInputDto {
   @DtoProperty(CampusDtoProperties.CAMPUS_NOME_FANTASIA)
   nomeFantasia!: string;
 
@@ -38,5 +34,8 @@ export class CampusInputDto implements ICampusInputDto {
   cnpj!: string;
 
   @DtoProperty(CampusDtoProperties.CAMPUS_ENDERECO_INPUT)
-  endereco!: IEnderecoInputDto;
+  endereco!: Dto.IEnderecoInputDto;
+
+  @DtoProperty(CampusDtoProperties.CAMPUS_MODALIDADES_INPUT)
+  modalidades!: Dto.IObjectUuid[];
 }

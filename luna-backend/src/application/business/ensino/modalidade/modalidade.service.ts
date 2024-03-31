@@ -99,14 +99,16 @@ export class ModalidadeService {
     return paginated;
   }
 
-  async modalidadeFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IModalidadeFindOneByIdInputDto): Promise<Dtos.IModalidadeFindOneResultDto | null> {
+  async modalidadeFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IModalidadeFindOneByIdInputDto): Promise<Dtos.IModalidadeFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('modalidade:find', qb, aliasModalidade, null);
+    if (contextoDeAcesso) {
+      await contextoDeAcesso.aplicarFiltro('modalidade:find', qb, aliasModalidade, null);
+    }
 
     // =========================================================
 
