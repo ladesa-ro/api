@@ -2,7 +2,6 @@ import { ActionType, PlopGeneratorConfig } from 'plop';
 import { ChangeCaseHelper } from '../../helpers';
 import { BaseModuleCoreGenerator } from './generators/BaseModuleCoreGenerator';
 import { ModuleCoreGeneratorAuthzStatement } from './generators/ModuleCoreGeneratorAuthzStatement';
-import { ModuleCoreGeneratorBaseAuthzPolicy } from './generators/ModuleCoreGeneratorBaseAuthzPolicy';
 import { ModuleCoreGeneratorDatabaseContextCore } from './generators/ModuleCoreGeneratorDatabaseContextCore';
 import { IModuleDeclareClass, ModuleCoreGeneratorNestModule } from './generators/ModuleCoreGeneratorNestModule';
 import { ModuleCoreGeneratorOperations } from './generators/ModuleCoreGeneratorOperations';
@@ -369,14 +368,14 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
               .transform(code),
         });
 
-        actions.push({
-          type: 'modify',
-          path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
-          transform: async (code: string) =>
-            new ModuleCoreGeneratorBaseAuthzPolicy()
-              .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Create`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Create`)
-              .transform(code),
-        });
+        // actions.push({
+        //   type: 'modify',
+        //   path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
+        //   transform: async (code: string) =>
+        //     new ModuleCoreGeneratorBaseAuthzPolicy()
+        //       .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Create`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Create`)
+        //       .transform(code),
+        // });
       }
 
       if (answers.operacoes.includes('handle-resource-update')) {
@@ -433,14 +432,14 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
               .transform(code),
         });
 
-        actions.push({
-          type: 'modify',
-          path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
-          transform: async (code: string) =>
-            new ModuleCoreGeneratorBaseAuthzPolicy()
-              .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Update`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Update`)
-              .transform(code),
-        });
+        // actions.push({
+        //   type: 'modify',
+        //   path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
+        //   transform: async (code: string) =>
+        //     new ModuleCoreGeneratorBaseAuthzPolicy()
+        //       .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Update`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Update`)
+        //       .transform(code),
+        // });
       }
     }
 
@@ -500,14 +499,14 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
             .transform(code),
       });
 
-      actions.push({
-        type: 'modify',
-        path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
-        transform: async (code: string) =>
-          new ModuleCoreGeneratorBaseAuthzPolicy()
-            .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Delete`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Delete`)
-            .transform(code),
-      });
+      // actions.push({
+      //   type: 'modify',
+      //   path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
+      //   transform: async (code: string) =>
+      //     new ModuleCoreGeneratorBaseAuthzPolicy()
+      //       .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Delete`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Delete`)
+      //       .transform(code),
+      // });
     }
 
     if (answers.operacoes.includes('handle-resource-read')) {
@@ -584,14 +583,14 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
             .transform(code),
       });
 
-      actions.push({
-        type: 'modify',
-        path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
-        transform: async (code: string) =>
-          new ModuleCoreGeneratorBaseAuthzPolicy()
-            .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Filter`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Filter`)
-            .transform(code),
-      });
+      // actions.push({
+      //   type: 'modify',
+      //   path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
+      //   transform: async (code: string) =>
+      //     new ModuleCoreGeneratorBaseAuthzPolicy()
+      //       .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Filter`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Filter`)
+      //       .transform(code),
+      // });
     }
 
     //

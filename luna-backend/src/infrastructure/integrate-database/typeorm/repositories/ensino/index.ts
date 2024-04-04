@@ -3,4 +3,5 @@ export * from './curso.repository';
 export * from './diario.repository';
 export * from './disciplina.repository';
 export * from './modalidade.repository';
+export * from './diario-professor.repository';
 export * from './turma.repository';

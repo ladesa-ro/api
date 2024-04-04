@@ -3,4 +3,5 @@ export * from './curso';
 export * from './diario';
 export * from './disciplina';
 export * from './modalidade';
+export * from './diario-professor';
 export * from './turma';

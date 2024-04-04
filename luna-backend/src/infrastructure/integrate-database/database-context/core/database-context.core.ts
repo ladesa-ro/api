@@ -157,6 +157,10 @@ export class DatabaseContextCore {
     return repositories.createDiarioRepository(this.ds);
   }
 
+  get diarioProfessorRepository() {
+    return repositories.createDiarioProfessorRepository(this.ds);
+  }
+
   // =====================================================
   // == [ Calendario ] =======================================
   // =====================================================

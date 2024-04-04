@@ -91,6 +91,14 @@ export type IAuthzStatementCalendarioLetivoUpdate = IBaseAuthzFilter<'calendario
 export type IAuthzStatementCalendarioLetivoDelete = IBaseAuthzFilter<'calendario_letivo:delete', { dto: Dto.ICalendarioLetivoDeleteOneByIdInputDto }>;
 export type IAuthzStatementCalendarioLetivoFind = IBaseAuthzFilter<'calendario_letivo:find'>;
 
+export type IAuthzStatementDiarioProfessorCreate = IBaseAuthzCheck<'diario_professor:create', { dto: Dto.IDiarioProfessorInputDto }>;
+
+export type IAuthzStatementDiarioProfessorUpdate = IBaseAuthzFilter<'diario_professor:update', { dto: Dto.IDiarioProfessorUpdateDto }>;
+
+export type IAuthzStatementDiarioProfessorDelete = IBaseAuthzFilter<'diario_professor:delete', { dto: Dto.IDiarioProfessorDeleteOneByIdInputDto }>;
+
+export type IAuthzStatementDiarioProfessorFilter = IBaseAuthzFilter<'diario_professor:find'>;
+
 // ===================================================================================
 
 export type IAuthzStatementCheck =
@@ -104,7 +112,8 @@ export type IAuthzStatementCheck =
   | IAuthzStatementTurmaCreate
   | IAuthzStatementCalendarioLetivoCreate
   | IAuthzStatementDiarioCreate
-  | IAuthzStatementReservaCreate;
+  | IAuthzStatementReservaCreate
+  | IAuthzStatementDiarioProfessorCreate;
 
 // =====================
 
@@ -146,7 +155,10 @@ export type IAuthzStatementFilter =
   | IAuthzStatementReservaFind
   | IAuthzStatementCalendarioLetivoDelete
   | IAuthzStatementCalendarioLetivoFind
-  | IAuthzStatementCalendarioLetivoUpdate;
+  | IAuthzStatementCalendarioLetivoUpdate
+  | IAuthzStatementDiarioProfessorUpdate
+  | IAuthzStatementDiarioProfessorDelete
+  | IAuthzStatementDiarioProfessorFilter;
 
 // =====================
 
