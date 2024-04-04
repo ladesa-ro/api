@@ -10,8 +10,8 @@ export interface IUsuarioFindOneResultDtoVinculoAtivo extends Pick<IUsuarioVincu
 }
 
 export interface IUsuarioFindOneResultDto extends Pick<IUsuarioModel, 'id' | 'nome' | 'matriculaSiape' | 'email'> {
-  vinculosAtivos: IUsuarioFindOneResultDtoVinculoAtivo[];
-
   imagemCapa: IImagemFindOneResultDto | null;
   imagemPerfil: IImagemFindOneResultDto | null;
+  //
+  vinculosAtivos: IUsuarioFindOneResultDtoVinculoAtivo[];
 }

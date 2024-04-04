@@ -1,30 +1,55 @@
-import { Resolver } from '@nestjs/graphql'; import * as Dto from '../../(spec)'; import { IContextoDeAcesso } from '../../../../domain'; import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation,
-DtoOperationGqlQuery } from '../../../../infrastructure'; import { GqlDtoInput } from '../../../../infrastructure/api-documentate/GqlDtoInput'; import {
-{{c_pascal moduleName}}Operations } from './dtos'; import {
-{{c_pascal moduleName}}Dto } from './dtos/{{c_kebab moduleName}}.dto'; import {
-{{c_pascal moduleName}}Service } from './{{c_kebab moduleName}}.service'; @Resolver(() =>
-{{c_pascal moduleName}}Dto) export class
-{{c_pascal moduleName}}Resolver { constructor( // private
-{{c_camel moduleName}}Service:
-{{c_pascal moduleName}}Service, ) {} // @DtoOperationGqlQuery({{c_pascal moduleName}}Operations.{{c_constant moduleName}}_FIND_ALL) async
-{{c_camel moduleName}}FindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput({{c_pascal moduleName}}Operations.{{c_constant moduleName}}_FIND_ALL) dto:
-Dto.ISearchInputDto) { return this.{{c_camel moduleName}}Service.{{c_camel moduleName}}FindAll(contextoDeAcesso, dto); } // @DtoOperationGqlQuery({{c_pascal moduleName}}Operations.{{c_constant
-  moduleName
-}}_FIND_ONE_BY_ID) async
-{{c_camel moduleName}}FindOneById( @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput({{c_pascal moduleName}}Operations.{{c_constant moduleName}}_FIND_ONE_BY_ID) dto: Dto.I{{c_pascal
-  moduleName
-}}FindOneByIdInputDto, ) { return this.{{c_camel moduleName}}Service.{{c_camel moduleName}}FindByIdStrict(contextoDeAcesso, dto); } // @DtoOperationGqlMutation({{c_pascal
-  moduleName
-}}Operations.{{c_constant moduleName}}_CREATE) async
-{{c_camel moduleName}}Create(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput({{c_pascal moduleName}}Operations.{{c_constant moduleName}}_CREATE) dto: Dto.I{{c_pascal
-  moduleName
-}}InputDto) { return this.{{c_camel moduleName}}Service.{{c_camel moduleName}}Create(contextoDeAcesso, dto); } @DtoOperationGqlMutation({{c_pascal moduleName}}Operations.{{c_constant
-  moduleName
-}}_UPDATE) async
-{{c_camel moduleName}}Update(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput({{c_pascal moduleName}}Operations.{{c_constant moduleName}}_UPDATE) dto: Dto.I{{c_pascal
-  moduleName
-}}UpdateDto) { return this.{{c_camel moduleName}}Service.{{c_camel moduleName}}Update(contextoDeAcesso, dto); } @DtoOperationGqlMutation({{c_pascal moduleName}}Operations.{{c_constant
-  moduleName
-}}_DELETE_ONE_BY_ID) async
-{{c_camel moduleName}}DeleteOneById( @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput({{c_pascal moduleName}}Operations.{{c_constant moduleName}}_DELETE_ONE_BY_ID) dto:
-Dto.I{{c_pascal moduleName}}DeleteOneByIdInputDto, ) { return this.{{c_camel moduleName}}Service.{{c_camel moduleName}}DeleteOneById(contextoDeAcesso, dto); } }
+import { Resolver } from '@nestjs/graphql';
+import * as Dto from '../../(spec)';
+import { IClientAccess } from '../../../../domain';
+import { ClientAccessGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
+import { GqlDtoInput } from '../../../../infrastructure/api-documentate/GqlDtoInput';
+import { {{ c_pascal moduleName }}Operations } from './dtos';
+import { {{ c_pascal moduleName }}Dto } from './dtos/{{ c_kebab moduleName }}.dto';
+import { {{ c_pascal moduleName }}Service } from './{{ c_kebab moduleName }}.service';
+
+@Resolver(() => {{ c_pascal moduleName }}Dto)
+export class {{ c_pascal moduleName }}Resolver {
+  constructor(
+    //
+    private {{ c_camel moduleName }}Service: {{ c_pascal moduleName }}Service,
+  ) {}
+
+  //
+
+  @DtoOperationGqlQuery({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_FIND_ALL)
+  async {{ c_camel moduleName }}FindAll(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_FIND_ALL) dto: Dto.ISearchInputDto) {
+    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}FindAll(clientAccess, dto);
+  }
+
+  //
+
+  @DtoOperationGqlQuery({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_FIND_ONE_BY_ID)
+  async {{ c_camel moduleName }}FindOneById(
+    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @GqlDtoInput({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_FIND_ONE_BY_ID)
+    dto: Dto.I{{ c_pascal moduleName }}FindOneByIdInputDto,
+  ) {
+    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}FindByIdStrict(clientAccess, dto);
+  }
+
+  //
+
+  @DtoOperationGqlMutation({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_CREATE)
+  async {{ c_camel moduleName }}Create(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_CREATE) dto: Dto.I{{ c_pascal moduleName }}InputDto) {
+    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}Create(clientAccess, dto);
+  }
+
+  @DtoOperationGqlMutation({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_UPDATE)
+  async {{ c_camel moduleName }}Update(@ClientAccessGraphQl() clientAccess: IClientAccess, @GqlDtoInput({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_UPDATE) dto: Dto.I{{ c_pascal moduleName }}UpdateDto) {
+    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}Update(clientAccess, dto);
+  }
+
+  @DtoOperationGqlMutation({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_DELETE_ONE_BY_ID)
+  async {{ c_camel moduleName }}DeleteOneById(
+    @ClientAccessGraphQl() clientAccess: IClientAccess,
+    @GqlDtoInput({{ c_pascal moduleName }}Operations.{{ c_constant moduleName }}_DELETE_ONE_BY_ID)
+    dto: Dto.I{{ c_pascal moduleName }}DeleteOneByIdInputDto,
+  ) {
+    return this.{{ c_camel moduleName }}Service.{{ c_camel moduleName }}DeleteOneById(clientAccess, dto);
+  }
+}

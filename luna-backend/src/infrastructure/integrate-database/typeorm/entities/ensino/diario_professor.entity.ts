@@ -1,10 +1,8 @@
-import { Entity } from 'typeorm';
-import { IEntityDate } from 'application/business/(spec)';
-import { PrimaryGeneratedColumn } from 'typeorm';
-import { Column } from 'typeorm';
+import * as Dto from 'application/business/(spec)';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('diario_professor')
-export class DiarioProfessorEntity {
+export class DiarioProfessorEntity implements Dto.IDiarioProfessorModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -14,19 +12,19 @@ export class DiarioProfessorEntity {
   situacao!: boolean;
 
   @Column({ name: 'id_diario_fk', type: 'uuid', nullable: false })
-  diario!: IDiarioModel;
+  diario!: Dto.IDiarioModel;
 
   @Column({ name: 'id_vinculo_professor_fk', type: 'uuid', nullable: false })
-  vinculoProfessor!: IUsuarioVinculoCampusModel;
+  vinculoProfessor!: Dto.IUsuarioVinculoCampusModel;
 
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Dto.IEntityDate;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Dto.IEntityDate;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Dto.IEntityDate;
 }
