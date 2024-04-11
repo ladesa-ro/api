@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
-import { IEntityDate, IImagemModel, IUsuarioModel } from '../../../(spec)';
+import { IEntityDate, IImagemModel, IUsuarioModel, IUsuarioVinculoCampusModel } from '../../../(spec)';
 import { CommonPropertyUuid, DtoProperty, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
 import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/dtos';
 
@@ -115,6 +115,10 @@ export class UsuarioDto implements IUsuarioModel {
   //
 
   isSuperUser!: boolean;
+
+  //
+
+  vinculosAtivos!: IUsuarioVinculoCampusModel[];
 
   //
 

@@ -1,3 +1,4 @@
+import { DiarioProfessorModule } from './diario-professor/diario-professor.module';
 import { Module } from '@nestjs/common';
 import { CursoModule } from './curso/curso.module';
 import { DiarioModule } from './diario/diario.module';
@@ -6,6 +7,6 @@ import { ModalidadeModule } from './modalidade/modalidade.module';
 import { TurmaModule } from './turma/turma.module';
 
 @Module({
-  imports: [ModalidadeModule, CursoModule, DisciplinaModule, TurmaModule, DiarioModule],
+  imports: [ModalidadeModule, CursoModule, DisciplinaModule, TurmaModule, DiarioModule, DiarioProfessorModule],
 })
 export class EnsinoModule {}

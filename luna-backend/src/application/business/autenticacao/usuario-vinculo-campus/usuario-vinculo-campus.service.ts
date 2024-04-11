@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CampusService, ICampusQueryBuilderViewOptions } from 'application/business/ambientes/campus/campus.service';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from 'application/utils/QueryBuilderViewOptionsLoad';
 import { DatabaseContextService } from 'infrastructure';
@@ -43,8 +43,8 @@ export class UsuarioVinculoCampusService {
   //
 
   static UsuarioVinculoCampusQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IUsuarioVinculoCampusQueryBuilderViewOptions = {}) {
-    const loadCampus = getQueryBuilderViewLoadMeta(options.loadCampus, true, `${alias}_campus`);
-    const loadUsuario = getQueryBuilderViewLoadMeta(options.loadUsuario, true, `${alias}_usuario`);
+    const loadCampus = getQueryBuilderViewLoadMeta(options.loadCampus, true, `${alias}_c`);
+    const loadUsuario = getQueryBuilderViewLoadMeta(options.loadUsuario, true, `${alias}_u`);
 
     qb.addSelect([
       //
@@ -105,6 +105,44 @@ export class UsuarioVinculoCampusService {
         'usuario.id': [FilterOperator.EQ],
       },
     });
+  }
+
+  async vinculoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IUsuarioVinculoCampusFindOneByIdInputDto): Promise<Dto.IUsuarioVinculoCampusFindOneResultDto | null> {
+    // =========================================================
+
+    const qb = this.usuarioVinculoCampusRepository.createQueryBuilder(aliasUsuarioVinculoCampus);
+
+    // =========================================================
+
+    await contextoDeAcesso.aplicarFiltro('vinculo:find', qb, aliasUsuarioVinculoCampus, null);
+
+    // =========================================================
+
+    qb.andWhere(`${aliasUsuarioVinculoCampus}.id = :id`, { id: dto.id });
+
+    // =========================================================
+
+    qb.select([]);
+
+    UsuarioVinculoCampusService.UsuarioVinculoCampusQueryBuilderView(aliasUsuarioVinculoCampus, qb, {});
+
+    // =========================================================
+
+    const vinculo = await qb.getOne();
+
+    // =========================================================
+
+    return vinculo;
+  }
+
+  async vinculoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IUsuarioVinculoCampusFindOneByIdInputDto) {
+    const vinculo = await this.vinculoFindById(contextoDeAcesso, dto);
+
+    if (!vinculo) {
+      throw new NotFoundException();
+    }
+
+    return vinculo;
   }
 
   async vinculoSetVinculos(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IUsuarioVinculoCampusSetVinculosInputDto) {

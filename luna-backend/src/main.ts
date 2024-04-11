@@ -36,6 +36,7 @@ function setupSwaggerConfig(configService: IConfig | null = null) {
   config.addTag('Disciplinas', 'Ensino / Disciplinas');
   config.addTag('Turmas', 'Ensino / Turmas');
   config.addTag('Diarios', 'Ensino / Diarios');
+  config.addTag('DiarioProfessor', 'Ensino / Diário Professor');
 
   config.addTag('Calendarios Letivos', 'Calendario / Calendarios Letivos');
 

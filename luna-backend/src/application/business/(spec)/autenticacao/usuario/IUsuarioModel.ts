@@ -1,5 +1,6 @@
 import * as Dto from '../../(core)';
 import { IImagemModel } from '../../base';
+import { IUsuarioVinculoCampusModel } from '../usuario-vinculo-campus';
 
 export interface IUsuarioModel extends Dto.IObjectUuid, Dto.IDatedObject {
   //
@@ -20,6 +21,10 @@ export interface IUsuarioModel extends Dto.IObjectUuid, Dto.IDatedObject {
 
   imagemCapa: IImagemModel | null;
   imagemPerfil: IImagemModel | null;
+
+  //
+
+  vinculosAtivos: IUsuarioVinculoCampusModel[];
 
   //
 
