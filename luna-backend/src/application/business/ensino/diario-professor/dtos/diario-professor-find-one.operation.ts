@@ -16,10 +16,10 @@ export class DiarioProfessorFindOneResultDto implements Dto.IDiarioProfessorFind
   @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_SITUACAO)
   situacao!: boolean;
 
-  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_DIARIO)
+  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_DIARIO_OUTPUT)
   diario!: Dto.IDiarioModel;
 
-  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_VINCULO_PROFESSOR)
+  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_VINCULO_PROFESSOR_OUTPUT)
   vinculoProfessor!: Dto.IUsuarioVinculoCampusModel;
 
   //

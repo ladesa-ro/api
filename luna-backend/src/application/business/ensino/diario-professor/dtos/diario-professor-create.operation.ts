@@ -1,5 +1,3 @@
-// ======================================================
-
 import { createDtoOperationOptions } from 'infrastructure';
 import { DiarioProfessorFindOneResultDto } from './diario-professor-find-one.operation';
 import { DiarioProfessorInputDto, DiarioProfessorInputDtoValidationContract } from './diario-professor-input.operation';

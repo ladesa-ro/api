@@ -45,21 +45,21 @@ export class DiarioService {
   static DiarioQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IDiarioQueryBuilderViewOptions = {}) {
     qb.addSelect([`${alias}.id`, `${alias}.situacao`, `${alias}.ano`, `${alias}.etapa`]);
 
-    const loadAmbientePadrao = getQueryBuilderViewLoadMeta(options.loadAmbientePadrao, true, `${alias}_ambientePadrao`);
+    const loadAmbientePadrao = getQueryBuilderViewLoadMeta(options.loadAmbientePadrao, true, `${alias}_ap`);
 
     if (loadAmbientePadrao) {
       qb.leftJoin(`${alias}.ambientePadrao`, `${loadAmbientePadrao.alias}`);
       AmbienteService.AmbienteQueryBuilderView(loadAmbientePadrao.alias, qb, loadAmbientePadrao.options);
     }
 
-    const loadDisciplina = getQueryBuilderViewLoadMeta(options.loadDisciplina, true, `${alias}_disciplina`);
+    const loadDisciplina = getQueryBuilderViewLoadMeta(options.loadDisciplina, true, `${alias}_d`);
 
     if (loadDisciplina) {
       qb.leftJoin(`${alias}.disciplina`, `${loadDisciplina.alias}`);
       DisciplinaService.DisciplinaQueryBuilderView(loadDisciplina.alias, qb, loadDisciplina.options);
     }
 
-    const loadTurma = getQueryBuilderViewLoadMeta(options.loadTurma, true, `${alias}_turma`);
+    const loadTurma = getQueryBuilderViewLoadMeta(options.loadTurma, true, `${alias}_t`);
 
     if (loadTurma) {
       qb.leftJoin(`${alias}.turma`, `${loadTurma.alias}`);

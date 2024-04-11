@@ -25,16 +25,17 @@ export class DiarioProfessorUpdateInputDto implements Dto.IDiarioProfessorUpdate
   @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_SITUACAO, { required: false })
   situacao?: boolean;
 
-  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_DIARIO, { required: false })
-  diario?: Dto.IDiarioModel;
+  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_DIARIO_INPUT, { required: false })
+  diario?: Dto.IObjectUuid;
 
-  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_VINCULO_PROFESSOR, { required: false })
-  vinculoProfessor?: Dto.IUsuarioVinculoCampusModel;
+  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_VINCULO_PROFESSOR_INPUT, { required: false })
+  vinculoProfessor?: Dto.IObjectUuid;
 
   //
 }
 
 export class DiarioProfessorUpdateWithoutIdInputDto extends OmitType(DiarioProfessorUpdateInputDto, ['id'] as const) {}
+
 export const DIARIO_PROFESSOR_UPDATE = createDtoOperationOptions({
   description: 'Realiza a alteração de vínculo de diário e professor.',
 

@@ -25,11 +25,11 @@ export class DiarioProfessorInputDto implements Dto.IDiarioProfessorInputDto {
   @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_SITUACAO)
   situacao!: boolean;
 
-  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_DIARIO)
-  diario!: Dto.IDiarioModel;
+  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_DIARIO_INPUT)
+  diario!: Dto.IObjectUuid;
 
-  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_VINCULO_PROFESSOR)
-  vinculoProfessor!: Dto.IUsuarioVinculoCampusModel;
+  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_VINCULO_PROFESSOR_INPUT)
+  vinculoProfessor!: Dto.IObjectUuid;
 
   //
 }

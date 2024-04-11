@@ -53,21 +53,21 @@ export class TurmaService {
       `${alias}.nome`,
     ]);
 
-    const loadCurso = getQueryBuilderViewLoadMeta(options.loadCurso, true, `${alias}_curso`);
+    const loadCurso = getQueryBuilderViewLoadMeta(options.loadCurso, true, `${alias}_c`);
 
     if (loadCurso) {
       qb.innerJoin(`${alias}.curso`, `${loadCurso.alias}`);
       CursoService.CursoQueryBuilderView(loadCurso.alias, qb, loadCurso.options);
     }
 
-    const loadAmbientePadraoAula = getQueryBuilderViewLoadMeta(options.loadAmbientePadraoAula, true, `${alias}_ambientePadraoAula`);
+    const loadAmbientePadraoAula = getQueryBuilderViewLoadMeta(options.loadAmbientePadraoAula, true, `${alias}_apa`);
 
     if (loadAmbientePadraoAula) {
       qb.leftJoin(`${alias}.ambientePadraoAula`, `${loadAmbientePadraoAula.alias}`);
       AmbienteService.AmbienteQueryBuilderView(loadAmbientePadraoAula.alias, qb, loadAmbientePadraoAula.options);
     }
 
-    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
+    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_ic`);
 
     if (loadImagemCapa) {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);

@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as yup from 'yup';
 import * as Dto from '../../../(spec)';
-import { CommonPropertyUuid, DtoProperty, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
+import { CommonPropertyUuid, DtoProperty, ObjectUuidDto, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
 import { UsuarioVinculoCampusDto, UsuarioVinculoCampusFindOneResultDto } from '../../../autenticacao/usuario-vinculo-campus/dtos';
 import { DiarioDto, DiarioFindOneResultDto } from '../../diario/dtos';
 
@@ -36,7 +36,19 @@ export const DiarioProfessorDtoProperties = createDtoPropertyMap({
     },
   },
 
-  DIARIO_PROFESSOR_DIARIO: {
+  DIARIO_PROFESSOR_DIARIO_INPUT: {
+    nullable: false,
+    description: 'Diário do vínculo.',
+    //
+    gql: {
+      type: () => ObjectUuidDto,
+    },
+    swagger: {
+      type: ObjectUuidDto,
+    },
+  },
+
+  DIARIO_PROFESSOR_DIARIO_OUTPUT: {
     nullable: false,
     description: 'Diário do vínculo.',
     //
@@ -48,7 +60,19 @@ export const DiarioProfessorDtoProperties = createDtoPropertyMap({
     },
   },
 
-  DIARIO_PROFESSOR_VINCULO_PROFESSOR: {
+  DIARIO_PROFESSOR_VINCULO_PROFESSOR_INPUT: {
+    nullable: false,
+    description: 'Vínculo de usuário-professor.',
+    //
+    gql: {
+      type: () => ObjectUuidDto,
+    },
+    swagger: {
+      type: ObjectUuidDto,
+    },
+  },
+
+  DIARIO_PROFESSOR_VINCULO_PROFESSOR_OUTPUT: {
     nullable: false,
     description: 'Vínculo de usuário-professor.',
     //
@@ -74,10 +98,10 @@ export class DiarioProfessorDto implements Dto.IDiarioProfessorModel {
   @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_SITUACAO)
   situacao!: boolean;
 
-  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_DIARIO)
+  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_DIARIO_OUTPUT)
   diario!: Dto.IDiarioModel;
 
-  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_VINCULO_PROFESSOR)
+  @DtoProperty(DiarioProfessorDtoProperties.DIARIO_PROFESSOR_VINCULO_PROFESSOR_OUTPUT)
   vinculoProfessor!: Dto.IUsuarioVinculoCampusModel;
 
   //

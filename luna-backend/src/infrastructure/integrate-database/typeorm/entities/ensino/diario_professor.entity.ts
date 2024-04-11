@@ -1,5 +1,7 @@
 import * as Dto from 'application/business/(spec)';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { UsuarioVinculoCampusEntity } from '../autenticacao/usuario-vinculo-campus.entity';
+import { DiarioEntity } from './diario.entity';
 
 @Entity('diario_professor')
 export class DiarioProfessorEntity implements Dto.IDiarioProfessorModel {
@@ -11,10 +13,12 @@ export class DiarioProfessorEntity implements Dto.IDiarioProfessorModel {
   @Column({ name: 'situacao', type: 'bool', nullable: false })
   situacao!: boolean;
 
-  @Column({ name: 'id_diario_fk', type: 'uuid', nullable: false })
+  @ManyToOne(() => DiarioEntity)
+  @JoinColumn({ name: 'id_diario_fk' })
   diario!: Dto.IDiarioModel;
 
-  @Column({ name: 'id_vinculo_professor_fk', type: 'uuid', nullable: false })
+  @ManyToOne(() => UsuarioVinculoCampusEntity)
+  @JoinColumn({ name: 'id_vinculo_professor_fk' })
   vinculoProfessor!: Dto.IUsuarioVinculoCampusModel;
 
   //
