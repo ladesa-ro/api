@@ -16,8 +16,8 @@ export class UsuarioResolver {
   //
 
   @DtoOperationGqlQuery(UsuarioOperations.USUARIO_FIND_ALL)
-  async usuarioFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso) {
-    return this.usuarioService.usuarioFindAll(contextoDeAcesso);
+  async usuarioFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(UsuarioOperations.USUARIO_FIND_ALL) dto: Dto.ISearchInputDto) {
+    return this.usuarioService.usuarioFindAll(contextoDeAcesso, dto);
   }
 
   //

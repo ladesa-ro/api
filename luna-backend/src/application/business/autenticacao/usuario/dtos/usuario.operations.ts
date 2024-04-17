@@ -10,6 +10,7 @@ import {
   UsuarioUpdateWithoutIdInputDto,
 } from '.';
 import { ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { USUARIO_FIND_ALL } from './usuario-find-all.operation';
 import { UsuarioFindOneResultDto } from './usuario-find-one.result.dto';
 import { USUARIO_GET_IMAGEM_CAPA } from './usuario-get-imagem-capa.operation';
 import { USUARIO_GET_IMAGEM_PERFIL } from './usuario-get-imagem-perfil.operation';
@@ -21,20 +22,7 @@ export const UsuarioOperations = {
   // ===============================
   USUARIO_GET_IMAGEM_PERFIL: USUARIO_GET_IMAGEM_PERFIL,
   // ===============================
-
-  USUARIO_FIND_ALL: createDtoOperationOptions({
-    description: 'Lista de todos os usuários cadastrados no sistema.',
-
-    gql: {
-      name: 'usuarioFindAll',
-      returnType: () => [UsuarioDto],
-    },
-
-    swagger: {
-      returnType: [UsuarioFindOneResultDto],
-    },
-  }),
-
+  USUARIO_FIND_ALL: USUARIO_FIND_ALL,
   // ===============================
 
   USUARIO_FIND_ONE_BY_ID: createDtoOperationOptions({

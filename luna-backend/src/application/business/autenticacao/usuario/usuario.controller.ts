@@ -1,5 +1,6 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import {
@@ -13,6 +14,7 @@ import {
   DtoOperationUpdate,
   HttpDtoBody,
   HttpDtoParam,
+  getSearchInputFromPaginateQuery,
 } from '../../../../infrastructure';
 import { UsuarioOperations } from './dtos/usuario.operations';
 import { UsuarioService } from './usuario.service';
@@ -26,8 +28,8 @@ export class UsuarioController {
 
   @Get('/')
   @DtoOperationFindAll(UsuarioOperations.USUARIO_FIND_ALL)
-  async usuarioFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso): Promise<Dto.IUsuarioFindOneResultDto[]> {
-    return this.usuarioService.usuarioFindAll(contextoDeAcesso);
+  async usuarioFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IUsuarioFindAllResultDto> {
+    return this.usuarioService.usuarioFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //

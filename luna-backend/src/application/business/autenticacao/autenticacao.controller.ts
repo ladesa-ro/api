@@ -3,6 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '../(spec)';
 import { IContextoDeAcesso } from '../../../domain';
 import { ContextoDeAcessoHttp, DtoOperationCreate, DtoOperationFindOne, HttpDtoBody } from '../../../infrastructure';
+import { Public } from '../../../infrastructure/authentication';
 import { AutenticacaoService } from './autenticacao.service';
 import { AutenticacaoOperations } from './dtos';
 
@@ -18,12 +19,14 @@ export class AutenticacaoController {
   }
 
   @Post('/login')
+  @Public()
   @DtoOperationCreate(AutenticacaoOperations.AUTENTICACAO_LOGIN)
   login(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(AutenticacaoOperations.AUTENTICACAO_LOGIN) dto: Dto.IAutenticacaoLoginInputDto) {
     return this.autenticacaoService.login(contextoDeAcesso, dto);
   }
 
   @Post('/login/refresh')
+  @Public()
   @DtoOperationCreate(AutenticacaoOperations.AUTENTICACAO_REFRESH)
   refresh(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(AutenticacaoOperations.AUTENTICACAO_REFRESH) dto: Dto.IAutenticacaoRefreshInputDto) {
     return this.autenticacaoService.refresh(contextoDeAcesso, dto);

@@ -1,12 +1,14 @@
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
-import { ValidationFailedException } from 'infrastructure';
+import { ValidationFailedException, getPaginateQueryFromSearchInput } from 'infrastructure';
 import { KeycloakService } from 'infrastructure/authentication/idp-external-connect/keycloak';
 import { UsuarioEntity } from 'infrastructure/integrate-database/typeorm/entities/autenticacao/usuario.entity';
-import { has, pick } from 'lodash';
+import { has, map, pick } from 'lodash';
+import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
+import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
@@ -110,7 +112,7 @@ export class UsuarioService {
 
   //
 
-  async usuarioFindAll(contextoDeAcesso: IContextoDeAcesso): Promise<Dtos.IUsuarioFindOneResultDto[]> {
+  async usuarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IUsuarioFindAllResultDto> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -121,21 +123,57 @@ export class UsuarioService {
 
     // =========================================================
 
+    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+      ...paginateConfig,
+      select: [
+        //
+        'id',
+        //
+        'nome',
+        'matriculaSiape',
+        'email',
+        //
+        'dateCreated',
+        //
+      ],
+      sortableColumns: [
+        //
+        'nome',
+        'matriculaSiape',
+        'email',
+        //
+        'dateCreated',
+      ],
+      searchableColumns: [
+        //
+        'id',
+        //
+        'nome',
+        'matriculaSiape',
+        'email',
+        //
+      ],
+      defaultSortBy: [
+        ['dateCreated', 'ASC'],
+        ['matriculaSiape', 'ASC'],
+        ['nome', 'ASC'],
+      ],
+      filterableColumns: {},
+    });
+
+    // =========================================================
+
     qb.select([]);
 
-    UsuarioService.UsuarioQueryBuilderView(aliasUsuario, qb);
+    UsuarioService.UsuarioQueryBuilderView(aliasUsuario, qb, {});
 
     // =========================================================
 
-    qb.orderBy(`${aliasUsuario}.dateCreated`, 'ASC');
+    paginated.data = await qb.andWhereInIds(map(paginated.data, 'id')).getMany();
 
     // =========================================================
 
-    const usuarios = await qb.getMany();
-
-    // =========================================================
-
-    return usuarios;
+    return paginated;
   }
 
   async usuarioFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IUsuarioFindOneByIdInputDto): Promise<Dtos.IUsuarioFindOneResultDto | null> {

@@ -15,7 +15,7 @@ export class AutenticacaoResolver {
   //
 
   @DtoOperationGqlQuery(AutenticacaoOperations.AUTENTICACAO_QUEM_SOU_EU)
-  async usuarioFindOneById(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso) {
+  async authQuemSouEu(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso) {
     return this.autenticacaoService.quemSouEu(contextoDeAcesso);
   }
 
