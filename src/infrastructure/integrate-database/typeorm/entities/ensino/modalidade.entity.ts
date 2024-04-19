@@ -1,6 +1,5 @@
+import { IEntityDate, IModalidadeModel } from '@sisgea/spec';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { IEntityDate } from '../../../../../application/business/(spec)';
-import { IModalidadeModel } from '../../../../../application/business/(spec)/ensino/modalidade/IModalidadeModel';
 import { CampusPossuiModalidadeEntity } from './campus_possui_modalidade.entity';
 
 @Entity('modalidade')

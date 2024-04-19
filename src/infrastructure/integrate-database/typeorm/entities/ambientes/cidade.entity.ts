@@ -1,5 +1,5 @@
+import { ICidadeModel } from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { ICidadeModel } from '../../../../../application/business/(spec)';
 import { EstadoEntity } from './estado.entity';
 
 @Entity('base_cidade')

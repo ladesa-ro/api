@@ -1,4 +1,4 @@
-import * as Dto from 'application/business/(spec)';
+import * as Dto from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { ImagemEntity } from '../base/imagem.entity';

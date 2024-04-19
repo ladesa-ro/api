@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
+import { ICampusModel, IEntityDate, IUsuarioModel, IUsuarioVinculoCampusModel } from '@sisgea/spec';
 import { CampusDto, CampusFindOneResultDto } from 'application/business/ambientes/campus/dtos';
 import * as yup from 'yup';
-import { ICampusModel, IEntityDate, IUsuarioModel, IUsuarioVinculoCampusModel } from '../../../(spec)';
 import {
   CommonPropertyUuid,
   DtoProperty,

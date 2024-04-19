@@ -1,8 +1,8 @@
 import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '../../../(spec)';
+import * as Dto from '@sisgea/spec';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
-import { TurmaDto } from './turma.dto';
 import { TurmaFindOneResultDto } from './turma-find-one.operation';
+import { TurmaDto } from './turma.dto';
 
 // ======================================================
 

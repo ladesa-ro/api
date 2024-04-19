@@ -1,5 +1,5 @@
+import * as Dto from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import * as Dto from '../../../../../application/business/(spec)';
 import { UsuarioVinculoCampusEntity } from '../autenticacao/usuario-vinculo-campus.entity';
 import { CampusPossuiModalidadeEntity } from '../ensino/campus_possui_modalidade.entity';
 import { ModalidadeEntity } from '../ensino/modalidade.entity';

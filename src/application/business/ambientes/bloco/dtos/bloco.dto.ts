@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
+import * as Dto from '@sisgea/spec';
+import { IImagemModel } from '@sisgea/spec';
 import * as yup from 'yup';
-import * as Dto from '../../../(spec)';
-import { IImagemModel } from '../../../(spec)/base/imagem';
 import {
   CommonPropertyUuid,
   DtoProperty,

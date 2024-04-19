@@ -1,5 +1,6 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import * as Dto from '@sisgea/spec';
 import {
   ContextoDeAcessoHttp,
   DtoOperationCreate,
@@ -11,7 +12,6 @@ import {
   HttpDtoParam,
   getSearchInputFromPaginateQuery,
 } from 'infrastructure';
-import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 
 import { Paginate, PaginateQuery } from 'nestjs-paginate';

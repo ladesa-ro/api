@@ -1,5 +1,5 @@
+import { IEntityDate } from '@sisgea/spec';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { IEntityDate } from '../../../../../application/business/(spec)';
 import { ImagemArquivoEntity } from './imagem_arquivo.entity';
 
 @Entity('arquivo')

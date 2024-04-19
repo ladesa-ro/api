@@ -1,9 +1,9 @@
 import { ObjectType } from '@nestjs/graphql';
+import * as Dto from '@sisgea/spec';
 import { CampusDto, CampusFindOneResultDto } from 'application/business/ambientes/campus/dtos';
 import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
 import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';
 import * as yup from 'yup';
-import * as Dto from '../../../(spec)';
 import {
   CommonPropertyUuid,
   DtoProperty,

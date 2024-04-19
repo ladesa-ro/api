@@ -1,5 +1,5 @@
+import { IEntityDate, IUsuarioVinculoCampusModel } from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { IEntityDate, IUsuarioVinculoCampusModel } from '../../../../../application/business/(spec)';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { UsuarioEntity } from './usuario.entity';
 

@@ -1,5 +1,4 @@
-import { ICampusModel, IEntityDate, IModalidadeModel } from 'application/business/(spec)';
-import { ICalendarioLetivoModel } from 'application/business/(spec)/calendario';
+import { ICalendarioLetivoModel, ICampusModel, IEntityDate, IModalidadeModel } from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { ModalidadeEntity } from '../ensino/modalidade.entity';

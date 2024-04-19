@@ -1,8 +1,8 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
+import * as Dto from '@sisgea/spec';
+import { ITurmaUpdateDto } from '@sisgea/spec';
 import * as yup from 'yup';
-import * as Dto from '../../../(spec)';
-import { ITurmaUpdateDto } from '../../../(spec)';
 import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { TurmaFindOneByIdInputValidationContract, TurmaFindOneResultDto } from './turma-find-one.operation';
 import { TurmaInputDtoValidationContract } from './turma-input.operation';

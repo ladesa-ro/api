@@ -1,4 +1,4 @@
-import * as Dto from 'application/business/(spec)';
+import * as Dto from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UsuarioVinculoCampusEntity } from '../autenticacao/usuario-vinculo-campus.entity';
 import { DiarioEntity } from './diario.entity';

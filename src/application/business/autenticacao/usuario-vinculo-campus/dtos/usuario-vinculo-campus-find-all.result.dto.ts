@@ -1,5 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import { IUsuarioVinculoCampusFindAllResultDto, IUsuarioVinculoCampusFindOneResultDto } from '../../../(spec)';
+import { IUsuarioVinculoCampusFindAllResultDto, IUsuarioVinculoCampusFindOneResultDto } from '@sisgea/spec';
 import { DtoProperty, PaginatedResultDto } from '../../../../../infrastructure';
 import { UsuarioVinculoCampusDto } from './usuario-vinculo-campus.dto';
 

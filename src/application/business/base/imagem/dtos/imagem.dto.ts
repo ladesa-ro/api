@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
+import * as Dto from '@sisgea/spec';
+import { IEntityDate } from '@sisgea/spec';
 import * as yup from 'yup';
-import * as Dto from '../../../(spec)';
-import { IEntityDate } from '../../../(spec)';
 import { CommonPropertyUuid, DtoProperty, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
 import { ImagemArquivoDto, ImagemArquivoFindOneResultDto } from '../../imagem-arquivo/dtos';
 

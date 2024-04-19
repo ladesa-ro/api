@@ -1,5 +1,5 @@
 import { Int, ObjectType } from '@nestjs/graphql';
-import { IPaginatedResultDto, IPaginatedResultDtoLinks, IPaginatedResultDtoMeta } from '../../../application/business/(spec)';
+import { IPaginatedResultDto, IPaginatedResultDtoLinks, IPaginatedResultDtoMeta } from '@sisgea/spec';
 import { DtoProperty, createDtoPropertyOptions } from '../../api-documentate';
 
 @ObjectType('PaginatedResultDtoMeta')

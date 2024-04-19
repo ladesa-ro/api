@@ -1,5 +1,5 @@
 import { InputType } from '@nestjs/graphql';
-import { IUsuarioInputDto } from 'application/business/(spec)';
+import { IUsuarioInputDto } from '@sisgea/spec';
 import * as yup from 'yup';
 import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { UsuarioDtoProperties, UsuarioDtoValidationContract } from './usuario.dto';

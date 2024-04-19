@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import { PickType } from '@nestjs/swagger';
-import { ICampusFindOneResultDto, IImagemModel, IUsuarioFindOneResultDto, IUsuarioFindOneResultDtoVinculoAtivo } from '../../../(spec)';
+import { ICampusFindOneResultDto, IImagemModel, IUsuarioFindOneResultDto, IUsuarioFindOneResultDtoVinculoAtivo } from '@sisgea/spec';
 import { DtoProperty, createDtoPropertyMap } from '../../../../../infrastructure';
 import { CampusFindOneResultDto } from '../../../ambientes/campus/dtos';
 import { UsuarioVinculoCampusDto, UsuarioVinculoCampusDtoProperties, UsuarioVinculoCampusFindOneResultDto } from '../../usuario-vinculo-campus/dtos';

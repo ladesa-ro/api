@@ -1,5 +1,5 @@
 import { Resolver } from '@nestjs/graphql';
-import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto, ISearchInputDto } from '../../(spec)';
+import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto, ISearchInputDto } from '@sisgea/spec';
 import { IContextoDeAcesso } from '../../../../domain';
 import { ContextoDeAcessoGraphQl, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infrastructure';
 import { EstadoOperations } from './dtos/estado.operations';

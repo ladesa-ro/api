@@ -1,8 +1,8 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import * as Dto from '@sisgea/spec';
 import { ContextoDeAcessoHttp, DtoOperationFindAll, DtoOperationUpdate, HttpDtoBody } from 'infrastructure';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import { UsuarioVinculoCampusOperations } from './dtos';
 import { UsuarioVinculoCampusService } from './usuario-vinculo-campus.service';

@@ -1,5 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '../../../(spec)';
+import * as Dto from '@sisgea/spec';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
 import { DiarioProfessorFindOneResultDto } from './diario-professor-find-one.operation';
 import { DiarioProfessorDto } from './diario-professor.dto';

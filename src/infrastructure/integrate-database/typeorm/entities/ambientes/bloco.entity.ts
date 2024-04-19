@@ -1,5 +1,5 @@
+import { IBlocoModel, IEntityDate } from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { IBlocoModel, IEntityDate } from '../../../../../application/business/(spec)';
 import { ImagemEntity } from '../base/imagem.entity';
 import { AmbienteEntity } from './ambiente.entity';
 import { CampusEntity } from './campus.entity';

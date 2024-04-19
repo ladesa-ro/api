@@ -1,8 +1,8 @@
 import { InputType, Int } from '@nestjs/graphql';
+import { ISearchInputDto } from '@sisgea/spec';
 import { fromPairs, toPairs } from 'lodash';
 import { PaginateQuery } from 'nestjs-paginate';
 import * as yup from 'yup';
-import { ISearchInputDto } from '../../../application/business/(spec)';
 import { DtoProperty, createDtoPropertyOptions } from '../../api-documentate';
 import { ValidationContractNumber, ValidationContractString, createValidationContract } from '../../validation';
 

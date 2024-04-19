@@ -1,7 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
+import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import * as Dto from '../../../(spec)';
 import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { AmbienteFindOneByIdInputValidationContract, AmbienteFindOneResultDto } from './ambiente-find-one.operation';
 import { AmbienteInputDtoValidationContract } from './ambiente-input.operation';

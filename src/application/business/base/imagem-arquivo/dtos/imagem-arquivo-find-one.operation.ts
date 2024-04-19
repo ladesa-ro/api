@@ -1,5 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '../../../(spec)';
+import * as Dto from '@sisgea/spec';
 import { DtoProperty } from '../../../../../infrastructure';
 import { ImagemArquivoDtoProperties } from './imagem-arquivo.dto';
 

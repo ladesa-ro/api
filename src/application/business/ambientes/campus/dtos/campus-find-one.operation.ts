@@ -1,6 +1,6 @@
 import { InputType, ObjectType } from '@nestjs/graphql';
+import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import * as Dto from '../../../(spec)';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { CampusDto, CampusDtoProperties, CampusDtoValidationContract } from './campus.dto';
 

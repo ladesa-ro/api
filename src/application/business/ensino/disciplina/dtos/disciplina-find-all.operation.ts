@@ -1,8 +1,8 @@
 import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '../../../(spec)';
+import * as Dto from '@sisgea/spec';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
-import { DisciplinaDto } from './disciplina.dto';
 import { DisciplinaFindOneResultDto } from './disciplina-find-one.operation';
+import { DisciplinaDto } from './disciplina.dto';
 
 // ======================================================
 

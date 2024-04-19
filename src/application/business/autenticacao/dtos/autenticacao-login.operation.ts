@@ -1,7 +1,7 @@
 import { InputType, Int, ObjectType } from '@nestjs/graphql';
+import * as Dto from '@sisgea/spec';
 import { DtoProperty, ValidationContractString, createDtoOperationOptions, createDtoPropertyMap, createValidationContract, getSchemaField } from 'infrastructure';
 import * as yup from 'yup';
-import * as Dto from '../../(spec)';
 import { UsuarioDtoProperties, UsuarioDtoValidationContract } from '../usuario/dtos';
 
 // ======================================================

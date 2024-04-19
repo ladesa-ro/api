@@ -1,9 +1,9 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
+import { ICursoUpdateDto } from '@sisgea/spec';
 import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
 import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';
 import * as yup from 'yup';
-import { ICursoUpdateDto } from '../../../(spec)';
 import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CursoFindOneByIdInputValidationContract, CursoFindOneResultDto } from './curso-find-one.operation';
 import { CursoInputDtoValidationContract } from './curso-input.operation';

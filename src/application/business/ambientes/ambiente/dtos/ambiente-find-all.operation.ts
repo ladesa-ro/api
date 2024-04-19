@@ -1,5 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '../../../(spec)';
+import * as Dto from '@sisgea/spec';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
 import { AmbienteFindOneResultDto } from './ambiente-find-one.operation';
 import { AmbienteDto } from './ambiente.dto';

@@ -1,5 +1,5 @@
+import * as Dto from '@sisgea/spec';
 import { IBaseAuthzCheck, IBaseAuthzFilter } from '../../../domain';
-import * as Dto from '../../business/(spec)';
 
 // ===================================================================================
 

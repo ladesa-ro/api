@@ -1,6 +1,6 @@
 import { InputType } from '@nestjs/graphql';
+import { ICampusDeleteOneByIdInputDto } from '@sisgea/spec';
 import * as yup from 'yup';
-import { ICampusDeleteOneByIdInputDto } from '../../../(spec)';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { CampusDtoProperties, CampusDtoValidationContract } from './campus.dto';
 

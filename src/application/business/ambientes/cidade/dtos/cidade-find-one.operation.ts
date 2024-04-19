@@ -1,6 +1,6 @@
 import { InputType } from '@nestjs/graphql';
+import { ICidadeFindOneByIdInputDto, ICidadeFindOneResultDto, IEstadoFindOneResultDto } from '@sisgea/spec';
 import * as yup from 'yup';
-import { ICidadeFindOneByIdInputDto, ICidadeFindOneResultDto, IEstadoFindOneResultDto } from '../../../(spec)';
 import { DtoProperty, ValidationContractId, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { CidadeDto, CidadeDtoProperties, CidadeDtoValidationContract } from './cidade.dto';
 

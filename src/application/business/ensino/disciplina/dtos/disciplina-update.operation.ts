@@ -1,7 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
+import { IDisciplinaUpdateDto } from '@sisgea/spec';
 import * as yup from 'yup';
-import { IDisciplinaUpdateDto } from '../../../(spec)';
 import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { DisciplinaFindOneByIdInputValidationContract, DisciplinaFindOneResultDto } from './disciplina-find-one.operation';
 import { DisciplinaInputDtoValidationContract } from './disciplina-input.operation';

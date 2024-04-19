@@ -1,6 +1,6 @@
 import { InputType } from '@nestjs/graphql';
+import { IEnderecoInputDto, IObjectId } from '@sisgea/spec';
 import * as yup from 'yup';
-import { IEnderecoInputDto, IObjectId } from '../../../(spec)';
 import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { EnderecoDtoProperties, EnderecoDtoValidationContract } from './endereco.dto';
 

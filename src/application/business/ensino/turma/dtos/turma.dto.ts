@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
+import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import * as Dto from '../../../(spec)';
 import {
   CommonPropertyUuid,
   DtoProperty,
@@ -12,8 +12,8 @@ import {
   createValidationContract,
 } from '../../../../../infrastructure';
 import { AmbienteDto, AmbienteFindOneResultDto } from '../../../ambientes/ambiente/dtos';
-import { CursoDto, CursoFindOneResultDto } from '../../curso/dtos';
 import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/dtos';
+import { CursoDto, CursoFindOneResultDto } from '../../curso/dtos';
 
 // ======================================================
 

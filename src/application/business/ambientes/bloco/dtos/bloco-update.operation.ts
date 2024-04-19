@@ -1,7 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
+import { IBlocoUpdateDto } from '@sisgea/spec';
 import * as yup from 'yup';
-import { IBlocoUpdateDto } from '../../../(spec)';
 import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { BlocoFindOneByIdInputValidationContract, BlocoFindOneResultDto } from './bloco-find-one.operation';
 import { BlocoInputDtoValidationContract } from './bloco-input.dto';

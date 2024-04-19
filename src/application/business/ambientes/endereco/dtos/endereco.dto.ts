@@ -1,6 +1,6 @@
 import { Int, ObjectType } from '@nestjs/graphql';
+import { ICidadeModel, IEnderecoModel, IEntityDate } from '@sisgea/spec';
 import * as yup from 'yup';
-import { ICidadeModel, IEnderecoModel, IEntityDate } from '../../../(spec)';
 import {
   CommonPropertyUuid,
   DtoProperty,

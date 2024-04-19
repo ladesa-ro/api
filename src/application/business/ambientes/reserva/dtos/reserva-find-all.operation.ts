@@ -1,8 +1,8 @@
 import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '../../../(spec)';
+import * as Dto from '@sisgea/spec';
 import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
-import { ReservaDto } from './reserva.dto';
 import { ReservaFindOneResultDto } from './reserva-find-one.operation';
+import { ReservaDto } from './reserva.dto';
 
 // ======================================================
 

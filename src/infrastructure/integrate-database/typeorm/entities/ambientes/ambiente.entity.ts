@@ -1,5 +1,5 @@
+import { IAmbienteModel, IEntityDate } from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { IAmbienteModel, IEntityDate } from '../../../../../application/business/(spec)';
 import { ImagemEntity } from '../base/imagem.entity';
 import { BlocoEntity } from './bloco.entity';
 

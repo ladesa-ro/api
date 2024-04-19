@@ -1,8 +1,8 @@
 import { BadRequestException, ForbiddenException, HttpException, Injectable, ServiceUnavailableException } from '@nestjs/common';
+import * as Dto from '@sisgea/spec';
 import { DatabaseContextService } from 'infrastructure';
 import { KeycloakService } from 'infrastructure/authentication/idp-external-connect/keycloak';
 import { BaseClient, TokenSet } from 'openid-client';
-import * as Dto from '../(spec)';
 import { IContextoDeAcesso } from '../../../domain';
 import { OpenidConnectService } from '../../../infrastructure/authentication/idp-external-connect/openid-connect/openid-connect.service';
 import { UsuarioService } from './usuario/usuario.service';

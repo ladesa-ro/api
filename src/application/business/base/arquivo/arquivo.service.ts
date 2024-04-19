@@ -1,9 +1,9 @@
 import { ForbiddenException, Injectable, NotFoundException, ServiceUnavailableException, StreamableFile } from '@nestjs/common';
+import * as Dto from '@sisgea/spec';
 import jetpack, { createReadStream } from 'fs-jetpack';
 import { writeFile } from 'node:fs/promises';
 import { Readable } from 'node:stream';
 import { v4 } from 'uuid';
-import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import { DatabaseContextService, EnvironmentConfigService, ValidationContractUuid } from '../../../../infrastructure';
 import { UsuarioEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/autenticacao/usuario.entity';

@@ -1,7 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
+import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import * as Dto from '../../../(spec)';
 import { DtoProperty, createValidationContract } from '../../../../../infrastructure';
 import { UsuarioFindOneByIdInputValidationContract } from './usuario-find-one-by-id.input.dto';
 import { UsuarioInputDtoValidationContract } from './usuario-input.dto';

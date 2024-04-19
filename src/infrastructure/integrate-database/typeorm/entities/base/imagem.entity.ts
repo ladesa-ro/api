@@ -1,6 +1,5 @@
+import { IEntityDate, IImagemModel } from '@sisgea/spec';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { IEntityDate } from '../../../../../application/business/(spec)';
-import { IImagemModel } from '../../../../../application/business/(spec)/base/imagem';
 import { AmbienteEntity } from '../ambientes/ambiente.entity';
 import { BlocoEntity } from '../ambientes/bloco.entity';
 import { UsuarioEntity } from '../autenticacao/usuario.entity';

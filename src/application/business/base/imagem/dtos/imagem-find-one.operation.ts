@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '../../../(spec)';
-import { IImagemArquivoFindOneResultDto } from '../../../(spec)/base/imagem-arquivo/operations';
+import * as Dto from '@sisgea/spec';
+import { IImagemArquivoFindOneResultDto } from '@sisgea/spec';
 import { DtoProperty } from '../../../../../infrastructure';
 import { ImagemDtoProperties } from './imagem.dto';
 

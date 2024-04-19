@@ -1,4 +1,4 @@
-import { IEntityDate } from 'application/business/(spec)';
+import { IEntityDate } from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UsuarioEntity } from '../autenticacao/usuario.entity';
 import { AmbienteEntity } from './ambiente.entity';

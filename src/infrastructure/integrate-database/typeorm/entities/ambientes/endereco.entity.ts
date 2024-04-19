@@ -1,5 +1,5 @@
+import { ICidadeModel, IEnderecoModel, IEntityDate } from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ICidadeModel, IEnderecoModel, IEntityDate } from '../../../../../application/business/(spec)';
 import { CidadeEntity } from './cidade.entity';
 
 @Entity('endereco')

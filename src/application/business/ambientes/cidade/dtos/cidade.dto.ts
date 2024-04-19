@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
+import { ICidadeModel, IEstadoFindOneResultDto } from '@sisgea/spec';
 import * as yup from 'yup';
-import { ICidadeModel, IEstadoFindOneResultDto } from '../../../(spec)';
 import { CommonPropertyId, DtoProperty, ValidationContractId, ValidationContractString, createDtoPropertyMap, createDtoPropertyOptions, createValidationContract } from '../../../../../infrastructure';
 import { EstadoDto, EstadoFindOneResultDto } from '../../estado/dtos';
 

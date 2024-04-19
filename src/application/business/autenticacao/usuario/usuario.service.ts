@@ -1,11 +1,11 @@
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
+import * as Dtos from '@sisgea/spec';
 import { ValidationFailedException, getPaginateQueryFromSearchInput } from 'infrastructure';
 import { KeycloakService } from 'infrastructure/authentication/idp-external-connect/keycloak';
 import { UsuarioEntity } from 'infrastructure/integrate-database/typeorm/entities/autenticacao/usuario.entity';
 import { has, map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import * as Dtos from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';

@@ -1,6 +1,5 @@
+import { IEntityDate, IImagemArquivoModel } from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { IEntityDate } from '../../../../../application/business/(spec)';
-import { IImagemArquivoModel } from '../../../../../application/business/(spec)/base/imagem-arquivo';
 import { ArquivoEntity } from './arquivo.entity';
 import { ImagemEntity } from './imagem.entity';
 

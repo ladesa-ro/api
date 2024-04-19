@@ -1,7 +1,7 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import * as Dto from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import * as Dto from '../../(spec)';
 import { IContextoDeAcesso } from '../../../../domain';
 import {
   ContextoDeAcessoHttp,
