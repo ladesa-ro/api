@@ -15,7 +15,7 @@ function setupSwaggerConfig(configService: IConfig | null = null) {
 
   config.addBearerAuth();
 
-  config.addTag('API', 'SISGEA - API');
+  config.addTag('Base', 'SISGEA - Base');
 
   config.addTag('Arquivos', 'Armazenamento / Arquivos');
 
