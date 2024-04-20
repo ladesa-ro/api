@@ -1,34 +1,36 @@
 import { Int, ObjectType } from '@nestjs/graphql';
-import { EntityDeclaration, EntityDeclarationPropertyFragmentR, InferFactoryEntityType } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { __decorate, __metadata } from 'tslib';
-import { DtoProperty } from '../api-documentate';
+import { DtoProperty, IDtoPropertyOptions } from '../api-documentate';
 
-export const createEntityDtoClass = <Factory extends () => EntityDeclaration>(factory: Factory, mode: 'simple' | 'input' | 'output' = 'simple') => {
+export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarationRaw>(factory: Factory, mode: Spec.IOutputDeclarationMode = 'simple') => {
   const declaration = factory();
 
   function EntityDtoClass() {}
 
-  type EntityType = InferFactoryEntityType<typeof factory, 'output'>;
+  type EntityType = Spec.InferFactoryEntityType<typeof factory, 'output'>;
 
   for (const propertyKey in declaration.properties) {
     const declarationRaw = declaration.properties[propertyKey];
 
-    let declarationTarget: EntityDeclarationPropertyFragmentR | null = null;
+    let declarationTarget: Spec.IEntityDeclarationRawPropertySimple | null = null;
 
     switch (declarationRaw.type) {
-      case 'io': {
-        if (mode === 'input') {
-          declarationTarget = declarationRaw.input;
+      case Spec.PropertyTypes.MIXED: {
+        const declarationRawMixed = declarationRaw as Spec.IEntityDeclarationRawPropertyMixed;
+
+        if (mode === Spec.OutputDeclarationModes.INPUT) {
+          declarationTarget = declarationRawMixed.input;
         }
         if (mode === 'output') {
-          declarationTarget = declarationRaw.output;
+          declarationTarget = declarationRawMixed.output;
         }
 
         break;
       }
 
       default: {
-        declarationTarget = declarationRaw;
+        declarationTarget = declarationRaw as Spec.IEntityDeclarationRawPropertySimple;
         break;
       }
     }
@@ -36,42 +38,91 @@ export const createEntityDtoClass = <Factory extends () => EntityDeclaration>(fa
     if (declarationTarget) {
       const name = propertyKey;
 
-      let designType: any;
-      let gqlType: any = null;
+      let dtoPropertyOptions: IDtoPropertyOptions | null = {
+        description: declarationTarget.description,
+        nullable: declarationTarget.nullable,
 
-      if (declarationTarget.type === 'string' || declarationTarget.type === 'uuid') {
-        designType = String;
-        gqlType = String;
-      } else if (declarationTarget.type === 'integer') {
-        designType = Number;
-        gqlType = Int;
-      } else {
-        designType = Object;
-        gqlType = null;
+        gql: {
+          type: () => void 0,
+        },
+
+        swagger: {
+          type: 'null',
+        },
+      };
+
+      let designType: any = void 0;
+
+      switch (declarationTarget.type) {
+        case Spec.PropertyTypes.STRING: {
+          designType = String;
+          dtoPropertyOptions.gql = {
+            type: () => String,
+          };
+
+          dtoPropertyOptions.swagger = {
+            type: 'string',
+          };
+
+          break;
+        }
+
+        case Spec.PropertyTypes.UUID: {
+          designType = String;
+
+          dtoPropertyOptions.gql = {
+            type: () => String,
+          };
+
+          dtoPropertyOptions.swagger = {
+            type: 'string',
+            format: 'uuid',
+          };
+
+          break;
+        }
+
+        case Spec.PropertyTypes.INTEGER: {
+          designType = Number;
+
+          dtoPropertyOptions.gql = {
+            type: () => Int,
+          };
+
+          dtoPropertyOptions.swagger = {
+            type: 'integer',
+          };
+
+          break;
+        }
+
+        case Spec.PropertyTypes.DATE_TIME: {
+          designType = Date;
+
+          dtoPropertyOptions.gql = {
+            type: () => Date,
+          };
+
+          dtoPropertyOptions.swagger = {
+            type: 'string',
+            format: 'date-time',
+          };
+
+          break;
+        }
+
+        default: {
+          designType = void 0;
+          dtoPropertyOptions = null;
+          break;
+        }
       }
 
-      const exposeField = !name.startsWith('date') && gqlType !== null;
-
-      if (designType !== Object) {
+      if (dtoPropertyOptions !== null) {
         __decorate(
           [
             //
-            ...(exposeField
-              ? [
-                  DtoProperty({
-                    description: declarationTarget.description,
-                    nullable: declarationTarget.nullable,
-
-                    gql: {
-                      type: () => gqlType,
-                    },
-                    swagger: {
-                      type: declarationTarget.type,
-                    },
-                  }),
-                ]
-              : []),
-
+            DtoProperty(dtoPropertyOptions),
             __metadata('design:type', designType),
           ],
           EntityDtoClass.prototype,
