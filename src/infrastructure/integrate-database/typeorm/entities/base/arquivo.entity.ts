@@ -1,9 +1,9 @@
-import { IEntityDate } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ImagemArquivoEntity } from './imagem_arquivo.entity';
 
 @Entity('arquivo')
-export class ArquivoEntity {
+export class ArquivoEntity implements Spec.IArquivoModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -24,13 +24,13 @@ export class ArquivoEntity {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Spec.IEntityDate;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Spec.IEntityDate;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Spec.IEntityDate;
 
   //
 

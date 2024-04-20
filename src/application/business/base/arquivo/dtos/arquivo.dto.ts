@@ -1,17 +1,16 @@
-import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import * as yup from 'yup';
 import {
   CommonPropertyInteger,
   CommonPropertyString,
   CommonPropertyUuid,
-  DtoProperty,
   ValidationContractNumber,
   ValidationContractString,
   ValidationContractUuid,
   createDtoPropertyMap,
   createValidationContract,
 } from '../../../../../infrastructure';
+import { createEntityDtoClass } from '../../../../../infrastructure/utils/createDtoClass';
 
 // ======================================================
 
@@ -43,28 +42,6 @@ export const ArquivoDtoProperties = createDtoPropertyMap({
 
 // ======================================================
 
-@ObjectType('Arquivo')
-export class ArquivoDto implements Dto.IArquivoModel {
-  @DtoProperty(ArquivoDtoProperties.ARQUIVO_ID)
-  id!: string;
+export const ArquivoDto = createEntityDtoClass(Spec.ArquivoDeclarationFactory);
 
-  //
-
-  @DtoProperty(ArquivoDtoProperties.ARQUIVO_NOME)
-  nome!: string | null;
-
-  @DtoProperty(ArquivoDtoProperties.ARQUIVO_MIME_TYPE)
-  mimeType!: string | null;
-
-  @DtoProperty(ArquivoDtoProperties.ARQUIVO_SIZE_BYTES)
-  sizeBytes!: number | null;
-
-  @DtoProperty(ArquivoDtoProperties.ARQUIVO_STORAGE_TYPE)
-  storageType!: string | null;
-
-  //
-
-  dateCreated!: Dto.IEntityDate;
-  dateUpdated!: Dto.IEntityDate;
-  dateDeleted!: Dto.IEntityDate | null;
-}
+// ======================================================
