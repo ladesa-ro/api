@@ -4,7 +4,7 @@ import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../../domain';
-import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { CalendarioLetivoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/calendario/calendario-letivo.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
@@ -148,7 +148,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    return paginated;
+    return getPaginatedResultDto(paginated);
   }
 
   async caledarioLetivoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICalendarioLetivoFindOneByIdInputDto): Promise<Dtos.ICalendarioLetivoFindOneResultDto | null> {

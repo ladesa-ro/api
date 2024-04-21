@@ -1,27 +1,11 @@
-import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
-import { PaginatedResultDto, SearchInputDto, SearchInputValidationContract } from '../../../../../infrastructure';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
+import { SearchInputDto, SearchInputValidationContract } from '../../../../../infrastructure';
 import { createDtoOperationOptions } from '../../../../../infrastructure/api-documentate/DtoOperation';
-import { DtoProperty } from '../../../../../infrastructure/api-documentate/DtoProperty';
-import { EstadoFindOneResultDto } from './estado-find-one.operation';
-import { EstadoDto } from './estado.dto';
 
 // =============================================================
 
-@ObjectType('EstadoFindAllResult')
-export class EstadoFindAllResultDto extends PaginatedResultDto<Dto.IEstadoFindOneResultDto> implements Dto.IEstadoFindAllResultDto {
-  @DtoProperty({
-    description: 'Resultados da busca.',
-    nullable: false,
-    gql: {
-      type: () => [EstadoDto],
-    },
-    swagger: {
-      type: [EstadoFindOneResultDto],
-    },
-  })
-  data!: Dto.IEstadoFindOneResultDto[];
-}
+export const EstadoFindAllResultDto = createEntityDtoClass(Spec.EstadoFindAllResultDeclaration);
 
 // =============================================================
 

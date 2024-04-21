@@ -4,7 +4,7 @@ import { map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../../domain';
-import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { BlocoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/bloco.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
@@ -145,7 +145,7 @@ export class BlocoService {
 
     // =========================================================
 
-    return paginated;
+    return getPaginatedResultDto(paginated);
   }
 
   async blocoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IBlocoFindOneByIdInputDto): Promise<Dtos.IBlocoFindOneResultDto | null> {

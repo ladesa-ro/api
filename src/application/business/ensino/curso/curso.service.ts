@@ -4,7 +4,7 @@ import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../../domain';
-import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { CursoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/curso.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
@@ -151,7 +151,7 @@ export class CursoService {
 
     // =========================================================
 
-    return paginated;
+    return getPaginatedResultDto(paginated);
   }
 
   async cursoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.ICursoFindOneByIdInputDto): Promise<Dtos.ICursoFindOneResultDto | null> {

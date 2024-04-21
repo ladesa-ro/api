@@ -2,7 +2,7 @@ import { Int, ObjectType } from '@nestjs/graphql';
 import { IPaginatedResultDto, IPaginatedResultDtoLinks, IPaginatedResultDtoMeta } from '@sisgea/spec';
 import { DtoProperty, createDtoPropertyOptions } from '../../api-documentate';
 
-@ObjectType('PaginatedResultDtoMeta')
+@ObjectType('PaginatedResultDtoLegacyMeta')
 export class PaginatedResultDtoMeta implements IPaginatedResultDtoMeta {
   @DtoProperty(
     createDtoPropertyOptions({
@@ -61,8 +61,9 @@ export class PaginatedResultDtoMeta implements IPaginatedResultDtoMeta {
   totalPages!: number;
 
   search!: string;
-  sortBy!: [string, 'DESC' | 'ASC'][];
-  filter!: Record<string, string | string[]>;
+
+  sortBy!: any;
+  filter!: any;
 }
 
 @ObjectType()

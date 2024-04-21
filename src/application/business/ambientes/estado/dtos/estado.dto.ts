@@ -1,7 +1,7 @@
-import { ObjectType } from '@nestjs/graphql';
-import { IEstadoModel } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { CommonPropertyId, DtoProperty, ValidationContractId, ValidationContractString, createDtoPropertyMap, createDtoPropertyOptions, createValidationContract } from '../../../../../infrastructure';
+import { ValidationContractId, ValidationContractString, createValidationContract } from '../../../../../infrastructure';
 
 // ======================================================
 
@@ -26,50 +26,6 @@ export const EstadoDtoValidationContract = createValidationContract(() =>
 
 // ======================================================
 
-export const EstadoDtoProperties = createDtoPropertyMap({
-  ESTADO_ID: CommonPropertyId('ID IBGE do esatado.'),
-
-  ESTADO_NOME: createDtoPropertyOptions({
-    nullable: false,
-    description: 'Nome oficial do estado.',
-
-    gql: {
-      type: () => String,
-    },
-
-    swagger: {
-      type: 'string',
-    },
-  }),
-
-  ESTADO_SIGLA: createDtoPropertyOptions({
-    nullable: false,
-    description: 'Sigla UF oficial do estado.',
-
-    gql: {
-      type: () => String,
-    },
-
-    swagger: {
-      type: 'string',
-    },
-  }),
-});
-
-// ======================================================
-
-@ObjectType('Estado')
-export class EstadoDto implements IEstadoModel {
-  @DtoProperty(EstadoDtoProperties.ESTADO_ID)
-  id!: number;
-
-  //
-
-  @DtoProperty(EstadoDtoProperties.ESTADO_NOME)
-  nome!: string;
-
-  @DtoProperty(EstadoDtoProperties.ESTADO_SIGLA)
-  sigla!: string;
-}
+export const EstadoDto = createEntityDtoClass(Spec.EstadoDeclarationFactory);
 
 // ======================================================

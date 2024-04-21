@@ -6,7 +6,7 @@ import { map } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../../domain';
-import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 
 export interface IEstadoQueryBuilderViewOptions {}
@@ -60,7 +60,7 @@ export class EstadoService {
 
     // =========================================================
 
-    return paginated;
+    return getPaginatedResultDto(paginated);
   }
 
   async findByUf(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto) {

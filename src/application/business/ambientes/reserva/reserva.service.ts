@@ -4,7 +4,7 @@ import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../../domain';
-import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { ReservaEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/reserva.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
@@ -146,7 +146,7 @@ export class ReservaService {
 
     // =========================================================
 
-    return paginated;
+    return getPaginatedResultDto(paginated);
   }
 
   async reservaFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IReservaFindOneByIdInputDto): Promise<Dtos.IReservaFindOneResultDto | null> {

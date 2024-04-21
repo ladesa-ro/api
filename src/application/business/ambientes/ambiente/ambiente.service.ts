@@ -4,7 +4,7 @@ import { map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../../domain';
-import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { AmbienteEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/ambiente.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
@@ -51,6 +51,11 @@ export class AmbienteService {
       `${alias}.codigo`,
       `${alias}.capacidade`,
       `${alias}.tipo`,
+      //
+      `${alias}.dateCreated`,
+      `${alias}.dateUpdated`,
+      `${alias}.dateDeleted`,
+      //
     ]);
 
     const loadBloco = getQueryBuilderViewLoadMeta(options.loadBloco, true, `${alias}_bloco`);
@@ -153,7 +158,7 @@ export class AmbienteService {
 
     // =========================================================
 
-    return paginated;
+    return getPaginatedResultDto(paginated);
   }
 
   async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IAmbienteFindOneByIdInputDto): Promise<Dtos.IAmbienteFindOneResultDto | null> {

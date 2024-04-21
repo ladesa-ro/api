@@ -1,24 +1,14 @@
-import { InputType, ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractId, createDtoOperationOptions, createValidationContract, createValidationContractPickField, getSchemaField } from '../../../../../infrastructure';
-import { EstadoDto, EstadoDtoProperties, EstadoDtoValidationContract } from './estado.dto';
+import { ValidationContractId, createDtoOperationOptions, createValidationContract, createValidationContractPickField, getSchemaField } from '../../../../../infrastructure';
+import { EstadoDto, EstadoDtoValidationContract } from './estado.dto';
 
 // ======================================================
 
-@ObjectType('EstadoFindOneResult')
-export class EstadoFindOneResultDto implements Dto.IEstadoFindOneResultDto {
-  @DtoProperty(EstadoDtoProperties.ESTADO_ID)
-  id!: number;
-
-  // ==============
-
-  @DtoProperty(EstadoDtoProperties.ESTADO_NOME)
-  nome!: string;
-
-  @DtoProperty(EstadoDtoProperties.ESTADO_SIGLA)
-  sigla!: string;
-}
+export const EstadoFindOneResultDto = createEntityDtoClass(Spec.EstadoFindOneByIdResultDeclaration);
+export const EstadoFindOneByIdInputDto = createEntityDtoClass(Spec.EstadoFindOneByIdInputDeclaration, 'input');
+export const EstadoFindOneByUfInputDto = createEntityDtoClass(Spec.EstadoFindOneByUfInputDeclaration, 'input');
 
 // ======================================================
 
@@ -27,14 +17,6 @@ export const EstadoFindOneByIdInputValidationContract = createValidationContract
     id: getSchemaField(EstadoDtoValidationContract(), 'id'),
   }),
 );
-
-// ================
-
-@InputType('EstadoFindOneByIdInputDto')
-export class EstadoFindOneByIdInputDto implements Dto.IEstadoFindOneByIdInputDto {
-  @DtoProperty(EstadoDtoProperties.ESTADO_ID)
-  id!: number;
-}
 
 // ================
 
@@ -97,13 +79,5 @@ export const ESTADO_FIND_ONE_BY_UF = createDtoOperationOptions({
     ],
   },
 });
-
-// ================
-
-@InputType('EstadoFindOneByUfInputDto')
-export class EstadoFindOneByUfInputDto implements Dto.IEstadoFindOneByUfInputDto {
-  @DtoProperty(EstadoDtoProperties.ESTADO_SIGLA)
-  uf!: string;
-}
 
 // ======================================================

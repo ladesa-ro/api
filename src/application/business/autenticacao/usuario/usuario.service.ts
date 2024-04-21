@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import * as Dtos from '@sisgea/spec';
-import { ValidationFailedException, getPaginateQueryFromSearchInput } from 'infrastructure';
+import { ValidationFailedException, getPaginateQueryFromSearchInput, getPaginatedResultDto } from 'infrastructure';
 import { KeycloakService } from 'infrastructure/authentication/idp-external-connect/keycloak';
 import { UsuarioEntity } from 'infrastructure/integrate-database/typeorm/entities/autenticacao/usuario.entity';
 import { has, map, pick } from 'lodash';
@@ -173,7 +173,7 @@ export class UsuarioService {
 
     // =========================================================
 
-    return paginated;
+    return getPaginatedResultDto(paginated);
   }
 
   async usuarioFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IUsuarioFindOneByIdInputDto): Promise<Dtos.IUsuarioFindOneResultDto | null> {

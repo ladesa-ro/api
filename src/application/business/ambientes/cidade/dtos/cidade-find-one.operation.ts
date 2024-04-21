@@ -1,12 +1,12 @@
 import { InputType } from '@nestjs/graphql';
-import { ICidadeFindOneByIdInputDto, ICidadeFindOneResultDto, IEstadoFindOneResultDto } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import * as yup from 'yup';
 import { DtoProperty, ValidationContractId, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
 import { CidadeDto, CidadeDtoProperties, CidadeDtoValidationContract } from './cidade.dto';
 
 // ======================================================
 
-export class CidadeFindOneResultDto implements ICidadeFindOneResultDto {
+export class CidadeFindOneResultDto implements Spec.ICidadeFindOneResultDto {
   @DtoProperty(CidadeDtoProperties.CIDADE_ID)
   id!: number;
 
@@ -14,7 +14,7 @@ export class CidadeFindOneResultDto implements ICidadeFindOneResultDto {
   nome!: string;
 
   @DtoProperty(CidadeDtoProperties.CIDADE_ESTADO_OUTPUT)
-  estado!: IEstadoFindOneResultDto;
+  estado!: Spec.IEstadoFindOneByIdResultDto;
 }
 
 // ================
@@ -28,7 +28,7 @@ export const CidadeFindOneByIdInputValidationContract = createValidationContract
 // ================
 
 @InputType('CidadeFindOneByIdInputDto')
-export class CidadeFindOneByIdInputDto implements ICidadeFindOneByIdInputDto {
+export class CidadeFindOneByIdInputDto implements Spec.ICidadeFindOneByIdInputDto {
   @DtoProperty(CidadeDtoProperties.CIDADE_ID)
   id!: number;
 }

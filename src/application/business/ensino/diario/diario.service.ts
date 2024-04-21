@@ -4,7 +4,7 @@ import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../../domain';
-import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { DiarioEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/diario.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
@@ -148,7 +148,7 @@ export class DiarioService {
 
     // =========================================================
 
-    return paginated;
+    return getPaginatedResultDto(paginated);
   }
 
   async diarioFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioFindOneByIdInputDto): Promise<Dtos.IDiarioFindOneResultDto | null> {

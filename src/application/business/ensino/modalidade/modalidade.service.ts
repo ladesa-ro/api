@@ -4,7 +4,7 @@ import { map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../../domain';
-import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { ModalidadeEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
@@ -96,7 +96,7 @@ export class ModalidadeService {
 
     // =========================================================
 
-    return paginated;
+    return getPaginatedResultDto(paginated);
   }
 
   async modalidadeFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IModalidadeFindOneByIdInputDto): Promise<Dtos.IModalidadeFindOneResultDto | null> {

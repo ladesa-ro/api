@@ -1,16 +1,18 @@
-import { Int, ObjectType } from '@nestjs/graphql';
+import { InputType, Int, ObjectType } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { __decorate, __metadata } from 'tslib';
 import { DtoProperty, IDtoPropertyOptions } from '../api-documentate';
 
-const rootDtoClassesMap = new WeakMap<any, any>();
+const rootDtoClassesMap = new Map<any, any>();
 
-export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarationRaw<any>>(factory: Factory, mode: Spec.IOutputDeclarationMode = 'simple', dtoClassesMap = rootDtoClassesMap) => {
-  if (dtoClassesMap && dtoClassesMap.has(factory)) {
-    return dtoClassesMap.get(factory);
-  }
-
+export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarationRaw<any>>(factory: Factory, mode: Spec.IOutputDeclarationMode = 'output', dtoClassesMap = rootDtoClassesMap) => {
   const declaration = factory();
+
+  const dtoClassName = declaration.name.toLocaleLowerCase().includes('dto') ? declaration.name : `${declaration.name}Dto`;
+
+  if (dtoClassesMap && dtoClassesMap.has(dtoClassName)) {
+    return dtoClassesMap.get(dtoClassName);
+  }
 
   function EntityDtoClass() {}
 
@@ -19,13 +21,21 @@ export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarati
   const decoratedClass = __decorate(
     [
       //
-      ObjectType(declaration.name),
+      ...(mode === 'input'
+        ? [
+            //
+            InputType(declaration.name),
+          ]
+        : [
+            //
+            ObjectType(declaration.name),
+          ]),
     ],
     EntityDtoClass,
   ) as EntityType;
 
   if (dtoClassesMap) {
-    dtoClassesMap.set(factory, decoratedClass);
+    dtoClassesMap.set(dtoClassName, decoratedClass);
   }
 
   for (const propertyKey in declaration.properties) {
@@ -40,7 +50,8 @@ export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarati
         if (mode === Spec.OutputDeclarationModes.INPUT) {
           declarationTarget = declarationRawMixed.input;
         }
-        if (mode === 'output') {
+
+        if (mode === Spec.OutputDeclarationModes.OUTPUT || mode === Spec.OutputDeclarationModes.SIMPLE) {
           declarationTarget = declarationRawMixed.output;
         }
 
@@ -66,6 +77,7 @@ export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarati
 
         swagger: {
           type: 'null',
+          isArray: declarationTarget.arrayOf === true,
         },
       };
 
@@ -123,13 +135,23 @@ export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarati
         }
 
         default: {
-          if (typeof declarationTarget.type === 'function') {
-            const referencedDtoClass = createEntityDtoClass(<any>declarationTarget.type);
+          const referencedFactory = declarationTarget.type;
 
-            designType = referencedDtoClass;
+          if (typeof referencedFactory === 'function') {
+            const referencedDeclaration = referencedFactory();
 
-            dtoPropertyOptions.gql.type = gqlType(referencedDtoClass);
+            const referencedDtoClass = createEntityDtoClass(referencedFactory, mode, dtoClassesMap);
+
             dtoPropertyOptions.swagger.type = referencedDtoClass;
+
+            if (referencedDeclaration.partialOf) {
+              const referencedDtoClassFrom = createEntityDtoClass(referencedDeclaration.partialOf, mode, dtoClassesMap);
+              designType = referencedDtoClassFrom;
+              dtoPropertyOptions.gql.type = gqlType(referencedDtoClassFrom);
+            } else {
+              designType = referencedDtoClass;
+              dtoPropertyOptions.gql.type = gqlType(referencedDtoClass);
+            }
           } else {
             designType = void 0;
             dtoPropertyOptions = null;
@@ -154,7 +176,7 @@ export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarati
     }
   }
 
-  Object.defineProperty(EntityDtoClass, 'name', { value: `${declaration.name}Dto` });
+  Object.defineProperty(EntityDtoClass, 'name', { value: dtoClassName });
 
   return decoratedClass;
 };
