@@ -59,6 +59,7 @@ export class CursoService {
       CampusService.CampusQueryBuilderView(loadCampus.alias, qb, loadCampus.options);
     }
 
+    qb.leftJoin(`${alias}.modalidade`, `${alias}_modalidade`);
     AppResourceView(AppResource.MODALIDADE, qb, `${alias}_modalidade`);
 
     const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
