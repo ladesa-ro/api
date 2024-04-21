@@ -1,9 +1,7 @@
-import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
-import { IEntityDate } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { CommonPropertyUuid, DtoProperty, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
-import { ImagemArquivoDto, ImagemArquivoFindOneResultDto } from '../../imagem-arquivo/dtos';
+import { ValidationContractString, ValidationContractUuid, createValidationContract } from '../../../../../infrastructure';
 
 // ======================================================
 
@@ -17,54 +15,6 @@ export const ImagemDtoValidationContract = createValidationContract(() => {
 
 // ======================================================
 
-export const ImagemDtoProperties = createDtoPropertyMap({
-  IMAGEM_ID: CommonPropertyUuid('ID da imagem'),
-
-  IMAGEM_DESCRICAO: {
-    nullable: true,
-    description: 'Descrição da imagem.',
-    //
-    gql: {
-      type: () => String,
-    },
-    swagger: {
-      type: 'string',
-    },
-  },
-
-  IMAGEM_IMAGEM_ARQUIVO_OUTPUT: {
-    nullable: false,
-    description: 'Versões da imagem.',
-    //
-    gql: {
-      type: () => [ImagemArquivoDto],
-    },
-    swagger: {
-      type: [ImagemArquivoFindOneResultDto],
-    },
-  },
-});
-
-// ======================================================
-
-@ObjectType('Imagem')
-export class ImagemDto implements Dto.IImagemModel {
-  @DtoProperty(ImagemDtoProperties.IMAGEM_ID)
-  id!: string;
-
-  //
-
-  @DtoProperty(ImagemDtoProperties.IMAGEM_DESCRICAO)
-  descricao!: string | null;
-
-  @DtoProperty(ImagemDtoProperties.IMAGEM_IMAGEM_ARQUIVO_OUTPUT)
-  imagemArquivo!: Dto.IImagemArquivoModel[];
-
-  //
-
-  dateCreated!: IEntityDate;
-  dateUpdated!: IEntityDate;
-  dateDeleted!: IEntityDate | null;
-}
+export const ImagemDto = createEntityDtoClass(Spec.ImagemDeclarationFactory);
 
 // ======================================================

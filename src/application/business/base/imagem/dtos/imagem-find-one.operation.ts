@@ -1,23 +1,8 @@
-import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
-import { IImagemArquivoFindOneResultDto } from '@sisgea/spec';
-import { DtoProperty } from '../../../../../infrastructure';
-import { ImagemDtoProperties } from './imagem.dto';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 
 // ======================================================
 
-@ObjectType('ImagemFindOneResultDto')
-export class ImagemFindOneResultDto implements Dto.IImagemFindOneResultDto {
-  @DtoProperty(ImagemDtoProperties.IMAGEM_ID)
-  id!: string;
-
-  //
-
-  @DtoProperty(ImagemDtoProperties.IMAGEM_DESCRICAO)
-  descricao!: string | null;
-
-  @DtoProperty(ImagemDtoProperties.IMAGEM_IMAGEM_ARQUIVO_OUTPUT)
-  imagemArquivo!: Omit<IImagemArquivoFindOneResultDto, 'imagem'>[];
-}
+export const ImagemFindOneResultDto = createEntityDtoClass(Spec.ImagemFindOneResultDeclarationFactory, 'output');
 
 // ======================================================
