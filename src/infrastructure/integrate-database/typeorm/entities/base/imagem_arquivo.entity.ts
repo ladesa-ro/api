@@ -37,6 +37,9 @@ export class ImagemArquivoEntity implements IImagemArquivoModel {
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
   dateCreated!: IEntityDate;
 
+  // @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
   dateUpdated!: IEntityDate;
+
+  // @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
   dateDeleted!: IEntityDate | null;
 }

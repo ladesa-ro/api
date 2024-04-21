@@ -13,6 +13,7 @@ import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/c
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { IModalidadeQueryBuilderViewOptions, ModalidadeService } from '../modalidade/modalidade.service';
+import { AppResourceView, AppResource } from 'application/utils/qbEfficientLoad';
 
 // ============================================================================
 
@@ -70,7 +71,7 @@ export class CursoService {
 
     if (loadImagemCapa) {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      ImagemService.ImagemQueryBuilderView(loadImagemCapa.alias, qb, loadImagemCapa.options);
+      AppResourceView(AppResource.IMAGEM, qb, loadImagemCapa.alias);
     }
   }
 

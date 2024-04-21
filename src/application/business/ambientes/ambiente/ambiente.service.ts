@@ -12,6 +12,7 @@ import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../..
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { BlocoService, IBlocoQueryBuilderViewOptions } from '../bloco/bloco.service';
+import { AppResourceView, AppResource } from 'application/utils/qbEfficientLoad';
 
 // ============================================================================
 
@@ -69,7 +70,7 @@ export class AmbienteService {
 
     if (loadImagemCapa) {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      ImagemService.ImagemQueryBuilderView(loadImagemCapa.alias, qb, loadImagemCapa.options);
+      AppResourceView(AppResource.IMAGEM, qb, loadImagemCapa.alias);
     }
   }
 

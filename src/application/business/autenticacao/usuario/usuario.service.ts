@@ -1,5 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import * as Dtos from '@sisgea/spec';
+import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { ValidationFailedException, getPaginateQueryFromSearchInput, getPaginatedResultDto } from 'infrastructure';
 import { KeycloakService } from 'infrastructure/authentication/idp-external-connect/keycloak';
 import { UsuarioEntity } from 'infrastructure/integrate-database/typeorm/entities/autenticacao/usuario.entity';
@@ -73,14 +74,14 @@ export class UsuarioService {
 
     if (loadImagemCapa) {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      ImagemService.ImagemQueryBuilderView(loadImagemCapa.alias, qb, loadImagemCapa.options);
+      AppResourceView(AppResource.IMAGEM, qb, loadImagemCapa.alias);
     }
 
     const loadImagemPerfil = getQueryBuilderViewLoadMeta(options.loadImagemPerfil, true, `${alias}_imagemPerfil`);
 
     if (loadImagemPerfil) {
       qb.leftJoin(`${alias}.imagemPerfil`, `${loadImagemPerfil.alias}`);
-      ImagemService.ImagemQueryBuilderView(loadImagemPerfil.alias, qb, loadImagemPerfil.options);
+      AppResourceView(AppResource.IMAGEM, qb, loadImagemPerfil.alias);
     }
   }
 
