@@ -1,5 +1,7 @@
-import { Resolver } from '@nestjs/graphql';
+import { Info, Resolver } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
+import { GraphQLResolveInfo } from 'graphql';
+import getFieldNames from 'graphql-list-fields';
 import { IContextoDeAcesso } from '../../../../domain';
 import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
 import { GqlDtoInput } from '../../../../infrastructure/api-documentate/GqlDtoInput';
@@ -17,8 +19,16 @@ export class ModalidadeResolver {
   //
 
   @DtoOperationGqlQuery(ModalidadeOperations.MODALIDADE_FIND_ALL)
-  async modalidadeFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(ModalidadeOperations.MODALIDADE_FIND_ALL) dto: Dto.ISearchInputDto) {
-    return this.modalidadeService.modalidadeFindAll(contextoDeAcesso, dto);
+  async modalidadeFindAll(
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @GqlDtoInput(ModalidadeOperations.MODALIDADE_FIND_ALL) dto: Dto.ISearchInputDto,
+    @Info() info: GraphQLResolveInfo,
+  ) {
+    const selection = getFieldNames(<any>info)
+      .filter((i) => i.startsWith('data.'))
+      .map((i) => i.slice(i.indexOf('.') + 1));
+
+    return this.modalidadeService.modalidadeFindAll(contextoDeAcesso, dto, selection);
   }
 
   //
@@ -28,8 +38,10 @@ export class ModalidadeResolver {
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @GqlDtoInput(ModalidadeOperations.MODALIDADE_FIND_ONE_BY_ID)
     dto: Dto.IModalidadeFindOneByIdInputDto,
+    @Info() info: GraphQLResolveInfo,
   ) {
-    return this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, dto);
+    const selection = getFieldNames(<any>info);
+    return this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, dto, ['id', ...selection]);
   }
 
   //

@@ -25,7 +25,7 @@ export class ModalidadeService {
 
   //
 
-  async modalidadeFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IModalidadeFindAllResultDto> {
+  async modalidadeFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto, selection?: string[]): Promise<Dtos.IModalidadeFindAllResultDto> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
@@ -72,7 +72,7 @@ export class ModalidadeService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.MODALIDADE, qb, aliasModalidade);
+    AppResourceView(AppResource.MODALIDADE, qb, aliasModalidade, selection);
 
     // =========================================================
 
@@ -83,7 +83,7 @@ export class ModalidadeService {
     return getPaginatedResultDto(paginated);
   }
 
-  async modalidadeFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IModalidadeFindOneByIdInputDto): Promise<Dtos.IModalidadeFindOneResultDto | null> {
+  async modalidadeFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IModalidadeFindOneByIdInputDto, selection?: string[]): Promise<Dtos.IModalidadeFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
@@ -101,7 +101,7 @@ export class ModalidadeService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.MODALIDADE, qb, aliasModalidade);
+    AppResourceView(AppResource.MODALIDADE, qb, aliasModalidade, selection);
 
     // =========================================================
 
@@ -112,8 +112,8 @@ export class ModalidadeService {
     return modalidade;
   }
 
-  async modalidadeFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IModalidadeFindOneByIdInputDto) {
-    const modalidade = await this.modalidadeFindById(contextoDeAcesso, dto);
+  async modalidadeFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IModalidadeFindOneByIdInputDto, selection?: string[]) {
+    const modalidade = await this.modalidadeFindById(contextoDeAcesso, dto, selection);
 
     if (!modalidade) {
       throw new NotFoundException();
@@ -138,11 +138,7 @@ export class ModalidadeService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.MODALIDADE, qb, aliasModalidade);
-
-    if (selection) {
-      qb.select(selection);
-    }
+    AppResourceView(AppResource.MODALIDADE, qb, aliasModalidade, selection);
 
     // =========================================================
 
@@ -155,6 +151,7 @@ export class ModalidadeService {
 
   async modalidadeFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IModalidadeFindOneByIdInputDto['id'], selection?: string[]) {
     const modalidade = await this.modalidadeFindByIdSimple(contextoDeAcesso, id, selection);
+
     if (!modalidade) {
       throw new NotFoundException();
     }
