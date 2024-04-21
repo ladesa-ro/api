@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dtos from '@sisgea/spec';
+import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
@@ -10,7 +11,7 @@ import { CalendarioLetivoEntity } from '../../../../infrastructure/integrate-dat
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
-import { IModalidadeQueryBuilderViewOptions, ModalidadeService } from '../../ensino/modalidade/modalidade.service';
+import { ModalidadeService } from '../../ensino/modalidade/modalidade.service';
 
 // ============================================================================
 
@@ -20,7 +21,6 @@ const aliasCalendarioLetivo = 'calendarioLetivo';
 
 export type ICalendarioLetivoQueryBuilderViewOptions = {
   loadCampus?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
-  loadModalidade?: IQueryBuilderViewOptionsLoad<IModalidadeQueryBuilderViewOptions>;
 };
 
 // ============================================================================
@@ -54,12 +54,7 @@ export class CalendarioLetivoService {
       CampusService.CampusQueryBuilderView(loadCampus.alias, qb, loadCampus.options);
     }
 
-    const loadModalidade = getQueryBuilderViewLoadMeta(options.loadModalidade, true, `${alias}_modalidade`);
-
-    if (loadModalidade) {
-      qb.innerJoin(`${alias}.modalidade`, `${loadModalidade.alias}`);
-      ModalidadeService.ModalidadeQueryBuilderView(loadModalidade.alias, qb, loadModalidade.options);
-    }
+    AppResourceView(AppResource.MODALIDADE, qb, `${alias}_modalidade`);
   }
 
   //

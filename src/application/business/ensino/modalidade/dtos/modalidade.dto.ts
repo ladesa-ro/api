@@ -1,7 +1,7 @@
-import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import * as yup from 'yup';
-import { CommonPropertyUuid, DtoProperty, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
+import { CommonPropertyUuid, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 
 // ======================================================
 
@@ -50,22 +50,6 @@ export const ModalidadeDtoProperties = createDtoPropertyMap({
 
 // ======================================================
 
-@ObjectType('Modalidade')
-export class ModalidadeDto implements Dto.IModalidadeModel {
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_ID)
-  id!: string;
+export const ModalidadeDto = createEntityDtoClass(Spec.ModalidadeDeclarationFactory);
 
-  //
-
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_NOME)
-  nome!: string;
-
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_SLUG)
-  slug!: string;
-
-  //
-
-  dateCreated!: Dto.IEntityDate;
-  dateUpdated!: Dto.IEntityDate;
-  dateDeleted!: Dto.IEntityDate | null;
-}
+// ======================================================

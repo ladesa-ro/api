@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dtos from '@sisgea/spec';
+import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
@@ -12,8 +13,7 @@ import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../..
 import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
-import { IModalidadeQueryBuilderViewOptions, ModalidadeService } from '../modalidade/modalidade.service';
-import { AppResourceView, AppResource } from 'application/utils/qbEfficientLoad';
+import { ModalidadeService } from '../modalidade/modalidade.service';
 
 // ============================================================================
 
@@ -23,7 +23,6 @@ const aliasCurso = 'curso';
 
 export type ICursoQueryBuilderViewOptions = {
   loadCampus?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
-  loadModalidade?: IQueryBuilderViewOptionsLoad<IModalidadeQueryBuilderViewOptions>;
   loadImagemCapa?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
 };
 
@@ -60,12 +59,7 @@ export class CursoService {
       CampusService.CampusQueryBuilderView(loadCampus.alias, qb, loadCampus.options);
     }
 
-    const loadModalidade = getQueryBuilderViewLoadMeta(options.loadModalidade, true, `${alias}_modalidade`);
-
-    if (loadModalidade) {
-      qb.innerJoin(`${alias}.modalidade`, `${loadModalidade.alias}`);
-      ModalidadeService.ModalidadeQueryBuilderView(loadModalidade.alias, qb, loadModalidade.options);
-    }
+    AppResourceView(AppResource.MODALIDADE, qb, `${alias}_modalidade`);
 
     const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
 

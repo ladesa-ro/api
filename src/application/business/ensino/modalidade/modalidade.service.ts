@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dtos from '@sisgea/spec';
+import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
@@ -15,27 +15,12 @@ const aliasModalidade = 'modalidade';
 
 // ============================================================================
 
-export type IModalidadeQueryBuilderViewOptions = {};
-
-// ============================================================================
-
 @Injectable()
 export class ModalidadeService {
   constructor(private databaseContext: DatabaseContextService) {}
 
   get modalidadeRepository() {
     return this.databaseContext.modalidadeRepository;
-  }
-
-  //
-
-  static ModalidadeQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, _: IModalidadeQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.nome`,
-      `${alias}.slug`,
-    ]);
   }
 
   //
@@ -87,8 +72,7 @@ export class ModalidadeService {
     // =========================================================
 
     qb.select([]);
-
-    ModalidadeService.ModalidadeQueryBuilderView(aliasModalidade, qb, {});
+    AppResourceView(AppResource.MODALIDADE, qb, aliasModalidade);
 
     // =========================================================
 
@@ -117,8 +101,7 @@ export class ModalidadeService {
     // =========================================================
 
     qb.select([]);
-
-    ModalidadeService.ModalidadeQueryBuilderView(aliasModalidade, qb, {});
+    AppResourceView(AppResource.MODALIDADE, qb, aliasModalidade);
 
     // =========================================================
 
@@ -139,12 +122,7 @@ export class ModalidadeService {
     return modalidade;
   }
 
-  async modalidadeFindByIdSimple(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.IModalidadeFindOneByIdInputDto['id'],
-    options?: IModalidadeQueryBuilderViewOptions,
-    selection?: string[],
-  ): Promise<Dtos.IModalidadeFindOneResultDto | null> {
+  async modalidadeFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IModalidadeFindOneByIdInputDto['id'], selection?: string[]): Promise<Dtos.IModalidadeFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
@@ -160,10 +138,7 @@ export class ModalidadeService {
     // =========================================================
 
     qb.select([]);
-
-    ModalidadeService.ModalidadeQueryBuilderView(aliasModalidade, qb, {
-      ...options,
-    });
+    AppResourceView(AppResource.MODALIDADE, qb, aliasModalidade);
 
     if (selection) {
       qb.select(selection);
@@ -178,9 +153,8 @@ export class ModalidadeService {
     return modalidade;
   }
 
-  async modalidadeFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IModalidadeFindOneByIdInputDto['id'], options?: IModalidadeQueryBuilderViewOptions, selection?: string[]) {
-    const modalidade = await this.modalidadeFindByIdSimple(contextoDeAcesso, id, options, selection);
-
+  async modalidadeFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IModalidadeFindOneByIdInputDto['id'], selection?: string[]) {
+    const modalidade = await this.modalidadeFindByIdSimple(contextoDeAcesso, id, selection);
     if (!modalidade) {
       throw new NotFoundException();
     }

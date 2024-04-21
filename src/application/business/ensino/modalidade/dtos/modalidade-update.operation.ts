@@ -1,11 +1,10 @@
-import { InputType } from '@nestjs/graphql';
-import { OmitType } from '@nestjs/swagger';
-import { IModalidadeUpdateDto } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { ModalidadeFindOneByIdInputValidationContract, ModalidadeFindOneResultDto } from './modalidade-find-one.operation';
 import { ModalidadeInputDtoValidationContract } from './modalidade-input.operation';
-import { ModalidadeDto, ModalidadeDtoProperties } from './modalidade.dto';
+import { ModalidadeDto } from './modalidade.dto';
 
 // ======================================================
 
@@ -22,19 +21,7 @@ export const ModalidadeUpdateInputDtoValidationContract = createValidationContra
 
 // ======================================================
 
-@InputType('ModalidadeUpdateInputDto')
-export class ModalidadeUpdateInputDto implements IModalidadeUpdateDto {
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_ID)
-  id!: string;
-
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_NOME, { required: false })
-  nome?: string;
-
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_SLUG, { required: false })
-  slug?: string;
-}
-
-export class ModalidadeUpdateWithoutIdInputDto extends OmitType(ModalidadeUpdateInputDto, ['id'] as const) {}
+export const ModalidadeUpdateInputDto = createEntityDtoClass(Spec.ModalidadeUpdateDeclaration, 'input');
 
 // ======================================================
 
@@ -51,7 +38,7 @@ export const MODALIDADE_UPDATE = createDtoOperationOptions({
   },
 
   swagger: {
-    inputBodyType: ModalidadeUpdateWithoutIdInputDto,
+    inputBodyType: ModalidadeUpdateInputDto,
 
     inputBodyValidationContract: createValidationContract(() => ModalidadeUpdateInputDtoValidationContract().omit(['id'])),
 

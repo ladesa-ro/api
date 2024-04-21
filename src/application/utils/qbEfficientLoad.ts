@@ -6,6 +6,7 @@ export enum AppResource {
   ARQUIVO = 'Arquivo',
   IMAGEM = 'Imagem',
   IMAGEM_ARQUIVO = 'ImagemArquivo',
+  MODALIDADE = 'Modalidade',
 }
 
 type ILoadStrategy = {
@@ -29,6 +30,11 @@ const loadStrategies: ILoadStrategy[] = [
     resource: AppResource.IMAGEM_ARQUIVO,
     declarationFactory: Spec.ImagemArquivoDeclarationFactory,
     allowedProperties: ['id', 'largura', 'altura', 'formato', 'mimeType', 'arquivo', 'dateCreated'],
+  },
+  {
+    resource: AppResource.MODALIDADE,
+    declarationFactory: Spec.ModalidadeDeclarationFactory,
+    allowedProperties: ['id', 'nome', 'slug', 'dateCreated', 'dateUpdated', 'dateDeleted'],
   },
 ];
 
@@ -66,12 +72,14 @@ export const AppResourceView = (resource: AppResource | string, qb: SelectQueryB
         if (typeof property.type === 'function') {
           const childDeclaration = property.type();
 
+          const childDeclarationOriginal = childDeclaration.partialOf?.() ?? childDeclaration;
+
           const childSelection = selection === true ? true : uniq(selection.filter((i) => i.startsWith(`${propertyKey}.`)).map((i) => i.slice(i.indexOf('.') + 1)));
 
           const childAlias = `${alias}_${propertyKey[0]}${counter}`;
 
           qb.leftJoin(`${alias}.${propertyKey}`, childAlias);
-          AppResourceView(childDeclaration.name, qb, childAlias, childSelection);
+          AppResourceView(childDeclarationOriginal.name, qb, childAlias, childSelection);
         } else {
           qb.addSelect(`${alias}.${propertyKey}`);
         }

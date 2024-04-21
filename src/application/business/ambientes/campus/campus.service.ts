@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dto from '@sisgea/spec';
+import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { get, has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
@@ -11,7 +12,7 @@ import { CampusEntity } from '../../../../infrastructure/integrate-database/type
 import { ModalidadeEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
-import { IModalidadeQueryBuilderViewOptions, ModalidadeService } from '../../ensino/modalidade/modalidade.service';
+import { ModalidadeService } from '../../ensino/modalidade/modalidade.service';
 import { EnderecoService, IEnderecoQueryBuilderViewOptions } from '../endereco/endereco.service';
 
 // ============================================================================
@@ -22,7 +23,6 @@ const aliasCampus = 'campus';
 
 export type ICampusQueryBuilderViewOptions = {
   loadEndereco?: IQueryBuilderViewOptionsLoad<IEnderecoQueryBuilderViewOptions>;
-  loadModalidades?: IQueryBuilderViewOptionsLoad<IModalidadeQueryBuilderViewOptions>;
 };
 
 // ============================================================================
@@ -62,16 +62,16 @@ export class CampusService {
       EnderecoService.EnderecoQueryBuilderView(loadEndereco.alias, qb, loadEndereco.options);
     }
 
-    const loadModalidades = getQueryBuilderViewLoadMeta(options.loadModalidades, true, `${alias}_modalidade`);
+    {
+      const loadModalidadesAlias = `${alias}_modalidade`;
 
-    if (loadModalidades) {
       const aliasCampusPossuiModalidade = `${alias}_campus_possui_modalidade`;
       qb.leftJoin(`${alias}.campusPossuiModalidade`, aliasCampusPossuiModalidade);
 
-      qb.leftJoinAndMapMany(`${alias}.modalidades`, ModalidadeEntity, `${loadModalidades.alias}`, `${loadModalidades.alias}.id = ${aliasCampusPossuiModalidade}.id_modalidade_fk`);
+      qb.leftJoinAndMapMany(`${alias}.modalidades`, ModalidadeEntity, `${loadModalidadesAlias}`, `${loadModalidadesAlias}.id = ${aliasCampusPossuiModalidade}.id_modalidade_fk`);
       qb.expressionMap.selects.splice(qb.expressionMap.selects.length - 1, 1);
 
-      ModalidadeService.ModalidadeQueryBuilderView(loadModalidades.alias, qb, loadModalidades.options);
+      AppResourceView(AppResource.MODALIDADE, qb, loadModalidadesAlias);
     }
   }
 
