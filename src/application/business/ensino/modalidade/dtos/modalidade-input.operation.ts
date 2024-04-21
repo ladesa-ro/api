@@ -1,8 +1,8 @@
-import { InputType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { ModalidadeDtoProperties, ModalidadeDtoValidationContract } from './modalidade.dto';
+import { createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { ModalidadeDtoValidationContract } from './modalidade.dto';
 
 // ======================================================
 
@@ -17,11 +17,6 @@ export const ModalidadeInputDtoValidationContract = createValidationContract(() 
 
 // ======================================================
 
-@InputType('ModalidadeInputDto')
-export class ModalidadeInputDto implements Dto.IModalidadeInputDto {
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_NOME)
-  nome!: string;
+export const ModalidadeInputDto = createEntityDtoClass(Spec.ModalidadeInputDeclaration, 'input');
 
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_SLUG)
-  slug!: string;
-}
+// ======================================================

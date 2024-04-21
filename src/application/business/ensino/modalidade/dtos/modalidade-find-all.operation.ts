@@ -1,25 +1,10 @@
-import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
-import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
-import { ModalidadeFindOneResultDto } from './modalidade-find-one.operation';
-import { ModalidadeDto } from './modalidade.dto';
+import * as Spec from '@sisgea/spec';
+import { SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 
 // ======================================================
 
-@ObjectType('ModalidadeFindAllResult')
-export class ModalidadeFindAllResultDto extends PaginatedResultDto<Dto.IModalidadeFindOneResultDto> implements Dto.IModalidadeFindAllResultDto {
-  @DtoProperty({
-    description: 'Resultados da busca.',
-    nullable: false,
-    gql: {
-      type: () => [ModalidadeDto],
-    },
-    swagger: {
-      type: [ModalidadeFindOneResultDto],
-    },
-  })
-  data!: Dto.IModalidadeFindOneResultDto[];
-}
+export const ModalidadeFindAllResultDto = createEntityDtoClass(Spec.ModalidadeFindAllResultDeclaration, 'output');
 
 // =============================================================
 

@@ -13,6 +13,7 @@ import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambient
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { CursoService, ICursoQueryBuilderViewOptions } from '../curso/curso.service';
+import { AppResourceView, AppResource } from 'application/utils/qbEfficientLoad';
 
 // ============================================================================
 
@@ -71,7 +72,7 @@ export class TurmaService {
 
     if (loadImagemCapa) {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      ImagemService.ImagemQueryBuilderView(loadImagemCapa.alias, qb, loadImagemCapa.options);
+      AppResourceView(AppResource.IMAGEM, qb, loadImagemCapa.alias);
     }
   }
 

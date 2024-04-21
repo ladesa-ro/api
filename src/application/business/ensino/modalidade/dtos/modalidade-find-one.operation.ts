@@ -1,23 +1,13 @@
-import { InputType, ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { ModalidadeDto, ModalidadeDtoProperties, ModalidadeDtoValidationContract } from './modalidade.dto';
+import { ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { ModalidadeDto, ModalidadeDtoValidationContract } from './modalidade.dto';
 
 // ======================================================
 
-@ObjectType('ModalidadeFindOneResultDto')
-export class ModalidadeFindOneResultDto implements Dto.IModalidadeFindOneResultDto {
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_ID)
-  id!: string;
-
-  //
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_NOME)
-  nome!: string;
-
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_SLUG)
-  slug!: string;
-}
+export const ModalidadeFindOneResultDto = createEntityDtoClass(Spec.ModalidadeFindOneResultDeclaration, 'output');
+export const ModalidadeFindOneByIdInputDto = createEntityDtoClass(Spec.ModalidadeFindOneByIdInputDeclaration, 'input');
 
 // ======================================================
 
@@ -26,14 +16,6 @@ export const ModalidadeFindOneByIdInputValidationContract = createValidationCont
     id: getSchemaField(ModalidadeDtoValidationContract(), 'id'),
   }),
 );
-
-// ======================================================
-
-@InputType('ModalidadeFindOneByIdInputDto')
-export class ModalidadeFindOneByIdInputDto implements Dto.IModalidadeFindOneByIdInputDto {
-  @DtoProperty(ModalidadeDtoProperties.MODALIDADE_ID)
-  id!: string;
-}
 
 // ======================================================
 
