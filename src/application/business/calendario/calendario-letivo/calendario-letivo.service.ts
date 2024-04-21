@@ -54,6 +54,7 @@ export class CalendarioLetivoService {
       CampusService.CampusQueryBuilderView(loadCampus.alias, qb, loadCampus.options);
     }
 
+    qb.leftJoin(`${alias}.modalidade`, `${alias}_modalidade`);
     AppResourceView(AppResource.MODALIDADE, qb, `${alias}_modalidade`);
   }
 
