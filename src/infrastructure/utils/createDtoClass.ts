@@ -89,6 +89,7 @@ export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarati
         swagger: {
           type: 'null',
           isArray: declarationTarget.arrayOf === true,
+          required: declarationTarget.required !== false,
         },
       };
 

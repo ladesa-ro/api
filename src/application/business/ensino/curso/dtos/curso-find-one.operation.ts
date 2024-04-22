@@ -1,37 +1,13 @@
-import { InputType, ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
-import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
-import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';
+import { CursoFindOneByIdInputDeclarationFactory, CursoFindOneResultDeclaration } from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { CursoDto, CursoDtoProperties, CursoDtoValidationContract } from './curso.dto';
+import { ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { CursoDto, CursoDtoValidationContract } from './curso.dto';
 
 // ======================================================
 
-@ObjectType('CursoFindOneResultDto')
-export class CursoFindOneResultDto implements Dto.ICursoFindOneResultDto {
-  @DtoProperty(CursoDtoProperties.CURSO_ID)
-  id!: string;
-
-  //
-
-  @DtoProperty(CursoDtoProperties.CURSO_NOME)
-  nome!: string;
-
-  @DtoProperty(CursoDtoProperties.CURSO_NOME_ABREVIADO)
-  nomeAbreviado!: string;
-
-  @DtoProperty(CursoDtoProperties.CURSO_CAMPUS_OUTPUT)
-  campus!: CampusEntity;
-
-  @DtoProperty(CursoDtoProperties.CURSO_MODALIDADE_OUTPUT)
-  modalidade!: ModalidadeEntity;
-
-  @DtoProperty(CursoDtoProperties.CURSO_IMAGEM_CAPA_OUTPUT)
-  imagemCapa!: Dto.IImagemModel | null;
-
-  //
-}
+export const CursoFindOneResultDto = createEntityDtoClass(CursoFindOneResultDeclaration, 'output');
+export const CursoFindOneByIdInputDto = createEntityDtoClass(CursoFindOneByIdInputDeclarationFactory, 'input');
 
 // ======================================================
 
@@ -42,12 +18,6 @@ export const CursoFindOneByIdInputValidationContract = createValidationContract(
 );
 
 // ======================================================
-
-@InputType('CursoFindOneByIdInputDto')
-export class CursoFindOneByIdInputDto implements Dto.ICursoFindOneByIdInputDto {
-  @DtoProperty(CursoDtoProperties.CURSO_ID)
-  id!: string;
-}
 
 export const CURSO_FIND_ONE_BY_ID = createDtoOperationOptions({
   description: 'Realiza a consulta a "curso"" por ID.',

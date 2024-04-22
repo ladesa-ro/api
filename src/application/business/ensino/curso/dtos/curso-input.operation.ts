@@ -1,8 +1,8 @@
-import { InputType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import { CursoInputDeclaration } from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { CursoDtoProperties, CursoDtoValidationContract } from './curso.dto';
+import { createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { CursoDtoValidationContract } from './curso.dto';
 
 // ======================================================
 
@@ -24,21 +24,4 @@ export const CursoInputDtoValidationContract = createValidationContract(() => {
 
 // ======================================================
 
-@InputType('CursoInputDto')
-export class CursoInputDto implements Dto.ICursoInputDto {
-  //
-
-  @DtoProperty(CursoDtoProperties.CURSO_NOME)
-  nome!: string;
-
-  @DtoProperty(CursoDtoProperties.CURSO_NOME_ABREVIADO)
-  nomeAbreviado!: string;
-
-  @DtoProperty(CursoDtoProperties.CURSO_CAMPUS_INPUT)
-  campus!: Dto.ICampusModel;
-
-  @DtoProperty(CursoDtoProperties.CURSO_MODALIDADE_INPUT)
-  modalidade!: Dto.IModalidadeModel;
-
-  //
-}
+export const CursoInputDto = createEntityDtoClass(CursoInputDeclaration, 'input');

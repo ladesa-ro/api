@@ -1,13 +1,10 @@
-import { InputType } from '@nestjs/graphql';
-import { OmitType } from '@nestjs/swagger';
-import { ICursoUpdateDto } from '@sisgea/spec';
-import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
-import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';
+import { CursoUpdateDeclaration } from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CursoFindOneByIdInputValidationContract, CursoFindOneResultDto } from './curso-find-one.operation';
 import { CursoInputDtoValidationContract } from './curso-input.operation';
-import { CursoDto, CursoDtoProperties } from './curso.dto';
+import { CursoDto } from './curso.dto';
 
 // ======================================================
 
@@ -29,29 +26,8 @@ export const CursoUpdateInputDtoValidationContract = createValidationContract(()
 
 // ======================================================
 
-@InputType('CursoUpdateInputDto')
-export class CursoUpdateInputDto implements ICursoUpdateDto {
-  @DtoProperty(CursoDtoProperties.CURSO_ID)
-  id!: string;
+export const CursoUpdateInputDto = createEntityDtoClass(CursoUpdateDeclaration, 'input');
 
-  //
-
-  @DtoProperty(CursoDtoProperties.CURSO_NOME, { required: false })
-  nome?: string;
-
-  @DtoProperty(CursoDtoProperties.CURSO_NOME_ABREVIADO, { required: false })
-  nomeAbreviado?: string;
-
-  @DtoProperty(CursoDtoProperties.CURSO_CAMPUS_INPUT, { required: false })
-  campus?: CampusEntity;
-
-  @DtoProperty(CursoDtoProperties.CURSO_MODALIDADE_INPUT, { required: false })
-  modalidade?: ModalidadeEntity;
-
-  //
-}
-
-export class CursoUpdateWithoutIdInputDto extends OmitType(CursoUpdateInputDto, ['id'] as const) {}
 export const CURSO_UPDATE = createDtoOperationOptions({
   description: 'Realiza a alteração de "curso".',
 
@@ -65,7 +41,7 @@ export const CURSO_UPDATE = createDtoOperationOptions({
   },
 
   swagger: {
-    inputBodyType: CursoUpdateWithoutIdInputDto,
+    inputBodyType: CursoUpdateInputDto,
 
     inputBodyValidationContract: createValidationContract(() => CursoUpdateInputDtoValidationContract().omit(['id'])),
 
@@ -80,3 +56,5 @@ export const CURSO_UPDATE = createDtoOperationOptions({
     returnType: CursoFindOneResultDto,
   },
 });
+
+// ======================================================

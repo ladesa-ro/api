@@ -1,7 +1,7 @@
 import * as Spec from '@sisgea/spec';
-import * as yup from 'yup';
-import { CommonPropertyUuid, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
 import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
+import * as yup from 'yup';
+import { ValidationContractString, ValidationContractUuid, createValidationContract } from '../../../../../infrastructure';
 
 // ======================================================
 
@@ -16,36 +16,6 @@ export const ModalidadeDtoValidationContract = createValidationContract(() => {
 
     //
   });
-});
-
-// ======================================================
-
-export const ModalidadeDtoProperties = createDtoPropertyMap({
-  MODALIDADE_ID: CommonPropertyUuid('ID da Modalidade'),
-
-  MODALIDADE_NOME: {
-    nullable: false,
-    description: 'Nome da Modalidade.',
-    //
-    gql: {
-      type: () => String,
-    },
-    swagger: {
-      type: 'string',
-    },
-  },
-
-  MODALIDADE_SLUG: {
-    nullable: false,
-    description: 'Slug da Modalidade.',
-    //
-    gql: {
-      type: () => String,
-    },
-    swagger: {
-      type: 'string',
-    },
-  },
 });
 
 // ======================================================
