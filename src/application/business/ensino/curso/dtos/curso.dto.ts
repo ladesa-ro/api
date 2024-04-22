@@ -4,33 +4,14 @@ import { CampusDto, CampusFindOneResultDto } from 'application/business/ambiente
 import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
 import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';
 import * as yup from 'yup';
-import {
-  CommonPropertyUuid,
-  DtoProperty,
-  ObjectUuidDto,
-  ValidationContractObjectUuidBase,
-  ValidationContractString,
-  ValidationContractUuid,
-  createDtoPropertyMap,
-  createValidationContract,
-} from '../../../../../infrastructure';
+import { CommonPropertyUuid, DtoProperty, ObjectUuidDto, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
 import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/dtos';
 import { ModalidadeDto, ModalidadeFindOneResultDto } from '../../modalidade/dtos';
 
 // ======================================================
 
 export const CursoDtoValidationContract = createValidationContract(() => {
-  return yup.object({
-    id: ValidationContractUuid(),
-
-    //
-    nome: ValidationContractString().required().nonNullable(),
-    nomeAbreviado: ValidationContractString().required().nonNullable(),
-    //
-
-    campus: ValidationContractObjectUuidBase({ required: true, optional: false }),
-    modalidade: ValidationContractObjectUuidBase({ required: true, optional: false }),
-  });
+  return new Dto.CursoValidationContract().constructYupSchema(yup);
 });
 
 // ======================================================
