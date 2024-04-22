@@ -62,9 +62,8 @@ export class ModalidadeService {
         //
       ],
       defaultSortBy: [
-        ['slug', 'ASC'],
-        ['nome', 'ASC'],
         ['dateCreated', 'ASC'],
+        ['nome', 'ASC'],
       ],
       filterableColumns: {},
     });
