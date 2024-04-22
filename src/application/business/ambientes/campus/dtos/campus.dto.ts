@@ -4,7 +4,7 @@ import { uniqBy } from 'lodash';
 import * as yup from 'yup';
 import {
   CommonPropertyUuid,
-  ObjectUuidDtoLegacy,
+  ObjectUuidDto,
   ValidationContractObjectUuidBase,
   ValidationContractString,
   ValidationContractUuid,
@@ -121,10 +121,10 @@ export const CampusDtoProperties = createDtoPropertyMap({
     description: 'Modalidades do campus.',
     //
     gql: {
-      type: () => [ObjectUuidDtoLegacy],
+      type: () => [ObjectUuidDto],
     },
     swagger: {
-      type: () => [ObjectUuidDtoLegacy],
+      type: () => [ObjectUuidDto],
     },
   },
 

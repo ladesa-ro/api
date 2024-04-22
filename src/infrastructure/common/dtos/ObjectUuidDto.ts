@@ -1,9 +1,4 @@
-import { InputType } from '@nestjs/graphql';
-import { DtoProperty } from '../../api-documentate';
-import { CommonPropertyUuid } from '../CommonPropertyUuid';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 
-@InputType('ObjectUuidDtoLegacy')
-export class ObjectUuidDtoLegacy {
-  @DtoProperty(CommonPropertyUuid())
-  id!: string;
-}
+export const ObjectUuidDto = createEntityDtoClass(Spec.ObjectUuidDeclarationFactory, 'input');

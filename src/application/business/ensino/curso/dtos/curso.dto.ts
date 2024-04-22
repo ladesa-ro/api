@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import {
   CommonPropertyUuid,
   DtoProperty,
-  ObjectUuidDtoLegacy,
+  ObjectUuidDto,
   ValidationContractObjectUuidBase,
   ValidationContractString,
   ValidationContractUuid,
@@ -68,10 +68,10 @@ export const CursoDtoProperties = createDtoPropertyMap({
     description: 'Campus que o curso pertence.',
     //
     gql: {
-      type: () => ObjectUuidDtoLegacy,
+      type: () => ObjectUuidDto,
     },
     swagger: {
-      type: ObjectUuidDtoLegacy,
+      type: ObjectUuidDto,
     },
   },
   // ===================
@@ -92,10 +92,10 @@ export const CursoDtoProperties = createDtoPropertyMap({
     description: 'Modalidade a que o curso pertence.',
     //
     gql: {
-      type: () => ObjectUuidDtoLegacy,
+      type: () => ObjectUuidDto,
     },
     swagger: {
-      type: ObjectUuidDtoLegacy,
+      type: ObjectUuidDto,
     },
   },
   // ===================

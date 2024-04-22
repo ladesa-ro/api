@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import {
   CommonPropertyUuid,
   DtoProperty,
-  ObjectUuidDtoLegacy,
+  ObjectUuidDto,
   ValidationContractObjectUuidBase,
   ValidationContractString,
   ValidationContractUuid,
@@ -101,10 +101,10 @@ export const ReservaDtoProperties = createDtoPropertyMap({
     description: 'Ambiente que foi reservado.',
     //
     gql: {
-      type: () => ObjectUuidDtoLegacy,
+      type: () => ObjectUuidDto,
     },
     swagger: {
-      type: ObjectUuidDtoLegacy,
+      type: ObjectUuidDto,
     },
   },
   RESERVA_AMBIENTE_OUTPUT: {
@@ -124,10 +124,10 @@ export const ReservaDtoProperties = createDtoPropertyMap({
     description: 'Usuário que fez a reserva.',
     //
     gql: {
-      type: () => ObjectUuidDtoLegacy,
+      type: () => ObjectUuidDto,
     },
     swagger: {
-      type: ObjectUuidDtoLegacy,
+      type: ObjectUuidDto,
     },
   },
   RESERVA_USUARIO_OUTPUT: {
