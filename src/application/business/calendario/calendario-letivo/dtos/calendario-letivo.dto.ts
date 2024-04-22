@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import {
   CommonPropertyUuid,
   DtoProperty,
-  ObjectUuidDto,
+  ObjectUuidDtoLegacy,
   ValidationContractNumber,
   ValidationContractObjectUuidBase,
   ValidationContractString,
@@ -60,10 +60,10 @@ export const CalendarioLetivoDtoProperties = createDtoPropertyMap({
     description: 'Campus que o calendario letivo pertence',
     //
     gql: {
-      type: () => ObjectUuidDto,
+      type: () => ObjectUuidDtoLegacy,
     },
     swagger: {
-      type: ObjectUuidDto,
+      type: ObjectUuidDtoLegacy,
     },
   },
 
@@ -84,10 +84,10 @@ export const CalendarioLetivoDtoProperties = createDtoPropertyMap({
     nullable: false,
     description: 'Modalidade a que o calendario letivo pertence.',
     gql: {
-      type: () => ObjectUuidDto,
+      type: () => ObjectUuidDtoLegacy,
     },
     swagger: {
-      type: ObjectUuidDto,
+      type: ObjectUuidDtoLegacy,
     },
   },
 

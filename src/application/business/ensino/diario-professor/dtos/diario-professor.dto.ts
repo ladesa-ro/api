@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import { CommonPropertyUuid, DtoProperty, ObjectUuidDto, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
+import { CommonPropertyUuid, DtoProperty, ObjectUuidDtoLegacy, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
 import { UsuarioVinculoCampusDto, UsuarioVinculoCampusFindOneResultDto } from '../../../autenticacao/usuario-vinculo-campus/dtos';
 import { DiarioDto, DiarioFindOneResultDto } from '../../diario/dtos';
 
@@ -41,10 +41,10 @@ export const DiarioProfessorDtoProperties = createDtoPropertyMap({
     description: 'Diário do vínculo.',
     //
     gql: {
-      type: () => ObjectUuidDto,
+      type: () => ObjectUuidDtoLegacy,
     },
     swagger: {
-      type: ObjectUuidDto,
+      type: ObjectUuidDtoLegacy,
     },
   },
 
@@ -65,10 +65,10 @@ export const DiarioProfessorDtoProperties = createDtoPropertyMap({
     description: 'Vínculo de usuário-professor.',
     //
     gql: {
-      type: () => ObjectUuidDto,
+      type: () => ObjectUuidDtoLegacy,
     },
     swagger: {
-      type: ObjectUuidDto,
+      type: ObjectUuidDtoLegacy,
     },
   },
 

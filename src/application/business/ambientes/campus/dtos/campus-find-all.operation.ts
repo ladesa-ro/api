@@ -1,27 +1,12 @@
-import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
-import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
-import { CampusFindOneResultDto } from './campus-find-one.operation';
-import { CampusDto } from './campus.dto';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
+import { SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
 
 // =============================================================
 
-@ObjectType('CampusFindAllResult')
-export class CampusFindAllResultDto extends PaginatedResultDto<Dto.ICampusFindOneResultDto> implements Dto.ICampusFindAllResultDto {
-  @DtoProperty({
-    description: 'Resultados da busca.',
-    nullable: false,
-    gql: {
-      type: () => [CampusDto],
-    },
-    swagger: {
-      type: [CampusFindOneResultDto],
-    },
-  })
-  data!: Dto.ICampusFindOneResultDto[];
-}
+export const CampusFindAllResultDto = createEntityDtoClass(Spec.CampusFindAllResultDeclaration, 'output');
 
-// ===================
+// =============================================================
 
 export const CAMPUS_FIND_ALL = createDtoOperationOptions({
   description: 'Listagem de todos os campi cadastrados no sistema.',
@@ -52,3 +37,5 @@ export const CAMPUS_FIND_ALL = createDtoOperationOptions({
     ],
   },
 });
+
+// =============================================================

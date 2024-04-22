@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import {
   CommonPropertyUuid,
   DtoProperty,
-  ObjectUuidDto,
+  ObjectUuidDtoLegacy,
   ValidationContractNumber,
   ValidationContractObjectUuidBase,
   ValidationContractString,
@@ -93,10 +93,10 @@ export const DiarioDtoProperties = createDtoPropertyMap({
     description: 'Turma que o diario pertence',
     //
     gql: {
-      type: () => ObjectUuidDto,
+      type: () => ObjectUuidDtoLegacy,
     },
     swagger: {
-      type: ObjectUuidDto,
+      type: ObjectUuidDtoLegacy,
     },
   },
 
@@ -120,10 +120,10 @@ export const DiarioDtoProperties = createDtoPropertyMap({
     description: 'disciplina a qual o diario pertence',
     //
     gql: {
-      type: () => ObjectUuidDto,
+      type: () => ObjectUuidDtoLegacy,
     },
     swagger: {
-      type: ObjectUuidDto,
+      type: ObjectUuidDtoLegacy,
     },
   },
 
@@ -133,10 +133,10 @@ export const DiarioDtoProperties = createDtoPropertyMap({
     description: 'Ambiente Padrao do diario',
     //
     gql: {
-      type: () => ObjectUuidDto,
+      type: () => ObjectUuidDtoLegacy,
     },
     swagger: {
-      type: ObjectUuidDto,
+      type: ObjectUuidDtoLegacy,
     },
   },
 

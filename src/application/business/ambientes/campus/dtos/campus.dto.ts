@@ -1,11 +1,10 @@
-import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import { uniqBy } from 'lodash';
 import * as yup from 'yup';
 import {
   CommonPropertyUuid,
-  DtoProperty,
-  ObjectUuidDto,
+  ObjectUuidDtoLegacy,
   ValidationContractObjectUuidBase,
   ValidationContractString,
   ValidationContractUuid,
@@ -122,10 +121,10 @@ export const CampusDtoProperties = createDtoPropertyMap({
     description: 'Modalidades do campus.',
     //
     gql: {
-      type: () => [ObjectUuidDto],
+      type: () => [ObjectUuidDtoLegacy],
     },
     swagger: {
-      type: () => [ObjectUuidDto],
+      type: () => [ObjectUuidDtoLegacy],
     },
   },
 
@@ -144,36 +143,6 @@ export const CampusDtoProperties = createDtoPropertyMap({
 
 // ======================================================
 
-@ObjectType('Campus')
-export class CampusDto implements Dto.ICampusModel {
-  @DtoProperty(CampusDtoProperties.CAMPUS_ID)
-  id!: string;
-
-  //
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_NOME_FANTASIA)
-  nomeFantasia!: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_RAZAO_SOCIAL)
-  razaoSocial!: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_APELIDO)
-  apelido!: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_CNPJ)
-  cnpj!: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_ENDERECO_OUTPUT)
-  endereco!: Dto.IEnderecoModel;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_MODALIDADES_OUTPUT)
-  modalidades!: Dto.IModalidadeModel[];
-
-  //
-
-  dateCreated!: Dto.IEntityDate;
-  dateUpdated!: Dto.IEntityDate;
-  dateDeleted!: Dto.IEntityDate | null;
-}
+export const CampusDto = createEntityDtoClass(Spec.CampusDeclarationFactory);
 
 // ======================================================

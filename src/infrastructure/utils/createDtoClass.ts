@@ -5,10 +5,23 @@ import { DtoProperty, IDtoPropertyOptions } from '../api-documentate';
 
 const rootDtoClassesMap = new Map<any, any>();
 
-export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarationRaw<any>>(factory: Factory, mode: Spec.IOutputDeclarationMode = 'output', dtoClassesMap = rootDtoClassesMap) => {
+export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarationRaw<any>>(
+  factory: Factory,
+  mode: Spec.IOutputDeclarationMode = 'output',
+  dtoClassesMap = rootDtoClassesMap,
+  parent = '',
+) => {
   const declaration = factory();
 
-  const dtoClassName = declaration.name.toLocaleLowerCase().includes('dto') ? declaration.name : `${declaration.name}Dto`;
+  let dtoClassName = declaration.name;
+
+  if (mode === 'input' && !dtoClassName.toLocaleLowerCase().includes('input')) {
+    dtoClassName = `${dtoClassName}Input`;
+  }
+
+  if (!dtoClassName.toLocaleLowerCase().includes('dto')) {
+    dtoClassName = `${dtoClassName}Dto`;
+  }
 
   if (dtoClassesMap && dtoClassesMap.has(dtoClassName)) {
     return dtoClassesMap.get(dtoClassName);
@@ -16,23 +29,21 @@ export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarati
 
   function EntityDtoClass() {}
 
-  type EntityType = Spec.InferFactoryEntityType<typeof factory, 'output'>;
-
   const decoratedClass = __decorate(
     [
       //
       ...(mode === 'input'
         ? [
             //
-            InputType(declaration.name),
+            InputType(dtoClassName),
           ]
         : [
             //
-            ObjectType(declaration.name),
+            ObjectType(dtoClassName),
           ]),
     ],
     EntityDtoClass,
-  ) as EntityType;
+  );
 
   if (dtoClassesMap) {
     dtoClassesMap.set(dtoClassName, decoratedClass);
@@ -140,12 +151,12 @@ export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarati
           if (typeof referencedFactory === 'function') {
             const referencedDeclaration = referencedFactory();
 
-            const referencedDtoClass = createEntityDtoClass(referencedFactory, mode, dtoClassesMap);
+            const referencedDtoClass = createEntityDtoClass(referencedFactory, mode, dtoClassesMap, `${parent}.${propertyKey}`);
 
             dtoPropertyOptions.swagger.type = referencedDtoClass;
 
             if (referencedDeclaration.partialOf) {
-              const referencedDtoClassFrom = createEntityDtoClass(referencedDeclaration.partialOf, mode, dtoClassesMap);
+              const referencedDtoClassFrom = createEntityDtoClass(referencedDeclaration.partialOf, mode, dtoClassesMap, `${parent}.${propertyKey}Original`);
               designType = referencedDtoClassFrom;
               dtoPropertyOptions.gql.type = gqlType(referencedDtoClassFrom);
             } else {

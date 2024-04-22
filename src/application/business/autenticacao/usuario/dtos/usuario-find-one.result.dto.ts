@@ -8,7 +8,7 @@ import { UsuarioDtoProperties } from './usuario.dto';
 
 // ======================================================
 
-export class UsuarioFindOneResultDtoVinculoAtivoCampus extends PickType(CampusFindOneResultDto, ['id', 'nomeFantasia', 'razaoSocial', 'apelido'] as const) {}
+export class UsuarioFindOneResultDtoVinculoAtivoCampus extends (PickType as any)(CampusFindOneResultDto, ['id', 'nomeFantasia', 'razaoSocial', 'apelido'] as const) {}
 
 export class UsuarioFindOneResultDtoVinculoAtivo extends PickType(UsuarioVinculoCampusFindOneResultDto, ['id', 'ativo', 'cargo'] as const) {
   @DtoProperty(UsuarioVinculoCampusDtoProperties.VINCULO_CAMPUS_OUTPUT, {
@@ -32,6 +32,8 @@ export const UsuarioFindOneDtoProperties = createDtoPropertyMap({
     },
   },
 });
+
+// ======================================================
 
 @ObjectType('UsuarioFindOneResultDto')
 export class UsuarioFindOneResultDto implements IUsuarioFindOneResultDto {

@@ -1,9 +1,11 @@
-import { InputType } from '@nestjs/graphql';
-import { ICampusDeleteOneByIdInputDto } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { CampusDtoProperties, CampusDtoValidationContract } from './campus.dto';
+import { ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { CampusDtoValidationContract } from './campus.dto';
 
+// ======================================================
+export const CampusDeleteOneByIdInputDto = createEntityDtoClass(Spec.CampusDeleteOneByIdInputDeclaration, 'input');
 // ======================================================
 
 export const CampusDeleteOneByIdInputValidationContract = createValidationContract(() =>
@@ -13,12 +15,6 @@ export const CampusDeleteOneByIdInputValidationContract = createValidationContra
 );
 
 // ======================================================
-
-@InputType('CampusDeleteOneByIdInputDto')
-export class CampusDeleteOneByIdInputDto implements ICampusDeleteOneByIdInputDto {
-  @DtoProperty(CampusDtoProperties.CAMPUS_ID)
-  id!: string;
-}
 
 export const CAMPUS_DELETE_ONE_BY_ID = createDtoOperationOptions({
   description: 'Realiza a remoção de um campus por ID.',

@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import {
   CommonPropertyUuid,
   DtoProperty,
-  ObjectUuidDto,
+  ObjectUuidDtoLegacy,
   ValidationContractObjectUuidBase,
   ValidationContractString,
   ValidationContractUuid,
@@ -64,10 +64,10 @@ export const BlocoDtoProperties = createDtoPropertyMap({
     description: 'Campus que o bloco pertence.',
     //
     gql: {
-      type: () => ObjectUuidDto,
+      type: () => ObjectUuidDtoLegacy,
     },
     swagger: {
-      type: () => ObjectUuidDto,
+      type: () => ObjectUuidDtoLegacy,
     },
   },
 

@@ -1,38 +1,12 @@
-import { InputType, ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { CampusDto, CampusDtoProperties, CampusDtoValidationContract } from './campus.dto';
+import { ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { CampusDto, CampusDtoValidationContract } from './campus.dto';
 
 // ======================================================
-
-@ObjectType('CampusFindOneResultDto')
-export class CampusFindOneResultDto implements Dto.ICampusFindOneResultDto {
-  @DtoProperty(CampusDtoProperties.CAMPUS_ID)
-  id!: string;
-
-  //
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_NOME_FANTASIA)
-  nomeFantasia!: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_RAZAO_SOCIAL)
-  razaoSocial!: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_APELIDO)
-  apelido!: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_CNPJ)
-  cnpj!: string;
-
-  //
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_ENDERECO_OUTPUT)
-  endereco!: Dto.IEnderecoFindOneResultDto;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_MODALIDADES_OUTPUT)
-  modalidades!: Dto.IModalidadeFindOneResultDto[];
-}
+export const CampusFindOneResultDto = createEntityDtoClass(Spec.CampusFindOneResultDeclaration, 'output');
+export const CampusFindOneByIdInputDto = createEntityDtoClass(Spec.CampusFindOneByIdInputDeclaration, 'input');
 
 // ======================================================
 
@@ -42,12 +16,6 @@ export const CampusFindOneByIdInputValidationContract = createValidationContract
   }),
 );
 // ======================================================
-
-@InputType('CampusFindOneByIdInputDto')
-export class CampusFindOneByIdInputDto implements Dto.ICampusFindOneByIdInputDto {
-  @DtoProperty(CampusDtoProperties.CAMPUS_ID)
-  id!: string;
-}
 
 export const CAMPUS_FIND_ONE_BY_ID = createDtoOperationOptions({
   description: 'Realiza a consulta a um campus por ID.',

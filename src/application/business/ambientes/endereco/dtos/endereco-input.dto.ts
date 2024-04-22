@@ -1,8 +1,8 @@
-import { InputType } from '@nestjs/graphql';
-import { IEnderecoInputDto, IObjectId } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { EnderecoDtoProperties, EnderecoDtoValidationContract } from './endereco.dto';
+import { createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { EnderecoDtoValidationContract } from './endereco.dto';
 
 // ======================================================
 
@@ -24,26 +24,6 @@ export const EnderecoInputDtoValidationContract = createValidationContract(() =>
 
 // ======================================================
 
-@InputType('EnderecoInputDto')
-export class EnderecoInputDto implements IEnderecoInputDto {
-  @DtoProperty(EnderecoDtoProperties.ENDERECO_CEP)
-  cep!: string;
+export const EnderecoInputDto = createEntityDtoClass(Spec.EnderecoInputDeclaration, 'input');
 
-  @DtoProperty(EnderecoDtoProperties.ENDERECO_LOGRADOURO)
-  logradouro!: string;
-
-  @DtoProperty(EnderecoDtoProperties.ENDERECO_NUMERO)
-  numero!: number;
-
-  @DtoProperty(EnderecoDtoProperties.ENDERECO_BAIRRO)
-  bairro!: string;
-
-  @DtoProperty(EnderecoDtoProperties.ENDERECO_COMPLEMENTO)
-  complemento!: string | null;
-
-  @DtoProperty(EnderecoDtoProperties.ENDERECO_PONTO_REFERENCIA)
-  pontoReferencia!: string | null;
-
-  @DtoProperty(EnderecoDtoProperties.ENDERECO_CIDADE_INPUT)
-  cidade!: IObjectId;
-}
+// ======================================================

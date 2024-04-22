@@ -1,11 +1,10 @@
-import { InputType } from '@nestjs/graphql';
-import { OmitType } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CampusFindOneByIdInputValidationContract, CampusFindOneResultDto } from './campus-find-one.operation';
 import { CampusInputDtoValidationContract } from './campus-input.dto';
-import { CampusDto, CampusDtoProperties } from './campus.dto';
+import { CampusDto } from './campus.dto';
 
 // ======================================================
 
@@ -24,31 +23,10 @@ export const CampusUpdateInputDtoValidationContract = createValidationContract((
 
 // ======================================================
 
-@InputType('CampusUpdateInputDto')
-export class CampusUpdateInputDto implements Dto.ICampusUpdateDto {
-  @DtoProperty(CampusDtoProperties.CAMPUS_ID)
-  id!: string;
+export const CampusUpdateInputDto = createEntityDtoClass(Spec.CampusUpdateDeclaration, 'input');
 
-  @DtoProperty(CampusDtoProperties.CAMPUS_NOME_FANTASIA, { required: false })
-  nomeFantasia?: string;
+// ======================================================
 
-  @DtoProperty(CampusDtoProperties.CAMPUS_RAZAO_SOCIAL, { required: false })
-  razaoSocial?: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_APELIDO, { required: false })
-  apelido?: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_CNPJ, { required: false })
-  cnpj?: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_ENDERECO_INPUT, { required: false })
-  endereco?: Dto.IEnderecoInputDto;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_MODALIDADES_INPUT, { required: false })
-  modalidades!: Dto.IObjectUuid[];
-}
-
-export class CampusUpdateWithoutIdInputDto extends OmitType(CampusUpdateInputDto, ['id'] as const) {}
 export const CAMPUS_UPDATE = createDtoOperationOptions({
   description: 'Realiza a alteração de um campus.',
 
@@ -62,7 +40,7 @@ export const CAMPUS_UPDATE = createDtoOperationOptions({
   },
 
   swagger: {
-    inputBodyType: CampusUpdateWithoutIdInputDto,
+    inputBodyType: CampusUpdateInputDto,
 
     inputBodyValidationContract: createValidationContract(() => CampusUpdateInputDtoValidationContract().omit(['id'])),
 
@@ -77,3 +55,5 @@ export const CAMPUS_UPDATE = createDtoOperationOptions({
     returnType: CampusFindOneResultDto,
   },
 });
+
+// ======================================================

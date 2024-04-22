@@ -1,8 +1,8 @@
-import { InputType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { CampusDtoProperties, CampusDtoValidationContract } from './campus.dto';
+import { createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { CampusDtoValidationContract } from './campus.dto';
 
 // ======================================================
 
@@ -19,23 +19,6 @@ export const CampusInputDtoValidationContract = createValidationContract(() => {
 
 // ======================================================
 
-@InputType('CampusInputDto')
-export class CampusInputDto implements Dto.ICampusInputDto {
-  @DtoProperty(CampusDtoProperties.CAMPUS_NOME_FANTASIA)
-  nomeFantasia!: string;
+export const CampusInputDto = createEntityDtoClass(Spec.CampusInputDeclaration, 'input');
 
-  @DtoProperty(CampusDtoProperties.CAMPUS_RAZAO_SOCIAL)
-  razaoSocial!: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_APELIDO)
-  apelido!: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_CNPJ)
-  cnpj!: string;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_ENDERECO_INPUT)
-  endereco!: Dto.IEnderecoInputDto;
-
-  @DtoProperty(CampusDtoProperties.CAMPUS_MODALIDADES_INPUT)
-  modalidades!: Dto.IObjectUuid[];
-}
+// ======================================================

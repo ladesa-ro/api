@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import {
   CommonPropertyUuid,
   DtoProperty,
-  ObjectUuidDto,
+  ObjectUuidDtoLegacy,
   ValidationContractNumber,
   ValidationContractObjectUuidBase,
   ValidationContractString,
@@ -103,10 +103,10 @@ export const AmbienteDtoProperties = createDtoPropertyMap({
     description: 'Bloco que o ambiente/sala pertence.',
     //
     gql: {
-      type: () => ObjectUuidDto,
+      type: () => ObjectUuidDtoLegacy,
     },
     swagger: {
-      type: () => ObjectUuidDto,
+      type: () => ObjectUuidDtoLegacy,
     },
   },
 
