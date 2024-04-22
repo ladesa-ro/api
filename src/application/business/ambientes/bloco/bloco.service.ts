@@ -76,14 +76,6 @@ export class BlocoService {
 
     await contextoDeAcesso.aplicarFiltro('bloco:find', qb, aliasBloco, null);
 
-    console.log(JSON.stringify({ fields }, null, 2));
-
-    if (fields) {
-      if (fields.find((i) => i.startsWith('data.imagemCapa.imagemArquivo.arquivo'))) {
-        console.log('aa');
-      }
-    }
-
     // =========================================================
 
     const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
