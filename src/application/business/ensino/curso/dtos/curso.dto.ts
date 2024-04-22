@@ -1,36 +1,15 @@
-import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { CampusDto, CampusFindOneResultDto } from 'application/business/ambientes/campus/dtos';
-import { CampusEntity } from 'infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
-import { ModalidadeEntity } from 'infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import {
-  CommonPropertyUuid,
-  DtoProperty,
-  ObjectUuidDto,
-  ValidationContractObjectUuidBase,
-  ValidationContractString,
-  ValidationContractUuid,
-  createDtoPropertyMap,
-  createValidationContract,
-} from '../../../../../infrastructure';
+import { CommonPropertyUuid, ObjectUuidDto, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
 import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/dtos';
 import { ModalidadeDto, ModalidadeFindOneResultDto } from '../../modalidade/dtos';
 
 // ======================================================
 
 export const CursoDtoValidationContract = createValidationContract(() => {
-  return yup.object({
-    id: ValidationContractUuid(),
-
-    //
-    nome: ValidationContractString().required().nonNullable(),
-    nomeAbreviado: ValidationContractString().required().nonNullable(),
-    //
-
-    campus: ValidationContractObjectUuidBase({ required: true, optional: false }),
-    modalidade: ValidationContractObjectUuidBase({ required: true, optional: false }),
-  });
+  return new Spec.CursoValidationContract().constructYupSchema(yup);
 });
 
 // ======================================================
@@ -126,32 +105,5 @@ export const CursoDtoProperties = createDtoPropertyMap({
 });
 
 // ======================================================
-
-@ObjectType('Curso')
-export class CursoDto implements Dto.ICursoModel {
-  @DtoProperty(CursoDtoProperties.CURSO_ID)
-  id!: string;
-
-  //
-
-  @DtoProperty(CursoDtoProperties.CURSO_NOME)
-  nome!: string;
-
-  @DtoProperty(CursoDtoProperties.CURSO_NOME_ABREVIADO)
-  nomeAbreviado!: string;
-
-  @DtoProperty(CursoDtoProperties.CURSO_CAMPUS_OUTPUT)
-  campus!: CampusEntity;
-
-  @DtoProperty(CursoDtoProperties.CURSO_MODALIDADE_OUTPUT)
-  modalidade!: ModalidadeEntity;
-
-  @DtoProperty(CursoDtoProperties.CURSO_IMAGEM_CAPA_OUTPUT)
-  imagemCapa!: Dto.IImagemModel | null;
-
-  //
-
-  dateCreated!: Dto.IEntityDate;
-  dateUpdated!: Dto.IEntityDate;
-  dateDeleted!: Dto.IEntityDate | null;
-}
+export const CursoDto = createEntityDtoClass(Spec.CursoDeclarationFactory);
+// ======================================================

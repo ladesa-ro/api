@@ -1,8 +1,8 @@
-import { InputType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import { CursoDeleteOneByIdInputDeclarationFactory } from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { CursoDtoProperties, CursoDtoValidationContract } from './curso.dto';
+import { ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { CursoDtoValidationContract } from './curso.dto';
 
 // ======================================================
 
@@ -14,11 +14,7 @@ export const CursoDeleteOneByIdInputValidationContract = createValidationContrac
 
 // ======================================================
 
-@InputType('CursoDeleteOneByIdInputDto')
-export class CursoDeleteOneByIdInputDto implements Dto.ICursoDeleteOneByIdInputDto {
-  @DtoProperty(CursoDtoProperties.CURSO_ID)
-  id!: string;
-}
+export const CursoDeleteOneByIdInputDto = createEntityDtoClass(CursoDeleteOneByIdInputDeclarationFactory, 'input');
 
 // ======================================================
 

@@ -1,25 +1,10 @@
-import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
-import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
-import { CursoFindOneResultDto } from './curso-find-one.operation';
-import { CursoDto } from './curso.dto';
+import { CursoFindAllResultDeclaration } from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
+import { SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
 
 // ======================================================
 
-@ObjectType('CursoFindAllResult')
-export class CursoFindAllResultDto extends PaginatedResultDto<Dto.ICursoFindOneResultDto> implements Dto.ICursoFindAllResultDto {
-  @DtoProperty({
-    description: 'Resultados da busca.',
-    nullable: false,
-    gql: {
-      type: () => [CursoDto],
-    },
-    swagger: {
-      type: [CursoFindOneResultDto],
-    },
-  })
-  data!: Dto.ICursoFindOneResultDto[];
-}
+export const CursoFindAllResultDto = createEntityDtoClass(CursoFindAllResultDeclaration, 'output');
 
 // =============================================================
 

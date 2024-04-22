@@ -7,7 +7,7 @@ import { CursoDto } from './curso.dto';
 // ======================================================
 
 export const CursoCreateInputDtoValidationContract = createValidationContract(() => {
-  const schema = CursoInputDtoValidationContract().partial();
+  const schema = CursoInputDtoValidationContract();
 
   return (
     yup
