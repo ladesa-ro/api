@@ -11,9 +11,8 @@ import { DatabaseContextService } from '../../../../infrastructure/integrate-dat
 import { CampusEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ambientes/campus.entity';
 import { ModalidadeEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { ModalidadeService } from '../../ensino/modalidade/modalidade.service';
-import { EnderecoService, IEnderecoQueryBuilderViewOptions } from '../endereco/endereco.service';
+import { EnderecoService } from '../endereco/endereco.service';
 
 // ============================================================================
 
@@ -22,7 +21,7 @@ const aliasCampus = 'campus';
 // ============================================================================
 
 export type ICampusQueryBuilderViewOptions = {
-  loadEndereco?: IQueryBuilderViewOptionsLoad<IEnderecoQueryBuilderViewOptions>;
+  loadEndereco?: boolean;
 };
 
 // ============================================================================
@@ -55,11 +54,9 @@ export class CampusService {
       `${alias}.cnpj`,
     ]);
 
-    const loadEndereco = getQueryBuilderViewLoadMeta(options.loadEndereco, true, `${alias}_endereco`);
-
-    if (loadEndereco) {
-      qb.leftJoin(`${alias}.endereco`, `${loadEndereco.alias}`);
-      EnderecoService.EnderecoQueryBuilderView(loadEndereco.alias, qb, loadEndereco.options);
+    if (options.loadEndereco) {
+      qb.leftJoin(`${alias}.endereco`, `${alias}_endereco`);
+      EnderecoService.EnderecoQueryBuilderView(`${alias}_endereco`, qb);
     }
 
     {

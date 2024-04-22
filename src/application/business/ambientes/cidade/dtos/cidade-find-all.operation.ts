@@ -1,25 +1,10 @@
-import { ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
-import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
-import { CidadeFindOneResultDto } from './cidade-find-one.operation';
-import { CidadeDto } from './cidade.dto';
+import * as Spec from '@sisgea/spec';
+import { SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../../infrastructure';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 
 // =============================================================
 
-@ObjectType('CidadeFindAllResult')
-export class CidadeFindAllResultDto extends PaginatedResultDto<Dto.ICidadeFindOneResultDto> implements Dto.ICidadeFindAllResultDto {
-  @DtoProperty({
-    description: 'Resultados da busca.',
-    nullable: false,
-    gql: {
-      type: () => [CidadeDto],
-    },
-    swagger: {
-      type: [CidadeFindOneResultDto],
-    },
-  })
-  data!: Dto.ICidadeFindOneResultDto[];
-}
+export const CidadeFindAllResultDto = createEntityDtoClass(Spec.CidadeFindAllResultDeclaration);
 
 // =============================================================
 

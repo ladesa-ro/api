@@ -1,37 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dto from '@sisgea/spec';
+import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { map } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../../domain/contexto-de-acesso';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
-import { EstadoService, IEstadoQueryBuilderViewOptions } from '../estado/estado.service';
 
 const aliasCidade = 'cidade';
-
-export type ICidadeQueryBuilderViewOptions = {
-  loadEstado?: IQueryBuilderViewOptionsLoad<IEstadoQueryBuilderViewOptions>;
-};
 
 @Injectable()
 export class CidadeService {
   constructor(private databaseContextService: DatabaseContextService) {}
-
-  //
-
-  static CidadeQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: ICidadeQueryBuilderViewOptions = {}) {
-    const loadEstado = getQueryBuilderViewLoadMeta(options.loadEstado, true, `${alias}_estado`);
-
-    qb.addSelect([`${alias}.id`, `${alias}.nome`]);
-
-    if (loadEstado) {
-      qb.leftJoin(`${alias}.estado`, `${loadEstado.alias}`);
-      EstadoService.EstadoQueryBuilderView(loadEstado.alias, qb);
-    }
-  }
 
   //
 
@@ -41,7 +22,7 @@ export class CidadeService {
 
   //
 
-  async findAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dto.ISearchInputDto) {
+  async findAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dto.ISearchInputDto, selection?: string[]) {
     // =========================================================
 
     const qb = this.cidadeRepository.createQueryBuilder('cidade');
@@ -84,10 +65,7 @@ export class CidadeService {
     // =========================================================
 
     qb.select([]);
-
-    CidadeService.CidadeQueryBuilderView(aliasCidade, qb, {
-      loadEstado: { alias: 'estado' },
-    });
+    AppResourceView(AppResource.CIDADE, qb, aliasCidade, selection);
 
     // =========================================================
 
@@ -98,7 +76,7 @@ export class CidadeService {
     return getPaginatedResultDto(paginated);
   }
 
-  async findById(contextoDeAcesso: IContextoDeAcesso, dto: Dto.ICidadeFindOneByIdInputDto) {
+  async findById(contextoDeAcesso: IContextoDeAcesso, dto: Dto.ICidadeFindOneByIdInputDto, selection?: string[]) {
     // =========================================================
 
     const { cidadeRepository: baseCidadeRepository } = this.databaseContextService;
@@ -118,10 +96,7 @@ export class CidadeService {
     // =========================================================
 
     qb.select([]);
-
-    CidadeService.CidadeQueryBuilderView(aliasCidade, qb, {
-      loadEstado: { alias: 'estado' },
-    });
+    AppResourceView(AppResource.CIDADE, qb, aliasCidade, selection);
 
     // =========================================================
 
@@ -132,8 +107,8 @@ export class CidadeService {
     return cidade;
   }
 
-  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dto.ICidadeFindOneByIdInputDto) {
-    const cidade = await this.findById(contextoDeAcesso, dto);
+  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dto.ICidadeFindOneByIdInputDto, selection?: string[]) {
+    const cidade = await this.findById(contextoDeAcesso, dto, selection);
 
     if (!cidade) {
       throw new NotFoundException();

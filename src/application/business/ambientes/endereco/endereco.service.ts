@@ -1,23 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IEnderecoFindOneByIdInputDto, IEnderecoFindOneResultDto, IEnderecoInputDto, IEnderecoModel } from '@sisgea/spec';
+import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../../domain';
 import { parsePayloadYup } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
-import { CidadeService, ICidadeQueryBuilderViewOptions } from '../cidade/cidade.service';
 import { EnderecoInputDtoValidationContract } from './dtos';
 
 // ============================================================================
 
 const aliasEndereco = 'endereco';
-
-// ============================================================================
-
-export type IEnderecoQueryBuilderViewOptions = {
-  loadCidade?: IQueryBuilderViewOptionsLoad<ICidadeQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -33,9 +26,7 @@ export class EnderecoService {
 
   //
 
-  static EnderecoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IEnderecoQueryBuilderViewOptions = {}) {
-    const loadCidade = getQueryBuilderViewLoadMeta(options.loadCidade, true, `${alias}_cidade`);
-
+  static EnderecoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>) {
     qb.addSelect([
       //
       `${alias}.id`,
@@ -47,10 +38,8 @@ export class EnderecoService {
       `${alias}.pontoReferencia`,
     ]);
 
-    if (loadCidade) {
-      qb.leftJoin(`${alias}.cidade`, `${loadCidade.alias}`);
-      CidadeService.CidadeQueryBuilderView(loadCidade.alias, qb, loadCidade.options);
-    }
+    qb.leftJoin(`${alias}.cidade`, `${alias}_cidade`);
+    AppResourceView(AppResource.CIDADE, qb, `${alias}_cidade`);
   }
 
   //
@@ -120,11 +109,7 @@ export class EnderecoService {
 
     qb.select([]);
 
-    EnderecoService.EnderecoQueryBuilderView(aliasEndereco, qb, {
-      loadCidade: {
-        alias: `${aliasEndereco}_cidade`,
-      },
-    });
+    EnderecoService.EnderecoQueryBuilderView(aliasEndereco, qb);
 
     // =========================================================
 

@@ -1,15 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dto from '@sisgea/spec';
 import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '@sisgea/spec';
+import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { paginateConfig } from 'infrastructure/utils/paginateConfig';
 import { map } from 'lodash';
 import { paginate } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
-
-export interface IEstadoQueryBuilderViewOptions {}
 
 const aliasEstado = 'estado';
 
@@ -23,13 +21,7 @@ export class EstadoService {
 
   //
 
-  static EstadoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>) {
-    qb.addSelect([`${alias}.id`, `${alias}.nome`, `${alias}.sigla`]);
-  }
-
-  //
-
-  async findAll(clienteAccess: IContextoDeAcesso, dto?: Dto.ISearchInputDto): Promise<Dto.IEstadoFindAllResultDto> {
+  async findAll(clienteAccess: IContextoDeAcesso, dto?: Dto.ISearchInputDto, selection?: string[]): Promise<Dto.IEstadoFindAllResultDto> {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
@@ -52,7 +44,7 @@ export class EstadoService {
     // =========================================================
 
     qb.select([]);
-    EstadoService.EstadoQueryBuilderView(aliasEstado, qb);
+    AppResourceView(AppResource.ESTADO, qb, aliasEstado, selection);
 
     // =========================================================
 
@@ -63,7 +55,7 @@ export class EstadoService {
     return getPaginatedResultDto(paginated);
   }
 
-  async findByUf(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto) {
+  async findByUf(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto, selection?: string[]) {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
@@ -79,7 +71,7 @@ export class EstadoService {
     // =========================================================
 
     qb.select([]);
-    EstadoService.EstadoQueryBuilderView(aliasEstado, qb);
+    AppResourceView(AppResource.ESTADO, qb, aliasEstado, selection);
 
     // =========================================================
 
@@ -90,8 +82,8 @@ export class EstadoService {
     return estado;
   }
 
-  async findByUfStrict(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto) {
-    const estado = await this.findByUf(clienteAccess, dto);
+  async findByUfStrict(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto, selection?: string[]) {
+    const estado = await this.findByUf(clienteAccess, dto, selection);
 
     if (!estado) {
       throw new NotFoundException();
@@ -100,7 +92,7 @@ export class EstadoService {
     return estado;
   }
 
-  async findById(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto) {
+  async findById(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto, selection?: string[]) {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder('estado');
@@ -116,7 +108,7 @@ export class EstadoService {
     // =========================================================
 
     qb.select([]);
-    EstadoService.EstadoQueryBuilderView(aliasEstado, qb);
+    AppResourceView(AppResource.ESTADO, qb, aliasEstado, selection);
 
     // =========================================================
 
@@ -127,8 +119,8 @@ export class EstadoService {
     return estado;
   }
 
-  async findByIdStrict(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto) {
-    const estado = await this.findById(clienteAccess, dto);
+  async findByIdStrict(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto, selection?: string[]) {
+    const estado = await this.findById(clienteAccess, dto, selection);
 
     if (!estado) {
       throw new NotFoundException();

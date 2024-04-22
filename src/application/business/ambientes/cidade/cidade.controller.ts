@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { IContextoDeAcesso } from '../../../../domain/contexto-de-acesso';
 import { ContextoDeAcessoHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../../infrastructure';
@@ -16,7 +16,7 @@ export class CidadeController {
 
   @Get('/')
   @DtoOperationFindAll(CidadeOperations.CIDADE_FIND_ALL)
-  async findAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.ICidadeFindAllResultDto> {
+  async findAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.ICidadeFindAllResultDto> {
     return this.cidadeService.findAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
@@ -28,7 +28,7 @@ export class CidadeController {
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(CidadeOperations.CIDADE_FIND_ONE_BY_ID, 'id')
     id: number,
-  ): Promise<Dto.ICidadeFindOneResultDto> {
+  ): Promise<Spec.ICidadeFindOneByIdResultDto> {
     return this.cidadeService.findByIdStrict(contextoDeAcesso, { id });
   }
 }
