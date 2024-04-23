@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "commit": "git-cz",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "lint": "tsc --noEmit; eslint \"{src,apps,libs,test}/**/*.ts\"",
@@ -86,6 +87,8 @@
     "@typescript-eslint/parser": "^6.0.0",
     "ast-types": "^0.16.1",
     "change-case": "^5.4.3",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
     "esbuild": "^0.20.1",
     "eslint": "8.22.0",
     "eslint-config-prettier": "^9.0.0",
@@ -123,5 +126,10 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
