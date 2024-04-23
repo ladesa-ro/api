@@ -67,7 +67,7 @@ export class BlocoService {
 
   //
 
-  async blocoFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto, fields: string[] | null = null): Promise<Dtos.IBlocoFindAllResultDto> {
+  async blocoFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IBlocoFindAllResultDto> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
