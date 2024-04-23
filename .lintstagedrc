@@ -1,0 +1,3 @@
+{
+  "**/*.ts": "eslint \"{src,apps,libs,test}/**/*.ts\""
+}

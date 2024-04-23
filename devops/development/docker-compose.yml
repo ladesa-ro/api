@@ -10,7 +10,7 @@ services:
     networks:
       - sisgea-luna-net
     ports:
-      - 3000:3000
+      - 3701:3701
     volumes:
       - ../../../../../libs:/sisgea/env-dev/libs
       - ../../:/container/code

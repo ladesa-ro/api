@@ -25,8 +25,8 @@ export const CursoUpdateInputDtoValidationContract = createValidationContract(()
 });
 
 // ======================================================
-
 export const CursoUpdateInputDto = createEntityDtoClass(CursoUpdateDeclaration, 'input');
+// ======================================================
 
 export const CURSO_UPDATE = createDtoOperationOptions({
   description: 'Realiza a alteração de "curso".',
