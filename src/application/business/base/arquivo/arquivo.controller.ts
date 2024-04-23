@@ -3,8 +3,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { IContextoDeAcesso } from '../../../../domain';
 import { ContextoDeAcessoHttp, DtoOperationGetFile, HttpDtoParam } from '../../../../infrastructure';
 import { HttpDtoQuery } from '../../../../infrastructure/api-documentate/HttpDtoQuery';
+import { ArquivoOperations } from './arquivo.dtos';
 import { ArquivoService } from './arquivo.service';
-import { ArquivoOperations } from './dtos';
 
 @ApiTags('Arquivos')
 @Controller('/arquivos')
