@@ -89,7 +89,7 @@
     "change-case": "^5.4.3",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
-    "esbuild": "^0.20.1",
+    "esbuild": "^0.20.2",
     "eslint": "8.22.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
