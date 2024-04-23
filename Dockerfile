@@ -1,4 +1,4 @@
-FROM node:20 as base
+FROM node:21 as base
 RUN apt update -y
 RUN apt install -y git
 WORKDIR /luna-container/luna-backend
