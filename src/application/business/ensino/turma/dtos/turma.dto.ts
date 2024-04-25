@@ -12,7 +12,7 @@ import {
   createValidationContract,
 } from '../../../../../infrastructure';
 import { AmbienteDto, AmbienteFindOneResultDto } from '../../../ambientes/ambiente/dtos';
-import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/dtos';
+import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/imagem.dtos';
 import { CursoDto, CursoFindOneResultDto } from '../../curso/dtos';
 
 // ======================================================

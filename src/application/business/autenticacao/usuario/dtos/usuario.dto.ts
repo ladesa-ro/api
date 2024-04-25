@@ -2,7 +2,7 @@ import { ObjectType } from '@nestjs/graphql';
 import { IEntityDate, IImagemModel, IUsuarioModel, IUsuarioVinculoCampusModel } from '@sisgea/spec';
 import * as yup from 'yup';
 import { CommonPropertyUuid, DtoProperty, ValidationContractString, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../../infrastructure';
-import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/dtos';
+import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/imagem.dtos';
 
 // ======================================================
 
