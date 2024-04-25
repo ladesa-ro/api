@@ -4,8 +4,8 @@ import * as Dto from '@sisgea/spec';
 import { IContextoDeAcesso } from '../../../domain';
 import { ContextoDeAcessoHttp, DtoOperationCreate, DtoOperationFindOne, HttpDtoBody } from '../../../infrastructure';
 import { Public } from '../../../infrastructure/authentication';
+import { AutenticacaoOperations } from './autenticacao.dtos';
 import { AutenticacaoService } from './autenticacao.service';
-import { AutenticacaoOperations } from './dtos';
 
 @ApiTags('Autenticacao')
 @Controller('/autenticacao')
