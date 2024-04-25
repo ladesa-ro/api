@@ -12,7 +12,7 @@ import {
   createDtoPropertyMap,
   createValidationContract,
 } from '../../../../../infrastructure';
-import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/dtos';
+import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/imagem.dtos';
 import { BlocoDto, BlocoFindOneResultDto } from '../../bloco/dtos';
 
 // ======================================================
