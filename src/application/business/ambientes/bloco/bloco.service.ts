@@ -114,8 +114,6 @@ export class BlocoService {
         //
       ],
       defaultSortBy: [
-        ['campus.id', 'ASC'],
-        ['codigo', 'ASC'],
         ['nome', 'ASC'],
         ['dateCreated', 'ASC'],
       ],

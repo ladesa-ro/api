@@ -1,43 +1,12 @@
-import { InputType, ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
-import { IAmbienteFindOneResultDto, IBlocoFindOneResultDto } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { AmbienteDto, AmbienteDtoProperties, AmbienteDtoValidationContract } from './ambiente.dto';
+import { ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { AmbienteDto, AmbienteDtoValidationContract } from './ambiente.dto';
 
 // ======================================================
-
-@ObjectType('AmbienteFindOneResultDto')
-export class AmbienteFindOneResultDto implements IAmbienteFindOneResultDto {
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_ID)
-  id!: string;
-
-  //
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_NOME)
-  nome!: string;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_DESCRICAO)
-  descricao!: string;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_CODIGO)
-  codigo!: string;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_CAPACIDADE)
-  capacidade!: number | null;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_TIPO)
-  tipo!: string | null;
-
-  //
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_BLOCO_OUTPUT)
-  bloco!: IBlocoFindOneResultDto;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_IMAGEM_CAPA_OUTPUT)
-  imagemCapa!: Dto.IImagemModel | null;
-}
-
+export const AmbienteFindOneResultDto = createEntityDtoClass(Spec.AmbienteFindOneResultDeclaration, 'output');
+export const AmbienteFindOneByIdInputDto = createEntityDtoClass(Spec.AmbienteFindOneByIdInputDeclarationFactory, 'input');
 // ======================================================
 
 export const AmbienteFindOneByIdInputValidationContract = createValidationContract(() =>
@@ -45,14 +14,6 @@ export const AmbienteFindOneByIdInputValidationContract = createValidationContra
     id: getSchemaField(AmbienteDtoValidationContract(), 'id'),
   }),
 );
-
-// ======================================================
-
-@InputType('AmbienteFindOneByIdInputDto')
-export class AmbienteFindOneByIdInputDto implements Dto.IAmbienteFindOneByIdInputDto {
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_ID)
-  id!: string;
-}
 
 // ======================================================
 

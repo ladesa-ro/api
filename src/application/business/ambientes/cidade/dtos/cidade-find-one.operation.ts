@@ -6,7 +6,7 @@ import { CidadeDto, CidadeDtoValidationContract } from './cidade.dto';
 
 // ======================================================
 
-export const CidadeFindOneResultDto = createEntityDtoClass(Spec.CidadeFindOneByIdResultDeclaration);
+export const CidadeFindOneResultDto = createEntityDtoClass(Spec.CidadeFindOneResultDeclaration);
 export const CidadeFindOneByIdInputDto = createEntityDtoClass(Spec.CidadeFindOneByIdInputDeclaration, 'input');
 
 // ======================================================

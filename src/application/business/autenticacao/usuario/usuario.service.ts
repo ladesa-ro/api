@@ -155,9 +155,9 @@ export class UsuarioService {
         //
       ],
       defaultSortBy: [
+        ['nome', 'ASC'],
         ['dateCreated', 'ASC'],
         ['matriculaSiape', 'ASC'],
-        ['nome', 'ASC'],
       ],
       filterableColumns: {},
     });

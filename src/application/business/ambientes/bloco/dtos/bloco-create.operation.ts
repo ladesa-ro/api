@@ -1,9 +1,13 @@
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
 import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { BlocoFindOneResultDto } from './bloco-find-one.operation';
-import { BlocoInputDto, BlocoInputDtoValidationContract } from './bloco-input.dto';
+import { BlocoInputDtoValidationContract } from './bloco-input.dto';
 import { BlocoDto } from './bloco.dto';
 
+// ======================================================
+export const BlocoCreateDto = createEntityDtoClass(Spec.BlocoCreateDeclaration, 'input');
 // ======================================================
 
 export const BlocoCreateInputDtoValidationContract = createValidationContract(() => {
@@ -25,16 +29,15 @@ export const BLOCO_CREATE = createDtoOperationOptions({
   gql: {
     name: 'blocoCreate',
 
-    inputDtoType: () => BlocoInputDto,
+    inputDtoType: () => BlocoCreateDto,
     inputDtoValidationContract: BlocoCreateInputDtoValidationContract,
 
     returnType: () => BlocoDto,
   },
 
   swagger: {
-    inputBodyType: BlocoInputDto,
+    inputBodyType: BlocoCreateDto,
     inputBodyValidationContract: BlocoCreateInputDtoValidationContract,
-
     returnType: BlocoFindOneResultDto,
   },
 });

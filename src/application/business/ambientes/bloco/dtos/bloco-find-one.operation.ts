@@ -1,32 +1,12 @@
-import { InputType, ObjectType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
-import { IImagemFindOneResultDto } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { BlocoDto, BlocoDtoProperties, BlocoDtoValidationContract } from './bloco.dto';
+import { ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { BlocoDto, BlocoDtoValidationContract } from './bloco.dto';
 
 // ======================================================
-
-@ObjectType('BlocoFindOneResultDto')
-export class BlocoFindOneResultDto implements Dto.IBlocoFindOneResultDto {
-  @DtoProperty(BlocoDtoProperties.BLOCO_ID)
-  id!: string;
-
-  //
-  @DtoProperty(BlocoDtoProperties.BLOCO_NOME)
-  nome!: string;
-
-  @DtoProperty(BlocoDtoProperties.BLOCO_CODIGO)
-  codigo!: string;
-
-  //
-  @DtoProperty(BlocoDtoProperties.BLOCO_CAMPUS_OUTPUT)
-  campus!: Dto.ICampusFindOneResultDto;
-
-  //
-  imagemCapa!: IImagemFindOneResultDto | null;
-}
-
+export const BlocoFindOneByIdInputDto = createEntityDtoClass(Spec.BlocoFindOneByIdInputDeclaration, 'input');
+export const BlocoFindOneResultDto = createEntityDtoClass(Spec.BlocoFindOneResultDeclaration, 'output');
 // ======================================================
 
 export const BlocoFindOneByIdInputValidationContract = createValidationContract(() =>
@@ -36,12 +16,6 @@ export const BlocoFindOneByIdInputValidationContract = createValidationContract(
 );
 
 // ======================================================
-
-@InputType('BlocoFindOneByIdInputDto')
-export class BlocoFindOneByIdInputDto implements Dto.IBlocoFindOneByIdInputDto {
-  @DtoProperty(BlocoDtoProperties.BLOCO_ID)
-  id!: string;
-}
 
 export const BLOCO_FIND_ONE_BY_ID = createDtoOperationOptions({
   description: 'Realiza a consulta a um bloco por ID.',

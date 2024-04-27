@@ -1,9 +1,9 @@
-import { Int, ObjectType } from '@nestjs/graphql';
-import { IAmbienteModel, IBlocoModel, IEntityDate, IImagemModel } from '@sisgea/spec';
+import { Int } from '@nestjs/graphql';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
 import {
   CommonPropertyUuid,
-  DtoProperty,
   ObjectUuidDto,
   ValidationContractNumber,
   ValidationContractObjectUuidBase,
@@ -136,40 +136,5 @@ export const AmbienteDtoProperties = createDtoPropertyMap({
 });
 
 // ======================================================
-
-@ObjectType('Ambiente')
-export class AmbienteDto implements IAmbienteModel {
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_ID)
-  id!: string;
-
-  //
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_NOME)
-  nome!: string;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_DESCRICAO)
-  descricao!: string;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_CODIGO)
-  codigo!: string;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_CAPACIDADE)
-  capacidade!: number | null;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_TIPO)
-  tipo!: string | null;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_BLOCO_OUTPUT)
-  bloco!: IBlocoModel;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_IMAGEM_CAPA_OUTPUT)
-  imagemCapa!: IImagemModel | null;
-
-  //
-
-  dateCreated!: IEntityDate;
-  dateUpdated!: IEntityDate;
-  dateDeleted!: IEntityDate | null;
-}
-
+export const AmbienteDto = createEntityDtoClass(Spec.AmbienteDeclarationFactory);
 // ======================================================

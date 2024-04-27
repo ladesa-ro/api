@@ -6,7 +6,7 @@ import { EstadoDto, EstadoDtoValidationContract } from './estado.dto';
 
 // ======================================================
 
-export const EstadoFindOneResultDto = createEntityDtoClass(Spec.EstadoFindOneByIdResultDeclaration);
+export const EstadoFindOneResultDto = createEntityDtoClass(Spec.EstadoFindOneResultDeclaration);
 export const EstadoFindOneByIdInputDto = createEntityDtoClass(Spec.EstadoFindOneByIdInputDeclaration, 'input');
 export const EstadoFindOneByUfInputDto = createEntityDtoClass(Spec.EstadoFindOneByUfInputDeclaration, 'input');
 

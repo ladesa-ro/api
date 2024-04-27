@@ -1,12 +1,13 @@
-import { InputType } from '@nestjs/graphql';
-import { OmitType } from '@nestjs/swagger';
-import { IBlocoUpdateDto } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { BlocoFindOneByIdInputValidationContract, BlocoFindOneResultDto } from './bloco-find-one.operation';
 import { BlocoInputDtoValidationContract } from './bloco-input.dto';
-import { BlocoDto, BlocoDtoProperties } from './bloco.dto';
+import { BlocoDto } from './bloco.dto';
 
+// ======================================================
+export const BlocoUpdateInputDto = createEntityDtoClass(Spec.BlocoUpdateDeclaration, 'input');
 // ======================================================
 
 export const BlocoUpdateInputDtoValidationContract = createValidationContract(() => {
@@ -23,19 +24,6 @@ export const BlocoUpdateInputDtoValidationContract = createValidationContract(()
 
 // ======================================================
 
-@InputType('BlocoUpdateInputDto')
-export class BlocoUpdateInputDto implements IBlocoUpdateDto {
-  @DtoProperty(BlocoDtoProperties.BLOCO_ID)
-  id!: string;
-
-  @DtoProperty(BlocoDtoProperties.BLOCO_NOME, { required: false })
-  nome?: string;
-
-  @DtoProperty(BlocoDtoProperties.BLOCO_CODIGO, { required: false })
-  codigo?: string;
-}
-
-export class BlocoUpdateWithoutIdInputDto extends OmitType(BlocoUpdateInputDto, ['id'] as const) {}
 export const BLOCO_UPDATE = createDtoOperationOptions({
   description: 'Realiza a alteração de um bloco.',
 
@@ -49,7 +37,7 @@ export const BLOCO_UPDATE = createDtoOperationOptions({
   },
 
   swagger: {
-    inputBodyType: BlocoUpdateWithoutIdInputDto,
+    inputBodyType: BlocoUpdateInputDto,
 
     inputBodyValidationContract: createValidationContract(() => BlocoUpdateInputDtoValidationContract().omit(['id'])),
 

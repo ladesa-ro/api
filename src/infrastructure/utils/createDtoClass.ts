@@ -5,7 +5,7 @@ import { DtoProperty, IDtoPropertyOptions } from '../api-documentate';
 
 const rootDtoClassesMap = new Map<any, any>();
 
-export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarationRaw<any>>(
+export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarationRaw>(
   factory: Factory,
   mode: Spec.IOutputDeclarationMode = 'output',
   dtoClassesMap = rootDtoClassesMap,

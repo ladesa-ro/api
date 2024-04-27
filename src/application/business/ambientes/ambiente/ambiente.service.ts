@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dtos from '@sisgea/spec';
+import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
@@ -12,7 +13,6 @@ import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../..
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { BlocoService, IBlocoQueryBuilderViewOptions } from '../bloco/bloco.service';
-import { AppResourceView, AppResource } from 'application/utils/qbEfficientLoad';
 
 // ============================================================================
 
@@ -133,9 +133,6 @@ export class AmbienteService {
         //
       ],
       defaultSortBy: [
-        ['bloco.campus.id', 'ASC'],
-        ['bloco.id', 'ASC'],
-        ['codigo', 'ASC'],
         ['nome', 'ASC'],
         ['dateCreated', 'ASC'],
       ],
