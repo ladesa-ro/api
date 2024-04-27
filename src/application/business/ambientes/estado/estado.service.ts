@@ -34,10 +34,25 @@ export class EstadoService {
 
     const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
       ...paginateConfig,
-      select: ['id'],
-      searchableColumns: ['nome', 'sigla'],
-      sortableColumns: ['id', 'nome', 'sigla'],
-      defaultSortBy: [['nome', 'ASC']],
+      select: [
+        //
+        'id',
+      ],
+      searchableColumns: [
+        //
+        'nome',
+        'sigla',
+      ],
+      sortableColumns: [
+        //
+        'id',
+        'nome',
+        'sigla',
+      ],
+      defaultSortBy: [
+        //
+        ['nome', 'ASC'],
+      ],
       filterableColumns: {},
     });
 

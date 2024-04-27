@@ -11,7 +11,7 @@ import {
   createDtoPropertyMap,
   createValidationContract,
 } from '../../../../../infrastructure';
-import { UsuarioDto, UsuarioFindOneResultDto } from '../../usuario/dtos';
+import { UsuarioDto, UsuarioFindOneResultDto } from '../../usuario/usuario.dtos';
 
 // ======================================================
 

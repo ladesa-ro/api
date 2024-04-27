@@ -16,7 +16,7 @@ import {
   HttpDtoParam,
   getSearchInputFromPaginateQuery,
 } from '../../../../infrastructure';
-import { UsuarioOperations } from './dtos/usuario.operations';
+import { UsuarioOperations } from './usuario.dtos';
 import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')

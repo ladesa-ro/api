@@ -1,8 +1,7 @@
-import { InputType } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
-import { BlocoDtoProperties, BlocoDtoValidationContract } from './bloco.dto';
+import { ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../../infrastructure';
+import { BlocoDtoValidationContract } from './bloco.dto';
+import { BlocoFindOneByIdInputDto } from './bloco-find-one.operation';
 
 // ======================================================
 
@@ -13,13 +12,7 @@ export const BlocoDeleteOneByIdInputValidationContract = createValidationContrac
 );
 
 // ======================================================
-
-@InputType('BlocoDeleteOneByIdInputDto')
-export class BlocoDeleteOneByIdInputDto implements Dto.IBlocoDeleteOneByIdInputDto {
-  @DtoProperty(BlocoDtoProperties.BLOCO_ID)
-  id!: string;
-}
-
+export const BlocoDeleteOneByIdInputDto = BlocoFindOneByIdInputDto;
 // ======================================================
 
 export const BLOCO_DELETE_ONE_BY_ID = createDtoOperationOptions({

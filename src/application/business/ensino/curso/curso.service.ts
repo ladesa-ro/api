@@ -123,7 +123,10 @@ export class CursoService {
         campus: true,
         modalidade: true,
       },
-      defaultSortBy: [],
+      defaultSortBy: [
+        //
+        ['nome', 'ASC'],
+      ],
       filterableColumns: {
         'campus.id': [FilterOperator.EQ],
         'campus.cnpj': [FilterOperator.EQ],

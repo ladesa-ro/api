@@ -6,7 +6,7 @@ import { createValidationContract } from '../../../../../infrastructure';
 // ======================================================
 
 export const CursoDtoValidationContract = createValidationContract(() => {
-  return new Spec.CursoValidationContract().constructYupSchema(yup);
+  return new Spec.CursoValidationContract().yupSchema(Spec.extendYup(yup));
 });
 
 // ======================================================

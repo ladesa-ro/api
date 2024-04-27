@@ -141,8 +141,8 @@ export class CampusService {
         'endereco.cidade.estado.sigla',
       ],
       defaultSortBy: [
-        ['endereco.cidade.estado.nome', 'ASC'],
         ['nomeFantasia', 'ASC'],
+        ['endereco.cidade.estado.nome', 'ASC'],
         ['dateCreated', 'ASC'],
       ],
       filterableColumns: {

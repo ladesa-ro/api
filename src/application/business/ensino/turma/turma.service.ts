@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dtos from '@sisgea/spec';
+import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
@@ -13,7 +14,6 @@ import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambient
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { CursoService, ICursoQueryBuilderViewOptions } from '../curso/curso.service';
-import { AppResourceView, AppResource } from 'application/utils/qbEfficientLoad';
 
 // ============================================================================
 
@@ -134,7 +134,10 @@ export class TurmaService {
         'nome',
         //
       ],
-      defaultSortBy: [],
+      defaultSortBy: [
+        //
+        ['nome', 'ASC'],
+      ],
       filterableColumns: {
         //
         'ambientePadraoAula.nome': [FilterOperator.EQ],

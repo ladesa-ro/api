@@ -52,8 +52,8 @@ export class CidadeService {
       sortableColumns: ['id', 'estado.nome', 'estado.sigla'],
       searchableColumns: ['nome', 'estado.nome', 'estado.sigla'],
       defaultSortBy: [
-        ['estado.nome', 'ASC'],
         ['nome', 'ASC'],
+        ['estado.nome', 'ASC'],
       ],
       filterableColumns: {
         'estado.id': [FilterOperator.EQ],

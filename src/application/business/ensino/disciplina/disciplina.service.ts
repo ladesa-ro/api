@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dtos from '@sisgea/spec';
+import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
@@ -11,7 +12,6 @@ import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig'
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
-import { AppResourceView, AppResource } from 'application/utils/qbEfficientLoad';
 
 // ============================================================================
 
@@ -92,7 +92,10 @@ export class DisciplinaService {
         'cargaHoraria',
         //
       ],
-      defaultSortBy: [],
+      defaultSortBy: [
+        //
+        ['nome', 'ASC'],
+      ],
       filterableColumns: {},
     });
 

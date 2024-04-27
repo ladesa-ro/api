@@ -28,7 +28,7 @@ export class CidadeController {
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(CidadeOperations.CIDADE_FIND_ONE_BY_ID, 'id')
     id: number,
-  ): Promise<Spec.ICidadeFindOneByIdResultDto> {
+  ): Promise<Spec.ICidadeFindOneResultDto> {
     return this.cidadeService.findByIdStrict(contextoDeAcesso, { id });
   }
 }

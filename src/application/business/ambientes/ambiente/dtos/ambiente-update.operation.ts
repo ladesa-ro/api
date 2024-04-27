@@ -1,11 +1,8 @@
-import { InputType } from '@nestjs/graphql';
-import { OmitType } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { AmbienteFindOneByIdInputValidationContract, AmbienteFindOneResultDto } from './ambiente-find-one.operation';
 import { AmbienteInputDtoValidationContract } from './ambiente-input.operation';
-import { AmbienteDto, AmbienteDtoProperties } from './ambiente.dto';
+import { AmbienteDto } from './ambiente.dto';
 
 // ======================================================
 
@@ -22,36 +19,10 @@ export const AmbienteUpdateInputDtoValidationContract = createValidationContract
 });
 
 // ======================================================
-
-@InputType('AmbienteUpdateInputDto')
-export class AmbienteUpdateInputDto implements Dto.IAmbienteUpdateDto {
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_ID)
-  id!: string;
-
-  //
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_NOME, { required: false })
-  nome?: string;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_DESCRICAO, { required: false })
-  descricao?: string;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_CODIGO, { required: false })
-  codigo?: string;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_CAPACIDADE, { required: false })
-  capacidade?: number | null;
-
-  @DtoProperty(AmbienteDtoProperties.AMBIENTE_TIPO, { required: false })
-  tipo?: string | null;
-
-  //
-}
-
+import * as Spec from '@sisgea/spec';
+import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 // ======================================================
-
-export class AmbienteUpdateWithoutIdInputDto extends OmitType(AmbienteUpdateInputDto, ['id'] as const) {}
-
+export const AmbienteUpdateInputDto = createEntityDtoClass(Spec.AmbienteUpdateDeclaration, 'input');
 // ======================================================
 
 export const AMBIENTE_UPDATE = createDtoOperationOptions({
@@ -67,7 +38,7 @@ export const AMBIENTE_UPDATE = createDtoOperationOptions({
   },
 
   swagger: {
-    inputBodyType: AmbienteUpdateWithoutIdInputDto,
+    inputBodyType: AmbienteUpdateInputDto,
 
     inputBodyValidationContract: createValidationContract(() => AmbienteUpdateInputDtoValidationContract().omit(['id'])),
 

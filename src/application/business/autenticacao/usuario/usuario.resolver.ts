@@ -3,7 +3,7 @@ import * as Dto from '@sisgea/spec';
 import { IContextoDeAcesso } from '../../../../domain';
 import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
 import { GqlDtoInput } from '../../../../infrastructure/api-documentate/GqlDtoInput';
-import { UsuarioDto, UsuarioOperations } from './dtos';
+import { UsuarioDto, UsuarioOperations } from './usuario.dtos';
 import { UsuarioService } from './usuario.service';
 
 @Resolver(() => UsuarioDto)
