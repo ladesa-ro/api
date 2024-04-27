@@ -152,7 +152,8 @@ export class AmbienteService {
 
     // =========================================================
 
-    paginated.data = await qb.andWhereInIds(map(paginated.data, 'id')).getMany();
+    const pageItemsView = await qb.andWhereInIds(map(paginated.data, 'id')).getMany();
+    paginated.data = paginated.data.map((paginated) => pageItemsView.find((i) => i.id === paginated.id)!);
 
     // =========================================================
 
