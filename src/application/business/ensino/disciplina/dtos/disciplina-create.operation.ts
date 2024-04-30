@@ -1,6 +1,6 @@
 // ======================================================
 
-import { createDtoOperationOptions } from 'infrastructure';
+import { createDtoOperationOptions } from '../../../../../infrastructure';
 import { DisciplinaFindOneResultDto } from './disciplina-find-one.operation';
 import { DisciplinaInputDto, DisciplinaInputDtoValidationContract } from './disciplina-input.operation';
 import { DisciplinaDto } from './disciplina.dto';

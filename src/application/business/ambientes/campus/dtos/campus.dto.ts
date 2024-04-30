@@ -1,5 +1,4 @@
 import * as Spec from '@sisgea/spec';
-import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import { uniqBy } from 'lodash';
 import * as yup from 'yup';
 import {
@@ -11,6 +10,7 @@ import {
   createDtoPropertyMap,
   createValidationContract,
 } from '../../../../../infrastructure';
+import { createEntityDtoClass } from '../../../../../infrastructure/utils/createDtoClass';
 import { ModalidadeDto, ModalidadeFindOneResultDto } from '../../../ensino/modalidade/dtos';
 import { EnderecoDto, EnderecoFindOneResultDto, EnderecoInputDto, EnderecoInputDtoValidationContract } from '../../endereco/dtos';
 

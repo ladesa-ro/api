@@ -1,5 +1,5 @@
 import * as Dto from '@sisgea/spec';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
 import { GqlDtoInput } from '../../../../infrastructure/api-documentate/GqlDtoInput';
 import { UsuarioVinculoCampusOperations } from './dtos';

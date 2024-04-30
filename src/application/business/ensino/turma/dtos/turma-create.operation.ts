@@ -1,5 +1,5 @@
-import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from 'infrastructure';
 import * as yup from 'yup';
+import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { TurmaFindOneResultDto } from './turma-find-one.operation';
 import { TurmaInputDto, TurmaInputDtoValidationContract } from './turma-input.operation';
 import { TurmaDto } from './turma.dto';

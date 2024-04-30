@@ -1,7 +1,7 @@
 import * as Spec from '@sisgea/spec';
-import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
 import { ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { createEntityDtoClass } from '../../../../../infrastructure/utils/createDtoClass';
 import { CampusFindOneByIdInputValidationContract, CampusFindOneResultDto } from './campus-find-one.operation';
 import { CampusInputDtoValidationContract } from './campus-input.dto';
 import { CampusDto } from './campus.dto';

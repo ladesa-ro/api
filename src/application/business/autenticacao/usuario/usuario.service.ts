@@ -1,14 +1,14 @@
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import * as Dtos from '@sisgea/spec';
 import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
-import { ValidationFailedException, getPaginateQueryFromSearchInput, getPaginatedResultDto } from 'infrastructure';
-import { KeycloakService } from 'infrastructure/authentication/idp-external-connect/keycloak';
-import { UsuarioEntity } from 'infrastructure/integrate-database/typeorm/entities/autenticacao/usuario.entity';
 import { has, map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
+import { ValidationFailedException, getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
+import { KeycloakService } from '../../../../infrastructure/authentication/idp-external-connect/keycloak';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
+import { UsuarioEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/autenticacao/usuario.entity';
 import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';

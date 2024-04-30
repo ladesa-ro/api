@@ -3,7 +3,7 @@ import { map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import * as Dtos from '../../(spec)';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { {{ c_pascal moduleName }}Entity } from '../../../../infrastructure/integrate-database/typeorm/entities/{{ c_kebab moduleNameParent }}/{{ c_snake moduleName }}.entity';

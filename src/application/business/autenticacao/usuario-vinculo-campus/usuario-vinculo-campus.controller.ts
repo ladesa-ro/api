@@ -1,9 +1,9 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
-import { ContextoDeAcessoHttp, DtoOperationFindAll, DtoOperationUpdate, HttpDtoBody } from 'infrastructure';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
+import { ContextoDeAcessoHttp, DtoOperationFindAll, DtoOperationUpdate, HttpDtoBody } from '../../../../infrastructure';
 import { UsuarioVinculoCampusOperations } from './dtos';
 import { UsuarioVinculoCampusService } from './usuario-vinculo-campus.service';
 

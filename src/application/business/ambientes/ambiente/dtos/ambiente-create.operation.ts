@@ -1,10 +1,10 @@
 import * as Spec from '@sisgea/spec';
-import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
 import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { AmbienteFindOneResultDto } from './ambiente-find-one.operation';
 import { AmbienteInputDtoValidationContract } from './ambiente-input.operation';
 import { AmbienteDto } from './ambiente.dto';
+import { createEntityDtoClass } from '../../../../../infrastructure/utils/createDtoClass';
 
 // ======================================================
 export const AmbienteCreateDto = createEntityDtoClass(Spec.AmbienteInputDeclaration, 'input');

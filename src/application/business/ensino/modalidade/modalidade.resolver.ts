@@ -1,8 +1,8 @@
 import { Info, Resolver } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
-import { GraphQLResolveInfo } from 'graphql';
+import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infrastructure';
 import { GqlDtoInput } from '../../../../infrastructure/api-documentate/GqlDtoInput';
 import { ModalidadeOperations } from './dtos';

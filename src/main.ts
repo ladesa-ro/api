@@ -1,10 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
+import helmet from 'helmet';
+import 'reflect-metadata';
 import { AppModule } from './application/app.module';
 import { IConfig } from './domain';
 import { EnvironmentConfigService } from './infrastructure/environment-config';
-import { getModuleHelmet } from './infrastructure/utils/modules/helmet/modules.helmet';
 
 function setupSwaggerConfig(configService: IConfig | null = null) {
   const config = new DocumentBuilder();
@@ -51,9 +52,7 @@ function setupSwaggerConfig(configService: IConfig | null = null) {
   return config;
 }
 
-async function bootstrap() {
-  //
-
+async function setupApp() {
   const app = await NestFactory.create(AppModule);
 
   const environmentConfigService = app.get(EnvironmentConfigService);
@@ -61,11 +60,6 @@ async function bootstrap() {
   //
 
   const isProduction = environmentConfigService.getRuntimeIsProduction();
-
-  const port = environmentConfigService.getRuntimePort();
-  //
-
-  const helmet = await getModuleHelmet();
 
   app.use(
     helmet({
@@ -75,11 +69,9 @@ async function bootstrap() {
   );
 
   //
-
   app.use(compression());
 
   //
-
   const config = setupSwaggerConfig(environmentConfigService);
 
   const document = SwaggerModule.createDocument(app, config.build());
@@ -93,6 +85,14 @@ async function bootstrap() {
 
   app.enableCors();
 
+  return app;
+}
+
+async function bootstrap() {
+  //
+  const app = await setupApp();
+  const environmentConfigService = app.get(EnvironmentConfigService);
+  const port = environmentConfigService.getRuntimePort();
   await app.listen(port);
 }
 

@@ -1,5 +1,5 @@
 import * as Spec from '@sisgea/spec';
-import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
+import { createEntityDtoClass } from '../../../../../infrastructure/utils/createDtoClass';
 
 // ======================================================
 

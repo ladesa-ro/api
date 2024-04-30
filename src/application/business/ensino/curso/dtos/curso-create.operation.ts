@@ -1,5 +1,5 @@
-import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from 'infrastructure';
 import * as yup from 'yup';
+import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CursoFindOneResultDto } from './curso-find-one.operation';
 import { CursoInputDto, CursoInputDtoValidationContract } from './curso-input.operation';
 import { CursoDto } from './curso.dto';

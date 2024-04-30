@@ -1,5 +1,5 @@
-import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from 'infrastructure';
 import * as yup from 'yup';
+import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
 import { CalendarioLetivoFindOneByIdInputValidationContract, CalendarioLetivoFindOneResultDto } from './calendario-letivo-find-one.operation';
 import { CalendarioLetivoInputDto, CalendarioLetivoInputDtoValidationContract } from './calendario-letivo-input.operation';
 import { CalendarioLetivoDto } from './calendario-letivo.dto';

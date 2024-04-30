@@ -1,7 +1,7 @@
 import * as Spec from '@sisgea/spec';
-import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
 import { ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../../infrastructure';
+import { createEntityDtoClass } from '../../../../../infrastructure/utils/createDtoClass';
 import { ModalidadeFindOneByIdInputValidationContract, ModalidadeFindOneResultDto } from './modalidade-find-one.operation';
 import { ModalidadeInputDtoValidationContract } from './modalidade-input.operation';
 import { ModalidadeDto } from './modalidade.dto';

@@ -3,7 +3,7 @@ import { IEnderecoFindOneByIdInputDto, IEnderecoFindOneResultDto, IEnderecoInput
 import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import { parsePayloadYup } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { EnderecoInputDtoValidationContract } from './dtos';

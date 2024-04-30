@@ -1,16 +1,12 @@
 import { InputType, Int, ObjectType } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { __decorate, __metadata } from 'tslib';
-import { DtoProperty, IDtoPropertyOptions } from '../api-documentate';
+import * as yup from 'yup';
+import { DtoProperty, IDtoOperationOptions, IDtoPropertyOptions } from '../api-documentate';
 
 const rootDtoClassesMap = new Map<any, any>();
 
-export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarationRaw>(
-  factory: Factory,
-  mode: Spec.IOutputDeclarationMode = 'output',
-  dtoClassesMap = rootDtoClassesMap,
-  parent = '',
-) => {
+export const createEntityDtoClass = <Factory extends () => Spec.IDeclaration>(factory: Factory, mode: Spec.IOutputDeclarationMode = 'output', dtoClassesMap = rootDtoClassesMap, parent = '') => {
   const declaration = factory();
 
   let dtoClassName = declaration.name;
@@ -52,11 +48,11 @@ export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarati
   for (const propertyKey in declaration.properties) {
     const declarationRaw = declaration.properties[propertyKey];
 
-    let declarationTarget: Spec.IEntityDeclarationRawPropertySimple | null = null;
+    let declarationTarget: Spec.IDeclarationPropertySimple | null = null;
 
     switch (declarationRaw.type) {
       case Spec.PropertyTypes.MIXED: {
-        const declarationRawMixed = declarationRaw as Spec.IEntityDeclarationRawPropertyMixed;
+        const declarationRawMixed = declarationRaw as Spec.IDeclarationPropertyMixed;
 
         if (mode === Spec.OutputDeclarationModes.INPUT) {
           declarationTarget = declarationRawMixed.input;
@@ -70,7 +66,7 @@ export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarati
       }
 
       default: {
-        declarationTarget = declarationRaw as Spec.IEntityDeclarationRawPropertySimple;
+        declarationTarget = declarationRaw as Spec.IDeclarationPropertySimple;
         break;
       }
     }
@@ -191,4 +187,66 @@ export const createEntityDtoClass = <Factory extends () => Spec.IEntityDeclarati
   Object.defineProperty(EntityDtoClass, 'name', { value: dtoClassName });
 
   return decoratedClass;
+};
+
+export const createOperationOptionsFromOperator = (operation: Spec.IOperation) => {
+  const operationOptions: IDtoOperationOptions = {
+    description: operation.description,
+
+    gql: null,
+    swagger: {
+      returnType: {
+        schema: {
+          type: 'string',
+          format: 'binary',
+          nullable: false,
+        },
+      },
+      params: [],
+      queries: [],
+    },
+  };
+
+  if (operation.input) {
+    if (operation.input.strategy === 'dto') {
+      for (const [name, config] of Object.entries(operation.input.params ?? [])) {
+        operationOptions.swagger.params ||= [];
+
+        if (config.type !== 'mixed' && typeof config.type === 'string') {
+          const configSimple = config as Spec.IDeclarationPropertySimple;
+
+          operationOptions.swagger.params.push({
+            name,
+            description: configSimple.description,
+            required: configSimple.required !== false,
+            validationContract: () => Spec.GetSchema(Spec.GetPropertyValidator(configSimple), yup),
+          });
+        }
+      }
+
+      for (const [name, config] of Object.entries(operation.input.query ?? [])) {
+        operationOptions.swagger.queries ||= [];
+
+        if (config.type !== 'mixed' && typeof config.type === 'string') {
+          const configSimple = config as Spec.IDeclarationPropertySimple;
+
+          operationOptions.swagger.queries.push({
+            name,
+            validationContract: () => Spec.GetSchema(Spec.GetPropertyValidator(configSimple), yup),
+            description: configSimple.description,
+            required: configSimple.required !== false,
+          });
+        }
+      }
+    }
+  }
+
+  if (operation.output.strategy === 'file') {
+    operationOptions.meta ||= {};
+    operationOptions.meta.getFile ||= {
+      mimeType: 'application/octet-stream',
+    };
+  }
+
+  return operationOptions;
 };

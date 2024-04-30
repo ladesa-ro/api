@@ -1,6 +1,6 @@
 // ======================================================
 
-import { createDtoOperationOptions } from 'infrastructure';
+import { createDtoOperationOptions } from '../../../../../infrastructure';
 import { ModalidadeFindOneResultDto } from './modalidade-find-one.operation';
 import { ModalidadeInputDto, ModalidadeInputDtoValidationContract } from './modalidade-input.operation';
 import { ModalidadeDto } from './modalidade.dto';

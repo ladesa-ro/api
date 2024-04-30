@@ -1,13 +1,11 @@
 import * as Spec from '@sisgea/spec';
-import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
 import { createValidationContract } from '../../../../../infrastructure';
+import { createEntityDtoClass } from '../../../../../infrastructure/utils/createDtoClass';
 
 // ======================================================
 
-export const CursoDtoValidationContract = createValidationContract(() => {
-  return new Spec.CursoValidationContract().yupSchema(Spec.extendYup(yup));
-});
+export const CursoDtoValidationContract = createValidationContract(() => Spec.GetSchema(Spec.CursoValidator, yup));
 
 // ======================================================
 export const CursoDto = createEntityDtoClass(Spec.CursoDeclarationFactory);
