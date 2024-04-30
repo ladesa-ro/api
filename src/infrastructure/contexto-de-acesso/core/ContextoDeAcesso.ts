@@ -4,7 +4,7 @@ import { SelectQueryBuilder } from 'typeorm';
 import { AuthzPolicyPublic } from '../../../application/authorization-policies/00-AuthzPolicyPublic';
 import { IAuthzStatement, IAuthzStatementFilter } from '../../../application/authorization-policies/statements/IAuthzStatement';
 import { IBaseAuthzFilterFn, IBaseAuthzStatementContext } from '../../../domain';
-import { IContextoDeAcesso } from '../../../domain/contexto-de-acesso/IContextoDeAcesso';
+import type { IContextoDeAcesso } from '../../../domain/contexto-de-acesso/IContextoDeAcesso';
 import { ICurrentUsuario } from '../../authentication/interfaces';
 import { DatabaseContextService } from '../../integrate-database';
 

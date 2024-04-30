@@ -2,7 +2,7 @@ import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import {
   ContextoDeAcessoHttp,
   DtoOperationCreate,

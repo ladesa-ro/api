@@ -1,6 +1,5 @@
 import { Int } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
-import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
 import {
   CommonPropertyUuid,
@@ -12,6 +11,7 @@ import {
   createDtoPropertyMap,
   createValidationContract,
 } from '../../../../../infrastructure';
+import { createEntityDtoClass } from '../../../../../infrastructure/utils/createDtoClass';
 import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/imagem.dtos';
 import { BlocoDto, BlocoFindOneResultDto } from '../../bloco/dtos';
 

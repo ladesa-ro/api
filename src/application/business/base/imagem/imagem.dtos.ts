@@ -1,12 +1,12 @@
 import * as Spec from '@sisgea/spec';
-import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import * as yup from 'yup';
-import { ValidationContractString, ValidationContractUuid, createValidationContract } from '../../../../infrastructure';
+import { createValidationContract, ValidationContractUuid, ValidationContractString } from '../../../../infrastructure';
+import { createEntityDtoClass } from '../../../../infrastructure/utils/createDtoClass';
 
 // ======================================================
 
-export const ImagemDto = createEntityDtoClass(Spec.ImagemDeclarationFactory);
-export const ImagemFindOneResultDto = createEntityDtoClass(Spec.ImagemFindOneResultDeclarationFactory, 'output');
+export const ImagemDto = createEntityDtoClass(Spec.Imagem);
+export const ImagemFindOneResultDto = createEntityDtoClass(Spec.ImagemFindOneResult, 'output');
 
 // ======================================================
 

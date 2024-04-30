@@ -3,7 +3,7 @@ import * as Dtos from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { DiarioEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/diario.entity';

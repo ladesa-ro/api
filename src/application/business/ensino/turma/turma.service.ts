@@ -4,7 +4,7 @@ import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad'
 import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { TurmaEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/turma.entity';

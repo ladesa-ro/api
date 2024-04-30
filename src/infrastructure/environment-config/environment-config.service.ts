@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { __dirname } from 'infrastructure/utils/dirname';
 import { join } from 'path';
 import { DataSourceOptions } from 'typeorm';
 import { IConfig } from '../../domain';
 import { IConfigIntegrateAuthKeycloakCredentials, IConfigIntegrateAuthOidcClientCredentials } from '../../domain/config/IConfigIntegrateAuth';
+import * as entities from '../integrate-database/typeorm/entities';
 
 @Injectable()
 export class EnvironmentConfigService implements IConfig {
@@ -187,8 +189,9 @@ export class EnvironmentConfigService implements IConfig {
   getTypeOrmAppDataSourceOptions(): DataSourceOptions {
     const options = {
       ...this.getTypeOrmSharedDataSourceOptions(),
-      entities: [`${this.getTypeOrmPathEntities()}/**/*{.ts,.js}`],
-      subscribers: [`${this.getTypeOrmPathSubscribers()}/**/*{.ts,.js}`],
+      entities: [...Object.values(entities)],
+      // entities: [`${this.getTypeOrmPathEntities()}/**/*{.ts,.js}`],
+      // subscribers: [`${this.getTypeOrmPathSubscribers()}/**/*{.ts,.js}`],
     };
 
     return options as DataSourceOptions;

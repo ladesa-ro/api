@@ -1,6 +1,6 @@
 import { Controller, Get, StreamableFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import { ContextoDeAcessoHttp, DtoOperationGetFile, HttpDtoParam } from '../../../../infrastructure';
 import { HttpDtoQuery } from '../../../../infrastructure/api-documentate/HttpDtoQuery';
 import { ArquivoOperations } from './arquivo.dtos';
@@ -12,12 +12,12 @@ export class ArquivoController {
   constructor(private arquivoService: ArquivoService) {}
 
   @Get(':id')
-  @DtoOperationGetFile(ArquivoOperations.ARQUIVO_GET_FILE)
+  @DtoOperationGetFile(ArquivoOperations.ArquivoGetFile)
   async getFile(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(ArquivoOperations.ARQUIVO_GET_FILE, 'id') id: string,
-    @HttpDtoQuery(ArquivoOperations.ARQUIVO_GET_FILE, 'acesso.recurso.nome') acessoRecursoNome: string,
-    @HttpDtoQuery(ArquivoOperations.ARQUIVO_GET_FILE, 'acesso.recurso.id') acessoRecursoId: string,
+    @HttpDtoParam(ArquivoOperations.ArquivoGetFile, 'id') id: string,
+    @HttpDtoQuery(ArquivoOperations.ArquivoGetFile, 'acesso.recurso.nome') acessoRecursoNome: string,
+    @HttpDtoQuery(ArquivoOperations.ArquivoGetFile, 'acesso.recurso.id') acessoRecursoId: string,
   ): Promise<StreamableFile> {
     return this.arquivoService.getStreamableFile(contextoDeAcesso, id, {
       id: acessoRecursoId,

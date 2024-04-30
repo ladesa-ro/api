@@ -3,7 +3,7 @@ import * as Dtos from '@sisgea/spec';
 import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
 import { map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infrastructure';
 import { DatabaseContextService } from '../../../../infrastructure/integrate-database/database-context/database-context.service';
 import { ModalidadeEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/ensino/modalidade.entity';

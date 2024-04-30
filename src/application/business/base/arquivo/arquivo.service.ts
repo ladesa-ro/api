@@ -4,7 +4,7 @@ import jetpack, { createReadStream } from 'fs-jetpack';
 import { writeFile } from 'node:fs/promises';
 import { Readable } from 'node:stream';
 import { v4 } from 'uuid';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import { DatabaseContextService, EnvironmentConfigService, ValidationContractUuid } from '../../../../infrastructure';
 import { UsuarioEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/autenticacao/usuario.entity';
 import { ArquivoEntity } from '../../../../infrastructure/integrate-database/typeorm/entities/base/arquivo.entity';

@@ -1,8 +1,8 @@
 import { Info, Resolver } from '@nestjs/graphql';
 import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto, ISearchInputDto } from '@sisgea/spec';
-import { GraphQLResolveInfo } from 'graphql';
+import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import { ContextoDeAcessoGraphQl, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infrastructure';
 import { EstadoOperations } from './dtos/estado.operations';
 import { EstadoService } from './estado.service';

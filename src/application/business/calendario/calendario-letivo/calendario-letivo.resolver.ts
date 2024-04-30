@@ -1,8 +1,8 @@
 import * as Dto from '@sisgea/spec';
-import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from 'infrastructure';
+import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infrastructure';
 
 import { Resolver } from '@nestjs/graphql';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import { CalendarioLetivoService } from './calendario-letivo.service';
 import { CalendarioLetivoDto } from './dtos/calendario-letivo.dto';
 import { CalendarioLetivoOperations } from './dtos/calendario-letivo.operations';

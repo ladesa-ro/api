@@ -1,7 +1,7 @@
 import * as Spec from '@sisgea/spec';
-import { createEntityDtoClass } from 'infrastructure/utils/createDtoClass';
 import { SearchInputDto, SearchInputValidationContract } from '../../../../../infrastructure';
 import { createDtoOperationOptions } from '../../../../../infrastructure/api-documentate/DtoOperation';
+import { createEntityDtoClass } from '../../../../../infrastructure/utils/createDtoClass';
 
 // =============================================================
 

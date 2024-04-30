@@ -13,24 +13,24 @@ export enum AppResource {
 
 type ILoadStrategy = {
   resource: string | AppResource;
-  declarationFactory: Spec.IDeclaredEntity<any>;
+  declarationFactory: Spec.IDeclarator;
   allowedProperties: string[];
 };
 
 const loadStrategies: ILoadStrategy[] = [
   {
     resource: AppResource.ARQUIVO,
-    declarationFactory: Spec.ArquivoDeclarationFactory,
+    declarationFactory: Spec.Arquivo,
     allowedProperties: ['id', 'nome', 'mimeType', 'sizeBytes', 'dateCreated', 'dateUpdated', 'dateDeleted'],
   },
   {
     resource: AppResource.IMAGEM,
-    declarationFactory: Spec.ImagemDeclarationFactory,
+    declarationFactory: Spec.Imagem,
     allowedProperties: ['id', 'descricao', 'imagemArquivo', 'dateCreated', 'dateUpdated', 'dateDeleted'],
   },
   {
     resource: AppResource.IMAGEM_ARQUIVO,
-    declarationFactory: Spec.ImagemArquivoDeclarationFactory,
+    declarationFactory: Spec.ImagemArquivo,
     allowedProperties: ['id', 'largura', 'altura', 'formato', 'mimeType', 'arquivo', 'dateCreated'],
   },
   {

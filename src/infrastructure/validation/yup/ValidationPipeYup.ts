@@ -1,5 +1,6 @@
 import { Injectable, PipeTransform } from '@nestjs/common';
 import omit from 'lodash/omit';
+import type { ISchema } from 'yup';
 import * as yup from 'yup';
 import { ValidationFailedException } from '../../adapters/common/ValidationFailedException';
 import { tryCast } from './tryCast';
@@ -12,7 +13,7 @@ interface ValidationPipeYupOptions {
 @Injectable()
 export class ValidationPipeYup implements PipeTransform {
   constructor(
-    private yupSchema: yup.ISchema<any, any>,
+    private yupSchema: ISchema<any, any>,
     private options: ValidationPipeYupOptions,
   ) {}
 

@@ -2,11 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dto from '@sisgea/spec';
 import { CampusService, ICampusQueryBuilderViewOptions } from 'application/business/ambientes/campus/campus.service';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from 'application/utils/QueryBuilderViewOptionsLoad';
-import { DatabaseContextService } from 'infrastructure';
-import { paginateConfig } from 'infrastructure/utils/paginateConfig';
 import { FilterOperator, PaginateQuery, paginate } from 'nestjs-paginate';
 import { NotBrackets, SelectQueryBuilder } from 'typeorm';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
+import { DatabaseContextService } from '../../../../infrastructure';
+import { paginateConfig } from '../../../../infrastructure/utils/paginateConfig';
 import { UsuarioService } from '../usuario/usuario.service';
 
 // ============================================================================

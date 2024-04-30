@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { IContextoDeAcesso } from '../../../../domain';
+import type { IContextoDeAcesso } from '../../../../domain';
 import { ContextoDeAcessoHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../../infrastructure';
 import { EstadoOperations } from './dtos/estado.operations';
 import { EstadoService } from './estado.service';
