@@ -1,3 +1,3 @@
 export * from './database-context';
-export * from './integrate-database.module';
+export * from './integracao-banco-de-dados.module';
 export * from './typeorm';

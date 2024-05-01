@@ -9,8 +9,8 @@ import { BlocoService, IBlocoQueryBuilderViewOptions } from '../bloco/bloco.serv
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../infraestrutura/nest-app/utils/QueryBuilderViewOptionsLoad';
 import { AppResourceView, AppResource } from '../../../infraestrutura/nest-app/utils/qbEfficientLoad';
-import { DatabaseContextService } from '../../../infraestrutura/integrations/integrate-database';
-import { AmbienteEntity } from '../../../infraestrutura/integrations/integrate-database/typeorm/entities';
+import { DatabaseContextService } from '../../../infraestrutura/integrations/integracao-banco-de-dados';
+import { AmbienteEntity } from '../../../infraestrutura/integrations/integracao-banco-de-dados/typeorm/entities';
 import { paginateConfig } from '../../../legacy/utils/paginateConfig';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 

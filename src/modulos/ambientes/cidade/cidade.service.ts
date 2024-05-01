@@ -5,7 +5,7 @@ import { map } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import type { IContextoDeAcesso } from '../../../../domain/contexto-de-acesso';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infraestrutura';
-import { DatabaseContextService } from '../../../../infraestrutura/integrate-database/database-context/database-context.service';
+import { DatabaseContextService } from '../../../../infraestrutura/integracao-banco-de-dados/database-context/database-context.service';
 import { paginateConfig } from '../../../../infraestrutura/utils/paginateConfig';
 
 const aliasCidade = 'cidade';

@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { pick } from 'lodash';
 import { IUsuarioDaRequisicao } from '.';
 import { IntegrateExternalIdentityAndAccessManagementService } from '../../infraestrutura';
-import { DatabaseContextService } from '../../infraestrutura/integrations/integrate-database';
+import { DatabaseContextService } from '../../infraestrutura/integrations/integracao-banco-de-dados';
 
 @Injectable()
 export class UsuarioDaRequisicaoService {

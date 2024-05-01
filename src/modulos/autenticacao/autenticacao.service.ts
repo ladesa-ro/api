@@ -1,10 +1,10 @@
 import { BadRequestException, ForbiddenException, HttpException, Injectable, ServiceUnavailableException } from '@nestjs/common';
 import * as Dto from '@sisgea/spec';
 import { DatabaseContextService } from 'infrastructure';
-import { KeycloakService } from 'infrastructure/authentication/integrate-external-identity-and-access-management/keycloak';
+import { KeycloakService } from 'infrastructure/authentication/integracao-identidade-e-acesso/keycloak';
 import { BaseClient, TokenSet } from 'openid-client';
 import type { IContextoDeAcesso } from '../../../domain';
-import { OpenidConnectService } from '../../../infraestrutura/authentication/integrate-external-identity-and-access-management/openid-connect/openid-connect.service';
+import { OpenidConnectService } from '../../../infraestrutura/authentication/integracao-identidade-e-acesso/openid-connect/openid-connect.service';
 import { UsuarioService } from './usuario/usuario.service';
 
 @Injectable()

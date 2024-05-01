@@ -1,13 +1,14 @@
+import { SetupSwaggerDocument } from '@/documentacao/SetupSwaggerDocument';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
 import helmet from 'helmet';
 import 'reflect-metadata';
-import { AppModule, EnvironmentConfigService } from '@/infraestrutura';
-import { SetupSwaggerDocument } from '@/documentacao/SetupSwaggerDocument';
+import { MainModule } from './main.module';
+import { EnvironmentConfigService } from './config';
 
 async function setupApp() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(MainModule);
 
   const environmentConfigService = app.get(EnvironmentConfigService);
 

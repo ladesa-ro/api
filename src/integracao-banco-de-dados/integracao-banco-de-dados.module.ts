@@ -5,4 +5,4 @@ import { TypeormModule } from './typeorm';
 @Module({
   imports: [TypeormModule, DatabaseContextModule],
 })
-export class IntegrateDatabaseModule {}
+export class IntegracaoBancoDeDadosModule {}

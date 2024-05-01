@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { KeycloakModule } from '../../../../infraestrutura/authentication/integrate-external-identity-and-access-management/keycloak';
+import { KeycloakModule } from '../../../../infraestrutura/authentication/integracao-identidade-e-acesso/keycloak';
 import { UsuarioController } from './usuario.controller';
 import { UsuarioResolver } from './usuario.resolver';
 import { UsuarioService } from './usuario.service';

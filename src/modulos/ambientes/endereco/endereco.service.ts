@@ -5,7 +5,7 @@ import { pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import type { IContextoDeAcesso } from '../../../../domain';
 import { parsePayloadYup } from '../../../../infraestrutura';
-import { DatabaseContextService } from '../../../../infraestrutura/integrate-database/database-context/database-context.service';
+import { DatabaseContextService } from '../../../../infraestrutura/integracao-banco-de-dados/database-context/database-context.service';
 import { EnderecoInputDtoValidationContract } from './dtos';
 
 // ============================================================================

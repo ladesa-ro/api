@@ -6,8 +6,8 @@ import { Readable } from 'node:stream';
 import { v4 } from 'uuid';
 import type { IContextoDeAcesso } from '../../../../domain';
 import { DatabaseContextService, EnvironmentConfigService, ValidationContractUuid } from '../../../../infraestrutura';
-import { UsuarioEntity } from '../../../../infraestrutura/integrate-database/typeorm/entities/autenticacao/usuario.entity';
-import { ArquivoEntity } from '../../../../infraestrutura/integrate-database/typeorm/entities/base/arquivo.entity';
+import { UsuarioEntity } from '../../../../infraestrutura/integracao-banco-de-dados/typeorm/entities/autenticacao/usuario.entity';
+import { ArquivoEntity } from '../../../../infraestrutura/integracao-banco-de-dados/typeorm/entities/base/arquivo.entity';
 
 type IGetFileAcesso = null | {
   nome?: string;

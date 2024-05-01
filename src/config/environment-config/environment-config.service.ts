@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { DataSourceOptions } from 'typeorm';
-import * as entities from '../../infraestrutura/integrations/integrate-database/typeorm/entities';
+import * as entities from '../../infraestrutura/integrations/integracao-banco-de-dados/typeorm/entities';
 import { IConfig } from '../types';
 import { IConfigIntegrateAuthKeycloakCredentials, IConfigIntegrateAuthOidcClientCredentials } from '../types/IConfigIntegrateAuth';
 
@@ -67,7 +67,7 @@ export class EnvironmentConfigService implements IConfig {
   }
 
   getTypeOrmBasePath(): string {
-    return join(__dirname, '..', 'integrate-database/typeorm');
+    return join(__dirname, '..', 'integracao-banco-de-dados/typeorm');
   }
 
   getTypeOrmPathEntities(): string {

@@ -5,8 +5,8 @@ import { map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import type { IContextoDeAcesso } from '../../../../domain';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infraestrutura';
-import { DatabaseContextService } from '../../../../infraestrutura/integrate-database/database-context/database-context.service';
-import { ModalidadeEntity } from '../../../../infraestrutura/integrate-database/typeorm/entities/ensino/modalidade.entity';
+import { DatabaseContextService } from '../../../../infraestrutura/integracao-banco-de-dados/database-context/database-context.service';
+import { ModalidadeEntity } from '../../../../infraestrutura/integracao-banco-de-dados/typeorm/entities/ensino/modalidade.entity';
 import { paginateConfig } from '../../../../infraestrutura/utils/paginateConfig';
 
 // ============================================================================

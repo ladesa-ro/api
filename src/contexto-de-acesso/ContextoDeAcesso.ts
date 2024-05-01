@@ -3,7 +3,7 @@ import { castArray } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { IUsuarioDaRequisicao } from '../autenticacao';
 import { IAuthzStatement, AuthzPolicyPublic, IAuthzStatementFilter, IBaseAuthzFilterFn, IBaseAuthzStatementContext } from '../autorizacao';
-import { DatabaseContextService } from '../infraestrutura/integrations/integrate-database';
+import { DatabaseContextService } from '../infraestrutura/integrations/integracao-banco-de-dados';
 import { IContextoDeAcesso } from './IContextoDeAcesso';
 
 function createForbiddenExceptionForAction<Statement extends IAuthzStatement, Action extends Statement['action']>(action: Action) {

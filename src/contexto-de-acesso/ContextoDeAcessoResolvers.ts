@@ -1,6 +1,6 @@
 import { IUsuarioDaRequisicao, UsuarioDaRequisicaoGql, UsuarioDaRequisicaoHttp } from '@/autenticacao';
 import { ContextoDeAcesso } from '@/contexto-de-acesso/ContextoDeAcesso';
-import { DatabaseContextService } from '@/infraestrutura/integrations/integrate-database';
+import { DatabaseContextService } from '@/infraestrutura/integrations/integracao-banco-de-dados';
 import { Injectable, PipeTransform } from '@nestjs/common';
 
 @Injectable()
