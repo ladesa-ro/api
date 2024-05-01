@@ -1,6 +1,6 @@
 import { Promisable } from 'type-fest';
 import { SelectQueryBuilder } from 'typeorm';
-import type { IContextoDeAcesso } from '../contexto-de-acesso';
+import type { IContextoDeAcesso } from '../../../contexto-de-acesso';
 
 //
 

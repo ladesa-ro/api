@@ -1,6 +1,4 @@
-//
-
-import * as Authz from './statements/IAuthzStatement';
+import * as Authz from './types/IAuthzStatement';
 
 type IAuthzPolicySetup = {
   endereco: {

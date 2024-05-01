@@ -1,5 +1,5 @@
-import { IBaseAuthzFilterFn } from '../../domain';
 import { BaseAuthzPolicy } from './BaseAuthzPolicy';
+import { IBaseAuthzFilterFn } from '@/autorizacao/regras/types';
 
 const filterAllowNotDeleted: IBaseAuthzFilterFn<any, any> = (_context, alias = 'row') => {
   return (qb) => {

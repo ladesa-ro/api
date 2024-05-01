@@ -1,5 +1,5 @@
 import * as Dto from '@sisgea/spec';
-import { IBaseAuthzCheck, IBaseAuthzFilter } from '../../../domain';
+import { IBaseAuthzFilter, IBaseAuthzCheck } from './IBaseAuthz';
 
 // ===================================================================================
 
@@ -29,21 +29,36 @@ export type IAuthzStatementBlocoDelete = IBaseAuthzFilter<'bloco:delete', { dto:
 export type IAuthzStatementAmbienteCreate = IBaseAuthzCheck<'ambiente:create', { dto: Dto.IAmbienteCreateDto }>;
 export type IAuthzStatementAmbienteFind = IBaseAuthzFilter<'ambiente:find'>;
 export type IAuthzStatementAmbienteUpdate = IBaseAuthzFilter<'ambiente:update', { dto: Dto.IAmbienteUpdateDto }>;
-export type IAuthzStatementAmbienteDelete = IBaseAuthzFilter<'ambiente:delete', { dto: Dto.IAmbienteDeleteOneByIdInputDto }>;
+export type IAuthzStatementAmbienteDelete = IBaseAuthzFilter<
+  'ambiente:delete',
+  {
+    dto: Dto.IAmbienteDeleteOneByIdInputDto;
+  }
+>;
 
 // =====================
 
 export type IAuthzStatementUsuarioCreate = IBaseAuthzCheck<'usuario:create', { dto: Dto.IUsuarioCreateDto }>;
 export type IAuthzStatementUsuarioFind = IBaseAuthzFilter<'usuario:find'>;
 export type IAuthzStatementUsuarioUpdate = IBaseAuthzFilter<'usuario:update', { dto: Dto.IUsuarioUpdateDto }>;
-export type IAuthzStatementUsuarioDelete = IBaseAuthzFilter<'usuario:delete', { dto: Dto.IUsuarioDeleteOneByIdInputDto }>;
+export type IAuthzStatementUsuarioDelete = IBaseAuthzFilter<
+  'usuario:delete',
+  {
+    dto: Dto.IUsuarioDeleteOneByIdInputDto;
+  }
+>;
 
 // =====================
 
 export type IAuthzStatementModalidadeCreate = IBaseAuthzCheck<'modalidade:create', { dto: Dto.IModalidadeCreateDto }>;
 export type IAuthzStatementModalidadeFind = IBaseAuthzFilter<'modalidade:find'>;
 export type IAuthzStatementModalidadeUpdate = IBaseAuthzFilter<'modalidade:update', { dto: Dto.IModalidadeUpdateDto }>;
-export type IAuthzStatementModalidadeDelete = IBaseAuthzFilter<'modalidade:delete', { dto: Dto.IModalidadeDeleteOneByIdInputDto }>;
+export type IAuthzStatementModalidadeDelete = IBaseAuthzFilter<
+  'modalidade:delete',
+  {
+    dto: Dto.IModalidadeDeleteOneByIdInputDto;
+  }
+>;
 
 // =====================
 
@@ -60,7 +75,12 @@ export type IAuthzStatementCursoFind = IBaseAuthzFilter<'curso:find'>;
 
 export type IAuthzStatementDisciplinaCreate = IBaseAuthzCheck<'disciplina:create', { dto: Dto.IDisciplinaInputDto }>;
 export type IAuthzStatementDisciplinaUpdate = IBaseAuthzFilter<'disciplina:update', { dto: Dto.IDisciplinaUpdateDto }>;
-export type IAuthzStatementDisciplinaDelete = IBaseAuthzFilter<'disciplina:delete', { dto: Dto.IDisciplinaDeleteOneByIdInputDto }>;
+export type IAuthzStatementDisciplinaDelete = IBaseAuthzFilter<
+  'disciplina:delete',
+  {
+    dto: Dto.IDisciplinaDeleteOneByIdInputDto;
+  }
+>;
 export type IAuthzStatementDisciplinaFind = IBaseAuthzFilter<'disciplina:find'>;
 
 // =====================
@@ -81,21 +101,56 @@ export type IAuthzStatementDiarioFind = IBaseAuthzFilter<'diario:find'>;
 
 export type IAuthzStatementReservaCreate = IBaseAuthzCheck<'reserva:create', { dto: Dto.IReservaInputDto }>;
 export type IAuthzStatementReservaUpdate = IBaseAuthzFilter<'reserva:update', { dto: Dto.IReservaUpdateDto }>;
-export type IAuthzStatementReservaDelete = IBaseAuthzFilter<'reserva:delete', { dto: Dto.IReservaDeleteOneByIdInputDto }>;
+export type IAuthzStatementReservaDelete = IBaseAuthzFilter<
+  'reserva:delete',
+  {
+    dto: Dto.IReservaDeleteOneByIdInputDto;
+  }
+>;
 export type IAuthzStatementReservaFind = IBaseAuthzFilter<'reserva:find'>;
 
 // =====================
 
-export type IAuthzStatementCalendarioLetivoCreate = IBaseAuthzCheck<'calendario_letivo:create', { dto: Dto.ICalendarioLetivoCreateDto }>;
-export type IAuthzStatementCalendarioLetivoUpdate = IBaseAuthzFilter<'calendario_letivo:update', { dto: Dto.ICalendarioLetivoUpdateDto }>;
-export type IAuthzStatementCalendarioLetivoDelete = IBaseAuthzFilter<'calendario_letivo:delete', { dto: Dto.ICalendarioLetivoDeleteOneByIdInputDto }>;
+export type IAuthzStatementCalendarioLetivoCreate = IBaseAuthzCheck<
+  'calendario_letivo:create',
+  {
+    dto: Dto.ICalendarioLetivoCreateDto;
+  }
+>;
+export type IAuthzStatementCalendarioLetivoUpdate = IBaseAuthzFilter<
+  'calendario_letivo:update',
+  {
+    dto: Dto.ICalendarioLetivoUpdateDto;
+  }
+>;
+export type IAuthzStatementCalendarioLetivoDelete = IBaseAuthzFilter<
+  'calendario_letivo:delete',
+  {
+    dto: Dto.ICalendarioLetivoDeleteOneByIdInputDto;
+  }
+>;
 export type IAuthzStatementCalendarioLetivoFind = IBaseAuthzFilter<'calendario_letivo:find'>;
 
-export type IAuthzStatementDiarioProfessorCreate = IBaseAuthzCheck<'diario_professor:create', { dto: Dto.IDiarioProfessorInputDto }>;
+export type IAuthzStatementDiarioProfessorCreate = IBaseAuthzCheck<
+  'diario_professor:create',
+  {
+    dto: Dto.IDiarioProfessorInputDto;
+  }
+>;
 
-export type IAuthzStatementDiarioProfessorUpdate = IBaseAuthzFilter<'diario_professor:update', { dto: Dto.IDiarioProfessorUpdateDto }>;
+export type IAuthzStatementDiarioProfessorUpdate = IBaseAuthzFilter<
+  'diario_professor:update',
+  {
+    dto: Dto.IDiarioProfessorUpdateDto;
+  }
+>;
 
-export type IAuthzStatementDiarioProfessorDelete = IBaseAuthzFilter<'diario_professor:delete', { dto: Dto.IDiarioProfessorDeleteOneByIdInputDto }>;
+export type IAuthzStatementDiarioProfessorDelete = IBaseAuthzFilter<
+  'diario_professor:delete',
+  {
+    dto: Dto.IDiarioProfessorDeleteOneByIdInputDto;
+  }
+>;
 
 export type IAuthzStatementDiarioProfessorFilter = IBaseAuthzFilter<'diario_professor:find'>;
 
