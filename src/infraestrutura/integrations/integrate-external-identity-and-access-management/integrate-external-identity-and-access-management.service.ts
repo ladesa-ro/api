@@ -12,7 +12,7 @@ interface IntrospectionResponseComUsuario extends IntrospectionResponse {
 }
 
 @Injectable()
-export class IdpConnectTceService {
+export class IntegrateExternalIdentityAndAccessManagementService {
   constructor(
     private openIdConnectService: OpenidConnectService,
     private jwksRsaClientService: JwksRsaClientService,

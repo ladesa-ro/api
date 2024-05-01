@@ -1,7 +1,7 @@
+import { UsuarioDaRequisicaoService } from '@/autenticacao';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-http-bearer';
-import { AuthenticationService } from '@/autenticacao';
 
 export enum AuthStrategy {
   ACCESS_TOKEN = 'access_token',
@@ -9,12 +9,12 @@ export enum AuthStrategy {
 
 @Injectable()
 export class AccessTokenStrategy extends PassportStrategy(Strategy, AuthStrategy.ACCESS_TOKEN) {
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private usuarioDaRequisicaoService: UsuarioDaRequisicaoService) {
     super();
   }
 
   async validate(accessToken?: string) {
-    const currentUsuario = await this.authenticationService.getCurrentFuncionarioByAccessToken(accessToken);
+    const currentUsuario = await this.usuarioDaRequisicaoService.getCurrentFuncionarioByAccessToken(accessToken);
 
     if (!currentUsuario) {
       throw new UnauthorizedException('Not authenticated.');
