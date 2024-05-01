@@ -33,7 +33,7 @@ dev-start:
 	make dev-down;
 	make dev-up;
 
-	sudo docker compose $(compose_options) exec -u node --no-TTY -d $(d_container_app) bash -c "npm i && npm run db:migrate && npm run start:dev" \&;
+	sudo docker compose $(compose_options) exec -u node --no-TTY -d $(d_container_app) bash -c "npm i && npm run migration:run && npm run start:dev" \&;
 
 dev-cleanup:
 	make dev-down;
