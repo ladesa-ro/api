@@ -16,7 +16,7 @@
     "start:debug": "nest start --debug 0.0.0.0:9229 --watch",
     "start:prod": "node dist/main",
     "typeorm": "./node_modules/.bin/ts-node --transpileOnly ./node_modules/.bin/typeorm",
-    "typeorm-db-migration": "./node_modules/.bin/ts-node --transpileOnly ./node_modules/.bin/typeorm -d src/infrastructure/integrate-database/typeorm/data-sources/migration.data-source.ts",
+    "typeorm-db-migration": "./node_modules/.bin/ts-node --transpileOnly ./node_modules/.bin/typeorm -d src/integracao-banco-de-dados/typeorm/data-sources/migration.data-source.ts",
     "typeorm:entity": "npm run typeorm -- entity:create",
     "typeorm:generate": "npm run typeorm -- migration:generate",
     "typeorm:create": "npm run typeorm -- migration:create",
