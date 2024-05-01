@@ -14,7 +14,7 @@ export class GqlExceptionFilter implements NestGqlExceptionFilter {
 
     const status = exception.getStatus();
 
-    const isGql = !Boolean(request);
+    const isGql = !request;
 
     if (!isGql) {
       if (exception instanceof ValidationFailedException) {

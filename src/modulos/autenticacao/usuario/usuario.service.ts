@@ -550,9 +550,9 @@ export class UsuarioService {
 
     await this.ensureDtoAvailability(input, dto.id);
 
-    const usuario = <UsuarioEntity>{
+    const usuario = {
       id: currentUsuario.id,
-    };
+    } as UsuarioEntity;
 
     this.usuarioRepository.merge(usuario, {
       ...input,

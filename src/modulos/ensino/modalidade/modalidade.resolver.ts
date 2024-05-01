@@ -23,7 +23,7 @@ export class ModalidadeResolver {
     @GqlDtoInput(ModalidadeOperations.MODALIDADE_FIND_ALL) dto: Dto.ISearchInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
-    const selection = getFieldNames(<any>info)
+    const selection = getFieldNames(info as any)
       .filter((i) => i.startsWith('data.'))
       .map((i) => i.slice(i.indexOf('.') + 1));
 
@@ -39,7 +39,7 @@ export class ModalidadeResolver {
     dto: Dto.IModalidadeFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
-    const selection = getFieldNames(<any>info);
+    const selection = getFieldNames(info as any);
     return this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, dto, ['id', ...selection]);
   }
 

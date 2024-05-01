@@ -294,9 +294,9 @@ export class DiarioProfessorService {
 
     const dtoDiarioProfessor = pick(dto, ['situacao']);
 
-    const diarioProfessor = <DiarioProfessorEntity>{
+    const diarioProfessor = {
       id: currentDiarioProfessor.id,
-    };
+    } as DiarioProfessorEntity;
 
     this.diarioProfessorRepository.merge(diarioProfessor, {
       ...dtoDiarioProfessor,

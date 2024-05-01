@@ -256,9 +256,9 @@ export class BlocoService {
 
     const { imagem } = await this.imagemService.saveBlocoCapa(file);
 
-    const bloco = <BlocoEntity>{
+    const bloco = {
       id: currentBloco.id,
-    };
+    } as BlocoEntity;
 
     this.blocoRepository.merge(bloco, {
       imagemCapa: {
@@ -324,9 +324,9 @@ export class BlocoService {
 
     const dtoBloco = pick(dto, ['nome', 'codigo']);
 
-    const bloco = <BlocoEntity>{
+    const bloco = {
       id: currentBloco.id,
-    };
+    } as BlocoEntity;
 
     this.blocoRepository.merge(bloco, {
       ...dtoBloco,

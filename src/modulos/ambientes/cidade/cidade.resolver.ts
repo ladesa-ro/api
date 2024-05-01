@@ -23,7 +23,7 @@ export class CidadeResolver {
     @GqlDtoInput(CidadeOperations.CIDADE_FIND_ALL) dto: ISearchInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
-    const selection = getFieldNames(<any>info)
+    const selection = getFieldNames(info as any)
       .filter((i) => i.startsWith('data.'))
       .map((i) => i.slice(i.indexOf('.') + 1));
 
@@ -39,7 +39,7 @@ export class CidadeResolver {
     dto: ICidadeFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
-    const selection = getFieldNames(<any>info);
+    const selection = getFieldNames(info as any);
     return this.cidadeService.findByIdStrict(clienteAccess, dto, selection);
   }
 }

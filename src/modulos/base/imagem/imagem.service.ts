@@ -2,8 +2,8 @@ import { Injectable, ServiceUnavailableException, UnprocessableEntityException }
 import sharp from 'sharp';
 import { SelectQueryBuilder } from 'typeorm';
 import { v4 } from 'uuid';
-import { ArquivoService } from '../arquivo/arquivo.service';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { ArquivoService } from '../arquivo/arquivo.service';
 
 type ISaveImageOptions = {
   minWidth: number;
@@ -82,9 +82,11 @@ export class ImagemService {
           let mimeType: string;
           const transformImage = originalImage.clone().keepMetadata();
 
-          if (transform.outputAs === 'jpeg' || true) {
+          if (transform.outputAs === 'jpeg') {
             transformImage.jpeg();
             mimeType = 'image/jpeg';
+          } else {
+            throw new TypeError('Invalid transform.outputAs');
           }
 
           const transformedOutput = await transformImage.toBuffer({ resolveWithObject: true });

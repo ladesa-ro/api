@@ -198,9 +198,9 @@ export class ModalidadeService {
 
     const dtoModalidade = pick(dto, ['nome', 'slug']);
 
-    const modalidade = <ModalidadeEntity>{
+    const modalidade = {
       id: currentModalidade.id,
-    };
+    } as ModalidadeEntity;
 
     this.modalidadeRepository.merge(modalidade, {
       ...dtoModalidade,

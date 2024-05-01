@@ -153,7 +153,7 @@ export class ArquivoService {
     // TODO: mimeType
     const mimeType = dto.mimeType;
 
-    await this.arquivoRepository.save(<ArquivoEntity>{
+    await this.arquivoRepository.save({
       id,
       //
       nome: dto.nome,
@@ -161,7 +161,7 @@ export class ArquivoService {
       sizeBytes: sizeBytes,
       storageType: 'filesystem',
       //
-    });
+    } as ArquivoEntity);
 
     return {
       id,

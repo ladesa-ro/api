@@ -2,7 +2,7 @@ import { createDtoPropertyOptions } from '../api-documentate';
 
 // ======================================================================
 
-export const CommonPropertyUuid = (description: string = 'UUID do registro.') =>
+export const CommonPropertyUuid = (description = 'UUID do registro.') =>
   createDtoPropertyOptions({
     nullable: false,
     description: description,

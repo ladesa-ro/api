@@ -4,5 +4,5 @@ import type { Request } from 'express';
 export const UsuarioDaRequisicaoHttp = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const ctx = context.switchToHttp();
   const request = ctx.getRequest<Request>();
-  return (<any>request).user ?? null;
+  return (request as any).user ?? null;
 });

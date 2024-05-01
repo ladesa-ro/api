@@ -93,7 +93,7 @@ export class IntegracaoIdentidadeEAcessoService {
         if (err) {
           resolve(null);
         } else {
-          resolve(<JwtPayload>decoded);
+          resolve(decoded as JwtPayload);
         }
       });
     });

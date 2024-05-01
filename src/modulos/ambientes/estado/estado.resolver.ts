@@ -23,7 +23,7 @@ export class EstadoResolver {
     @GqlDtoInput(EstadoOperations.ESTADO_FIND_ALL) dto: ISearchInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
-    const selection = getFieldNames(<any>info)
+    const selection = getFieldNames(info as any)
       .filter((i) => i.startsWith('data.'))
       .map((i) => i.slice(i.indexOf('.') + 1));
 
@@ -39,7 +39,7 @@ export class EstadoResolver {
     dto: IEstadoFindOneByUfInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
-    const selection = getFieldNames(<any>info);
+    const selection = getFieldNames(info as any);
     return this.estadoService.findByUfStrict(clienteAccess, dto, selection);
   }
 
@@ -52,7 +52,7 @@ export class EstadoResolver {
     dto: IEstadoFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
-    const selection = getFieldNames(<any>info);
+    const selection = getFieldNames(info as any);
     return this.estadoService.findByIdStrict(clienteAccess, dto, selection);
   }
 

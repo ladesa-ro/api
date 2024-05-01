@@ -38,7 +38,6 @@ export class DisciplinaService {
 
   //
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static DisciplinaQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IDisciplinaQueryBuilderViewOptions = {}) {
     qb.addSelect([
       //
@@ -242,9 +241,9 @@ export class DisciplinaService {
 
     const dtoDisciplina = pick(dto, ['nome', 'cargaHoraria']);
 
-    const disciplina = <DisciplinaEntity>{
+    const disciplina = {
       id: currentDisciplina.id,
-    };
+    } as DisciplinaEntity;
 
     this.disciplinaRepository.merge(disciplina, {
       ...dtoDisciplina,

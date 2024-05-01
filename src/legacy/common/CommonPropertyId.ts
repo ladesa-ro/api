@@ -3,7 +3,7 @@ import { createDtoPropertyOptions } from '../api-documentate';
 
 // ======================================================================
 
-export const CommonPropertyId = (description: string = 'ID do registro.') =>
+export const CommonPropertyId = (description = 'ID do registro.') =>
   createDtoPropertyOptions({
     nullable: false,
     description: description,

@@ -301,9 +301,9 @@ export class CursoService {
 
     const dtoCurso = pick(dto, ['nome', 'nomeAbreviado', 'campus', 'modalidade']);
 
-    const curso = <CursoEntity>{
+    const curso = {
       id: currentCurso.id,
-    };
+    } as CursoEntity;
 
     this.cursoRepository.merge(curso, {
       ...dtoCurso,

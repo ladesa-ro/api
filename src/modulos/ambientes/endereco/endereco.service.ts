@@ -76,13 +76,13 @@ export class EnderecoService {
       }
     }
 
-    const enderecoInputDto = <IEnderecoInputDto>{
+    const enderecoInputDto = {
       ...pick(dto, ['cep', 'logradouro', 'numero', 'bairro', 'complemento', 'pontoReferencia']),
 
       cidade: {
         id: dto.cidade.id,
       },
-    };
+    } as IEnderecoInputDto;
 
     this.enderecoRepository.merge(endereco, enderecoInputDto);
 

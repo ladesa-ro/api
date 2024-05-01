@@ -323,9 +323,9 @@ export class TurmaService {
 
     const dtoTurma = pick(dto, ['periodo', 'grupo', 'nome']);
 
-    const turma = <TurmaEntity>{
+    const turma = {
       id: currentTurma.id,
-    };
+    } as TurmaEntity;
 
     this.turmaRepository.merge(turma, {
       ...dtoTurma,

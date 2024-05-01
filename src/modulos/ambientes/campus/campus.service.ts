@@ -356,9 +356,9 @@ export class CampusService {
     const campus = await this.databaseContext.transaction(async ({ databaseContext: { campusRepository, campusPossuiModalidadeRepository } }) => {
       const dtoCampus = pick(dto, ['nomeFantasia', 'razaoSocial', 'apelido', 'cnpj']);
 
-      const campus = <CampusEntity>{
+      const campus = {
         id: currentCampus.id,
-      };
+      } as CampusEntity;
 
       campusRepository.merge(campus, {
         ...dtoCampus,

@@ -295,9 +295,9 @@ export class ReservaService {
 
     const dtoReserva = pick(dto, ['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino']);
 
-    const reserva = <ReservaEntity>{
+    const reserva = {
       id: currentReserva.id,
-    };
+    } as ReservaEntity;
 
     this.reservaRepository.merge(reserva, {
       ...dtoReserva,

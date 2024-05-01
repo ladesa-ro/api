@@ -19,7 +19,7 @@ export type IDtoPropertyOptions = {
 };
 
 export const DtoProperty = (options: IDtoPropertyOptions, ...customOptions: DeepPartial<IDtoPropertyOptions>[]) => {
-  const { nullable, required = true, description, gql, swagger } = <IDtoPropertyOptions>merge({}, options, ...customOptions);
+  const { nullable, required = true, description, gql, swagger } = merge({}, options, ...customOptions) as IDtoPropertyOptions;
 
   return applyDecorators(
     ApiProperty({

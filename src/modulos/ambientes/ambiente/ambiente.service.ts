@@ -250,9 +250,9 @@ export class AmbienteService {
 
     const dtoAmbiente = pick(dto, ['nome', 'descricao', 'codigo', 'capacidade', 'tipo']);
 
-    const ambiente = <AmbienteEntity>{
+    const ambiente = {
       id: currentAmbiente.id,
-    };
+    } as AmbienteEntity;
 
     this.ambienteRepository.merge(ambiente, {
       ...dtoAmbiente,

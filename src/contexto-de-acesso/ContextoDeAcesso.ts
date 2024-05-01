@@ -69,7 +69,7 @@ export class ContextoDeAcesso implements IContextoDeAcesso {
           return result;
         }
       } else if (statement.statementKind === 'filter') {
-        const filterAction = <IAuthzStatementFilter['action']>action;
+        const filterAction = action as IAuthzStatementFilter['action'];
 
         const qb = qbInput ?? this.getQueryBuilderForAction(filterAction);
 

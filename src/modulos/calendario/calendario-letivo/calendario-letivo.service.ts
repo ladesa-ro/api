@@ -298,9 +298,9 @@ export class CalendarioLetivoService {
 
     const dtoCalendarioLetivo = pick(dto, ['nome', 'ano']);
 
-    const calendarioLetivo = <CalendarioLetivoEntity>{
+    const calendarioLetivo = {
       id: currentCalendarioLetivo.id,
-    };
+    } as CalendarioLetivoEntity;
 
     this.calendarioLetivoRepository.merge(calendarioLetivo, {
       ...dtoCalendarioLetivo,
