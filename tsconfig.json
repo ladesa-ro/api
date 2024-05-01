@@ -2,13 +2,12 @@
   "compilerOptions": {
     "strict": true,
     "lib": ["esnext"],
-    "target": "ES2019",
+    "target": "es2022",
     "module": "CommonJS",
     "resolveJsonModule": true,
     "declaration": true,
     "removeComments": true,
     "strictNullChecks": true,
-    "isolatedModules": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -21,5 +20,6 @@
     },
     "incremental": true,
     "skipLibCheck": true
-  }
+  },
+  "exclude": ["plop/**/*.ts"]
 }

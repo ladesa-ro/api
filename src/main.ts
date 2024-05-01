@@ -1,59 +1,14 @@
+import { SetupSwaggerDocument } from '@/documentacao/SetupSwaggerDocument';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
 import helmet from 'helmet';
 import 'reflect-metadata';
-import { AppModule } from './application/app.module';
-import { IConfig } from './domain';
-import { EnvironmentConfigService } from './infrastructure/environment-config';
-
-function setupSwaggerConfig(configService: IConfig | null = null) {
-  const config = new DocumentBuilder();
-
-  config.setTitle('SISGEA - Luna - API');
-  config.setDescription('API para a consulta e manipulação de dados e procedimentos relacionados ao Sistema de Gestão Acadêmico.');
-  config.setVersion('0.0');
-
-  config.addBearerAuth();
-
-  config.addTag('Base', 'SISGEA - Base');
-
-  config.addTag('Arquivos', 'Armazenamento / Arquivos');
-
-  config.addTag('Autenticacao');
-  config.addTag('Usuarios', 'Autenticação / Usuários');
-
-  config.addTag('Estados', 'Ambientes / Estados');
-  config.addTag('Cidades', 'Ambientes / Cidades');
-  config.addTag('Campi', 'Ambientes / Campi');
-  config.addTag('Blocos', 'Ambientes / Campi / Blocos');
-  config.addTag('Ambientes', 'Ambientes / Campi / Blocos / Ambiente');
-  config.addTag('Reservas', 'Ambientes / Campi / Blocos / Ambiente / Reservas');
-
-  config.addTag('Vinculos', 'Autenticação / Usuários / Vínculos');
-
-  config.addTag('Modalidades', 'Ensino / Modalidade');
-  config.addTag('Cursos', 'Ensino / Cursos');
-  config.addTag('Disciplinas', 'Ensino / Disciplinas');
-  config.addTag('Turmas', 'Ensino / Turmas');
-  config.addTag('Diarios', 'Ensino / Diarios');
-  config.addTag('DiarioProfessor', 'Ensino / Diário Professor');
-
-  config.addTag('Calendarios Letivos', 'Calendario / Calendarios Letivos');
-
-  const servers = configService?.getSwaggerServers();
-
-  if (servers) {
-    for (const server of servers) {
-      config.addServer(server);
-    }
-  }
-
-  return config;
-}
+import { MainModule } from './main.module';
+import { EnvironmentConfigService } from './config';
 
 async function setupApp() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(MainModule);
 
   const environmentConfigService = app.get(EnvironmentConfigService);
 
@@ -69,19 +24,16 @@ async function setupApp() {
   );
 
   //
+
   app.use(compression());
 
   //
-  const config = setupSwaggerConfig(environmentConfigService);
+
+  const config = SetupSwaggerDocument(environmentConfigService);
 
   const document = SwaggerModule.createDocument(app, config.build());
 
-  SwaggerModule.setup('doc-api', app, document, {
-    swaggerOptions: {
-      // tagsSorter: 'alpha',
-      // operationsSorter: 'alpha',
-    },
-  });
+  SwaggerModule.setup('doc-api', app, document);
 
   app.enableCors();
 

@@ -6149,7 +6149,7 @@ async function moduleCorePromptQuestions(inquirer) {
     {
       type: "input",
       name: "modulePath",
-      message: "Localiza\xE7\xE3o do m\xF3dulo (dentro de src/application/business):",
+      message: "Localiza\xE7\xE3o do m\xF3dulo (dentro de src/nest-app/business):",
       default: "escopo/modulo"
     }
   ]);

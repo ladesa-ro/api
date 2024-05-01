@@ -89,7 +89,7 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
     {
       type: 'input',
       name: 'modulePath',
-      message: 'Localização do módulo (dentro de src/application/business):',
+      message: 'Localização do módulo (dentro de src/nest-app/business):',
       default: 'escopo/modulo',
     },
   ]);
@@ -204,7 +204,7 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
     },
   ]);
 
-  let propriedadesDeclaradas: IPropriedadeDeclarada[] = [];
+  const propriedadesDeclaradas: IPropriedadeDeclarada[] = [];
 
   const podeDeclararPropriedades = estrutura.includes('model');
   const deveDeclararPropriedades = podeDeclararPropriedades && (await askConfirm(inq, 'Deseja declarar as propriedades do modelo?', true));
@@ -246,7 +246,7 @@ export async function moduleCorePromptQuestions(inquirer: typeof inq): Promise<I
     modelDated = aws.modelDated;
 
     do {
-      let count = propriedadesDeclaradas.length;
+      const count = propriedadesDeclaradas.length;
 
       const { nome, descricao, tipoInterface, nullable, nomeColuna, tipoSwagger, tipoGraphQl, tipoEntidadeColuna, tipoEntidadeInterface } = await inquirer.prompt([
         {
