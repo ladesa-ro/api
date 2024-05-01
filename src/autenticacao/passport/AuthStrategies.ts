@@ -1,11 +1,14 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-http-bearer';
-import { AuthenticationService } from '../authentication.service';
-import { AuthStrategies } from './auth-strategies';
+import { AuthenticationService } from '@/autenticacao';
+
+export enum AuthStrategy {
+  ACCESS_TOKEN = 'access_token',
+}
 
 @Injectable()
-export class AccessTokenStrategy extends PassportStrategy(Strategy, AuthStrategies.ACCESS_TOKEN) {
+export class AccessTokenStrategy extends PassportStrategy(Strategy, AuthStrategy.ACCESS_TOKEN) {
   constructor(private authenticationService: AuthenticationService) {
     super();
   }

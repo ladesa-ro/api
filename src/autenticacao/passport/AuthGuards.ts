@@ -3,10 +3,10 @@ import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { AuthGuard } from '@nestjs/passport';
 import { NEEDS_AUTH_KEY } from '../decorators';
-import { AuthStrategies } from '../strategies/auth-strategies';
+import { AuthStrategy } from '@/autenticacao/passport/AuthStrategies';
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard(AuthStrategies.ACCESS_TOKEN) {
+export class JwtAuthGuard extends AuthGuard(AuthStrategy.ACCESS_TOKEN) {
   constructor(private reflector: Reflector) {
     super();
   }
@@ -14,10 +14,6 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategies.ACCESS_TOKEN) {
   getRequest(context: ExecutionContext) {
     const ctx = GqlExecutionContext.create(context);
     return ctx.getContext().req;
-  }
-
-  private checkIfContextNeedsAuth(context: ExecutionContext) {
-    return this.reflector.getAllAndOverride<boolean>(NEEDS_AUTH_KEY, [context.getHandler(), context.getClass()]) ?? false;
   }
 
   handleRequest(err: any, user: any, _info: any, context: ExecutionContext) {
@@ -32,5 +28,9 @@ export class JwtAuthGuard extends AuthGuard(AuthStrategies.ACCESS_TOKEN) {
     }
 
     return user || null;
+  }
+
+  private checkIfContextNeedsAuth(context: ExecutionContext) {
+    return this.reflector.getAllAndOverride<boolean>(NEEDS_AUTH_KEY, [context.getHandler(), context.getClass()]) ?? false;
   }
 }
