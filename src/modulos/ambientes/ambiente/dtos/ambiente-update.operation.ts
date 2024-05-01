@@ -20,7 +20,7 @@ export const AmbienteUpdateInputDtoValidationContract = createValidationContract
 
 // ======================================================
 import * as Spec from '@sisgea/spec';
-import { createEntityDtoClass } from '../../../../infraestrutura/utils/createDtoClass';
+import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 // ======================================================
 export const AmbienteUpdateInputDto = createEntityDtoClass(Spec.AmbienteUpdateDeclaration, 'input');
 // ======================================================

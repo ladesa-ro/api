@@ -1,7 +1,7 @@
 import { CursoFindOneByIdInputDeclarationFactory, CursoFindOneResultDeclaration } from '@sisgea/spec';
 import * as yup from 'yup';
 import { ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../infraestrutura';
-import { createEntityDtoClass } from '../../../../infraestrutura/utils/createDtoClass';
+import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 import { CursoDto, CursoDtoValidationContract } from './curso.dto';
 
 // ======================================================

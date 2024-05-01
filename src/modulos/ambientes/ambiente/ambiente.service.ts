@@ -7,11 +7,11 @@ import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { BlocoService, IBlocoQueryBuilderViewOptions } from '../bloco/bloco.service';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../infraestrutura/application/utils/QueryBuilderViewOptionsLoad';
-import { AppResourceView, AppResource } from '../../../infraestrutura/application/utils/qbEfficientLoad';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../infraestrutura/nest-app/utils/QueryBuilderViewOptionsLoad';
+import { AppResourceView, AppResource } from '../../../infraestrutura/nest-app/utils/qbEfficientLoad';
 import { DatabaseContextService } from '../../../infraestrutura/integrations/integrate-database';
 import { AmbienteEntity } from '../../../infraestrutura/integrations/integrate-database/typeorm/entities';
-import { paginateConfig } from '../../../infraestrutura/utils/paginateConfig';
+import { paginateConfig } from '../../../legacy/utils/paginateConfig';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 
 // ============================================================================

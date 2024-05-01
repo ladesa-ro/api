@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dtos from '@sisgea/spec';
-import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
+import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import type { IContextoDeAcesso } from '../../../../domain';

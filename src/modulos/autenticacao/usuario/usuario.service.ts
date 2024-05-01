@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import * as Dtos from '@sisgea/spec';
-import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
+import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { has, map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';

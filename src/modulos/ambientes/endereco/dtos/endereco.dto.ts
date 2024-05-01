@@ -8,7 +8,7 @@ import {
   ValidationContractUuid,
   createValidationContract,
 } from '../../../../infraestrutura';
-import { createEntityDtoClass } from '../../../../infraestrutura/utils/createDtoClass';
+import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 
 // ======================================================
 

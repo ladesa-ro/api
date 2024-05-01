@@ -11,7 +11,7 @@ import {
   createDtoPropertyMap,
   createValidationContract,
 } from '../../../../infraestrutura';
-import { createEntityDtoClass } from '../../../../infraestrutura/utils/createDtoClass';
+import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/imagem.dtos';
 import { BlocoDto, BlocoFindOneResultDto } from '../../bloco/dtos';
 

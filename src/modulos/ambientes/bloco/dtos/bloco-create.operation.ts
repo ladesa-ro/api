@@ -1,6 +1,6 @@
 import * as Spec from '@sisgea/spec';
 import * as yup from 'yup';
-import { createEntityDtoClass } from '../../../../infraestrutura/utils/createDtoClass';
+import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 import { createValidationContract, ValidationContractObjectUuidBase } from '../../../../validacao';
 import { BlocoFindOneResultDto } from './bloco-find-one.operation';
 import { BlocoInputDtoValidationContract } from './bloco-input.dto';

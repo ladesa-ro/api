@@ -1,7 +1,7 @@
 import { Int, ObjectType } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
 import { IAmbienteModel, IDisciplinaModel, ITurmaModel } from '@sisgea/spec';
-import { AmbienteDto, AmbienteFindOneResultDto } from 'application/business/ambientes/ambiente/dtos';
+import { AmbienteDto, AmbienteFindOneResultDto } from '@/nest-app/business/ambientes/ambiente/dtos';
 import * as yup from 'yup';
 import {
   CommonPropertyUuid,

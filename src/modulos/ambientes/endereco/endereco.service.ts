@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IEnderecoFindOneByIdInputDto, IEnderecoFindOneResultDto, IEnderecoInputDto, IEnderecoModel } from '@sisgea/spec';
-import { AppResource, AppResourceView } from 'application/utils/qbEfficientLoad';
+import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import type { IContextoDeAcesso } from '../../../../domain';

@@ -1,6 +1,6 @@
 import * as Spec from '@sisgea/spec';
 import * as yup from 'yup';
-import { createEntityDtoClass } from '../../../../infraestrutura/utils/createDtoClass';
+import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 import { AmbienteFindOneResultDto } from './ambiente-find-one.operation';
 import { AmbienteInputDtoValidationContract } from './ambiente-input.operation';
 import { AmbienteDto } from './ambiente.dto';

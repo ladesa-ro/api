@@ -370,7 +370,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
 
         // actions.push({
         //   type: 'modify',
-        //   path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
+        //   path: `src/nest-app/autorizacao/BaseAuthzPolicy.ts`,
         //   transform: async (code: string) =>
         //     new ModuleCoreGeneratorBaseAuthzPolicy()
         //       .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Create`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Create`)
@@ -434,7 +434,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
 
         // actions.push({
         //   type: 'modify',
-        //   path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
+        //   path: `src/nest-app/autorizacao/BaseAuthzPolicy.ts`,
         //   transform: async (code: string) =>
         //     new ModuleCoreGeneratorBaseAuthzPolicy()
         //       .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Update`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Update`)
@@ -501,7 +501,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
 
       // actions.push({
       //   type: 'modify',
-      //   path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
+      //   path: `src/nest-app/autorizacao/BaseAuthzPolicy.ts`,
       //   transform: async (code: string) =>
       //     new ModuleCoreGeneratorBaseAuthzPolicy()
       //       .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Delete`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Delete`)
@@ -585,7 +585,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
 
       // actions.push({
       //   type: 'modify',
-      //   path: `src/application/authorization-policies/BaseAuthzPolicy.ts`,
+      //   path: `src/nest-app/autorizacao/BaseAuthzPolicy.ts`,
       //   transform: async (code: string) =>
       //     new ModuleCoreGeneratorBaseAuthzPolicy()
       //       .addTypeDeclarationStatement(`${ChangeCaseHelper.c_camel(answers.moduleName)}Filter`, `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Filter`)

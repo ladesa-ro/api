@@ -1,4 +1,4 @@
-import { GqlArgYup } from '../../infraestrutura/application/adapters';
+import { GqlArgYup } from '../../infraestrutura/nest-app/adapters';
 import { IDtoOperationOptions } from './DtoOperation';
 
 export const GqlDtoInput = (options: IDtoOperationOptions) => {
