@@ -3,15 +3,14 @@ import * as Dtos from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infraestrutura';
-import { DatabaseContextService } from '../../../../infraestrutura/integracao-banco-de-dados/database-context/database-context.service';
-import { DiarioEntity } from '../../../../infraestrutura/integracao-banco-de-dados/typeorm/entities/ensino/diario.entity';
-import { paginateConfig } from '../../../../infraestrutura/utils/paginateConfig';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
-import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambientes/ambiente/ambiente.service';
+import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DisciplinaService, IDisciplinaQueryBuilderViewOptions } from '../disciplina/disciplina.service';
 import { ITurmaQueryBuilderViewOptions, TurmaService } from '../turma/turma.service';
+import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { DiarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
+import { getPaginatedResultDto, getPaginateQueryFromSearchInput } from '../../../legacy';
+import { getQueryBuilderViewLoadMeta, IQueryBuilderViewOptionsLoad, paginateConfig } from '../../../legacy/utils';
+import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambientes/ambiente/ambiente.service';
 
 // ============================================================================
 

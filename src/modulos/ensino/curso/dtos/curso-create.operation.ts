@@ -1,5 +1,7 @@
 import * as yup from 'yup';
-import { createDtoOperationOptions, createValidationContract, ValidationContractObjectUuidBase } from '../../../../infraestrutura';
+import { createDtoOperationOptions } from '../../../../legacy';
+import { createValidationContract, ValidationContractObjectUuidBase } from '../../../../validacao';
+
 import { CursoFindOneResultDto } from './curso-find-one.operation';
 import { CursoInputDto, CursoInputDtoValidationContract } from './curso-input.operation';
 import { CursoDto } from './curso.dto';

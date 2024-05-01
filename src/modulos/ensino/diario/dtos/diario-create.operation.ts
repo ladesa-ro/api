@@ -1,5 +1,7 @@
 import * as yup from 'yup';
-import { createDtoOperationOptions, createValidationContract, ValidationContractObjectUuidBase } from '../../../../infraestrutura';
+import { createDtoOperationOptions } from '../../../../legacy';
+import { createValidationContract, ValidationContractObjectUuidBase } from '../../../../validacao';
+
 import { DiarioFindOneResultDto } from './diario-find-one.operation';
 import { DiarioInputDto, DiarioInputDtoValidationContract } from './diario-input.operation';
 import { DiarioDto } from './diario.dto';

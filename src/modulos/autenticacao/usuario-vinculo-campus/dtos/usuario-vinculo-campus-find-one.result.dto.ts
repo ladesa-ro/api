@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import { ICampusFindOneResultDto, IUsuarioFindOneResultDto, IUsuarioVinculoCampusFindOneResultDto } from '@sisgea/spec';
-import { DtoProperty } from '../../../../infraestrutura';
+import { DtoProperty } from '../../../../legacy';
 import { UsuarioVinculoCampusDtoProperties } from './usuario-vinculo-campus.dto';
 
 // ======================================================

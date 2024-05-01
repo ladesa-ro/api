@@ -1,6 +1,5 @@
-import { createDtoOperationGetFileOptions, ValidationContractUuid } from '../../../../infraestrutura';
-
-// ======================================================
+import { createDtoOperationGetFileOptions } from '../../../../legacy';
+import { ValidationContractUuid } from '../../../../validacao';
 
 export const DISCIPLINA_GET_IMAGEM_CAPA = createDtoOperationGetFileOptions({
   description: 'Obtêm a imagem de capa da disciplina.',

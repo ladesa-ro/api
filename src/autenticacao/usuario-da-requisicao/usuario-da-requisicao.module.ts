@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { IntegrateExternalIdentityAndAccessManagementModule } from '../../infraestrutura';
-import { AutenticacaoPassportModule } from '../passport/passport.module';
+import { IntegracaoIdentidadeEAcessoModule } from '../../integracao-identidade-e-acesso';
 import { UsuarioDaRequisicaoService } from './usuario-da-requisicao.service';
 
 @Module({
-  imports: [IntegrateExternalIdentityAndAccessManagementModule, AutenticacaoPassportModule],
+  imports: [IntegracaoIdentidadeEAcessoModule],
   providers: [UsuarioDaRequisicaoService],
   exports: [UsuarioDaRequisicaoService],
 })

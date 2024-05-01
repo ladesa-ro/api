@@ -4,10 +4,11 @@ import jetpack, { createReadStream } from 'fs-jetpack';
 import { writeFile } from 'node:fs/promises';
 import { Readable } from 'node:stream';
 import { v4 } from 'uuid';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { DatabaseContextService, EnvironmentConfigService, ValidationContractUuid } from '../../../../infraestrutura';
-import { UsuarioEntity } from '../../../../infraestrutura/integracao-banco-de-dados/typeorm/entities/autenticacao/usuario.entity';
-import { ArquivoEntity } from '../../../../infraestrutura/integracao-banco-de-dados/typeorm/entities/base/arquivo.entity';
+import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { EnvironmentConfigService } from '../../../config';
+import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { ArquivoEntity, UsuarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
+import { ValidationContractUuid } from '../../../validacao';
 
 type IGetFileAcesso = null | {
   nome?: string;

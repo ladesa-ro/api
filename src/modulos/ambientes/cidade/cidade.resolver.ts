@@ -2,10 +2,10 @@ import { Info, Resolver } from '@nestjs/graphql';
 import { ICidadeFindOneByIdInputDto, ISearchInputDto } from '@sisgea/spec';
 import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { ContextoDeAcessoGraphQl, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infraestrutura';
+import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { CidadeService } from './cidade.service';
 import { CidadeOperations } from './dtos';
+import { DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
 
 @Resolver()
 export class CidadeResolver {

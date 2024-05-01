@@ -1,5 +1,8 @@
+import * as Spec from '@sisgea/spec';
 import * as yup from 'yup';
-import { ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../infraestrutura';
+import { createDtoOperationOptions } from '../../../../legacy';
+import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
+import { ValidationContractObjectUuidBase, ValidationContractUuid, createValidationContract } from '../../../../validacao';
 import { AmbienteFindOneByIdInputValidationContract, AmbienteFindOneResultDto } from './ambiente-find-one.operation';
 import { AmbienteInputDtoValidationContract } from './ambiente-input.operation';
 import { AmbienteDto } from './ambiente.dto';
@@ -18,9 +21,6 @@ export const AmbienteUpdateInputDtoValidationContract = createValidationContract
     });
 });
 
-// ======================================================
-import * as Spec from '@sisgea/spec';
-import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 // ======================================================
 export const AmbienteUpdateInputDto = createEntityDtoClass(Spec.AmbienteUpdateDeclaration, 'input');
 // ======================================================

@@ -1,8 +1,9 @@
 import { InputType } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import { createValidationContract, DtoProperty, getSchemaField, ValidationContractObjectUuidBase } from '../../../../infraestrutura';
 import { TurmaDtoProperties, TurmaDtoValidationContract } from './turma.dto';
+import { DtoProperty } from '../../../../legacy';
+import { createValidationContract, getSchemaField, ValidationContractObjectUuidBase } from '../../../../validacao';
 
 // ======================================================
 

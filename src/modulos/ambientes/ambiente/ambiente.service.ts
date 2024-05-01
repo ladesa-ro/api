@@ -3,16 +3,15 @@ import * as Dtos from '@sisgea/spec';
 import { map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
+import { paginateConfig } from '../../../legacy/utils/paginateConfig';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { BlocoService, IBlocoQueryBuilderViewOptions } from '../bloco/bloco.service';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../infraestrutura/nest-app/utils/QueryBuilderViewOptionsLoad';
-import { AppResourceView, AppResource } from '../../../infraestrutura/nest-app/utils/qbEfficientLoad';
-import { DatabaseContextService } from '../../../infraestrutura/integrations/integracao-banco-de-dados';
-import { AmbienteEntity } from '../../../infraestrutura/integrations/integracao-banco-de-dados/typeorm/entities';
-import { paginateConfig } from '../../../legacy/utils/paginateConfig';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
+import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { AmbienteEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, AppResourceView, AppResource } from '../../../legacy/utils';
 
 // ============================================================================
 

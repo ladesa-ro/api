@@ -1,7 +1,7 @@
 import * as Spec from '@sisgea/spec';
 import * as yup from 'yup';
-import { createValidationContract, ValidationContractString, ValidationContractUuid } from '../../../../infraestrutura';
 import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
+import { createValidationContract, ValidationContractString, ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 

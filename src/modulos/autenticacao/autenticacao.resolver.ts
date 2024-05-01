@@ -1,9 +1,9 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
-import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from 'infrastructure';
-import type { IContextoDeAcesso } from '../../../domain';
 import { AutenticacaoOperations } from './autenticacao.dtos';
 import { AutenticacaoService } from './autenticacao.service';
+import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../contexto-de-acesso';
+import { DtoOperationGqlQuery, DtoOperationGqlMutation, GqlDtoInput } from '../../legacy';
 
 @Resolver()
 export class AutenticacaoResolver {

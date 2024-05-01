@@ -1,18 +1,18 @@
+import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import * as Dtos from '@sisgea/spec';
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { has, map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { ValidationFailedException, getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infraestrutura';
-import { KeycloakService } from '../../../../infraestrutura/authentication/integracao-identidade-e-acesso/keycloak';
-import { DatabaseContextService } from '../../../../infraestrutura/integracao-banco-de-dados/database-context/database-context.service';
-import { UsuarioEntity } from '../../../../infraestrutura/integracao-banco-de-dados/typeorm/entities/autenticacao/usuario.entity';
-import { paginateConfig } from '../../../../infraestrutura/utils/paginateConfig';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../utils/QueryBuilderViewOptionsLoad';
+import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
+import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { UsuarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
+import { KeycloakService } from '../../../integracao-identidade-e-acesso';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
+import { ValidationFailedException } from '../../../nest-app';
 
 // ============================================================================
 

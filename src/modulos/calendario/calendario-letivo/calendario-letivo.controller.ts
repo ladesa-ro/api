@@ -1,18 +1,8 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
-import type { IContextoDeAcesso } from '../../../../domain';
-import {
-  ContextoDeAcessoHttp,
-  DtoOperationCreate,
-  DtoOperationDelete,
-  DtoOperationFindAll,
-  DtoOperationFindOne,
-  DtoOperationUpdate,
-  HttpDtoBody,
-  HttpDtoParam,
-  getSearchInputFromPaginateQuery,
-} from '../../../../infraestrutura';
+import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
 
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { CalendarioLetivoService } from './calendario-letivo.service';

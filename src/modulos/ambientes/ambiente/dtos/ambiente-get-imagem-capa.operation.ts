@@ -1,6 +1,5 @@
-import { ValidationContractUuid, createDtoOperationGetFileOptions } from '../../../../infraestrutura';
-
-// ======================================================
+import { createDtoOperationGetFileOptions } from '../../../../legacy';
+import { ValidationContractUuid } from '../../../../validacao';
 
 export const AMBIENTE_GET_IMAGEM_CAPA = createDtoOperationGetFileOptions({
   description: 'Obtêm a imagem de capa do ambiente.',

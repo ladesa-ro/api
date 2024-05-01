@@ -4,7 +4,7 @@ services:
     user: node
     command: sh -c "tail -f /dev/null"
     container_name: sisgea-luna-backend
-    working_dir: /container/code
+    working_dir: /sisgea-endpoint
     depends_on:
       - sisgea-luna-backend-db
     networks:
@@ -13,7 +13,7 @@ services:
       - 3701:3701
     volumes:
       - ../../../../../libs:/sisgea/env-dev/libs
-      - ../../:/container/code
+      - ../../:/sisgea-endpoint
       - ./volumes/uploaded:/container/uploaded
     environment:
       - STORAGE_PATH=/container/uploaded

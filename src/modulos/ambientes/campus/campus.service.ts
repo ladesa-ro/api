@@ -1,18 +1,17 @@
+import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dto from '@sisgea/spec';
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { get, has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { v4 } from 'uuid';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infraestrutura';
-import { DatabaseContextService } from '../../../../infraestrutura/integracao-banco-de-dados/database-context/database-context.service';
-import { CampusEntity } from '../../../../infraestrutura/integracao-banco-de-dados/typeorm/entities/ambientes/campus.entity';
-import { ModalidadeEntity } from '../../../../infraestrutura/integracao-banco-de-dados/typeorm/entities/ensino/modalidade.entity';
-import { paginateConfig } from '../../../../infraestrutura/utils/paginateConfig';
+import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { ModalidadeService } from '../../ensino/modalidade/modalidade.service';
 import { EnderecoService } from '../endereco/endereco.service';
+import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { ModalidadeEntity, CampusEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
+import { paginateConfig } from '../../../legacy/utils';
 
 // ============================================================================
 

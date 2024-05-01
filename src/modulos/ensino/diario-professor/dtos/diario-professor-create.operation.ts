@@ -1,4 +1,4 @@
-import { createDtoOperationOptions } from '../../../../infraestrutura';
+import { createDtoOperationOptions } from '../../../../legacy';
 import { DiarioProfessorFindOneResultDto } from './diario-professor-find-one.operation';
 import { DiarioProfessorInputDto, DiarioProfessorInputDtoValidationContract } from './diario-professor-input.operation';
 import { DiarioProfessorDto } from './diario-professor.dto';

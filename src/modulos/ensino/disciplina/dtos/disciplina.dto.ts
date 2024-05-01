@@ -1,16 +1,9 @@
 import { Int, ObjectType } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import {
-  CommonPropertyUuid,
-  DtoProperty,
-  ValidationContractNumber,
-  ValidationContractString,
-  ValidationContractUuid,
-  createDtoPropertyMap,
-  createValidationContract,
-} from '../../../../infraestrutura';
 import { ImagemDto, ImagemFindOneResultDto } from '../../../base/imagem/imagem.dtos';
+import { CommonPropertyUuid, createDtoPropertyMap, DtoProperty } from '../../../../legacy';
+import { createValidationContract, ValidationContractNumber, ValidationContractString, ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 

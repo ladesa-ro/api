@@ -2,8 +2,8 @@ import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import type { IContextoDeAcesso } from '../../../../domain/contexto-de-acesso';
-import { ContextoDeAcessoHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../../infraestrutura';
+import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
 import { CidadeService } from './cidade.service';
 import { CidadeOperations } from './dtos';
 

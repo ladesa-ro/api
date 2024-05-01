@@ -1,13 +1,13 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { pick } from 'lodash';
-import { IUsuarioDaRequisicao } from '.';
-import { IntegrateExternalIdentityAndAccessManagementService } from '../../infraestrutura';
-import { DatabaseContextService } from '../../infraestrutura/integrations/integracao-banco-de-dados';
+import { DatabaseContextService } from '../../integracao-banco-de-dados';
+import { IntegracaoIdentidadeEAcessoService } from '../../integracao-identidade-e-acesso';
+import { IUsuarioDaRequisicao } from './IUsuarioDaRequisicao';
 
 @Injectable()
 export class UsuarioDaRequisicaoService {
   constructor(
-    private idpConnectTceService: IntegrateExternalIdentityAndAccessManagementService,
+    private integracaoIdentidadeEAcessoServicec: IntegracaoIdentidadeEAcessoService,
     private dabaseContextService: DatabaseContextService,
   ) {}
 
@@ -30,7 +30,7 @@ export class UsuarioDaRequisicaoService {
         }
       }
 
-      const tokenSet = await this.idpConnectTceService.getIdentityResponseFromAccessToken(accessToken);
+      const tokenSet = await this.integracaoIdentidadeEAcessoServicec.getIdentityResponseFromAccessToken(accessToken);
 
       return this.getCurrentUsuarioByMatriculaSiape(tokenSet.usuario?.matriculaSiape);
     }

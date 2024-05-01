@@ -1,5 +1,5 @@
 import { UsuarioVinculoCampusSetVinculosInputDto, UsuarioVinculoCampusSetVinculosInputValidationContract } from '.';
-import { createDtoOperationOptions } from '../../../../infraestrutura';
+import { createDtoOperationOptions } from '../../../../legacy';
 import { UsuarioVinculoCampusFindAllResultDto } from './usuario-vinculo-campus-find-all.result.dto';
 
 export const UsuarioVinculoCampusOperations = {

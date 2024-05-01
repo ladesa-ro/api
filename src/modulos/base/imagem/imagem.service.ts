@@ -2,8 +2,8 @@ import { Injectable, ServiceUnavailableException, UnprocessableEntityException }
 import sharp from 'sharp';
 import { SelectQueryBuilder } from 'typeorm';
 import { v4 } from 'uuid';
-import { DatabaseContextService } from '../../../../infraestrutura';
 import { ArquivoService } from '../arquivo/arquivo.service';
+import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 
 type ISaveImageOptions = {
   minWidth: number;

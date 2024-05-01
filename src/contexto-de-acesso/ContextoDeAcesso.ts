@@ -2,9 +2,9 @@ import { ForbiddenException } from '@nestjs/common';
 import { castArray } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { IUsuarioDaRequisicao } from '../autenticacao';
-import { IAuthzStatement, AuthzPolicyPublic, IAuthzStatementFilter, IBaseAuthzFilterFn, IBaseAuthzStatementContext } from '../autorizacao';
-import { DatabaseContextService } from '../infraestrutura/integrations/integracao-banco-de-dados';
+import { AuthzPolicyPublic, IAuthzStatement, IAuthzStatementFilter, IBaseAuthzFilterFn, IBaseAuthzStatementContext } from '../autorizacao';
 import { IContextoDeAcesso } from './IContextoDeAcesso';
+import { DatabaseContextService } from '../integracao-banco-de-dados';
 
 function createForbiddenExceptionForAction<Statement extends IAuthzStatement, Action extends Statement['action']>(action: Action) {
   return new ForbiddenException(`Insufficient permissions to perform '${action}'.`);

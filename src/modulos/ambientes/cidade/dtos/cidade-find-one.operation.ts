@@ -1,8 +1,9 @@
 import * as Spec from '@sisgea/spec';
 import * as yup from 'yup';
-import { ValidationContractId, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../infraestrutura';
 import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 import { CidadeDto, CidadeDtoValidationContract } from './cidade.dto';
+import { createDtoOperationOptions } from '../../../../legacy';
+import { createValidationContract, getSchemaField, ValidationContractId } from '../../../../validacao';
 
 // ======================================================
 

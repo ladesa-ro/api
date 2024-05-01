@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { createValidationContract, getSchemaField } from '../../../../infraestrutura';
+import { createValidationContract, getSchemaField } from '../../../../validacao';
 import { AmbienteDtoValidationContract } from './ambiente.dto';
 
 // ======================================================

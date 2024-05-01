@@ -2,10 +2,10 @@ import { Info, Resolver } from '@nestjs/graphql';
 import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto, ISearchInputDto } from '@sisgea/spec';
 import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { ContextoDeAcessoGraphQl, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infraestrutura';
+import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { EstadoOperations } from './dtos/estado.operations';
 import { EstadoService } from './estado.service';
+import { DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
 
 @Resolver()
 export class EstadoResolver {

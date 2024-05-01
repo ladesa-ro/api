@@ -1,6 +1,4 @@
-// ======================================================
-
-import { createDtoOperationOptions } from '../../../../infraestrutura';
+import { createDtoOperationOptions } from '../../../../legacy';
 import { ModalidadeFindOneResultDto } from './modalidade-find-one.operation';
 import { ModalidadeInputDto, ModalidadeInputDtoValidationContract } from './modalidade-input.operation';
 import { ModalidadeDto } from './modalidade.dto';

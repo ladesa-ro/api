@@ -1,11 +1,11 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
-import type { IContextoDeAcesso } from '../../../domain';
-import { ContextoDeAcessoHttp, DtoOperationCreate, DtoOperationFindOne, HttpDtoBody } from '../../../infraestrutura';
-import { Public } from '../../../infraestrutura/authentication';
 import { AutenticacaoOperations } from './autenticacao.dtos';
 import { AutenticacaoService } from './autenticacao.service';
+import { Public } from '../../autenticacao';
+import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../contexto-de-acesso';
+import { DtoOperationFindOne, DtoOperationCreate, HttpDtoBody } from '../../legacy';
 
 @ApiTags('Autenticacao')
 @Controller('/autenticacao')

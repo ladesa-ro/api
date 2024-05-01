@@ -3,10 +3,11 @@ import { OmitType } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import { ITurmaUpdateDto } from '@sisgea/spec';
 import * as yup from 'yup';
-import { createDtoOperationOptions, createValidationContract, DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid } from '../../../../infraestrutura';
 import { TurmaFindOneByIdInputValidationContract, TurmaFindOneResultDto } from './turma-find-one.operation';
 import { TurmaInputDtoValidationContract } from './turma-input.operation';
 import { TurmaDto, TurmaDtoProperties } from './turma.dto';
+import { createDtoOperationOptions, DtoProperty } from '../../../../legacy';
+import { createValidationContract, ValidationContractObjectUuidBase, ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 

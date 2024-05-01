@@ -1,8 +1,9 @@
 import * as Spec from '@sisgea/spec';
 import * as yup from 'yup';
-import { ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../infraestrutura';
 import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 import { BlocoDto, BlocoDtoValidationContract } from './bloco.dto';
+import { createDtoOperationOptions } from '../../../../legacy';
+import { createValidationContract, getSchemaField, ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 export const BlocoFindOneByIdInputDto = createEntityDtoClass(Spec.BlocoFindOneByIdInputDeclaration, 'input');

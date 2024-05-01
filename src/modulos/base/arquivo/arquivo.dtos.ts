@@ -1,5 +1,5 @@
 import * as Spec from '@sisgea/spec';
-import { createOperationOptionsFromOperator } from '../../../../infraestrutura/utils/createDtoClass.js';
+import { createOperationOptionsFromOperator } from '../../../legacy/utils';
 
 // ======================================================
 export const ArquivoGetFileOperation = createOperationOptionsFromOperator(Spec.ArquivoGetFileOperator());

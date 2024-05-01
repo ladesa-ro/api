@@ -1,21 +1,12 @@
 import { Int, ObjectType } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
 import { IAmbienteModel, IDisciplinaModel, ITurmaModel } from '@sisgea/spec';
-import { AmbienteDto, AmbienteFindOneResultDto } from '@/nest-app/business/ambientes/ambiente/dtos';
 import * as yup from 'yup';
-import {
-  CommonPropertyUuid,
-  DtoProperty,
-  ObjectUuidDto,
-  ValidationContractNumber,
-  ValidationContractObjectUuidBase,
-  ValidationContractString,
-  ValidationContractUuid,
-  createDtoPropertyMap,
-  createValidationContract,
-} from '../../../../infraestrutura';
+import { AmbienteDto, AmbienteFindOneResultDto } from '../../../ambientes/ambiente/dtos';
 import { DisciplinaDto, DisciplinaFindOneResultDto } from '../../disciplina/dtos';
 import { TurmaDto, TurmaFindOneResultDto } from '../../turma/dtos';
+import { CommonPropertyUuid, createDtoPropertyMap, DtoProperty, ObjectUuidDto } from '../../../../legacy';
+import { createValidationContract, ValidationContractNumber, ValidationContractObjectUuidBase, ValidationContractString, ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 

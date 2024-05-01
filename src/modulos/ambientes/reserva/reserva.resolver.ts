@@ -1,8 +1,7 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infraestrutura';
-import { GqlDtoInput } from '../../../../infraestrutura/api-documentate/GqlDtoInput';
+import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
 import { ReservaOperations } from './dtos';
 import { ReservaDto } from './dtos/reserva.dto';
 import { ReservaService } from './reserva.service';

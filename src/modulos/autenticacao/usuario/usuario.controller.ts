@@ -2,9 +2,8 @@ import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, Upload
 import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import type { IContextoDeAcesso } from '../../../../domain';
+import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import {
-  ContextoDeAcessoHttp,
   DtoOperationCreate,
   DtoOperationDelete,
   DtoOperationFindAll,
@@ -15,7 +14,7 @@ import {
   HttpDtoBody,
   HttpDtoParam,
   getSearchInputFromPaginateQuery,
-} from '../../../../infraestrutura';
+} from '../../../legacy';
 import { UsuarioOperations } from './usuario.dtos';
 import { UsuarioService } from './usuario.service';
 

@@ -1,16 +1,8 @@
 import { ObjectType } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import {
-  CommonPropertyUuid,
-  DtoProperty,
-  ObjectUuidDto,
-  ValidationContractObjectUuidBase,
-  ValidationContractString,
-  ValidationContractUuid,
-  createDtoPropertyMap,
-  createValidationContract,
-} from '../../../../infraestrutura';
+import { CommonPropertyUuid, DtoProperty, ObjectUuidDto, createDtoPropertyMap } from '../../../../legacy';
+import { ValidationContractObjectUuidBase, ValidationContractString, ValidationContractUuid, createValidationContract } from '../../../../validacao';
 import { UsuarioDto, UsuarioFindOneResultDto } from '../../../autenticacao/usuario/usuario.dtos';
 import { AmbienteDto, AmbienteFindOneResultDto } from '../../ambiente/dtos';
 

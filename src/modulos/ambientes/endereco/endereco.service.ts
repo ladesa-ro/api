@@ -1,12 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { IEnderecoFindOneByIdInputDto, IEnderecoFindOneResultDto, IEnderecoInputDto, IEnderecoModel } from '@sisgea/spec';
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { IEnderecoFindOneByIdInputDto, IEnderecoFindOneResultDto, IEnderecoInputDto, IEnderecoModel, parsePayloadYup } from '@sisgea/spec';
 import { pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { parsePayloadYup } from '../../../../infraestrutura';
-import { DatabaseContextService } from '../../../../infraestrutura/integracao-banco-de-dados/database-context/database-context.service';
+import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { EnderecoInputDtoValidationContract } from './dtos';
+import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 
 // ============================================================================
 

@@ -1,11 +1,10 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infraestrutura';
-import { GqlDtoInput } from '../../../../infraestrutura/api-documentate/GqlDtoInput';
+import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DiarioService } from './diario.service';
 import { DiarioOperations } from './dtos';
 import { DiarioDto } from './dtos/diario.dto';
+import { DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
 
 @Resolver(() => DiarioDto)
 export class DiarioResolver {

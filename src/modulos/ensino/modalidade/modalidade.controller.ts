@@ -2,20 +2,10 @@ import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import type { IContextoDeAcesso } from '../../../../domain';
-import {
-  ContextoDeAcessoHttp,
-  DtoOperationCreate,
-  DtoOperationDelete,
-  DtoOperationFindAll,
-  DtoOperationFindOne,
-  DtoOperationUpdate,
-  HttpDtoBody,
-  HttpDtoParam,
-  getSearchInputFromPaginateQuery,
-} from '../../../../infraestrutura';
+import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { ModalidadeOperations } from './dtos';
 import { ModalidadeService } from './modalidade.service';
+import { DtoOperationFindAll, getSearchInputFromPaginateQuery, DtoOperationFindOne, HttpDtoParam, DtoOperationCreate, HttpDtoBody, DtoOperationUpdate, DtoOperationDelete } from '../../../legacy';
 
 @ApiTags('Modalidades')
 @Controller('/modalidades')

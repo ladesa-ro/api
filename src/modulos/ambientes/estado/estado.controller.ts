@@ -2,10 +2,10 @@ import { Controller, Get } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { ContextoDeAcessoHttp, DtoOperationFindAll, DtoOperationFindOne, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../../infraestrutura';
+import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { EstadoOperations } from './dtos/estado.operations';
 import { EstadoService } from './estado.service';
+import { DtoOperationFindAll, getSearchInputFromPaginateQuery, DtoOperationFindOne, HttpDtoParam } from '../../../legacy';
 
 @ApiTags('Estados')
 @Controller('/base/estados')

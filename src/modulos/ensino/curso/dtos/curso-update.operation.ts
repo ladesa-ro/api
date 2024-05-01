@@ -1,10 +1,11 @@
 import { CursoUpdateDeclaration } from '@sisgea/spec';
 import * as yup from 'yup';
-import { createDtoOperationOptions, createValidationContract, ValidationContractObjectUuidBase, ValidationContractUuid } from '../../../../infraestrutura';
 import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 import { CursoFindOneByIdInputValidationContract, CursoFindOneResultDto } from './curso-find-one.operation';
 import { CursoInputDtoValidationContract } from './curso-input.operation';
 import { CursoDto } from './curso.dto';
+import { createDtoOperationOptions } from '../../../../legacy';
+import { createValidationContract, ValidationContractObjectUuidBase, ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 

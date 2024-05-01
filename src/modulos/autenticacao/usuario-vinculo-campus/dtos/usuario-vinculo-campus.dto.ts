@@ -1,9 +1,10 @@
 import { ObjectType } from '@nestjs/graphql';
 import { ICampusModel, IEntityDate, IUsuarioModel, IUsuarioVinculoCampusModel } from '@sisgea/spec';
-import { CampusDto, CampusFindOneResultDto } from '@/nest-app/business/ambientes/campus/dtos';
 import * as yup from 'yup';
-import { CommonPropertyUuid, DtoProperty, ObjectUuidDto, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoPropertyMap, createValidationContract } from '../../../../infraestrutura';
 import { UsuarioDto, UsuarioFindOneResultDto } from '../../usuario/usuario.dtos';
+import { createDtoPropertyMap, CommonPropertyUuid, ObjectUuidDto, DtoProperty } from '../../../../legacy';
+import { createValidationContract, ValidationContractUuid, ValidationContractObjectUuidBase } from '../../../../validacao';
+import { CampusDto, CampusFindOneResultDto } from '../../../ambientes/campus/dtos';
 
 // ======================================================
 

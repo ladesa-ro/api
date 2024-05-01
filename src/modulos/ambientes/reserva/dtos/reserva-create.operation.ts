@@ -1,10 +1,9 @@
-// ======================================================
-
 import * as yup from 'yup';
-import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from '../../../../infraestrutura';
 import { ReservaFindOneResultDto } from './reserva-find-one.operation';
 import { ReservaInputDto, ReservaInputDtoValidationContract } from './reserva-input.operation';
 import { ReservaDto } from './reserva.dto';
+import { createDtoOperationOptions } from '../../../../legacy';
+import { createValidationContract, ValidationContractObjectUuidBase } from '../../../../validacao';
 
 // ======================================================
 

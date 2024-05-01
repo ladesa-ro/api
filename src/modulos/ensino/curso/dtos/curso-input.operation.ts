@@ -1,7 +1,7 @@
 import { CursoInputDeclaration } from '@sisgea/spec';
 import * as yup from 'yup';
-import { createValidationContract, getSchemaField } from '../../../../infraestrutura';
 import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
+import { createValidationContract, getSchemaField } from '../../../../validacao';
 import { CursoDtoValidationContract } from './curso.dto';
 
 // ======================================================

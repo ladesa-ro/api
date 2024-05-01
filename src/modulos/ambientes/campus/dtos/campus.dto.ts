@@ -1,18 +1,11 @@
 import * as Spec from '@sisgea/spec';
 import { uniqBy } from 'lodash';
 import * as yup from 'yup';
-import {
-  CommonPropertyUuid,
-  ObjectUuidDto,
-  ValidationContractObjectUuidBase,
-  ValidationContractString,
-  ValidationContractUuid,
-  createDtoPropertyMap,
-  createValidationContract,
-} from '../../../../infraestrutura';
 import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 import { ModalidadeDto, ModalidadeFindOneResultDto } from '../../../ensino/modalidade/dtos';
 import { EnderecoDto, EnderecoFindOneResultDto, EnderecoInputDto, EnderecoInputDtoValidationContract } from '../../endereco/dtos';
+import { createDtoPropertyMap, CommonPropertyUuid, ObjectUuidDto } from '../../../../legacy';
+import { createValidationContract, ValidationContractUuid, ValidationContractString, ValidationContractObjectUuidBase } from '../../../../validacao';
 
 // ======================================================
 

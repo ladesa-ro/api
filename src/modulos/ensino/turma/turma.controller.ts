@@ -2,9 +2,10 @@ import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, Upload
 import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import type { IContextoDeAcesso } from '../../../../domain';
+import { TurmaOperations } from './dtos';
+import { TurmaService } from './turma.service';
+import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import {
-  ContextoDeAcessoHttp,
   DtoOperationCreate,
   DtoOperationDelete,
   DtoOperationFindAll,
@@ -12,12 +13,10 @@ import {
   DtoOperationGetFile,
   DtoOperationSaveFile,
   DtoOperationUpdate,
+  getSearchInputFromPaginateQuery,
   HttpDtoBody,
   HttpDtoParam,
-  getSearchInputFromPaginateQuery,
-} from '../../../../infraestrutura';
-import { TurmaOperations } from './dtos';
-import { TurmaService } from './turma.service';
+} from '../../../legacy';
 
 @ApiTags('Turmas')
 @Controller('/turmas')

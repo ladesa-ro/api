@@ -2,9 +2,10 @@ import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, Upload
 import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import type { IContextoDeAcesso } from '../../../../domain';
+import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { DisciplinaService } from './disciplina.service';
+import { DisciplinaOperations } from './dtos';
 import {
-  ContextoDeAcessoHttp,
   DtoOperationCreate,
   DtoOperationDelete,
   DtoOperationFindAll,
@@ -12,12 +13,10 @@ import {
   DtoOperationGetFile,
   DtoOperationSaveFile,
   DtoOperationUpdate,
+  getSearchInputFromPaginateQuery,
   HttpDtoBody,
   HttpDtoParam,
-  getSearchInputFromPaginateQuery,
-} from '../../../../infraestrutura';
-import { DisciplinaService } from './disciplina.service';
-import { DisciplinaOperations } from './dtos';
+} from '../../../legacy';
 
 @ApiTags('Disciplinas')
 @Controller('/disciplinas')

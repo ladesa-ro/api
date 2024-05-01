@@ -1,5 +1,5 @@
 import * as Spec from '@sisgea/spec';
-import { createDtoOperationOptions } from '../../../../infraestrutura';
+import { createDtoOperationOptions } from '../../../../legacy';
 import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 import { CampusFindOneResultDto } from './campus-find-one.operation';
 import { CampusInputDtoValidationContract } from './campus-input.dto';

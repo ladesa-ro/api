@@ -1,9 +1,10 @@
 import { InputType, Int, ObjectType } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { IAutenticacaoDefinirSenhaInputDto, IAutenticacaoDefinirSenhaResultDto, IAutenticacaoQuemSouEuResultDto, IUsuarioFindOneResultDto } from '@sisgea/spec';
-import { DtoProperty, ValidationContractString, createDtoOperationOptions, createDtoPropertyMap, createValidationContract, getSchemaField } from 'infrastructure';
 import * as yup from 'yup';
 import { UsuarioDto, UsuarioDtoProperties, UsuarioDtoValidationContract, UsuarioFindOneResultDto } from './usuario/usuario.dtos';
+import { createDtoPropertyMap, DtoProperty, createDtoOperationOptions } from '../../legacy';
+import { createValidationContract, getSchemaField, ValidationContractString } from '../../validacao';
 
 // ======================================================
 

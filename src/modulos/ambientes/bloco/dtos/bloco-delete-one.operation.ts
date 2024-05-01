@@ -1,5 +1,6 @@
 import * as yup from 'yup';
-import { ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../infraestrutura';
+import { createDtoOperationOptions } from '../../../../legacy';
+import { createValidationContract, getSchemaField, ValidationContractUuid } from '../../../../validacao';
 import { BlocoFindOneByIdInputDto } from './bloco-find-one.operation';
 import { BlocoDtoValidationContract } from './bloco.dto';
 

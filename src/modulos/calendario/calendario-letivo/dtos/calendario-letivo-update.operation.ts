@@ -2,10 +2,11 @@ import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../infraestrutura';
 import { CalendarioLetivoFindOneByIdInputValidationContract, CalendarioLetivoFindOneResultDto } from './calendario-letivo-find-one.operation';
 import { CalendarioLetivoInputDtoValidationContract } from './calendario-letivo-input.operation';
 import { CalendarioLetivoDto, CalendarioLetivoDtoProperties } from './calendario-letivo.dto';
+import { DtoProperty, createDtoOperationOptions } from '../../../../legacy';
+import { createValidationContract, ValidationContractObjectUuidBase, ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 

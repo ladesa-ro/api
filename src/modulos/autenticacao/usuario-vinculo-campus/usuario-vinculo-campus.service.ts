@@ -1,13 +1,13 @@
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '@/legacy/utils/QueryBuilderViewOptionsLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dto from '@sisgea/spec';
-import { CampusService, ICampusQueryBuilderViewOptions } from '@/nest-app/business/ambientes/campus/campus.service';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '@/legacy/utils/QueryBuilderViewOptionsLoad';
 import { FilterOperator, PaginateQuery, paginate } from 'nestjs-paginate';
 import { NotBrackets, SelectQueryBuilder } from 'typeorm';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { DatabaseContextService } from '../../../../infraestrutura';
-import { paginateConfig } from '../../../../infraestrutura/utils/paginateConfig';
+import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { UsuarioService } from '../usuario/usuario.service';
+import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { paginateConfig } from '../../../legacy/utils';
+import { ICampusQueryBuilderViewOptions, CampusService } from '../../ambientes/campus/campus.service';
 
 // ============================================================================
 

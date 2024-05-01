@@ -2,8 +2,9 @@ import { InputType, ObjectType } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
 import { IAmbienteModel, IDisciplinaModel } from '@sisgea/spec';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractUuid, createDtoOperationOptions, createValidationContract, getSchemaField } from '../../../../infraestrutura';
 import { DiarioDto, DiarioDtoProperties, DiarioDtoValidationContract } from './diario.dto';
+import { createDtoOperationOptions, DtoProperty } from '../../../../legacy';
+import { createValidationContract, getSchemaField, ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 

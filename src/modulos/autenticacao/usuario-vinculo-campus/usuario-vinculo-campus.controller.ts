@@ -2,10 +2,10 @@ import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { ContextoDeAcessoHttp, DtoOperationFindAll, DtoOperationUpdate, HttpDtoBody } from '../../../../infraestrutura';
+import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { UsuarioVinculoCampusOperations } from './dtos';
 import { UsuarioVinculoCampusService } from './usuario-vinculo-campus.service';
+import { DtoOperationFindAll, DtoOperationUpdate, HttpDtoBody } from '../../../legacy';
 
 @Controller('/vinculos')
 @ApiTags('Vinculos')

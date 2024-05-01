@@ -1,4 +1,5 @@
-import { createDtoOperationGetFileOptions, ValidationContractUuid } from '../../../../infraestrutura';
+import { createDtoOperationGetFileOptions } from '../../../../legacy';
+import { ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 

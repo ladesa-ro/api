@@ -1,14 +1,14 @@
 import * as Spec from '@sisgea/spec';
 import * as yup from 'yup';
+import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 import {
+  createValidationContract,
+  ValidationContractUuid,
   ValidationContractLocalizacaoCep,
+  ValidationContractString,
   ValidationContractNumber,
   ValidationContractObjectId,
-  ValidationContractString,
-  ValidationContractUuid,
-  createValidationContract,
-} from '../../../../infraestrutura';
-import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
+} from '../../../../validacao';
 
 // ======================================================
 

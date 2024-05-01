@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
 
 import * as Dto from '@sisgea/spec';
-import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../infraestrutura';
+import { DtoProperty, PaginatedResultDto, SearchInputDto, SearchInputValidationContract, createDtoOperationOptions } from '../../../../legacy';
 import { CalendarioLetivoFindOneResultDto } from './calendario-letivo-find-one.operation';
 import { CalendarioLetivoDto } from './calendario-letivo.dto';
 

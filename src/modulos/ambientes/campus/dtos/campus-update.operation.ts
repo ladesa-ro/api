@@ -1,10 +1,11 @@
 import * as Spec from '@sisgea/spec';
 import * as yup from 'yup';
-import { ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../infraestrutura';
 import { createEntityDtoClass } from '../../../../legacy/utils/createDtoClass';
 import { CampusFindOneByIdInputValidationContract, CampusFindOneResultDto } from './campus-find-one.operation';
 import { CampusInputDtoValidationContract } from './campus-input.dto';
 import { CampusDto } from './campus.dto';
+import { createDtoOperationOptions } from '../../../../legacy';
+import { createValidationContract, ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 

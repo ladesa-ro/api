@@ -2,7 +2,7 @@ import { InputType, Int, ObjectType } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { __decorate, __metadata } from 'tslib';
 import * as yup from 'yup';
-import { IDtoPropertyOptions, DtoProperty, IDtoOperationOptions } from '../index';
+import { DtoProperty, IDtoOperationOptions, IDtoPropertyOptions } from '../index';
 
 const rootDtoClassesMap = new Map<any, any>();
 

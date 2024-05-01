@@ -1,19 +1,10 @@
 import { Int, ObjectType } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
-import { CampusDto, CampusFindOneResultDto } from '@/nest-app/business/ambientes/campus/dtos';
 import * as yup from 'yup';
-import {
-  CommonPropertyUuid,
-  DtoProperty,
-  ObjectUuidDto,
-  ValidationContractNumber,
-  ValidationContractObjectUuidBase,
-  ValidationContractString,
-  ValidationContractUuid,
-  createDtoPropertyMap,
-  createValidationContract,
-} from '../../../../infraestrutura';
+import { CommonPropertyUuid, DtoProperty, ObjectUuidDto, createDtoPropertyMap } from '../../../../legacy';
+import { ValidationContractNumber, ValidationContractObjectUuidBase, ValidationContractString, ValidationContractUuid, createValidationContract } from '../../../../validacao';
 import { ModalidadeDto, ModalidadeFindOneResultDto } from '../../../ensino/modalidade/dtos';
+import { CampusDto, CampusFindOneResultDto } from '../../../ambientes/campus/dtos';
 
 export const CalendarioLetivoDtoValidationContract = createValidationContract(() => {
   return yup.object({

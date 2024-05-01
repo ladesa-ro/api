@@ -1,8 +1,9 @@
 import { InputType } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractObjectUuidBase, createDtoPropertyMap, createValidationContract, getSchemaField } from '../../../../infraestrutura';
 import { UsuarioVinculoCampusDtoProperties, UsuarioVinculoCampusDtoValidationContract } from './usuario-vinculo-campus.dto';
+import { createDtoPropertyMap, DtoProperty } from '../../../../legacy';
+import { createValidationContract, getSchemaField, ValidationContractObjectUuidBase } from '../../../../validacao';
 
 // ======================================================
 

@@ -3,6 +3,6 @@ import { AutenticacaoPassportModule } from './passport';
 import { UsuarioDaRequisicaoModule } from './usuario-da-requisicao';
 
 @Module({
-  imports: [UsuarioDaRequisicaoModule, AutenticacaoPassportModule],
+  imports: [AutenticacaoPassportModule, UsuarioDaRequisicaoModule],
 })
 export class AutenticacaoModule {}

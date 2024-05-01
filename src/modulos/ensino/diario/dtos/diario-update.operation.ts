@@ -2,10 +2,11 @@ import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import { createDtoOperationOptions, createValidationContract, DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid } from '../../../../infraestrutura';
 import { DiarioFindOneByIdInputValidationContract, DiarioFindOneResultDto } from './diario-find-one.operation';
 import { DiarioInputDtoValidationContract } from './diario-input.operation';
 import { DiarioDto, DiarioDtoProperties } from './diario.dto';
+import { createDtoOperationOptions, DtoProperty } from '../../../../legacy';
+import { createValidationContract, ValidationContractObjectUuidBase, ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 

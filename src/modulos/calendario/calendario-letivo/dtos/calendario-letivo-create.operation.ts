@@ -1,8 +1,9 @@
 import * as yup from 'yup';
-import { ValidationContractObjectUuidBase, createDtoOperationOptions, createValidationContract } from '../../../../infraestrutura';
 import { CalendarioLetivoFindOneByIdInputValidationContract, CalendarioLetivoFindOneResultDto } from './calendario-letivo-find-one.operation';
 import { CalendarioLetivoInputDto, CalendarioLetivoInputDtoValidationContract } from './calendario-letivo-input.operation';
 import { CalendarioLetivoDto } from './calendario-letivo.dto';
+import { createDtoOperationOptions } from '../../../../legacy';
+import { createValidationContract, ValidationContractObjectUuidBase } from '../../../../validacao';
 
 export const CalendarioLetivoCreateInputDtoValidationContract = createValidationContract(() => {
   const schema = CalendarioLetivoInputDtoValidationContract();

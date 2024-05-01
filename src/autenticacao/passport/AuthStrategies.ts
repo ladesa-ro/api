@@ -1,7 +1,7 @@
-import { UsuarioDaRequisicaoService } from '@/autenticacao';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-http-bearer';
+import { UsuarioDaRequisicaoService } from '../usuario-da-requisicao';
 
 export enum AuthStrategy {
   ACCESS_TOKEN = 'access_token',

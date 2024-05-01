@@ -2,10 +2,11 @@ import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import { DtoProperty, ValidationContractObjectUuidBase, ValidationContractUuid, createDtoOperationOptions, createValidationContract } from '../../../../infraestrutura';
 import { ReservaFindOneByIdInputValidationContract, ReservaFindOneResultDto } from './reserva-find-one.operation';
 import { ReservaInputDtoValidationContract } from './reserva-input.operation';
 import { ReservaDto, ReservaDtoProperties } from './reserva.dto';
+import { DtoProperty, createDtoOperationOptions } from '../../../../legacy';
+import { createValidationContract, ValidationContractObjectUuidBase, ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 

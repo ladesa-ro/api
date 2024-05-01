@@ -2,12 +2,11 @@ import { Info, Resolver } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
 import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
-import type { IContextoDeAcesso } from '../../../../domain';
-import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery } from '../../../../infraestrutura';
-import { GqlDtoInput } from '../../../../infraestrutura/api-documentate/GqlDtoInput';
 import { ModalidadeOperations } from './dtos';
 import { ModalidadeDto } from './dtos/modalidade.dto';
 import { ModalidadeService } from './modalidade.service';
+import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { DtoOperationGqlQuery, GqlDtoInput, DtoOperationGqlMutation } from '../../../legacy';
 
 @Resolver(() => ModalidadeDto)
 export class ModalidadeResolver {

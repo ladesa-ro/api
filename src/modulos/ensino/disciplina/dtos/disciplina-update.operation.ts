@@ -2,10 +2,11 @@ import { InputType } from '@nestjs/graphql';
 import { OmitType } from '@nestjs/swagger';
 import { IDisciplinaUpdateDto } from '@sisgea/spec';
 import * as yup from 'yup';
-import { createDtoOperationOptions, createValidationContract, DtoProperty, ValidationContractUuid } from '../../../../infraestrutura';
 import { DisciplinaFindOneByIdInputValidationContract, DisciplinaFindOneResultDto } from './disciplina-find-one.operation';
 import { DisciplinaInputDtoValidationContract } from './disciplina-input.operation';
 import { DisciplinaDto, DisciplinaDtoProperties } from './disciplina.dto';
+import { createDtoOperationOptions, DtoProperty } from '../../../../legacy';
+import { createValidationContract, ValidationContractUuid } from '../../../../validacao';
 
 // ======================================================
 

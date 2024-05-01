@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { DataSourceSetupModule } from './DataSourceSetupModule';
-import { EnvironmentConfigService } from '../../../../environment-config';
+import { EnvironmentConfigService } from '../../../../config';
 
 export const getDataSourceEnvironmentConfigService = async (environmentConfigService: EnvironmentConfigService | null) => {
   if (environmentConfigService === null) {

@@ -1,12 +1,12 @@
+import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Dto from '@sisgea/spec';
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { map } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
-import type { IContextoDeAcesso } from '../../../../domain/contexto-de-acesso';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../../infraestrutura';
-import { DatabaseContextService } from '../../../../infraestrutura/integracao-banco-de-dados/database-context/database-context.service';
-import { paginateConfig } from '../../../../infraestrutura/utils/paginateConfig';
+import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
+import { paginateConfig } from '../../../legacy/utils';
 
 const aliasCidade = 'cidade';
 

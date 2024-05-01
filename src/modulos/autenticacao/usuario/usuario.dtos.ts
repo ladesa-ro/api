@@ -18,14 +18,11 @@ import {
   PaginatedResultDto,
   SearchInputDto,
   SearchInputValidationContract,
-  ValidationContractString,
-  ValidationContractUuid,
   createDtoOperationGetFileOptions,
   createDtoOperationOptions,
   createDtoPropertyMap,
-  createValidationContract,
-  getSchemaField,
-} from '../../../../infraestrutura';
+} from '../../../legacy';
+import { ValidationContractString, ValidationContractUuid, createValidationContract, getSchemaField } from '../../../validacao';
 import { CampusFindOneResultDto } from '../../ambientes/campus/dtos';
 import { ImagemDto, ImagemFindOneResultDto } from '../../base/imagem/imagem.dtos';
 import { UsuarioVinculoCampusDto, UsuarioVinculoCampusDtoProperties, UsuarioVinculoCampusFindOneResultDto } from '../usuario-vinculo-campus/dtos';

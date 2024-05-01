@@ -1,11 +1,10 @@
-import * as Dto from '@sisgea/spec';
-import { ContextoDeAcessoGraphQl, DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from '../../../../infraestrutura';
-
 import { Resolver } from '@nestjs/graphql';
-import type { IContextoDeAcesso } from '../../../../domain';
+import * as Dto from '@sisgea/spec';
+import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { CalendarioLetivoService } from './calendario-letivo.service';
 import { CalendarioLetivoDto } from './dtos/calendario-letivo.dto';
 import { CalendarioLetivoOperations } from './dtos/calendario-letivo.operations';
+import { DtoOperationGqlQuery, GqlDtoInput, DtoOperationGqlMutation } from '../../../legacy';
 
 @Resolver(() => CalendarioLetivoDto)
 export class CalendarioLetivoResolver {

@@ -2,22 +2,21 @@ import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, Upload
 import { ApiTags } from '@nestjs/swagger';
 import * as Dto from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import type { IContextoDeAcesso } from '../../../../domain';
-import {
-  ContextoDeAcessoHttp,
-  DtoOperationCreate,
-  DtoOperationDelete,
-  DtoOperationFindAll,
-  DtoOperationFindOne,
-  DtoOperationGetFile,
-  DtoOperationUpdate,
-  HttpDtoBody,
-  HttpDtoParam,
-  getSearchInputFromPaginateQuery,
-} from '../../../../infraestrutura';
-import { DtoOperationSaveFile } from '../../../../infraestrutura/api-documentate/DtoOperation';
+import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { AmbienteService } from './ambiente.service';
 import { AmbienteOperations } from './dtos/ambiente.operations';
+import {
+  DtoOperationFindAll,
+  getSearchInputFromPaginateQuery,
+  DtoOperationFindOne,
+  HttpDtoParam,
+  DtoOperationCreate,
+  HttpDtoBody,
+  DtoOperationUpdate,
+  DtoOperationGetFile,
+  DtoOperationSaveFile,
+  DtoOperationDelete,
+} from '../../../legacy';
 
 @ApiTags('Ambientes')
 @Controller('/ambientes')

@@ -1,9 +1,9 @@
+import { AuthStrategy } from '@/autenticacao/passport/AuthStrategies';
 import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { AuthGuard } from '@nestjs/passport';
-import { NEEDS_AUTH_KEY } from '../decorators';
-import { AuthStrategy } from '@/autenticacao/passport/AuthStrategies';
+import { NEEDS_AUTH_KEY } from './AuthGuardProtectionLevel';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard(AuthStrategy.ACCESS_TOKEN) {
