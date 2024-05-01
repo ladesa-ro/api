@@ -15,7 +15,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug 0.0.0.0:9229 --watch",
     "start:prod": "node dist/main",
-    "typeorm": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm",
+    "typeorm": "./node_modules/.bin/ts-node --transpileOnly ./node_modules/.bin/typeorm",
     "typeorm-db-migration": "./node_modules/.bin/ts-node --transpileOnly ./node_modules/.bin/typeorm -d src/infrastructure/integrate-database/typeorm/data-sources/migration.data-source.ts",
     "typeorm:entity": "npm run typeorm -- entity:create",
     "typeorm:generate": "npm run typeorm -- migration:generate",
@@ -67,6 +67,7 @@
     "sharp": "^0.33.3",
     "ts-node": "^10.9.2",
     "typeorm": "^0.3.17",
+    "typescript": "^5.4.5",
     "uuid": "^9.0.1",
     "yup": "^1.3.3"
   },
@@ -107,7 +108,6 @@
     "ts-loader": "^9.4.3",
     "tsconfig-paths": "^4.2.0",
     "type-fest": "^4.17.0",
-    "typescript": "^5.4.5",
     "typescript-eslint": "^7.8.0"
   },
   "jest": {
