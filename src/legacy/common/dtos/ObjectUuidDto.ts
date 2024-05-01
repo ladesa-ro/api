@@ -1,4 +1,4 @@
 import * as Spec from '@sisgea/spec';
-import { createEntityDtoClass } from '../../utils';
+import { CreateEntityDtoClass } from '../../utils';
 
-export const ObjectUuidDto = createEntityDtoClass(Spec.ObjectUuidDeclarationFactory, 'input');
+export const ObjectUuidDto = CreateEntityDtoClass(Spec.ObjectUuidDeclarationFactory, 'input');

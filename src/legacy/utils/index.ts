@@ -1,5 +1,5 @@
+export * from '../../especificacao/utilitarios/CreateEntityDtoClass';
 export * from './QueryBuilderViewOptionsLoad';
-export * from './createDtoClass';
 export * from './dirname';
 export * from './paginateConfig';
 export * from './pureFn';
