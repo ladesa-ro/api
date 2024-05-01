@@ -1,41 +1,27 @@
 import { ForbiddenException } from '@nestjs/common';
 import { castArray } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
-import { AuthzPolicyPublic } from '../../../application/authorization-policies/00-AuthzPolicyPublic';
-import { IAuthzStatement, IAuthzStatementFilter } from '../../../application/authorization-policies/statements/IAuthzStatement';
-import { IBaseAuthzFilterFn, IBaseAuthzStatementContext } from '../../../domain';
-import type { IContextoDeAcesso } from '../../../domain/contexto-de-acesso/IContextoDeAcesso';
-import { ICurrentUsuario } from '../../authentication/interfaces';
-import { DatabaseContextService } from '../../integrate-database';
+import { IUsuarioDaRequisicao } from '../autenticacao';
+import { IAuthzStatement, AuthzPolicyPublic, IAuthzStatementFilter, IBaseAuthzFilterFn, IBaseAuthzStatementContext } from '../autorizacao';
+import { DatabaseContextService } from '../infraestrutura/integrations/integrate-database';
+import { IContextoDeAcesso } from './IContextoDeAcesso';
 
 function createForbiddenExceptionForAction<Statement extends IAuthzStatement, Action extends Statement['action']>(action: Action) {
   return new ForbiddenException(`Insufficient permissions to perform '${action}'.`);
 }
 
 export class ContextoDeAcesso implements IContextoDeAcesso {
+  #policy = new AuthzPolicyPublic();
+
   constructor(
     readonly databaseContext: DatabaseContextService,
-    readonly usuario: ICurrentUsuario | null,
+    readonly usuario: IUsuarioDaRequisicao | null,
   ) {
     //
   }
 
-  #policy = new AuthzPolicyPublic();
-
   get statements() {
     return this.#policy.statements;
-  }
-
-  private getStatementForAction<Statement extends IAuthzStatement, Action extends Statement['action']>(action: Action) {
-    return (this.statements.find((statement) => statement.action === action) ?? null) as Statement | null;
-  }
-
-  private createAuthzStatementContext<Statement extends IAuthzStatement, Action extends Statement['action'], Payload extends Statement['payload']>(action: Action, payload: Payload | null) {
-    return {
-      action,
-      payload,
-      contextoDeAcesso: this,
-    } as IBaseAuthzStatementContext<Action, Payload>;
   }
 
   async aplicarFiltro<Statement extends IAuthzStatementFilter, Action extends Statement['action'], Payload extends Statement['payload']>(
@@ -60,6 +46,70 @@ export class ContextoDeAcesso implements IContextoDeAcesso {
     } else {
       qb.andWhere('FALSE');
     }
+  }
+
+  async verifyPermission<Statement extends IAuthzStatement, Action extends Statement['action'], Payload extends Statement['payload']>(
+    action: Action,
+    payload: Payload,
+    id: any = null,
+    qbInput: SelectQueryBuilder<any> | null = null,
+  ): Promise<boolean> {
+    const statement = this.getStatementForAction<Statement, Action>(action);
+
+    const context = this.createAuthzStatementContext(action, payload);
+
+    if (statement) {
+      if (statement.statementKind === 'check') {
+        const withResultFactory = statement.withCheck;
+
+        if (typeof withResultFactory === 'boolean') {
+          return withResultFactory;
+        } else {
+          const result = await withResultFactory(context as any);
+          return result;
+        }
+      } else if (statement.statementKind === 'filter') {
+        const filterAction = <IAuthzStatementFilter['action']>action;
+
+        const qb = qbInput ?? this.getQueryBuilderForAction(filterAction);
+
+        await this.aplicarFiltro(filterAction, qb, qb.alias, payload as any);
+
+        if (id) {
+          qb.andWhereInIds(castArray(id));
+        }
+
+        const hasTarget = await qb.getExists();
+        return hasTarget;
+      }
+    }
+
+    return false;
+  }
+
+  async ensurePermission<Statement extends IAuthzStatement, Action extends Statement['action'], Payload extends Statement['payload']>(
+    action: Action,
+    payload: Payload,
+    id: (number | string) | null = null,
+    qb: SelectQueryBuilder<any> | null = null,
+  ): Promise<void> {
+    const can = await this.verifyPermission<Statement, Action, Payload>(action, payload, id, qb);
+
+    if (!can) {
+      throw createForbiddenExceptionForAction<Statement, Action>(action);
+    }
+  }
+
+  private getStatementForAction<Statement extends IAuthzStatement, Action extends Statement['action']>(action: Action) {
+    return (this.statements.find((statement) => statement.action === action) ?? null) as Statement | null;
+  }
+
+  private createAuthzStatementContext<Statement extends IAuthzStatement, Action extends Statement['action'], Payload extends Statement['payload']>(action: Action, payload: Payload | null) {
+    return {
+      action,
+      payload,
+      contextoDeAcesso: this,
+    } as IBaseAuthzStatementContext<Action, Payload>;
   }
 
   private getQueryBuilderForAction<Action extends IAuthzStatementFilter['action']>(action: Action) {
@@ -148,58 +198,6 @@ export class ContextoDeAcesso implements IContextoDeAcesso {
       default: {
         throw new TypeError(`getQueryBuilderForAction: dont have repository for action: ${action}`);
       }
-    }
-  }
-
-  async verifyPermission<Statement extends IAuthzStatement, Action extends Statement['action'], Payload extends Statement['payload']>(
-    action: Action,
-    payload: Payload,
-    id: any = null,
-    qbInput: SelectQueryBuilder<any> | null = null,
-  ): Promise<boolean> {
-    const statement = this.getStatementForAction<Statement, Action>(action);
-
-    const context = this.createAuthzStatementContext(action, payload);
-
-    if (statement) {
-      if (statement.statementKind === 'check') {
-        const withResultFactory = statement.withCheck;
-
-        if (typeof withResultFactory === 'boolean') {
-          return withResultFactory;
-        } else {
-          const result = await withResultFactory(context as any);
-          return result;
-        }
-      } else if (statement.statementKind === 'filter') {
-        const filterAction = <IAuthzStatementFilter['action']>action;
-
-        const qb = qbInput ?? this.getQueryBuilderForAction(filterAction);
-
-        await this.aplicarFiltro(filterAction, qb, qb.alias, payload as any);
-
-        if (id) {
-          qb.andWhereInIds(castArray(id));
-        }
-
-        const hasTarget = await qb.getExists();
-        return hasTarget;
-      }
-    }
-
-    return false;
-  }
-
-  async ensurePermission<Statement extends IAuthzStatement, Action extends Statement['action'], Payload extends Statement['payload']>(
-    action: Action,
-    payload: Payload,
-    id: (number | string) | null = null,
-    qb: SelectQueryBuilder<any> | null = null,
-  ): Promise<void> {
-    const can = await this.verifyPermission<Statement, Action, Payload>(action, payload, id, qb);
-
-    if (!can) {
-      throw createForbiddenExceptionForAction<Statement, Action>(action);
     }
   }
 }
