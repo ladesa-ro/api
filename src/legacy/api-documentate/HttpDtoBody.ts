@@ -1,5 +1,5 @@
 import { Body } from '@nestjs/common';
-import { ValidationPipeYup } from '../../infraestrutura/validation';
+import { ValidationPipeYup } from '../../validacao';
 import { IDtoOperationOptions } from './DtoOperation';
 
 export const HttpDtoBody = (options: IDtoOperationOptions) => {

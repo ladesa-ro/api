@@ -4,7 +4,7 @@ import { castArray, fromPairs, toPairs } from 'lodash';
 import { Paginated, PaginateQuery } from 'nestjs-paginate';
 import * as yup from 'yup';
 import { createDtoPropertyOptions, DtoProperty } from '../../api-documentate';
-import { createValidationContract, ValidationContractNumber, ValidationContractString } from '../../../infraestrutura/validation';
+import { createValidationContract, ValidationContractNumber, ValidationContractString } from '../../../validacao';
 
 @InputType('SearchInput')
 export abstract class SearchInputDto implements Spec.ISearchInputDto {

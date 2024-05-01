@@ -1,7 +1,7 @@
 import { InputType } from '@nestjs/graphql';
 import * as Dto from '@sisgea/spec';
 import * as yup from 'yup';
-import { ValidationContractUuid, createValidationContract, getSchemaField } from '../../../../infraestrutura/validation';
+import { ValidationContractUuid, createValidationContract, getSchemaField } from '../../../../validacao';
 import { DtoProperty, createDtoOperationOptions } from '../../../../legacy';
 import { AmbienteDtoProperties, AmbienteDtoValidationContract } from './ambiente.dto';
 

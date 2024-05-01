@@ -6,7 +6,7 @@ import { ApiBearerAuth, ApiBody, ApiConsumes, ApiParam, ApiProduces, ApiQuery, A
 import { ReferenceObject, SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { castArray, has } from 'lodash';
 import { Schema } from 'yup';
-import { IValidationContract } from '../../infraestrutura/validation';
+import { IValidationContract } from '../../validacao';
 
 // ==============================================================
 

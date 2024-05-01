@@ -23,7 +23,7 @@ export const CampusDtoValidationContract = createValidationContract(() => {
     nomeFantasia: ValidationContractString().required().nonNullable().min(1),
     razaoSocial: ValidationContractString().required().nonNullable().min(1),
     apelido: ValidationContractString().required().nonNullable().min(1),
-    // TODO: strict validation
+    // TODO: strict validacao
     cnpj: ValidationContractString().required().nonNullable().min(1),
     //
     endereco: EnderecoInputDtoValidationContract(),

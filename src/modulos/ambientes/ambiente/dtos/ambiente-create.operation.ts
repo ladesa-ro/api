@@ -4,7 +4,7 @@ import { createEntityDtoClass } from '../../../../infraestrutura/utils/createDto
 import { AmbienteFindOneResultDto } from './ambiente-find-one.operation';
 import { AmbienteInputDtoValidationContract } from './ambiente-input.operation';
 import { AmbienteDto } from './ambiente.dto';
-import { createValidationContract, ValidationContractObjectUuidBase } from '../../../../infraestrutura/validation';
+import { createValidationContract, ValidationContractObjectUuidBase } from '../../../../validacao';
 import { createDtoOperationOptions } from '../../../../legacy';
 
 // ======================================================
