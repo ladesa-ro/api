@@ -1,10 +1,10 @@
-# sisgea-endpoint
+# api
 
 ## Desenvolvimento
 
 ```sh
-git clone https://github.com/sisgha/sisgea-endpoint.git;
-cd sisgea-endpoint;
+git clone https://github.com/sisgha/api.git;
+cd api;
 ```
 
 ### Aplicação node.js
