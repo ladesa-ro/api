@@ -1,6 +1,6 @@
 services:
   sisgea-luna-backend:
-    image: node:20
+    image: node:22
     user: node
     command: sh -c "tail -f /dev/null"
     container_name: sisgea-luna-backend
