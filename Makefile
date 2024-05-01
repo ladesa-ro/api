@@ -2,11 +2,11 @@
 d_network=sisgea-luna-net
 d_container_app=sisgea-luna-backend
 
-compose_options=--file devops/development/docker-compose.yml -p sisgea-luna-backend
+compose_options=--file .devops/development/docker-compose.yml -p sisgea-luna-backend
 
 dev-setup:
 
-	$(shell (cd devops/development; find . -type f -name "*.example" -exec sh -c 'cp -n {} $$(basename {} .example)' \;))
+	$(shell (cd .devops/development; find . -type f -name "*.example" -exec sh -c 'cp -n {} $$(basename {} .example)' \;))
 
 	$(shell (bash -c "sudo docker network create $(d_network) &>/dev/null"))
 

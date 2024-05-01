@@ -11,12 +11,12 @@ cd api;
 
 API nest.
 
-### Serviços do [devops/development/docker-compose.yml](./devops/development/docker-compose.yml)
+### Serviços do [.devops/development/docker-compose.yml](./.devops/development/docker-compose.yml)
 
-| Host                     | Endereço         | Descrição               | Plataforma Base                   |
-| ------------------------ | ---------------- | ----------------------- | --------------------------------- |
-| `sisgea-luna-backend`    | `localhost:3000` | Aplicação NodeJS.       | `docker.io/library/node:20`       |
-| `sisgea-luna-backend-db` | `localhost:5432` | Banco de dados postgres | `docker.io/bitnami/postgresql:15` |
+| Host            | Endereço         | Descrição               | Plataforma Base                   |
+| --------------- | ---------------- | ----------------------- | --------------------------------- |
+| `sisgea-api`    | `localhost:3000` | Aplicação NodeJS.       | `docker.io/library/node:28`       |
+| `sisgea-api-db` | `localhost:5432` | Banco de dados postgres | `docker.io/bitnami/postgresql:15` |
 
 ### Scripts Make
 
