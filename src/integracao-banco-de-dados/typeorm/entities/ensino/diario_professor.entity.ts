@@ -1,6 +1,6 @@
 import * as Dto from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { UsuarioVinculoCampusEntity } from '../autenticacao/usuario-vinculo-campus.entity';
+import { VinculoEntity } from '../autenticacao/vinculo.entity';
 import { DiarioEntity } from './diario.entity';
 
 @Entity('diario_professor')
@@ -17,16 +17,16 @@ export class DiarioProfessorEntity implements Dto.IDiarioProfessorModel {
   @JoinColumn({ name: 'id_diario_fk' })
   diario!: Dto.IDiarioModel;
 
-  @ManyToOne(() => UsuarioVinculoCampusEntity)
+  @ManyToOne(() => VinculoEntity)
   @JoinColumn({ name: 'id_vinculo_professor_fk' })
-  vinculoProfessor!: Dto.IUsuarioVinculoCampusModel;
+  vinculo!: Dto.IVinculoModel;
 
   //
 
-  @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
+  @Column({ name: 'dateCreateOperator()d', type: 'timestamptz', nullable: false })
   dateCreated!: Dto.IEntityDate;
 
-  @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
+  @Column({ name: 'dateUpdateOperator()d', type: 'timestamptz', nullable: false })
   dateUpdated!: Dto.IEntityDate;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })

@@ -145,7 +145,7 @@ export const Operacao = (operation: IOperation) => {
           decorators.push(
             ApiResponse({
               status,
-              type: CreateEntityDtoClass(resultDeclaration.dto),
+              type: resultDeclaration.dto ? CreateEntityDtoClass(resultDeclaration.dto) : undefined,
               description: resultDeclaration.description ?? `Sucesso na operação "${operation.description}".`,
             }),
           );
@@ -160,8 +160,8 @@ export const Operacao = (operation: IOperation) => {
     }
   }
 
-  if (output && output.strategy === 'dto') {
-    switch (operation.kind) {
+  if (output && output.strategy === 'dto' && output.success.dto) {
+    switch (operation.gql) {
       case 'query': {
         decorators.push(
           Query(CreateEntityDtoClass(output.success.dto), {

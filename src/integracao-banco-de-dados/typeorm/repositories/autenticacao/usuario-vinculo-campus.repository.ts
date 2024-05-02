@@ -1,6 +1,6 @@
-import { UsuarioVinculoCampusEntity } from '../../entities/autenticacao/usuario-vinculo-campus.entity';
+import { VinculoEntity } from '../../entities/autenticacao/vinculo.entity';
 import { createRepositoryFactory, IRepositoryFactoryOutput } from '../helpers/create-repository-factory';
 
-export const createUsuarioVinculoCampusRepository = createRepositoryFactory((ds) => ds.getRepository(UsuarioVinculoCampusEntity).extend({}));
+export const createVinculoRepository = createRepositoryFactory((ds) => ds.getRepository(VinculoEntity).extend({}));
 
-export type UsuarioVinculoCampusRepository = IRepositoryFactoryOutput<typeof createUsuarioVinculoCampusRepository>;
+export type VinculoRepository = IRepositoryFactoryOutput<typeof createVinculoRepository>;

@@ -24,17 +24,6 @@ export class CreateTableTurma1710184490467 implements MigrationInterface {
             isNullable: false,
           },
 
-          {
-            name: 'grupo',
-            type: 'text',
-            isNullable: false,
-          },
-          {
-            name: 'nome',
-            type: 'text',
-            isNullable: false,
-          },
-
           //
 
           {
@@ -42,6 +31,7 @@ export class CreateTableTurma1710184490467 implements MigrationInterface {
             type: 'uuid',
             isNullable: true,
           },
+
           {
             name: 'id_curso_fk',
             type: 'uuid',
@@ -54,13 +44,13 @@ export class CreateTableTurma1710184490467 implements MigrationInterface {
           },
           //
           {
-            name: 'date_created',
+            name: 'dateCreateOperator()d',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',
           },
           {
-            name: 'date_updated',
+            name: 'dateUpdateOperator()d',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',
@@ -98,10 +88,10 @@ export class CreateTableTurma1710184490467 implements MigrationInterface {
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_${tableName}
+      CREATE TRIGGER change_dateUpdateOperator()d_table_${tableName}
         BEFORE UPDATE ON ${tableName}
         FOR EACH ROW
-          EXECUTE FUNCTION change_date_updated();
+          EXECUTE FUNCTION change_dateUpdateOperator()d();
     `);
   }
 

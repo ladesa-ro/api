@@ -59,7 +59,7 @@ export class CreateTableImagemArquivo1710029083528 implements MigrationInterface
           //
 
           {
-            name: 'date_created',
+            name: 'dateCreateOperator()d',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',

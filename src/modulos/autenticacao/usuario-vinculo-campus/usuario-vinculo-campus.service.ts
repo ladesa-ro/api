@@ -4,18 +4,18 @@ import * as Dto from '@sisgea/spec';
 import { FilterOperator, PaginateQuery, paginate } from 'nestjs-paginate';
 import { NotBrackets, SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { UsuarioService } from '../usuario/usuario.service';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { paginateConfig } from '../../../legacy/utils';
-import { ICampusQueryBuilderViewOptions, CampusService } from '../../ambientes/campus/campus.service';
+import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
+import { UsuarioService } from '../usuario/usuario.service';
 
 // ============================================================================
 
-const aliasUsuarioVinculoCampus = 'vinculo';
+const aliasVinculo = 'vinculo';
 
 // ============================================================================
 
-export type IUsuarioVinculoCampusQueryBuilderViewOptions = {
+export type IVinculoQueryBuilderViewOptions = {
   loadCampus?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
   loadUsuario?: IQueryBuilderViewOptionsLoad<unknown>;
 };
@@ -23,7 +23,7 @@ export type IUsuarioVinculoCampusQueryBuilderViewOptions = {
 // ============================================================================
 
 @Injectable()
-export class UsuarioVinculoCampusService {
+export class VinculoService {
   constructor(
     private databaseContext: DatabaseContextService,
     private campusService: CampusService,
@@ -36,13 +36,13 @@ export class UsuarioVinculoCampusService {
     return this.databaseContext.usuarioRepository;
   }
 
-  get usuarioVinculoCampusRepository() {
-    return this.databaseContext.usuarioVinculoCampusRepository;
+  get vinculoRepository() {
+    return this.databaseContext.vinculoRepository;
   }
 
   //
 
-  static UsuarioVinculoCampusQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IUsuarioVinculoCampusQueryBuilderViewOptions = {}) {
+  static VinculoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IVinculoQueryBuilderViewOptions = {}) {
     const loadCampus = getQueryBuilderViewLoadMeta(options.loadCampus, true, `${alias}_c`);
     const loadUsuario = getQueryBuilderViewLoadMeta(options.loadUsuario, true, `${alias}_u`);
 
@@ -67,11 +67,11 @@ export class UsuarioVinculoCampusService {
   //
 
   async vinculoFindAll(contextoDeAcesso: IContextoDeAcesso, query: PaginateQuery = { path: '' }) {
-    const qb = this.usuarioVinculoCampusRepository.createQueryBuilder(aliasUsuarioVinculoCampus);
+    const qb = this.vinculoRepository.createQueryBuilder(aliasVinculo);
 
-    UsuarioVinculoCampusService.UsuarioVinculoCampusQueryBuilderView(aliasUsuarioVinculoCampus, qb);
+    VinculoService.VinculoQueryBuilderView(aliasVinculo, qb);
 
-    await contextoDeAcesso.aplicarFiltro('vinculo:find', qb, aliasUsuarioVinculoCampus, null);
+    await contextoDeAcesso.aplicarFiltro('vinculo:find', qb, aliasVinculo, null);
 
     return paginate(query, qb, {
       ...paginateConfig,
@@ -107,24 +107,24 @@ export class UsuarioVinculoCampusService {
     });
   }
 
-  async vinculoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IUsuarioVinculoCampusFindOneByIdInputDto): Promise<Dto.IUsuarioVinculoCampusFindOneResultDto | null> {
+  async vinculoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IVinculoFindOneByIdInputDto): Promise<Dto.IVinculoFindOneResultDto | null> {
     // =========================================================
 
-    const qb = this.usuarioVinculoCampusRepository.createQueryBuilder(aliasUsuarioVinculoCampus);
-
-    // =========================================================
-
-    await contextoDeAcesso.aplicarFiltro('vinculo:find', qb, aliasUsuarioVinculoCampus, null);
+    const qb = this.vinculoRepository.createQueryBuilder(aliasVinculo);
 
     // =========================================================
 
-    qb.andWhere(`${aliasUsuarioVinculoCampus}.id = :id`, { id: dto.id });
+    await contextoDeAcesso.aplicarFiltro('vinculo:find', qb, aliasVinculo, null);
+
+    // =========================================================
+
+    qb.andWhere(`${aliasVinculo}.id = :id`, { id: dto.id });
 
     // =========================================================
 
     qb.select([]);
 
-    UsuarioVinculoCampusService.UsuarioVinculoCampusQueryBuilderView(aliasUsuarioVinculoCampus, qb, {});
+    VinculoService.VinculoQueryBuilderView(aliasVinculo, qb, {});
 
     // =========================================================
 
@@ -135,7 +135,7 @@ export class UsuarioVinculoCampusService {
     return vinculo;
   }
 
-  async vinculoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IUsuarioVinculoCampusFindOneByIdInputDto) {
+  async vinculoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IVinculoFindOneByIdInputDto) {
     const vinculo = await this.vinculoFindById(contextoDeAcesso, dto);
 
     if (!vinculo) {
@@ -145,14 +145,14 @@ export class UsuarioVinculoCampusService {
     return vinculo;
   }
 
-  async vinculoSetVinculos(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IUsuarioVinculoCampusSetVinculosInputDto) {
+  async vinculoSetVinculos(contextoDeAcesso: IContextoDeAcesso, dto: Dto.VinculoUpdateInputDto) {
     const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.campus.id);
     const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(contextoDeAcesso, dto.usuario.id);
 
     const vinculosParaManter = new Set();
 
     for (const cargo of dto.cargos) {
-      const vinculoAtualAtivo = await this.usuarioVinculoCampusRepository
+      const vinculoAtualAtivo = await this.vinculoRepository
         .createQueryBuilder('vinculo')
         .innerJoin('vinculo.campus', 'campus')
         .innerJoin('vinculo.usuario', 'usuario')
@@ -168,9 +168,9 @@ export class UsuarioVinculoCampusService {
         continue;
       }
 
-      const vinculo = this.usuarioVinculoCampusRepository.create();
+      const vinculo = this.vinculoRepository.create();
 
-      this.usuarioVinculoCampusRepository.merge(vinculo, {
+      this.vinculoRepository.merge(vinculo, {
         ativo: true,
         cargo: cargo,
         usuario: {
@@ -181,13 +181,13 @@ export class UsuarioVinculoCampusService {
         },
       });
 
-      await this.usuarioVinculoCampusRepository.save(vinculo);
+      await this.vinculoRepository.save(vinculo);
 
       vinculosParaManter.add(vinculo.id);
     }
 
     // DESATIVAR OUTROS VÍNCULOS
-    await this.usuarioVinculoCampusRepository
+    await this.vinculoRepository
       .createQueryBuilder('usuario_vinculo_campus')
       .update()
       .set({

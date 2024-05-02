@@ -1,11 +1,11 @@
 import { Info, Resolver } from '@nestjs/graphql';
-import { ICidadeFindOneByIdInputDto, ISearchInputDto } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { Operacao } from '../../../especificacao';
+import { GqlDtoInput } from '../../../legacy';
 import { CidadeService } from './cidade.service';
-import { CidadeOperations } from './dtos';
-import { DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
 
 @Resolver()
 export class CidadeResolver {
@@ -16,11 +16,11 @@ export class CidadeResolver {
 
   // ========================================================
 
-  @DtoOperationGqlQuery(CidadeOperations.CIDADE_FIND_ALL)
+  @Operacao(Spec.CidadeFindAllOperator())
   async cidadeFindAll(
     //
     @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(CidadeOperations.CIDADE_FIND_ALL) dto: ISearchInputDto,
+    @GqlDtoInput(Spec.CidadeFindAllOperator()) dto: Spec.ISearchInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
     const selection = getFieldNames(info as any)
@@ -32,11 +32,11 @@ export class CidadeResolver {
 
   // ========================================================
 
-  @DtoOperationGqlQuery(CidadeOperations.CIDADE_FIND_ONE_BY_ID)
+  @Operacao(Spec.CidadeFindOneByIdOperator())
   async cidadeFindById(
     @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(CidadeOperations.CIDADE_FIND_ONE_BY_ID)
-    dto: ICidadeFindOneByIdInputDto,
+    @GqlDtoInput(Spec.CidadeFindOneByIdOperator())
+    dto: Spec.ICidadeFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
     const selection = getFieldNames(info as any);

@@ -25,6 +25,12 @@ export class CreateTableDisciplina1710184490462 implements MigrationInterface {
           },
 
           {
+            name: 'nome_abreviado',
+            type: 'text',
+            isNullable: false,
+          },
+
+          {
             name: 'carga_horaria',
             type: 'int',
             isNullable: false,
@@ -38,13 +44,13 @@ export class CreateTableDisciplina1710184490462 implements MigrationInterface {
           },
           //
           {
-            name: 'date_created',
+            name: 'dateCreateOperator()d',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',
           },
           {
-            name: 'date_updated',
+            name: 'dateUpdateOperator()d',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',
@@ -70,10 +76,10 @@ export class CreateTableDisciplina1710184490462 implements MigrationInterface {
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_${tableName}
+      CREATE TRIGGER change_dateUpdateOperator()d_table_${tableName}
         BEFORE UPDATE ON ${tableName}
         FOR EACH ROW
-          EXECUTE FUNCTION change_date_updated();
+          EXECUTE FUNCTION change_dateUpdateOperator()d();
     `);
   }
 

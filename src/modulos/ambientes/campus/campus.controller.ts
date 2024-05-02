@@ -1,11 +1,11 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
+import { Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
 import { CampusService } from './campus.service';
-import { CampusOperations } from './dtos/campus.operations';
 
 @ApiTags('Campi')
 @Controller('/campi')
@@ -15,18 +15,18 @@ export class CampusController {
   //
 
   @Get('/')
-  @DtoOperationFindAll(CampusOperations.CAMPUS_FIND_ALL)
-  async campusFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.ICampusFindAllResultDto> {
+  @Operacao(Spec.CampusFindAllOperator())
+  async campusFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.ICampusFindAllResultDto> {
     return this.campusService.campusFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
 
   @Get('/:id')
-  @DtoOperationFindOne(CampusOperations.CAMPUS_FIND_ONE_BY_ID)
+  @Operacao(Spec.CampusFindOneByIdOperator())
   async campusFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(CampusOperations.CAMPUS_FIND_ONE_BY_ID, 'id')
+    @HttpDtoParam(Spec.CampusFindOneByIdOperator(), 'id')
     id: string,
   ) {
     return this.campusService.campusFindByIdStrict(contextoDeAcesso, { id });
@@ -35,23 +35,23 @@ export class CampusController {
   //
 
   @Post('/')
-  @DtoOperationCreate(CampusOperations.CAMPUS_CREATE)
-  async campusCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(CampusOperations.CAMPUS_CREATE) dto: Dto.ICampusInputDto) {
+  @Operacao(Spec.CampusCreateOperator())
+  async campusCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.CampusCreateOperator()) dto: Spec.ICampusInputDto) {
     return this.campusService.campusCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @DtoOperationUpdate(CampusOperations.CAMPUS_UPDATE)
+  @Operacao(Spec.CampusUpdateOperator())
   async campusUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(CampusOperations.CAMPUS_UPDATE, 'id')
+    @HttpDtoParam(Spec.CampusUpdateOperator(), 'id')
     id: string,
-    @HttpDtoBody(CampusOperations.CAMPUS_UPDATE)
-    dto: Omit<Dto.ICampusUpdateDto, 'id'>,
+    @HttpDtoBody(Spec.CampusUpdateOperator())
+    dto: Omit<Spec.ICampusUpdateDto, 'id'>,
   ) {
-    const dtoUpdate: Dto.ICampusUpdateDto = {
+    const dtoUpdate: Spec.ICampusUpdateDto = {
       ...dto,
       id,
     };
@@ -62,10 +62,10 @@ export class CampusController {
   //
 
   @Delete('/:id')
-  @DtoOperationDelete(CampusOperations.CAMPUS_DELETE_ONE_BY_ID)
+  @Operacao(Spec.CampusDeleteOperator())
   async campusDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(CampusOperations.CAMPUS_DELETE_ONE_BY_ID, 'id')
+    @HttpDtoParam(Spec.CampusDeleteOperator(), 'id')
     id: string,
   ) {
     return this.campusService.campusDeleteOneById(contextoDeAcesso, { id });

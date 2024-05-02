@@ -1,21 +1,10 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import {
-  DtoOperationCreate,
-  DtoOperationDelete,
-  DtoOperationFindAll,
-  DtoOperationFindOne,
-  DtoOperationGetFile,
-  DtoOperationSaveFile,
-  DtoOperationUpdate,
-  HttpDtoBody,
-  HttpDtoParam,
-  getSearchInputFromPaginateQuery,
-} from '../../../legacy';
-import { UsuarioOperations } from './usuario.dtos';
+import { Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
 import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
@@ -26,18 +15,18 @@ export class UsuarioController {
   //
 
   @Get('/')
-  @DtoOperationFindAll(UsuarioOperations.USUARIO_FIND_ALL)
-  async usuarioFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IUsuarioFindAllResultDto> {
+  @Operacao(Spec.UsuarioFindAllOperator())
+  async usuarioFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.IUsuarioFindAllResultDto> {
     return this.usuarioService.usuarioFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
 
   @Get('/:id')
-  @DtoOperationFindOne(UsuarioOperations.USUARIO_FIND_ONE_BY_ID)
+  @Operacao(Spec.UsuarioFindOneByIdOperator())
   async usuarioFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(UsuarioOperations.USUARIO_FIND_ONE_BY_ID, 'id')
+    @HttpDtoParam(Spec.UsuarioFindOneByIdOperator(), 'id')
     id: string,
   ) {
     return this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, { id });
@@ -46,23 +35,25 @@ export class UsuarioController {
   //
 
   @Post('/')
-  @DtoOperationCreate(UsuarioOperations.USUARIO_CREATE)
-  async usuarioCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(UsuarioOperations.USUARIO_CREATE) dto: Dto.IUsuarioInputDto) {
+  @Operacao(Spec.UsuarioCreateOperator())
+  async usuarioCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.UsuarioCreateOperator()) dto: Spec.IUsuarioInputDto) {
     return this.usuarioService.usuarioCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @DtoOperationUpdate(UsuarioOperations.USUARIO_UPDATE)
+  @Operacao(Spec.UsuarioUpdateOperator())
   async usuarioUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(UsuarioOperations.USUARIO_UPDATE, 'id')
+
+    @HttpDtoParam(Spec.UsuarioUpdateOperator(), 'id')
     id: string,
-    @HttpDtoBody(UsuarioOperations.USUARIO_UPDATE)
-    dto: Omit<Dto.IUsuarioUpdateDto, 'id'>,
+
+    @HttpDtoBody(Spec.UsuarioUpdateOperator())
+    dto: Omit<Spec.IUsuarioUpdateDto, 'id'>,
   ) {
-    const dtoUpdate: Dto.IUsuarioUpdateDto = {
+    const dtoUpdate: Spec.IUsuarioUpdateDto = {
       ...dto,
       id,
     };
@@ -73,17 +64,17 @@ export class UsuarioController {
   //
 
   @Get('/:id/imagem/capa')
-  @DtoOperationGetFile(UsuarioOperations.USUARIO_GET_IMAGEM_CAPA)
+  @Operacao(Spec.UsuarioGetImagemCapaOperator())
   async usuarioGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(UsuarioOperations.USUARIO_GET_IMAGEM_CAPA, 'id')
+    @HttpDtoParam(Spec.UsuarioGetImagemCapaOperator(), 'id')
     id: string,
   ) {
     return this.usuarioService.usuarioGetImagemCapa(contextoDeAcesso, id);
   }
 
   @Put('/:id/imagem/capa')
-  @DtoOperationSaveFile()
+  @Operacao(Spec.UsuarioSetImagemCapaOperator())
   async usuarioImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
@@ -96,17 +87,17 @@ export class UsuarioController {
   //
 
   @Get('/:id/imagem/perfil')
-  @DtoOperationGetFile(UsuarioOperations.USUARIO_GET_IMAGEM_PERFIL)
+  @Operacao(Spec.UsuarioGetImagemPerfilOperator())
   async usuarioGetImagemPerfil(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(UsuarioOperations.USUARIO_GET_IMAGEM_PERFIL, 'id')
+    @HttpDtoParam(Spec.UsuarioGetImagemPerfilOperator(), 'id')
     id: string,
   ) {
     return this.usuarioService.usuarioGetImagemPerfil(contextoDeAcesso, id);
   }
 
   @Put('/:id/imagem/perfil')
-  @DtoOperationSaveFile()
+  @Operacao(Spec.UsuarioSetImagemPerfilOperator())
   async usuarioImagemPerfilSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
@@ -119,10 +110,10 @@ export class UsuarioController {
   //
 
   @Delete('/:id')
-  @DtoOperationDelete(UsuarioOperations.USUARIO_DELETE_ONE_BY_ID)
+  @Operacao(Spec.UsuarioDeleteOperator())
   async usuarioDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(UsuarioOperations.USUARIO_DELETE_ONE_BY_ID, 'id')
+    @HttpDtoParam(Spec.UsuarioDeleteOperator(), 'id')
     id: string,
   ) {
     return this.usuarioService.usuarioDeleteOneById(contextoDeAcesso, { id });

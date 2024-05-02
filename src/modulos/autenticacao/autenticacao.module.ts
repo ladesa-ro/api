@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
+import { KeycloakModule, OpenidConnectModule } from '../../integracao-identidade-e-acesso';
 import { AutenticacaoController } from './autenticacao.controller';
 import { AutenticacaoResolver } from './autenticacao.resolver';
 import { AutenticacaoService } from './autenticacao.service';
-import { UsuarioVinculoCampusModule } from './usuario-vinculo-campus/usuario-vinculo-campus.module';
+import { VinculoModule } from './usuario-vinculo-campus/usuario-vinculo-campus.module';
 import { UsuarioModule } from './usuario/usuario.module';
-import { OpenidConnectModule, KeycloakModule } from '../../integracao-identidade-e-acesso';
 
 @Module({
-  imports: [UsuarioModule, UsuarioVinculoCampusModule, OpenidConnectModule, KeycloakModule],
+  imports: [UsuarioModule, VinculoModule, OpenidConnectModule, KeycloakModule],
   controllers: [AutenticacaoController],
   providers: [AutenticacaoService, AutenticacaoResolver],
   exports: [],

@@ -1,10 +1,10 @@
 import { Resolver } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
-import { TurmaOperations } from './dtos';
-import { TurmaDto } from './dtos/turma.dto';
+import { Operacao } from '../../../especificacao';
+import { GqlDtoInput } from '../../../legacy';
 import { TurmaService } from './turma.service';
+import { TurmaDto } from './turma.dtos';
 
 @Resolver(() => TurmaDto)
 export class TurmaResolver {
@@ -15,39 +15,39 @@ export class TurmaResolver {
 
   //
 
-  @DtoOperationGqlQuery(TurmaOperations.TURMA_FIND_ALL)
-  async turmaFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(TurmaOperations.TURMA_FIND_ALL) dto: Dto.ISearchInputDto) {
+  @Operacao(Spec.TurmaFindAllOperator())
+  async turmaFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.TurmaFindAllOperator()) dto: Spec.ISearchInputDto) {
     return this.turmaService.turmaFindAll(contextoDeAcesso, dto);
   }
 
   //
 
-  @DtoOperationGqlQuery(TurmaOperations.TURMA_FIND_ONE_BY_ID)
+  @Operacao(Spec.TurmaFindOneByIdOperator())
   async turmaFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(TurmaOperations.TURMA_FIND_ONE_BY_ID)
-    dto: Dto.ITurmaFindOneByIdInputDto,
+    @GqlDtoInput(Spec.TurmaFindOneByIdOperator())
+    dto: Spec.ITurmaFindOneByIdInputDto,
   ) {
     return this.turmaService.turmaFindByIdStrict(contextoDeAcesso, dto);
   }
 
   //
 
-  @DtoOperationGqlMutation(TurmaOperations.TURMA_CREATE)
-  async turmaCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(TurmaOperations.TURMA_CREATE) dto: Dto.ITurmaInputDto) {
+  @Operacao(Spec.TurmaCreateOperator())
+  async turmaCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.TurmaCreateOperator()) dto: Spec.ITurmaInputDto) {
     return this.turmaService.turmaCreate(contextoDeAcesso, dto);
   }
 
-  @DtoOperationGqlMutation(TurmaOperations.TURMA_UPDATE)
-  async turmaUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(TurmaOperations.TURMA_UPDATE) dto: Dto.ITurmaUpdateDto) {
+  @Operacao(Spec.TurmaUpdateOperator())
+  async turmaUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.TurmaUpdateOperator()) dto: Spec.ITurmaUpdateDto) {
     return this.turmaService.turmaUpdate(contextoDeAcesso, dto);
   }
 
-  @DtoOperationGqlMutation(TurmaOperations.TURMA_DELETE_ONE_BY_ID)
+  @Operacao(Spec.TurmaDeleteOperator())
   async turmaDeleteOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(TurmaOperations.TURMA_DELETE_ONE_BY_ID)
-    dto: Dto.ITurmaDeleteOneByIdInputDto,
+    @GqlDtoInput(Spec.TurmaDeleteOperator())
+    dto: Spec.ITurmaDeleteOneByIdInputDto,
   ) {
     return this.turmaService.turmaDeleteOneById(contextoDeAcesso, dto);
   }

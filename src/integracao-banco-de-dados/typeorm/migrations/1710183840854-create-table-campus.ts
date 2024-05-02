@@ -50,13 +50,13 @@ export class CreateTableCampus1710183840854 implements MigrationInterface {
           //
 
           {
-            name: 'date_created',
+            name: 'dateCreateOperator()d',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',
           },
           {
-            name: 'date_updated',
+            name: 'dateUpdateOperator()d',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',
@@ -80,10 +80,10 @@ export class CreateTableCampus1710183840854 implements MigrationInterface {
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_campus
+      CREATE TRIGGER change_dateUpdateOperator()d_table_campus
         BEFORE UPDATE ON campus
         FOR EACH ROW
-          EXECUTE FUNCTION change_date_updated();
+          EXECUTE FUNCTION change_dateUpdateOperator()d();
     `);
   }
 

@@ -1,27 +1,49 @@
-import { Query } from '@nestjs/common';
+import { Query as NestHttpQueryPrimitive } from '@nestjs/common';
+import { GetPropertyValidator, GetSchema, IDeclarationProperty, IDeclarationPropertyMixed, IDeclarationPropertySimple, IOperation } from '@sisgea/spec';
+import * as yup from 'yup';
 import { ValidationPipeYup } from '../../validacao';
-import { IDtoOperationOptions } from './DtoOperation';
 
-export const HttpDtoQuery = (options: IDtoOperationOptions, name: string) => {
-  const param =
-    options.swagger.queries?.find((query) => {
-      if (typeof query === 'string') {
-        return query;
-      }
+export const HttpDtoQuery = (operation: IOperation, name: string) => {
+  let property: IDeclarationProperty | null = null;
 
-      return query.name === name;
-    }) ?? null;
+  const input = operation.input;
 
-  if (!param) {
-    throw new TypeError('Param not found');
+  if (input?.strategy === 'dto') {
+    const inputProperties = input.query;
+
+    const propertiesRecord = typeof inputProperties === 'function' ? inputProperties().properties : inputProperties ?? {};
+
+    const foundProperty =
+      Object.entries(propertiesRecord).find(([propertyKey, property]) => {
+        let propertySimple: IDeclarationPropertySimple;
+
+        if (property.type === 'mixed') {
+          propertySimple = (property as IDeclarationPropertyMixed).input;
+        } else {
+          propertySimple = property as IDeclarationPropertySimple;
+        }
+
+        const propertyName = propertySimple.name ?? propertyKey;
+        return propertyName === name;
+      }) ?? null;
+
+    if (foundProperty) {
+      property = foundProperty[1];
+    }
   }
 
-  if (typeof param === 'string') {
-    return Query(name);
-  } else {
-    const schema = param.validationContract();
+  if (property === null) {
+    throw new TypeError('Query param not found');
+  }
 
-    return Query(
+  if (typeof property === 'string') {
+    return NestHttpQueryPrimitive(name);
+  } else {
+    const validator = GetPropertyValidator(property);
+
+    const schema = GetSchema(validator, yup);
+
+    return NestHttpQueryPrimitive(
       name,
       new ValidationPipeYup(schema, {
         scope: 'query',

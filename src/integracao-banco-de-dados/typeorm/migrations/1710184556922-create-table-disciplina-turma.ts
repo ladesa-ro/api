@@ -29,13 +29,13 @@ export class CreateTableDisciplinaTurma1710184556922 implements MigrationInterfa
           },
           //
           {
-            name: 'date_created',
+            name: 'dateCreateOperator()d',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',
           },
           {
-            name: 'date_updated',
+            name: 'dateUpdateOperator()d',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',

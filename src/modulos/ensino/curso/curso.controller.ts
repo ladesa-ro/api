@@ -1,22 +1,11 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import {
-  DtoOperationCreate,
-  DtoOperationDelete,
-  DtoOperationFindAll,
-  DtoOperationFindOne,
-  DtoOperationGetFile,
-  DtoOperationSaveFile,
-  DtoOperationUpdate,
-  getSearchInputFromPaginateQuery,
-  HttpDtoBody,
-  HttpDtoParam,
-} from '../../../legacy';
+import { Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
 import { CursoService } from './curso.service';
-import { CursoOperations } from './dtos';
 
 @ApiTags('Cursos')
 @Controller('/cursos')
@@ -26,18 +15,18 @@ export class CursoController {
   //
 
   @Get('/')
-  @DtoOperationFindAll(CursoOperations.CURSO_FIND_ALL)
-  async cursoFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.ICursoFindAllResultDto> {
+  @Operacao(Spec.CursoFindAllOperator())
+  async cursoFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.ICursoFindAllResultDto> {
     return this.cursoService.cursoFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
 
   @Get('/:id')
-  @DtoOperationFindOne(CursoOperations.CURSO_FIND_ONE_BY_ID)
+  @Operacao(Spec.CursoFindOneByIdOperator())
   async cursoFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(CursoOperations.CURSO_FIND_ONE_BY_ID, 'id')
+    @HttpDtoParam(Spec.CursoFindOneByIdOperator(), 'id')
     id: string,
   ) {
     return this.cursoService.cursoFindByIdStrict(contextoDeAcesso, { id });
@@ -46,23 +35,23 @@ export class CursoController {
   //
 
   @Post('/')
-  @DtoOperationCreate(CursoOperations.CURSO_CREATE)
-  async cursoCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(CursoOperations.CURSO_CREATE) dto: Dto.ICursoInputDto) {
+  @Operacao(Spec.CursoCreateOperator())
+  async cursoCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.CursoCreateOperator()) dto: Spec.ICursoInputDto) {
     return this.cursoService.cursoCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @DtoOperationUpdate(CursoOperations.CURSO_UPDATE)
+  @Operacao(Spec.CursoUpdateOperator())
   async cursoUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(CursoOperations.CURSO_UPDATE, 'id')
+    @HttpDtoParam(Spec.CursoUpdateOperator(), 'id')
     id: string,
-    @HttpDtoBody(CursoOperations.CURSO_UPDATE)
-    dto: Omit<Dto.ICursoUpdateDto, 'id'>,
+    @HttpDtoBody(Spec.CursoUpdateOperator())
+    dto: Omit<Spec.ICursoUpdateDto, 'id'>,
   ) {
-    const dtoUpdate: Dto.ICursoUpdateDto = {
+    const dtoUpdate: Spec.ICursoUpdateDto = {
       ...dto,
       id,
     };
@@ -73,17 +62,17 @@ export class CursoController {
   //
 
   @Get('/:id/imagem/capa')
-  @DtoOperationGetFile(CursoOperations.CURSO_GET_IMAGEM_CAPA)
+  @Operacao(Spec.CursoGetImagemCapaOperator())
   async cursoGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(CursoOperations.CURSO_GET_IMAGEM_CAPA, 'id')
+    @HttpDtoParam(Spec.CursoGetImagemCapaOperator(), 'id')
     id: string,
   ) {
     return this.cursoService.cursoGetImagemCapa(contextoDeAcesso, id);
   }
 
   @Put('/:id/imagem/capa')
-  @DtoOperationSaveFile()
+  @Operacao(Spec.CursoSetImagemCapaOperator())
   async cursoImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
@@ -96,10 +85,10 @@ export class CursoController {
   //
 
   @Delete('/:id')
-  @DtoOperationDelete(CursoOperations.CURSO_DELETE_ONE_BY_ID)
+  @Operacao(Spec.CursoDeleteOperator())
   async cursoDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(CursoOperations.CURSO_DELETE_ONE_BY_ID, 'id')
+    @HttpDtoParam(Spec.CursoDeleteOperator(), 'id')
     id: string,
   ) {
     return this.cursoService.cursoDeleteOneById(contextoDeAcesso, { id });

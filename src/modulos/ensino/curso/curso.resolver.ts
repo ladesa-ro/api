@@ -1,10 +1,11 @@
 import { Resolver } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
+import { GqlDtoInput } from '../../../legacy';
+import { CursoDto } from './curso.dtos';
 import { CursoService } from './curso.service';
-import { CursoOperations } from './dtos';
-import { CursoDto } from './dtos/curso.dto';
+
+import { Operacao } from '../../../especificacao';
 
 @Resolver(() => CursoDto)
 export class CursoResolver {
@@ -15,39 +16,39 @@ export class CursoResolver {
 
   //
 
-  @DtoOperationGqlQuery(CursoOperations.CURSO_FIND_ALL)
-  async cursoFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(CursoOperations.CURSO_FIND_ALL) dto: Dto.ISearchInputDto) {
+  @Operacao(Spec.CursoFindAllOperator())
+  async cursoFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.CursoFindAllOperator()) dto: Spec.ISearchInputDto) {
     return this.cursoService.cursoFindAll(contextoDeAcesso, dto);
   }
 
   //
 
-  @DtoOperationGqlQuery(CursoOperations.CURSO_FIND_ONE_BY_ID)
+  @Operacao(Spec.CursoFindOneByIdOperator())
   async cursoFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(CursoOperations.CURSO_FIND_ONE_BY_ID)
-    dto: Dto.ICursoFindOneByIdInputDto,
+    @GqlDtoInput(Spec.CursoFindOneByIdOperator())
+    dto: Spec.ICursoFindOneByIdInputDto,
   ) {
     return this.cursoService.cursoFindByIdStrict(contextoDeAcesso, dto);
   }
 
   //
 
-  @DtoOperationGqlMutation(CursoOperations.CURSO_CREATE)
-  async cursoCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(CursoOperations.CURSO_CREATE) dto: Dto.ICursoInputDto) {
+  @Operacao(Spec.CursoCreateOperator())
+  async cursoCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.CursoCreateOperator()) dto: Spec.ICursoInputDto) {
     return this.cursoService.cursoCreate(contextoDeAcesso, dto);
   }
 
-  @DtoOperationGqlMutation(CursoOperations.CURSO_UPDATE)
-  async cursoUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(CursoOperations.CURSO_UPDATE) dto: Dto.ICursoUpdateDto) {
+  @Operacao(Spec.CursoUpdateOperator())
+  async cursoUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.CursoUpdateOperator()) dto: Spec.ICursoUpdateDto) {
     return this.cursoService.cursoUpdate(contextoDeAcesso, dto);
   }
 
-  @DtoOperationGqlMutation(CursoOperations.CURSO_DELETE_ONE_BY_ID)
+  @Operacao(Spec.CursoDeleteOperator())
   async cursoDeleteOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(CursoOperations.CURSO_DELETE_ONE_BY_ID)
-    dto: Dto.ICursoDeleteOneByIdInputDto,
+    @GqlDtoInput(Spec.CursoDeleteOperator())
+    dto: Spec.ICursoDeleteOneByIdInputDto,
   ) {
     return this.cursoService.cursoDeleteOneById(contextoDeAcesso, dto);
   }

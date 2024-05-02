@@ -1,10 +1,10 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
-import { ReservaOperations } from './dtos';
+import { Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
 import { ReservaService } from './reserva.service';
 
 @ApiTags('Reservas')
@@ -15,18 +15,18 @@ export class ReservaController {
   //
 
   @Get('/')
-  @DtoOperationFindAll(ReservaOperations.RESERVA_FIND_ALL)
-  async reservaFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IReservaFindAllResultDto> {
+  @Operacao(Spec.ReservaFindAllOperator())
+  async reservaFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.IReservaFindAllResultDto> {
     return this.reservaService.reservaFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
 
   @Get('/:id')
-  @DtoOperationFindOne(ReservaOperations.RESERVA_FIND_ONE_BY_ID)
+  @Operacao(Spec.ReservaFindOneByIdOperator())
   async reservaFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(ReservaOperations.RESERVA_FIND_ONE_BY_ID, 'id')
+    @HttpDtoParam(Spec.ReservaFindOneByIdOperator(), 'id')
     id: string,
   ) {
     return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, { id });
@@ -35,23 +35,23 @@ export class ReservaController {
   //
 
   @Post('/')
-  @DtoOperationCreate(ReservaOperations.RESERVA_CREATE)
-  async reservaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(ReservaOperations.RESERVA_CREATE) dto: Dto.IReservaInputDto) {
+  @Operacao(Spec.ReservaCreateOperator())
+  async reservaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.ReservaCreateOperator()) dto: Spec.IReservaInputDto) {
     return this.reservaService.reservaCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @DtoOperationUpdate(ReservaOperations.RESERVA_UPDATE)
+  @Operacao(Spec.ReservaUpdateOperator())
   async reservaUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(ReservaOperations.RESERVA_UPDATE, 'id')
+    @HttpDtoParam(Spec.ReservaUpdateOperator(), 'id')
     id: string,
-    @HttpDtoBody(ReservaOperations.RESERVA_UPDATE)
-    dto: Omit<Dto.IReservaUpdateDto, 'id'>,
+    @HttpDtoBody(Spec.ReservaUpdateOperator())
+    dto: Omit<Spec.IReservaUpdateDto, 'id'>,
   ) {
-    const dtoUpdate: Dto.IReservaUpdateDto = {
+    const dtoUpdate: Spec.IReservaUpdateDto = {
       ...dto,
       id,
     };
@@ -62,10 +62,10 @@ export class ReservaController {
   //
 
   @Delete('/:id')
-  @DtoOperationDelete(ReservaOperations.RESERVA_DELETE_ONE_BY_ID)
+  @Operacao(Spec.ReservaDeleteOperator())
   async reservaDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(ReservaOperations.RESERVA_DELETE_ONE_BY_ID, 'id')
+    @HttpDtoParam(Spec.ReservaDeleteOperator(), 'id')
     id: string,
   ) {
     return this.reservaService.reservaDeleteOneById(contextoDeAcesso, { id });

@@ -1,11 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { EstadoOperations } from './dtos/estado.operations';
+import { Operacao } from '../../../especificacao';
+import { HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
 import { EstadoService } from './estado.service';
-import { DtoOperationFindAll, getSearchInputFromPaginateQuery, DtoOperationFindOne, HttpDtoParam } from '../../../legacy';
 
 @ApiTags('Estados')
 @Controller('/base/estados')
@@ -16,34 +16,34 @@ export class EstadoController {
   ) {}
 
   @Get('/')
-  @DtoOperationFindAll(EstadoOperations.ESTADO_FIND_ALL)
-  async findAll(@ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IEstadoFindAllResultDto> {
+  @Operacao(Spec.EstadoFindAllOperator())
+  async findAll(@ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.IEstadoFindAllResultDto> {
     return this.estadoService.findAll(clienteAccess, getSearchInputFromPaginateQuery(query));
   }
 
   @Get('/uf/:uf')
-  @DtoOperationFindOne(EstadoOperations.ESTADO_FIND_ONE_BY_UF)
+  @Operacao(Spec.EstadoFindOneByUfOperator())
   @ApiParam({
     name: 'uf',
     description: 'Sigla do estado.',
   })
   async findByUf(
     @ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso,
-    @HttpDtoParam(EstadoOperations.ESTADO_FIND_ONE_BY_UF, 'uf')
+    @HttpDtoParam(Spec.EstadoFindOneByUfOperator(), 'uf')
     uf: string,
   ) {
     return this.estadoService.findByUfStrict(clienteAccess, { uf });
   }
 
   @Get('/:id')
-  @DtoOperationFindOne(EstadoOperations.ESTADO_FIND_ONE_BY_ID)
+  @Operacao(Spec.EstadoFindOneByIdOperator())
   @ApiParam({
     name: 'id',
     description: 'ID IBGE do estado.',
   })
   async findById(
     @ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso,
-    @HttpDtoParam(EstadoOperations.ESTADO_FIND_ONE_BY_ID, 'id')
+    @HttpDtoParam(Spec.EstadoFindOneByIdOperator(), 'id')
     id: number,
   ) {
     return this.estadoService.findByIdStrict(clienteAccess, { id });

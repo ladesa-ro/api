@@ -4,12 +4,12 @@ import { has, map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { IUsuarioVinculoCampusQueryBuilderViewOptions, UsuarioVinculoCampusService } from '../../autenticacao/usuario-vinculo-campus/usuario-vinculo-campus.service';
-import { DiarioService, IDiarioQueryBuilderViewOptions } from '../diario/diario.service';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DiarioProfessorEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
+import { IVinculoQueryBuilderViewOptions, VinculoService } from '../../autenticacao/usuario-vinculo-campus/usuario-vinculo-campus.service';
+import { DiarioService, IDiarioQueryBuilderViewOptions } from '../diario/diario.service';
 
 // ============================================================================
 
@@ -19,7 +19,7 @@ const aliasDiarioProfessor = 'diario_professor';
 
 export type IDiarioProfessorQueryBuilderViewOptions = {
   loadDiario?: IQueryBuilderViewOptionsLoad<IDiarioQueryBuilderViewOptions>;
-  loadVinculoProfessor?: IQueryBuilderViewOptionsLoad<IUsuarioVinculoCampusQueryBuilderViewOptions>;
+  loadvinculo?: IQueryBuilderViewOptionsLoad<IVinculoQueryBuilderViewOptions>;
 };
 
 // ============================================================================
@@ -28,7 +28,7 @@ export type IDiarioProfessorQueryBuilderViewOptions = {
 export class DiarioProfessorService {
   constructor(
     private diarioService: DiarioService,
-    private usuarioVinculoCampusService: UsuarioVinculoCampusService,
+    private vinculoService: VinculoService,
     private databaseContext: DatabaseContextService,
   ) {}
 
@@ -52,11 +52,11 @@ export class DiarioProfessorService {
       DiarioService.DiarioQueryBuilderView(loadDiario.alias, qb, loadDiario.options);
     }
 
-    const loadVinculoProfessor = getQueryBuilderViewLoadMeta(options.loadVinculoProfessor, true, `${alias}_vp`);
+    const loadvinculo = getQueryBuilderViewLoadMeta(options.loadvinculo, true, `${alias}_vp`);
 
-    if (loadVinculoProfessor) {
-      qb.leftJoin(`${alias}.vinculoProfessor`, `${loadVinculoProfessor.alias}`);
-      UsuarioVinculoCampusService.UsuarioVinculoCampusQueryBuilderView(loadVinculoProfessor.alias, qb, loadVinculoProfessor.options);
+    if (loadvinculo) {
+      qb.leftJoin(`${alias}.vinculo`, `${loadvinculo.alias}`);
+      VinculoService.VinculoQueryBuilderView(loadvinculo.alias, qb, loadvinculo.options);
     }
   }
 
@@ -83,14 +83,14 @@ export class DiarioProfessorService {
         //
         'diario.id',
         //
-        'vinculoProfessor.id',
-        'vinculoProfessor.campus.id',
-        'vinculoProfessor.usuario.id',
+        'vinculo.id',
+        'vinculo.campus.id',
+        'vinculo.usuario.id',
         //
       ],
       relations: {
         diario: true,
-        vinculoProfessor: {
+        vinculo: {
           campus: true,
           usuario: true,
         },
@@ -99,8 +99,8 @@ export class DiarioProfessorService {
         //
         'situacao',
         'diario.id',
-        'vinculoProfessor.campus.id',
-        'vinculoProfessor.usuario.id',
+        'vinculo.campus.id',
+        'vinculo.usuario.id',
       ],
       searchableColumns: [
         //
@@ -108,8 +108,8 @@ export class DiarioProfessorService {
         //
         'situacao',
         'diario.id',
-        'vinculoProfessor.campus.id',
-        'vinculoProfessor.usuario.id',
+        'vinculo.campus.id',
+        'vinculo.usuario.id',
         //
       ],
       defaultSortBy: [],
@@ -258,15 +258,15 @@ export class DiarioProfessorService {
 
     // =========================================================
 
-    if (has(dto, 'vinculoProfessor') && dto.vinculoProfessor !== undefined) {
-      if (dto.vinculoProfessor !== null) {
-        const vinculoProfessor = await this.usuarioVinculoCampusService.vinculoFindByIdStrict(contextoDeAcesso, {
-          id: dto.vinculoProfessor.id,
+    if (has(dto, 'vinculo') && dto.vinculo !== undefined) {
+      if (dto.vinculo !== null) {
+        const vinculo = await this.vinculoService.vinculoFindByIdStrict(contextoDeAcesso, {
+          id: dto.vinculo.id,
         });
 
         this.diarioProfessorRepository.merge(diarioProfessor, {
-          vinculoProfessor: {
-            id: vinculoProfessor.id,
+          vinculo: {
+            id: vinculo.id,
           },
         });
       }
@@ -320,15 +320,15 @@ export class DiarioProfessorService {
 
     // =========================================================
 
-    if (has(dto, 'vinculoProfessor') && dto.vinculoProfessor !== undefined) {
-      if (dto.vinculoProfessor !== null) {
-        const vinculoProfessor = await this.usuarioVinculoCampusService.vinculoFindByIdStrict(contextoDeAcesso, {
-          id: dto.vinculoProfessor.id,
+    if (has(dto, 'vinculo') && dto.vinculo !== undefined) {
+      if (dto.vinculo !== null) {
+        const vinculo = await this.vinculoService.vinculoFindByIdStrict(contextoDeAcesso, {
+          id: dto.vinculo.id,
         });
 
         this.diarioProfessorRepository.merge(diarioProfessor, {
-          vinculoProfessor: {
-            id: vinculoProfessor.id,
+          vinculo: {
+            id: vinculo.id,
           },
         });
       }

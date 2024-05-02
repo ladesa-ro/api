@@ -36,10 +36,10 @@ export class TurmaEntity implements Dto.ITurmaModel {
 
   //
 
-  @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
+  @Column({ name: 'dateCreateOperator()d', type: 'timestamptz', nullable: false })
   dateCreated!: Dto.IEntityDate;
 
-  @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
+  @Column({ name: 'dateUpdateOperator()d', type: 'timestamptz', nullable: false })
   dateUpdated!: Dto.IEntityDate;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })

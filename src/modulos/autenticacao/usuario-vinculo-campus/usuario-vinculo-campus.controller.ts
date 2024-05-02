@@ -1,29 +1,26 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { UsuarioVinculoCampusOperations } from './dtos';
-import { UsuarioVinculoCampusService } from './usuario-vinculo-campus.service';
-import { DtoOperationFindAll, DtoOperationUpdate, HttpDtoBody } from '../../../legacy';
+import { Operacao } from '../../../especificacao';
+import { HttpDtoBody } from '../../../legacy';
+import { VinculoService } from './usuario-vinculo-campus.service';
 
 @Controller('/vinculos')
 @ApiTags('Vinculos')
-export class UsuarioVinculoCampusController {
-  constructor(private usuarioVinculoCampusService: UsuarioVinculoCampusService) {}
+export class VinculoController {
+  constructor(private vinculoService: VinculoService) {}
 
   @Get('/')
-  @DtoOperationFindAll(UsuarioVinculoCampusOperations.VINCULO_FIND_ALL)
+  @Operacao(Spec.VinculoFindAllOperator())
   async findAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery) {
-    return this.usuarioVinculoCampusService.vinculoFindAll(contextoDeAcesso, query);
+    return this.vinculoService.vinculoFindAll(contextoDeAcesso, query);
   }
 
   @Post('/')
-  @DtoOperationUpdate(UsuarioVinculoCampusOperations.VINCULO_SET_VINCULOS)
-  async vinculoSetVinculos(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoBody(UsuarioVinculoCampusOperations.VINCULO_SET_VINCULOS) dto: Dto.IUsuarioVinculoCampusSetVinculosInputDto,
-  ) {
-    return this.usuarioVinculoCampusService.vinculoSetVinculos(contextoDeAcesso, dto);
+  @Operacao(Spec.VinculoUpdateOperator())
+  async vinculoSetVinculos(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.VinculoUpdateOperator()) dto: Spec.VinculoUpdateInputDto) {
+    return this.vinculoService.vinculoSetVinculos(contextoDeAcesso, dto);
   }
 }

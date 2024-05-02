@@ -4,15 +4,15 @@ import * as Dtos from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { TurmaEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambientes/ambiente/ambiente.service';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { CursoService, ICursoQueryBuilderViewOptions } from '../curso/curso.service';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { TurmaEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { getPaginatedResultDto, getPaginateQueryFromSearchInput } from '../../../legacy';
-import { getQueryBuilderViewLoadMeta, IQueryBuilderViewOptionsLoad, paginateConfig } from '../../../legacy/utils';
 
 // ============================================================================
 
@@ -49,8 +49,6 @@ export class TurmaService {
       //
       `${alias}.id`,
       `${alias}.periodo`,
-      `${alias}.grupo`,
-      `${alias}.nome`,
     ]);
 
     const loadCurso = getQueryBuilderViewLoadMeta(options.loadCurso, true, `${alias}_c`);
@@ -95,16 +93,11 @@ export class TurmaService {
         'id',
         //
         'periodo',
-        'grupo',
-        'nome',
-
         //
       ],
       sortableColumns: [
         //
         'periodo',
-        'grupo',
-        'nome',
         //
         'ambientePadraoAula.nome',
         'ambientePadraoAula.descricao',
@@ -129,8 +122,6 @@ export class TurmaService {
         'id',
         //
         'periodo',
-        'grupo',
-        'nome',
         //
       ],
       defaultSortBy: [
@@ -267,7 +258,7 @@ export class TurmaService {
 
     // =========================================================
 
-    const dtoTurma = pick(dto, ['periodo', 'grupo', 'nome']);
+    const dtoTurma = pick(dto, ['periodo']);
 
     const turma = this.turmaRepository.create();
 
@@ -321,7 +312,7 @@ export class TurmaService {
 
     await contextoDeAcesso.ensurePermission('turma:update', { dto }, dto.id, this.turmaRepository.createQueryBuilder(aliasTurma));
 
-    const dtoTurma = pick(dto, ['periodo', 'grupo', 'nome']);
+    const dtoTurma = pick(dto, ['periodo']);
 
     const turma = {
       id: currentTurma.id,

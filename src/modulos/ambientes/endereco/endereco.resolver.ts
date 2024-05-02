@@ -1,6 +1,6 @@
 import { Resolver } from '@nestjs/graphql';
-import { EnderecoDto } from './dtos';
 import { EnderecoService } from './endereco.service';
+import { EnderecoDto } from './endereco.dtos';
 
 @Resolver(() => EnderecoDto)
 export class EnderecoResolver {

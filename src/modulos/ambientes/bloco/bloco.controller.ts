@@ -1,22 +1,11 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import {
-  DtoOperationCreate,
-  DtoOperationDelete,
-  DtoOperationFindAll,
-  DtoOperationFindOne,
-  DtoOperationGetFile,
-  DtoOperationSaveFile,
-  DtoOperationUpdate,
-  HttpDtoBody,
-  HttpDtoParam,
-  getSearchInputFromPaginateQuery,
-} from '../../../legacy';
+import { Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
 import { BlocoService } from './bloco.service';
-import { BlocoOperations } from './dtos/bloco.operations';
 
 @ApiTags('Blocos')
 @Controller('/blocos')
@@ -26,18 +15,18 @@ export class BlocoController {
   //
 
   @Get('/')
-  @DtoOperationFindAll(BlocoOperations.BLOCO_FIND_ALL)
-  async blocoFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IBlocoFindAllResultDto> {
+  @Operacao(Spec.BlocoFindAllOperator())
+  async blocoFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.IBlocoFindAllResultDto> {
     return this.blocoService.blocoFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
   }
 
   //
 
   @Get('/:id')
-  @DtoOperationFindOne(BlocoOperations.BLOCO_FIND_ONE_BY_ID)
+  @Operacao(Spec.BlocoFindOneByIdOperator())
   async blocoFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(BlocoOperations.BLOCO_FIND_ONE_BY_ID, 'id')
+    @HttpDtoParam(Spec.BlocoFindOneByIdOperator(), 'id')
     id: string,
   ) {
     return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, { id });
@@ -46,23 +35,23 @@ export class BlocoController {
   //
 
   @Post('/')
-  @DtoOperationCreate(BlocoOperations.BLOCO_CREATE)
-  async blocoCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(BlocoOperations.BLOCO_CREATE) dto: Dto.IBlocoInputDto) {
+  @Operacao(Spec.BlocoCreateOperator())
+  async blocoCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.BlocoCreateOperator()) dto: Spec.IBlocoInputDto) {
     return this.blocoService.blocoCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @DtoOperationUpdate(BlocoOperations.BLOCO_UPDATE)
+  @Operacao(Spec.BlocoUpdateOperator())
   async blocoUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(BlocoOperations.BLOCO_UPDATE, 'id')
+    @HttpDtoParam(Spec.BlocoUpdateOperator(), 'id')
     id: string,
-    @HttpDtoBody(BlocoOperations.BLOCO_UPDATE)
-    dto: Omit<Dto.IBlocoUpdateDto, 'id'>,
+    @HttpDtoBody(Spec.BlocoUpdateOperator())
+    dto: Omit<Spec.IBlocoUpdateDto, 'id'>,
   ) {
-    const dtoUpdate: Dto.IBlocoUpdateDto = {
+    const dtoUpdate: Spec.IBlocoUpdateDto = {
       ...dto,
       id,
     };
@@ -73,17 +62,17 @@ export class BlocoController {
   //
 
   @Get('/:id/imagem/capa')
-  @DtoOperationGetFile(BlocoOperations.BLOCO_GET_IMAGEM_CAPA)
+  @Operacao(Spec.BlocoGetImagemCapaOperator())
   async blocoGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(BlocoOperations.BLOCO_GET_IMAGEM_CAPA, 'id')
+    @HttpDtoParam(Spec.BlocoGetImagemCapaOperator(), 'id')
     id: string,
   ) {
     return this.blocoService.blocoGetImagemCapa(contextoDeAcesso, id);
   }
 
   @Put('/:id/imagem/capa')
-  @DtoOperationSaveFile()
+  @Operacao(Spec.BlocoSetImagemCapaOperator())
   async blocoImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
@@ -96,10 +85,10 @@ export class BlocoController {
   //
 
   @Delete('/:id')
-  @DtoOperationDelete(BlocoOperations.BLOCO_DELETE_ONE_BY_ID)
+  @Operacao(Spec.BlocoDeleteOperator())
   async blocoDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(BlocoOperations.BLOCO_DELETE_ONE_BY_ID, 'id')
+    @HttpDtoParam(Spec.BlocoDeleteOperator(), 'id')
     id: string,
   ) {
     return this.blocoService.blocoDeleteOneById(contextoDeAcesso, { id });

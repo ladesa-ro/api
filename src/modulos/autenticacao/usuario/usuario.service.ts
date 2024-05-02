@@ -1,18 +1,18 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
-import * as Dtos from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { UsuarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { KeycloakService } from '../../../integracao-identidade-e-acesso';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { ValidationFailedException } from '../../../nest-app';
+import { ArquivoService } from '../../base/arquivo/arquivo.service';
+import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 
 // ============================================================================
 
@@ -87,7 +87,7 @@ export class UsuarioService {
 
   //
 
-  async internalFindByMatriculaSiape(matriculaSiape: string): Promise<Dtos.IUsuarioFindOneResultDto | null> {
+  async internalFindByMatriculaSiape(matriculaSiape: string): Promise<Spec.IUsuarioFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -113,7 +113,7 @@ export class UsuarioService {
 
   //
 
-  async usuarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IUsuarioFindAllResultDto> {
+  async usuarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto): Promise<Spec.IUsuarioFindAllResultDto> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -178,7 +178,7 @@ export class UsuarioService {
     return getPaginatedResultDto(paginated);
   }
 
-  async usuarioFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IUsuarioFindOneByIdInputDto): Promise<Dtos.IUsuarioFindOneResultDto | null> {
+  async usuarioFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IUsuarioFindOneByIdInputDto): Promise<Spec.IUsuarioFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -208,7 +208,7 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IUsuarioFindOneByIdInputDto) {
+  async usuarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IUsuarioFindOneByIdInputDto) {
     const usuario = await this.usuarioFindById(contextoDeAcesso, dto);
 
     if (!usuario) {
@@ -220,10 +220,10 @@ export class UsuarioService {
 
   async usuarioFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.IUsuarioFindOneByIdInputDto['id'],
+    id: Spec.IUsuarioFindOneByIdInputDto['id'],
     options?: IUsuarioQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Dtos.IUsuarioFindOneResultDto | null> {
+  ): Promise<Spec.IUsuarioFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -255,7 +255,7 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IUsuarioFindOneByIdInputDto['id'], options?: IUsuarioQueryBuilderViewOptions, selection?: string[]) {
+  async usuarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.IUsuarioFindOneByIdInputDto['id'], options?: IUsuarioQueryBuilderViewOptions, selection?: string[]) {
     const usuario = await this.usuarioFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!usuario) {
@@ -300,7 +300,7 @@ export class UsuarioService {
     return isAvailable;
   }
 
-  private async ensureDtoAvailability(dto: Partial<Pick<Dtos.IUsuarioInputDto, 'email' | 'matriculaSiape'>>, currentUsuarioId: string | null = null) {
+  private async ensureDtoAvailability(dto: Partial<Pick<Spec.IUsuarioInputDto, 'email' | 'matriculaSiape'>>, currentUsuarioId: string | null = null) {
     // ===================================
 
     let isEmailAvailable = true;
@@ -387,7 +387,7 @@ export class UsuarioService {
     throw new NotFoundException();
   }
 
-  async usuarioUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioFindOneByIdInputDto, file: Express.Multer.File) {
+  async usuarioUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IUsuarioFindOneByIdInputDto, file: Express.Multer.File) {
     // =========================================================
 
     const currentUsuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.id });
@@ -440,7 +440,7 @@ export class UsuarioService {
     throw new NotFoundException();
   }
 
-  async usuarioUpdateImagemPerfil(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioFindOneByIdInputDto, file: Express.Multer.File) {
+  async usuarioUpdateImagemPerfil(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IUsuarioFindOneByIdInputDto, file: Express.Multer.File) {
     // =========================================================
 
     const currentUsuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.id });
@@ -480,7 +480,7 @@ export class UsuarioService {
 
   //
 
-  async usuarioCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioInputDto) {
+  async usuarioCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IUsuarioInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('usuario:create', { dto });
@@ -527,7 +527,7 @@ export class UsuarioService {
     return this.usuarioFindByIdStrict(contextoDeAcesso, { id: usuario.id });
   }
 
-  async usuarioUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioUpdateDto) {
+  async usuarioUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IUsuarioUpdateDto) {
     // =========================================================
 
     const currentUsuario = await this.usuarioFindByIdStrict(contextoDeAcesso, {
@@ -599,7 +599,7 @@ export class UsuarioService {
 
   //
 
-  async usuarioDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IUsuarioDeleteOneByIdInputDto) {
+  async usuarioDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IUsuarioDeleteOneByIdInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('usuario:delete', { dto }, dto.id, this.usuarioRepository.createQueryBuilder(aliasUsuario));

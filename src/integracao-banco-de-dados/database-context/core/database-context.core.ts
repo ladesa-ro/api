@@ -75,8 +75,8 @@ export class DatabaseContextCore {
     return repositories.createUsuarioRepository(this.ds);
   }
 
-  get usuarioVinculoCampusRepository() {
-    return repositories.createUsuarioVinculoCampusRepository(this.ds).extend({});
+  get vinculoRepository() {
+    return repositories.createVinculoRepository(this.ds).extend({});
   }
 
   //

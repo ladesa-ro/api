@@ -1,10 +1,10 @@
 import { Resolver } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { Operacao } from '../../../especificacao';
+import { GqlDtoInput } from '../../../legacy';
+import { DiarioDto } from './diario.dtos';
 import { DiarioService } from './diario.service';
-import { DiarioOperations } from './dtos';
-import { DiarioDto } from './dtos/diario.dto';
-import { DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
 
 @Resolver(() => DiarioDto)
 export class DiarioResolver {
@@ -15,39 +15,39 @@ export class DiarioResolver {
 
   //
 
-  @DtoOperationGqlQuery(DiarioOperations.DIARIO_FIND_ALL)
-  async diarioFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(DiarioOperations.DIARIO_FIND_ALL) dto: Dto.ISearchInputDto) {
+  @Operacao(Spec.DiarioFindAllOperator())
+  async diarioFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.DiarioFindAllOperator()) dto: Spec.ISearchInputDto) {
     return this.diarioService.diarioFindAll(contextoDeAcesso, dto);
   }
 
   //
 
-  @DtoOperationGqlQuery(DiarioOperations.DIARIO_FIND_ONE_BY_ID)
+  @Operacao(Spec.DiarioFindOneByIdOperator())
   async diarioFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(DiarioOperations.DIARIO_FIND_ONE_BY_ID)
-    dto: Dto.IDiarioFindOneByIdInputDto,
+    @GqlDtoInput(Spec.DiarioFindOneByIdOperator())
+    dto: Spec.IDiarioFindOneByIdInputDto,
   ) {
     return this.diarioService.diarioFindByIdStrict(contextoDeAcesso, dto);
   }
 
   //
 
-  @DtoOperationGqlMutation(DiarioOperations.DIARIO_CREATE)
-  async diarioCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(DiarioOperations.DIARIO_CREATE) dto: Dto.IDiarioInputDto) {
+  @Operacao(Spec.DiarioCreateOperator())
+  async diarioCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.DiarioCreateOperator()) dto: Spec.IDiarioInputDto) {
     return this.diarioService.diarioCreate(contextoDeAcesso, dto);
   }
 
-  @DtoOperationGqlMutation(DiarioOperations.DIARIO_UPDATE)
-  async diarioUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(DiarioOperations.DIARIO_UPDATE) dto: Dto.IDiarioUpdateDto) {
+  @Operacao(Spec.DiarioUpdateOperator())
+  async diarioUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.DiarioUpdateOperator()) dto: Spec.IDiarioUpdateDto) {
     return this.diarioService.diarioUpdate(contextoDeAcesso, dto);
   }
 
-  @DtoOperationGqlMutation(DiarioOperations.DIARIO_DELETE_ONE_BY_ID)
+  @Operacao(Spec.DiarioDeleteOperator())
   async diarioDeleteOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(DiarioOperations.DIARIO_DELETE_ONE_BY_ID)
-    dto: Dto.IDiarioDeleteOneByIdInputDto,
+    @GqlDtoInput(Spec.DiarioDeleteOperator())
+    dto: Spec.IDiarioDeleteOneByIdInputDto,
   ) {
     return this.diarioService.diarioDeleteOneById(contextoDeAcesso, dto);
   }

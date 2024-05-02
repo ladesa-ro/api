@@ -1,11 +1,12 @@
 import { Info, Resolver } from '@nestjs/graphql';
+import * as Spec from '@sisgea/spec';
 import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto, ISearchInputDto } from '@sisgea/spec';
 import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { EstadoOperations } from './dtos/estado.operations';
+import { Operacao } from '../../../especificacao';
+import { GqlDtoInput } from '../../../legacy';
 import { EstadoService } from './estado.service';
-import { DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
 
 @Resolver()
 export class EstadoResolver {
@@ -16,11 +17,11 @@ export class EstadoResolver {
 
   // ========================================================
 
-  @DtoOperationGqlQuery(EstadoOperations.ESTADO_FIND_ALL)
+  @Operacao(Spec.EstadoFindAllOperator())
   async estadoFindAll(
     //
     @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(EstadoOperations.ESTADO_FIND_ALL) dto: ISearchInputDto,
+    @GqlDtoInput(Spec.EstadoFindAllOperator()) dto: ISearchInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
     const selection = getFieldNames(info as any)
@@ -32,10 +33,10 @@ export class EstadoResolver {
 
   // ========================================================
 
-  @DtoOperationGqlQuery(EstadoOperations.ESTADO_FIND_ONE_BY_UF)
+  @Operacao(Spec.EstadoFindOneByUfOperator())
   async estadoFindOneByUf(
     @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(EstadoOperations.ESTADO_FIND_ONE_BY_UF)
+    @GqlDtoInput(Spec.EstadoFindOneByUfOperator())
     dto: IEstadoFindOneByUfInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
@@ -45,10 +46,10 @@ export class EstadoResolver {
 
   // ========================================================
 
-  @DtoOperationGqlQuery(EstadoOperations.ESTADO_FIND_ONE_BY_ID)
+  @Operacao(Spec.EstadoFindOneByIdOperator())
   async estadoFindOneById(
     @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(EstadoOperations.ESTADO_FIND_ONE_BY_ID)
+    @GqlDtoInput(Spec.EstadoFindOneByIdOperator())
     dto: IEstadoFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
