@@ -45,13 +45,13 @@ export class CreateTableArquivo1710028829501 implements MigrationInterface {
           //
 
           {
-            name: 'dateCreateOperator()d',
+            name: 'date_created',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',
           },
           {
-            name: 'dateUpdateOperator()d',
+            name: 'date_updated',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',
@@ -67,10 +67,10 @@ export class CreateTableArquivo1710028829501 implements MigrationInterface {
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_dateUpdateOperator()d_table_${tableName}
+      CREATE TRIGGER change_date_updated_table_${tableName}
         BEFORE UPDATE ON ${tableName}
         FOR EACH ROW
-          EXECUTE FUNCTION change_dateUpdateOperator()d();
+          EXECUTE FUNCTION change_date_updated();
     `);
   }
 

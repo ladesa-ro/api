@@ -62,13 +62,13 @@ export class CreateTableEndereco1710183783857 implements MigrationInterface {
           //
 
           {
-            name: 'dateCreateOperator()d',
+            name: 'date_created',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',
           },
           {
-            name: 'dateUpdateOperator()d',
+            name: 'date_updated',
             type: 'timestamptz',
             isNullable: false,
             default: 'NOW()',
@@ -92,10 +92,10 @@ export class CreateTableEndereco1710183783857 implements MigrationInterface {
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_dateUpdateOperator()d_table_endereco
+      CREATE TRIGGER change_date_updated_table_endereco
         BEFORE UPDATE ON endereco
         FOR EACH ROW
-          EXECUTE FUNCTION change_dateUpdateOperator()d();
+          EXECUTE FUNCTION change_date_updated();
     `);
   }
 

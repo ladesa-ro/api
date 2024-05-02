@@ -20,7 +20,7 @@ export class InsertCampusIfroJipa1710183866989 implements MigrationInterface {
 
     await queryRunner.query(`
         INSERT INTO "campus"
-          ("id", "razao_social", "nome_fantasia", "apelido", "cnpj", "id_endereco_fk", "dateCreateOperator()d")
+          ("id", "razao_social", "nome_fantasia", "apelido", "cnpj", "id_endereco_fk", "date_created")
         VALUES
           (
             '50987cbb-01a2-4345-8974-cae554ffca51',

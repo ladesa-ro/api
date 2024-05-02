@@ -31,10 +31,10 @@ export class CursoEntity implements Spec.ICursoModel {
 
   //
 
-  @Column({ name: 'dateCreateOperator()d', type: 'timestamptz', nullable: false })
+  @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
   dateCreated!: Spec.IEntityDate;
 
-  @Column({ name: 'dateUpdateOperator()d', type: 'timestamptz', nullable: false })
+  @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
   dateUpdated!: Spec.IEntityDate;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
