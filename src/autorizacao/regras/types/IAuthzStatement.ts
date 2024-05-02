@@ -1,5 +1,5 @@
-import * as Dto from '@sisgea/spec';
-import { IBaseAuthzFilter, IBaseAuthzCheck } from './IBaseAuthz';
+import * as Spec from '@sisgea/spec';
+import { IBaseAuthzCheck, IBaseAuthzFilter } from './IBaseAuthz';
 
 // ===================================================================================
 
@@ -12,51 +12,51 @@ export type IAuthzStatementCidadeFind = IBaseAuthzFilter<'cidade:find'>;
 
 // =====================
 
-export type IAuthzStatementCampusCreate = IBaseAuthzCheck<'campus:create', { dto: Dto.ICampusCreateDto }>;
+export type IAuthzStatementCampusCreate = IBaseAuthzCheck<'campus:create', { dto: Spec.ICampusCreateDto }>;
 export type IAuthzStatementCampusFind = IBaseAuthzFilter<'campus:find'>;
-export type IAuthzStatementCampusUpdate = IBaseAuthzFilter<'campus:update', { dto: Dto.ICampusUpdateDto }>;
-export type IAuthzStatementCampusDelete = IBaseAuthzFilter<'campus:delete', { dto: Dto.ICampusDeleteOneByIdInputDto }>;
+export type IAuthzStatementCampusUpdate = IBaseAuthzFilter<'campus:update', { dto: Spec.ICampusUpdateDto }>;
+export type IAuthzStatementCampusDelete = IBaseAuthzFilter<'campus:delete', { dto: Spec.ICampusDeleteOneByIdInputDto }>;
 
 // =====================
 
-export type IAuthzStatementBlocoCreate = IBaseAuthzCheck<'bloco:create', { dto: Dto.IBlocoCreateDto }>;
+export type IAuthzStatementBlocoCreate = IBaseAuthzCheck<'bloco:create', { dto: Spec.IBlocoCreateDto }>;
 export type IAuthzStatementBlocoFind = IBaseAuthzFilter<'bloco:find'>;
-export type IAuthzStatementBlocoUpdate = IBaseAuthzFilter<'bloco:update', { dto: Dto.IBlocoUpdateDto }>;
-export type IAuthzStatementBlocoDelete = IBaseAuthzFilter<'bloco:delete', { dto: Dto.IBlocoDeleteOneByIdInputDto }>;
+export type IAuthzStatementBlocoUpdate = IBaseAuthzFilter<'bloco:update', { dto: Spec.IBlocoUpdateDto }>;
+export type IAuthzStatementBlocoDelete = IBaseAuthzFilter<'bloco:delete', { dto: Spec.IBlocoDeleteOneByIdInputDto }>;
 
 // =====================
 
-export type IAuthzStatementAmbienteCreate = IBaseAuthzCheck<'ambiente:create', { dto: Dto.IAmbienteCreateDto }>;
+export type IAuthzStatementAmbienteCreate = IBaseAuthzCheck<'ambiente:create', { dto: Spec.IAmbienteCreateDto }>;
 export type IAuthzStatementAmbienteFind = IBaseAuthzFilter<'ambiente:find'>;
-export type IAuthzStatementAmbienteUpdate = IBaseAuthzFilter<'ambiente:update', { dto: Dto.IAmbienteUpdateDto }>;
+export type IAuthzStatementAmbienteUpdate = IBaseAuthzFilter<'ambiente:update', { dto: Spec.IAmbienteUpdateDto }>;
 export type IAuthzStatementAmbienteDelete = IBaseAuthzFilter<
   'ambiente:delete',
   {
-    dto: Dto.IAmbienteDeleteOneByIdInputDto;
+    dto: Spec.IAmbienteDeleteOneByIdInputDto;
   }
 >;
 
 // =====================
 
-export type IAuthzStatementUsuarioCreate = IBaseAuthzCheck<'usuario:create', { dto: Dto.IUsuarioCreateDto }>;
+export type IAuthzStatementUsuarioCreate = IBaseAuthzCheck<'usuario:create', { dto: Spec.IUsuarioCreateDto }>;
 export type IAuthzStatementUsuarioFind = IBaseAuthzFilter<'usuario:find'>;
-export type IAuthzStatementUsuarioUpdate = IBaseAuthzFilter<'usuario:update', { dto: Dto.IUsuarioUpdateDto }>;
+export type IAuthzStatementUsuarioUpdate = IBaseAuthzFilter<'usuario:update', { dto: Spec.IUsuarioUpdateDto }>;
 export type IAuthzStatementUsuarioDelete = IBaseAuthzFilter<
   'usuario:delete',
   {
-    dto: Dto.IUsuarioDeleteOneByIdInputDto;
+    dto: Spec.IUsuarioDeleteOneByIdInputDto;
   }
 >;
 
 // =====================
 
-export type IAuthzStatementModalidadeCreate = IBaseAuthzCheck<'modalidade:create', { dto: Dto.IModalidadeCreateDto }>;
+export type IAuthzStatementModalidadeCreate = IBaseAuthzCheck<'modalidade:create', { dto: Spec.IModalidadeCreateDto }>;
 export type IAuthzStatementModalidadeFind = IBaseAuthzFilter<'modalidade:find'>;
-export type IAuthzStatementModalidadeUpdate = IBaseAuthzFilter<'modalidade:update', { dto: Dto.IModalidadeUpdateDto }>;
+export type IAuthzStatementModalidadeUpdate = IBaseAuthzFilter<'modalidade:update', { dto: Spec.IModalidadeUpdateDto }>;
 export type IAuthzStatementModalidadeDelete = IBaseAuthzFilter<
   'modalidade:delete',
   {
-    dto: Dto.IModalidadeDeleteOneByIdInputDto;
+    dto: Spec.IModalidadeDeleteOneByIdInputDto;
   }
 >;
 
@@ -66,45 +66,45 @@ export type IAuthzStatementVinculoFind = IBaseAuthzFilter<'vinculo:find'>;
 
 // =====================
 
-export type IAuthzStatementCursoCreate = IBaseAuthzCheck<'curso:create', { dto: Dto.ICursoInputDto }>;
-export type IAuthzStatementCursoUpdate = IBaseAuthzFilter<'curso:update', { dto: Dto.ICursoUpdateDto }>;
-export type IAuthzStatementCursoDelete = IBaseAuthzFilter<'curso:delete', { dto: Dto.ICursoDeleteOneByIdInputDto }>;
+export type IAuthzStatementCursoCreate = IBaseAuthzCheck<'curso:create', { dto: Spec.ICursoInputDto }>;
+export type IAuthzStatementCursoUpdate = IBaseAuthzFilter<'curso:update', { dto: Spec.ICursoUpdateDto }>;
+export type IAuthzStatementCursoDelete = IBaseAuthzFilter<'curso:delete', { dto: Spec.ICursoDeleteOneByIdInputDto }>;
 export type IAuthzStatementCursoFind = IBaseAuthzFilter<'curso:find'>;
 
 // =====================
 
-export type IAuthzStatementDisciplinaCreate = IBaseAuthzCheck<'disciplina:create', { dto: Dto.IDisciplinaInputDto }>;
-export type IAuthzStatementDisciplinaUpdate = IBaseAuthzFilter<'disciplina:update', { dto: Dto.IDisciplinaUpdateDto }>;
+export type IAuthzStatementDisciplinaCreate = IBaseAuthzCheck<'disciplina:create', { dto: Spec.IDisciplinaInputDto }>;
+export type IAuthzStatementDisciplinaUpdate = IBaseAuthzFilter<'disciplina:update', { dto: Spec.IDisciplinaUpdateDto }>;
 export type IAuthzStatementDisciplinaDelete = IBaseAuthzFilter<
   'disciplina:delete',
   {
-    dto: Dto.IDisciplinaDeleteOneByIdInputDto;
+    dto: Spec.IDisciplinaDeleteOneByIdInputDto;
   }
 >;
 export type IAuthzStatementDisciplinaFind = IBaseAuthzFilter<'disciplina:find'>;
 
 // =====================
 
-export type IAuthzStatementTurmaCreate = IBaseAuthzCheck<'turma:create', { dto: Dto.ITurmaInputDto }>;
-export type IAuthzStatementTurmaUpdate = IBaseAuthzFilter<'turma:update', { dto: Dto.ITurmaUpdateDto }>;
-export type IAuthzStatementTurmaDelete = IBaseAuthzFilter<'turma:delete', { dto: Dto.ITurmaDeleteOneByIdInputDto }>;
+export type IAuthzStatementTurmaCreate = IBaseAuthzCheck<'turma:create', { dto: Spec.ITurmaInputDto }>;
+export type IAuthzStatementTurmaUpdate = IBaseAuthzFilter<'turma:update', { dto: Spec.ITurmaUpdateDto }>;
+export type IAuthzStatementTurmaDelete = IBaseAuthzFilter<'turma:delete', { dto: Spec.ITurmaDeleteOneByIdInputDto }>;
 export type IAuthzStatementTurmaFind = IBaseAuthzFilter<'turma:find'>;
 
 // =====================
 
-export type IAuthzStatementDiarioCreate = IBaseAuthzCheck<'diario:create', { dto: Dto.IDiarioInputDto }>;
-export type IAuthzStatementDiarioUpdate = IBaseAuthzFilter<'diario:update', { dto: Dto.IDiarioUpdateDto }>;
-export type IAuthzStatementDiarioDelete = IBaseAuthzFilter<'diario:delete', { dto: Dto.IDiarioDeleteOneByIdInputDto }>;
+export type IAuthzStatementDiarioCreate = IBaseAuthzCheck<'diario:create', { dto: Spec.IDiarioInputDto }>;
+export type IAuthzStatementDiarioUpdate = IBaseAuthzFilter<'diario:update', { dto: Spec.IDiarioUpdateDto }>;
+export type IAuthzStatementDiarioDelete = IBaseAuthzFilter<'diario:delete', { dto: Spec.IDiarioDeleteOneByIdInputDto }>;
 export type IAuthzStatementDiarioFind = IBaseAuthzFilter<'diario:find'>;
 
 // =====================
 
-export type IAuthzStatementReservaCreate = IBaseAuthzCheck<'reserva:create', { dto: Dto.IReservaInputDto }>;
-export type IAuthzStatementReservaUpdate = IBaseAuthzFilter<'reserva:update', { dto: Dto.IReservaUpdateDto }>;
+export type IAuthzStatementReservaCreate = IBaseAuthzCheck<'reserva:create', { dto: Spec.IReservaInputDto }>;
+export type IAuthzStatementReservaUpdate = IBaseAuthzFilter<'reserva:update', { dto: Spec.IReservaUpdateDto }>;
 export type IAuthzStatementReservaDelete = IBaseAuthzFilter<
   'reserva:delete',
   {
-    dto: Dto.IReservaDeleteOneByIdInputDto;
+    dto: Spec.IReservaDeleteOneByIdInputDto;
   }
 >;
 export type IAuthzStatementReservaFind = IBaseAuthzFilter<'reserva:find'>;
@@ -114,19 +114,19 @@ export type IAuthzStatementReservaFind = IBaseAuthzFilter<'reserva:find'>;
 export type IAuthzStatementCalendarioLetivoCreate = IBaseAuthzCheck<
   'calendario_letivo:create',
   {
-    dto: Dto.ICalendarioLetivoCreateDto;
+    dto: Spec.ICalendarioLetivoCreateDto;
   }
 >;
 export type IAuthzStatementCalendarioLetivoUpdate = IBaseAuthzFilter<
   'calendario_letivo:update',
   {
-    dto: Dto.ICalendarioLetivoUpdateDto;
+    dto: Spec.ICalendarioLetivoUpdateDto;
   }
 >;
 export type IAuthzStatementCalendarioLetivoDelete = IBaseAuthzFilter<
   'calendario_letivo:delete',
   {
-    dto: Dto.ICalendarioLetivoDeleteOneByIdInputDto;
+    dto: Spec.ICalendarioLetivoDeleteOneByIdInputDto;
   }
 >;
 export type IAuthzStatementCalendarioLetivoFind = IBaseAuthzFilter<'calendario_letivo:find'>;
@@ -134,21 +134,21 @@ export type IAuthzStatementCalendarioLetivoFind = IBaseAuthzFilter<'calendario_l
 export type IAuthzStatementDiarioProfessorCreate = IBaseAuthzCheck<
   'diario_professor:create',
   {
-    dto: Dto.IDiarioProfessorInputDto;
+    dto: Spec.IDiarioProfessorInputDto;
   }
 >;
 
 export type IAuthzStatementDiarioProfessorUpdate = IBaseAuthzFilter<
   'diario_professor:update',
   {
-    dto: Dto.IDiarioProfessorUpdateDto;
+    dto: Spec.IDiarioProfessorUpdateDto;
   }
 >;
 
 export type IAuthzStatementDiarioProfessorDelete = IBaseAuthzFilter<
   'diario_professor:delete',
   {
-    dto: Dto.IDiarioProfessorDeleteOneByIdInputDto;
+    dto: Spec.IDiarioProfessorDeleteOneByIdInputDto;
   }
 >;
 

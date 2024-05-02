@@ -1,6 +1,6 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dtos from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
@@ -75,7 +75,7 @@ export class TurmaService {
 
   //
 
-  async turmaFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.ITurmaFindAllResultDto> {
+  async turmaFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto): Promise<Spec.ITurmaFindAllResultDto> {
     // =========================================================
 
     const qb = this.turmaRepository.createQueryBuilder(aliasTurma);
@@ -160,7 +160,7 @@ export class TurmaService {
     return getPaginatedResultDto(paginated);
   }
 
-  async turmaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.ITurmaFindOneByIdInputDto): Promise<Dtos.ITurmaFindOneResultDto | null> {
+  async turmaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.ITurmaFindOneByIdInputDto): Promise<Spec.ITurmaFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.turmaRepository.createQueryBuilder(aliasTurma);
@@ -190,7 +190,7 @@ export class TurmaService {
     return turma;
   }
 
-  async turmaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.ITurmaFindOneByIdInputDto) {
+  async turmaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.ITurmaFindOneByIdInputDto) {
     const turma = await this.turmaFindById(contextoDeAcesso, dto);
 
     if (!turma) {
@@ -202,10 +202,10 @@ export class TurmaService {
 
   async turmaFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.ITurmaFindOneByIdInputDto['id'],
+    id: Spec.ITurmaFindOneByIdInputDto['id'],
     options?: ITurmaQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Dtos.ITurmaFindOneResultDto | null> {
+  ): Promise<Spec.ITurmaFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.turmaRepository.createQueryBuilder(aliasTurma);
@@ -239,7 +239,7 @@ export class TurmaService {
     return turma;
   }
 
-  async turmaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.ITurmaFindOneByIdInputDto['id'], options?: ITurmaQueryBuilderViewOptions, selection?: string[]) {
+  async turmaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.ITurmaFindOneByIdInputDto['id'], options?: ITurmaQueryBuilderViewOptions, selection?: string[]) {
     const turma = await this.turmaFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!turma) {
@@ -251,7 +251,7 @@ export class TurmaService {
 
   //
 
-  async turmaCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ITurmaInputDto) {
+  async turmaCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ITurmaInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('turma:create', { dto });
@@ -301,7 +301,7 @@ export class TurmaService {
     return this.turmaFindByIdStrict(contextoDeAcesso, { id: turma.id });
   }
 
-  async turmaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ITurmaUpdateDto) {
+  async turmaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ITurmaUpdateDto) {
     // =========================================================
 
     const currentTurma = await this.turmaFindByIdStrict(contextoDeAcesso, {
@@ -378,7 +378,7 @@ export class TurmaService {
     throw new NotFoundException();
   }
 
-  async turmaUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ITurmaFindOneByIdInputDto, file: Express.Multer.File) {
+  async turmaUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ITurmaFindOneByIdInputDto, file: Express.Multer.File) {
     // =========================================================
 
     const currentTurma = await this.turmaFindByIdStrict(contextoDeAcesso, { id: dto.id });
@@ -418,7 +418,7 @@ export class TurmaService {
 
   //
 
-  async turmaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ITurmaDeleteOneByIdInputDto) {
+  async turmaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ITurmaDeleteOneByIdInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('turma:delete', { dto }, dto.id, this.turmaRepository.createQueryBuilder(aliasTurma));

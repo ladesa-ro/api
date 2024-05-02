@@ -1,11 +1,11 @@
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { AmbienteEntity } from '../ambientes/ambiente.entity';
 import { ImagemEntity } from '../base/imagem.entity';
 import { CursoEntity } from './curso.entity';
 
 @Entity('turma')
-export class TurmaEntity implements Dto.ITurmaModel {
+export class TurmaEntity implements Spec.ITurmaModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -37,11 +37,11 @@ export class TurmaEntity implements Dto.ITurmaModel {
   //
 
   @Column({ name: 'dateCreateOperator()d', type: 'timestamptz', nullable: false })
-  dateCreated!: Dto.IEntityDate;
+  dateCreated!: Spec.IEntityDate;
 
   @Column({ name: 'dateUpdateOperator()d', type: 'timestamptz', nullable: false })
-  dateUpdated!: Dto.IEntityDate;
+  dateUpdated!: Spec.IEntityDate;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | Dto.IEntityDate;
+  dateDeleted!: null | Spec.IEntityDate;
 }

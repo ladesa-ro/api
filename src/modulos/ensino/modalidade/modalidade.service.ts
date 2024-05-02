@@ -1,6 +1,6 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dtos from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -25,7 +25,7 @@ export class ModalidadeService {
 
   //
 
-  async modalidadeFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto, selection?: string[]): Promise<Dtos.IModalidadeFindAllResultDto> {
+  async modalidadeFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto, selection?: string[]): Promise<Spec.IModalidadeFindAllResultDto> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
@@ -83,7 +83,7 @@ export class ModalidadeService {
     return getPaginatedResultDto(paginated);
   }
 
-  async modalidadeFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IModalidadeFindOneByIdInputDto, selection?: string[]): Promise<Dtos.IModalidadeFindOneResultDto | null> {
+  async modalidadeFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IModalidadeFindOneByIdInputDto, selection?: string[]): Promise<Spec.IModalidadeFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
@@ -112,7 +112,7 @@ export class ModalidadeService {
     return modalidade;
   }
 
-  async modalidadeFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IModalidadeFindOneByIdInputDto, selection?: string[]) {
+  async modalidadeFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IModalidadeFindOneByIdInputDto, selection?: string[]) {
     const modalidade = await this.modalidadeFindById(contextoDeAcesso, dto, selection);
 
     if (!modalidade) {
@@ -122,7 +122,7 @@ export class ModalidadeService {
     return modalidade;
   }
 
-  async modalidadeFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IModalidadeFindOneByIdInputDto['id'], selection?: string[]): Promise<Dtos.IModalidadeFindOneResultDto | null> {
+  async modalidadeFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: Spec.IModalidadeFindOneByIdInputDto['id'], selection?: string[]): Promise<Spec.IModalidadeFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
@@ -149,7 +149,7 @@ export class ModalidadeService {
     return modalidade;
   }
 
-  async modalidadeFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IModalidadeFindOneByIdInputDto['id'], selection?: string[]) {
+  async modalidadeFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.IModalidadeFindOneByIdInputDto['id'], selection?: string[]) {
     const modalidade = await this.modalidadeFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!modalidade) {
@@ -161,7 +161,7 @@ export class ModalidadeService {
 
   //
 
-  async modalidadeCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IModalidadeInputDto) {
+  async modalidadeCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IModalidadeInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('modalidade:create', { dto });
@@ -185,7 +185,7 @@ export class ModalidadeService {
     return this.modalidadeFindByIdStrict(contextoDeAcesso, { id: modalidade.id });
   }
 
-  async modalidadeUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IModalidadeUpdateDto) {
+  async modalidadeUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IModalidadeUpdateDto) {
     // =========================================================
 
     const currentModalidade = await this.modalidadeFindByIdStrict(contextoDeAcesso, {
@@ -217,7 +217,7 @@ export class ModalidadeService {
 
   //
 
-  async modalidadeDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IModalidadeDeleteOneByIdInputDto) {
+  async modalidadeDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IModalidadeDeleteOneByIdInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('modalidade:delete', { dto }, dto.id, this.modalidadeRepository.createQueryBuilder(aliasModalidade));

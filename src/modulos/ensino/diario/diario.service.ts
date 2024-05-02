@@ -1,16 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dtos from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DisciplinaService, IDisciplinaQueryBuilderViewOptions } from '../disciplina/disciplina.service';
-import { ITurmaQueryBuilderViewOptions, TurmaService } from '../turma/turma.service';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DiarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { getPaginatedResultDto, getPaginateQueryFromSearchInput } from '../../../legacy';
-import { getQueryBuilderViewLoadMeta, IQueryBuilderViewOptionsLoad, paginateConfig } from '../../../legacy/utils';
+import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambientes/ambiente/ambiente.service';
+import { DisciplinaService, IDisciplinaQueryBuilderViewOptions } from '../disciplina/disciplina.service';
+import { ITurmaQueryBuilderViewOptions, TurmaService } from '../turma/turma.service';
 
 // ============================================================================
 
@@ -68,7 +68,7 @@ export class DiarioService {
 
   //
 
-  async diarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IDiarioFindAllResultDto> {
+  async diarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto): Promise<Spec.IDiarioFindAllResultDto> {
     // =========================================================
 
     const qb = this.diarioRepository.createQueryBuilder(aliasDiario);
@@ -151,7 +151,7 @@ export class DiarioService {
     return getPaginatedResultDto(paginated);
   }
 
-  async diarioFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioFindOneByIdInputDto): Promise<Dtos.IDiarioFindOneResultDto | null> {
+  async diarioFindById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioFindOneByIdInputDto): Promise<Spec.IDiarioFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.diarioRepository.createQueryBuilder(aliasDiario);
@@ -179,7 +179,7 @@ export class DiarioService {
     return diario;
   }
 
-  async diarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioFindOneByIdInputDto) {
+  async diarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioFindOneByIdInputDto) {
     const diario = await this.diarioFindById(contextoDeAcesso, dto);
 
     if (!diario) {
@@ -191,10 +191,10 @@ export class DiarioService {
 
   async diarioFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.IDiarioFindOneByIdInputDto['id'],
+    id: Spec.IDiarioFindOneByIdInputDto['id'],
     options?: IDiarioQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Dtos.IDiarioFindOneResultDto | null> {
+  ): Promise<Spec.IDiarioFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.diarioRepository.createQueryBuilder(aliasDiario);
@@ -228,7 +228,7 @@ export class DiarioService {
     return diario;
   }
 
-  async diarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IDiarioFindOneByIdInputDto['id'], options?: IDiarioQueryBuilderViewOptions, selection?: string[]) {
+  async diarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.IDiarioFindOneByIdInputDto['id'], options?: IDiarioQueryBuilderViewOptions, selection?: string[]) {
     const diario = await this.diarioFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!diario) {
@@ -240,7 +240,7 @@ export class DiarioService {
 
   //
 
-  async diarioCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioInputDto) {
+  async diarioCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('diario:create', { dto });
@@ -300,7 +300,7 @@ export class DiarioService {
     return this.diarioFindByIdStrict(contextoDeAcesso, { id: diario.id });
   }
 
-  async diarioUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioUpdateDto) {
+  async diarioUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioUpdateDto) {
     // =========================================================
 
     const currentDiario = await this.diarioFindByIdStrict(contextoDeAcesso, {
@@ -374,7 +374,7 @@ export class DiarioService {
 
   //
 
-  async diarioDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioDeleteOneByIdInputDto) {
+  async diarioDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioDeleteOneByIdInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('diario:delete', { dto }, dto.id, this.diarioRepository.createQueryBuilder(aliasDiario));

@@ -1,6 +1,6 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '@sisgea/spec';
 import { map } from 'lodash';
 import { paginate } from 'nestjs-paginate';
@@ -21,7 +21,7 @@ export class EstadoService {
 
   //
 
-  async findAll(clienteAccess: IContextoDeAcesso, dto?: Dto.ISearchInputDto, selection?: string[]): Promise<Dto.IEstadoFindAllResultDto> {
+  async findAll(clienteAccess: IContextoDeAcesso, dto?: Spec.ISearchInputDto, selection?: string[]): Promise<Spec.IEstadoFindAllResultDto> {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);

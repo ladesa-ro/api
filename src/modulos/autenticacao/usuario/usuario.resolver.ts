@@ -1,5 +1,5 @@
 import { Resolver } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
 import { GqlDtoInput } from '../../../legacy';
@@ -15,39 +15,39 @@ export class UsuarioResolver {
 
   //
 
-  @Operacao(Dto.UsuarioFindAllOperator())
-  async usuarioFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Dto.UsuarioFindAllOperator()) dto: Dto.ISearchInputDto) {
+  @Operacao(Spec.UsuarioFindAllOperator())
+  async usuarioFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.UsuarioFindAllOperator()) dto: Spec.ISearchInputDto) {
     return this.usuarioService.usuarioFindAll(contextoDeAcesso, dto);
   }
 
   //
 
-  @Operacao(Dto.UsuarioFindOneByIdOperator())
+  @Operacao(Spec.UsuarioFindOneByIdOperator())
   async usuarioFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(Dto.UsuarioFindOneByIdOperator())
-    dto: Dto.IUsuarioFindOneByIdInputDto,
+    @GqlDtoInput(Spec.UsuarioFindOneByIdOperator())
+    dto: Spec.IUsuarioFindOneByIdInputDto,
   ) {
     return this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, dto);
   }
 
   //
 
-  @Operacao(Dto.UsuarioCreateOperator())
-  async usuarioCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Dto.UsuarioCreateOperator()) dto: Dto.IUsuarioInputDto) {
+  @Operacao(Spec.UsuarioCreateOperator())
+  async usuarioCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.UsuarioCreateOperator()) dto: Spec.IUsuarioInputDto) {
     return this.usuarioService.usuarioCreate(contextoDeAcesso, dto);
   }
 
-  @Operacao(Dto.UsuarioUpdateOperator())
-  async usuarioUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Dto.UsuarioUpdateOperator()) dto: Dto.IUsuarioUpdateDto) {
+  @Operacao(Spec.UsuarioUpdateOperator())
+  async usuarioUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.UsuarioUpdateOperator()) dto: Spec.IUsuarioUpdateDto) {
     return this.usuarioService.usuarioUpdate(contextoDeAcesso, dto);
   }
 
-  @Operacao(Dto.UsuarioDeleteOperator())
+  @Operacao(Spec.UsuarioDeleteOperator())
   async usuarioDeleteOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(Dto.UsuarioDeleteOperator())
-    dto: Dto.IUsuarioDeleteOneByIdInputDto,
+    @GqlDtoInput(Spec.UsuarioDeleteOperator())
+    dto: Spec.IUsuarioDeleteOneByIdInputDto,
   ) {
     return this.usuarioService.usuarioDeleteOneById(contextoDeAcesso, dto);
   }

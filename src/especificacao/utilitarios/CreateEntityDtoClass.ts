@@ -16,7 +16,7 @@ export const CreateEntityDtoClass = <Factory extends () => Spec.IDeclaration>(fa
   }
 
   if (!dtoClassName.toLocaleLowerCase().includes('dto')) {
-    dtoClassName = `${dtoClassName}Dto`;
+    dtoClassName = `${dtoClassName}Spec`;
   }
 
   if (dtoClassesMap && dtoClassesMap.has(dtoClassName)) {

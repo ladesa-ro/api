@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dtos from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
@@ -62,7 +62,7 @@ export class DiarioProfessorService {
 
   //
 
-  async diarioProfessorFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IDiarioProfessorFindAllResultDto> {
+  async diarioProfessorFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto): Promise<Spec.IDiarioProfessorFindAllResultDto> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -131,7 +131,7 @@ export class DiarioProfessorService {
     return getPaginatedResultDto(paginated);
   }
 
-  async diarioProfessorFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioProfessorFindOneByIdInputDto): Promise<Dtos.IDiarioProfessorFindOneResultDto | null> {
+  async diarioProfessorFindById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioProfessorFindOneByIdInputDto): Promise<Spec.IDiarioProfessorFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -159,7 +159,7 @@ export class DiarioProfessorService {
     return diarioProfessor;
   }
 
-  async diarioProfessorFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioProfessorFindOneByIdInputDto) {
+  async diarioProfessorFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioProfessorFindOneByIdInputDto) {
     const diarioProfessor = await this.diarioProfessorFindById(contextoDeAcesso, dto);
 
     if (!diarioProfessor) {
@@ -171,10 +171,10 @@ export class DiarioProfessorService {
 
   async diarioProfessorFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.IDiarioProfessorFindOneByIdInputDto['id'],
+    id: Spec.IDiarioProfessorFindOneByIdInputDto['id'],
     options?: IDiarioProfessorQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Dtos.IDiarioProfessorFindOneResultDto | null> {
+  ): Promise<Spec.IDiarioProfessorFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -210,7 +210,7 @@ export class DiarioProfessorService {
 
   async diarioProfessorFindByIdSimpleStrict(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.IDiarioProfessorFindOneByIdInputDto['id'],
+    id: Spec.IDiarioProfessorFindOneByIdInputDto['id'],
     options?: IDiarioProfessorQueryBuilderViewOptions,
     selection?: string[],
   ) {
@@ -225,7 +225,7 @@ export class DiarioProfessorService {
 
   //
 
-  async diarioProfessorCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioProfessorInputDto) {
+  async diarioProfessorCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioProfessorInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('diario_professor:create', { dto });
@@ -281,7 +281,7 @@ export class DiarioProfessorService {
     return this.diarioProfessorFindByIdStrict(contextoDeAcesso, { id: diarioProfessor.id });
   }
 
-  async diarioProfessorUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioProfessorUpdateDto) {
+  async diarioProfessorUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioProfessorUpdateDto) {
     // =========================================================
 
     const currentDiarioProfessor = await this.diarioProfessorFindByIdStrict(contextoDeAcesso, {
@@ -345,7 +345,7 @@ export class DiarioProfessorService {
 
   //
 
-  async diarioProfessorDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioProfessorDeleteOneByIdInputDto) {
+  async diarioProfessorDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioProfessorDeleteOneByIdInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('diario_professor:delete', { dto }, dto.id, this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor));

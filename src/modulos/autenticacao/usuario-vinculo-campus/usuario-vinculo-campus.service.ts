@@ -1,6 +1,6 @@
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '@/legacy/utils/QueryBuilderViewOptionsLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { FilterOperator, PaginateQuery, paginate } from 'nestjs-paginate';
 import { NotBrackets, SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -107,7 +107,7 @@ export class VinculoService {
     });
   }
 
-  async vinculoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IVinculoFindOneByIdInputDto): Promise<Dto.IVinculoFindOneResultDto | null> {
+  async vinculoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IVinculoFindOneByIdInputDto): Promise<Spec.IVinculoFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.vinculoRepository.createQueryBuilder(aliasVinculo);
@@ -135,7 +135,7 @@ export class VinculoService {
     return vinculo;
   }
 
-  async vinculoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IVinculoFindOneByIdInputDto) {
+  async vinculoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IVinculoFindOneByIdInputDto) {
     const vinculo = await this.vinculoFindById(contextoDeAcesso, dto);
 
     if (!vinculo) {
@@ -145,7 +145,7 @@ export class VinculoService {
     return vinculo;
   }
 
-  async vinculoSetVinculos(contextoDeAcesso: IContextoDeAcesso, dto: Dto.VinculoUpdateInputDto) {
+  async vinculoSetVinculos(contextoDeAcesso: IContextoDeAcesso, dto: Spec.VinculoUpdateInputDto) {
     const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.campus.id);
     const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(contextoDeAcesso, dto.usuario.id);
 

@@ -1,6 +1,6 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { map } from 'lodash';
 import { FilterOperator, paginate } from 'nestjs-paginate';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -22,7 +22,7 @@ export class CidadeService {
 
   //
 
-  async findAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dto.ISearchInputDto, selection?: string[]) {
+  async findAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto, selection?: string[]) {
     // =========================================================
 
     const qb = this.cidadeRepository.createQueryBuilder('cidade');
@@ -77,7 +77,7 @@ export class CidadeService {
     return getPaginatedResultDto(paginated);
   }
 
-  async findById(contextoDeAcesso: IContextoDeAcesso, dto: Dto.ICidadeFindOneByIdInputDto, selection?: string[]) {
+  async findById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICidadeFindOneByIdInputDto, selection?: string[]) {
     // =========================================================
 
     const { cidadeRepository: baseCidadeRepository } = this.databaseContextService;
@@ -108,7 +108,7 @@ export class CidadeService {
     return cidade;
   }
 
-  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dto.ICidadeFindOneByIdInputDto, selection?: string[]) {
+  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICidadeFindOneByIdInputDto, selection?: string[]) {
     const cidade = await this.findById(contextoDeAcesso, dto, selection);
 
     if (!cidade) {
