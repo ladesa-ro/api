@@ -32,10 +32,10 @@ export class AutenticacaoResolver {
 
   //
 
-  @Operacao(Spec.AutenticacaoRefresh())
+  @Operacao(Spec.AutenticacaoRefreshOperator())
   async autenticacaoRefresh(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(Spec.AutenticacaoRefresh())
+    @GqlDtoInput(Spec.AutenticacaoRefreshOperator())
     dto: Spec.IAutenticacaoRefreshInputDto,
   ) {
     return this.autenticacaoService.refresh(contextoDeAcesso, dto);
@@ -43,10 +43,10 @@ export class AutenticacaoResolver {
 
   //
 
-  @Operacao(Spec.AutenticacaoDefinirSenha())
+  @Operacao(Spec.AutenticacaoDefinirSenhaOperator())
   async autenticacaoDefinirSenha(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(Spec.AutenticacaoDefinirSenha())
+    @GqlDtoInput(Spec.AutenticacaoDefinirSenhaOperator())
     dto: Spec.IAutenticacaoDefinirSenhaInputDto,
   ) {
     return this.autenticacaoService.definirSenha(contextoDeAcesso, dto);

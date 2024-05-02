@@ -8,7 +8,7 @@ import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DiarioProfessorEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
-import { IVinculoQueryBuilderViewOptions, VinculoService } from '../../autenticacao/usuario-vinculo-campus/usuario-vinculo-campus.service';
+import { IVinculoQueryBuilderViewOptions, VinculoService } from '../../autenticacao/vinculo/vinculo.service';
 import { DiarioService, IDiarioQueryBuilderViewOptions } from '../diario/diario.service';
 
 // ============================================================================

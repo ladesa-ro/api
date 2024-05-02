@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { CampusModule } from '../../ambientes/campus/campus.module';
 import { UsuarioModule } from '../usuario/usuario.module';
-import { VinculoController } from './usuario-vinculo-campus.controller';
-import { VinculoResolver } from './usuario-vinculo-campus.resolver';
-import { VinculoService } from './usuario-vinculo-campus.service';
+import { VinculoController } from './vinculo.controller';
+import { VinculoResolver } from './vinculo.resolver';
+import { VinculoService } from './vinculo.service';
 
 @Module({
   imports: [UsuarioModule, CampusModule],

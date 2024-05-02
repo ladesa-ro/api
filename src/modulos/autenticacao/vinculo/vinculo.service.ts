@@ -145,7 +145,7 @@ export class VinculoService {
     return vinculo;
   }
 
-  async vinculoSetVinculos(contextoDeAcesso: IContextoDeAcesso, dto: Spec.VinculoUpdateInputDto) {
+  async vinculoSetVinculos(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IVinculoUpdateInputDto) {
     const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.campus.id);
     const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(contextoDeAcesso, dto.usuario.id);
 

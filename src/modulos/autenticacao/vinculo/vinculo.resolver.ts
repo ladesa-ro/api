@@ -2,7 +2,7 @@ import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
 import { GqlDtoInput } from '../../../legacy';
-import { VinculoService } from './usuario-vinculo-campus.service';
+import { VinculoService } from './vinculo.service';
 
 export class VinculoResolver {
   constructor(
@@ -18,7 +18,7 @@ export class VinculoResolver {
   }
 
   @Operacao(Spec.VinculoUpdateOperator())
-  async vinculoSetVinculos(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.VinculoUpdateOperator()) dto: Spec.VinculoUpdateInputDto) {
+  async vinculoSetVinculos(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(Spec.VinculoUpdateOperator()) dto: Spec.IVinculoUpdateInputDto) {
     return this.vinculoService.vinculoSetVinculos(contextoDeAcesso, dto);
   }
 }

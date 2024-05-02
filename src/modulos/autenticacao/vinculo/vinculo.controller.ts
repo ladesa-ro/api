@@ -5,7 +5,7 @@ import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
 import { HttpDtoBody } from '../../../legacy';
-import { VinculoService } from './usuario-vinculo-campus.service';
+import { VinculoService } from './vinculo.service';
 
 @Controller('/vinculos')
 @ApiTags('Vinculos')
@@ -20,7 +20,7 @@ export class VinculoController {
 
   @Post('/')
   @Operacao(Spec.VinculoUpdateOperator())
-  async vinculoSetVinculos(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.VinculoUpdateOperator()) dto: Spec.VinculoUpdateInputDto) {
+  async vinculoSetVinculos(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.VinculoUpdateOperator()) dto: Spec.IVinculoUpdateInputDto) {
     return this.vinculoService.vinculoSetVinculos(contextoDeAcesso, dto);
   }
 }
