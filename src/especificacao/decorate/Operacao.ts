@@ -5,6 +5,7 @@ import { ApiBearerAuth, ApiBody, ApiConsumes, ApiParam, ApiProduces, ApiQuery, A
 import { IDeclarationPropertyMixed, IDeclarationPropertySimple, IOperation } from '@sisgea/spec';
 import { camelCase } from 'lodash';
 import { CreateEntityDtoClass } from '../../legacy/utils';
+import { CastDeclarator } from '../utilitarios/SpecHelpers';
 
 export const Operacao = (operation: IOperation) => {
   const decorators: (ClassDecorator | MethodDecorator | PropertyDecorator)[] = [];
@@ -90,15 +91,12 @@ export const Operacao = (operation: IOperation) => {
 
         const inputBody = input.body;
 
-        if (inputBody) {
+        const inputBodyDeclarator = CastDeclarator(`${operation}InputBody`, inputBody);
+
+        if (inputBodyDeclarator) {
           decorators.push(
             ApiBody({
-              type: CreateEntityDtoClass(() => ({
-                name: `${operation}InputBody`,
-                properties: {
-                  ...inputBody,
-                },
-              })),
+              type: CreateEntityDtoClass(inputBodyDeclarator),
             }),
           );
         }
