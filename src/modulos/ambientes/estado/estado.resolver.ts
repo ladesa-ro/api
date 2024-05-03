@@ -5,7 +5,7 @@ import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
-import { GqlDtoInput } from '../../../legacy';
+import { DadosEntrada } from '../../../legacy';
 import { EstadoService } from './estado.service';
 
 @Resolver()
@@ -21,7 +21,7 @@ export class EstadoResolver {
   async estadoFindAll(
     //
     @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(Spec.EstadoFindAllOperator()) dto: ISearchInputDto,
+    @DadosEntrada(Spec.EstadoFindAllOperator()) dto: ISearchInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
     const selection = getFieldNames(info as any)
@@ -36,7 +36,7 @@ export class EstadoResolver {
   @Operacao(Spec.EstadoFindOneByUfOperator())
   async estadoFindOneByUf(
     @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(Spec.EstadoFindOneByUfOperator())
+    @DadosEntrada(Spec.EstadoFindOneByUfOperator())
     dto: IEstadoFindOneByUfInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
@@ -49,7 +49,7 @@ export class EstadoResolver {
   @Operacao(Spec.EstadoFindOneByIdOperator())
   async estadoFindOneById(
     @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(Spec.EstadoFindOneByIdOperator())
+    @DadosEntrada(Spec.EstadoFindOneByIdOperator())
     dto: IEstadoFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {

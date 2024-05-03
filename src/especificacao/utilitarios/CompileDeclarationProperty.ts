@@ -1,6 +1,7 @@
 import { FieldOptions, Int, ReturnTypeFunc } from '@nestjs/graphql';
 import { ApiPropertyOptions } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
+import { camelCase } from 'change-case';
 import { CreateEntityDtoClass } from './CreateEntityDtoClass';
 
 export type ICompiledProperty = {
@@ -56,7 +57,7 @@ export const CompileDeclarationProperty = (
   let compiledProperty: ICompiledProperty | null = null;
 
   if (propertyDeclarationSimple) {
-    const name = propertyDeclarationSimple.name ?? propertyKey;
+    const name = camelCase(propertyDeclarationSimple.name ?? propertyKey);
 
     compiledProperty = {
       name,

@@ -96,7 +96,7 @@ export const Operacao = (operation: IOperation) => {
         if (inputBodyDeclarator) {
           decorators.push(
             ApiBody({
-              type: CreateEntityDtoClass(inputBodyDeclarator),
+              type: CreateEntityDtoClass(inputBodyDeclarator, 'input'),
             }),
           );
         }
@@ -143,7 +143,7 @@ export const Operacao = (operation: IOperation) => {
           decorators.push(
             ApiResponse({
               status,
-              type: resultDeclaration.dto ? CreateEntityDtoClass(resultDeclaration.dto) : undefined,
+              type: resultDeclaration.dto ? CreateEntityDtoClass(resultDeclaration.dto, 'output') : undefined,
               description: resultDeclaration.description ?? `Sucesso na operação "${operation.description}".`,
             }),
           );
@@ -159,10 +159,12 @@ export const Operacao = (operation: IOperation) => {
   }
 
   if (output && output.strategy === 'dto' && output.success.dto) {
+    const SuccessDto = CreateEntityDtoClass(output.success.dto, 'output');
+
     switch (operation.gql) {
       case 'query': {
         decorators.push(
-          Query(CreateEntityDtoClass(output.success.dto), {
+          Query(() => SuccessDto, {
             name: camelCase(operation.name),
             description: operation.description,
           }),
@@ -172,7 +174,7 @@ export const Operacao = (operation: IOperation) => {
       }
       case 'mutation': {
         decorators.push(
-          Mutation(CreateEntityDtoClass(output.success.dto), {
+          Mutation(() => SuccessDto, {
             name: camelCase(operation.name),
             description: operation.description,
           }),

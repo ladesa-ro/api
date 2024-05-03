@@ -1,22 +1,29 @@
-import { InputType, ObjectType } from '@nestjs/graphql';
+import { ArgsType, InputType, ObjectType } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
+import { pascalCase } from 'change-case';
 import { __decorate, __metadata } from 'tslib';
 import { Propriedade } from '../decorate/Propriedade';
 import { CompileDeclarationProperty } from './CompileDeclarationProperty';
 
 const rootDtoClassesMap = new Map<any, any>();
 
-export const CreateEntityDtoClass = <Factory extends () => Spec.IDeclaration>(factory: Factory, mode: Spec.IOutputDeclarationMode = 'output', dtoClassesMap = rootDtoClassesMap, parent = '') => {
+export const CreateEntityDtoClass = <Factory extends () => Spec.IDeclaration>(
+  factory: Factory,
+  mode: Spec.IOutputDeclarationMode = 'output',
+  dtoClassesMap = rootDtoClassesMap,
+  parent = '',
+  gqlStrategy: null | 'args-type' = null,
+) => {
   const declaration = factory();
 
-  let dtoClassName = declaration.name;
+  let dtoClassName = pascalCase(declaration.name);
 
   if (mode === 'input' && !dtoClassName.toLocaleLowerCase().includes('input')) {
     dtoClassName = `${dtoClassName}Input`;
   }
 
   if (!dtoClassName.toLocaleLowerCase().includes('dto')) {
-    dtoClassName = `${dtoClassName}Spec`;
+    dtoClassName = `${dtoClassName}Dto`;
   }
 
   if (dtoClassesMap && dtoClassesMap.has(dtoClassName)) {
@@ -25,7 +32,17 @@ export const CreateEntityDtoClass = <Factory extends () => Spec.IDeclaration>(fa
 
   function EntityDtoClass() {}
 
-  const decoratedClass = __decorate([...(mode === 'input' ? [InputType(dtoClassName)] : [ObjectType(dtoClassName)])], EntityDtoClass);
+  const classDecorators = [];
+
+  if (gqlStrategy === 'args-type') {
+    classDecorators.push(ArgsType());
+  } else if (mode === 'input') {
+    classDecorators.push(InputType(dtoClassName));
+  } else if (mode === 'output' || mode === 'simple') {
+    classDecorators.push(ObjectType(dtoClassName));
+  }
+
+  const decoratedClass = __decorate(classDecorators, EntityDtoClass);
 
   if (dtoClassesMap) {
     dtoClassesMap.set(dtoClassName, decoratedClass);
