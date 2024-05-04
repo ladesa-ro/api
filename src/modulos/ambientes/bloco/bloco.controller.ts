@@ -1,10 +1,9 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
 import { BlocoService } from './bloco.service';
 
 @ApiTags('Blocos')
@@ -16,8 +15,8 @@ export class BlocoController {
 
   @Get('/')
   @Operacao(Spec.BlocoFindAllOperator())
-  async blocoFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.IBlocoFindAllResultDto> {
-    return this.blocoService.blocoFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
+  async blocoFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.BlocoFindAllOperator()) dto: Spec.IPaginatedInputDto): Promise<Spec.IBlocoFindAllResultDto> {
+    return this.blocoService.blocoFindAll(contextoDeAcesso, dto);
   }
 
   //

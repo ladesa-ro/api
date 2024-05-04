@@ -1,11 +1,10 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
 import { DiarioProfessorService } from './diario-professor.service';
-import { Operacao } from '../../../especificacao';
 
 @ApiTags('DiarioProfessor')
 @Controller('/diario-professor')
@@ -16,8 +15,11 @@ export class DiarioProfessorController {
 
   @Get('/')
   @Operacao(Spec.DiarioProfessorFindAllOperator())
-  async diarioProfessorFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.IDiarioProfessorFindAllResultDto> {
-    return this.diarioProfessorService.diarioProfessorFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
+  async diarioProfessorFindAll(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.DiarioProfessorFindAllOperator()) dto: Spec.IPaginatedInputDto,
+  ): Promise<Spec.IDiarioProfessorFindAllResultDto> {
+    return this.diarioProfessorService.diarioProfessorFindAll(contextoDeAcesso, dto);
   }
 
   //

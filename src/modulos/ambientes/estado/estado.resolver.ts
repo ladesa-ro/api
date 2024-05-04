@@ -1,11 +1,11 @@
 import { Info, Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
-import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto, ISearchInputDto } from '@sisgea/spec';
+import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '@sisgea/spec';
 import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
-import { DadosEntrada } from '../../../legacy';
+import { DadosEntradaGql } from '../../../legacy';
 import { EstadoService } from './estado.service';
 
 @Resolver()
@@ -20,9 +20,9 @@ export class EstadoResolver {
   @Operacao(Spec.EstadoFindAllOperator())
   async estadoFindAll(
     //
-    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @DadosEntrada(Spec.EstadoFindAllOperator()) dto: ISearchInputDto,
     @Info() info: GraphQLResolveInfo,
+    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
+    @DadosEntradaGql(Spec.EstadoFindAllOperator()) dto: Spec.IPaginatedInputDto,
   ) {
     const selection = getFieldNames(info as any)
       .filter((i) => i.startsWith('data.'))
@@ -36,7 +36,7 @@ export class EstadoResolver {
   @Operacao(Spec.EstadoFindOneByUfOperator())
   async estadoFindOneByUf(
     @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @DadosEntrada(Spec.EstadoFindOneByUfOperator())
+    @DadosEntradaGql(Spec.EstadoFindOneByUfOperator())
     dto: IEstadoFindOneByUfInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
@@ -49,7 +49,7 @@ export class EstadoResolver {
   @Operacao(Spec.EstadoFindOneByIdOperator())
   async estadoFindOneById(
     @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @DadosEntrada(Spec.EstadoFindOneByIdOperator())
+    @DadosEntradaGql(Spec.EstadoFindOneByIdOperator())
     dto: IEstadoFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {

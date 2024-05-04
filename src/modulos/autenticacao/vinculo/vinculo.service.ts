@@ -1,8 +1,9 @@
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '@/legacy/utils/QueryBuilderViewOptionsLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
-import { FilterOperator, PaginateQuery, paginate } from 'nestjs-paginate';
+import { FilterOperator } from 'nestjs-paginate';
 import { NotBrackets, SelectQueryBuilder } from 'typeorm';
+import { busca } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { paginateConfig } from '../../../legacy/utils';
@@ -66,14 +67,14 @@ export class VinculoService {
 
   //
 
-  async vinculoFindAll(contextoDeAcesso: IContextoDeAcesso, query: PaginateQuery = { path: '' }) {
+  async vinculoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null) {
     const qb = this.vinculoRepository.createQueryBuilder(aliasVinculo);
 
     VinculoService.VinculoQueryBuilderView(aliasVinculo, qb);
 
     await contextoDeAcesso.aplicarFiltro('vinculo:find', qb, aliasVinculo, null);
 
-    return paginate(query, qb, {
+    return busca('#/', dto, qb, {
       ...paginateConfig,
 
       relations: {
@@ -198,12 +199,20 @@ export class VinculoService {
       .execute();
 
     return this.vinculoFindAll(contextoDeAcesso, {
-      path: '/vinculos',
-      filter: {
-        ativo: 'true',
-        'usuario.id': `${usuario.id}`,
-        'campus.id': `${campus.id}`,
-      },
+      filter: [
+        {
+          property: 'ativo',
+          restrictions: ['true'],
+        },
+        {
+          property: 'usuario.id',
+          restrictions: [`${usuario.id}`],
+        },
+        {
+          property: 'campus.id',
+          restrictions: [`${campus.id}`],
+        },
+      ],
     });
   }
 }

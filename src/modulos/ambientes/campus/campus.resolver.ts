@@ -2,7 +2,7 @@ import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
-import { DadosEntrada } from '../../../legacy';
+import { DadosEntradaGql } from '../../../legacy';
 import { CampusDto } from './campus.dtos';
 import { CampusService } from './campus.service';
 
@@ -16,7 +16,7 @@ export class CampusResolver {
   //
 
   @Operacao(Spec.CampusFindAllOperator())
-  async campusFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.CampusFindAllOperator()) dto: Spec.ISearchInputDto) {
+  async campusFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.CampusFindAllOperator()) dto: Spec.IPaginatedInputDto) {
     return this.campusService.campusFindAll(contextoDeAcesso, dto);
   }
 
@@ -25,7 +25,7 @@ export class CampusResolver {
   @Operacao(Spec.CampusFindOneByIdOperator())
   async campusFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.CampusFindOneByIdOperator())
+    @DadosEntradaGql(Spec.CampusFindOneByIdOperator())
     dto: Spec.ICampusFindOneByIdInputDto,
   ) {
     return this.campusService.campusFindByIdStrict(contextoDeAcesso, dto);
@@ -34,19 +34,19 @@ export class CampusResolver {
   //
 
   @Operacao(Spec.CampusCreateOperator())
-  async campusCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.CampusCreateOperator()) dto: Spec.ICampusInputDto) {
+  async campusCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.CampusCreateOperator()) dto: Spec.ICampusInputDto) {
     return this.campusService.campusCreate(contextoDeAcesso, dto);
   }
 
   @Operacao(Spec.CampusUpdateOperator())
-  async campusUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.CampusUpdateOperator()) dto: Spec.ICampusUpdateDto) {
+  async campusUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.CampusUpdateOperator()) dto: Spec.ICampusUpdateDto) {
     return this.campusService.campusUpdate(contextoDeAcesso, dto);
   }
 
   @Operacao(Spec.CampusDeleteOperator())
   async campusDeleteOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.CampusDeleteOperator())
+    @DadosEntradaGql(Spec.CampusDeleteOperator())
     dto: Spec.ICampusDeleteOneByIdInputDto,
   ) {
     return this.campusService.campusDeleteOneById(contextoDeAcesso, dto);

@@ -2,12 +2,11 @@ import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
-import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DisciplinaEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
@@ -56,7 +55,7 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto): Promise<Spec.IDisciplinaFindAllResultDto> {
+  async disciplinaFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.IDisciplinaFindAllResultDto> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
@@ -67,7 +66,7 @@ export class DisciplinaService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //

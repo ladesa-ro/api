@@ -1,10 +1,9 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
 import { DiarioService } from './diario.service';
 
 @ApiTags('Diarios')
@@ -16,8 +15,11 @@ export class DiarioController {
 
   @Get('/')
   @Operacao(Spec.DiarioFindAllOperator())
-  async diarioFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.IDiarioFindAllResultDto> {
-    return this.diarioService.diarioFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
+  async diarioFindAll(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.DiarioFindAllOperator()) dto: Spec.IPaginatedInputDto,
+  ): Promise<Spec.IDiarioFindAllResultDto> {
+    return this.diarioService.diarioFindAll(contextoDeAcesso, dto);
   }
 
   //

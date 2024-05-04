@@ -1,9 +1,8 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
 import { HttpDtoBody } from '../../../legacy';
 import { VinculoService } from './vinculo.service';
 
@@ -14,8 +13,8 @@ export class VinculoController {
 
   @Get('/')
   @Operacao(Spec.VinculoFindAllOperator())
-  async findAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery) {
-    return this.vinculoService.vinculoFindAll(contextoDeAcesso, query);
+  async findAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.VinculoFindAllOperator()) dto: Spec.IPaginatedInputDto) {
+    return this.vinculoService.vinculoFindAll(contextoDeAcesso, dto);
   }
 
   @Post('/')

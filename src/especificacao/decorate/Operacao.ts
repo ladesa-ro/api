@@ -1,4 +1,4 @@
-import { UseInterceptors, applyDecorators } from '@nestjs/common';
+import { SetMetadata, UseInterceptors, applyDecorators } from '@nestjs/common';
 import { Mutation, Query } from '@nestjs/graphql';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiParam, ApiProduces, ApiQuery, ApiResponse } from '@nestjs/swagger';
@@ -7,8 +7,12 @@ import { camelCase } from 'lodash';
 import { CreateEntityDtoClass } from '../../legacy/utils';
 import { CastDeclarator } from '../utilitarios/SpecHelpers';
 
+export const OPERACAO_KEY = Symbol.for('operacao');
+
 export const Operacao = (operation: IOperation) => {
   const decorators: (ClassDecorator | MethodDecorator | PropertyDecorator)[] = [];
+
+  decorators.push(SetMetadata(OPERACAO_KEY, operation));
 
   decorators.push(ApiBearerAuth());
 

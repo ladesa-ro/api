@@ -2,11 +2,10 @@ import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
-import { paginate } from 'nestjs-paginate';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { ModalidadeEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { paginateConfig } from '../../../legacy/utils';
 
 // ============================================================================
@@ -25,7 +24,7 @@ export class ModalidadeService {
 
   //
 
-  async modalidadeFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto, selection?: string[]): Promise<Spec.IModalidadeFindAllResultDto> {
+  async modalidadeFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null, selection?: string[]): Promise<Spec.IModalidadeFindAllResultDto> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
@@ -36,7 +35,7 @@ export class ModalidadeService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //

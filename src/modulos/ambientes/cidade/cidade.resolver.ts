@@ -4,7 +4,7 @@ import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
-import { DadosEntrada } from '../../../legacy';
+import { DadosEntradaGql } from '../../../legacy';
 import { CidadeService } from './cidade.service';
 
 @Resolver()
@@ -17,12 +17,7 @@ export class CidadeResolver {
   // ========================================================
 
   @Operacao(Spec.CidadeFindAllOperator())
-  async cidadeFindAll(
-    //
-    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @DadosEntrada(Spec.CidadeFindAllOperator()) dto: Spec.ISearchInputDto,
-    @Info() info: GraphQLResolveInfo,
-  ) {
+  async cidadeFindAll(@Info() info: GraphQLResolveInfo, @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso, @DadosEntradaGql(Spec.CidadeFindAllOperator()) dto: Spec.IPaginatedInputDto) {
     const selection = getFieldNames(info as any)
       .filter((i) => i.startsWith('data.'))
       .map((i) => i.slice(i.indexOf('.') + 1));
@@ -35,7 +30,7 @@ export class CidadeResolver {
   @Operacao(Spec.CidadeFindOneByIdOperator())
   async cidadeFindById(
     @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @DadosEntrada(Spec.CidadeFindOneByIdOperator())
+    @DadosEntradaGql(Spec.CidadeFindOneByIdOperator())
     dto: Spec.ICidadeFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {

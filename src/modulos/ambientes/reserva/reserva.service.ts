@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
-import { FilterOperator, paginate } from 'nestjs-paginate';
+import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { ReservaEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { IUsuarioQueryBuilderViewOptions, UsuarioService } from '../../autenticacao/usuario/usuario.service';
 import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../ambiente/ambiente.service';
@@ -66,7 +66,7 @@ export class ReservaService {
 
   //
 
-  async reservaFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto): Promise<Spec.IReservaFindAllResultDto> {
+  async reservaFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.IReservaFindAllResultDto> {
     // =========================================================
 
     const qb = this.reservaRepository.createQueryBuilder(aliasReserva);
@@ -77,7 +77,7 @@ export class ReservaService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //

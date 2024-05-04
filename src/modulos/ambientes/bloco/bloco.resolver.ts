@@ -2,7 +2,7 @@ import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
-import { DadosEntrada } from '../../../legacy';
+import { DadosEntradaGql } from '../../../legacy';
 import { BlocoDto } from './bloco.dtos';
 import { BlocoService } from './bloco.service';
 
@@ -16,7 +16,7 @@ export class BlocoResolver {
   //
 
   @Operacao(Spec.BlocoFindAllOperator())
-  async blocoFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.BlocoFindAllOperator()) dto: Spec.ISearchInputDto) {
+  async blocoFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.BlocoFindAllOperator()) dto: Spec.IPaginatedInputDto) {
     return this.blocoService.blocoFindAll(contextoDeAcesso, dto);
   }
 
@@ -25,7 +25,7 @@ export class BlocoResolver {
   @Operacao(Spec.BlocoFindOneByIdOperator())
   async blocoFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.BlocoFindOneByIdOperator())
+    @DadosEntradaGql(Spec.BlocoFindOneByIdOperator())
     dto: Spec.IBlocoFindOneByIdInputDto,
   ) {
     return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, dto);
@@ -34,19 +34,19 @@ export class BlocoResolver {
   //
 
   @Operacao(Spec.BlocoCreateOperator())
-  async blocoCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.BlocoCreateOperator()) dto: Spec.IBlocoInputDto) {
+  async blocoCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.BlocoCreateOperator()) dto: Spec.IBlocoInputDto) {
     return this.blocoService.blocoCreate(contextoDeAcesso, dto);
   }
 
   @Operacao(Spec.BlocoUpdateOperator())
-  async blocoUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.BlocoUpdateOperator()) dto: Spec.IBlocoUpdateDto) {
+  async blocoUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.BlocoUpdateOperator()) dto: Spec.IBlocoUpdateDto) {
     return this.blocoService.blocoUpdate(contextoDeAcesso, dto);
   }
 
   @Operacao(Spec.BlocoDeleteOperator())
   async blocoDeleteOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.BlocoDeleteOperator())
+    @DadosEntradaGql(Spec.BlocoDeleteOperator())
     dto: Spec.IBlocoDeleteOneByIdInputDto,
   ) {
     return this.blocoService.blocoDeleteOneById(contextoDeAcesso, dto);

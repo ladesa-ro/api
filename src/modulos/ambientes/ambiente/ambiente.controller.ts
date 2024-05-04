@@ -1,10 +1,9 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
 import { AmbienteService } from './ambiente.service';
 
 @ApiTags('Ambientes')
@@ -16,8 +15,11 @@ export class AmbienteController {
 
   @Get('/')
   @Operacao(Spec.AmbienteFindAllOperator())
-  async ambienteFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.IAmbienteFindAllResultDto> {
-    return this.ambienteService.ambienteFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
+  async ambienteFindAll(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.AmbienteFindAllOperator()) dto: Spec.IPaginatedInputDto,
+  ): Promise<Spec.IAmbienteFindAllResultDto> {
+    return this.ambienteService.ambienteFindAll(contextoDeAcesso, dto);
   }
 
   //

@@ -1,10 +1,9 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
 import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
@@ -16,8 +15,11 @@ export class UsuarioController {
 
   @Get('/')
   @Operacao(Spec.UsuarioFindAllOperator())
-  async usuarioFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.IUsuarioFindAllResultDto> {
-    return this.usuarioService.usuarioFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
+  async usuarioFindAll(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.UsuarioFindAllOperator()) dto: Spec.IPaginatedInputDto,
+  ): Promise<Spec.IUsuarioFindAllResultDto> {
+    return this.usuarioService.usuarioFindAll(contextoDeAcesso, dto);
   }
 
   //

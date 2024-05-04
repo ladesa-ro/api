@@ -2,7 +2,7 @@ import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
-import { DadosEntrada } from '../../../legacy';
+import { DadosEntradaGql } from '../../../legacy';
 import { DisciplinaDto } from './disciplina.dtos';
 import { DisciplinaService } from './disciplina.service';
 
@@ -16,7 +16,7 @@ export class DisciplinaResolver {
   //
 
   @Operacao(Spec.DisciplinaFindAllOperator())
-  async disciplinaFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.DisciplinaFindAllOperator()) dto: Spec.ISearchInputDto) {
+  async disciplinaFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.DisciplinaFindAllOperator()) dto: Spec.IPaginatedInputDto) {
     return this.disciplinaService.disciplinaFindAll(contextoDeAcesso, dto);
   }
 
@@ -25,7 +25,7 @@ export class DisciplinaResolver {
   @Operacao(Spec.DisciplinaFindOneByIdOperator())
   async disciplinaFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.DisciplinaFindOneByIdOperator())
+    @DadosEntradaGql(Spec.DisciplinaFindOneByIdOperator())
     dto: Spec.IDisciplinaFindOneByIdInputDto,
   ) {
     return this.disciplinaService.disciplinaFindByIdStrict(contextoDeAcesso, dto);
@@ -34,19 +34,19 @@ export class DisciplinaResolver {
   //
 
   @Operacao(Spec.DisciplinaCreateOperator())
-  async disciplinaCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.DisciplinaCreateOperator()) dto: Spec.IDisciplinaInputDto) {
+  async disciplinaCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.DisciplinaCreateOperator()) dto: Spec.IDisciplinaInputDto) {
     return this.disciplinaService.disciplinaCreate(contextoDeAcesso, dto);
   }
 
   @Operacao(Spec.DisciplinaUpdateOperator())
-  async disciplinaUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.DisciplinaUpdateOperator()) dto: Spec.IDisciplinaUpdateDto) {
+  async disciplinaUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.DisciplinaUpdateOperator()) dto: Spec.IDisciplinaUpdateDto) {
     return this.disciplinaService.disciplinaUpdate(contextoDeAcesso, dto);
   }
 
   @Operacao(Spec.DisciplinaDeleteOperator())
   async disciplinaDeleteOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.DisciplinaDeleteOperator())
+    @DadosEntradaGql(Spec.DisciplinaDeleteOperator())
     dto: Spec.IDisciplinaDeleteOneByIdInputDto,
   ) {
     return this.disciplinaService.disciplinaDeleteOneById(contextoDeAcesso, dto);

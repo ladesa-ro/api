@@ -1,10 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoParam } from '../../../legacy';
 import { CidadeService } from './cidade.service';
 
 @ApiTags('Cidades')
@@ -16,8 +15,8 @@ export class CidadeController {
 
   @Get('/')
   @Operacao(Spec.CidadeFindAllOperator())
-  async findAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.ICidadeFindAllResultDto> {
-    return this.cidadeService.findAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
+  async findAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.CidadeFindAllOperator()) dto: Spec.IPaginatedInputDto): Promise<Spec.ICidadeFindAllResultDto> {
+    return this.cidadeService.findAll(contextoDeAcesso, dto);
   }
 
   // ========================================================

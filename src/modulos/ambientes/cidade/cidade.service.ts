@@ -2,10 +2,10 @@ import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { map } from 'lodash';
-import { FilterOperator, paginate } from 'nestjs-paginate';
+import { FilterOperator } from 'nestjs-paginate';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { paginateConfig } from '../../../legacy/utils';
 
 const aliasCidade = 'cidade';
@@ -22,7 +22,7 @@ export class CidadeService {
 
   //
 
-  async findAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto, selection?: string[]) {
+  async findAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null, selection?: string[]) {
     // =========================================================
 
     const qb = this.cidadeRepository.createQueryBuilder('cidade');
@@ -33,7 +33,7 @@ export class CidadeService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('/busca', dto, qb.clone(), {
       ...paginateConfig,
       select: [
         //

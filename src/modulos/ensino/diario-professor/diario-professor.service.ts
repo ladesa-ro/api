@@ -1,12 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
-import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DiarioProfessorEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { IVinculoQueryBuilderViewOptions, VinculoService } from '../../autenticacao/vinculo/vinculo.service';
 import { DiarioService, IDiarioQueryBuilderViewOptions } from '../diario/diario.service';
@@ -62,7 +61,7 @@ export class DiarioProfessorService {
 
   //
 
-  async diarioProfessorFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto): Promise<Spec.IDiarioProfessorFindAllResultDto> {
+  async diarioProfessorFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.IDiarioProfessorFindAllResultDto> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -73,7 +72,7 @@ export class DiarioProfessorService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //

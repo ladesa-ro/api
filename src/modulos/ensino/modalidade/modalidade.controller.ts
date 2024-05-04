@@ -1,10 +1,9 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
 import { ModalidadeService } from './modalidade.service';
 
 @ApiTags('Modalidades')
@@ -16,8 +15,11 @@ export class ModalidadeController {
 
   @Get('/')
   @Operacao(Spec.ModalidadeFindAllOperator())
-  async modalidadeFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.IModalidadeFindAllResultDto> {
-    return this.modalidadeService.modalidadeFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
+  async modalidadeFindAll(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.ModalidadeFindAllOperator()) dto: Spec.IPaginatedInputDto,
+  ): Promise<Spec.IModalidadeFindAllResultDto> {
+    return this.modalidadeService.modalidadeFindAll(contextoDeAcesso, dto);
   }
 
   //

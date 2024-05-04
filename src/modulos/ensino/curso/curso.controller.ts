@@ -1,10 +1,9 @@
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
 import { CursoService } from './curso.service';
 
 @ApiTags('Cursos')
@@ -16,8 +15,8 @@ export class CursoController {
 
   @Get('/')
   @Operacao(Spec.CursoFindAllOperator())
-  async cursoFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.ICursoFindAllResultDto> {
-    return this.cursoService.cursoFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
+  async cursoFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.CursoFindAllOperator()) dto: Spec.IPaginatedInputDto): Promise<Spec.ICursoFindAllResultDto> {
+    return this.cursoService.cursoFindAll(contextoDeAcesso, dto);
   }
 
   //

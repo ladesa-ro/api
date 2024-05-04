@@ -2,12 +2,12 @@ import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
-import { FilterOperator, paginate } from 'nestjs-paginate';
+import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { CalendarioLetivoEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
 import { ModalidadeService } from '../../ensino/modalidade/modalidade.service';
@@ -59,7 +59,7 @@ export class CalendarioLetivoService {
 
   //
 
-  async calendarioLetivoFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto): Promise<Spec.ICalendarioLetivoFindAllResultDto> {
+  async calendarioLetivoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.ICalendarioLetivoFindAllResultDto> {
     // =========================================================
 
     const qb = this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo);
@@ -70,7 +70,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //

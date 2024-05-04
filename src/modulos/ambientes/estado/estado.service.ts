@@ -3,10 +3,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '@sisgea/spec';
 import { map } from 'lodash';
-import { paginate } from 'nestjs-paginate';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { paginateConfig } from '../../../legacy/utils';
 
 const aliasEstado = 'estado';
@@ -21,7 +20,7 @@ export class EstadoService {
 
   //
 
-  async findAll(clienteAccess: IContextoDeAcesso, dto?: Spec.ISearchInputDto, selection?: string[]): Promise<Spec.IEstadoFindAllResultDto> {
+  async findAll(clienteAccess: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null, selection?: string[]): Promise<Spec.IEstadoFindAllResultDto> {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
@@ -32,7 +31,7 @@ export class EstadoService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('/estado', dto ?? null, qb, {
       ...paginateConfig,
       select: [
         //
@@ -64,6 +63,7 @@ export class EstadoService {
     // =========================================================
 
     const pageItemsView = await qb.andWhereInIds(map(paginated.data, 'id')).getMany();
+
     paginated.data = paginated.data.map((paginated) => pageItemsView.find((i) => i.id === paginated.id)!);
 
     // =========================================================

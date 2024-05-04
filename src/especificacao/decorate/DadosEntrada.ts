@@ -1,12 +1,14 @@
+import { ExecutionContext, createParamDecorator } from '@nestjs/common';
 import { Args } from '@nestjs/graphql';
 import { GetDeclarationValidator, GetSchema, IDeclaration, IOperation } from '@sisgea/spec';
 import { pascalCase } from 'change-case';
+import { Request } from 'express';
 import * as yup from 'yup';
 import { ValidationPipeYup } from '../../validacao';
 import { CreateEntityDtoClass } from '../utilitarios';
 import { CastDeclarator } from '../utilitarios/SpecHelpers';
 
-export const DadosEntrada = (operation: IOperation, ctx: 'graphql' = 'graphql') => {
+export const DadosEntrada = (operation: IOperation, platform: 'graphql' | 'http') => {
   const input = operation.input;
 
   switch (input?.strategy) {
@@ -15,43 +17,84 @@ export const DadosEntrada = (operation: IOperation, ctx: 'graphql' = 'graphql') 
     }
 
     case 'dto': {
-      const inputBody = input.body;
-      const inputBodyDeclarator = CastDeclarator(`${operation}InputBody`, inputBody);
+      const combinedDeclarator = () => {
+        if (platform === 'graphql') {
+          const inputDto = input.dto;
 
-      const inputParams = input.params;
-      const inputParamsDeclarator = CastDeclarator(`${operation}InputParams`, inputParams);
+          if (inputDto) {
+            return inputDto();
+          }
+        }
 
-      const declarator = () => {
+        const inputBody = input.body;
+        const inputBodyDeclarator = CastDeclarator(`${operation}InputBody`, inputBody);
+
+        const inputParams = input.params;
+        const inputParamsDeclarator = CastDeclarator(`${operation}InputParams`, inputParams);
+
+        const inputQueries = input.query;
+        const inputQueriesDeclarator = CastDeclarator(`${operation}InputQueries`, inputQueries);
+
         return {
           name: `${pascalCase(operation.name)}CombinedInput`,
           properties: {
             ...inputBodyDeclarator?.().properties,
             ...inputParamsDeclarator?.().properties,
+            ...inputQueriesDeclarator?.().properties,
           },
         } satisfies IDeclaration;
       };
 
-      const declaration = declarator();
+      const combinedDeclaration = combinedDeclarator();
+      const combinedDeclarationValidator = GetDeclarationValidator(combinedDeclaration);
 
-      const declarationValidator = GetDeclarationValidator(declaration);
+      const combinedSchema = GetSchema(combinedDeclarationValidator, yup) as yup.ObjectSchema<any>;
+      const validationPipe = new ValidationPipeYup(combinedSchema, { scope: 'args', path: null });
 
-      const DtoClass = CreateEntityDtoClass(() => declaration, 'input', undefined, undefined, 'args-type');
-
-      const schema = GetSchema(declarationValidator, yup) as yup.ObjectSchema<any>;
-
-      switch (ctx) {
+      switch (platform) {
         case 'graphql': {
-          return Args({ type: () => DtoClass }, new ValidationPipeYup(schema, { scope: 'args', path: null }));
+          const DtoClass = CreateEntityDtoClass(() => combinedDeclaration, 'input', undefined, undefined, 'args-type');
+
+          return Args({ type: () => DtoClass }, validationPipe);
+        }
+
+        case 'http': {
+          const BaseDecorator = createParamDecorator((_, executionContext: ExecutionContext) => {
+            const request: Request = executionContext.switchToHttp().getRequest();
+
+            const body = request.body;
+            const query = request.query;
+            const params = request.params;
+
+            const combined = input.combineInputs
+              ? input.combineInputs({ params, body, query })
+              : {
+                  ...params,
+                  ...query,
+                  ...body,
+                };
+
+            return combined;
+          });
+
+          return BaseDecorator(null, validationPipe);
         }
 
         default: {
-          throw new TypeError(`DadosEntrada: Unsupported context: ${ctx}.`);
+          break;
         }
       }
+
+      break;
     }
 
     default: {
-      throw new TypeError(`DadosEntrada: You must provide a valid operation.input.strategy.`);
+      break;
     }
   }
+  throw new TypeError(`DadosEntrada: You must provide a valid operation.input.strategy.`);
 };
+
+export const DadosEntradaGql = (operation: IOperation): ParameterDecorator => DadosEntrada(operation, 'graphql');
+
+export const DadosEntradaHttp = (operation: IOperation): ParameterDecorator => DadosEntrada(operation, 'http');

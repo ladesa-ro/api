@@ -2,13 +2,12 @@ import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
-import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { UsuarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { KeycloakService } from '../../../integracao-identidade-e-acesso';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { ValidationFailedException } from '../../../nest-app';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
@@ -113,7 +112,7 @@ export class UsuarioService {
 
   //
 
-  async usuarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Spec.ISearchInputDto): Promise<Spec.IUsuarioFindAllResultDto> {
+  async usuarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.IUsuarioFindAllResultDto> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -124,7 +123,7 @@ export class UsuarioService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //

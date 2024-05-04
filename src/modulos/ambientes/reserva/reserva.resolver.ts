@@ -2,7 +2,7 @@ import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
-import { DadosEntrada } from '../../../legacy';
+import { DadosEntradaGql } from '../../../legacy';
 import { ReservaDto } from './reserva.dtos';
 import { ReservaService } from './reserva.service';
 
@@ -16,7 +16,7 @@ export class ReservaResolver {
   //
 
   @Operacao(Spec.ReservaFindAllOperator())
-  async reservaFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.ReservaFindAllOperator()) dto: Spec.ISearchInputDto) {
+  async reservaFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.ReservaFindAllOperator()) dto: Spec.IPaginatedInputDto) {
     return this.reservaService.reservaFindAll(contextoDeAcesso, dto);
   }
 
@@ -25,7 +25,7 @@ export class ReservaResolver {
   @Operacao(Spec.ReservaFindOneByIdOperator())
   async reservaFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.ReservaFindOneByIdOperator())
+    @DadosEntradaGql(Spec.ReservaFindOneByIdOperator())
     dto: Spec.IReservaFindOneByIdInputDto,
   ) {
     return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, dto);
@@ -34,19 +34,19 @@ export class ReservaResolver {
   //
 
   @Operacao(Spec.ReservaCreateOperator())
-  async reservaCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.ReservaCreateOperator()) dto: Spec.IReservaInputDto) {
+  async reservaCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.ReservaCreateOperator()) dto: Spec.IReservaInputDto) {
     return this.reservaService.reservaCreate(contextoDeAcesso, dto);
   }
 
   @Operacao(Spec.ReservaUpdateOperator())
-  async reservaUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.ReservaUpdateOperator()) dto: Spec.IReservaUpdateDto) {
+  async reservaUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.ReservaUpdateOperator()) dto: Spec.IReservaUpdateDto) {
     return this.reservaService.reservaUpdate(contextoDeAcesso, dto);
   }
 
   @Operacao(Spec.ReservaDeleteOperator())
   async reservaDeleteOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.ReservaDeleteOperator())
+    @DadosEntradaGql(Spec.ReservaDeleteOperator())
     dto: Spec.IReservaDeleteOneByIdInputDto,
   ) {
     return this.reservaService.reservaDeleteOneById(contextoDeAcesso, dto);

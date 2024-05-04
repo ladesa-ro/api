@@ -1,10 +1,9 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
 import { CampusService } from './campus.service';
 
 @ApiTags('Campi')
@@ -16,8 +15,11 @@ export class CampusController {
 
   @Get('/')
   @Operacao(Spec.CampusFindAllOperator())
-  async campusFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.ICampusFindAllResultDto> {
-    return this.campusService.campusFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
+  async campusFindAll(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.CampusFindAllOperator()) dto: Spec.IPaginatedInputDto,
+  ): Promise<Spec.ICampusFindAllResultDto> {
+    return this.campusService.campusFindAll(contextoDeAcesso, dto);
   }
 
   //

@@ -2,7 +2,7 @@ import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../contexto-de-acesso';
 import { Operacao } from '../../especificacao';
-import { DadosEntrada } from '../../legacy';
+import { DadosEntradaGql } from '../../legacy';
 import { AutenticacaoService } from './autenticacao.service';
 
 @Resolver()
@@ -24,7 +24,7 @@ export class AutenticacaoResolver {
   @Operacao(Spec.AutenticacaoLoginOperator())
   async autenticacaoLogin(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.AutenticacaoLoginOperator())
+    @DadosEntradaGql(Spec.AutenticacaoLoginOperator())
     dto: Spec.IAutenticacaoLoginInputDto,
   ) {
     return this.autenticacaoService.login(contextoDeAcesso, dto);
@@ -35,7 +35,7 @@ export class AutenticacaoResolver {
   @Operacao(Spec.AutenticacaoRefreshOperator())
   async autenticacaoRefresh(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.AutenticacaoRefreshOperator())
+    @DadosEntradaGql(Spec.AutenticacaoRefreshOperator())
     dto: Spec.IAutenticacaoRefreshInputDto,
   ) {
     return this.autenticacaoService.refresh(contextoDeAcesso, dto);
@@ -46,7 +46,7 @@ export class AutenticacaoResolver {
   @Operacao(Spec.AutenticacaoDefinirSenhaOperator())
   async autenticacaoDefinirSenha(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.AutenticacaoDefinirSenhaOperator())
+    @DadosEntradaGql(Spec.AutenticacaoDefinirSenhaOperator())
     dto: Spec.IAutenticacaoDefinirSenhaInputDto,
   ) {
     return this.autenticacaoService.definirSenha(contextoDeAcesso, dto);

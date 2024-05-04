@@ -2,7 +2,7 @@ import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
-import { DadosEntrada } from '../../../legacy';
+import { DadosEntradaGql } from '../../../legacy';
 import { DiarioProfessorDto } from './diario-professor.dtos';
 import { DiarioProfessorService } from './diario-professor.service';
 
@@ -14,7 +14,7 @@ export class DiarioProfessorResolver {
   async diarioProfessorFindAll(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.DiarioProfessorFindAllOperator()) dto: Spec.ISearchInputDto,
+    @DadosEntradaGql(Spec.DiarioProfessorFindAllOperator()) dto: Spec.IPaginatedInputDto,
   ) {
     return this.diarioProfessorService.diarioProfessorFindAll(contextoDeAcesso, dto);
   }
@@ -23,7 +23,7 @@ export class DiarioProfessorResolver {
   async diarioProfessorFindOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.DiarioProfessorFindOneByIdOperator()) dto: Spec.IDiarioProfessorFindOneByIdInputDto,
+    @DadosEntradaGql(Spec.DiarioProfessorFindOneByIdOperator()) dto: Spec.IDiarioProfessorFindOneByIdInputDto,
   ) {
     return this.diarioProfessorService.diarioProfessorFindByIdStrict(contextoDeAcesso, dto);
   }
@@ -32,7 +32,7 @@ export class DiarioProfessorResolver {
   async diarioProfessorCreate(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.DiarioProfessorCreateOperator()) dto: Spec.IDiarioProfessorInputDto,
+    @DadosEntradaGql(Spec.DiarioProfessorCreateOperator()) dto: Spec.IDiarioProfessorInputDto,
   ) {
     return this.diarioProfessorService.diarioProfessorCreate(contextoDeAcesso, dto);
   }
@@ -41,7 +41,7 @@ export class DiarioProfessorResolver {
   async diarioProfessorUpdate(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.DiarioProfessorUpdateOperator()) dto: Spec.IDiarioProfessorUpdateDto,
+    @DadosEntradaGql(Spec.DiarioProfessorUpdateOperator()) dto: Spec.IDiarioProfessorUpdateDto,
   ) {
     return this.diarioProfessorService.diarioProfessorUpdate(contextoDeAcesso, dto);
   }
@@ -50,7 +50,7 @@ export class DiarioProfessorResolver {
   async diarioProfessorDeleteOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.DiarioProfessorDeleteOperator()) dto: Spec.IDiarioProfessorDeleteOneByIdInputDto,
+    @DadosEntradaGql(Spec.DiarioProfessorDeleteOperator()) dto: Spec.IDiarioProfessorDeleteOneByIdInputDto,
   ) {
     return this.diarioProfessorService.diarioProfessorDeleteOneById(contextoDeAcesso, dto);
   }

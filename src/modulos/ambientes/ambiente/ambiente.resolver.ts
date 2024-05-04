@@ -2,7 +2,7 @@ import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
-import { DadosEntrada } from '../../../legacy';
+import { DadosEntradaGql } from '../../../legacy';
 import { AmbienteDto } from './ambiente.dtos';
 import { AmbienteService } from './ambiente.service';
 
@@ -16,7 +16,7 @@ export class AmbienteResolver {
   //
 
   @Operacao(Spec.AmbienteFindAllOperator())
-  async ambienteFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.AmbienteFindAllOperator()) dto: Spec.ISearchInputDto) {
+  async ambienteFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteFindAllOperator()) dto: Spec.IPaginatedInputDto) {
     return this.ambienteService.ambienteFindAll(contextoDeAcesso, dto);
   }
 
@@ -25,7 +25,7 @@ export class AmbienteResolver {
   @Operacao(Spec.AmbienteFindOneByIdOperator())
   async ambienteFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.AmbienteFindOneByIdOperator())
+    @DadosEntradaGql(Spec.AmbienteFindOneByIdOperator())
     dto: Spec.IAmbienteFindOneByIdInputDto,
   ) {
     return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, dto);
@@ -34,19 +34,19 @@ export class AmbienteResolver {
   //
 
   @Operacao(Spec.AmbienteCreateOperator())
-  async ambienteCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.AmbienteCreateOperator()) dto: Spec.IAmbienteInputDto) {
+  async ambienteCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteCreateOperator()) dto: Spec.IAmbienteInputDto) {
     return this.ambienteService.ambienteCreate(contextoDeAcesso, dto);
   }
 
   @Operacao(Spec.AmbienteUpdateOperator())
-  async ambienteUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.AmbienteUpdateOperator()) dto: Spec.IAmbienteUpdateDto) {
+  async ambienteUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteUpdateOperator()) dto: Spec.IAmbienteUpdateDto) {
     return this.ambienteService.ambienteUpdate(contextoDeAcesso, dto);
   }
 
   @Operacao(Spec.AmbienteDeleteOperator())
   async ambienteDeleteOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.AmbienteDeleteOperator())
+    @DadosEntradaGql(Spec.AmbienteDeleteOperator())
     dto: Spec.IAmbienteDeleteOneByIdInputDto,
   ) {
     return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, dto);

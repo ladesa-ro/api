@@ -4,7 +4,7 @@ import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { Operacao } from '../../../especificacao';
-import { DadosEntrada } from '../../../legacy';
+import { DadosEntradaGql } from '../../../legacy';
 import { ModalidadeDto } from './modalidade.dtos';
 import { ModalidadeService } from './modalidade.service';
 
@@ -18,7 +18,11 @@ export class ModalidadeResolver {
   //
 
   @Operacao(Spec.ModalidadeFindAllOperator())
-  async modalidadeFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.ModalidadeFindAllOperator()) dto: Spec.ISearchInputDto, @Info() info: GraphQLResolveInfo) {
+  async modalidadeFindAll(
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaGql(Spec.ModalidadeFindAllOperator()) dto: Spec.IPaginatedInputDto,
+    @Info() info: GraphQLResolveInfo,
+  ) {
     const selection = getFieldNames(info as any)
       .filter((i) => i.startsWith('data.'))
       .map((i) => i.slice(i.indexOf('.') + 1));
@@ -31,7 +35,7 @@ export class ModalidadeResolver {
   @Operacao(Spec.ModalidadeFindOneByIdOperator())
   async modalidadeFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.ModalidadeFindOneByIdOperator())
+    @DadosEntradaGql(Spec.ModalidadeFindOneByIdOperator())
     dto: Spec.IModalidadeFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
@@ -42,19 +46,19 @@ export class ModalidadeResolver {
   //
 
   @Operacao(Spec.ModalidadeCreateOperator())
-  async modalidadeCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.ModalidadeCreateOperator()) dto: Spec.IModalidadeInputDto) {
+  async modalidadeCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.ModalidadeCreateOperator()) dto: Spec.IModalidadeInputDto) {
     return this.modalidadeService.modalidadeCreate(contextoDeAcesso, dto);
   }
 
   @Operacao(Spec.ModalidadeUpdateOperator())
-  async modalidadeUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntrada(Spec.ModalidadeUpdateOperator()) dto: Spec.IModalidadeUpdateDto) {
+  async modalidadeUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.ModalidadeUpdateOperator()) dto: Spec.IModalidadeUpdateDto) {
     return this.modalidadeService.modalidadeUpdate(contextoDeAcesso, dto);
   }
 
   @Operacao(Spec.ModalidadeDeleteOperator())
   async modalidadeDeleteOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntrada(Spec.ModalidadeDeleteOperator())
+    @DadosEntradaGql(Spec.ModalidadeDeleteOperator())
     dto: Spec.IModalidadeDeleteOneByIdInputDto,
   ) {
     return this.modalidadeService.modalidadeDeleteOneById(contextoDeAcesso, dto);

@@ -1,11 +1,10 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
 import { CalendarioLetivoService } from './calendario-letivo.service';
-import { Operacao } from '../../../especificacao';
 
 @ApiTags('Calendarios Letivos')
 @Controller('/calendarios-letivos')
@@ -14,8 +13,11 @@ export class CalendarioLetivoController {
 
   @Get('/')
   @Operacao(Spec.CalendarioLetivoFindAllOperator())
-  async calendarioFindAll(@ContextoDeAcessoHttp() clienttAcess: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Spec.ICalendarioLetivoFindAllResultDto> {
-    return this.calendarioLetivoService.calendarioLetivoFindAll(clienttAcess, getSearchInputFromPaginateQuery(query));
+  async calendarioFindAll(
+    @ContextoDeAcessoHttp() clienttAcess: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.CalendarioLetivoFindAllOperator()) dto: Spec.IPaginatedInputDto,
+  ): Promise<Spec.ICalendarioLetivoFindAllResultDto> {
+    return this.calendarioLetivoService.calendarioLetivoFindAll(clienttAcess, dto);
   }
 
   //
