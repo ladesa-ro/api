@@ -1,7 +1,7 @@
 import { SetMetadata, UseInterceptors, applyDecorators } from '@nestjs/common';
 import { Mutation, Query } from '@nestjs/graphql';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiParam, ApiProduces, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiProduces, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { IDeclarationPropertyMixed, IDeclarationPropertySimple, IOperation } from '@sisgea/spec';
 import { camelCase } from 'lodash';
 import { CreateEntityDtoClass } from '../../legacy/utils';
@@ -13,6 +13,13 @@ export const Operacao = (operation: IOperation) => {
   const decorators: (ClassDecorator | MethodDecorator | PropertyDecorator)[] = [];
 
   decorators.push(SetMetadata(OPERACAO_KEY, operation));
+
+  decorators.push(
+    ApiOperation({
+      operationId: camelCase(operation.name),
+      description: operation.description,
+    }),
+  );
 
   decorators.push(ApiBearerAuth());
 
