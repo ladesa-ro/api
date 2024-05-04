@@ -1,15 +1,14 @@
-import { getModuleKeycloakAdminClient } from '@/legacy/utils/modules/keycloak/module.kc-admin-client';
-import type KcAdminClient from '@keycloak/keycloak-admin-client';
 import { Credentials } from '@keycloak/keycloak-admin-client/lib/utils/auth';
 import { Injectable } from '@nestjs/common';
-import { wait } from '../../legacy/utils/wait';
 import { EnvironmentConfigService } from '../../config';
+import { KeycloakAdminClient } from '../../helpers/module.kc-admin-client';
+import { wait } from '../../legacy/utils/wait';
 
 const INTERVAL_AUTH = 58 * 1000;
 
 @Injectable()
 export class KeycloakService {
-  kcAdminClient: KcAdminClient | null = null;
+  kcAdminClient: KeycloakAdminClient | null = null;
   #initialized = false;
   #authInterval: NodeJS.Timeout | null = null;
 
@@ -33,11 +32,9 @@ export class KeycloakService {
   async setup() {
     if (!this.#initialized) {
       try {
-        const KcAdminClient = await getModuleKeycloakAdminClient();
-
         const keycloakConfigCredentials = this.keycloakConfigCredentials;
 
-        this.kcAdminClient = new KcAdminClient({
+        this.kcAdminClient = new KeycloakAdminClient({
           baseUrl: keycloakConfigCredentials.baseUrl,
           realmName: keycloakConfigCredentials.realm,
         });
@@ -47,6 +44,7 @@ export class KeycloakService {
 
         this.#initialized = true;
       } catch (error) {
+        console.error('[KeycloakService::error] Can not connect to KeyCloak.', { error });
         await this.clearAuthInterval();
       }
     }

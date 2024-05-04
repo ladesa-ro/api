@@ -4,8 +4,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiProduces, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { IDeclarationPropertyMixed, IDeclarationPropertySimple, IOperation } from '@sisgea/spec';
 import { camelCase } from 'lodash';
-import { CreateEntityDtoClass } from '../../legacy/utils';
 import { CastDeclarator } from '../utilitarios/SpecHelpers';
+import { CreateEntityDtoClass } from '../utilitarios';
 
 export const OPERACAO_KEY = Symbol.for('operacao');
 
