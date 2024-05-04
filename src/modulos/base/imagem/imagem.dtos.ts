@@ -1,5 +1,5 @@
 import * as Spec from '@sisgea/spec';
-import { CreateEntityDtoClass } from '../../../legacy/utils';
+import { CreateEntityDtoClass } from '../../../especificacao';
 
 // ======================================================
 export const ImagemDto = CreateEntityDtoClass(Spec.Imagem);
