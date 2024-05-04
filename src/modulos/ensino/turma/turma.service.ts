@@ -126,7 +126,7 @@ export class TurmaService {
       ],
       defaultSortBy: [
         //
-        ['nome', 'ASC'],
+        ['periodo', 'ASC'],
       ],
       filterableColumns: {
         //
