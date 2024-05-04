@@ -20,14 +20,14 @@ export class EstadoService {
 
   //
 
-  async findAll(clienteAccess: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null, selection?: string[]): Promise<Spec.IEstadoFindAllResultDto> {
+  async findAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null, selection?: string[]): Promise<Spec.IEstadoFindAllResultDto> {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
 
     // =========================================================
 
-    await clienteAccess.aplicarFiltro('estado:find', qb, aliasEstado, null);
+    await contextoDeAcesso.aplicarFiltro('estado:find', qb, aliasEstado, null);
 
     // =========================================================
 
@@ -71,14 +71,14 @@ export class EstadoService {
     return getPaginatedResultDto(paginated);
   }
 
-  async findByUf(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto, selection?: string[]) {
+  async findByUf(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto, selection?: string[]) {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
 
     // =========================================================
 
-    await clienteAccess.aplicarFiltro('estado:find', qb, aliasEstado, null);
+    await contextoDeAcesso.aplicarFiltro('estado:find', qb, aliasEstado, null);
 
     // =========================================================
 
@@ -98,8 +98,8 @@ export class EstadoService {
     return estado;
   }
 
-  async findByUfStrict(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto, selection?: string[]) {
-    const estado = await this.findByUf(clienteAccess, dto, selection);
+  async findByUfStrict(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto, selection?: string[]) {
+    const estado = await this.findByUf(contextoDeAcesso, dto, selection);
 
     if (!estado) {
       throw new NotFoundException();
@@ -108,14 +108,14 @@ export class EstadoService {
     return estado;
   }
 
-  async findById(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto, selection?: string[]) {
+  async findById(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto, selection?: string[]) {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder('estado');
 
     // =========================================================
 
-    await clienteAccess.aplicarFiltro('estado:find', qb, aliasEstado, null);
+    await contextoDeAcesso.aplicarFiltro('estado:find', qb, aliasEstado, null);
 
     // =========================================================
 
@@ -135,8 +135,8 @@ export class EstadoService {
     return estado;
   }
 
-  async findByIdStrict(clienteAccess: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto, selection?: string[]) {
-    const estado = await this.findById(clienteAccess, dto, selection);
+  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto, selection?: string[]) {
+    const estado = await this.findById(contextoDeAcesso, dto, selection);
 
     if (!estado) {
       throw new NotFoundException();

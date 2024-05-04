@@ -13,27 +13,27 @@ export class EstadoController {
 
   @Get('/')
   @Operacao(Spec.EstadoFindAllOperator())
-  async findAll(@ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso, @DadosEntradaHttp(Spec.EstadoFindAllOperator()) dto: Spec.IPaginatedInputDto): Promise<Spec.IEstadoFindAllResultDto> {
-    return this.estadoService.findAll(clienteAccess, dto);
+  async findAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.EstadoFindAllOperator()) dto: Spec.IPaginatedInputDto): Promise<Spec.IEstadoFindAllResultDto> {
+    return this.estadoService.findAll(contextoDeAcesso, dto);
   }
 
   @Get('/uf/:uf')
   @Operacao(Spec.EstadoFindOneByUfOperator())
   async findByUf(
-    @ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(Spec.EstadoFindOneByUfOperator(), 'uf')
     uf: string,
   ) {
-    return this.estadoService.findByUfStrict(clienteAccess, { uf });
+    return this.estadoService.findByUfStrict(contextoDeAcesso, { uf });
   }
 
   @Get('/:id')
   @Operacao(Spec.EstadoFindOneByIdOperator())
   async findById(
-    @ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @HttpDtoParam(Spec.EstadoFindOneByIdOperator(), 'id')
     id: number,
   ) {
-    return this.estadoService.findByIdStrict(clienteAccess, { id });
+    return this.estadoService.findByIdStrict(contextoDeAcesso, { id });
   }
 }

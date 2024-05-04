@@ -17,24 +17,24 @@ export class CidadeResolver {
   // ========================================================
 
   @Operacao(Spec.CidadeFindAllOperator())
-  async cidadeFindAll(@Info() info: GraphQLResolveInfo, @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso, @DadosEntradaGql(Spec.CidadeFindAllOperator()) dto: Spec.IPaginatedInputDto) {
+  async cidadeFindAll(@Info() info: GraphQLResolveInfo, @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.CidadeFindAllOperator()) dto: Spec.IPaginatedInputDto) {
     const selection = getFieldNames(info as any)
       .filter((i) => i.startsWith('data.'))
       .map((i) => i.slice(i.indexOf('.') + 1));
 
-    return this.cidadeService.findAll(clienteAccess, dto, selection);
+    return this.cidadeService.findAll(contextoDeAcesso, dto, selection);
   }
 
   // ========================================================
 
   @Operacao(Spec.CidadeFindOneByIdOperator())
   async cidadeFindById(
-    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaGql(Spec.CidadeFindOneByIdOperator())
     dto: Spec.ICidadeFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
     const selection = getFieldNames(info as any);
-    return this.cidadeService.findByIdStrict(clienteAccess, dto, selection);
+    return this.cidadeService.findByIdStrict(contextoDeAcesso, dto, selection);
   }
 }

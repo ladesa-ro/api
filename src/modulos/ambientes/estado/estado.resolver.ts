@@ -21,40 +21,40 @@ export class EstadoResolver {
   async estadoFindAll(
     //
     @Info() info: GraphQLResolveInfo,
-    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaGql(Spec.EstadoFindAllOperator()) dto: Spec.IPaginatedInputDto,
   ) {
     const selection = getFieldNames(info as any)
       .filter((i) => i.startsWith('data.'))
       .map((i) => i.slice(i.indexOf('.') + 1));
 
-    return this.estadoService.findAll(clienteAccess, dto, selection);
+    return this.estadoService.findAll(contextoDeAcesso, dto, selection);
   }
 
   // ========================================================
 
   @Operacao(Spec.EstadoFindOneByUfOperator())
   async estadoFindOneByUf(
-    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaGql(Spec.EstadoFindOneByUfOperator())
     dto: IEstadoFindOneByUfInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
     const selection = getFieldNames(info as any);
-    return this.estadoService.findByUfStrict(clienteAccess, dto, selection);
+    return this.estadoService.findByUfStrict(contextoDeAcesso, dto, selection);
   }
 
   // ========================================================
 
   @Operacao(Spec.EstadoFindOneByIdOperator())
   async estadoFindOneById(
-    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaGql(Spec.EstadoFindOneByIdOperator())
     dto: IEstadoFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
     const selection = getFieldNames(info as any);
-    return this.estadoService.findByIdStrict(clienteAccess, dto, selection);
+    return this.estadoService.findByIdStrict(contextoDeAcesso, dto, selection);
   }
 
   // ========================================================
