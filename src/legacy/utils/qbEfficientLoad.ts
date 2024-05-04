@@ -35,17 +35,17 @@ const loadStrategies: ILoadStrategy[] = [
   },
   {
     resource: AppResource.ESTADO,
-    declarationFactory: Spec.EstadoDeclarationFactory,
+    declarationFactory: Spec.Estado,
     allowedProperties: ['id', 'nome', 'sigla'],
   },
   {
     resource: AppResource.CIDADE,
-    declarationFactory: Spec.CidadeDeclarationFactory,
+    declarationFactory: Spec.Cidade,
     allowedProperties: ['id', 'nome', 'estado'],
   },
   {
     resource: AppResource.MODALIDADE,
-    declarationFactory: Spec.ModalidadeDeclarationFactory,
+    declarationFactory: Spec.Modalidade,
     allowedProperties: ['id', 'nome', 'slug', 'dateCreated', 'dateUpdated', 'dateDeleted'],
   },
 ];

@@ -1,21 +1,54 @@
-import { Param } from '@nestjs/common';
+import { Param as NestHttpParamPrimitive } from '@nestjs/common';
+import { GetPropertyValidator, GetSchema, IDeclarationProperty, IDeclarationPropertyMixed, IDeclarationPropertySimple, IOperation } from '@sisgea/spec';
+import * as yup from 'yup';
 import { ValidationPipeYup } from '../../validacao';
-import { IDtoOperationOptions } from './DtoOperation';
 
-export const HttpDtoParam = (options: IDtoOperationOptions, name: string) => {
-  const param = options.swagger.params?.find((param) => param.name === name) ?? null;
+export const HttpDtoParam = (operation: IOperation, name: string) => {
+  let property: IDeclarationProperty | null = null;
 
-  if (!param) {
-    throw new TypeError('Param not found');
+  const input = operation.input;
+
+  if (input?.strategy === 'dto') {
+    const inputProperties = input.params;
+
+    const propertiesRecord = typeof inputProperties === 'function' ? inputProperties().properties : inputProperties ?? {};
+
+    const foundProperty =
+      Object.entries(propertiesRecord).find(([propertyKey, property]) => {
+        let propertySimple: IDeclarationPropertySimple;
+
+        if (property.type === 'mixed') {
+          propertySimple = (property as IDeclarationPropertyMixed).input;
+        } else {
+          propertySimple = property as IDeclarationPropertySimple;
+        }
+
+        const propertyName = propertySimple.name ?? propertyKey;
+        return propertyName === name;
+      }) ?? null;
+
+    if (foundProperty) {
+      property = foundProperty[1];
+    }
   }
 
-  const schema = param.validationContract();
+  if (property === null) {
+    throw new TypeError('Query param not found');
+  }
 
-  return Param(
-    name,
-    new ValidationPipeYup(schema, {
-      scope: 'param',
-      path: name,
-    }),
-  );
+  if (typeof property === 'string') {
+    return NestHttpParamPrimitive(name);
+  } else {
+    const validator = GetPropertyValidator(property);
+
+    const schema = GetSchema(validator, yup);
+
+    return NestHttpParamPrimitive(
+      name,
+      new ValidationPipeYup(schema, {
+        scope: 'param',
+        path: name,
+      }),
+    );
+  }
 };

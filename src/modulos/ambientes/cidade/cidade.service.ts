@@ -1,11 +1,11 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { map } from 'lodash';
-import { FilterOperator, paginate } from 'nestjs-paginate';
+import { FilterOperator } from 'nestjs-paginate';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { paginateConfig } from '../../../legacy/utils';
 
 const aliasCidade = 'cidade';
@@ -22,7 +22,7 @@ export class CidadeService {
 
   //
 
-  async findAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dto.ISearchInputDto, selection?: string[]) {
+  async findAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null, selection?: string[]) {
     // =========================================================
 
     const qb = this.cidadeRepository.createQueryBuilder('cidade');
@@ -33,7 +33,7 @@ export class CidadeService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('/busca', dto, qb.clone(), {
       ...paginateConfig,
       select: [
         //
@@ -49,7 +49,7 @@ export class CidadeService {
       relations: {
         estado: true,
       },
-      sortableColumns: ['id', 'estado.nome', 'estado.sigla'],
+      sortableColumns: ['id', 'nome', 'estado.nome', 'estado.sigla'],
       searchableColumns: ['nome', 'estado.nome', 'estado.sigla'],
       defaultSortBy: [
         ['nome', 'ASC'],
@@ -77,7 +77,7 @@ export class CidadeService {
     return getPaginatedResultDto(paginated);
   }
 
-  async findById(contextoDeAcesso: IContextoDeAcesso, dto: Dto.ICidadeFindOneByIdInputDto, selection?: string[]) {
+  async findById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICidadeFindOneByIdInputDto, selection?: string[]) {
     // =========================================================
 
     const { cidadeRepository: baseCidadeRepository } = this.databaseContextService;
@@ -108,7 +108,7 @@ export class CidadeService {
     return cidade;
   }
 
-  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dto.ICidadeFindOneByIdInputDto, selection?: string[]) {
+  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICidadeFindOneByIdInputDto, selection?: string[]) {
     const cidade = await this.findById(contextoDeAcesso, dto, selection);
 
     if (!cidade) {

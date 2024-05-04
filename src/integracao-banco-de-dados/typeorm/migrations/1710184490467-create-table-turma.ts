@@ -24,17 +24,6 @@ export class CreateTableTurma1710184490467 implements MigrationInterface {
             isNullable: false,
           },
 
-          {
-            name: 'grupo',
-            type: 'text',
-            isNullable: false,
-          },
-          {
-            name: 'nome',
-            type: 'text',
-            isNullable: false,
-          },
-
           //
 
           {
@@ -42,6 +31,7 @@ export class CreateTableTurma1710184490467 implements MigrationInterface {
             type: 'uuid',
             isNullable: true,
           },
+
           {
             name: 'id_curso_fk',
             type: 'uuid',

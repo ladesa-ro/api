@@ -1,11 +1,11 @@
 import { Info, Resolver } from '@nestjs/graphql';
-import { ICidadeFindOneByIdInputDto, ISearchInputDto } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { Operacao } from '../../../especificacao';
+import { DadosEntradaGql } from '../../../legacy';
 import { CidadeService } from './cidade.service';
-import { CidadeOperations } from './dtos';
-import { DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
 
 @Resolver()
 export class CidadeResolver {
@@ -16,30 +16,25 @@ export class CidadeResolver {
 
   // ========================================================
 
-  @DtoOperationGqlQuery(CidadeOperations.CIDADE_FIND_ALL)
-  async cidadeFindAll(
-    //
-    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(CidadeOperations.CIDADE_FIND_ALL) dto: ISearchInputDto,
-    @Info() info: GraphQLResolveInfo,
-  ) {
+  @Operacao(Spec.CidadeFindAllOperator())
+  async cidadeFindAll(@Info() info: GraphQLResolveInfo, @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.CidadeFindAllOperator()) dto: Spec.IPaginatedInputDto) {
     const selection = getFieldNames(info as any)
       .filter((i) => i.startsWith('data.'))
       .map((i) => i.slice(i.indexOf('.') + 1));
 
-    return this.cidadeService.findAll(clienteAccess, dto, selection);
+    return this.cidadeService.findAll(contextoDeAcesso, dto, selection);
   }
 
   // ========================================================
 
-  @DtoOperationGqlQuery(CidadeOperations.CIDADE_FIND_ONE_BY_ID)
+  @Operacao(Spec.CidadeFindOneByIdOperator())
   async cidadeFindById(
-    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(CidadeOperations.CIDADE_FIND_ONE_BY_ID)
-    dto: ICidadeFindOneByIdInputDto,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaGql(Spec.CidadeFindOneByIdOperator())
+    dto: Spec.ICidadeFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
     const selection = getFieldNames(info as any);
-    return this.cidadeService.findByIdStrict(clienteAccess, dto, selection);
+    return this.cidadeService.findByIdStrict(contextoDeAcesso, dto, selection);
   }
 }

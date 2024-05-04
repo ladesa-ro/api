@@ -1,10 +1,10 @@
 import { BadRequestException, ForbiddenException, HttpException, Injectable, ServiceUnavailableException } from '@nestjs/common';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { BaseClient, TokenSet } from 'openid-client';
-import { UsuarioService } from './usuario/usuario.service';
 import { IContextoDeAcesso } from '../../contexto-de-acesso';
 import { DatabaseContextService } from '../../integracao-banco-de-dados';
 import { KeycloakService, OpenidConnectService } from '../../integracao-identidade-e-acesso';
+import { UsuarioService } from './usuario/usuario.service';
 
 @Injectable()
 export class AutenticacaoService {
@@ -31,7 +31,7 @@ export class AutenticacaoService {
     };
   }
 
-  async login(contextoDeAcesso: IContextoDeAcesso, dto: Dto.IAutenticacaoLoginInputDto): Promise<Dto.IAutenticacaoLoginResultDto> {
+  async login(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IAutenticacaoLoginInputDto): Promise<Spec.IAutenticacaoLoginResultDto> {
     if (contextoDeAcesso.usuario !== null) {
       throw new BadRequestException('Você não pode usar a rota de login caso já esteja logado.');
     }
@@ -64,7 +64,7 @@ export class AutenticacaoService {
     throw new ForbiddenException('Credenciais inválidas.');
   }
 
-  async refresh(_: IContextoDeAcesso, dto: Dto.IAutenticacaoRefreshInputDto): Promise<Dto.IAutenticacaoLoginResultDto> {
+  async refresh(_: IContextoDeAcesso, dto: Spec.IAutenticacaoRefreshInputDto): Promise<Spec.IAutenticacaoLoginResultDto> {
     let trustIssuerClient: BaseClient;
 
     try {
@@ -86,7 +86,7 @@ export class AutenticacaoService {
     throw new ForbiddenException('Credenciais inválidas ou expiradas.');
   }
 
-  async definirSenha(_contextoDeAcesso: IContextoDeAcesso, dto: Dto.IAutenticacaoDefinirSenhaInputDto): Promise<Dto.IAutenticacaoDefinirSenhaResultDto> {
+  async definirSenha(_contextoDeAcesso: IContextoDeAcesso, dto: Spec.IAutenticacaoDefinirSenhaInputDto): Promise<Spec.IAutenticacaoDefinirSenhaResultDto> {
     try {
       const kcAdminClient = await this.keycloakService.getAdminClient();
 

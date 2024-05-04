@@ -1,11 +1,10 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { ModalidadeOperations } from './dtos';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody } from '../../../legacy';
 import { ModalidadeService } from './modalidade.service';
-import { DtoOperationFindAll, getSearchInputFromPaginateQuery, DtoOperationFindOne, HttpDtoParam, DtoOperationCreate, HttpDtoBody, DtoOperationUpdate, DtoOperationDelete } from '../../../legacy';
 
 @ApiTags('Modalidades')
 @Controller('/modalidades')
@@ -15,19 +14,22 @@ export class ModalidadeController {
   //
 
   @Get('/')
-  @DtoOperationFindAll(ModalidadeOperations.MODALIDADE_FIND_ALL)
-  async modalidadeFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IModalidadeFindAllResultDto> {
-    return this.modalidadeService.modalidadeFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
+  @Operacao(Spec.ModalidadeFindAllOperator())
+  async modalidadeFindAll(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.ModalidadeFindAllOperator()) dto: Spec.IPaginatedInputDto,
+  ): Promise<Spec.IModalidadeFindAllResultDto> {
+    return this.modalidadeService.modalidadeFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id')
-  @DtoOperationFindOne(ModalidadeOperations.MODALIDADE_FIND_ONE_BY_ID)
+  @Operacao(Spec.ModalidadeFindOneByIdOperator())
   async modalidadeFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(ModalidadeOperations.MODALIDADE_FIND_ONE_BY_ID, 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.ModalidadeFindOneByIdOperator())
+    { id }: Spec.IModalidadeFindOneByIdInputDto,
   ) {
     return this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -35,23 +37,21 @@ export class ModalidadeController {
   //
 
   @Post('/')
-  @DtoOperationCreate(ModalidadeOperations.MODALIDADE_CREATE)
-  async modalidadeCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(ModalidadeOperations.MODALIDADE_CREATE) dto: Dto.IModalidadeInputDto) {
+  @Operacao(Spec.ModalidadeCreateOperator())
+  async modalidadeCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.ModalidadeCreateOperator()) dto: Spec.IModalidadeInputDto) {
     return this.modalidadeService.modalidadeCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @DtoOperationUpdate(ModalidadeOperations.MODALIDADE_UPDATE)
+  @Operacao(Spec.ModalidadeUpdateOperator())
   async modalidadeUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(ModalidadeOperations.MODALIDADE_UPDATE, 'id')
-    id: string,
-    @HttpDtoBody(ModalidadeOperations.MODALIDADE_UPDATE)
-    dto: Omit<Dto.IModalidadeUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.ModalidadeUpdateOperator())
+    { id, ...dto }: Spec.IModalidadeUpdateDto,
   ) {
-    const dtoUpdate: Dto.IModalidadeUpdateDto = {
+    const dtoUpdate: Spec.IModalidadeUpdateDto = {
       ...dto,
       id,
     };
@@ -62,11 +62,11 @@ export class ModalidadeController {
   //
 
   @Delete('/:id')
-  @DtoOperationDelete(ModalidadeOperations.MODALIDADE_DELETE_ONE_BY_ID)
+  @Operacao(Spec.ModalidadeDeleteOperator())
   async modalidadeDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(ModalidadeOperations.MODALIDADE_DELETE_ONE_BY_ID, 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.ModalidadeFindOneByIdOperator())
+    { id }: Spec.IModalidadeFindOneByIdInputDto,
   ) {
     return this.modalidadeService.modalidadeDeleteOneById(contextoDeAcesso, { id });
   }

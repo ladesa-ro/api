@@ -1,12 +1,10 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
-
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody } from '../../../legacy';
 import { CalendarioLetivoService } from './calendario-letivo.service';
-import { CalendarioLetivoOperations } from './dtos/calendario-letivo.operations';
 
 @ApiTags('Calendarios Letivos')
 @Controller('/calendarios-letivos')
@@ -14,19 +12,22 @@ export class CalendarioLetivoController {
   constructor(private calendarioLetivoService: CalendarioLetivoService) {}
 
   @Get('/')
-  @DtoOperationFindAll(CalendarioLetivoOperations.CALENDARIO_LETIVO_FIND_ALL)
-  async calendarioFindAll(@ContextoDeAcessoHttp() clienttAcess: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.ICalendarioLetivoFindAllResultDto> {
-    return this.calendarioLetivoService.calendarioLetivoFindAll(clienttAcess, getSearchInputFromPaginateQuery(query));
+  @Operacao(Spec.CalendarioLetivoFindAllOperator())
+  async calendarioFindAll(
+    @ContextoDeAcessoHttp() clienttAcess: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.CalendarioLetivoFindAllOperator()) dto: Spec.IPaginatedInputDto,
+  ): Promise<Spec.ICalendarioLetivoFindAllResultDto> {
+    return this.calendarioLetivoService.calendarioLetivoFindAll(clienttAcess, dto);
   }
 
   //
 
   @Get('/:id')
-  @DtoOperationFindOne(CalendarioLetivoOperations.CALENDARIO_LETIVO_FIND_ONE_BY_ID)
+  @Operacao(Spec.CalendarioLetivoFindOneByIdOperator())
   async calendarioLetivoFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(CalendarioLetivoOperations.CALENDARIO_LETIVO_FIND_ONE_BY_ID, 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.CalendarioLetivoFindOneByIdOperator())
+    { id }: Spec.ICalendarioLetivoFindOneByIdInputDto,
   ) {
     return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -34,23 +35,21 @@ export class CalendarioLetivoController {
   //
 
   @Post('/')
-  @DtoOperationCreate(CalendarioLetivoOperations.CALENDARIO_LETIVO_CREATE)
-  async campusCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(CalendarioLetivoOperations.CALENDARIO_LETIVO_CREATE) dto: Dto.ICalendarioLetivoInputDto) {
+  @Operacao(Spec.CalendarioLetivoCreateOperator())
+  async campusCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.CalendarioLetivoCreateOperator()) dto: Spec.ICalendarioLetivoInputDto) {
     return this.calendarioLetivoService.calendarioLetivoCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @DtoOperationUpdate(CalendarioLetivoOperations.CALENDARIO_LETIVO_UPDATE)
+  @Operacao(Spec.CalendarioLetivoUpdateOperator())
   async calendarioLetivoUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(CalendarioLetivoOperations.CALENDARIO_LETIVO_UPDATE, 'id')
-    id: string,
-    @HttpDtoBody(CalendarioLetivoOperations.CALENDARIO_LETIVO_UPDATE)
-    dto: Omit<Dto.ICalendarioLetivoUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.CalendarioLetivoUpdateOperator())
+    { id, ...dto }: Spec.ICalendarioLetivoUpdateDto,
   ) {
-    const dtoUpdate: Dto.ICalendarioLetivoUpdateDto = {
+    const dtoUpdate: Spec.ICalendarioLetivoUpdateDto = {
       ...dto,
       id,
     };
@@ -61,11 +60,11 @@ export class CalendarioLetivoController {
   //
 
   @Delete('/:id')
-  @DtoOperationDelete(CalendarioLetivoOperations.CALENDARIO_LETIVO_DELETE_ONE_BY_ID)
+  @Operacao(Spec.CalendarioLetivoDeleteOperator())
   async CalendarioLetivoDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(CalendarioLetivoOperations.CALENDARIO_LETIVO_DELETE_ONE_BY_ID, 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.CalendarioLetivoFindOneByIdOperator())
+    { id }: Spec.ICalendarioLetivoFindOneByIdInputDto,
   ) {
     return this.calendarioLetivoService.calendarioLetivoDeleteOneById(contextoDeAcesso, { id });
   }

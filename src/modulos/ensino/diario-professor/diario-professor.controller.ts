@@ -1,11 +1,10 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, HttpDtoBody, HttpDtoParam, getSearchInputFromPaginateQuery } from '../../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody } from '../../../legacy';
 import { DiarioProfessorService } from './diario-professor.service';
-import { DiarioProfessorOperations } from './dtos';
 
 @ApiTags('DiarioProfessor')
 @Controller('/diario-professor')
@@ -15,19 +14,22 @@ export class DiarioProfessorController {
   //
 
   @Get('/')
-  @DtoOperationFindAll(DiarioProfessorOperations.DIARIO_PROFESSOR_FIND_ALL)
-  async diarioProfessorFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IDiarioProfessorFindAllResultDto> {
-    return this.diarioProfessorService.diarioProfessorFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
+  @Operacao(Spec.DiarioProfessorFindAllOperator())
+  async diarioProfessorFindAll(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.DiarioProfessorFindAllOperator()) dto: Spec.IPaginatedInputDto,
+  ): Promise<Spec.IDiarioProfessorFindAllResultDto> {
+    return this.diarioProfessorService.diarioProfessorFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id')
-  @DtoOperationFindOne(DiarioProfessorOperations.DIARIO_PROFESSOR_FIND_ONE_BY_ID)
+  @Operacao(Spec.DiarioProfessorFindOneByIdOperator())
   async diarioProfessorFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(DiarioProfessorOperations.DIARIO_PROFESSOR_FIND_ONE_BY_ID, 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.DiarioProfessorFindOneByIdOperator())
+    { id }: Spec.IDiarioProfessorFindOneByIdInputDto,
   ) {
     return this.diarioProfessorService.diarioProfessorFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -35,23 +37,21 @@ export class DiarioProfessorController {
   //
 
   @Post('/')
-  @DtoOperationCreate(DiarioProfessorOperations.DIARIO_PROFESSOR_CREATE)
-  async diarioProfessorCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(DiarioProfessorOperations.DIARIO_PROFESSOR_CREATE) dto: Dto.IDiarioProfessorInputDto) {
+  @Operacao(Spec.DiarioProfessorCreateOperator())
+  async diarioProfessorCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.DiarioProfessorCreateOperator()) dto: Spec.IDiarioProfessorInputDto) {
     return this.diarioProfessorService.diarioProfessorCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @DtoOperationUpdate(DiarioProfessorOperations.DIARIO_PROFESSOR_UPDATE)
+  @Operacao(Spec.DiarioProfessorUpdateOperator())
   async diarioProfessorUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(DiarioProfessorOperations.DIARIO_PROFESSOR_UPDATE, 'id')
-    id: string,
-    @HttpDtoBody(DiarioProfessorOperations.DIARIO_PROFESSOR_UPDATE)
-    dto: Omit<Dto.IDiarioProfessorUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.DiarioProfessorUpdateOperator())
+    { id, ...dto }: Spec.IDiarioProfessorUpdateDto,
   ) {
-    const dtoUpdate: Dto.IDiarioProfessorUpdateDto = {
+    const dtoUpdate: Spec.IDiarioProfessorUpdateDto = {
       ...dto,
       id,
     };
@@ -62,11 +62,11 @@ export class DiarioProfessorController {
   //
 
   @Delete('/:id')
-  @DtoOperationDelete(DiarioProfessorOperations.DIARIO_PROFESSOR_DELETE_ONE_BY_ID)
+  @Operacao(Spec.DiarioProfessorDeleteOperator())
   async diarioProfessorDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(DiarioProfessorOperations.DIARIO_PROFESSOR_DELETE_ONE_BY_ID, 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.DiarioProfessorFindOneByIdOperator())
+    { id }: Spec.IDiarioProfessorFindOneByIdInputDto,
   ) {
     return this.diarioProfessorService.diarioProfessorDeleteOneById(contextoDeAcesso, { id });
   }

@@ -1,11 +1,11 @@
 import { ForbiddenException, Injectable, NotFoundException, ServiceUnavailableException, StreamableFile } from '@nestjs/common';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import jetpack, { createReadStream } from 'fs-jetpack';
 import { writeFile } from 'node:fs/promises';
 import { Readable } from 'node:stream';
 import { v4 } from 'uuid';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { EnvironmentConfigService } from '../../../config';
+import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { ArquivoEntity, UsuarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { ValidationContractUuid } from '../../../validacao';
@@ -30,12 +30,12 @@ export class ArquivoService {
     return this.environmentConfigService.getStoragePath();
   }
 
-  async dataExists(id: Dto.IArquivoModel['id']) {
+  async dataExists(id: Spec.IArquivoModel['id']) {
     const fileFullPath = this.datGetFilePath(id);
     return jetpack.exists(fileFullPath);
   }
 
-  async dataReadAsStream(id: Dto.IArquivoModel['id']): Promise<Readable | null> {
+  async dataReadAsStream(id: Spec.IArquivoModel['id']): Promise<Readable | null> {
     if (await this.dataExists(id)) {
       const fileFullPath = this.datGetFilePath(id);
       const fileReadStream = createReadStream(fileFullPath);
@@ -45,7 +45,7 @@ export class ArquivoService {
     return null;
   }
 
-  async getFile(contextoDeAcesso: IContextoDeAcesso | null, id: Dto.IArquivoModel['id'], acesso: IGetFileAcesso | null) {
+  async getFile(contextoDeAcesso: IContextoDeAcesso | null, id: Spec.IArquivoModel['id'], acesso: IGetFileAcesso | null) {
     const qb = this.arquivoRepository.createQueryBuilder('arquivo');
 
     qb.where('arquivo.id = :arquivoId', { arquivoId: id });
@@ -120,7 +120,7 @@ export class ArquivoService {
     };
   }
 
-  async getStreamableFile(contextoDeAcesso: IContextoDeAcesso | null, id: Dto.IArquivoModel['id'], acesso: IGetFileAcesso | null) {
+  async getStreamableFile(contextoDeAcesso: IContextoDeAcesso | null, id: Spec.IArquivoModel['id'], acesso: IGetFileAcesso | null) {
     const file = await this.getFile(contextoDeAcesso, id, acesso);
 
     if (!file.stream) {
@@ -133,13 +133,13 @@ export class ArquivoService {
     });
   }
 
-  async dataSave(id: Dto.IArquivoModel['id'], data: NodeJS.ArrayBufferView | Readable) {
+  async dataSave(id: Spec.IArquivoModel['id'], data: NodeJS.ArrayBufferView | Readable) {
     const fileFullPath = this.datGetFilePath(id);
     await writeFile(fileFullPath, data);
     return true;
   }
 
-  async arquivoCreate(dto: Pick<Dto.IArquivoModel, 'nome' | 'mimeType'>, data: NodeJS.ArrayBufferView | Readable): Promise<Pick<ArquivoEntity, 'id'>> {
+  async arquivoCreate(dto: Pick<Spec.IArquivoModel, 'nome' | 'mimeType'>, data: NodeJS.ArrayBufferView | Readable): Promise<Pick<ArquivoEntity, 'id'>> {
     let id: string;
 
     do {
@@ -168,7 +168,7 @@ export class ArquivoService {
     };
   }
 
-  private datGetFilePath(id: Dto.IArquivoModel['id']) {
+  private datGetFilePath(id: Spec.IArquivoModel['id']) {
     jetpack.dir(this.storagePath);
     return `${this.storagePath}/${id}`;
   }

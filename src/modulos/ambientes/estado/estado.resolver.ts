@@ -1,11 +1,12 @@
 import { Info, Resolver } from '@nestjs/graphql';
-import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto, ISearchInputDto } from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
+import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '@sisgea/spec';
 import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { EstadoOperations } from './dtos/estado.operations';
+import { Operacao } from '../../../especificacao';
+import { DadosEntradaGql } from '../../../legacy';
 import { EstadoService } from './estado.service';
-import { DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
 
 @Resolver()
 export class EstadoResolver {
@@ -16,44 +17,44 @@ export class EstadoResolver {
 
   // ========================================================
 
-  @DtoOperationGqlQuery(EstadoOperations.ESTADO_FIND_ALL)
+  @Operacao(Spec.EstadoFindAllOperator())
   async estadoFindAll(
     //
-    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(EstadoOperations.ESTADO_FIND_ALL) dto: ISearchInputDto,
     @Info() info: GraphQLResolveInfo,
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaGql(Spec.EstadoFindAllOperator()) dto: Spec.IPaginatedInputDto,
   ) {
     const selection = getFieldNames(info as any)
       .filter((i) => i.startsWith('data.'))
       .map((i) => i.slice(i.indexOf('.') + 1));
 
-    return this.estadoService.findAll(clienteAccess, dto, selection);
+    return this.estadoService.findAll(contextoDeAcesso, dto, selection);
   }
 
   // ========================================================
 
-  @DtoOperationGqlQuery(EstadoOperations.ESTADO_FIND_ONE_BY_UF)
+  @Operacao(Spec.EstadoFindOneByUfOperator())
   async estadoFindOneByUf(
-    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(EstadoOperations.ESTADO_FIND_ONE_BY_UF)
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaGql(Spec.EstadoFindOneByUfOperator())
     dto: IEstadoFindOneByUfInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
     const selection = getFieldNames(info as any);
-    return this.estadoService.findByUfStrict(clienteAccess, dto, selection);
+    return this.estadoService.findByUfStrict(contextoDeAcesso, dto, selection);
   }
 
   // ========================================================
 
-  @DtoOperationGqlQuery(EstadoOperations.ESTADO_FIND_ONE_BY_ID)
+  @Operacao(Spec.EstadoFindOneByIdOperator())
   async estadoFindOneById(
-    @ContextoDeAcessoGraphQl() clienteAccess: IContextoDeAcesso,
-    @GqlDtoInput(EstadoOperations.ESTADO_FIND_ONE_BY_ID)
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaGql(Spec.EstadoFindOneByIdOperator())
     dto: IEstadoFindOneByIdInputDto,
     @Info() info: GraphQLResolveInfo,
   ) {
     const selection = getFieldNames(info as any);
-    return this.estadoService.findByIdStrict(clienteAccess, dto, selection);
+    return this.estadoService.findByIdStrict(contextoDeAcesso, dto, selection);
   }
 
   // ========================================================

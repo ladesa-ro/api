@@ -1,18 +1,18 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dtos from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
-import { FilterOperator, paginate } from 'nestjs-paginate';
+import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { CursoEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { ModalidadeService } from '../modalidade/modalidade.service';
-import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { CursoEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { getPaginatedResultDto, getPaginateQueryFromSearchInput } from '../../../legacy';
-import { getQueryBuilderViewLoadMeta, IQueryBuilderViewOptionsLoad, paginateConfig } from '../../../legacy/utils';
 
 // ============================================================================
 
@@ -71,7 +71,7 @@ export class CursoService {
 
   //
 
-  async cursoFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.ICursoFindAllResultDto> {
+  async cursoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.ICursoFindAllResultDto> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
@@ -82,7 +82,7 @@ export class CursoService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -153,7 +153,7 @@ export class CursoService {
     return getPaginatedResultDto(paginated);
   }
 
-  async cursoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.ICursoFindOneByIdInputDto): Promise<Dtos.ICursoFindOneResultDto | null> {
+  async cursoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.ICursoFindOneByIdInputDto): Promise<Spec.ICursoFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
@@ -183,7 +183,7 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.ICursoFindOneByIdInputDto) {
+  async cursoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.ICursoFindOneByIdInputDto) {
     const curso = await this.cursoFindById(contextoDeAcesso, dto);
 
     if (!curso) {
@@ -195,10 +195,10 @@ export class CursoService {
 
   async cursoFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.ICursoFindOneByIdInputDto['id'],
+    id: Spec.ICursoFindOneByIdInputDto['id'],
     options?: ICursoQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Dtos.ICursoFindOneResultDto | null> {
+  ): Promise<Spec.ICursoFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
@@ -232,7 +232,7 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.ICursoFindOneByIdInputDto['id'], options?: ICursoQueryBuilderViewOptions, selection?: string[]) {
+  async cursoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.ICursoFindOneByIdInputDto['id'], options?: ICursoQueryBuilderViewOptions, selection?: string[]) {
     const curso = await this.cursoFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!curso) {
@@ -244,7 +244,7 @@ export class CursoService {
 
   //
 
-  async cursoCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICursoInputDto) {
+  async cursoCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICursoInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('curso:create', { dto });
@@ -288,7 +288,7 @@ export class CursoService {
     return this.cursoFindByIdStrict(contextoDeAcesso, { id: curso.id });
   }
 
-  async cursoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICursoUpdateDto) {
+  async cursoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICursoUpdateDto) {
     // =========================================================
 
     const currentCurso = await this.cursoFindByIdStrict(contextoDeAcesso, {
@@ -359,7 +359,7 @@ export class CursoService {
     throw new NotFoundException();
   }
 
-  async cursoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICursoFindOneByIdInputDto, file: Express.Multer.File) {
+  async cursoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICursoFindOneByIdInputDto, file: Express.Multer.File) {
     // =========================================================
 
     const currentCurso = await this.cursoFindByIdStrict(contextoDeAcesso, { id: dto.id });
@@ -399,7 +399,7 @@ export class CursoService {
 
   //
 
-  async cursoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICursoDeleteOneByIdInputDto) {
+  async cursoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICursoDeleteOneByIdInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('curso:delete', { dto }, dto.id, this.cursoRepository.createQueryBuilder(aliasCurso));

@@ -1,11 +1,10 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DtoOperationCreate, DtoOperationDelete, DtoOperationFindAll, DtoOperationFindOne, DtoOperationUpdate, getSearchInputFromPaginateQuery, HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { HttpDtoBody } from '../../../legacy';
 import { DiarioService } from './diario.service';
-import { DiarioOperations } from './dtos';
 
 @ApiTags('Diarios')
 @Controller('/diarios')
@@ -15,19 +14,22 @@ export class DiarioController {
   //
 
   @Get('/')
-  @DtoOperationFindAll(DiarioOperations.DIARIO_FIND_ALL)
-  async diarioFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IDiarioFindAllResultDto> {
-    return this.diarioService.diarioFindAll(contextoDeAcesso, getSearchInputFromPaginateQuery(query));
+  @Operacao(Spec.DiarioFindAllOperator())
+  async diarioFindAll(
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.DiarioFindAllOperator()) dto: Spec.IPaginatedInputDto,
+  ): Promise<Spec.IDiarioFindAllResultDto> {
+    return this.diarioService.diarioFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id')
-  @DtoOperationFindOne(DiarioOperations.DIARIO_FIND_ONE_BY_ID)
+  @Operacao(Spec.DiarioFindOneByIdOperator())
   async diarioFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(DiarioOperations.DIARIO_FIND_ONE_BY_ID, 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.DiarioFindOneByIdOperator())
+    { id }: Spec.IDiarioFindOneByIdInputDto,
   ) {
     return this.diarioService.diarioFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -35,23 +37,21 @@ export class DiarioController {
   //
 
   @Post('/')
-  @DtoOperationCreate(DiarioOperations.DIARIO_CREATE)
-  async diarioCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(DiarioOperations.DIARIO_CREATE) dto: Dto.IDiarioInputDto) {
+  @Operacao(Spec.DiarioCreateOperator())
+  async diarioCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.DiarioCreateOperator()) dto: Spec.IDiarioInputDto) {
     return this.diarioService.diarioCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @DtoOperationUpdate(DiarioOperations.DIARIO_UPDATE)
+  @Operacao(Spec.DiarioUpdateOperator())
   async diarioUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(DiarioOperations.DIARIO_UPDATE, 'id')
-    id: string,
-    @HttpDtoBody(DiarioOperations.DIARIO_UPDATE)
-    dto: Omit<Dto.IDiarioUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.DiarioUpdateOperator())
+    { id, ...dto }: Spec.IDiarioUpdateDto,
   ) {
-    const dtoUpdate: Dto.IDiarioUpdateDto = {
+    const dtoUpdate: Spec.IDiarioUpdateDto = {
       ...dto,
       id,
     };
@@ -62,11 +62,11 @@ export class DiarioController {
   //
 
   @Delete('/:id')
-  @DtoOperationDelete(DiarioOperations.DIARIO_DELETE_ONE_BY_ID)
+  @Operacao(Spec.DiarioDeleteOperator())
   async diarioDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(DiarioOperations.DIARIO_DELETE_ONE_BY_ID, 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.DiarioFindOneByIdOperator())
+    { id }: Spec.IDiarioFindOneByIdInputDto,
   ) {
     return this.diarioService.diarioDeleteOneById(contextoDeAcesso, { id });
   }

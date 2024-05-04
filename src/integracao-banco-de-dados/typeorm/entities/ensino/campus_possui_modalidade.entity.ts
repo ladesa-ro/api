@@ -1,10 +1,10 @@
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { ModalidadeEntity } from './modalidade.entity';
 
 @Entity('campus_possui_modalidade')
-export class CampusPossuiModalidadeEntity implements Dto.ICampusPossuiModalidadeModel {
+export class CampusPossuiModalidadeEntity implements Spec.ICampusPossuiModalidadeModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

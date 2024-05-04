@@ -3,8 +3,8 @@ import { castArray } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { IUsuarioDaRequisicao } from '../autenticacao';
 import { AuthzPolicyPublic, IAuthzStatement, IAuthzStatementFilter, IBaseAuthzFilterFn, IBaseAuthzStatementContext } from '../autorizacao';
-import { IContextoDeAcesso } from './IContextoDeAcesso';
 import { DatabaseContextService } from '../integracao-banco-de-dados';
+import { IContextoDeAcesso } from './IContextoDeAcesso';
 
 function createForbiddenExceptionForAction<Statement extends IAuthzStatement, Action extends Statement['action']>(action: Action) {
   return new ForbiddenException(`Insufficient permissions to perform '${action}'.`);
@@ -157,7 +157,7 @@ export class ContextoDeAcesso implements IContextoDeAcesso {
       }
 
       case 'vinculo:find': {
-        return this.databaseContext.usuarioVinculoCampusRepository.createQueryBuilder('vinculo');
+        return this.databaseContext.vinculoRepository.createQueryBuilder('vinculo');
       }
 
       case 'curso:update':

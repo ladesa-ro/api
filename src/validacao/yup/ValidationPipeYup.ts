@@ -2,11 +2,11 @@ import { Injectable, PipeTransform } from '@nestjs/common';
 import omit from 'lodash/omit';
 import type { ISchema } from 'yup';
 import * as yup from 'yup';
-import { tryCast } from './tryCast';
 import { ValidationFailedException } from '../../nest-app/adapters';
+import { tryCast } from './tryCast';
 
 interface ValidationPipeYupOptions {
-  scope: 'body' | 'param' | 'query' | 'arg';
+  scope: 'body' | 'param' | 'query' | 'arg' | 'args';
   path: string | null;
 }
 
@@ -28,6 +28,13 @@ export class ValidationPipeYup implements PipeTransform {
             scope: this.options.scope,
             ...omit(err, ['params', 'value', 'inner']),
             path: [this.options.path, err.path].filter(Boolean).join('.'),
+          },
+        ]);
+      } else {
+        throw new ValidationFailedException([
+          {
+            scope: this.options.scope,
+            path: [this.options.path].filter(Boolean).join('.'),
           },
         ]);
       }

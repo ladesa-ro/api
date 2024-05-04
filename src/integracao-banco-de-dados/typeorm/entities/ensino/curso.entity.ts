@@ -1,11 +1,11 @@
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { ImagemEntity } from '../base/imagem.entity';
 import { ModalidadeEntity } from './modalidade.entity';
 
 @Entity('curso')
-export class CursoEntity implements Dto.ICursoModel {
+export class CursoEntity implements Spec.ICursoModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -32,11 +32,11 @@ export class CursoEntity implements Dto.ICursoModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: Dto.IEntityDate;
+  dateCreated!: Spec.IEntityDate;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: Dto.IEntityDate;
+  dateUpdated!: Spec.IEntityDate;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | Dto.IEntityDate;
+  dateDeleted!: null | Spec.IEntityDate;
 }

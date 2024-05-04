@@ -1,17 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dtos from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
-import { FilterOperator, paginate } from 'nestjs-paginate';
+import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
+import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { AmbienteEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
+import { AppResource, AppResourceView, IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../legacy/utils';
 import { paginateConfig } from '../../../legacy/utils/paginateConfig';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { BlocoService, IBlocoQueryBuilderViewOptions } from '../bloco/bloco.service';
-import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { AmbienteEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, AppResourceView, AppResource } from '../../../legacy/utils';
 
 // ============================================================================
 
@@ -75,7 +75,7 @@ export class AmbienteService {
 
   //
 
-  async ambienteFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IAmbienteFindAllResultDto> {
+  async ambienteFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.IAmbienteFindAllResultDto> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
@@ -86,7 +86,7 @@ export class AmbienteService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -159,7 +159,7 @@ export class AmbienteService {
     return getPaginatedResultDto(paginated);
   }
 
-  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IAmbienteFindOneByIdInputDto): Promise<Dtos.IAmbienteFindOneResultDto | null> {
+  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IAmbienteFindOneByIdInputDto): Promise<Spec.IAmbienteFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
@@ -191,7 +191,7 @@ export class AmbienteService {
     return ambiente;
   }
 
-  async ambienteFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IAmbienteFindOneByIdInputDto) {
+  async ambienteFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IAmbienteFindOneByIdInputDto) {
     const ambiente = await this.ambienteFindById(contextoDeAcesso, dto);
 
     if (!ambiente) {
@@ -203,7 +203,7 @@ export class AmbienteService {
 
   //
 
-  async ambienteCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IAmbienteInputDto) {
+  async ambienteCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IAmbienteInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('ambiente:create', { dto });
@@ -237,7 +237,7 @@ export class AmbienteService {
     return this.ambienteFindByIdStrict(contextoDeAcesso, { id: ambiente.id });
   }
 
-  async ambienteUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IAmbienteUpdateDto) {
+  async ambienteUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IAmbienteUpdateDto) {
     // =========================================================
 
     const currentAmbiente = await this.ambienteFindByIdStrict(contextoDeAcesso, {
@@ -284,7 +284,7 @@ export class AmbienteService {
     throw new NotFoundException();
   }
 
-  async ambienteUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
+  async ambienteUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
     // =========================================================
 
     const currentAmbiente = await this.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.id });
@@ -325,7 +325,7 @@ export class AmbienteService {
 
   //
 
-  async ambienteDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IAmbienteDeleteOneByIdInputDto) {
+  async ambienteDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IAmbienteDeleteOneByIdInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('ambiente:delete', { dto }, dto.id, this.ambienteRepository.createQueryBuilder(aliasAmbiente));

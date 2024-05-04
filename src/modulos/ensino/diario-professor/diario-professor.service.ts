@@ -1,15 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dtos from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
-import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { IUsuarioVinculoCampusQueryBuilderViewOptions, UsuarioVinculoCampusService } from '../../autenticacao/usuario-vinculo-campus/usuario-vinculo-campus.service';
-import { DiarioService, IDiarioQueryBuilderViewOptions } from '../diario/diario.service';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DiarioProfessorEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
+import { IVinculoQueryBuilderViewOptions, VinculoService } from '../../autenticacao/vinculo/vinculo.service';
+import { DiarioService, IDiarioQueryBuilderViewOptions } from '../diario/diario.service';
 
 // ============================================================================
 
@@ -19,7 +18,7 @@ const aliasDiarioProfessor = 'diario_professor';
 
 export type IDiarioProfessorQueryBuilderViewOptions = {
   loadDiario?: IQueryBuilderViewOptionsLoad<IDiarioQueryBuilderViewOptions>;
-  loadVinculoProfessor?: IQueryBuilderViewOptionsLoad<IUsuarioVinculoCampusQueryBuilderViewOptions>;
+  loadvinculo?: IQueryBuilderViewOptionsLoad<IVinculoQueryBuilderViewOptions>;
 };
 
 // ============================================================================
@@ -28,7 +27,7 @@ export type IDiarioProfessorQueryBuilderViewOptions = {
 export class DiarioProfessorService {
   constructor(
     private diarioService: DiarioService,
-    private usuarioVinculoCampusService: UsuarioVinculoCampusService,
+    private vinculoService: VinculoService,
     private databaseContext: DatabaseContextService,
   ) {}
 
@@ -52,17 +51,17 @@ export class DiarioProfessorService {
       DiarioService.DiarioQueryBuilderView(loadDiario.alias, qb, loadDiario.options);
     }
 
-    const loadVinculoProfessor = getQueryBuilderViewLoadMeta(options.loadVinculoProfessor, true, `${alias}_vp`);
+    const loadvinculo = getQueryBuilderViewLoadMeta(options.loadvinculo, true, `${alias}_vp`);
 
-    if (loadVinculoProfessor) {
-      qb.leftJoin(`${alias}.vinculoProfessor`, `${loadVinculoProfessor.alias}`);
-      UsuarioVinculoCampusService.UsuarioVinculoCampusQueryBuilderView(loadVinculoProfessor.alias, qb, loadVinculoProfessor.options);
+    if (loadvinculo) {
+      qb.leftJoin(`${alias}.vinculo`, `${loadvinculo.alias}`);
+      VinculoService.VinculoQueryBuilderView(loadvinculo.alias, qb, loadvinculo.options);
     }
   }
 
   //
 
-  async diarioProfessorFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IDiarioProfessorFindAllResultDto> {
+  async diarioProfessorFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.IDiarioProfessorFindAllResultDto> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -73,7 +72,7 @@ export class DiarioProfessorService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -83,14 +82,14 @@ export class DiarioProfessorService {
         //
         'diario.id',
         //
-        'vinculoProfessor.id',
-        'vinculoProfessor.campus.id',
-        'vinculoProfessor.usuario.id',
+        'vinculo.id',
+        'vinculo.campus.id',
+        'vinculo.usuario.id',
         //
       ],
       relations: {
         diario: true,
-        vinculoProfessor: {
+        vinculo: {
           campus: true,
           usuario: true,
         },
@@ -99,8 +98,8 @@ export class DiarioProfessorService {
         //
         'situacao',
         'diario.id',
-        'vinculoProfessor.campus.id',
-        'vinculoProfessor.usuario.id',
+        'vinculo.campus.id',
+        'vinculo.usuario.id',
       ],
       searchableColumns: [
         //
@@ -108,8 +107,8 @@ export class DiarioProfessorService {
         //
         'situacao',
         'diario.id',
-        'vinculoProfessor.campus.id',
-        'vinculoProfessor.usuario.id',
+        'vinculo.campus.id',
+        'vinculo.usuario.id',
         //
       ],
       defaultSortBy: [],
@@ -131,7 +130,7 @@ export class DiarioProfessorService {
     return getPaginatedResultDto(paginated);
   }
 
-  async diarioProfessorFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioProfessorFindOneByIdInputDto): Promise<Dtos.IDiarioProfessorFindOneResultDto | null> {
+  async diarioProfessorFindById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioProfessorFindOneByIdInputDto): Promise<Spec.IDiarioProfessorFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -159,7 +158,7 @@ export class DiarioProfessorService {
     return diarioProfessor;
   }
 
-  async diarioProfessorFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioProfessorFindOneByIdInputDto) {
+  async diarioProfessorFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioProfessorFindOneByIdInputDto) {
     const diarioProfessor = await this.diarioProfessorFindById(contextoDeAcesso, dto);
 
     if (!diarioProfessor) {
@@ -171,10 +170,10 @@ export class DiarioProfessorService {
 
   async diarioProfessorFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.IDiarioProfessorFindOneByIdInputDto['id'],
+    id: Spec.IDiarioProfessorFindOneByIdInputDto['id'],
     options?: IDiarioProfessorQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Dtos.IDiarioProfessorFindOneResultDto | null> {
+  ): Promise<Spec.IDiarioProfessorFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -210,7 +209,7 @@ export class DiarioProfessorService {
 
   async diarioProfessorFindByIdSimpleStrict(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.IDiarioProfessorFindOneByIdInputDto['id'],
+    id: Spec.IDiarioProfessorFindOneByIdInputDto['id'],
     options?: IDiarioProfessorQueryBuilderViewOptions,
     selection?: string[],
   ) {
@@ -225,7 +224,7 @@ export class DiarioProfessorService {
 
   //
 
-  async diarioProfessorCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioProfessorInputDto) {
+  async diarioProfessorCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioProfessorInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('diario_professor:create', { dto });
@@ -258,15 +257,15 @@ export class DiarioProfessorService {
 
     // =========================================================
 
-    if (has(dto, 'vinculoProfessor') && dto.vinculoProfessor !== undefined) {
-      if (dto.vinculoProfessor !== null) {
-        const vinculoProfessor = await this.usuarioVinculoCampusService.vinculoFindByIdStrict(contextoDeAcesso, {
-          id: dto.vinculoProfessor.id,
+    if (has(dto, 'vinculo') && dto.vinculo !== undefined) {
+      if (dto.vinculo !== null) {
+        const vinculo = await this.vinculoService.vinculoFindByIdStrict(contextoDeAcesso, {
+          id: dto.vinculo.id,
         });
 
         this.diarioProfessorRepository.merge(diarioProfessor, {
-          vinculoProfessor: {
-            id: vinculoProfessor.id,
+          vinculo: {
+            id: vinculo.id,
           },
         });
       }
@@ -281,7 +280,7 @@ export class DiarioProfessorService {
     return this.diarioProfessorFindByIdStrict(contextoDeAcesso, { id: diarioProfessor.id });
   }
 
-  async diarioProfessorUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioProfessorUpdateDto) {
+  async diarioProfessorUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioProfessorUpdateDto) {
     // =========================================================
 
     const currentDiarioProfessor = await this.diarioProfessorFindByIdStrict(contextoDeAcesso, {
@@ -320,15 +319,15 @@ export class DiarioProfessorService {
 
     // =========================================================
 
-    if (has(dto, 'vinculoProfessor') && dto.vinculoProfessor !== undefined) {
-      if (dto.vinculoProfessor !== null) {
-        const vinculoProfessor = await this.usuarioVinculoCampusService.vinculoFindByIdStrict(contextoDeAcesso, {
-          id: dto.vinculoProfessor.id,
+    if (has(dto, 'vinculo') && dto.vinculo !== undefined) {
+      if (dto.vinculo !== null) {
+        const vinculo = await this.vinculoService.vinculoFindByIdStrict(contextoDeAcesso, {
+          id: dto.vinculo.id,
         });
 
         this.diarioProfessorRepository.merge(diarioProfessor, {
-          vinculoProfessor: {
-            id: vinculoProfessor.id,
+          vinculo: {
+            id: vinculo.id,
           },
         });
       }
@@ -345,7 +344,7 @@ export class DiarioProfessorService {
 
   //
 
-  async diarioProfessorDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDiarioProfessorDeleteOneByIdInputDto) {
+  async diarioProfessorDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioProfessorDeleteOneByIdInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('diario_professor:delete', { dto }, dto.id, this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor));

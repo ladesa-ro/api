@@ -1,9 +1,9 @@
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ImagemEntity } from '../base/imagem.entity';
 
 @Entity('disciplina')
-export class DisciplinaEntity implements Dto.IDisciplinaModel {
+export class DisciplinaEntity implements Spec.IDisciplinaModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -11,6 +11,9 @@ export class DisciplinaEntity implements Dto.IDisciplinaModel {
 
   @Column({ name: 'nome', type: 'text', nullable: false })
   nome!: string;
+
+  @Column({ name: 'nome_abreviado', type: 'text', nullable: false })
+  nomeAbreviado!: string;
 
   @Column({ name: 'carga_horaria', type: 'int', nullable: false })
   cargaHoraria!: number;
@@ -24,11 +27,11 @@ export class DisciplinaEntity implements Dto.IDisciplinaModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: Dto.IEntityDate;
+  dateCreated!: Spec.IEntityDate;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: Dto.IEntityDate;
+  dateUpdated!: Spec.IEntityDate;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | Dto.IEntityDate;
+  dateDeleted!: null | Spec.IEntityDate;
 }

@@ -1,4 +1,4 @@
-import { IEntityDate } from '@sisgea/spec';
+import { IDiarioModel, IEntityDate } from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { AmbienteEntity } from '../ambientes/ambiente.entity';
 import { ImagemEntity } from '../base/imagem.entity';
@@ -6,7 +6,7 @@ import { DisciplinaEntity } from './disciplina.entity';
 import { TurmaEntity } from './turma.entity';
 
 @Entity('diario')
-export class DiarioEntity {
+export class DiarioEntity implements IDiarioModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

@@ -1,7 +1,7 @@
 import { IEntityDate, IUsuarioModel } from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ImagemEntity } from '../base/imagem.entity';
-import { UsuarioVinculoCampusEntity } from './usuario-vinculo-campus.entity';
+import { VinculoEntity } from './vinculo.entity';
 
 @Entity('usuario')
 export class UsuarioEntity implements IUsuarioModel {
@@ -34,8 +34,8 @@ export class UsuarioEntity implements IUsuarioModel {
 
   //
 
-  @OneToMany(() => UsuarioVinculoCampusEntity, (vinculo) => vinculo.usuario)
-  vinculos!: UsuarioVinculoCampusEntity[];
+  @OneToMany(() => VinculoEntity, (vinculo) => vinculo.usuario)
+  vinculos!: VinculoEntity[];
 
   //
 
@@ -50,5 +50,5 @@ export class UsuarioEntity implements IUsuarioModel {
 
   //
 
-  vinculosAtivos!: UsuarioVinculoCampusEntity[];
+  vinculosAtivos!: VinculoEntity[];
 }

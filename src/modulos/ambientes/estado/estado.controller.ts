@@ -1,51 +1,38 @@
 import { Controller, Get } from '@nestjs/common';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
-import * as Dto from '@sisgea/spec';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { ApiTags } from '@nestjs/swagger';
+import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { EstadoOperations } from './dtos/estado.operations';
+import { DadosEntradaHttp, Operacao } from '../../../especificacao';
 import { EstadoService } from './estado.service';
-import { DtoOperationFindAll, getSearchInputFromPaginateQuery, DtoOperationFindOne, HttpDtoParam } from '../../../legacy';
 
 @ApiTags('Estados')
 @Controller('/base/estados')
 export class EstadoController {
-  constructor(
-    //
-    private estadoService: EstadoService,
-  ) {}
+  constructor(private estadoService: EstadoService) {}
 
   @Get('/')
-  @DtoOperationFindAll(EstadoOperations.ESTADO_FIND_ALL)
-  async findAll(@ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso, @Paginate() query: PaginateQuery): Promise<Dto.IEstadoFindAllResultDto> {
-    return this.estadoService.findAll(clienteAccess, getSearchInputFromPaginateQuery(query));
+  @Operacao(Spec.EstadoFindAllOperator())
+  async findAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.EstadoFindAllOperator()) dto: Spec.IPaginatedInputDto): Promise<Spec.IEstadoFindAllResultDto> {
+    return this.estadoService.findAll(contextoDeAcesso, dto);
   }
 
   @Get('/uf/:uf')
-  @DtoOperationFindOne(EstadoOperations.ESTADO_FIND_ONE_BY_UF)
-  @ApiParam({
-    name: 'uf',
-    description: 'Sigla do estado.',
-  })
+  @Operacao(Spec.EstadoFindOneByUfOperator())
   async findByUf(
-    @ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso,
-    @HttpDtoParam(EstadoOperations.ESTADO_FIND_ONE_BY_UF, 'uf')
-    uf: string,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.EstadoFindOneByUfOperator())
+    { uf }: Spec.IEstadoFindOneByUfInputDto,
   ) {
-    return this.estadoService.findByUfStrict(clienteAccess, { uf });
+    return this.estadoService.findByUfStrict(contextoDeAcesso, { uf });
   }
 
   @Get('/:id')
-  @DtoOperationFindOne(EstadoOperations.ESTADO_FIND_ONE_BY_ID)
-  @ApiParam({
-    name: 'id',
-    description: 'ID IBGE do estado.',
-  })
+  @Operacao(Spec.EstadoFindOneByIdOperator())
   async findById(
-    @ContextoDeAcessoHttp() clienteAccess: IContextoDeAcesso,
-    @HttpDtoParam(EstadoOperations.ESTADO_FIND_ONE_BY_ID, 'id')
-    id: number,
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @DadosEntradaHttp(Spec.EstadoFindOneByIdOperator())
+    { id }: Spec.IEstadoFindOneByIdInputDto,
   ) {
-    return this.estadoService.findByIdStrict(clienteAccess, { id });
+    return this.estadoService.findByIdStrict(contextoDeAcesso, { id });
   }
 }

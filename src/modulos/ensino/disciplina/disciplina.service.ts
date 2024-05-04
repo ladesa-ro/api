@@ -1,16 +1,15 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dtos from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
-import { paginate } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DisciplinaEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { getPaginatedResultDto, getPaginateQueryFromSearchInput } from '../../../legacy';
-import { getQueryBuilderViewLoadMeta, IQueryBuilderViewOptionsLoad, paginateConfig } from '../../../legacy/utils';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
+import { ArquivoService } from '../../base/arquivo/arquivo.service';
+import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 
 // ============================================================================
 
@@ -56,7 +55,7 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IDisciplinaFindAllResultDto> {
+  async disciplinaFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.IDisciplinaFindAllResultDto> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
@@ -67,7 +66,7 @@ export class DisciplinaService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -113,7 +112,7 @@ export class DisciplinaService {
     return getPaginatedResultDto(paginated);
   }
 
-  async disciplinaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IDisciplinaFindOneByIdInputDto): Promise<Dtos.IDisciplinaFindOneResultDto | null> {
+  async disciplinaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IDisciplinaFindOneByIdInputDto): Promise<Spec.IDisciplinaFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
@@ -143,7 +142,7 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IDisciplinaFindOneByIdInputDto) {
+  async disciplinaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IDisciplinaFindOneByIdInputDto) {
     const disciplina = await this.disciplinaFindById(contextoDeAcesso, dto);
 
     if (!disciplina) {
@@ -155,10 +154,10 @@ export class DisciplinaService {
 
   async disciplinaFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.IDisciplinaFindOneByIdInputDto['id'],
+    id: Spec.IDisciplinaFindOneByIdInputDto['id'],
     options?: IDisciplinaQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Dtos.IDisciplinaFindOneResultDto | null> {
+  ): Promise<Spec.IDisciplinaFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
@@ -192,7 +191,7 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IDisciplinaFindOneByIdInputDto['id'], options?: IDisciplinaQueryBuilderViewOptions, selection?: string[]) {
+  async disciplinaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.IDisciplinaFindOneByIdInputDto['id'], options?: IDisciplinaQueryBuilderViewOptions, selection?: string[]) {
     const disciplina = await this.disciplinaFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!disciplina) {
@@ -204,7 +203,7 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDisciplinaInputDto) {
+  async disciplinaCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDisciplinaInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('disciplina:create', { dto });
@@ -228,7 +227,7 @@ export class DisciplinaService {
     return this.disciplinaFindByIdStrict(contextoDeAcesso, { id: disciplina.id });
   }
 
-  async disciplinaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDisciplinaUpdateDto) {
+  async disciplinaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDisciplinaUpdateDto) {
     // =========================================================
 
     const currentDisciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, {
@@ -275,7 +274,7 @@ export class DisciplinaService {
     throw new NotFoundException();
   }
 
-  async disciplinaUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDisciplinaFindOneByIdInputDto, file: Express.Multer.File) {
+  async disciplinaUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDisciplinaFindOneByIdInputDto, file: Express.Multer.File) {
     // =========================================================
 
     const currentDisciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, { id: dto.id });
@@ -315,7 +314,7 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IDisciplinaDeleteOneByIdInputDto) {
+  async disciplinaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDisciplinaDeleteOneByIdInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('disciplina:delete', { dto }, dto.id, this.disciplinaRepository.createQueryBuilder(aliasDisciplina));

@@ -1,12 +1,12 @@
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { UsuarioVinculoCampusEntity } from '../autenticacao/usuario-vinculo-campus.entity';
+import { VinculoEntity } from '../autenticacao/vinculo.entity';
 import { CampusPossuiModalidadeEntity } from '../ensino/campus_possui_modalidade.entity';
 import { ModalidadeEntity } from '../ensino/modalidade.entity';
 import { EnderecoEntity } from './endereco.entity';
 
 @Entity('campus')
-export class CampusEntity implements Dto.ICampusModel {
+export class CampusEntity implements Spec.ICampusModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -28,12 +28,12 @@ export class CampusEntity implements Dto.ICampusModel {
 
   @ManyToOne(() => EnderecoEntity)
   @JoinColumn({ name: 'id_endereco_fk' })
-  endereco!: Dto.IEnderecoModel;
+  endereco!: Spec.IEnderecoModel;
 
   //
 
-  @OneToMany(() => UsuarioVinculoCampusEntity, (vinculo) => vinculo.campus)
-  vinculos!: UsuarioVinculoCampusEntity[];
+  @OneToMany(() => VinculoEntity, (vinculo) => vinculo.campus)
+  vinculos!: VinculoEntity[];
 
   @OneToMany(() => CampusPossuiModalidadeEntity, (campusPossuiModalidade) => campusPossuiModalidade.campus)
   campusPossuiModalidade!: CampusPossuiModalidadeEntity[];
@@ -43,11 +43,11 @@ export class CampusEntity implements Dto.ICampusModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: Dto.IEntityDate;
+  dateCreated!: Spec.IEntityDate;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: Dto.IEntityDate;
+  dateUpdated!: Spec.IEntityDate;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | Dto.IEntityDate;
+  dateDeleted!: null | Spec.IEntityDate;
 }

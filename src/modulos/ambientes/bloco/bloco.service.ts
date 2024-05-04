@@ -1,17 +1,17 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dtos from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
-import { FilterOperator, paginate } from 'nestjs-paginate';
+import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { BlocoEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { CampusService, ICampusQueryBuilderViewOptions } from '../campus/campus.service';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 
 // ============================================================================
 
@@ -66,7 +66,7 @@ export class BlocoService {
 
   //
 
-  async blocoFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.IBlocoFindAllResultDto> {
+  async blocoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.IBlocoFindAllResultDto> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
@@ -77,7 +77,7 @@ export class BlocoService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -134,7 +134,7 @@ export class BlocoService {
     return getPaginatedResultDto(paginated);
   }
 
-  async blocoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IBlocoFindOneByIdInputDto): Promise<Dtos.IBlocoFindOneResultDto | null> {
+  async blocoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IBlocoFindOneByIdInputDto): Promise<Spec.IBlocoFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
@@ -166,7 +166,7 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Dtos.IBlocoFindOneByIdInputDto) {
+  async blocoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IBlocoFindOneByIdInputDto) {
     const bloco = await this.blocoFindById(contextoDeAcesso, dto);
 
     if (!bloco) {
@@ -178,10 +178,10 @@ export class BlocoService {
 
   async blocoFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.IBlocoFindOneByIdInputDto['id'],
+    id: Spec.IBlocoFindOneByIdInputDto['id'],
     options?: IBlocoQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Dtos.IBlocoFindOneResultDto | null> {
+  ): Promise<Spec.IBlocoFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
@@ -216,7 +216,7 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Dtos.IBlocoFindOneByIdInputDto['id'], options?: IBlocoQueryBuilderViewOptions, selection?: string[]) {
+  async blocoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.IBlocoFindOneByIdInputDto['id'], options?: IBlocoQueryBuilderViewOptions, selection?: string[]) {
     const bloco = await this.blocoFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!bloco) {
@@ -243,7 +243,7 @@ export class BlocoService {
     throw new NotFoundException();
   }
 
-  async blocoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
+  async blocoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
     // =========================================================
 
     const currentBloco = await this.blocoFindByIdStrict(contextoDeAcesso, { id: dto.id });
@@ -275,7 +275,7 @@ export class BlocoService {
 
   //
 
-  async blocoCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoInputDto) {
+  async blocoCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IBlocoInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('bloco:create', { dto });
@@ -309,7 +309,7 @@ export class BlocoService {
     return this.blocoFindByIdStrict(contextoDeAcesso, { id: bloco.id });
   }
 
-  async blocoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoUpdateDto) {
+  async blocoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IBlocoUpdateDto) {
     // =========================================================
 
     const currentBloco = await this.blocoFindByIdStrict(contextoDeAcesso, {
@@ -343,7 +343,7 @@ export class BlocoService {
 
   //
 
-  async blocoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.IBlocoDeleteOneByIdInputDto) {
+  async blocoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IBlocoDeleteOneByIdInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('bloco:delete', { dto }, dto.id, this.blocoRepository.createQueryBuilder(aliasBloco));

@@ -1,9 +1,10 @@
 import { Resolver } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
+import { Operacao } from '../../../especificacao';
+import { DadosEntradaGql } from '../../../legacy';
+import { BlocoDto } from './bloco.dtos';
 import { BlocoService } from './bloco.service';
-import { BlocoDto, BlocoOperations } from './dtos';
 
 @Resolver(() => BlocoDto)
 export class BlocoResolver {
@@ -14,39 +15,39 @@ export class BlocoResolver {
 
   //
 
-  @DtoOperationGqlQuery(BlocoOperations.BLOCO_FIND_ALL)
-  async blocoFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(BlocoOperations.BLOCO_FIND_ALL) dto: Dto.ISearchInputDto) {
+  @Operacao(Spec.BlocoFindAllOperator())
+  async blocoFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.BlocoFindAllOperator()) dto: Spec.IPaginatedInputDto) {
     return this.blocoService.blocoFindAll(contextoDeAcesso, dto);
   }
 
   //
 
-  @DtoOperationGqlQuery(BlocoOperations.BLOCO_FIND_ONE_BY_ID)
+  @Operacao(Spec.BlocoFindOneByIdOperator())
   async blocoFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(BlocoOperations.BLOCO_FIND_ONE_BY_ID)
-    dto: Dto.IBlocoFindOneByIdInputDto,
+    @DadosEntradaGql(Spec.BlocoFindOneByIdOperator())
+    dto: Spec.IBlocoFindOneByIdInputDto,
   ) {
     return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, dto);
   }
 
   //
 
-  @DtoOperationGqlMutation(BlocoOperations.BLOCO_CREATE)
-  async blocoCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(BlocoOperations.BLOCO_CREATE) dto: Dto.IBlocoInputDto) {
+  @Operacao(Spec.BlocoCreateOperator())
+  async blocoCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.BlocoCreateOperator()) dto: Spec.IBlocoInputDto) {
     return this.blocoService.blocoCreate(contextoDeAcesso, dto);
   }
 
-  @DtoOperationGqlMutation(BlocoOperations.BLOCO_UPDATE)
-  async blocoUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(BlocoOperations.BLOCO_UPDATE) dto: Dto.IBlocoUpdateDto) {
+  @Operacao(Spec.BlocoUpdateOperator())
+  async blocoUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.BlocoUpdateOperator()) dto: Spec.IBlocoUpdateDto) {
     return this.blocoService.blocoUpdate(contextoDeAcesso, dto);
   }
 
-  @DtoOperationGqlMutation(BlocoOperations.BLOCO_DELETE_ONE_BY_ID)
+  @Operacao(Spec.BlocoDeleteOperator())
   async blocoDeleteOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(BlocoOperations.BLOCO_DELETE_ONE_BY_ID)
-    dto: Dto.IBlocoDeleteOneByIdInputDto,
+    @DadosEntradaGql(Spec.BlocoDeleteOperator())
+    dto: Spec.IBlocoDeleteOneByIdInputDto,
   ) {
     return this.blocoService.blocoDeleteOneById(contextoDeAcesso, dto);
   }

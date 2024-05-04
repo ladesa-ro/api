@@ -1,9 +1,10 @@
 import { Resolver } from '@nestjs/graphql';
-import * as Dto from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DtoOperationGqlMutation, DtoOperationGqlQuery, GqlDtoInput } from '../../../legacy';
+import { Operacao } from '../../../especificacao';
+import { DadosEntradaGql } from '../../../legacy';
+import { AmbienteDto } from './ambiente.dtos';
 import { AmbienteService } from './ambiente.service';
-import { AmbienteDto, AmbienteOperations } from './dtos';
 
 @Resolver(() => AmbienteDto)
 export class AmbienteResolver {
@@ -14,39 +15,39 @@ export class AmbienteResolver {
 
   //
 
-  @DtoOperationGqlQuery(AmbienteOperations.AMBIENTE_FIND_ALL)
-  async ambienteFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(AmbienteOperations.AMBIENTE_FIND_ALL) dto: Dto.ISearchInputDto) {
+  @Operacao(Spec.AmbienteFindAllOperator())
+  async ambienteFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteFindAllOperator()) dto: Spec.IPaginatedInputDto) {
     return this.ambienteService.ambienteFindAll(contextoDeAcesso, dto);
   }
 
   //
 
-  @DtoOperationGqlQuery(AmbienteOperations.AMBIENTE_FIND_ONE_BY_ID)
+  @Operacao(Spec.AmbienteFindOneByIdOperator())
   async ambienteFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(AmbienteOperations.AMBIENTE_FIND_ONE_BY_ID)
-    dto: Dto.IAmbienteFindOneByIdInputDto,
+    @DadosEntradaGql(Spec.AmbienteFindOneByIdOperator())
+    dto: Spec.IAmbienteFindOneByIdInputDto,
   ) {
     return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, dto);
   }
 
   //
 
-  @DtoOperationGqlMutation(AmbienteOperations.AMBIENTE_CREATE)
-  async ambienteCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(AmbienteOperations.AMBIENTE_CREATE) dto: Dto.IAmbienteInputDto) {
+  @Operacao(Spec.AmbienteCreateOperator())
+  async ambienteCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteCreateOperator()) dto: Spec.IAmbienteInputDto) {
     return this.ambienteService.ambienteCreate(contextoDeAcesso, dto);
   }
 
-  @DtoOperationGqlMutation(AmbienteOperations.AMBIENTE_UPDATE)
-  async ambienteUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @GqlDtoInput(AmbienteOperations.AMBIENTE_UPDATE) dto: Dto.IAmbienteUpdateDto) {
+  @Operacao(Spec.AmbienteUpdateOperator())
+  async ambienteUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteUpdateOperator()) dto: Spec.IAmbienteUpdateDto) {
     return this.ambienteService.ambienteUpdate(contextoDeAcesso, dto);
   }
 
-  @DtoOperationGqlMutation(AmbienteOperations.AMBIENTE_DELETE_ONE_BY_ID)
+  @Operacao(Spec.AmbienteDeleteOperator())
   async ambienteDeleteOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @GqlDtoInput(AmbienteOperations.AMBIENTE_DELETE_ONE_BY_ID)
-    dto: Dto.IAmbienteDeleteOneByIdInputDto,
+    @DadosEntradaGql(Spec.AmbienteDeleteOperator())
+    dto: Spec.IAmbienteDeleteOneByIdInputDto,
   ) {
     return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, dto);
   }

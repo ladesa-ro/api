@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { UsuarioVinculoCampusModule } from '../../autenticacao/usuario-vinculo-campus/usuario-vinculo-campus.module';
+import { VinculoModule } from '../../autenticacao/vinculo/vinculo.module';
 import { DiarioModule } from '../diario/diario.module';
 import { DiarioProfessorController } from './diario-professor.controller';
 import { DiarioProfessorResolver } from './diario-professor.resolver';
 import { DiarioProfessorService } from './diario-professor.service';
 
 @Module({
-  imports: [DiarioModule, UsuarioVinculoCampusModule],
+  imports: [DiarioModule, VinculoModule],
   controllers: [DiarioProfessorController],
   providers: [DiarioProfessorService, DiarioProfessorResolver],
   exports: [DiarioProfessorService],

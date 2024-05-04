@@ -12,9 +12,7 @@ export const tryParseJSON = (value: any) => {
 
 export const tryCast = (schema: ISchema<any>, value: any, options?: CastOptions) => {
   try {
-    return schema.cast(tryParseJSON(value), {
-      ...options,
-    });
+    return schema.cast(tryParseJSON(value), { ...options });
   } catch (e) {}
 
   return value;

@@ -1,16 +1,16 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Dtos from '@sisgea/spec';
+import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
-import { FilterOperator, paginate } from 'nestjs-paginate';
+import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
-import { ModalidadeService } from '../../ensino/modalidade/modalidade.service';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { CalendarioLetivoEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { getPaginateQueryFromSearchInput, getPaginatedResultDto } from '../../../legacy';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
+import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
+import { ModalidadeService } from '../../ensino/modalidade/modalidade.service';
 
 // ============================================================================
 
@@ -59,7 +59,7 @@ export class CalendarioLetivoService {
 
   //
 
-  async calendarioLetivoFindAll(contextoDeAcesso: IContextoDeAcesso, dto?: Dtos.ISearchInputDto): Promise<Dtos.ICalendarioLetivoFindAllResultDto> {
+  async calendarioLetivoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.ICalendarioLetivoFindAllResultDto> {
     // =========================================================
 
     const qb = this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo);
@@ -70,7 +70,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    const paginated = await paginate(getPaginateQueryFromSearchInput(dto), qb.clone(), {
+    const paginated = await busca('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -147,7 +147,7 @@ export class CalendarioLetivoService {
     return getPaginatedResultDto(paginated);
   }
 
-  async caledarioLetivoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICalendarioLetivoFindOneByIdInputDto): Promise<Dtos.ICalendarioLetivoFindOneResultDto | null> {
+  async caledarioLetivoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICalendarioLetivoFindOneByIdInputDto): Promise<Spec.ICalendarioLetivoFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo);
@@ -175,7 +175,7 @@ export class CalendarioLetivoService {
     return calendarioLetivo;
   }
 
-  async calendarioLetivoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICalendarioLetivoFindOneByIdInputDto) {
+  async calendarioLetivoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICalendarioLetivoFindOneByIdInputDto) {
     const calendarioLetivo = await this.caledarioLetivoFindById(contextoDeAcesso, dto);
 
     if (!calendarioLetivo) {
@@ -187,10 +187,10 @@ export class CalendarioLetivoService {
 
   async calendarioLetivoFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.ICalendarioLetivoFindOneByIdInputDto['id'],
+    id: Spec.ICalendarioLetivoFindOneByIdInputDto['id'],
     options?: ICalendarioLetivoQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Dtos.ICalendarioLetivoFindOneResultDto | null> {
+  ): Promise<Spec.ICalendarioLetivoFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo);
@@ -226,7 +226,7 @@ export class CalendarioLetivoService {
 
   async CalendarioLetivoFindByIdSimpleStrict(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Dtos.ICalendarioLetivoFindOneByIdInputDto['id'],
+    id: Spec.ICalendarioLetivoFindOneByIdInputDto['id'],
     options?: ICalendarioLetivoQueryBuilderViewOptions,
     selection?: string[],
   ) {
@@ -241,7 +241,7 @@ export class CalendarioLetivoService {
 
   //
 
-  async calendarioLetivoCreate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICalendarioLetivoInputDto) {
+  async calendarioLetivoCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICalendarioLetivoInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('calendario_letivo:create', { dto });
@@ -285,7 +285,7 @@ export class CalendarioLetivoService {
     return this.calendarioLetivoFindByIdStrict(contextoDeAcesso, { id: calendarioLetivo.id });
   }
 
-  async calendarioLetivoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICalendarioLetivoUpdateDto) {
+  async calendarioLetivoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICalendarioLetivoUpdateDto) {
     // =========================================================
 
     const currentCalendarioLetivo = await this.calendarioLetivoFindByIdStrict(contextoDeAcesso, {
@@ -341,7 +341,7 @@ export class CalendarioLetivoService {
 
   //
 
-  async calendarioLetivoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Dtos.ICalendarioLetivoDeleteOneByIdInputDto) {
+  async calendarioLetivoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICalendarioLetivoDeleteOneByIdInputDto) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('calendario_letivo:delete', { dto }, dto.id, this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo));

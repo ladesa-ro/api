@@ -4,8 +4,8 @@ import { IEnderecoFindOneByIdInputDto, IEnderecoFindOneResultDto, IEnderecoInput
 import { pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { EnderecoInputDtoValidationContract } from './dtos';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { EnderecoCreateDtoValidationContract } from './endereco.dtos';
 
 // ============================================================================
 
@@ -64,7 +64,7 @@ export class EnderecoService {
   }
 
   async internalEnderecoCreateOrUpdate(id: IEnderecoModel['id'] | null, payload: IEnderecoInputDto) {
-    const dto = await parsePayloadYup(EnderecoInputDtoValidationContract(), payload);
+    const dto = await parsePayloadYup(EnderecoCreateDtoValidationContract(), payload);
 
     const endereco = this.enderecoRepository.create();
 

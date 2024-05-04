@@ -25,6 +25,12 @@ export class CreateTableDisciplina1710184490462 implements MigrationInterface {
           },
 
           {
+            name: 'nome_abreviado',
+            type: 'text',
+            isNullable: false,
+          },
+
+          {
             name: 'carga_horaria',
             type: 'int',
             isNullable: false,
