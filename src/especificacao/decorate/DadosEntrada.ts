@@ -17,13 +17,11 @@ export const DadosEntrada = (operation: IOperation, platform: 'graphql' | 'http'
     }
 
     case 'dto': {
-      const combinedDeclarator = () => {
-        if (platform === 'graphql') {
-          const inputDto = input.dto;
+      const inputDto = input.dto;
 
-          if (inputDto) {
-            return inputDto();
-          }
+      const combinedDeclarator = () => {
+        if (platform === 'graphql' && inputDto) {
+          return inputDto();
         }
 
         const inputBody = input.body;
@@ -46,10 +44,11 @@ export const DadosEntrada = (operation: IOperation, platform: 'graphql' | 'http'
       };
 
       const combinedDeclaration = combinedDeclarator();
-      const combinedDeclarationValidator = GetDeclarationValidator(combinedDeclaration);
 
-      const combinedSchema = GetSchema(combinedDeclarationValidator, yup) as yup.ObjectSchema<any>;
-      const validationPipe = new ValidationPipeYup(combinedSchema, { scope: 'args', path: null });
+      const dtoValidator = GetDeclarationValidator(inputDto ? inputDto() : combinedDeclaration);
+      const dtoSchema = GetSchema(dtoValidator, yup) as yup.ObjectSchema<any>;
+
+      const validationPipe = new ValidationPipeYup(dtoSchema, { scope: 'args', path: null });
 
       switch (platform) {
         case 'graphql': {

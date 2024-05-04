@@ -49,7 +49,7 @@ export class CidadeService {
       relations: {
         estado: true,
       },
-      sortableColumns: ['id', 'estado.nome', 'estado.sigla'],
+      sortableColumns: ['id', 'nome', 'estado.nome', 'estado.sigla'],
       searchableColumns: ['nome', 'estado.nome', 'estado.sigla'],
       defaultSortBy: [
         ['nome', 'ASC'],

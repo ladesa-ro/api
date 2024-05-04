@@ -30,6 +30,13 @@ export class ValidationPipeYup implements PipeTransform {
             path: [this.options.path, err.path].filter(Boolean).join('.'),
           },
         ]);
+      } else {
+        throw new ValidationFailedException([
+          {
+            scope: this.options.scope,
+            path: [this.options.path].filter(Boolean).join('.'),
+          },
+        ]);
       }
     }
   }
