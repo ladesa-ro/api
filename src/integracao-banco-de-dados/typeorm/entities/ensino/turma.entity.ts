@@ -14,12 +14,6 @@ export class TurmaEntity implements Spec.ITurmaModel {
   @Column({ name: 'periodo', type: 'text', nullable: false })
   periodo!: string;
 
-  @Column({ name: 'grupo', type: 'text', nullable: false })
-  grupo!: string;
-
-  @Column({ name: 'nome', type: 'text', nullable: false })
-  nome!: string;
-
   //
 
   @ManyToOne(() => AmbienteEntity)
