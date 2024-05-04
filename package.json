@@ -5,7 +5,7 @@
   "scripts": {
     "commit": "git-cz",
     "prebuild": "rimraf dist",
-    "build": "nest build -e 'node --experimental-require-module --trace-warnings'",
+    "build": "nest build",
     "lint:check": "tsc --noEmit; eslint -c eslint.config.mjs src",
     "lint:fix": "eslint -c eslint.config.mjs --fix src",
     "format:check": "prettier --end-of-line lf --check \"src/**/*.ts\" \"test/**/*.ts\"",
