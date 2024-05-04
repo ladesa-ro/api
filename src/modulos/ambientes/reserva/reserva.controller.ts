@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { HttpDtoBody } from '../../../legacy';
 import { ReservaService } from './reserva.service';
 
 @ApiTags('Reservas')
@@ -28,8 +28,8 @@ export class ReservaController {
   @Operacao(Spec.ReservaFindOneByIdOperator())
   async reservaFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.ReservaFindOneByIdOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.ReservaFindOneByIdOperator())
+    { id }: Spec.IReservaFindOneByIdInputDto,
   ) {
     return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -48,10 +48,8 @@ export class ReservaController {
   @Operacao(Spec.ReservaUpdateOperator())
   async reservaUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.ReservaUpdateOperator(), 'id')
-    id: string,
-    @HttpDtoBody(Spec.ReservaUpdateOperator())
-    dto: Omit<Spec.IReservaUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.ReservaUpdateOperator())
+    { id, ...dto }: Spec.IReservaUpdateDto,
   ) {
     const dtoUpdate: Spec.IReservaUpdateDto = {
       ...dto,
@@ -67,8 +65,8 @@ export class ReservaController {
   @Operacao(Spec.ReservaDeleteOperator())
   async reservaDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.ReservaDeleteOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.ReservaFindOneByIdOperator())
+    { id }: Spec.IReservaFindOneByIdInputDto,
   ) {
     return this.reservaService.reservaDeleteOneById(contextoDeAcesso, { id });
   }

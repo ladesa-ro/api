@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { HttpDtoBody } from '../../../legacy';
 import { DiarioService } from './diario.service';
 
 @ApiTags('Diarios')
@@ -28,8 +28,8 @@ export class DiarioController {
   @Operacao(Spec.DiarioFindOneByIdOperator())
   async diarioFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.DiarioFindOneByIdOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.DiarioFindOneByIdOperator())
+    { id }: Spec.IDiarioFindOneByIdInputDto,
   ) {
     return this.diarioService.diarioFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -48,10 +48,8 @@ export class DiarioController {
   @Operacao(Spec.DiarioUpdateOperator())
   async diarioUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.DiarioUpdateOperator(), 'id')
-    id: string,
-    @HttpDtoBody(Spec.DiarioUpdateOperator())
-    dto: Omit<Spec.IDiarioUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.DiarioUpdateOperator())
+    { id, ...dto }: Spec.IDiarioUpdateDto,
   ) {
     const dtoUpdate: Spec.IDiarioUpdateDto = {
       ...dto,
@@ -67,8 +65,8 @@ export class DiarioController {
   @Operacao(Spec.DiarioDeleteOperator())
   async diarioDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.DiarioDeleteOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.DiarioFindOneByIdOperator())
+    { id }: Spec.IDiarioFindOneByIdInputDto,
   ) {
     return this.diarioService.diarioDeleteOneById(contextoDeAcesso, { id });
   }

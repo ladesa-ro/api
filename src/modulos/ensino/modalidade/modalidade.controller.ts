@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { HttpDtoBody } from '../../../legacy';
 import { ModalidadeService } from './modalidade.service';
 
 @ApiTags('Modalidades')
@@ -28,8 +28,8 @@ export class ModalidadeController {
   @Operacao(Spec.ModalidadeFindOneByIdOperator())
   async modalidadeFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.ModalidadeFindOneByIdOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.ModalidadeFindOneByIdOperator())
+    { id }: Spec.IModalidadeFindOneByIdInputDto,
   ) {
     return this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -48,10 +48,8 @@ export class ModalidadeController {
   @Operacao(Spec.ModalidadeUpdateOperator())
   async modalidadeUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.ModalidadeUpdateOperator(), 'id')
-    id: string,
-    @HttpDtoBody(Spec.ModalidadeUpdateOperator())
-    dto: Omit<Spec.IModalidadeUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.ModalidadeUpdateOperator())
+    { id, ...dto }: Spec.IModalidadeUpdateDto,
   ) {
     const dtoUpdate: Spec.IModalidadeUpdateDto = {
       ...dto,
@@ -67,8 +65,8 @@ export class ModalidadeController {
   @Operacao(Spec.ModalidadeDeleteOperator())
   async modalidadeDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.ModalidadeDeleteOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.ModalidadeFindOneByIdOperator())
+    { id }: Spec.IModalidadeFindOneByIdInputDto,
   ) {
     return this.modalidadeService.modalidadeDeleteOneById(contextoDeAcesso, { id });
   }

@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { HttpDtoBody } from '../../../legacy';
 import { AmbienteService } from './ambiente.service';
 
 @ApiTags('Ambientes')
@@ -26,11 +26,7 @@ export class AmbienteController {
 
   @Get('/:id')
   @Operacao(Spec.AmbienteFindOneByIdOperator())
-  async ambienteFindById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.AmbienteFindOneByIdOperator(), 'id')
-    id: string,
-  ) {
+  async ambienteFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.AmbienteFindOneByIdOperator()) { id }: Spec.IAmbienteFindOneByIdInputDto) {
     return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id });
   }
 
@@ -48,10 +44,8 @@ export class AmbienteController {
   @Operacao(Spec.AmbienteUpdateOperator())
   async ambienteUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.AmbienteUpdateOperator(), 'id')
-    id: string,
-    @HttpDtoBody(Spec.AmbienteUpdateOperator())
-    dto: Omit<Spec.IAmbienteUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.AmbienteUpdateOperator())
+    { id, ...dto }: Spec.IAmbienteUpdateDto,
   ) {
     const dtoUpdate: Spec.IAmbienteUpdateDto = {
       ...dto,
@@ -67,8 +61,8 @@ export class AmbienteController {
   @Operacao(Spec.AmbienteGetImagemCapaOperator())
   async blocoGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.AmbienteGetImagemCapaOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.AmbienteFindOneByIdOperator())
+    { id }: Spec.IAmbienteFindOneByIdInputDto,
   ) {
     return this.ambienteService.ambienteGetImagemCapa(contextoDeAcesso, id);
   }
@@ -90,8 +84,8 @@ export class AmbienteController {
   @Operacao(Spec.AmbienteDeleteOperator())
   async ambienteDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.AmbienteDeleteOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.AmbienteFindOneByIdOperator())
+    { id }: Spec.IAmbienteFindOneByIdInputDto,
   ) {
     return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, { id });
   }

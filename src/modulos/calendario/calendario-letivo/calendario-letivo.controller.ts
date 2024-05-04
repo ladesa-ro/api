@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { HttpDtoBody } from '../../../legacy';
 import { CalendarioLetivoService } from './calendario-letivo.service';
 
 @ApiTags('Calendarios Letivos')
@@ -26,8 +26,8 @@ export class CalendarioLetivoController {
   @Operacao(Spec.CalendarioLetivoFindOneByIdOperator())
   async calendarioLetivoFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.CalendarioLetivoFindOneByIdOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.CalendarioLetivoFindOneByIdOperator())
+    { id }: Spec.ICalendarioLetivoFindOneByIdInputDto,
   ) {
     return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -46,10 +46,8 @@ export class CalendarioLetivoController {
   @Operacao(Spec.CalendarioLetivoUpdateOperator())
   async calendarioLetivoUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.CalendarioLetivoUpdateOperator(), 'id')
-    id: string,
-    @HttpDtoBody(Spec.CalendarioLetivoUpdateOperator())
-    dto: Omit<Spec.ICalendarioLetivoUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.CalendarioLetivoUpdateOperator())
+    { id, ...dto }: Spec.ICalendarioLetivoUpdateDto,
   ) {
     const dtoUpdate: Spec.ICalendarioLetivoUpdateDto = {
       ...dto,
@@ -65,8 +63,8 @@ export class CalendarioLetivoController {
   @Operacao(Spec.CalendarioLetivoDeleteOperator())
   async CalendarioLetivoDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.CalendarioLetivoDeleteOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.CalendarioLetivoFindOneByIdOperator())
+    { id }: Spec.ICalendarioLetivoFindOneByIdInputDto,
   ) {
     return this.calendarioLetivoService.calendarioLetivoDeleteOneById(contextoDeAcesso, { id });
   }

@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { HttpDtoBody } from '../../../legacy';
 import { CampusService } from './campus.service';
 
 @ApiTags('Campi')
@@ -28,8 +28,8 @@ export class CampusController {
   @Operacao(Spec.CampusFindOneByIdOperator())
   async campusFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.CampusFindOneByIdOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.CampusFindOneByIdOperator())
+    { id }: Spec.ICampusFindOneByIdInputDto,
   ) {
     return this.campusService.campusFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -48,10 +48,8 @@ export class CampusController {
   @Operacao(Spec.CampusUpdateOperator())
   async campusUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.CampusUpdateOperator(), 'id')
-    id: string,
-    @HttpDtoBody(Spec.CampusUpdateOperator())
-    dto: Omit<Spec.ICampusUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.CampusUpdateOperator())
+    { id, ...dto }: Spec.ICampusUpdateDto,
   ) {
     const dtoUpdate: Spec.ICampusUpdateDto = {
       ...dto,
@@ -67,8 +65,8 @@ export class CampusController {
   @Operacao(Spec.CampusDeleteOperator())
   async campusDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.CampusDeleteOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.CampusFindOneByIdOperator())
+    { id }: Spec.ICampusFindOneByIdInputDto,
   ) {
     return this.campusService.campusDeleteOneById(contextoDeAcesso, { id });
   }

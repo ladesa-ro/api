@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { HttpDtoBody } from '../../../legacy';
 import { DisciplinaService } from './disciplina.service';
 
 @ApiTags('Disciplinas')
@@ -28,8 +28,8 @@ export class DisciplinaController {
   @Operacao(Spec.DisciplinaFindOneByIdOperator())
   async disciplinaFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.DisciplinaFindOneByIdOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.DisciplinaFindOneByIdOperator())
+    { id }: Spec.IDisciplinaFindOneByIdInputDto,
   ) {
     return this.disciplinaService.disciplinaFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -48,10 +48,8 @@ export class DisciplinaController {
   @Operacao(Spec.DisciplinaUpdateOperator())
   async disciplinaUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.DisciplinaUpdateOperator(), 'id')
-    id: string,
-    @HttpDtoBody(Spec.DisciplinaUpdateOperator())
-    dto: Omit<Spec.IDisciplinaUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.DisciplinaUpdateOperator())
+    { id, ...dto }: Spec.IDisciplinaUpdateDto,
   ) {
     const dtoUpdate: Spec.IDisciplinaUpdateDto = {
       ...dto,
@@ -67,8 +65,8 @@ export class DisciplinaController {
   @Operacao(Spec.DisciplinaGetImagemCapaOperator())
   async disciplinaGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.DisciplinaGetImagemCapaOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.DisciplinaFindOneByIdOperator())
+    { id }: Spec.IDisciplinaFindOneByIdInputDto,
   ) {
     return this.disciplinaService.disciplinaGetImagemCapa(contextoDeAcesso, id);
   }
@@ -90,8 +88,8 @@ export class DisciplinaController {
   @Operacao(Spec.DisciplinaDeleteOperator())
   async disciplinaDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.DisciplinaDeleteOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.DisciplinaFindOneByIdOperator())
+    { id }: Spec.IDisciplinaFindOneByIdInputDto,
   ) {
     return this.disciplinaService.disciplinaDeleteOneById(contextoDeAcesso, { id });
   }

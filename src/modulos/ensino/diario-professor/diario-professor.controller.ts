@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { HttpDtoBody } from '../../../legacy';
 import { DiarioProfessorService } from './diario-professor.service';
 
 @ApiTags('DiarioProfessor')
@@ -28,8 +28,8 @@ export class DiarioProfessorController {
   @Operacao(Spec.DiarioProfessorFindOneByIdOperator())
   async diarioProfessorFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.DiarioProfessorFindOneByIdOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.DiarioProfessorFindOneByIdOperator())
+    { id }: Spec.IDiarioProfessorFindOneByIdInputDto,
   ) {
     return this.diarioProfessorService.diarioProfessorFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -48,10 +48,8 @@ export class DiarioProfessorController {
   @Operacao(Spec.DiarioProfessorUpdateOperator())
   async diarioProfessorUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.DiarioProfessorUpdateOperator(), 'id')
-    id: string,
-    @HttpDtoBody(Spec.DiarioProfessorUpdateOperator())
-    dto: Omit<Spec.IDiarioProfessorUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.DiarioProfessorUpdateOperator())
+    { id, ...dto }: Spec.IDiarioProfessorUpdateDto,
   ) {
     const dtoUpdate: Spec.IDiarioProfessorUpdateDto = {
       ...dto,
@@ -67,8 +65,8 @@ export class DiarioProfessorController {
   @Operacao(Spec.DiarioProfessorDeleteOperator())
   async diarioProfessorDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.DiarioProfessorDeleteOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.DiarioProfessorFindOneByIdOperator())
+    { id }: Spec.IDiarioProfessorFindOneByIdInputDto,
   ) {
     return this.diarioProfessorService.diarioProfessorDeleteOneById(contextoDeAcesso, { id });
   }

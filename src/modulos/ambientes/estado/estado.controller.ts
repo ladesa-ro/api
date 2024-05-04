@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoParam } from '../../../legacy';
 import { EstadoService } from './estado.service';
 
 @ApiTags('Estados')
@@ -21,8 +20,8 @@ export class EstadoController {
   @Operacao(Spec.EstadoFindOneByUfOperator())
   async findByUf(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.EstadoFindOneByUfOperator(), 'uf')
-    uf: string,
+    @DadosEntradaHttp(Spec.EstadoFindOneByUfOperator())
+    { uf }: Spec.IEstadoFindOneByUfInputDto,
   ) {
     return this.estadoService.findByUfStrict(contextoDeAcesso, { uf });
   }
@@ -31,8 +30,8 @@ export class EstadoController {
   @Operacao(Spec.EstadoFindOneByIdOperator())
   async findById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.EstadoFindOneByIdOperator(), 'id')
-    id: number,
+    @DadosEntradaHttp(Spec.EstadoFindOneByIdOperator())
+    { id }: Spec.IEstadoFindOneByIdInputDto,
   ) {
     return this.estadoService.findByIdStrict(contextoDeAcesso, { id });
   }

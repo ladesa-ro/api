@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { HttpDtoBody } from '../../../legacy';
 import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
@@ -28,8 +28,8 @@ export class UsuarioController {
   @Operacao(Spec.UsuarioFindOneByIdOperator())
   async usuarioFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.UsuarioFindOneByIdOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.UsuarioFindOneByIdOperator())
+    { id }: Spec.IUsuarioFindOneByIdInputDto,
   ) {
     return this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -48,12 +48,8 @@ export class UsuarioController {
   @Operacao(Spec.UsuarioUpdateOperator())
   async usuarioUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-
-    @HttpDtoParam(Spec.UsuarioUpdateOperator(), 'id')
-    id: string,
-
-    @HttpDtoBody(Spec.UsuarioUpdateOperator())
-    dto: Omit<Spec.IUsuarioUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.UsuarioUpdateOperator())
+    { id, ...dto }: Spec.IUsuarioUpdateDto,
   ) {
     const dtoUpdate: Spec.IUsuarioUpdateDto = {
       ...dto,
@@ -69,8 +65,8 @@ export class UsuarioController {
   @Operacao(Spec.UsuarioGetImagemCapaOperator())
   async usuarioGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.UsuarioGetImagemCapaOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.UsuarioFindOneByIdOperator())
+    { id }: Spec.IUsuarioFindOneByIdInputDto,
   ) {
     return this.usuarioService.usuarioGetImagemCapa(contextoDeAcesso, id);
   }
@@ -92,8 +88,8 @@ export class UsuarioController {
   @Operacao(Spec.UsuarioGetImagemPerfilOperator())
   async usuarioGetImagemPerfil(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.UsuarioGetImagemPerfilOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.UsuarioFindOneByIdOperator())
+    { id }: Spec.IUsuarioFindOneByIdInputDto,
   ) {
     return this.usuarioService.usuarioGetImagemPerfil(contextoDeAcesso, id);
   }
@@ -115,8 +111,8 @@ export class UsuarioController {
   @Operacao(Spec.UsuarioDeleteOperator())
   async usuarioDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.UsuarioDeleteOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.UsuarioFindOneByIdOperator())
+    { id }: Spec.IUsuarioFindOneByIdInputDto,
   ) {
     return this.usuarioService.usuarioDeleteOneById(contextoDeAcesso, { id });
   }

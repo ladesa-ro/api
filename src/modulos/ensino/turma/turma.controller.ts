@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { HttpDtoBody } from '../../../legacy';
 import { TurmaService } from './turma.service';
 
 @ApiTags('Turmas')
@@ -25,8 +25,8 @@ export class TurmaController {
   @Operacao(Spec.TurmaFindOneByIdOperator())
   async turmaFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.TurmaFindOneByIdOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.TurmaFindOneByIdOperator())
+    { id }: Spec.ITurmaFindOneByIdInputDto,
   ) {
     return this.turmaService.turmaFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -45,10 +45,8 @@ export class TurmaController {
   @Operacao(Spec.TurmaUpdateOperator())
   async turmaUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.TurmaUpdateOperator(), 'id')
-    id: string,
-    @HttpDtoBody(Spec.TurmaUpdateOperator())
-    dto: Omit<Spec.ITurmaUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.TurmaUpdateOperator())
+    { id, ...dto }: Spec.ITurmaUpdateDto,
   ) {
     const dtoUpdate: Spec.ITurmaUpdateDto = {
       ...dto,
@@ -64,8 +62,8 @@ export class TurmaController {
   @Operacao(Spec.TurmaGetImagemCapaOperator())
   async turmaGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.TurmaGetImagemCapaOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.TurmaFindOneByIdOperator())
+    { id }: Spec.ITurmaFindOneByIdInputDto,
   ) {
     return this.turmaService.turmaGetImagemCapa(contextoDeAcesso, id);
   }
@@ -87,8 +85,8 @@ export class TurmaController {
   @Operacao(Spec.TurmaDeleteOperator())
   async turmaDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.TurmaDeleteOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.TurmaFindOneByIdOperator())
+    { id }: Spec.ITurmaFindOneByIdInputDto,
   ) {
     return this.turmaService.turmaDeleteOneById(contextoDeAcesso, { id });
   }

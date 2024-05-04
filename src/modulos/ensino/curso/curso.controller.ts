@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { HttpDtoBody } from '../../../legacy';
 import { CursoService } from './curso.service';
 
 @ApiTags('Cursos')
@@ -25,8 +25,8 @@ export class CursoController {
   @Operacao(Spec.CursoFindOneByIdOperator())
   async cursoFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.CursoFindOneByIdOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.CursoFindOneByIdOperator())
+    { id }: Spec.ICursoFindOneByIdInputDto,
   ) {
     return this.cursoService.cursoFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -45,10 +45,8 @@ export class CursoController {
   @Operacao(Spec.CursoUpdateOperator())
   async cursoUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.CursoUpdateOperator(), 'id')
-    id: string,
-    @HttpDtoBody(Spec.CursoUpdateOperator())
-    dto: Omit<Spec.ICursoUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.CursoUpdateOperator())
+    { id, ...dto }: Spec.ICursoUpdateDto,
   ) {
     const dtoUpdate: Spec.ICursoUpdateDto = {
       ...dto,
@@ -64,8 +62,8 @@ export class CursoController {
   @Operacao(Spec.CursoGetImagemCapaOperator())
   async cursoGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.CursoGetImagemCapaOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.CursoFindOneByIdOperator())
+    { id }: Spec.ICursoFindOneByIdInputDto,
   ) {
     return this.cursoService.cursoGetImagemCapa(contextoDeAcesso, id);
   }
@@ -87,8 +85,8 @@ export class CursoController {
   @Operacao(Spec.CursoDeleteOperator())
   async cursoDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.CursoDeleteOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.CursoFindOneByIdOperator())
+    { id }: Spec.ICursoFindOneByIdInputDto,
   ) {
     return this.cursoService.cursoDeleteOneById(contextoDeAcesso, { id });
   }

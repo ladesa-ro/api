@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody, HttpDtoParam } from '../../../legacy';
+import { HttpDtoBody } from '../../../legacy';
 import { BlocoService } from './bloco.service';
 
 @ApiTags('Blocos')
@@ -25,8 +25,8 @@ export class BlocoController {
   @Operacao(Spec.BlocoFindOneByIdOperator())
   async blocoFindById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.BlocoFindOneByIdOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.BlocoFindOneByIdOperator())
+    { id }: Spec.IBlocoFindOneByIdInputDto,
   ) {
     return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, { id });
   }
@@ -45,10 +45,8 @@ export class BlocoController {
   @Operacao(Spec.BlocoUpdateOperator())
   async blocoUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.BlocoUpdateOperator(), 'id')
-    id: string,
-    @HttpDtoBody(Spec.BlocoUpdateOperator())
-    dto: Omit<Spec.IBlocoUpdateDto, 'id'>,
+    @DadosEntradaHttp(Spec.BlocoUpdateOperator())
+    { id, ...dto }: Spec.IBlocoUpdateDto,
   ) {
     const dtoUpdate: Spec.IBlocoUpdateDto = {
       ...dto,
@@ -64,8 +62,8 @@ export class BlocoController {
   @Operacao(Spec.BlocoGetImagemCapaOperator())
   async blocoGetImagemCapa(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.BlocoGetImagemCapaOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.BlocoFindOneByIdOperator())
+    { id }: Spec.IBlocoFindOneByIdInputDto,
   ) {
     return this.blocoService.blocoGetImagemCapa(contextoDeAcesso, id);
   }
@@ -87,8 +85,8 @@ export class BlocoController {
   @Operacao(Spec.BlocoDeleteOperator())
   async blocoDeleteOneById(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @HttpDtoParam(Spec.BlocoDeleteOperator(), 'id')
-    id: string,
+    @DadosEntradaHttp(Spec.BlocoFindOneByIdOperator())
+    { id }: Spec.IBlocoFindOneByIdInputDto,
   ) {
     return this.blocoService.blocoDeleteOneById(contextoDeAcesso, { id });
   }
