@@ -90,8 +90,6 @@ export class DiarioService {
         'etapa',
         //
         'turma.id',
-        'turma.nome',
-        'turma.grupo',
         'turma.periodo',
         'disciplina.id',
         'disciplina.nome',
@@ -105,7 +103,6 @@ export class DiarioService {
         'ano',
         'etapa',
         //
-        'turma.nome',
         'disciplina.nome',
         'ambientePadrao.nome',
       ],
@@ -122,8 +119,6 @@ export class DiarioService {
         'ano',
         'etapa',
         'turma.periodo',
-        'turma.grupo',
-        'turma.nome',
         'disciplina.nome',
         //
       ],
