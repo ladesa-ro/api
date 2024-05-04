@@ -42,6 +42,7 @@ export class DisciplinaService {
       //
       `${alias}.id`,
       `${alias}.nome`,
+      `${alias}.nomeAbreviado`,
       `${alias}.cargaHoraria`,
     ]);
 
@@ -73,6 +74,7 @@ export class DisciplinaService {
         'id',
         //
         'nome',
+        'nomeAbreviado',
         'cargaHoraria',
         //
       ],
@@ -86,6 +88,7 @@ export class DisciplinaService {
         'id',
         //
         'nome',
+        'nomeAbreviado',
         'cargaHoraria',
         //
       ],
@@ -210,7 +213,7 @@ export class DisciplinaService {
 
     // =========================================================
 
-    const dtoDisciplina = pick(dto, ['nome', 'cargaHoraria']);
+    const dtoDisciplina = pick(dto, ['nome', 'nomeAbreviado', 'cargaHoraria']);
 
     const disciplina = this.disciplinaRepository.create();
 
@@ -238,7 +241,7 @@ export class DisciplinaService {
 
     await contextoDeAcesso.ensurePermission('disciplina:update', { dto }, dto.id, this.disciplinaRepository.createQueryBuilder(aliasDisciplina));
 
-    const dtoDisciplina = pick(dto, ['nome', 'cargaHoraria']);
+    const dtoDisciplina = pick(dto, ['nome', 'nomeAbreviado', 'cargaHoraria']);
 
     const disciplina = {
       id: currentDisciplina.id,
