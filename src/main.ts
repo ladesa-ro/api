@@ -4,8 +4,8 @@ import { SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
 import helmet from 'helmet';
 import 'reflect-metadata';
-import { MainModule } from './main.module';
 import { EnvironmentConfigService } from './config';
+import { MainModule } from './main.module';
 
 async function setupApp() {
   const app = await NestFactory.create(MainModule);
@@ -19,7 +19,9 @@ async function setupApp() {
   app.use(
     helmet({
       crossOriginEmbedderPolicy: false,
-      crossOriginResourcePolicy: 'cross-origin',
+      crossOriginResourcePolicy: {
+        policy: 'cross-origin',
+      },
       contentSecurityPolicy: isProduction ? undefined : false,
     }),
   );
