@@ -18,8 +18,9 @@ async function setupApp() {
 
   app.use(
     helmet({
-      contentSecurityPolicy: isProduction ? undefined : false,
       crossOriginEmbedderPolicy: false,
+      crossOriginResourcePolicy: 'cross-origin',
+      contentSecurityPolicy: isProduction ? undefined : false,
     }),
   );
 
