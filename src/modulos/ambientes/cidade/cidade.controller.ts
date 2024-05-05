@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -22,11 +22,7 @@ export class CidadeController {
 
   @Get('/:id')
   @Operacao(Spec.CidadeFindOneByIdOperator())
-  async findById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CidadeFindOneByIdOperator())
-    { id }: Spec.ICidadeFindOneByIdInputDto,
-  ): Promise<Spec.ICidadeFindOneResultDto> {
+  async findById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id') id: number): Promise<Spec.ICidadeFindOneResultDto> {
     return this.cidadeService.findByIdStrict(contextoDeAcesso, { id });
   }
 }

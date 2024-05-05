@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -26,11 +26,7 @@ export class DiarioProfessorController {
 
   @Get('/:id')
   @Operacao(Spec.DiarioProfessorFindOneByIdOperator())
-  async diarioProfessorFindById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.DiarioProfessorFindOneByIdOperator())
-    { id }: Spec.IDiarioProfessorFindOneByIdInputDto,
-  ) {
+  async diarioProfessorFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.diarioProfessorService.diarioProfessorFindByIdStrict(contextoDeAcesso, { id });
   }
 
@@ -49,7 +45,8 @@ export class DiarioProfessorController {
   async diarioProfessorUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaHttp(Spec.DiarioProfessorUpdateOperator())
-    { id, ...dto }: Spec.IDiarioProfessorUpdateDto,
+    { ...dto }: Spec.IDiarioProfessorUpdateDto,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     const dtoUpdate: Spec.IDiarioProfessorUpdateDto = {
       ...dto,
@@ -63,11 +60,7 @@ export class DiarioProfessorController {
 
   @Delete('/:id')
   @Operacao(Spec.DiarioProfessorDeleteOperator())
-  async diarioProfessorDeleteOneById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.DiarioProfessorFindOneByIdOperator())
-    { id }: Spec.IDiarioProfessorFindOneByIdInputDto,
-  ) {
+  async diarioProfessorDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.diarioProfessorService.diarioProfessorDeleteOneById(contextoDeAcesso, { id });
   }
 

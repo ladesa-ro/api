@@ -26,11 +26,7 @@ export class UsuarioController {
 
   @Get('/:id')
   @Operacao(Spec.UsuarioFindOneByIdOperator())
-  async usuarioFindById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.UsuarioFindOneByIdOperator())
-    { id }: Spec.IUsuarioFindOneByIdInputDto,
-  ) {
+  async usuarioFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, { id });
   }
 
@@ -49,7 +45,8 @@ export class UsuarioController {
   async usuarioUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaHttp(Spec.UsuarioUpdateOperator())
-    { id, ...dto }: Spec.IUsuarioUpdateDto,
+    { ...dto }: Spec.IUsuarioUpdateDto,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     const dtoUpdate: Spec.IUsuarioUpdateDto = {
       ...dto,
@@ -63,11 +60,7 @@ export class UsuarioController {
 
   @Get('/:id/imagem/capa')
   @Operacao(Spec.UsuarioGetImagemCapaOperator())
-  async usuarioGetImagemCapa(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.UsuarioFindOneByIdOperator())
-    { id }: Spec.IUsuarioFindOneByIdInputDto,
-  ) {
+  async usuarioGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.usuarioService.usuarioGetImagemCapa(contextoDeAcesso, id);
   }
 
@@ -76,8 +69,8 @@ export class UsuarioController {
   async usuarioImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @Param('id', ParseUUIDPipe) id: string,
     @UploadedFile() file: Express.Multer.File,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.usuarioService.usuarioUpdateImagemCapa(contextoDeAcesso, { id }, file);
   }
@@ -86,11 +79,7 @@ export class UsuarioController {
 
   @Get('/:id/imagem/perfil')
   @Operacao(Spec.UsuarioGetImagemPerfilOperator())
-  async usuarioGetImagemPerfil(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.UsuarioFindOneByIdOperator())
-    { id }: Spec.IUsuarioFindOneByIdInputDto,
-  ) {
+  async usuarioGetImagemPerfil(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.usuarioService.usuarioGetImagemPerfil(contextoDeAcesso, id);
   }
 
@@ -99,8 +88,8 @@ export class UsuarioController {
   async usuarioImagemPerfilSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @Param('id', ParseUUIDPipe) id: string,
     @UploadedFile() file: Express.Multer.File,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.usuarioService.usuarioUpdateImagemPerfil(contextoDeAcesso, { id }, file);
   }
@@ -109,11 +98,7 @@ export class UsuarioController {
 
   @Delete('/:id')
   @Operacao(Spec.UsuarioDeleteOperator())
-  async usuarioDeleteOneById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.UsuarioFindOneByIdOperator())
-    { id }: Spec.IUsuarioFindOneByIdInputDto,
-  ) {
+  async usuarioDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.usuarioService.usuarioDeleteOneById(contextoDeAcesso, { id });
   }
 

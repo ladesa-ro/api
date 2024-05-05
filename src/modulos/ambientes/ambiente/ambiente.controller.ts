@@ -26,7 +26,7 @@ export class AmbienteController {
 
   @Get('/:id')
   @Operacao(Spec.AmbienteFindOneByIdOperator())
-  async ambienteFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.AmbienteFindOneByIdOperator()) { id }: Spec.IAmbienteFindOneByIdInputDto) {
+  async ambienteFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id });
   }
 
@@ -45,7 +45,8 @@ export class AmbienteController {
   async ambienteUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaHttp(Spec.AmbienteUpdateOperator())
-    { id, ...dto }: Spec.IAmbienteUpdateDto,
+    { ...dto }: Spec.IAmbienteUpdateDto,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     const dtoUpdate: Spec.IAmbienteUpdateDto = {
       ...dto,
@@ -59,11 +60,7 @@ export class AmbienteController {
 
   @Get('/:id/imagem/capa')
   @Operacao(Spec.AmbienteGetImagemCapaOperator())
-  async blocoGetImagemCapa(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.AmbienteFindOneByIdOperator())
-    { id }: Spec.IAmbienteFindOneByIdInputDto,
-  ) {
+  async blocoGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.ambienteService.ambienteGetImagemCapa(contextoDeAcesso, id);
   }
 
@@ -72,8 +69,8 @@ export class AmbienteController {
   async blocoImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @Param('id', ParseUUIDPipe) id: string,
     @UploadedFile() file: Express.Multer.File,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.ambienteService.ambienteUpdateImagemCapa(contextoDeAcesso, { id }, file);
   }
@@ -82,11 +79,7 @@ export class AmbienteController {
 
   @Delete('/:id')
   @Operacao(Spec.AmbienteDeleteOperator())
-  async ambienteDeleteOneById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.AmbienteFindOneByIdOperator())
-    { id }: Spec.IAmbienteFindOneByIdInputDto,
-  ) {
+  async ambienteDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, { id });
   }
 

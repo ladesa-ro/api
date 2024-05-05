@@ -23,11 +23,7 @@ export class CursoController {
 
   @Get('/:id')
   @Operacao(Spec.CursoFindOneByIdOperator())
-  async cursoFindById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CursoFindOneByIdOperator())
-    { id }: Spec.ICursoFindOneByIdInputDto,
-  ) {
+  async cursoFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.cursoService.cursoFindByIdStrict(contextoDeAcesso, { id });
   }
 
@@ -46,7 +42,8 @@ export class CursoController {
   async cursoUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaHttp(Spec.CursoUpdateOperator())
-    { id, ...dto }: Spec.ICursoUpdateDto,
+    { ...dto }: Spec.ICursoUpdateDto,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     const dtoUpdate: Spec.ICursoUpdateDto = {
       ...dto,
@@ -60,11 +57,7 @@ export class CursoController {
 
   @Get('/:id/imagem/capa')
   @Operacao(Spec.CursoGetImagemCapaOperator())
-  async cursoGetImagemCapa(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CursoFindOneByIdOperator())
-    { id }: Spec.ICursoFindOneByIdInputDto,
-  ) {
+  async cursoGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.cursoService.cursoGetImagemCapa(contextoDeAcesso, id);
   }
 
@@ -73,8 +66,8 @@ export class CursoController {
   async cursoImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @Param('id', ParseUUIDPipe) id: string,
     @UploadedFile() file: Express.Multer.File,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.cursoService.cursoUpdateImagemCapa(contextoDeAcesso, { id }, file);
   }
@@ -83,11 +76,7 @@ export class CursoController {
 
   @Delete('/:id')
   @Operacao(Spec.CursoDeleteOperator())
-  async cursoDeleteOneById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CursoFindOneByIdOperator())
-    { id }: Spec.ICursoFindOneByIdInputDto,
-  ) {
+  async cursoDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.cursoService.cursoDeleteOneById(contextoDeAcesso, { id });
   }
 

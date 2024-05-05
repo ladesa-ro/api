@@ -2,10 +2,10 @@ import { SetMetadata, UseInterceptors, applyDecorators } from '@nestjs/common';
 import { Mutation, Query } from '@nestjs/graphql';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiProduces, ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { IDeclarationPropertyMixed, IDeclarationPropertySimple, IOperation } from '@sisgea/spec';
+import { IDeclarationPropertySimple, IOperation, IsPropertyMixed, IsPropertySimple } from '@sisgea/spec';
 import { camelCase } from 'lodash';
-import { CastDeclarator } from '../utilitarios/SpecHelpers';
 import { CreateEntityDtoClass } from '../utilitarios';
+import { CastDeclarator } from '../utilitarios/SpecHelpers';
 
 export const OPERACAO_KEY = Symbol.for('operacao');
 
@@ -53,7 +53,8 @@ export const Operacao = (operation: IOperation) => {
           }),
         );
 
-        decorators.push(UseInterceptors(FileInterceptor('file' /*saveFile?.localOptions */)));
+        decorators.push(UseInterceptors(FileInterceptor('file')));
+
         break;
       }
 
@@ -61,11 +62,12 @@ export const Operacao = (operation: IOperation) => {
         for (const [propertyKey, propertyDeclaration] of Object.entries(input.params ?? {})) {
           let propertyDeclarationSimple: IDeclarationPropertySimple;
 
-          if (propertyDeclaration.type === 'mixed') {
-            const propertyDeclarationMixed = propertyDeclaration as IDeclarationPropertyMixed;
-            propertyDeclarationSimple = propertyDeclarationMixed.input;
+          if (IsPropertyMixed(propertyDeclaration)) {
+            propertyDeclarationSimple = propertyDeclaration.input;
+          } else if (IsPropertySimple(propertyDeclaration)) {
+            propertyDeclarationSimple = propertyDeclaration;
           } else {
-            propertyDeclarationSimple = propertyDeclaration as IDeclarationPropertySimple;
+            throw new Error(`Invalid property declaration: ${JSON.stringify(propertyDeclaration)}`);
           }
 
           const name = propertyDeclarationSimple.name ?? propertyKey;
@@ -82,11 +84,12 @@ export const Operacao = (operation: IOperation) => {
         for (const [propertyKey, propertyDeclaration] of Object.entries(input.query ?? {})) {
           let propertyDeclarationSimple: IDeclarationPropertySimple;
 
-          if (propertyDeclaration.type === 'mixed') {
-            const propertyDeclarationMixed = propertyDeclaration as IDeclarationPropertyMixed;
-            propertyDeclarationSimple = propertyDeclarationMixed.input;
+          if (IsPropertyMixed(propertyDeclaration)) {
+            propertyDeclarationSimple = propertyDeclaration.input;
+          } else if (IsPropertySimple(propertyDeclaration)) {
+            propertyDeclarationSimple = propertyDeclaration;
           } else {
-            propertyDeclarationSimple = propertyDeclaration as IDeclarationPropertySimple;
+            throw new Error(`Invalid property declaration: ${JSON.stringify(propertyDeclaration)}`);
           }
 
           const name = propertyDeclarationSimple.name ?? propertyKey;

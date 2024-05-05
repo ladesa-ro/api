@@ -23,11 +23,7 @@ export class TurmaController {
 
   @Get('/:id')
   @Operacao(Spec.TurmaFindOneByIdOperator())
-  async turmaFindById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.TurmaFindOneByIdOperator())
-    { id }: Spec.ITurmaFindOneByIdInputDto,
-  ) {
+  async turmaFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.turmaService.turmaFindByIdStrict(contextoDeAcesso, { id });
   }
 
@@ -46,7 +42,8 @@ export class TurmaController {
   async turmaUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaHttp(Spec.TurmaUpdateOperator())
-    { id, ...dto }: Spec.ITurmaUpdateDto,
+    { ...dto }: Spec.ITurmaUpdateDto,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     const dtoUpdate: Spec.ITurmaUpdateDto = {
       ...dto,
@@ -60,11 +57,7 @@ export class TurmaController {
 
   @Get('/:id/imagem/capa')
   @Operacao(Spec.TurmaGetImagemCapaOperator())
-  async turmaGetImagemCapa(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.TurmaFindOneByIdOperator())
-    { id }: Spec.ITurmaFindOneByIdInputDto,
-  ) {
+  async turmaGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.turmaService.turmaGetImagemCapa(contextoDeAcesso, id);
   }
 
@@ -73,8 +66,8 @@ export class TurmaController {
   async turmaImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @Param('id', ParseUUIDPipe) id: string,
     @UploadedFile() file: Express.Multer.File,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.turmaService.turmaUpdateImagemCapa(contextoDeAcesso, { id }, file);
   }
@@ -83,11 +76,7 @@ export class TurmaController {
 
   @Delete('/:id')
   @Operacao(Spec.TurmaDeleteOperator())
-  async turmaDeleteOneById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.TurmaFindOneByIdOperator())
-    { id }: Spec.ITurmaFindOneByIdInputDto,
-  ) {
+  async turmaDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.turmaService.turmaDeleteOneById(contextoDeAcesso, { id });
   }
 

@@ -23,11 +23,7 @@ export class BlocoController {
 
   @Get('/:id')
   @Operacao(Spec.BlocoFindOneByIdOperator())
-  async blocoFindById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.BlocoFindOneByIdOperator())
-    { id }: Spec.IBlocoFindOneByIdInputDto,
-  ) {
+  async blocoFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, { id });
   }
 
@@ -46,7 +42,8 @@ export class BlocoController {
   async blocoUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaHttp(Spec.BlocoUpdateOperator())
-    { id, ...dto }: Spec.IBlocoUpdateDto,
+    { ...dto }: Spec.IBlocoUpdateDto,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     const dtoUpdate: Spec.IBlocoUpdateDto = {
       ...dto,
@@ -60,11 +57,7 @@ export class BlocoController {
 
   @Get('/:id/imagem/capa')
   @Operacao(Spec.BlocoGetImagemCapaOperator())
-  async blocoGetImagemCapa(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.BlocoFindOneByIdOperator())
-    { id }: Spec.IBlocoFindOneByIdInputDto,
-  ) {
+  async blocoGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.blocoService.blocoGetImagemCapa(contextoDeAcesso, id);
   }
 
@@ -73,8 +66,8 @@ export class BlocoController {
   async blocoImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @Param('id', ParseUUIDPipe) id: string,
     @UploadedFile() file: Express.Multer.File,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.blocoService.blocoUpdateImagemCapa(contextoDeAcesso, { id }, file);
   }
@@ -83,11 +76,7 @@ export class BlocoController {
 
   @Delete('/:id')
   @Operacao(Spec.BlocoDeleteOperator())
-  async blocoDeleteOneById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.BlocoFindOneByIdOperator())
-    { id }: Spec.IBlocoFindOneByIdInputDto,
-  ) {
+  async blocoDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.blocoService.blocoDeleteOneById(contextoDeAcesso, { id });
   }
 

@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -24,11 +24,7 @@ export class CalendarioLetivoController {
 
   @Get('/:id')
   @Operacao(Spec.CalendarioLetivoFindOneByIdOperator())
-  async calendarioLetivoFindById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CalendarioLetivoFindOneByIdOperator())
-    { id }: Spec.ICalendarioLetivoFindOneByIdInputDto,
-  ) {
+  async calendarioLetivoFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(contextoDeAcesso, { id });
   }
 
@@ -47,7 +43,8 @@ export class CalendarioLetivoController {
   async calendarioLetivoUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaHttp(Spec.CalendarioLetivoUpdateOperator())
-    { id, ...dto }: Spec.ICalendarioLetivoUpdateDto,
+    { ...dto }: Spec.ICalendarioLetivoUpdateDto,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     const dtoUpdate: Spec.ICalendarioLetivoUpdateDto = {
       ...dto,
@@ -61,11 +58,7 @@ export class CalendarioLetivoController {
 
   @Delete('/:id')
   @Operacao(Spec.CalendarioLetivoDeleteOperator())
-  async CalendarioLetivoDeleteOneById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CalendarioLetivoFindOneByIdOperator())
-    { id }: Spec.ICalendarioLetivoFindOneByIdInputDto,
-  ) {
+  async CalendarioLetivoDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.calendarioLetivoService.calendarioLetivoDeleteOneById(contextoDeAcesso, { id });
   }
 
