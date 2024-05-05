@@ -26,11 +26,7 @@ export class DisciplinaController {
 
   @Get('/:id')
   @Operacao(Spec.DisciplinaFindOneByIdOperator())
-  async disciplinaFindById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.DisciplinaFindOneByIdOperator())
-    { id }: Spec.IDisciplinaFindOneByIdInputDto,
-  ) {
+  async disciplinaFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.disciplinaService.disciplinaFindByIdStrict(contextoDeAcesso, { id });
   }
 
@@ -49,7 +45,8 @@ export class DisciplinaController {
   async disciplinaUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaHttp(Spec.DisciplinaUpdateOperator())
-    { id, ...dto }: Spec.IDisciplinaUpdateDto,
+    { ...dto }: Spec.IDisciplinaUpdateDto,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     const dtoUpdate: Spec.IDisciplinaUpdateDto = {
       ...dto,
@@ -63,11 +60,7 @@ export class DisciplinaController {
 
   @Get('/:id/imagem/capa')
   @Operacao(Spec.DisciplinaGetImagemCapaOperator())
-  async disciplinaGetImagemCapa(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.DisciplinaFindOneByIdOperator())
-    { id }: Spec.IDisciplinaFindOneByIdInputDto,
-  ) {
+  async disciplinaGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.disciplinaService.disciplinaGetImagemCapa(contextoDeAcesso, id);
   }
 
@@ -76,8 +69,8 @@ export class DisciplinaController {
   async disciplinaImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @Param('id', ParseUUIDPipe) id: string,
     @UploadedFile() file: Express.Multer.File,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.disciplinaService.disciplinaUpdateImagemCapa(contextoDeAcesso, { id }, file);
   }
@@ -86,11 +79,7 @@ export class DisciplinaController {
 
   @Delete('/:id')
   @Operacao(Spec.DisciplinaDeleteOperator())
-  async disciplinaDeleteOneById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.DisciplinaFindOneByIdOperator())
-    { id }: Spec.IDisciplinaFindOneByIdInputDto,
-  ) {
+  async disciplinaDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.disciplinaService.disciplinaDeleteOneById(contextoDeAcesso, { id });
   }
 

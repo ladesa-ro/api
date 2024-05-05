@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -26,11 +26,7 @@ export class ModalidadeController {
 
   @Get('/:id')
   @Operacao(Spec.ModalidadeFindOneByIdOperator())
-  async modalidadeFindById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.ModalidadeFindOneByIdOperator())
-    { id }: Spec.IModalidadeFindOneByIdInputDto,
-  ) {
+  async modalidadeFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, { id });
   }
 
@@ -49,7 +45,8 @@ export class ModalidadeController {
   async modalidadeUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaHttp(Spec.ModalidadeUpdateOperator())
-    { id, ...dto }: Spec.IModalidadeUpdateDto,
+    { ...dto }: Spec.IModalidadeUpdateDto,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     const dtoUpdate: Spec.IModalidadeUpdateDto = {
       ...dto,
@@ -63,11 +60,7 @@ export class ModalidadeController {
 
   @Delete('/:id')
   @Operacao(Spec.ModalidadeDeleteOperator())
-  async modalidadeDeleteOneById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.ModalidadeFindOneByIdOperator())
-    { id }: Spec.IModalidadeFindOneByIdInputDto,
-  ) {
+  async modalidadeDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.modalidadeService.modalidadeDeleteOneById(contextoDeAcesso, { id });
   }
 

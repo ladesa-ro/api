@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -26,11 +26,7 @@ export class CampusController {
 
   @Get('/:id')
   @Operacao(Spec.CampusFindOneByIdOperator())
-  async campusFindById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CampusFindOneByIdOperator())
-    { id }: Spec.ICampusFindOneByIdInputDto,
-  ) {
+  async campusFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.campusService.campusFindByIdStrict(contextoDeAcesso, { id });
   }
 
@@ -49,7 +45,8 @@ export class CampusController {
   async campusUpdate(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaHttp(Spec.CampusUpdateOperator())
-    { id, ...dto }: Spec.ICampusUpdateDto,
+    { ...dto }: Spec.ICampusUpdateDto,
+    @Param('id', ParseUUIDPipe) id: string,
   ) {
     const dtoUpdate: Spec.ICampusUpdateDto = {
       ...dto,
@@ -63,11 +60,7 @@ export class CampusController {
 
   @Delete('/:id')
   @Operacao(Spec.CampusDeleteOperator())
-  async campusDeleteOneById(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CampusFindOneByIdOperator())
-    { id }: Spec.ICampusFindOneByIdInputDto,
-  ) {
+  async campusDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.campusService.campusDeleteOneById(contextoDeAcesso, { id });
   }
 
