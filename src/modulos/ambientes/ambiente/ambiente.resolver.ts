@@ -1,11 +1,9 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { DadosEntradaGql } from '../../../legacy';
+import { DadosEntradaGql, Operacao } from '../../../especificacao';
 import { AmbienteDto } from './ambiente.dtos';
 import { AmbienteService } from './ambiente.service';
-
 @Resolver(() => AmbienteDto)
 export class AmbienteResolver {
   constructor(

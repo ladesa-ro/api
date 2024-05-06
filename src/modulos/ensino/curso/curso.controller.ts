@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody } from '../../../legacy';
 import { CursoService } from './curso.service';
 
 @ApiTags('Cursos')
@@ -31,7 +30,7 @@ export class CursoController {
 
   @Post('/')
   @Operacao(Spec.CursoCreateOperator())
-  async cursoCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.CursoCreateOperator()) dto: Spec.ICursoInputDto) {
+  async cursoCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.CursoCreateOperator()) dto: Spec.ICursoInputDto) {
     return this.cursoService.cursoCreate(contextoDeAcesso, dto);
   }
 

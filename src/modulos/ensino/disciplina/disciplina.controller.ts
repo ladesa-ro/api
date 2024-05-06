@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody } from '../../../legacy';
 import { DisciplinaService } from './disciplina.service';
 
 @ApiTags('Disciplinas')
@@ -34,7 +33,7 @@ export class DisciplinaController {
 
   @Post('/')
   @Operacao(Spec.DisciplinaCreateOperator())
-  async disciplinaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.DisciplinaCreateOperator()) dto: Spec.IDisciplinaInputDto) {
+  async disciplinaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.DisciplinaCreateOperator()) dto: Spec.IDisciplinaInputDto) {
     return this.disciplinaService.disciplinaCreate(contextoDeAcesso, dto);
   }
 

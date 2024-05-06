@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody } from '../../../legacy';
 import { VinculoService } from './vinculo.service';
 
 @Controller('/vinculos')
@@ -19,7 +18,7 @@ export class VinculoController {
 
   @Post('/')
   @Operacao(Spec.VinculoUpdateOperator())
-  async vinculoSetVinculos(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.VinculoUpdateOperator()) dto: Spec.IVinculoUpdateInputDto) {
+  async vinculoSetVinculos(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.VinculoUpdateOperator()) dto: Spec.IVinculoUpdateInputDto) {
     return this.vinculoService.vinculoSetVinculos(contextoDeAcesso, dto);
   }
 }

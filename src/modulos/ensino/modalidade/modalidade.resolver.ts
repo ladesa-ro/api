@@ -3,11 +3,9 @@ import * as Spec from '@sisgea/spec';
 import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { DadosEntradaGql } from '../../../legacy';
+import { DadosEntradaGql, Operacao } from '../../../especificacao';
 import { ModalidadeDto } from './modalidade.dtos';
 import { ModalidadeService } from './modalidade.service';
-
 @Resolver(() => ModalidadeDto)
 export class ModalidadeResolver {
   constructor(

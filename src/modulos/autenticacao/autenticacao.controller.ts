@@ -3,8 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { Public } from '../../autenticacao';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../contexto-de-acesso';
-import { Operacao } from '../../especificacao';
-import { HttpDtoBody } from '../../legacy';
+import { DadosEntradaHttp, Operacao } from '../../especificacao';
 import { AutenticacaoService } from './autenticacao.service';
 
 @ApiTags('Autenticacao')
@@ -21,20 +20,20 @@ export class AutenticacaoController {
   @Post('/login')
   @Public()
   @Operacao(Spec.AutenticacaoLoginOperator())
-  login(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.AutenticacaoLoginOperator()) dto: Spec.IAutenticacaoLoginInputDto) {
+  login(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.AutenticacaoLoginOperator()) dto: Spec.IAutenticacaoLoginInputDto) {
     return this.autenticacaoService.login(contextoDeAcesso, dto);
   }
 
   @Post('/login/refresh')
   @Public()
   @Operacao(Spec.AutenticacaoRefreshOperator())
-  refresh(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.AutenticacaoRefreshOperator()) dto: Spec.IAutenticacaoRefreshInputDto) {
+  refresh(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.AutenticacaoRefreshOperator()) dto: Spec.IAutenticacaoRefreshInputDto) {
     return this.autenticacaoService.refresh(contextoDeAcesso, dto);
   }
 
   @Post('/definir-senha')
   @Operacao(Spec.AutenticacaoDefinirSenhaOperator())
-  definirSenha(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.AutenticacaoDefinirSenhaOperator()) dto: Spec.IAutenticacaoDefinirSenhaInputDto) {
+  definirSenha(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.AutenticacaoDefinirSenhaOperator()) dto: Spec.IAutenticacaoDefinirSenhaInputDto) {
     return this.autenticacaoService.definirSenha(contextoDeAcesso, dto);
   }
 }

@@ -1,11 +1,9 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { DadosEntradaGql } from '../../../legacy';
+import { DadosEntradaGql, Operacao } from '../../../especificacao';
 import { BlocoDto } from './bloco.dtos';
 import { BlocoService } from './bloco.service';
-
 @Resolver(() => BlocoDto)
 export class BlocoResolver {
   constructor(

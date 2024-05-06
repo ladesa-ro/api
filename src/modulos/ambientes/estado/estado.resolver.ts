@@ -4,10 +4,8 @@ import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '@sisgea/
 import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { DadosEntradaGql } from '../../../legacy';
+import { DadosEntradaGql, Operacao } from '../../../especificacao';
 import { EstadoService } from './estado.service';
-
 @Resolver()
 export class EstadoResolver {
   constructor(

@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody } from '../../../legacy';
 import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
@@ -34,7 +33,7 @@ export class UsuarioController {
 
   @Post('/')
   @Operacao(Spec.UsuarioCreateOperator())
-  async usuarioCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.UsuarioCreateOperator()) dto: Spec.IUsuarioInputDto) {
+  async usuarioCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.UsuarioCreateOperator()) dto: Spec.IUsuarioInputDto) {
     return this.usuarioService.usuarioCreate(contextoDeAcesso, dto);
   }
 

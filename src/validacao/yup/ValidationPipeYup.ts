@@ -1,5 +1,5 @@
 import { Injectable, PipeTransform } from '@nestjs/common';
-import omit from 'lodash/omit';
+import { omit } from 'lodash';
 import type { ISchema } from 'yup';
 import * as yup from 'yup';
 import { ValidationFailedException } from '../../nest-app/adapters';
@@ -19,7 +19,11 @@ export class ValidationPipeYup implements PipeTransform {
 
   async transform(value: any /*, metadata: ArgumentMetadata */) {
     try {
-      const data = await this.yupSchema.validate(tryCast(this.yupSchema, value));
+      const schema = this.yupSchema;
+
+      const casted = tryCast(schema, value);
+      const data = await schema.validate(casted);
+
       return data;
     } catch (err) {
       if (err instanceof yup.ValidationError) {
