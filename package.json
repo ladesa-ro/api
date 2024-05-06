@@ -60,7 +60,7 @@
     "passport": "^0.7.0",
     "passport-http-bearer": "^1.0.1",
     "pg": "^8.11.5",
-    "rascal": "^19.0.0",
+    "rascal": "^20.0.0",
     "reflect-metadata": "^0.2.2",
     "rimraf": "^5.0.5",
     "rxjs": "^7.8.1",
