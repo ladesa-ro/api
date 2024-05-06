@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody } from '../../../legacy';
 import { DiarioService } from './diario.service';
 
 @ApiTags('Diarios')
@@ -34,7 +33,7 @@ export class DiarioController {
 
   @Post('/')
   @Operacao(Spec.DiarioCreateOperator())
-  async diarioCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.DiarioCreateOperator()) dto: Spec.IDiarioInputDto) {
+  async diarioCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.DiarioCreateOperator()) dto: Spec.IDiarioInputDto) {
     return this.diarioService.diarioCreate(contextoDeAcesso, dto);
   }
 

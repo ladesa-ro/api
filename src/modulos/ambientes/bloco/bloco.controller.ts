@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody } from '../../../legacy';
 import { BlocoService } from './bloco.service';
 
 @ApiTags('Blocos')
@@ -31,7 +30,7 @@ export class BlocoController {
 
   @Post('/')
   @Operacao(Spec.BlocoCreateOperator())
-  async blocoCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.BlocoCreateOperator()) dto: Spec.IBlocoInputDto) {
+  async blocoCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.BlocoCreateOperator()) dto: Spec.IBlocoInputDto) {
     return this.blocoService.blocoCreate(contextoDeAcesso, dto);
   }
 

@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody } from '../../../legacy';
 import { AmbienteService } from './ambiente.service';
 
 @ApiTags('Ambientes')
@@ -34,7 +33,7 @@ export class AmbienteController {
 
   @Post('/')
   @Operacao(Spec.AmbienteCreateOperator())
-  async ambienteCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.AmbienteCreateOperator()) dto: Spec.IAmbienteInputDto) {
+  async ambienteCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.AmbienteCreateOperator()) dto: Spec.IAmbienteInputDto) {
     return this.ambienteService.ambienteCreate(contextoDeAcesso, dto);
   }
 

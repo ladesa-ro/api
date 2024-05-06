@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody } from '../../../legacy';
 import { CampusService } from './campus.service';
 
 @ApiTags('Campi')
@@ -34,7 +33,7 @@ export class CampusController {
 
   @Post('/')
   @Operacao(Spec.CampusCreateOperator())
-  async campusCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.CampusCreateOperator()) dto: Spec.ICampusInputDto) {
+  async campusCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.CampusCreateOperator()) dto: Spec.ICampusInputDto) {
     return this.campusService.campusCreate(contextoDeAcesso, dto);
   }
 

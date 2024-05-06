@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody } from '../../../legacy';
 import { CalendarioLetivoService } from './calendario-letivo.service';
 
 @ApiTags('Calendarios Letivos')
@@ -32,7 +31,7 @@ export class CalendarioLetivoController {
 
   @Post('/')
   @Operacao(Spec.CalendarioLetivoCreateOperator())
-  async campusCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.CalendarioLetivoCreateOperator()) dto: Spec.ICalendarioLetivoInputDto) {
+  async campusCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.CalendarioLetivoCreateOperator()) dto: Spec.ICalendarioLetivoInputDto) {
     return this.calendarioLetivoService.calendarioLetivoCreate(contextoDeAcesso, dto);
   }
 

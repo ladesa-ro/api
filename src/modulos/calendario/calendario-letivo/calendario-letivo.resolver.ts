@@ -1,11 +1,9 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { DadosEntradaGql } from '../../../legacy';
+import { DadosEntradaGql, Operacao } from '../../../especificacao';
 import { CalendarioLetivoDto } from './calendario-letivo.dtos';
 import { CalendarioLetivoService } from './calendario-letivo.service';
-
 @Resolver(() => CalendarioLetivoDto)
 export class CalendarioLetivoResolver {
   constructor(private calendarioLetivoService: CalendarioLetivoService) {}

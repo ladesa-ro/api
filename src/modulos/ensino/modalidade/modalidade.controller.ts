@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody } from '../../../legacy';
 import { ModalidadeService } from './modalidade.service';
 
 @ApiTags('Modalidades')
@@ -34,7 +33,7 @@ export class ModalidadeController {
 
   @Post('/')
   @Operacao(Spec.ModalidadeCreateOperator())
-  async modalidadeCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.ModalidadeCreateOperator()) dto: Spec.IModalidadeInputDto) {
+  async modalidadeCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.ModalidadeCreateOperator()) dto: Spec.IModalidadeInputDto) {
     return this.modalidadeService.modalidadeCreate(contextoDeAcesso, dto);
   }
 

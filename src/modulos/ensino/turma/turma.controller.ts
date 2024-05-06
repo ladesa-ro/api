@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody } from '../../../legacy';
 import { TurmaService } from './turma.service';
 
 @ApiTags('Turmas')
@@ -31,7 +30,7 @@ export class TurmaController {
 
   @Post('/')
   @Operacao(Spec.TurmaCreateOperator())
-  async turmaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.TurmaCreateOperator()) dto: Spec.ITurmaInputDto) {
+  async turmaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.TurmaCreateOperator()) dto: Spec.ITurmaInputDto) {
     return this.turmaService.turmaCreate(contextoDeAcesso, dto);
   }
 

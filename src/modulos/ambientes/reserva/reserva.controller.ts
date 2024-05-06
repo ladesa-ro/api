@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { HttpDtoBody } from '../../../legacy';
 import { ReservaService } from './reserva.service';
 
 @ApiTags('Reservas')
@@ -34,7 +33,7 @@ export class ReservaController {
 
   @Post('/')
   @Operacao(Spec.ReservaCreateOperator())
-  async reservaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @HttpDtoBody(Spec.ReservaCreateOperator()) dto: Spec.IReservaInputDto) {
+  async reservaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.ReservaCreateOperator()) dto: Spec.IReservaInputDto) {
     return this.reservaService.reservaCreate(contextoDeAcesso, dto);
   }
 

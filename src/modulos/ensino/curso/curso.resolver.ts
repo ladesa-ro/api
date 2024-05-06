@@ -1,10 +1,9 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaGql } from '../../../legacy';
+import { DadosEntradaGql } from '../../../especificacao';
 import { CursoDto } from './curso.dtos';
 import { CursoService } from './curso.service';
-
 import { Operacao } from '../../../especificacao';
 
 @Resolver(() => CursoDto)

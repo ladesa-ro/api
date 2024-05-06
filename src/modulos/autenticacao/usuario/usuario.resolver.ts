@@ -1,11 +1,9 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
-import { DadosEntradaGql } from '../../../legacy';
+import { DadosEntradaGql, Operacao } from '../../../especificacao';
 import { UsuarioDto } from './usuario.dtos';
 import { UsuarioService } from './usuario.service';
-
 @Resolver(() => UsuarioDto)
 export class UsuarioResolver {
   constructor(
