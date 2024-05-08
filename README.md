@@ -15,7 +15,7 @@ API nest.
 
 | Host            | Endereço         | Descrição               | Plataforma Base                   |
 | --------------- | ---------------- | ----------------------- | --------------------------------- |
-| `sisgea-api`    | `localhost:3000` | Aplicação NodeJS.       | `docker.io/library/node:28`       |
+| `sisgea-api`    | `localhost:3000` | Aplicação NodeJS.       | `docker.io/library/node:22`       |
 | `sisgea-api-db` | `localhost:5432` | Banco de dados postgres | `docker.io/bitnami/postgresql:15` |
 
 ### Scripts Make
