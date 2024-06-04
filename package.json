@@ -40,7 +40,7 @@
     "@nestjs/event-emitter": "^2.0.2",
     "@nestjs/graphql": "^12.1.1",
     "@nestjs/passport": "^10.0.3",
-    "@nestjs/platform-express": "^10.3.8",
+    "@nestjs/platform-express": "^10.3.9",
     "@nestjs/schedule": "^4.0.2",
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/throttler": "^5.1.2",
