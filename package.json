@@ -34,7 +34,7 @@
     "@apollo/server": "^4.10.4",
     "@keycloak/keycloak-admin-client": "^24.0.5",
     "@nestjs/apollo": "^12.1.0",
-    "@nestjs/common": "^10.3.8",
+    "@nestjs/common": "^10.3.9",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.3.9",
     "@nestjs/event-emitter": "^2.0.2",
