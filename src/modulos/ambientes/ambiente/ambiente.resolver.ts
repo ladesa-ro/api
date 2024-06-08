@@ -13,10 +13,10 @@ export class AmbienteResolver {
 
   //
 
-  @Operacao(Spec.AmbienteFindAllOperator())
-  async ambienteFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteFindAllOperator()) dto: Spec.IPaginatedInputDto) {
-    return this.ambienteService.ambienteFindAll(contextoDeAcesso, dto);
-  }
+  // @Operacao(Spec.AmbienteFindAllOperator())
+  // async ambienteFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteFindAllOperator()) dto: Spec.IPaginatedInputDto) {
+  //   return this.ambienteService.ambienteFindAll(contextoDeAcesso, dto);
+  // }
 
   //
 
