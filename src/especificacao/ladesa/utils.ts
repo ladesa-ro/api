@@ -8,7 +8,7 @@ export const OPERATION_KEY = 'operacao4';
 export const COMBINED_INPUT_PARAM = 'combined_input';
 
 export const CombinedInput = () => {
-  return (target: Object, propertyKey: string | symbol | undefined, parameterIndex: number) => {
+  return (target: any, propertyKey: string | symbol | undefined, parameterIndex: number) => {
     if (propertyKey) {
       const descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
 
@@ -28,7 +28,6 @@ export const CompileDtoCtor = (opaqueTarget: string | IUniNode, meta?: Record<st
 
   if (realTargetNode && CheckView(realTargetNode)) {
     const impl = new NestImpl(repository, dtoClassesMap);
-
     return impl.CompileCtor(realTargetNode, null, meta);
   } else {
     throw new TypeError();

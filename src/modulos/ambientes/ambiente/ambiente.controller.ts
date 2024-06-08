@@ -14,8 +14,6 @@ import { AmbienteService } from './ambiente.service';
 export class AmbienteController {
   constructor(private ambienteService: AmbienteService) {}
 
-  //
-
   @Get('/')
   @Operation(Tokens.Ambiente.Operations.List)
   async ambienteFindAll(
@@ -32,8 +30,6 @@ export class AmbienteController {
   async ambienteFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id });
   }
-
-  //
 
   @Post('/')
   @Operacao(Spec.AmbienteCreateOperator())

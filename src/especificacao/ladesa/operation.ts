@@ -88,7 +88,6 @@ export const Operation = (token: string) => {
           const realTargetNode = repository.GetRealTarget(opaqueTargetNode);
 
           if (CheckType(realTargetNode)) {
-            console.log(1, { key });
             decorators.push(
               ApiParam({
                 name: name,
@@ -109,7 +108,6 @@ export const Operation = (token: string) => {
           const realTargetNode = repository.GetRealTarget(opaqueTargetNode);
 
           if (CheckType(realTargetNode)) {
-            console.log(2, { key });
             decorators.push(
               ApiQuery({
                 name: name,
@@ -184,8 +182,6 @@ export const Operation = (token: string) => {
           const resultCtor = resultNode && CompileDtoCtor(resultNode, { mode: 'output' });
 
           const description = `Sucesso na operação "${operation.name}".`;
-
-          console.log({ result, resultCtor });
 
           decorators.push(
             ApiResponse({

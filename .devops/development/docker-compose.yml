@@ -11,6 +11,7 @@ services:
       - sisgea-luna-net
     ports:
       - 3701:3701
+      - 9229:9229
     volumes:
       - ../../../../../libs:/sisgea/env-dev/libs
       - ../../:/sisgha-api
