@@ -4,7 +4,7 @@ import { GetDeclarationValidator, GetSchema, IDeclaration, IOperation } from '@s
 import { pascalCase } from 'change-case';
 import { Request } from 'express';
 import * as yup from 'yup';
-import { ValidationPipeYup } from '../../validacao';
+import { ValidationPipeYup } from '../../../validacao';
 import { CreateEntityDtoClass } from '../utilitarios';
 import { CastDeclarator } from '../utilitarios/SpecHelpers';
 

@@ -1,10 +1,12 @@
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import { busca, buscaLadesa, getPaginatedResultDto } from '../../../busca';
+import { getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { BuscaLadesa } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { AmbienteEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { AppResource, AppResourceView, IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../legacy/utils';
@@ -12,7 +14,6 @@ import { paginateConfig } from '../../../legacy/utils/paginateConfig';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
 import { BlocoService, IBlocoQueryBuilderViewOptions } from '../bloco/bloco.service';
-import type * as LadesaTypings from '@ladesa-ro/especificacao';
 
 // ============================================================================
 
@@ -76,7 +77,7 @@ export class AmbienteService {
 
   //
 
-  async ambienteFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteListCombinedInput | null = null): Promise<Spec.IAmbienteFindAllResultDto> {
+  async ambienteFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteListCombinedInput | null = null): Promise<LadesaTypings.AmbienteListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
@@ -87,7 +88,7 @@ export class AmbienteService {
 
     // =========================================================
 
-    const paginated = await buscaLadesa('#/', dto, qb, {
+    const paginated = await BuscaLadesa('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -157,7 +158,8 @@ export class AmbienteService {
 
     // =========================================================
 
-    return getPaginatedResultDto(paginated);
+    // TODO: remove <any>
+    return <any>getPaginatedResultDto(paginated);
   }
 
   async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IAmbienteFindOneByIdInputDto): Promise<Spec.IAmbienteFindOneResultDto | null> {

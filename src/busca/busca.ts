@@ -20,32 +20,6 @@ export const busca = async <T>(path: string, dto: IPaginatedInputDto | null, qb:
   return paginate(paginateQuery, qb.clone(), config);
 };
 
-type BuscaLadesa = {
-  queries: {
-    page?: string | number;
-    limit?: string | number;
-    search?: string;
-    sortBy?: string | string[];
-  }& Record<string,any>;
-};
-
-const getPaginateQueryFromBuscaLadesa = (path: string, dto: BuscaLadesa | null): PaginateQuery => {
-  return {
-    path,
-    page: +(dto?.queries?.page ?? 1),
-    limit: +(dto?.queries?.limit ?? 100),
-    search: dto?.queries?.search ?? '',
-    // sortBy: castArray(dto?.queries?.sortBy ?? []).map((sortBy) => sortBy.split(':') as [string, string]),
-    // filter: Object.entries(dto?.queries ?? {}).filter((i) => i[0].startsWith('filter.')),
-  };
-};
-
-export const buscaLadesa = async <T>(path: string, dto: BuscaLadesa | null, qb: SelectQueryBuilder<any>, config: PaginateConfig<T>) => {
-  const paginateQuery = getPaginateQueryFromBuscaLadesa(path, dto);
-
-  return paginate(paginateQuery, qb.clone(), config);
-};
-
 export const getPaginatedResultDto = <T>(paginated: Paginated<T>): IPaginatedResultDto<T> => {
   return {
     ...paginated,

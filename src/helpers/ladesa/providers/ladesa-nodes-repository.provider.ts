@@ -6,7 +6,6 @@ let cachedLadesaNodesRepository: UniRepository | null = null;
 const fetchLadesaNodesRepository = () => {
   const repository = new UniRepository();
   repository.Add(Nodes);
-
   return repository;
 };
 

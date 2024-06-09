@@ -1,5 +1,5 @@
 import { Usuario, UsuarioFindAllResult, UsuarioFindOneByIdInput, UsuarioFindOneResult } from '@sisgea/spec';
-import { CreateEntityDtoClass } from '../../../especificacao';
+import { CreateEntityDtoClass } from '../../../legacy/especificacao';
 
 // ======================================================
 export const UsuarioDto = CreateEntityDtoClass(Usuario);

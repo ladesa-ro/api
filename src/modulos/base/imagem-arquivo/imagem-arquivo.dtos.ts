@@ -1,7 +1,7 @@
 import * as Spec from '@sisgea/spec';
 import * as yup from 'yup';
+import { CreateEntityDtoClass } from '../../../legacy/especificacao';
 import { createValidationContract, ValidationContractNumber, ValidationContractString, ValidationContractUuid } from '../../../validacao';
-import { CreateEntityDtoClass } from '../../../especificacao';
 
 // ======================================================
 export const ImagemArquivoDto = CreateEntityDtoClass(Spec.ImagemArquivo, 'output');

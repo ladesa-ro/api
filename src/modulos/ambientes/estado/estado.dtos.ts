@@ -1,5 +1,5 @@
 import { Estado, EstadoFindAllResult, EstadoFindOneByIdInput, EstadoFindOneByUfInput, EstadoFindOneResult } from '@sisgea/spec';
-import { CreateEntityDtoClass } from '../../../especificacao';
+import { CreateEntityDtoClass } from '../../../legacy/especificacao';
 
 // ======================================================
 export const EstadoDto = CreateEntityDtoClass(Estado);

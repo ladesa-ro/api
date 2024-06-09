@@ -4,9 +4,8 @@ import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, Upload
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../especificacao';
-import { CombinedInput } from '../../../especificacao/ladesa';
-import { Operation } from '../../../especificacao/ladesa/operation';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
+import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
 import { AmbienteService } from './ambiente.service';
 
 @ApiTags('Ambientes')
@@ -20,7 +19,7 @@ export class AmbienteController {
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @CombinedInput() combinedInput: LadesaTypings.AmbienteListCombinedInput,
   ): Promise<LadesaTypings.AmbienteListCombinedSuccessOutput['body']> {
-    return this.ambienteService.ambienteFindAll(contextoDeAcesso, combinedInput) as any;
+    return this.ambienteService.ambienteFindAll(contextoDeAcesso, combinedInput);
   }
 
   //
