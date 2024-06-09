@@ -9,9 +9,7 @@ const getPaginateQueryFromPaginatedInput = (path: string, dto: IPaginatedInputDt
     page: dto?.page,
     limit: dto?.limit,
     search: dto?.search,
-
     sortBy: dto?.sortBy?.map((sortBy): [string, string] => [sortBy.property, sortBy.mode]),
-
     filter: Object.fromEntries(dto?.filter?.map((filter) => [filter.property, filter.restrictions]) ?? []),
   };
 };

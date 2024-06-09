@@ -1,7 +1,7 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaGql, Operacao } from '../../../especificacao';
+import { DadosEntradaGql, Operacao } from '../../../legacy/especificacao';
 import { AmbienteDto } from './ambiente.dtos';
 import { AmbienteService } from './ambiente.service';
 @Resolver(() => AmbienteDto)
@@ -13,10 +13,10 @@ export class AmbienteResolver {
 
   //
 
-  @Operacao(Spec.AmbienteFindAllOperator())
-  async ambienteFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteFindAllOperator()) dto: Spec.IPaginatedInputDto) {
-    return this.ambienteService.ambienteFindAll(contextoDeAcesso, dto);
-  }
+  // @Operacao(Spec.AmbienteFindAllOperator())
+  // async ambienteFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteFindAllOperator()) dto: Spec.IPaginatedInputDto) {
+  //   return this.ambienteService.ambienteFindAll(contextoDeAcesso, dto);
+  // }
 
   //
 

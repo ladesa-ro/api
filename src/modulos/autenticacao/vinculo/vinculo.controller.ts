@@ -2,7 +2,7 @@ import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
 import { VinculoService } from './vinculo.service';
 
 @Controller('/vinculos')

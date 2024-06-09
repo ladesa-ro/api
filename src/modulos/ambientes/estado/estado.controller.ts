@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
 import { EstadoService } from './estado.service';
 
 @ApiTags('Estados')

@@ -1,6 +1,6 @@
 import { Endereco, EnderecoCreate, EnderecoFindOneResult, GetDeclarationValidator, GetSchema } from '@sisgea/spec';
 import * as yup from 'yup';
-import { CreateEntityDtoClass } from '../../../especificacao';
+import { CreateEntityDtoClass } from '../../../legacy/especificacao';
 import { createValidationContract } from '../../../validacao';
 
 // ======================================================

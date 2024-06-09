@@ -1,6 +1,6 @@
 import { GetDeclarationValidator, GetSchema, Turma } from '@sisgea/spec';
 import * as yup from 'yup';
-import { CreateEntityDtoClass } from '../../../especificacao/utilitarios/CreateEntityDtoClass';
+import { CreateEntityDtoClass } from '../../../legacy/especificacao/utilitarios/CreateEntityDtoClass';
 import { createValidationContract } from '../../../validacao';
 
 // ======================================================

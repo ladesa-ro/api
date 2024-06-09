@@ -1,5 +1,5 @@
 import { AmbienteCreate } from '@sisgea/spec';
-import { CreateEntityDtoClass } from '../../../especificacao';
+import { CreateEntityDtoClass } from '../../../legacy/especificacao';
 
 // ======================================================
 export const AmbienteDto = CreateEntityDtoClass(AmbienteCreate);

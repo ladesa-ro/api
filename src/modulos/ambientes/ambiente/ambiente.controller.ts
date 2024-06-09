@@ -1,8 +1,11 @@
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
+import { Tokens } from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
+import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
 import { AmbienteService } from './ambiente.service';
 
 @ApiTags('Ambientes')
@@ -10,15 +13,13 @@ import { AmbienteService } from './ambiente.service';
 export class AmbienteController {
   constructor(private ambienteService: AmbienteService) {}
 
-  //
-
   @Get('/')
-  @Operacao(Spec.AmbienteFindAllOperator())
+  @Operation(Tokens.Ambiente.Operations.List)
   async ambienteFindAll(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.AmbienteFindAllOperator()) dto: Spec.IPaginatedInputDto,
-  ): Promise<Spec.IAmbienteFindAllResultDto> {
-    return this.ambienteService.ambienteFindAll(contextoDeAcesso, dto);
+    @CombinedInput() combinedInput: LadesaTypings.AmbienteListCombinedInput,
+  ): Promise<LadesaTypings.AmbienteListCombinedSuccessOutput['body']> {
+    return this.ambienteService.ambienteFindAll(contextoDeAcesso, combinedInput);
   }
 
   //
@@ -28,8 +29,6 @@ export class AmbienteController {
   async ambienteFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id });
   }
-
-  //
 
   @Post('/')
   @Operacao(Spec.AmbienteCreateOperator())

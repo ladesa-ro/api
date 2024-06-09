@@ -2,7 +2,7 @@ import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nes
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../especificacao';
+import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
 import { ModalidadeService } from './modalidade.service';
 
 @ApiTags('Modalidades')

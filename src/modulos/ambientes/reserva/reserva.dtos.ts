@@ -1,5 +1,5 @@
 import { Reserva, ReservaFindAllResult, ReservaFindOneByIdInput, ReservaFindOneResult } from '@sisgea/spec';
-import { CreateEntityDtoClass } from '../../../especificacao';
+import { CreateEntityDtoClass } from '../../../legacy/especificacao';
 
 // ======================================================
 export const ReservaDto = CreateEntityDtoClass(Reserva);

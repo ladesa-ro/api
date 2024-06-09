@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { Public } from '../../autenticacao';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../especificacao';
+import { DadosEntradaHttp, Operacao } from '../../legacy/especificacao';
 import { AutenticacaoService } from './autenticacao.service';
 
 @ApiTags('Autenticacao')

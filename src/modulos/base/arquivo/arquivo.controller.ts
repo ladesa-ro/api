@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query, StreamableFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ArquivoGetFileOperator } from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../especificacao';
+import { Operacao } from '../../../legacy/especificacao';
 import { ArquivoService } from './arquivo.service';
 
 @ApiTags('Arquivos')

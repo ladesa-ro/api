@@ -3,7 +3,7 @@ import * as Spec from '@sisgea/spec';
 import type { GraphQLResolveInfo } from 'graphql';
 import getFieldNames from 'graphql-list-fields';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaGql, Operacao } from '../../../especificacao';
+import { DadosEntradaGql, Operacao } from '../../../legacy/especificacao';
 import { CidadeService } from './cidade.service';
 @Resolver()
 export class CidadeResolver {

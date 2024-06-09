@@ -1,7 +1,7 @@
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaGql, Operacao } from '../../../especificacao';
+import { DadosEntradaGql, Operacao } from '../../../legacy/especificacao';
 import { DiarioProfessorDto } from './diario-professor.dtos';
 import { DiarioProfessorService } from './diario-professor.service';
 @Resolver(() => DiarioProfessorDto)
