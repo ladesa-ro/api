@@ -1,21 +1,23 @@
 import { CheckTypeFile, CheckView } from '@unispec/ast-builder';
 import type { IUniNode, IUniNodeOperation } from '@unispec/ast-types';
 import type { UniRepository } from '@unispec/ast-utils';
-import { CompileNodeSwaggerType, NestImpl } from '@unispec/driver-nestjs';
+import { CompileClassDto } from '@unispec/driver-nestjs';
+import { CompileClassGraphQlDto } from '@unispec/driver-nestjs-graphql';
+import { CompileClassSwaggerDto, CompileNodeSwaggerRepresentation } from '@unispec/driver-nestjs-swagger';
 import { getLadesaNodesRepository } from '../../../providers';
 
 const dtoClassesMap = new Map<string, object>();
 
 const SetupCompilers = () => {
   const repository = getLadesaNodesRepository();
-  const classCompiler = new NestImpl(repository, dtoClassesMap);
+  const classCompiler = new CompileClassDto(repository, [new CompileClassGraphQlDto(), new CompileClassSwaggerDto()], dtoClassesMap);
 
-  const swaggerTypeCompiler = new CompileNodeSwaggerType(repository, classCompiler)
+  const swaggerRepresentationCompiler = new CompileNodeSwaggerRepresentation(repository, classCompiler);
 
-  return { repository, classCompiler, swaggerTypeCompiler };
+  return { repository, classCompiler, swaggerRepresentationCompiler };
 };
 
-export const { repository, classCompiler, swaggerTypeCompiler } = SetupCompilers();
+export const { repository, classCompiler, swaggerRepresentationCompiler } = SetupCompilers();
 
 export const BuildDtoCtor = (opaqueTarget: string | IUniNode, meta?: Record<string, any> | undefined) => {
   const targetRealNode = repository.GetRealTarget(opaqueTarget);
@@ -36,8 +38,8 @@ export const detectStrategy = (node: any) => {
 };
 
 export type DecorateMethodContext = {
-  readonly repository: Readonly<UniRepository>;
-  readonly operation: Readonly<IUniNodeOperation>;
+  readonly repository: UniRepository;
+  readonly operation: IUniNodeOperation;
 
   decorators: Array<MethodDecorator>;
 
