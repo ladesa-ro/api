@@ -1,10 +1,10 @@
-import { IAmbienteModel, IEntityDate } from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ImagemEntity } from '../base/imagem.entity';
 import { BlocoEntity } from './bloco.entity';
 
 @Entity('ambiente')
-export class AmbienteEntity implements IAmbienteModel {
+export class AmbienteEntity implements LadesaTypings.Ambiente {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -38,11 +38,11 @@ export class AmbienteEntity implements IAmbienteModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Date;
 }

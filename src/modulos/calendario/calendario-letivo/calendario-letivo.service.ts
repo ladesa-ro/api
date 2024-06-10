@@ -1,4 +1,5 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
@@ -147,7 +148,7 @@ export class CalendarioLetivoService {
     return getPaginatedResultDto(paginated);
   }
 
-  async caledarioLetivoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICalendarioLetivoFindOneByIdInputDto): Promise<Spec.ICalendarioLetivoFindOneResultDto | null> {
+  async caledarioLetivoFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CalendarioLetivoFindOneInput): Promise<LadesaTypings.CalendarioLetivoFindOneResult | null> {
     // =========================================================
 
     const qb = this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo);
@@ -175,7 +176,7 @@ export class CalendarioLetivoService {
     return calendarioLetivo;
   }
 
-  async calendarioLetivoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICalendarioLetivoFindOneByIdInputDto) {
+  async calendarioLetivoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CalendarioLetivoFindOneInput) {
     const calendarioLetivo = await this.caledarioLetivoFindById(contextoDeAcesso, dto);
 
     if (!calendarioLetivo) {
@@ -187,10 +188,10 @@ export class CalendarioLetivoService {
 
   async calendarioLetivoFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Spec.ICalendarioLetivoFindOneByIdInputDto['id'],
+    id: LadesaTypings.CalendarioLetivoFindOneInput['id'],
     options?: ICalendarioLetivoQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Spec.ICalendarioLetivoFindOneResultDto | null> {
+  ): Promise<LadesaTypings.CalendarioLetivoFindOneResult | null> {
     // =========================================================
 
     const qb = this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo);
@@ -226,7 +227,7 @@ export class CalendarioLetivoService {
 
   async CalendarioLetivoFindByIdSimpleStrict(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Spec.ICalendarioLetivoFindOneByIdInputDto['id'],
+    id: LadesaTypings.CalendarioLetivoFindOneInput['id'],
     options?: ICalendarioLetivoQueryBuilderViewOptions,
     selection?: string[],
   ) {

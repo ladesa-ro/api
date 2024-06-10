@@ -1,4 +1,5 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
@@ -82,7 +83,7 @@ export class ModalidadeService {
     return getPaginatedResultDto(paginated);
   }
 
-  async modalidadeFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IModalidadeFindOneByIdInputDto, selection?: string[]): Promise<Spec.IModalidadeFindOneResultDto | null> {
+  async modalidadeFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.ModalidadeFindOneInput, selection?: string[]): Promise<LadesaTypings.ModalidadeFindOneResult | null> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
@@ -111,7 +112,7 @@ export class ModalidadeService {
     return modalidade;
   }
 
-  async modalidadeFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IModalidadeFindOneByIdInputDto, selection?: string[]) {
+  async modalidadeFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ModalidadeFindOneInput, selection?: string[]) {
     const modalidade = await this.modalidadeFindById(contextoDeAcesso, dto, selection);
 
     if (!modalidade) {
@@ -121,7 +122,7 @@ export class ModalidadeService {
     return modalidade;
   }
 
-  async modalidadeFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: Spec.IModalidadeFindOneByIdInputDto['id'], selection?: string[]): Promise<Spec.IModalidadeFindOneResultDto | null> {
+  async modalidadeFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.ModalidadeFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.ModalidadeFindOneResult | null> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
@@ -148,7 +149,7 @@ export class ModalidadeService {
     return modalidade;
   }
 
-  async modalidadeFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.IModalidadeFindOneByIdInputDto['id'], selection?: string[]) {
+  async modalidadeFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.ModalidadeFindOneInput['id'], selection?: string[]) {
     const modalidade = await this.modalidadeFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!modalidade) {

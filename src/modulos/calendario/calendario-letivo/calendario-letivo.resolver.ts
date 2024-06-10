@@ -1,3 +1,4 @@
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -21,7 +22,7 @@ export class CalendarioLetivoResolver {
   async calendarioLetivoFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaGql(Spec.CalendarioLetivoFindOneByIdOperator())
-    dto: Spec.ICalendarioLetivoFindOneByIdInputDto,
+    dto: LadesaTypings.CalendarioLetivoFindOneInput,
   ) {
     return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(contextoDeAcesso, dto);
   }

@@ -1,6 +1,5 @@
 import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
@@ -160,7 +159,7 @@ export class AmbienteService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.AmbienteFindOneInput): Promise<Spec.IAmbienteFindOneResultDto | null> {
+  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.AmbienteFindOneInput): Promise<LadesaTypings.AmbienteFindOneResult | null> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
@@ -274,10 +273,10 @@ export class AmbienteService {
     const ambiente = await this.ambienteFindByIdStrict(contextoDeAcesso, { id: id });
 
     if (ambiente.imagemCapa) {
-      const [imagemArquivo] = ambiente.imagemCapa.imagemArquivo;
+      const [versao] = ambiente.imagemCapa.versoes;
 
-      if (imagemArquivo) {
-        const { arquivo } = imagemArquivo;
+      if (versao) {
+        const { arquivo } = versao;
         return this.arquivoService.getStreamableFile(null, arquivo.id, null);
       }
     }
@@ -285,7 +284,7 @@ export class AmbienteService {
     throw new NotFoundException();
   }
 
-  async ambienteUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
+  async ambienteUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
     const currentAmbiente = await this.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.id });
@@ -326,7 +325,7 @@ export class AmbienteService {
 
   //
 
-  async ambienteDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IAmbienteDeleteOneByIdInputDto) {
+  async ambienteDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteFindOneInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('ambiente:delete', { dto }, dto.id, this.ambienteRepository.createQueryBuilder(aliasAmbiente));

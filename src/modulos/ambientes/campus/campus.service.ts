@@ -1,4 +1,5 @@
 import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { get, has, map, pick } from 'lodash';
@@ -173,10 +174,10 @@ export class CampusService {
 
   async campusFindById(
     contextoDeAcesso: IContextoDeAcesso,
-    dto: Spec.ICampusFindOneByIdInputDto,
+    dto: LadesaTypings.CampusFindOneInput,
     options?: ICampusQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Spec.ICampusFindOneResultDto | null> {
+  ): Promise<LadesaTypings.CampusFindOneResult | null> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
@@ -211,7 +212,7 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICampusFindOneByIdInputDto) {
+  async campusFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CampusFindOneInput) {
     const campus = await this.campusFindById(contextoDeAcesso, dto);
 
     if (!campus) {
@@ -223,10 +224,10 @@ export class CampusService {
 
   async campusFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Spec.ICampusFindOneByIdInputDto['id'],
+    id: LadesaTypings.CampusFindOneInput['id'],
     options?: ICampusQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Spec.ICampusFindOneResultDto | null> {
+  ): Promise<LadesaTypings.CampusFindOneResult | null> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
@@ -261,7 +262,7 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.ICampusFindOneByIdInputDto['id'], options?: ICampusQueryBuilderViewOptions, selection?: string[]) {
+  async campusFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CampusFindOneInput['id'], options?: ICampusQueryBuilderViewOptions, selection?: string[]) {
     const campus = await this.campusFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!campus) {

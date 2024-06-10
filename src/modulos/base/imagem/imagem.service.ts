@@ -25,9 +25,8 @@ export class ImagemService {
   ) {}
 
   //
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static ImagemQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, _: IImagemQueryBuilderViewOptions = {}) {
-    qb.leftJoin(`${alias}.imagemArquivo`, `${alias}_imagemArquivo`);
+    qb.leftJoin(`${alias}.versao`, `${alias}_imagemArquivo`);
     qb.leftJoin(`${alias}_imagemArquivo.arquivo`, `${alias}_imagemArquivo_arquivo`);
 
     qb.addSelect([
@@ -51,7 +50,7 @@ export class ImagemService {
   //
 
   async saveImage(file: Express.Multer.File, options: ISaveImageOptions) {
-    const nome = file.originalname;
+    const name = file.originalname;
 
     // ===============================================
 
@@ -75,7 +74,7 @@ export class ImagemService {
 
         imagemRepository.merge(imagem, {
           id: v4(),
-          imagemArquivo: [],
+          versoes: [],
         });
 
         for (const transform of options.transforms) {
@@ -91,11 +90,11 @@ export class ImagemService {
 
           const transformedOutput = await transformImage.toBuffer({ resolveWithObject: true });
 
-          const arquivo = await this.arquivoService.arquivoCreate({ nome, mimeType }, transformedOutput.data);
+          const arquivo = await this.arquivoService.arquivoCreate({ name, mimeType }, transformedOutput.data);
 
-          const imagemArquivo = imagemArquivoRepository.create();
+          const versao = imagemArquivoRepository.create();
 
-          imagemArquivoRepository.merge(imagemArquivo, {
+          imagemArquivoRepository.merge(versao, {
             mimeType,
             formato: transform.outputAs,
 
@@ -110,7 +109,7 @@ export class ImagemService {
             },
           });
 
-          imagem.imagemArquivo.push(imagemArquivo);
+          imagem.versoes.push(versao);
         }
 
         await imagemRepository.save(imagem);

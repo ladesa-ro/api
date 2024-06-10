@@ -1,3 +1,4 @@
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -24,7 +25,7 @@ export class UsuarioResolver {
   async usuarioFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaGql(Spec.UsuarioFindOneByIdOperator())
-    dto: Spec.IUsuarioFindOneByIdInputDto,
+    dto: LadesaTypings.UsuarioFindOneInput,
   ) {
     return this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, dto);
   }

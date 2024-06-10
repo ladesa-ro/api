@@ -1,4 +1,4 @@
-import { IDiarioModel, IEntityDate } from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { AmbienteEntity } from '../ambientes/ambiente.entity';
 import { ImagemEntity } from '../base/imagem.entity';
@@ -6,7 +6,7 @@ import { DisciplinaEntity } from './disciplina.entity';
 import { TurmaEntity } from './turma.entity';
 
 @Entity('diario')
-export class DiarioEntity implements IDiarioModel {
+export class DiarioEntity implements LadesaTypings.Diario {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -40,11 +40,11 @@ export class DiarioEntity implements IDiarioModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Date;
 }

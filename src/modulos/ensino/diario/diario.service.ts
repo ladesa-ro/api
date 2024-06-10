@@ -1,3 +1,4 @@
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
@@ -146,7 +147,7 @@ export class DiarioService {
     return getPaginatedResultDto(paginated);
   }
 
-  async diarioFindById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioFindOneByIdInputDto): Promise<Spec.IDiarioFindOneResultDto | null> {
+  async diarioFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioFindOneInput): Promise<LadesaTypings.DiarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.diarioRepository.createQueryBuilder(aliasDiario);
@@ -174,7 +175,7 @@ export class DiarioService {
     return diario;
   }
 
-  async diarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioFindOneByIdInputDto) {
+  async diarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioFindOneInput) {
     const diario = await this.diarioFindById(contextoDeAcesso, dto);
 
     if (!diario) {
@@ -186,10 +187,10 @@ export class DiarioService {
 
   async diarioFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Spec.IDiarioFindOneByIdInputDto['id'],
+    id: LadesaTypings.DiarioFindOneInput['id'],
     options?: IDiarioQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Spec.IDiarioFindOneResultDto | null> {
+  ): Promise<LadesaTypings.DiarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.diarioRepository.createQueryBuilder(aliasDiario);
@@ -223,7 +224,7 @@ export class DiarioService {
     return diario;
   }
 
-  async diarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.IDiarioFindOneByIdInputDto['id'], options?: IDiarioQueryBuilderViewOptions, selection?: string[]) {
+  async diarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.DiarioFindOneInput['id'], options?: IDiarioQueryBuilderViewOptions, selection?: string[]) {
     const diario = await this.diarioFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!diario) {

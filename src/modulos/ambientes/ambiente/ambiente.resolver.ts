@@ -21,7 +21,7 @@ export class AmbienteResolver {
   // async ambienteFindOneById(
   //   @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
   //   @DadosEntradaGql(Spec.AmbienteFindOneByIdOperator())
-  //   dto: Spec.IAmbienteFindOneByIdInputDto,
+  //   dto: LadesaTypings.AmbienteFindOneInput,
   // ) {
   //   return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, dto);
   // }

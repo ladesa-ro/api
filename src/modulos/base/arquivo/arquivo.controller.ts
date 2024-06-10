@@ -1,8 +1,8 @@
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Get, Param, Query, StreamableFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ArquivoGetFileOperator } from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { Operacao } from '../../../legacy/especificacao';
+import { Operation } from '../../../helpers/ladesa';
 import { ArquivoService } from './arquivo.service';
 
 @ApiTags('Arquivos')
@@ -11,7 +11,7 @@ export class ArquivoController {
   constructor(private arquivoService: ArquivoService) {}
 
   @Get(':id')
-  @Operacao(ArquivoGetFileOperator())
+  @Operation(LadesaTypings.Tokens.Arquivo.Operations.GetFile)
   async getFile(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @Param('id') id: string,

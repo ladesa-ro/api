@@ -1,39 +1,39 @@
-import * as Spec from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ImagemArquivoEntity } from './imagem_arquivo.entity';
 
 @Entity('arquivo')
-export class ArquivoEntity implements Spec.IArquivoModel {
+export class ArquivoEntity implements LadesaTypings.Arquivo {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   //
 
   @Column({ name: 'nome', type: 'text', nullable: true })
-  nome!: string | null;
+  name!: string;
 
   @Column({ name: 'mime_type', type: 'text', nullable: true })
-  mimeType!: string | null;
+  mimeType!: string;
 
   @Column({ name: 'size_bytes', type: 'int', nullable: true })
-  sizeBytes!: number | null;
+  sizeBytes!: number;
 
   @Column({ name: 'storage_type', type: 'text', nullable: true })
-  storageType!: string | null;
+  storageType!: string;
 
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: Spec.IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: Spec.IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | Spec.IEntityDate;
+  dateDeleted!: null | Date;
 
   //
 
   @OneToMany(() => ImagemArquivoEntity, (row) => row.arquivo)
-  imagemArquivo!: ImagemArquivoEntity[];
+  versao!: ImagemArquivoEntity[];
 }

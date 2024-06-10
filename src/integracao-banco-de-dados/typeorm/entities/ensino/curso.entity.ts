@@ -1,11 +1,11 @@
-import * as Spec from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { ImagemEntity } from '../base/imagem.entity';
 import { ModalidadeEntity } from './modalidade.entity';
 
 @Entity('curso')
-export class CursoEntity implements Spec.ICursoModel {
+export class CursoEntity implements LadesaTypings.Curso {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -32,11 +32,11 @@ export class CursoEntity implements Spec.ICursoModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: Spec.IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: Spec.IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | Spec.IEntityDate;
+  dateDeleted!: null | Date;
 }

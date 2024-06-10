@@ -1,3 +1,4 @@
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
@@ -130,7 +131,7 @@ export class DiarioProfessorService {
     return getPaginatedResultDto(paginated);
   }
 
-  async diarioProfessorFindById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioProfessorFindOneByIdInputDto): Promise<Spec.IDiarioProfessorFindOneResultDto | null> {
+  async diarioProfessorFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioProfessorFindOneInput): Promise<LadesaTypings.DiarioProfessorFindOneResult | null> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -158,7 +159,7 @@ export class DiarioProfessorService {
     return diarioProfessor;
   }
 
-  async diarioProfessorFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioProfessorFindOneByIdInputDto) {
+  async diarioProfessorFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioProfessorFindOneInput) {
     const diarioProfessor = await this.diarioProfessorFindById(contextoDeAcesso, dto);
 
     if (!diarioProfessor) {
@@ -170,10 +171,10 @@ export class DiarioProfessorService {
 
   async diarioProfessorFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Spec.IDiarioProfessorFindOneByIdInputDto['id'],
+    id: LadesaTypings.DiarioProfessorFindOneInput['id'],
     options?: IDiarioProfessorQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Spec.IDiarioProfessorFindOneResultDto | null> {
+  ): Promise<LadesaTypings.DiarioProfessorFindOneResult | null> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -209,7 +210,7 @@ export class DiarioProfessorService {
 
   async diarioProfessorFindByIdSimpleStrict(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Spec.IDiarioProfessorFindOneByIdInputDto['id'],
+    id: LadesaTypings.DiarioProfessorFindOneInput['id'],
     options?: IDiarioProfessorQueryBuilderViewOptions,
     selection?: string[],
   ) {

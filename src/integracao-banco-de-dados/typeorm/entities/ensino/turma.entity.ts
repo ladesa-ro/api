@@ -1,11 +1,11 @@
-import * as Spec from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { AmbienteEntity } from '../ambientes/ambiente.entity';
 import { ImagemEntity } from '../base/imagem.entity';
 import { CursoEntity } from './curso.entity';
 
 @Entity('turma')
-export class TurmaEntity implements Spec.ITurmaModel {
+export class TurmaEntity implements LadesaTypings.Turma {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -31,11 +31,11 @@ export class TurmaEntity implements Spec.ITurmaModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: Spec.IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: Spec.IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | Spec.IEntityDate;
+  dateDeleted!: null | Date;
 }

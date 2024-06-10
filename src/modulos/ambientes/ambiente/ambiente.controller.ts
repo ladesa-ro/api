@@ -1,11 +1,9 @@
-import type * as LadesaTypings from '@ladesa-ro/especificacao';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Tokens } from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
-import { Operacao } from '../../../legacy/especificacao';
 import { AmbienteService } from './ambiente.service';
 
 @ApiTags('Ambientes')
@@ -55,13 +53,13 @@ export class AmbienteController {
   //
 
   @Get('/:id/imagem/capa')
-  @Operacao(Spec.AmbienteGetImagemCapaOperator())
+  @Operation(LadesaTypings.Tokens.Imagem.Operations.GetImagem)
   async blocoGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.ambienteService.ambienteGetImagemCapa(contextoDeAcesso, id);
   }
 
   @Put('/:id/imagem/capa')
-  @Operacao(Spec.AmbienteSetImagemCapaOperator())
+  @Operation(LadesaTypings.Tokens.Imagem.Operations.SetImagem)
   async blocoImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,

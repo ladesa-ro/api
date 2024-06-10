@@ -1,4 +1,4 @@
-import * as Spec from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { VinculoEntity } from '../autenticacao/vinculo.entity';
 import { CampusPossuiModalidadeEntity } from '../ensino/campus_possui_modalidade.entity';
@@ -6,7 +6,7 @@ import { ModalidadeEntity } from '../ensino/modalidade.entity';
 import { EnderecoEntity } from './endereco.entity';
 
 @Entity('campus')
-export class CampusEntity implements Spec.ICampusModel {
+export class CampusEntity implements LadesaTypings.Campus {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -28,7 +28,7 @@ export class CampusEntity implements Spec.ICampusModel {
 
   @ManyToOne(() => EnderecoEntity)
   @JoinColumn({ name: 'id_endereco_fk' })
-  endereco!: Spec.IEnderecoModel;
+  endereco!: LadesaTypings.Endereco;
 
   //
 
@@ -43,11 +43,11 @@ export class CampusEntity implements Spec.ICampusModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: Spec.IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: Spec.IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | Spec.IEntityDate;
+  dateDeleted!: null | Date;
 }

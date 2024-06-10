@@ -1,10 +1,10 @@
-import { IEntityDate, IImagemArquivoModel } from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ArquivoEntity } from './arquivo.entity';
 import { ImagemEntity } from './imagem.entity';
 
 @Entity('imagem_arquivo')
-export class ImagemArquivoEntity implements IImagemArquivoModel {
+export class ImagemArquivoEntity implements LadesaTypings.ImagemArquivo {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -35,11 +35,11 @@ export class ImagemArquivoEntity implements IImagemArquivoModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Date;
 
   // @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Date;
 
   // @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: IEntityDate | null;
+  dateDeleted!: null | Date;
 }

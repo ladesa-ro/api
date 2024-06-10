@@ -1,9 +1,9 @@
-import * as Spec from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ImagemEntity } from '../base/imagem.entity';
 
 @Entity('disciplina')
-export class DisciplinaEntity implements Spec.IDisciplinaModel {
+export class DisciplinaEntity implements LadesaTypings.Disciplina {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -27,11 +27,11 @@ export class DisciplinaEntity implements Spec.IDisciplinaModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: Spec.IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: Spec.IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | Spec.IEntityDate;
+  dateDeleted!: null | Date;
 }

@@ -26,7 +26,7 @@ const loadStrategies: ILoadStrategy[] = [
   {
     resource: AppResource.IMAGEM,
     declarationFactory: Spec.Imagem,
-    allowedProperties: ['id', 'descricao', 'imagemArquivo', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+    allowedProperties: ['id', 'descricao', 'versao', 'dateCreated', 'dateUpdated', 'dateDeleted'],
   },
   {
     resource: AppResource.IMAGEM_ARQUIVO,

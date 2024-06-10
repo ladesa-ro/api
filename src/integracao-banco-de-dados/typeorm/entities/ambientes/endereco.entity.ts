@@ -1,9 +1,9 @@
-import { ICidadeModel, IEnderecoModel, IEntityDate } from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CidadeEntity } from './cidade.entity';
 
 @Entity('endereco')
-export class EnderecoEntity implements IEnderecoModel {
+export class EnderecoEntity implements LadesaTypings.Endereco {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -31,16 +31,16 @@ export class EnderecoEntity implements IEnderecoModel {
 
   @ManyToOne(() => CidadeEntity, {})
   @JoinColumn({ name: 'id_cidade_fk' })
-  cidade!: ICidadeModel;
+  cidade!: LadesaTypings.Cidade;
 
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Date;
 }

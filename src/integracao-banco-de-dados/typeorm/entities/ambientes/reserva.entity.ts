@@ -1,4 +1,3 @@
-import { IEntityDate } from '@sisgea/spec';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UsuarioEntity } from '../autenticacao/usuario.entity';
 import { AmbienteEntity } from './ambiente.entity';
@@ -20,10 +19,10 @@ export class ReservaEntity {
   tipo!: string | null;
 
   @Column({ name: 'data_inicio', type: 'timestamptz', nullable: false })
-  dataInicio!: IEntityDate;
+  dataInicio!: Date;
 
   @Column({ name: 'data_termino', type: 'timestamptz', nullable: true })
-  dataTermino!: IEntityDate | null | null;
+  dataTermino!: null | Date;
 
   @ManyToOne(() => AmbienteEntity)
   @JoinColumn({ name: 'id_ambiente_fk' })
@@ -36,11 +35,11 @@ export class ReservaEntity {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Date;
 }

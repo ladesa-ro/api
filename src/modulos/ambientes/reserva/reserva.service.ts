@@ -1,3 +1,4 @@
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
@@ -149,7 +150,7 @@ export class ReservaService {
     return getPaginatedResultDto(paginated);
   }
 
-  async reservaFindById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IReservaFindOneByIdInputDto): Promise<Spec.IReservaFindOneResultDto | null> {
+  async reservaFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaFindOneInput): Promise<LadesaTypings.ReservaFindOneResult | null> {
     // =========================================================
 
     const qb = this.reservaRepository.createQueryBuilder(aliasReserva);
@@ -177,7 +178,7 @@ export class ReservaService {
     return reserva;
   }
 
-  async reservaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IReservaFindOneByIdInputDto) {
+  async reservaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaFindOneInput) {
     const reserva = await this.reservaFindById(contextoDeAcesso, dto);
 
     if (!reserva) {
@@ -189,10 +190,10 @@ export class ReservaService {
 
   async reservaFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Spec.IReservaFindOneByIdInputDto['id'],
+    id: LadesaTypings.ReservaFindOneInput['id'],
     options?: IReservaQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Spec.IReservaFindOneResultDto | null> {
+  ): Promise<LadesaTypings.ReservaFindOneResult | null> {
     // =========================================================
 
     const qb = this.reservaRepository.createQueryBuilder(aliasReserva);
@@ -226,7 +227,7 @@ export class ReservaService {
     return reserva;
   }
 
-  async reservaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.IReservaFindOneByIdInputDto['id'], options?: IReservaQueryBuilderViewOptions, selection?: string[]) {
+  async reservaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.ReservaFindOneInput['id'], options?: IReservaQueryBuilderViewOptions, selection?: string[]) {
     const reserva = await this.reservaFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!reserva) {

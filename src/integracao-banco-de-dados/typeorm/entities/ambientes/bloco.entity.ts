@@ -1,11 +1,11 @@
-import { IBlocoModel, IEntityDate } from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ImagemEntity } from '../base/imagem.entity';
 import { AmbienteEntity } from './ambiente.entity';
 import { CampusEntity } from './campus.entity';
 
 @Entity('bloco')
-export class BlocoEntity implements IBlocoModel {
+export class BlocoEntity implements LadesaTypings.Bloco {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -35,11 +35,11 @@ export class BlocoEntity implements IBlocoModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Date;
 }
