@@ -34,11 +34,11 @@ export const getPaginatedResultDto = <T>(paginated: Paginated<T>): IPaginatedRes
         : [],
     },
     links: {
-      first: paginated.links.first ?? null,
-      previous: paginated.links.previous ?? null,
-      current: paginated.links.current ?? null,
-      next: paginated.links.next ?? null,
       last: paginated.links.last ?? null,
+      next: paginated.links.next ?? null,
+      first: paginated.links.first ?? null,
+      current: paginated.links.current ?? null,
+      previous: paginated.links.previous ?? null,
     },
   };
 };

@@ -5,7 +5,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
-import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
+import { Operacao } from '../../../legacy/especificacao';
 import { AmbienteService } from './ambiente.service';
 
 @ApiTags('Ambientes')
@@ -31,27 +31,21 @@ export class AmbienteController {
   }
 
   @Post('/')
-  @Operacao(Spec.AmbienteCreateOperator())
-  async ambienteCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.AmbienteCreateOperator()) dto: Spec.IAmbienteInputDto) {
+  @Operation(Tokens.Ambiente.Operations.Create)
+  async ambienteCreate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.AmbienteCreateCombinedInput,
+  ) {
     return this.ambienteService.ambienteCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @Operacao(Spec.AmbienteUpdateOperator())
-  async ambienteUpdate(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.AmbienteUpdateOperator())
-    { ...dto }: Spec.IAmbienteUpdateDto,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    const dtoUpdate: Spec.IAmbienteUpdateDto = {
-      ...dto,
-      id,
-    };
-
-    return this.ambienteService.ambienteUpdate(contextoDeAcesso, dtoUpdate);
+  @Operation(Tokens.Ambiente.Operations.UpdateById)
+  async ambienteUpdate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @CombinedInput() dto: LadesaTypings.AmbienteUpdateByIDCombinedInput) {
+    return this.ambienteService.ambienteUpdate(contextoDeAcesso, dto);
   }
 
   //

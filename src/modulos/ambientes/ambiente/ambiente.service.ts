@@ -4,9 +4,8 @@ import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import { getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { BuscaLadesa } from '../../../helpers/ladesa/search/search-strategies';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { AmbienteEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { AppResource, AppResourceView, IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../legacy/utils';
@@ -88,7 +87,7 @@ export class AmbienteService {
 
     // =========================================================
 
-    const paginated = await BuscaLadesa('#/', dto, qb, {
+    const paginated = await LadesaSearch('/ambientes', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -158,8 +157,7 @@ export class AmbienteService {
 
     // =========================================================
 
-    // TODO: remove <any>
-    return <any>getPaginatedResultDto(paginated);
+    return LadesaPaginatedResultDto(paginated);
   }
 
   async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IAmbienteFindOneByIdInputDto): Promise<Spec.IAmbienteFindOneResultDto | null> {
@@ -206,14 +204,14 @@ export class AmbienteService {
 
   //
 
-  async ambienteCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IAmbienteInputDto) {
+  async ambienteCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteCreateCombinedInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('ambiente:create', { dto });
 
     // =========================================================
 
-    const dtoAmbiente = pick(dto, ['nome', 'descricao', 'codigo', 'capacidade', 'tipo']);
+    const dtoAmbiente = pick(dto.body, ['nome', 'descricao', 'codigo', 'capacidade', 'tipo']);
 
     const ambiente = this.ambienteRepository.create();
 
@@ -223,7 +221,7 @@ export class AmbienteService {
 
     // =========================================================
 
-    const bloco = await this.blocoService.blocoFindByIdSimpleStrict(contextoDeAcesso, dto.bloco.id);
+    const bloco = await this.blocoService.blocoFindByIdSimpleStrict(contextoDeAcesso, dto.body.bloco.id);
 
     this.ambienteRepository.merge(ambiente, {
       bloco: {
@@ -240,18 +238,18 @@ export class AmbienteService {
     return this.ambienteFindByIdStrict(contextoDeAcesso, { id: ambiente.id });
   }
 
-  async ambienteUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IAmbienteUpdateDto) {
+  async ambienteUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteUpdateByIDCombinedInput) {
     // =========================================================
 
     const currentAmbiente = await this.ambienteFindByIdStrict(contextoDeAcesso, {
-      id: dto.id,
+      id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('ambiente:update', { dto }, dto.id, this.ambienteRepository.createQueryBuilder(aliasAmbiente));
+    await contextoDeAcesso.ensurePermission('ambiente:update', { dto }, dto.params.id, this.ambienteRepository.createQueryBuilder(aliasAmbiente));
 
-    const dtoAmbiente = pick(dto, ['nome', 'descricao', 'codigo', 'capacidade', 'tipo']);
+    const dtoAmbiente = pick(dto.body, ['nome', 'descricao', 'codigo', 'capacidade', 'tipo']);
 
     const ambiente = {
       id: currentAmbiente.id,

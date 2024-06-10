@@ -22,13 +22,13 @@ export class CompileYupSchema extends CompileNode {
     if (node.nullable) {
       schemaCursor = schemaCursor.nullable();
     } else {
-      schemaCursor = schemaCursor.nonNullable();
+      schemaCursor = schemaCursor.nonNullable().required();
     }
 
     if (node.required) {
       schemaCursor = schemaCursor.defined();
     } else {
-      schemaCursor = schemaCursor.optional();
+      schemaCursor = schemaCursor.optional().default(() => undefined);
     }
 
     return schemaCursor;
@@ -153,6 +153,7 @@ export class CompileYupSchema extends CompileNode {
   }
   HandleTypeReference(node: IUniNodeType, context?: any) {
     const realTarget = this.repository.GetRealTargetStrict(node);
+
     return this.HandleGenericTypePostSchema(node, context, this.Handle(realTarget, context));
   }
 

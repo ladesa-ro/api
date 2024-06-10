@@ -1,3 +1,4 @@
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import * as Spec from '@sisgea/spec';
 import { IBaseAuthzCheck, IBaseAuthzFilter } from './IBaseAuthz';
 
@@ -26,9 +27,9 @@ export type IAuthzStatementBlocoDelete = IBaseAuthzFilter<'bloco:delete', { dto:
 
 // =====================
 
-export type IAuthzStatementAmbienteCreate = IBaseAuthzCheck<'ambiente:create', { dto: Spec.IAmbienteCreateDto }>;
+export type IAuthzStatementAmbienteCreate = IBaseAuthzCheck<'ambiente:create', { dto: LadesaTypings.AmbienteCreateCombinedInput }>;
 export type IAuthzStatementAmbienteFind = IBaseAuthzFilter<'ambiente:find'>;
-export type IAuthzStatementAmbienteUpdate = IBaseAuthzFilter<'ambiente:update', { dto: Spec.IAmbienteUpdateDto }>;
+export type IAuthzStatementAmbienteUpdate = IBaseAuthzFilter<'ambiente:update', { dto: LadesaTypings.AmbienteUpdateByIDCombinedInput }>;
 export type IAuthzStatementAmbienteDelete = IBaseAuthzFilter<
   'ambiente:delete',
   {
