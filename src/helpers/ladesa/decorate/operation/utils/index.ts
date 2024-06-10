@@ -2,15 +2,15 @@ import { CheckTypeFile, CheckView } from '@unispec/ast-builder';
 import type { IUniNode, IUniNodeOperation } from '@unispec/ast-types';
 import type { UniRepository } from '@unispec/ast-utils';
 import { CompileClassDto } from '@unispec/driver-nestjs';
-import { CompileClassGraphQlDto } from '@unispec/driver-nestjs-graphql';
-import { CompileClassSwaggerDto, CompileNodeSwaggerRepresentation } from '@unispec/driver-nestjs-swagger';
+import { CompileClassHandlerGraphQlDto, CompileNodeGraphQlRepresentation } from '@unispec/driver-nestjs-graphql';
+import { CompileClassHandlerSwaggerDto, CompileNodeSwaggerRepresentation } from '@unispec/driver-nestjs-swagger';
 import { getLadesaNodesRepository } from '../../../providers';
 
 const dtoClassesMap = new Map<string, object>();
 
 const SetupCompilers = () => {
   const repository = getLadesaNodesRepository();
-  const classCompiler = new CompileClassDto(repository, [new CompileClassGraphQlDto(), new CompileClassSwaggerDto()], dtoClassesMap);
+  const classCompiler = new CompileClassDto(repository, [new CompileClassHandlerGraphQlDto(), new CompileClassHandlerSwaggerDto()], dtoClassesMap);
 
   const swaggerRepresentationCompiler = new CompileNodeSwaggerRepresentation(repository, classCompiler);
 
@@ -19,10 +19,41 @@ const SetupCompilers = () => {
 
 export const { repository, classCompiler, swaggerRepresentationCompiler } = SetupCompilers();
 
+export const BuildGraphQlRepresentation = (opaqueTarget: string | IUniNode, meta?: Record<string, any> | undefined) => {
+  const targetRealNode = repository.GetRealTarget(opaqueTarget);
+
+  if (targetRealNode) {
+    const representationCompiler = new CompileNodeGraphQlRepresentation(repository, classCompiler);
+    return representationCompiler.Handle(targetRealNode, meta);
+  } else {
+    throw new TypeError();
+  }
+};
+
+export const BuildSwaggerRepresentation = (opaqueTarget: string | IUniNode, meta?: Record<string, any> | undefined) => {
+  const targetRealNode = repository.GetRealTarget(opaqueTarget);
+
+  if (targetRealNode) {
+    const representationCompiler = new CompileNodeSwaggerRepresentation(repository, classCompiler);
+
+    const representation = representationCompiler.Handle(targetRealNode, meta);
+
+    if (!CheckView(targetRealNode)) {
+      return {
+        schema: { ...representation },
+      };
+    }
+
+    return representation;
+  } else {
+    throw new TypeError();
+  }
+};
+
 export const BuildDtoCtor = (opaqueTarget: string | IUniNode, meta?: Record<string, any> | undefined) => {
   const targetRealNode = repository.GetRealTarget(opaqueTarget);
 
-  if (targetRealNode && CheckView(targetRealNode)) {
+  if (targetRealNode) {
     return classCompiler.CompileCtor(targetRealNode, null, meta);
   } else {
     throw new TypeError();

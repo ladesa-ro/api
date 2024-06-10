@@ -25,9 +25,13 @@ export class AmbienteController {
   //
 
   @Get('/:id')
-  @Operacao(Spec.AmbienteFindOneByIdOperator())
-  async ambienteFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id });
+  @Operation(Tokens.Ambiente.Operations.FindById)
+  async ambienteFindById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() combinedInput: LadesaTypings.AmbienteFindByIDCombinedInput,
+  ) {
+    return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: combinedInput.params.id });
   }
 
   @Post('/')
@@ -70,9 +74,13 @@ export class AmbienteController {
   //
 
   @Delete('/:id')
-  @Operacao(Spec.AmbienteDeleteOperator())
-  async ambienteDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, { id });
+  @Operation(Tokens.Ambiente.Operations.DeleteById)
+  async ambienteDeleteOneById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() combinedInput: LadesaTypings.AmbienteDeleteByIDCombinedInput,
+  ) {
+    return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, { id: combinedInput.params.id });
   }
 
   //
