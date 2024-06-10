@@ -4,11 +4,36 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiProduces, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { CheckType, CheckTypeFile } from '@unispec/ast-builder';
 import { camelCase } from 'lodash';
+import { CompileYupSchema } from '../../-helpers/CompileYupSchema';
+import { ValidationPipeYup } from '../../../../validacao';
 import { COMBINED_INPUT_PARAM } from './CombinedInput';
-import { AbstractOperationDecoratorsHandler, BuildDtoCtor, DecorateMethodContext, detectStrategy, swaggerTypeCompiler } from './utils';
+import { AbstractOperationDecoratorsHandler, BuildDtoCtor, DecorateMethodContext, detectStrategy, swaggerRepresentationCompiler } from './utils';
+
+export type IHandleInputContext = DecorateMethodContext & {
+  combinedInputParameterDecorators: ParameterDecorator[];
+};
 
 export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecoratorsHandler {
-  HandleOutput(context: DecorateMethodContext) {
+  Build(context: DecorateMethodContext) {
+    this.HandleMetadata(context);
+    this.HandleInputs(context);
+    this.HandleResponses(context);
+  }
+
+  HandleMetadata(context: DecorateMethodContext) {
+    const { operation } = context;
+
+    context.Add(
+      ApiOperation({
+        description: operation.description,
+        operationId: camelCase(operation.name),
+      }),
+    );
+
+    context.Add(ApiBearerAuth());
+  }
+
+  HandleResponses(context: DecorateMethodContext) {
     const { operation, repository } = context;
 
     const output = operation.output;
@@ -72,13 +97,20 @@ export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecorato
       }
     }
 
+    this.HandleResponseForbidden(context);
+    this.HandleResponseNotFound(context);
+  }
+
+  HandleResponseForbidden(context: DecorateMethodContext) {
     context.Add(
       ApiResponse({
         status: 403,
         description: 'O solicitante não tem permissão para executar esta ação.',
       }),
     );
+  }
 
+  HandleResponseNotFound(context: DecorateMethodContext) {
     context.Add(
       ApiResponse({
         status: 404,
@@ -87,104 +119,43 @@ export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecorato
     );
   }
 
-  HandleInput(context: DecorateMethodContext) {
+  HandleInputs(context: DecorateMethodContext) {
     const { operation, repository } = context;
 
-    const combinedInputParameterDecorators: ParameterDecorator[] = [];
+    const handleInputContext: IHandleInputContext = {
+      ...context,
+      combinedInputParameterDecorators: [],
+    };
+
+    this.HandleInputParams(handleInputContext);
+    this.HandleInputQueries(handleInputContext);
 
     const input = operation.input;
 
     if (input) {
       const inputBody = input.body;
-
       const inputBodyTarget = inputBody ? repository.GetRealTarget(inputBody) : null;
 
       switch (detectStrategy(inputBodyTarget)) {
         case 'file': {
-          context.Add(ApiConsumes('multipart/form-data'));
-
-          context.Add(
-            ApiBody({
-              schema: {
-                type: 'object',
-                required: ['file'],
-                properties: {
-                  file: {
-                    type: 'string',
-                    format: 'binary',
-                    nullable: false,
-                  },
-                },
-              },
-            }),
-          );
-
-          context.Add(UseInterceptors(FileInterceptor('file')));
-
+          this.HandleInputBodyFile(context);
           break;
         }
 
         case 'dto': {
-          for (const [key, opaqueTargetNode] of Object.entries(input.params ?? {})) {
-            const name = key;
-
-            const realTargetNode = repository.GetRealTarget(opaqueTargetNode);
-
-            if (CheckType(realTargetNode)) {
-              context.Add(
-                ApiParam({
-                  ...swaggerTypeCompiler.Handle(realTargetNode),
-                  name: name,
-                  required: realTargetNode.required,
-                  description: realTargetNode.description,
-                }),
-              );
-
-              combinedInputParameterDecorators.push(HttpParam(name));
-            } else {
-              throw new TypeError(`Invalid param real target: ${name}.`);
-            }
-          }
-
-          for (const [key, opaqueTargetNode] of Object.entries(input.queries ?? {})) {
-            const name = key;
-
-            const realTargetNode = repository.GetRealTarget(opaqueTargetNode);
-
-            if (CheckType(realTargetNode)) {
-              context.Add(
-                ApiQuery({
-                  ...swaggerTypeCompiler.Handle(realTargetNode),
-                  name: name,
-                  required: realTargetNode.required,
-                  description: realTargetNode.description,
-                }),
-              );
-
-              combinedInputParameterDecorators.push(HttpQuery(name));
-            } else {
-              throw new TypeError(`Invalid query real target: ${name}.`);
-            }
-          }
-
-          const inputBodyCtor = inputBodyTarget && BuildDtoCtor(inputBodyTarget, { mode: 'input' });
-
-          if (inputBodyCtor) {
-            context.Add(
-              ApiBody({
-                type: inputBodyCtor,
-              }),
-            );
-          }
-
+          this.HandleInputBodyDto(context);
           break;
         }
 
         default: {
-          throw new TypeError('Unsupported operation.input.strategy');
+          throw new TypeError('Unsupported operation.input.strategy.');
         }
       }
     }
+
+    const compileYupSchema = new CompileYupSchema(context.repository);
+
+    const combinedInputValidator = compileYupSchema.Handle(operation);
 
     context.Add((target, propertyKey, descriptor) => {
       if (descriptor.value) {
@@ -193,9 +164,9 @@ export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecorato
         if (combinedInputParam) {
           const { parameterIndex } = combinedInputParam;
 
-          combinedInputParameterDecorators.push(
-            createParamDecorator((_, context: ExecutionContextHost) => {
-              const httpContext = context.switchToHttp();
+          handleInputContext.combinedInputParameterDecorators.push(
+            createParamDecorator((_, executionContext: ExecutionContextHost) => {
+              const httpContext = executionContext.switchToHttp();
 
               const request = httpContext.getRequest();
 
@@ -208,10 +179,10 @@ export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecorato
                 params,
                 queries,
               };
-            })(),
+            })(null, new ValidationPipeYup(combinedInputValidator, { path: null, scope: 'args' })),
           );
 
-          for (const paramDecorator of combinedInputParameterDecorators) {
+          for (const paramDecorator of handleInputContext.combinedInputParameterDecorators) {
             paramDecorator(target, propertyKey, parameterIndex);
           }
         }
@@ -219,22 +190,96 @@ export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecorato
     });
   }
 
-  HandleOperationMetadata(context: DecorateMethodContext) {
-    const { operation } = context;
+  HandleInputParams(context: IHandleInputContext) {
+    const { operation, repository } = context;
+
+    const input = operation.input;
+
+    if (!input) {
+      return;
+    }
+
+    for (const [key, opaqueTargetNode] of Object.entries(input.params ?? {})) {
+      const name = key;
+
+      const realTargetNode = repository.GetRealTarget(opaqueTargetNode);
+
+      if (CheckType(realTargetNode)) {
+        context.Add(
+          ApiParam({
+            ...swaggerRepresentationCompiler.Handle(realTargetNode),
+            name: name,
+            required: realTargetNode.required,
+            description: realTargetNode.description,
+          }),
+        );
+
+        context.combinedInputParameterDecorators.push(HttpParam(name));
+      } else {
+        throw new TypeError(`Invalid param real target: ${name}.`);
+      }
+    }
+  }
+  HandleInputQueries(context: IHandleInputContext) {
+    const { operation, repository } = context;
+
+    const input = operation.input;
+
+    if (!input) {
+      return;
+    }
+
+    for (const [key, opaqueTargetNode] of Object.entries(input.queries ?? {})) {
+      const name = key;
+
+      const realTargetNode = repository.GetRealTarget(opaqueTargetNode);
+
+      if (CheckType(realTargetNode)) {
+        context.Add(
+          ApiQuery({
+            ...swaggerRepresentationCompiler.Handle(realTargetNode),
+            name: name,
+            required: realTargetNode.required,
+            description: realTargetNode.description,
+          }),
+        );
+
+        context.combinedInputParameterDecorators.push(HttpQuery(name));
+      } else {
+        throw new TypeError(`Invalid query real target: ${name}.`);
+      }
+    }
+  }
+
+  HandleInputBodyDto(context: DecorateMethodContext) {
+    const { operation, repository } = context;
+    const input = operation.input;
+
+    const inputBody = input?.body;
+    const inputBodyTarget = inputBody ? repository.GetRealTarget(inputBody) : null;
+
+    const inputBodyCtor = inputBodyTarget && BuildDtoCtor(inputBodyTarget, { mode: 'input' });
+
+    if (inputBodyCtor) {
+      context.Add(ApiBody({ type: inputBodyCtor }));
+    }
+  }
+
+  HandleInputBodyFile(context: DecorateMethodContext) {
+    context.Add(ApiConsumes('multipart/form-data'));
 
     context.Add(
-      ApiOperation({
-        description: operation.description,
-        operationId: camelCase(operation.name),
+      ApiBody({
+        schema: {
+          type: 'object',
+          required: ['file'],
+          properties: {
+            file: { type: 'string', format: 'binary', nullable: false },
+          },
+        },
       }),
     );
 
-    context.Add(ApiBearerAuth());
-  }
-
-  Build(context: DecorateMethodContext) {
-    this.HandleOperationMetadata(context);
-    this.HandleInput(context);
-    this.HandleOutput(context);
+    context.Add(UseInterceptors(FileInterceptor('file')));
   }
 }
