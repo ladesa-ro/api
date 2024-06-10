@@ -1,6 +1,6 @@
 import { Mutation as GqlMutation, Query as GqlQuery } from '@nestjs/graphql';
 import { camelCase } from 'lodash';
-import { AbstractOperationDecoratorsHandler, BuildDtoCtor, DecorateMethodContext, detectStrategy } from './utils';
+import { AbstractOperationDecoratorsHandler, BuildGraphQlRepresentation, DecorateMethodContext, detectStrategy } from './utils';
 
 export class OperationDecoratorsHandlerGraphQl extends AbstractOperationDecoratorsHandler {
   Build(context: DecorateMethodContext) {
@@ -35,7 +35,7 @@ export class OperationDecoratorsHandlerGraphQl extends AbstractOperationDecorato
     const outputSuccess = output?.success;
     const outputSuccessTarget = outputSuccess ? repository.GetRealTarget(outputSuccess) : null;
 
-    const SuccessDto = outputSuccessTarget && BuildDtoCtor(outputSuccessTarget, { mode: 'output' });
+    const SuccessDto = outputSuccessTarget && BuildGraphQlRepresentation(outputSuccessTarget, { mode: 'output' });
 
     if (!SuccessDto) {
       return;

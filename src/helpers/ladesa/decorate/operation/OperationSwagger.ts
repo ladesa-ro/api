@@ -7,7 +7,7 @@ import { camelCase } from 'lodash';
 import { CompileYupSchema } from '../../-helpers/CompileYupSchema';
 import { ValidationPipeYup } from '../../../../validacao';
 import { COMBINED_INPUT_PARAM } from './CombinedInput';
-import { AbstractOperationDecoratorsHandler, BuildDtoCtor, DecorateMethodContext, detectStrategy, swaggerRepresentationCompiler } from './utils';
+import { AbstractOperationDecoratorsHandler, BuildSwaggerRepresentation, DecorateMethodContext, detectStrategy, swaggerRepresentationCompiler } from './utils';
 
 export type IHandleInputContext = DecorateMethodContext & {
   combinedInputParameterDecorators: ParameterDecorator[];
@@ -75,15 +75,15 @@ export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecorato
 
           for (const result of results) {
             const { status, resultNode } = result;
-            const resultCtor = resultNode && BuildDtoCtor(resultNode, { mode: 'output' });
+            const swaggerRepresentation = resultNode && BuildSwaggerRepresentation(resultNode, { mode: 'output' });
 
-            const description = `Sucesso na operação "${operation.name}".`;
+            const description = `Resposta da operação "${operation.name}".`;
 
             context.Add(
               ApiResponse({
                 status,
+                ...swaggerRepresentation,
                 description: description,
-                type: resultCtor ?? undefined,
               }),
             );
           }
@@ -258,10 +258,10 @@ export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecorato
     const inputBody = input?.body;
     const inputBodyTarget = inputBody ? repository.GetRealTarget(inputBody) : null;
 
-    const inputBodyCtor = inputBodyTarget && BuildDtoCtor(inputBodyTarget, { mode: 'input' });
+    const swaggerRepresentation = inputBodyTarget && BuildSwaggerRepresentation(inputBodyTarget, { mode: 'input' });
 
-    if (inputBodyCtor) {
-      context.Add(ApiBody({ type: inputBodyCtor }));
+    if (swaggerRepresentation) {
+      context.Add(ApiBody({ ...swaggerRepresentation }));
     }
   }
 
