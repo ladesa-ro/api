@@ -25,9 +25,13 @@ export class AmbienteController {
   //
 
   @Get('/:id')
-  @Operacao(Spec.AmbienteFindOneByIdOperator())
-  async ambienteFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id });
+  @Operation(Tokens.Ambiente.Operations.FindById)
+  async ambienteFindById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() combinedInput: LadesaTypings.AmbienteFindByIDCombinedInput,
+  ) {
+    return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: combinedInput.params.id });
   }
 
   @Post('/')

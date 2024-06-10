@@ -160,7 +160,7 @@ export class AmbienteService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IAmbienteFindOneByIdInputDto): Promise<Spec.IAmbienteFindOneResultDto | null> {
+  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.AmbienteFindOneInput): Promise<Spec.IAmbienteFindOneResultDto | null> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
@@ -192,7 +192,7 @@ export class AmbienteService {
     return ambiente;
   }
 
-  async ambienteFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IAmbienteFindOneByIdInputDto) {
+  async ambienteFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.AmbienteFindOneInput) {
     const ambiente = await this.ambienteFindById(contextoDeAcesso, dto);
 
     if (!ambiente) {
