@@ -15,6 +15,19 @@ import {
 import { CompileNode } from '@unispec/ast-utils';
 import * as yup from 'yup';
 
+const autoCastArray = true;
+const autoCastStringifiedObject = true;
+
+const tryCastJson = (value: any) => {
+  if (typeof value === 'string') {
+    try {
+      return JSON.parse(value);
+    } catch (_) {}
+  }
+
+  return value;
+};
+
 export class CompileYupSchema extends CompileNode {
   protected HandleGenericTypePostSchema(node: IUniNodeType, _context: any, schema: yup.AnySchema<any, any, any, any>) {
     let schemaCursor = schema;
@@ -125,6 +138,18 @@ export class CompileYupSchema extends CompileNode {
 
     schemaCursor = schemaCursor.of(this.Handle(node.items, context));
 
+    if (autoCastArray) {
+      schemaCursor = schemaCursor.transform((value) => {
+        if (autoCastArray && value) {
+          if (Array.isArray(value)) {
+            return Array.from(value);
+          }
+
+          return [value];
+        }
+      });
+    }
+
     return this.HandleGenericTypePostSchema(node, context, schemaCursor);
   }
 
@@ -140,6 +165,14 @@ export class CompileYupSchema extends CompileNode {
         });
       }
     }
+
+    schemaCursor = schemaCursor.transform((value) => {
+      if (autoCastStringifiedObject) {
+        return tryCastJson(value);
+      }
+
+      return value;
+    });
 
     return this.HandleGenericTypePostSchema(node, context, schemaCursor);
   }
