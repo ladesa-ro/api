@@ -1,9 +1,10 @@
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IEnderecoFindOneByIdInputDto, IEnderecoFindOneResultDto, IEnderecoInputDto, IEnderecoModel, parsePayloadYup } from '@sisgea/spec';
 import { pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { EnderecoCreateDtoValidationContract } from './endereco.dtos';
 
@@ -38,7 +39,7 @@ export class EnderecoService {
     ]);
 
     qb.leftJoin(`${alias}.cidade`, `${alias}_cidade`);
-    AppResourceView(AppResource.CIDADE, qb, `${alias}_cidade`);
+    QbEfficientLoad(LadesaTypings.Tokens.Cidade.Entity, qb, `${alias}_cidade`);
   }
 
   //

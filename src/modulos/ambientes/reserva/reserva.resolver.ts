@@ -1,3 +1,4 @@
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -24,7 +25,7 @@ export class ReservaResolver {
   async reservaFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaGql(Spec.ReservaFindOneByIdOperator())
-    dto: Spec.IReservaFindOneByIdInputDto,
+    dto: LadesaTypings.ReservaFindOneInput,
   ) {
     return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, dto);
   }

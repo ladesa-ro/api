@@ -1,3 +1,4 @@
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -24,7 +25,7 @@ export class CampusResolver {
   async campusFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaGql(Spec.CampusFindOneByIdOperator())
-    dto: Spec.ICampusFindOneByIdInputDto,
+    dto: LadesaTypings.CampusFindOneInput,
   ) {
     return this.campusService.campusFindByIdStrict(contextoDeAcesso, dto);
   }

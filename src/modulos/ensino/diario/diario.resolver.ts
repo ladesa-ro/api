@@ -1,3 +1,4 @@
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -24,7 +25,7 @@ export class DiarioResolver {
   async diarioFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaGql(Spec.DiarioFindOneByIdOperator())
-    dto: Spec.IDiarioFindOneByIdInputDto,
+    dto: LadesaTypings.DiarioFindOneInput,
   ) {
     return this.diarioService.diarioFindByIdStrict(contextoDeAcesso, dto);
   }

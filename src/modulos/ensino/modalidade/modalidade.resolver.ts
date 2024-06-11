@@ -1,3 +1,4 @@
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Info, Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import type { GraphQLResolveInfo } from 'graphql';
@@ -34,7 +35,7 @@ export class ModalidadeResolver {
   async modalidadeFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaGql(Spec.ModalidadeFindOneByIdOperator())
-    dto: Spec.IModalidadeFindOneByIdInputDto,
+    dto: LadesaTypings.ModalidadeFindOneInput,
     @Info() info: GraphQLResolveInfo,
   ) {
     const selection = getFieldNames(info as any);

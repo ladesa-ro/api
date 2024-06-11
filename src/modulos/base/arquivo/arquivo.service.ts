@@ -1,5 +1,5 @@
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { ForbiddenException, Injectable, NotFoundException, ServiceUnavailableException, StreamableFile } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import jetpack, { createReadStream } from 'fs-jetpack';
 import { writeFile } from 'node:fs/promises';
 import { Readable } from 'node:stream';
@@ -30,12 +30,12 @@ export class ArquivoService {
     return this.environmentConfigService.getStoragePath();
   }
 
-  async dataExists(id: Spec.IArquivoModel['id']) {
+  async dataExists(id: LadesaTypings.Arquivo['id']) {
     const fileFullPath = this.datGetFilePath(id);
     return jetpack.exists(fileFullPath);
   }
 
-  async dataReadAsStream(id: Spec.IArquivoModel['id']): Promise<Readable | null> {
+  async dataReadAsStream(id: LadesaTypings.Arquivo['id']): Promise<Readable | null> {
     if (await this.dataExists(id)) {
       const fileFullPath = this.datGetFilePath(id);
       const fileReadStream = createReadStream(fileFullPath);
@@ -45,7 +45,7 @@ export class ArquivoService {
     return null;
   }
 
-  async getFile(contextoDeAcesso: IContextoDeAcesso | null, id: Spec.IArquivoModel['id'], acesso: IGetFileAcesso | null) {
+  async getFile(contextoDeAcesso: IContextoDeAcesso | null, id: LadesaTypings.Arquivo['id'], acesso: IGetFileAcesso | null) {
     const qb = this.arquivoRepository.createQueryBuilder('arquivo');
 
     qb.where('arquivo.id = :arquivoId', { arquivoId: id });
@@ -60,8 +60,8 @@ export class ArquivoService {
       if (acesso.nome === 'bloco' && ValidationContractUuid().isValidSync(acesso.id)) {
         qb
           //
-          .innerJoin('arquivo.imagemArquivo', 'imagemArquivo')
-          .innerJoin('imagemArquivo.imagem', 'imagem')
+          .innerJoin('arquivo.versao', 'versao')
+          .innerJoin('versao.imagem', 'imagem')
           .innerJoin('imagem.blocoCapa', 'blocoCapa');
 
         if (contextoDeAcesso) {
@@ -72,8 +72,8 @@ export class ArquivoService {
       } else if (acesso.nome === 'ambiente' && ValidationContractUuid().isValidSync(acesso.id)) {
         qb
           //
-          .innerJoin('arquivo.imagemArquivo', 'imagemArquivo')
-          .innerJoin('imagemArquivo.imagem', 'imagem')
+          .innerJoin('arquivo.versao', 'versao')
+          .innerJoin('versao.imagem', 'imagem')
           .innerJoin('imagem.ambienteCapa', 'ambienteCapa');
 
         if (contextoDeAcesso) {
@@ -84,8 +84,8 @@ export class ArquivoService {
       } else if (acesso.nome === 'usuario' && ValidationContractUuid().isValidSync(acesso.id)) {
         qb
           //
-          .innerJoin('arquivo.imagemArquivo', 'imagemArquivo')
-          .innerJoin('imagemArquivo.imagem', 'imagem')
+          .innerJoin('arquivo.versao', 'versao')
+          .innerJoin('versao.imagem', 'imagem')
           .leftJoin(UsuarioEntity, 'usuario', '(usuario.id_imagem_capa_fk = imagem.id OR usuario.id_imagem_perfil_fk = imagem.id)');
 
         if (contextoDeAcesso) {
@@ -114,13 +114,13 @@ export class ArquivoService {
 
     return {
       id: arquivo.id,
-      nome: arquivo.nome,
+      nome: arquivo.name,
       mimeType: arquivo.mimeType,
       stream,
     };
   }
 
-  async getStreamableFile(contextoDeAcesso: IContextoDeAcesso | null, id: Spec.IArquivoModel['id'], acesso: IGetFileAcesso | null) {
+  async getStreamableFile(contextoDeAcesso: IContextoDeAcesso | null, id: LadesaTypings.Arquivo['id'], acesso: IGetFileAcesso | null) {
     const file = await this.getFile(contextoDeAcesso, id, acesso);
 
     if (!file.stream) {
@@ -133,13 +133,13 @@ export class ArquivoService {
     });
   }
 
-  async dataSave(id: Spec.IArquivoModel['id'], data: NodeJS.ArrayBufferView | Readable) {
+  async dataSave(id: LadesaTypings.Arquivo['id'], data: NodeJS.ArrayBufferView | Readable) {
     const fileFullPath = this.datGetFilePath(id);
     await writeFile(fileFullPath, data);
     return true;
   }
 
-  async arquivoCreate(dto: Pick<Spec.IArquivoModel, 'nome' | 'mimeType'>, data: NodeJS.ArrayBufferView | Readable): Promise<Pick<ArquivoEntity, 'id'>> {
+  async arquivoCreate(dto: Pick<LadesaTypings.Arquivo, 'name' | 'mimeType'>, data: NodeJS.ArrayBufferView | Readable): Promise<Pick<ArquivoEntity, 'id'>> {
     let id: string;
 
     do {
@@ -149,26 +149,26 @@ export class ArquivoService {
     await this.dataSave(id, data);
 
     // TODO: sizeBytes
-    const sizeBytes = null;
+    const sizeBytes = 0;
     // TODO: mimeType
     const mimeType = dto.mimeType;
 
-    await this.arquivoRepository.save({
+    await this.arquivoRepository.save(<ArquivoEntity>{
       id,
       //
-      nome: dto.nome,
+      name: dto.name,
       mimeType: mimeType,
       sizeBytes: sizeBytes,
       storageType: 'filesystem',
       //
-    } as ArquivoEntity);
+    });
 
     return {
       id,
     };
   }
 
-  private datGetFilePath(id: Spec.IArquivoModel['id']) {
+  private datGetFilePath(id: LadesaTypings.Arquivo['id']) {
     jetpack.dir(this.storagePath);
     return `${this.storagePath}/${id}`;
   }

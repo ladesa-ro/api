@@ -1,10 +1,11 @@
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '@sisgea/spec';
 import { map } from 'lodash';
 import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { paginateConfig } from '../../../legacy/utils';
 
@@ -58,7 +59,7 @@ export class EstadoService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.ESTADO, qb, aliasEstado, selection);
+    QbEfficientLoad(LadesaTypings.Tokens.Estado.Entity, qb, aliasEstado, selection);
 
     // =========================================================
 
@@ -87,7 +88,7 @@ export class EstadoService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.ESTADO, qb, aliasEstado, selection);
+    QbEfficientLoad(LadesaTypings.Tokens.Estado.Entity, qb, aliasEstado, selection);
 
     // =========================================================
 
@@ -124,7 +125,7 @@ export class EstadoService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.ESTADO, qb, aliasEstado, selection);
+    QbEfficientLoad(LadesaTypings.Tokens.Estado.Entity, qb, aliasEstado, selection);
 
     // =========================================================
 

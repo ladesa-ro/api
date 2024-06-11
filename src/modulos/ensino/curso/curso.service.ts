@@ -1,4 +1,4 @@
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
@@ -6,6 +6,7 @@ import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { CursoEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
@@ -59,13 +60,13 @@ export class CursoService {
     }
 
     qb.leftJoin(`${alias}.modalidade`, `${alias}_modalidade`);
-    AppResourceView(AppResource.MODALIDADE, qb, `${alias}_modalidade`);
+    QbEfficientLoad(LadesaTypings.Tokens.Modalidade.Entity, qb, `${alias}_modalidade`);
 
     const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
 
     if (loadImagemCapa) {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      AppResourceView(AppResource.IMAGEM, qb, loadImagemCapa.alias);
+      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
     }
   }
 
@@ -153,7 +154,7 @@ export class CursoService {
     return getPaginatedResultDto(paginated);
   }
 
-  async cursoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.ICursoFindOneByIdInputDto): Promise<Spec.ICursoFindOneResultDto | null> {
+  async cursoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.CursoFindOneInput): Promise<LadesaTypings.CursoFindOneResult | null> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
@@ -183,7 +184,7 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.ICursoFindOneByIdInputDto) {
+  async cursoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.CursoFindOneInput) {
     const curso = await this.cursoFindById(contextoDeAcesso, dto);
 
     if (!curso) {
@@ -195,10 +196,10 @@ export class CursoService {
 
   async cursoFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Spec.ICursoFindOneByIdInputDto['id'],
+    id: LadesaTypings.CursoFindOneInput['id'],
     options?: ICursoQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Spec.ICursoFindOneResultDto | null> {
+  ): Promise<LadesaTypings.CursoFindOneResult | null> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
@@ -232,7 +233,7 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.ICursoFindOneByIdInputDto['id'], options?: ICursoQueryBuilderViewOptions, selection?: string[]) {
+  async cursoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CursoFindOneInput['id'], options?: ICursoQueryBuilderViewOptions, selection?: string[]) {
     const curso = await this.cursoFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!curso) {
@@ -348,10 +349,10 @@ export class CursoService {
     const curso = await this.cursoFindByIdStrict(contextoDeAcesso, { id: id });
 
     if (curso.imagemCapa) {
-      const [imagemArquivo] = curso.imagemCapa.imagemArquivo;
+      const [versao] = curso.imagemCapa.versoes;
 
-      if (imagemArquivo) {
-        const { arquivo } = imagemArquivo;
+      if (versao) {
+        const { arquivo } = versao;
         return this.arquivoService.getStreamableFile(null, arquivo.id, null);
       }
     }
@@ -359,7 +360,7 @@ export class CursoService {
     throw new NotFoundException();
   }
 
-  async cursoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICursoFindOneByIdInputDto, file: Express.Multer.File) {
+  async cursoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CursoFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
     const currentCurso = await this.cursoFindByIdStrict(contextoDeAcesso, { id: dto.id });

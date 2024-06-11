@@ -1,4 +1,5 @@
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '@/legacy/utils/QueryBuilderViewOptionsLoad';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { FilterOperator } from 'nestjs-paginate';
@@ -108,7 +109,7 @@ export class VinculoService {
     });
   }
 
-  async vinculoFindById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IVinculoFindOneByIdInputDto): Promise<Spec.IVinculoFindOneResultDto | null> {
+  async vinculoFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoFindOneInput): Promise<LadesaTypings.VinculoFindOneResult | null> {
     // =========================================================
 
     const qb = this.vinculoRepository.createQueryBuilder(aliasVinculo);
@@ -136,7 +137,7 @@ export class VinculoService {
     return vinculo;
   }
 
-  async vinculoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IVinculoFindOneByIdInputDto) {
+  async vinculoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoFindOneInput) {
     const vinculo = await this.vinculoFindById(contextoDeAcesso, dto);
 
     if (!vinculo) {

@@ -1,10 +1,10 @@
-import * as Spec from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { VinculoEntity } from '../autenticacao/vinculo.entity';
 import { DiarioEntity } from './diario.entity';
 
 @Entity('diario_professor')
-export class DiarioProfessorEntity implements Spec.IDiarioProfessorModel {
+export class DiarioProfessorEntity implements LadesaTypings.DiarioProfessor {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -15,20 +15,20 @@ export class DiarioProfessorEntity implements Spec.IDiarioProfessorModel {
 
   @ManyToOne(() => DiarioEntity)
   @JoinColumn({ name: 'id_diario_fk' })
-  diario!: Spec.IDiarioModel;
+  diario!: LadesaTypings.Diario;
 
   @ManyToOne(() => VinculoEntity)
   @JoinColumn({ name: 'id_vinculo_professor_fk' })
-  vinculo!: Spec.IVinculoModel;
+  vinculo!: LadesaTypings.Vinculo;
 
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: Spec.IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: Spec.IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | Spec.IEntityDate;
+  dateDeleted!: null | Date;
 }

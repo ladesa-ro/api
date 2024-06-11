@@ -1,9 +1,9 @@
-import { IEstadoModel } from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { CidadeEntity } from './cidade.entity';
 
 @Entity('base_estado')
-export class EstadoEntity implements IEstadoModel {
+export class EstadoEntity implements LadesaTypings.Estado {
   @PrimaryColumn({ name: 'id' })
   id!: number;
 

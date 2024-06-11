@@ -1,10 +1,11 @@
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DisciplinaEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
@@ -50,7 +51,7 @@ export class DisciplinaService {
 
     if (loadImagemCapa) {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      AppResourceView(AppResource.IMAGEM, qb, loadImagemCapa.alias);
+      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
     }
   }
 
@@ -115,7 +116,7 @@ export class DisciplinaService {
     return getPaginatedResultDto(paginated);
   }
 
-  async disciplinaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IDisciplinaFindOneByIdInputDto): Promise<Spec.IDisciplinaFindOneResultDto | null> {
+  async disciplinaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.DisciplinaFindOneInput): Promise<LadesaTypings.DisciplinaFindOneResult | null> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
@@ -145,7 +146,7 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IDisciplinaFindOneByIdInputDto) {
+  async disciplinaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.DisciplinaFindOneInput) {
     const disciplina = await this.disciplinaFindById(contextoDeAcesso, dto);
 
     if (!disciplina) {
@@ -157,10 +158,10 @@ export class DisciplinaService {
 
   async disciplinaFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Spec.IDisciplinaFindOneByIdInputDto['id'],
+    id: LadesaTypings.DisciplinaFindOneInput['id'],
     options?: IDisciplinaQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Spec.IDisciplinaFindOneResultDto | null> {
+  ): Promise<LadesaTypings.DisciplinaFindOneResult | null> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
@@ -194,7 +195,7 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.IDisciplinaFindOneByIdInputDto['id'], options?: IDisciplinaQueryBuilderViewOptions, selection?: string[]) {
+  async disciplinaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.DisciplinaFindOneInput['id'], options?: IDisciplinaQueryBuilderViewOptions, selection?: string[]) {
     const disciplina = await this.disciplinaFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!disciplina) {
@@ -266,10 +267,10 @@ export class DisciplinaService {
     const disciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, { id: id });
 
     if (disciplina.imagemCapa) {
-      const [imagemArquivo] = disciplina.imagemCapa.imagemArquivo;
+      const [versao] = disciplina.imagemCapa.versoes;
 
-      if (imagemArquivo) {
-        const { arquivo } = imagemArquivo;
+      if (versao) {
+        const { arquivo } = versao;
         return this.arquivoService.getStreamableFile(null, arquivo.id, null);
       }
     }
@@ -277,7 +278,7 @@ export class DisciplinaService {
     throw new NotFoundException();
   }
 
-  async disciplinaUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDisciplinaFindOneByIdInputDto, file: Express.Multer.File) {
+  async disciplinaUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DisciplinaFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
     const currentDisciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, { id: dto.id });

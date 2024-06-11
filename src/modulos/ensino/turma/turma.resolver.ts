@@ -1,3 +1,4 @@
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -25,7 +26,7 @@ export class TurmaResolver {
   async turmaFindOneById(
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
     @DadosEntradaGql(Spec.TurmaFindOneByIdOperator())
-    dto: Spec.ITurmaFindOneByIdInputDto,
+    dto: LadesaTypings.TurmaFindOneInput,
   ) {
     return this.turmaService.turmaFindByIdStrict(contextoDeAcesso, dto);
   }

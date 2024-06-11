@@ -1,10 +1,10 @@
-import { ICalendarioLetivoModel, ICampusModel, IEntityDate, IModalidadeModel } from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { ModalidadeEntity } from '../ensino/modalidade.entity';
 
 @Entity('calendario_letivo')
-export class CalendarioLetivoEntity implements ICalendarioLetivoModel {
+export class CalendarioLetivoEntity implements LadesaTypings.CalendarioLetivo {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -20,20 +20,20 @@ export class CalendarioLetivoEntity implements ICalendarioLetivoModel {
 
   @ManyToOne(() => CampusEntity)
   @JoinColumn({ name: 'id_campus_fk' })
-  campus!: ICampusModel;
+  campus!: LadesaTypings.Campus;
 
   @ManyToOne(() => ModalidadeEntity)
   @JoinColumn({ name: 'id_modalidade_fk' })
-  modalidade!: IModalidadeModel;
+  modalidade!: LadesaTypings.Modalidade;
 
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: IEntityDate | null;
+  dateDeleted!: null | Date;
 }

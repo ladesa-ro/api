@@ -1,11 +1,13 @@
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { busca, getPaginatedResultDto } from '../../../busca';
+
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { TurmaEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
@@ -69,7 +71,7 @@ export class TurmaService {
 
     if (loadImagemCapa) {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      AppResourceView(AppResource.IMAGEM, qb, loadImagemCapa.alias);
+      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
     }
   }
 
@@ -160,7 +162,7 @@ export class TurmaService {
     return getPaginatedResultDto(paginated);
   }
 
-  async turmaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.ITurmaFindOneByIdInputDto): Promise<Spec.ITurmaFindOneResultDto | null> {
+  async turmaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.TurmaFindOneInput): Promise<LadesaTypings.TurmaFindOneResult | null> {
     // =========================================================
 
     const qb = this.turmaRepository.createQueryBuilder(aliasTurma);
@@ -190,7 +192,7 @@ export class TurmaService {
     return turma;
   }
 
-  async turmaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.ITurmaFindOneByIdInputDto) {
+  async turmaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.TurmaFindOneInput) {
     const turma = await this.turmaFindById(contextoDeAcesso, dto);
 
     if (!turma) {
@@ -202,10 +204,10 @@ export class TurmaService {
 
   async turmaFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Spec.ITurmaFindOneByIdInputDto['id'],
+    id: LadesaTypings.TurmaFindOneInput['id'],
     options?: ITurmaQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Spec.ITurmaFindOneResultDto | null> {
+  ): Promise<LadesaTypings.TurmaFindOneResult | null> {
     // =========================================================
 
     const qb = this.turmaRepository.createQueryBuilder(aliasTurma);
@@ -239,7 +241,7 @@ export class TurmaService {
     return turma;
   }
 
-  async turmaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.ITurmaFindOneByIdInputDto['id'], options?: ITurmaQueryBuilderViewOptions, selection?: string[]) {
+  async turmaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.TurmaFindOneInput['id'], options?: ITurmaQueryBuilderViewOptions, selection?: string[]) {
     const turma = await this.turmaFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!turma) {
@@ -367,10 +369,10 @@ export class TurmaService {
     const turma = await this.turmaFindByIdStrict(contextoDeAcesso, { id: id });
 
     if (turma.imagemCapa) {
-      const [imagemArquivo] = turma.imagemCapa.imagemArquivo;
+      const [versao] = turma.imagemCapa.versoes;
 
-      if (imagemArquivo) {
-        const { arquivo } = imagemArquivo;
+      if (versao) {
+        const { arquivo } = versao;
         return this.arquivoService.getStreamableFile(null, arquivo.id, null);
       }
     }
@@ -378,7 +380,7 @@ export class TurmaService {
     throw new NotFoundException();
   }
 
-  async turmaUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ITurmaFindOneByIdInputDto, file: Express.Multer.File) {
+  async turmaUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.TurmaFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
     const currentTurma = await this.turmaFindByIdStrict(contextoDeAcesso, { id: dto.id });

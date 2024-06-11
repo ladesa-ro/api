@@ -1,10 +1,10 @@
-import { IEntityDate, IUsuarioModel } from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ImagemEntity } from '../base/imagem.entity';
 import { VinculoEntity } from './vinculo.entity';
 
 @Entity('usuario')
-export class UsuarioEntity implements IUsuarioModel {
+export class UsuarioEntity implements LadesaTypings.Usuario {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -40,13 +40,13 @@ export class UsuarioEntity implements IUsuarioModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Date;
 
   //
 

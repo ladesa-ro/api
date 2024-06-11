@@ -1,10 +1,11 @@
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { UsuarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { KeycloakService } from '../../../integracao-identidade-e-acesso';
@@ -73,20 +74,20 @@ export class UsuarioService {
 
     if (loadImagemCapa) {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      AppResourceView(AppResource.IMAGEM, qb, loadImagemCapa.alias);
+      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
     }
 
     const loadImagemPerfil = getQueryBuilderViewLoadMeta(options.loadImagemPerfil, true, `${alias}_imagemPerfil`);
 
     if (loadImagemPerfil) {
       qb.leftJoin(`${alias}.imagemPerfil`, `${loadImagemPerfil.alias}`);
-      AppResourceView(AppResource.IMAGEM, qb, loadImagemPerfil.alias);
+      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemPerfil.alias);
     }
   }
 
   //
 
-  async internalFindByMatriculaSiape(matriculaSiape: string): Promise<Spec.IUsuarioFindOneResultDto | null> {
+  async internalFindByMatriculaSiape(matriculaSiape: string): Promise<LadesaTypings.UsuarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -177,7 +178,7 @@ export class UsuarioService {
     return getPaginatedResultDto(paginated);
   }
 
-  async usuarioFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IUsuarioFindOneByIdInputDto): Promise<Spec.IUsuarioFindOneResultDto | null> {
+  async usuarioFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.UsuarioFindOneInput): Promise<LadesaTypings.UsuarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -207,7 +208,7 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IUsuarioFindOneByIdInputDto) {
+  async usuarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.UsuarioFindOneInput) {
     const usuario = await this.usuarioFindById(contextoDeAcesso, dto);
 
     if (!usuario) {
@@ -219,10 +220,10 @@ export class UsuarioService {
 
   async usuarioFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Spec.IUsuarioFindOneByIdInputDto['id'],
-    options?: IUsuarioQueryBuilderViewOptions,
+    id: LadesaTypings.UsuarioFindOneInput['id'],
+    _options?: IUsuarioQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Spec.IUsuarioFindOneResultDto | null> {
+  ): Promise<LadesaTypings.UsuarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -254,7 +255,7 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.IUsuarioFindOneByIdInputDto['id'], options?: IUsuarioQueryBuilderViewOptions, selection?: string[]) {
+  async usuarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.UsuarioFindOneInput['id'], options?: IUsuarioQueryBuilderViewOptions, selection?: string[]) {
     const usuario = await this.usuarioFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!usuario) {
@@ -375,10 +376,10 @@ export class UsuarioService {
     const usuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: id });
 
     if (usuario.imagemCapa) {
-      const [imagemArquivo] = usuario.imagemCapa.imagemArquivo;
+      const [versao] = usuario.imagemCapa.versoes;
 
-      if (imagemArquivo) {
-        const { arquivo } = imagemArquivo;
+      if (versao) {
+        const { arquivo } = versao;
         return this.arquivoService.getStreamableFile(null, arquivo.id, null);
       }
     }
@@ -386,7 +387,7 @@ export class UsuarioService {
     throw new NotFoundException();
   }
 
-  async usuarioUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IUsuarioFindOneByIdInputDto, file: Express.Multer.File) {
+  async usuarioUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.UsuarioFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
     const currentUsuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.id });
@@ -428,10 +429,10 @@ export class UsuarioService {
     const usuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: id });
 
     if (usuario.imagemPerfil) {
-      const [imagemArquivo] = usuario.imagemPerfil.imagemArquivo;
+      const [versao] = usuario.imagemPerfil.versoes;
 
-      if (imagemArquivo) {
-        const { arquivo } = imagemArquivo;
+      if (versao) {
+        const { arquivo } = versao;
         return this.arquivoService.getStreamableFile(null, arquivo.id, null);
       }
     }
@@ -439,7 +440,7 @@ export class UsuarioService {
     throw new NotFoundException();
   }
 
-  async usuarioUpdateImagemPerfil(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IUsuarioFindOneByIdInputDto, file: Express.Multer.File) {
+  async usuarioUpdateImagemPerfil(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.UsuarioFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
     const currentUsuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.id });

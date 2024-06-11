@@ -1,10 +1,10 @@
-import { IEntityDate, IVinculoModel } from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { UsuarioEntity } from './usuario.entity';
 
 @Entity('usuario_vinculo_campus')
-export class VinculoEntity implements IVinculoModel {
+export class VinculoEntity implements LadesaTypings.Vinculo {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -29,11 +29,11 @@ export class VinculoEntity implements IVinculoModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Date;
 }

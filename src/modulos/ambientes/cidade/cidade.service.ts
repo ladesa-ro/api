@@ -1,4 +1,4 @@
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { map } from 'lodash';
@@ -7,6 +7,7 @@ import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { paginateConfig } from '../../../legacy/utils';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 
 const aliasCidade = 'cidade';
 
@@ -65,7 +66,7 @@ export class CidadeService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.CIDADE, qb, aliasCidade, selection);
+    QbEfficientLoad(LadesaTypings.Tokens.Cidade.Entity, qb, aliasCidade, selection);
 
     // =========================================================
 
@@ -77,7 +78,7 @@ export class CidadeService {
     return getPaginatedResultDto(paginated);
   }
 
-  async findById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICidadeFindOneByIdInputDto, selection?: string[]) {
+  async findById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CidadeFindOneInput, selection?: string[]) {
     // =========================================================
 
     const { cidadeRepository: baseCidadeRepository } = this.databaseContextService;
@@ -97,7 +98,7 @@ export class CidadeService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.CIDADE, qb, aliasCidade, selection);
+    QbEfficientLoad(LadesaTypings.Tokens.Cidade.Entity, qb, aliasCidade, selection);
 
     // =========================================================
 
@@ -108,7 +109,7 @@ export class CidadeService {
     return cidade;
   }
 
-  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICidadeFindOneByIdInputDto, selection?: string[]) {
+  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CidadeFindOneInput, selection?: string[]) {
     const cidade = await this.findById(contextoDeAcesso, dto, selection);
 
     if (!cidade) {

@@ -1,4 +1,4 @@
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
@@ -6,6 +6,7 @@ import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { BlocoEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
@@ -60,7 +61,7 @@ export class BlocoService {
 
     if (loadImagemCapa) {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      AppResourceView(AppResource.IMAGEM, qb, loadImagemCapa.alias);
+      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
     }
   }
 
@@ -134,7 +135,7 @@ export class BlocoService {
     return getPaginatedResultDto(paginated);
   }
 
-  async blocoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IBlocoFindOneByIdInputDto): Promise<Spec.IBlocoFindOneResultDto | null> {
+  async blocoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.BlocoFindOneInput): Promise<LadesaTypings.BlocoFindOneResult | null> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
@@ -166,7 +167,7 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: Spec.IBlocoFindOneByIdInputDto) {
+  async blocoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.BlocoFindOneInput) {
     const bloco = await this.blocoFindById(contextoDeAcesso, dto);
 
     if (!bloco) {
@@ -178,10 +179,10 @@ export class BlocoService {
 
   async blocoFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: Spec.IBlocoFindOneByIdInputDto['id'],
+    id: LadesaTypings.BlocoFindOneInput['id'],
     options?: IBlocoQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<Spec.IBlocoFindOneResultDto | null> {
+  ): Promise<LadesaTypings.BlocoFindOneResult | null> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
@@ -216,7 +217,7 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: Spec.IBlocoFindOneByIdInputDto['id'], options?: IBlocoQueryBuilderViewOptions, selection?: string[]) {
+  async blocoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.BlocoFindOneInput['id'], options?: IBlocoQueryBuilderViewOptions, selection?: string[]) {
     const bloco = await this.blocoFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!bloco) {
@@ -232,10 +233,10 @@ export class BlocoService {
     const bloco = await this.blocoFindByIdStrict(contextoDeAcesso, { id: id });
 
     if (bloco.imagemCapa) {
-      const [imagemArquivo] = bloco.imagemCapa.imagemArquivo;
+      const [versao] = bloco.imagemCapa.versoes;
 
-      if (imagemArquivo) {
-        const { arquivo } = imagemArquivo;
+      if (versao) {
+        const { arquivo } = versao;
         return this.arquivoService.getStreamableFile(null, arquivo.id, null);
       }
     }
@@ -243,7 +244,7 @@ export class BlocoService {
     throw new NotFoundException();
   }
 
-  async blocoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
+  async blocoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.BlocoFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
     const currentBloco = await this.blocoFindByIdStrict(contextoDeAcesso, { id: dto.id });

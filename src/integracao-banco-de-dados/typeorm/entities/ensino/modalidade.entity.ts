@@ -1,9 +1,9 @@
-import { IEntityDate, IModalidadeModel } from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusPossuiModalidadeEntity } from './campus_possui_modalidade.entity';
 
 @Entity('modalidade')
-export class ModalidadeEntity implements IModalidadeModel {
+export class ModalidadeEntity implements LadesaTypings.Modalidade {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -23,11 +23,11 @@ export class ModalidadeEntity implements IModalidadeModel {
   //
 
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
-  dateCreated!: IEntityDate;
+  dateCreated!: Date;
 
   @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
-  dateUpdated!: IEntityDate;
+  dateUpdated!: Date;
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
-  dateDeleted!: null | IEntityDate;
+  dateDeleted!: null | Date;
 }

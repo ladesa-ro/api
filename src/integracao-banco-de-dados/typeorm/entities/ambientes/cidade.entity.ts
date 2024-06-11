@@ -1,9 +1,9 @@
-import { ICidadeModel } from '@sisgea/spec';
+import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { EstadoEntity } from './estado.entity';
 
 @Entity('base_cidade')
-export class CidadeEntity implements ICidadeModel {
+export class CidadeEntity implements LadesaTypings.Cidade {
   @PrimaryColumn({ name: 'id' })
   id!: number;
 

@@ -1,11 +1,9 @@
-import type * as LadesaTypings from '@ladesa-ro/especificacao';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Tokens } from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
-import { Operacao } from '../../../legacy/especificacao';
 import { AmbienteService } from './ambiente.service';
 
 @ApiTags('Ambientes')
@@ -55,14 +53,14 @@ export class AmbienteController {
   //
 
   @Get('/:id/imagem/capa')
-  @Operacao(Spec.AmbienteGetImagemCapaOperator())
-  async blocoGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.GetCoverImage)
+  async ambienteGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.ambienteService.ambienteGetImagemCapa(contextoDeAcesso, id);
   }
 
   @Put('/:id/imagem/capa')
-  @Operacao(Spec.AmbienteSetImagemCapaOperator())
-  async blocoImagemCapaSave(
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.SetCoverImage)
+  async ambienteImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @UploadedFile() file: Express.Multer.File,

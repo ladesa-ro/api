@@ -1,3 +1,4 @@
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import * as Spec from '@sisgea/spec';
@@ -22,7 +23,7 @@ export class CidadeController {
 
   @Get('/:id')
   @Operacao(Spec.CidadeFindOneByIdOperator())
-  async findById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id') id: number): Promise<Spec.ICidadeFindOneResultDto> {
+  async findById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id') id: number): Promise<LadesaTypings.CidadeFindOneResult> {
     return this.cidadeService.findByIdStrict(contextoDeAcesso, { id });
   }
 }

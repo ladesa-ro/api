@@ -1,14 +1,14 @@
-import type * as LadesaTypings from '@ladesa-ro/especificacao';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { AmbienteEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { AppResource, AppResourceView, IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../legacy/utils';
+import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../legacy/utils';
 import { paginateConfig } from '../../../legacy/utils/paginateConfig';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
 import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
@@ -70,8 +70,10 @@ export class AmbienteService {
 
     if (loadImagemCapa) {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      AppResourceView(AppResource.IMAGEM, qb, loadImagemCapa.alias);
+      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
     }
+
+    console.log(qb.getQueryAndParameters());
   }
 
   //
@@ -160,7 +162,7 @@ export class AmbienteService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.AmbienteFindOneInput): Promise<Spec.IAmbienteFindOneResultDto | null> {
+  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.AmbienteFindOneInput): Promise<LadesaTypings.AmbienteFindOneResult | null> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
@@ -182,6 +184,8 @@ export class AmbienteService {
     AmbienteService.AmbienteQueryBuilderView(aliasAmbiente, qb, {
       loadBloco: true,
     });
+
+    console.log(qb.getQueryAndParameters());
 
     // =========================================================
 
@@ -274,10 +278,10 @@ export class AmbienteService {
     const ambiente = await this.ambienteFindByIdStrict(contextoDeAcesso, { id: id });
 
     if (ambiente.imagemCapa) {
-      const [imagemArquivo] = ambiente.imagemCapa.imagemArquivo;
+      const [versao] = ambiente.imagemCapa.versoes;
 
-      if (imagemArquivo) {
-        const { arquivo } = imagemArquivo;
+      if (versao) {
+        const { arquivo } = versao;
         return this.arquivoService.getStreamableFile(null, arquivo.id, null);
       }
     }
@@ -285,7 +289,7 @@ export class AmbienteService {
     throw new NotFoundException();
   }
 
-  async ambienteUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IBlocoFindOneByIdInputDto, file: Express.Multer.File) {
+  async ambienteUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
     const currentAmbiente = await this.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.id });
@@ -326,7 +330,7 @@ export class AmbienteService {
 
   //
 
-  async ambienteDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IAmbienteDeleteOneByIdInputDto) {
+  async ambienteDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteFindOneInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('ambiente:delete', { dto }, dto.id, this.ambienteRepository.createQueryBuilder(aliasAmbiente));
