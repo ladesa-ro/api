@@ -1,4 +1,3 @@
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
@@ -13,6 +12,7 @@ import { CampusEntity, ModalidadeEntity } from '../../../integracao-banco-de-dad
 import { paginateConfig } from '../../../legacy/utils';
 import { ModalidadeService } from '../../ensino/modalidade/modalidade.service';
 import { EnderecoService } from '../endereco/endereco.service';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 
 // ============================================================================
 
@@ -68,7 +68,7 @@ export class CampusService {
       qb.leftJoinAndMapMany(`${alias}.modalidades`, ModalidadeEntity, `${loadModalidadesAlias}`, `${loadModalidadesAlias}.id = ${aliasCampusPossuiModalidade}.id_modalidade_fk`);
       qb.expressionMap.selects.splice(qb.expressionMap.selects.length - 1, 1);
 
-      AppResourceView(AppResource.MODALIDADE, qb, loadModalidadesAlias);
+      QbEfficientLoad(LadesaTypings.Tokens.Modalidade.Entity, qb, loadModalidadesAlias);
     }
   }
 

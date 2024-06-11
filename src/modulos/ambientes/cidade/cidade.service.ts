@@ -1,4 +1,3 @@
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
@@ -8,6 +7,7 @@ import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { paginateConfig } from '../../../legacy/utils';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 
 const aliasCidade = 'cidade';
 
@@ -66,7 +66,7 @@ export class CidadeService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.CIDADE, qb, aliasCidade, selection);
+    QbEfficientLoad(LadesaTypings.Tokens.Cidade.Entity, qb, aliasCidade, selection);
 
     // =========================================================
 
@@ -98,7 +98,7 @@ export class CidadeService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.CIDADE, qb, aliasCidade, selection);
+    QbEfficientLoad(LadesaTypings.Tokens.Cidade.Entity, qb, aliasCidade, selection);
 
     // =========================================================
 

@@ -1,4 +1,3 @@
-import { AppResource, AppResourceView } from '@/legacy/utils/qbEfficientLoad';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as Spec from '@sisgea/spec';
@@ -8,6 +7,7 @@ import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { ModalidadeEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { paginateConfig } from '../../../legacy/utils';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 
 // ============================================================================
 
@@ -71,7 +71,7 @@ export class ModalidadeService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.MODALIDADE, qb, aliasModalidade, selection);
+    QbEfficientLoad(LadesaTypings.Tokens.Modalidade.Entity, qb, aliasModalidade, selection);
 
     // =========================================================
 
@@ -101,7 +101,7 @@ export class ModalidadeService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.MODALIDADE, qb, aliasModalidade, selection);
+    QbEfficientLoad(LadesaTypings.Tokens.Modalidade.Entity, qb, aliasModalidade, selection);
 
     // =========================================================
 
@@ -138,7 +138,7 @@ export class ModalidadeService {
     // =========================================================
 
     qb.select([]);
-    AppResourceView(AppResource.MODALIDADE, qb, aliasModalidade, selection);
+    QbEfficientLoad(LadesaTypings.Tokens.Modalidade.Entity, qb, aliasModalidade, selection);
 
     // =========================================================
 
