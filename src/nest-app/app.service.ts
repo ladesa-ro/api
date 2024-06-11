@@ -4,8 +4,8 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getHello() {
     return {
-      service: 'sisgea-luna-backend',
       status: 'up',
+      service: '@ladesa-ro/api',
     };
   }
 }
