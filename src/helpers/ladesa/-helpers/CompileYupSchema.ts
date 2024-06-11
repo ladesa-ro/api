@@ -35,7 +35,7 @@ export class CompileYupSchema extends CompileNode {
     if (node.nullable) {
       schemaCursor = schemaCursor.nullable();
     } else {
-      schemaCursor = schemaCursor.nonNullable().required();
+      schemaCursor = schemaCursor.nonNullable();
     }
 
     if (node.required) {
