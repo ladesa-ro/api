@@ -37,9 +37,9 @@ export class ImagemArquivoEntity implements LadesaTypings.ImagemArquivo {
   @Column({ name: 'date_created', type: 'timestamptz', nullable: false })
   dateCreated!: Date;
 
-  // @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
+  @Column({ name: 'date_updated', type: 'timestamptz', nullable: false })
   dateUpdated!: Date;
 
-  // @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
+  @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
   dateDeleted!: null | Date;
 }

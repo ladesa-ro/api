@@ -72,8 +72,6 @@ export class AmbienteService {
       qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
       QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
     }
-
-    console.log(qb.getQueryAndParameters());
   }
 
   //
@@ -148,9 +146,7 @@ export class AmbienteService {
 
     qb.select([]);
 
-    AmbienteService.AmbienteQueryBuilderView(aliasAmbiente, qb, {
-      loadBloco: true,
-    });
+    AmbienteService.AmbienteQueryBuilderView(aliasAmbiente, qb, { loadBloco: true });
 
     // =========================================================
 
@@ -184,8 +180,6 @@ export class AmbienteService {
     AmbienteService.AmbienteQueryBuilderView(aliasAmbiente, qb, {
       loadBloco: true,
     });
-
-    console.log(qb.getQueryAndParameters());
 
     // =========================================================
 

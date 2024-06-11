@@ -56,7 +56,6 @@ export class CreateTableArquivo1710028829501 implements MigrationInterface {
             isNullable: false,
             default: 'NOW()',
           },
-
           {
             name: 'date_deleted',
             type: 'timestamptz',

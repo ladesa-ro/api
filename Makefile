@@ -19,6 +19,11 @@ dev-shell:
 	make dev-up;
 	sudo docker compose $(compose_options) exec $(d_container_app) bash;
 
+dev-shell-root:
+	make dev-setup;
+	make dev-up;
+	sudo docker compose $(compose_options) exec -u root $(d_container_app) bash;
+
 dev-down:
 	make dev-setup;
 	sudo docker compose $(compose_options) stop;
