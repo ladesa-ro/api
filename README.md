@@ -3,7 +3,7 @@
 ## Desenvolvimento
 
 ```sh
-git clone https://github.com/sisgha/api.git;
+git clone https://github.com/ladesa-ro/api.git;
 cd api;
 ```
 
@@ -15,8 +15,8 @@ API nest.
 
 | Host            | Endereço         | Descrição               | Plataforma Base                   |
 | --------------- | ---------------- | ----------------------- | --------------------------------- |
-| `sisgea-api`    | `localhost:3000` | Aplicação NodeJS.       | `docker.io/library/node:22`       |
-| `sisgea-api-db` | `localhost:5432` | Banco de dados postgres | `docker.io/bitnami/postgresql:15` |
+| `ladesa-api`    | `localhost:3701` | Aplicação NodeJS.       | `docker.io/library/node:22`       |
+| `ladesa-api-db` | `localhost:5432` | Banco de dados postgres | `docker.io/bitnami/postgresql:15` |
 
 ### Scripts Make
 
@@ -24,7 +24,7 @@ O projeto conta com um [arquivo make](./Makefile) que comporta scrips destinados
 
 ```Makefile
 dev-setup:
-  # Configura o ambiente de deselvolvimento, como a criação da rede sisgea-net e os arquivos .env.
+  # Configura o ambiente de deselvolvimento, como a criação da rede ladesa-net e os arquivos .env.
 dev-up:
   # Inicia os containers docker.
 dev-shell:

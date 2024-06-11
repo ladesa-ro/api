@@ -1,5 +1,5 @@
 {
-  "name": "luna-backend",
+  "name": "@ladesa-ro/api",
   "version": "0.0.0",
   "private": true,
   "scripts": {
