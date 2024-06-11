@@ -16,7 +16,7 @@ export class AppController {
       properties: {
         service: {
           type: 'string',
-          enum: ['sisgea-luna-backend'],
+          enum: ['@ladesa-ro/api'],
           description: 'O nome desta aplicação.',
         },
         status: {
