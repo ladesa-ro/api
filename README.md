@@ -3,7 +3,7 @@
 ## Desenvolvimento
 
 ```sh
-git clone https://github.com/sisgha/api.git;
+git clone https://github.com/ladesa-ro/api.git;
 cd api;
 ```
 
