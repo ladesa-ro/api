@@ -64,6 +64,17 @@ export class CreateTableImagemArquivo1710029083528 implements MigrationInterface
             isNullable: false,
             default: 'NOW()',
           },
+          {
+            name: 'date_updated',
+            type: 'timestamptz',
+            isNullable: false,
+            default: 'NOW()',
+          },
+          {
+            name: 'date_deleted',
+            type: 'timestamptz',
+            isNullable: true,
+          },
         ],
 
         foreignKeys: [
@@ -86,6 +97,13 @@ export class CreateTableImagemArquivo1710029083528 implements MigrationInterface
         ],
       }),
     );
+
+    await queryRunner.query(`
+      CREATE TRIGGER change_date_updated_table_${tableName}
+        BEFORE UPDATE ON ${tableName}
+        FOR EACH ROW
+          EXECUTE FUNCTION change_date_updated();
+    `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

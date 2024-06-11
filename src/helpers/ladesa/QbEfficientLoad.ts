@@ -29,21 +29,15 @@ export const QbEfficientLoad = (opaqueTargetViewCursor: string, qb: SelectQueryB
           }
 
           if (CheckView(realPropertyNode)) {
-            let childNodeViewName = realPropertyNode.name;
-
+            const childNodeViewName = realPropertyNode.name;
             const opaqueChildNodeType = realPropertyNode.type;
 
             if (CheckTypeObject(opaqueChildNodeType)) {
-              if (opaqueChildNodeType.partialOf) {
-                childNodeViewName = opaqueChildNodeType.partialOf;
-              }
-
               const childSelection = selection === true ? true : uniq(selection.filter((i) => i.startsWith(`${propertyKey}.`)).map((i) => i.slice(i.indexOf('.') + 1)));
 
               const childAlias = `${alias}_${propertyKey[0]}${counter}`;
 
               qb.leftJoin(`${alias}.${propertyKey}`, childAlias);
-
               QbEfficientLoad(childNodeViewName, qb, childAlias, childSelection);
             }
           } else {
