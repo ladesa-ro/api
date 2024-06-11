@@ -1,5 +1,4 @@
-import * as LadesaTypings from '@ladesa-ro/especificacao';
-import { Tokens } from '@ladesa-ro/especificacao';
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
@@ -12,7 +11,7 @@ export class AmbienteController {
   constructor(private ambienteService: AmbienteService) {}
 
   @Get('/')
-  @Operation(Tokens.Ambiente.Operations.List)
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.List)
   async ambienteFindAll(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @CombinedInput() combinedInput: LadesaTypings.AmbienteListCombinedInput,
@@ -23,7 +22,7 @@ export class AmbienteController {
   //
 
   @Get('/:id')
-  @Operation(Tokens.Ambiente.Operations.FindById)
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.FindById)
   async ambienteFindById(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
@@ -33,7 +32,7 @@ export class AmbienteController {
   }
 
   @Post('/')
-  @Operation(Tokens.Ambiente.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.Create)
   async ambienteCreate(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
@@ -45,7 +44,7 @@ export class AmbienteController {
   //
 
   @Patch('/:id')
-  @Operation(Tokens.Ambiente.Operations.UpdateById)
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.UpdateById)
   async ambienteUpdate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @CombinedInput() dto: LadesaTypings.AmbienteUpdateByIDCombinedInput) {
     return this.ambienteService.ambienteUpdate(contextoDeAcesso, dto);
   }
@@ -72,7 +71,7 @@ export class AmbienteController {
   //
 
   @Delete('/:id')
-  @Operation(Tokens.Ambiente.Operations.DeleteById)
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.DeleteById)
   async ambienteDeleteOneById(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
