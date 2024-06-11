@@ -15,7 +15,7 @@ API nest.
 
 | Host            | Endereço         | Descrição               | Plataforma Base                   |
 | --------------- | ---------------- | ----------------------- | --------------------------------- |
-| `ladesa-api`    | `localhost:3000` | Aplicação NodeJS.       | `docker.io/library/node:22`       |
+| `ladesa-api`    | `localhost:3701` | Aplicação NodeJS.       | `docker.io/library/node:22`       |
 | `ladesa-api-db` | `localhost:5432` | Banco de dados postgres | `docker.io/bitnami/postgresql:15` |
 
 ### Scripts Make
