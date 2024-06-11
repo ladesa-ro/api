@@ -53,14 +53,14 @@ export class AmbienteController {
   //
 
   @Get('/:id/imagem/capa')
-  @Operation(LadesaTypings.Tokens.Imagem.Operations.GetImagem)
-  async blocoGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.GetCoverImage)
+  async ambienteGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
     return this.ambienteService.ambienteGetImagemCapa(contextoDeAcesso, id);
   }
 
   @Put('/:id/imagem/capa')
-  @Operation(LadesaTypings.Tokens.Imagem.Operations.SetImagem)
-  async blocoImagemCapaSave(
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.SetCoverImage)
+  async ambienteImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
     @UploadedFile() file: Express.Multer.File,
