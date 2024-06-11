@@ -1,19 +1,18 @@
 services:
-  sisgea-luna-backend:
+  ladesa-api:
     image: node:22
     user: node
     command: sh -c "tail -f /dev/null"
-    container_name: sisgea-luna-backend
+    container_name: ladesa-api
     working_dir: /sisgha-api
     depends_on:
-      - sisgea-luna-backend-db
+      - ladesa-api-db
     networks:
-      - sisgea-luna-net
+      - ladesa-net
     ports:
       - 3701:3701
       - 9229:9229
     volumes:
-      - ../../../../../libs:/sisgea/env-dev/libs
       - ../../:/sisgha-api
       - ./volumes/uploaded:/container/uploaded
     environment:
@@ -21,23 +20,23 @@ services:
     env_file:
       - .env
 
-  sisgea-luna-backend-db:
+  ladesa-api-db:
     image: bitnami/postgresql:15
-    container_name: sisgea-luna-backend-db
+    container_name: ladesa-api-db
     volumes:
-      - 'sisgea-luna-backend-db-data:/bitnami/postgresql'
+      - 'ladesa-api-db-data:/bitnami/postgresql'
       # - './volumes/db/scripts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'
     networks:
-      - sisgea-luna-net
+      - ladesa-net
     ports:
       - 127.0.0.1:5432:5432
     env_file:
       - .db.env
 
 networks:
-  sisgea-luna-net:
+  ladesa-net:
     external: true
 
 volumes:
-  sisgea-luna-backend-uploaded-files:
-  sisgea-luna-backend-db-data:
+  ladesa-api-uploaded-files:
+  ladesa-api-db-data:

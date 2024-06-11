@@ -4,13 +4,13 @@ import { IConfig } from '../config';
 export function SetupSwaggerDocument(configService: IConfig | null = null) {
   const config = new DocumentBuilder();
 
-  config.setTitle('SISGEA - Luna - API');
+  config.setTitle('Ladesa - API');
   config.setDescription('API para a consulta e manipulação de dados e procedimentos relacionados ao Sistema de Gestão Acadêmico.');
   config.setVersion('0.0');
 
   config.addBearerAuth();
 
-  config.addTag('Base', 'SISGEA - Base');
+  config.addTag('Base', 'Ladesa - Base');
 
   config.addTag('Arquivos', 'Armazenamento / Arquivos');
 
