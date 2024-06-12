@@ -1,4 +1,3 @@
-import { ArgsType, InputType, ObjectType } from '@nestjs/graphql';
 import * as Spec from '@sisgea/spec';
 import { pascalCase } from 'change-case';
 import { __decorate, __metadata } from 'tslib';
@@ -12,7 +11,7 @@ export const CreateEntityDtoClass = <Factory extends () => Spec.IDeclaration>(
   mode: Spec.IOutputDeclarationMode = 'output',
   dtoClassesMap = rootDtoClassesMap,
   parent = '',
-  gqlStrategy: null | 'args-type' = null,
+  _gqlStrategy: null | 'args-type' = null,
 ) => {
   const declaration = factory();
 
@@ -32,15 +31,15 @@ export const CreateEntityDtoClass = <Factory extends () => Spec.IDeclaration>(
 
   function EntityDtoClass() {}
 
-  const classDecorators = [];
+  const classDecorators: any[] = [];
 
-  if (gqlStrategy === 'args-type') {
-    classDecorators.push(ArgsType());
-  } else if (mode === 'input') {
-    classDecorators.push(InputType(dtoClassName));
-  } else if (mode === 'output' || mode === 'simple') {
-    classDecorators.push(ObjectType(dtoClassName));
-  }
+  // if (gqlStrategy === 'args-type') {
+  //   classDecorators.push(ArgsType());
+  // } else if (mode === 'input') {
+  //   classDecorators.push(InputType(dtoClassName));
+  // } else if (mode === 'output' || mode === 'simple') {
+  //   classDecorators.push(ObjectType(dtoClassName));
+  // }
 
   const decoratedClass = __decorate(classDecorators, EntityDtoClass);
 

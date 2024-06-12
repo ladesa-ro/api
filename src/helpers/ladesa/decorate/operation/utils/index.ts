@@ -1,6 +1,6 @@
 import { createParamDecorator } from '@nestjs/common';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
-import { CheckTypeFile, CheckView } from '@unispec/ast-builder';
+import { CheckTypeFile, CheckTypeObject, CheckView } from '@unispec/ast-builder';
 import type { IUniNode, IUniNodeOperation } from '@unispec/ast-types';
 import type { UniRepository } from '@unispec/ast-utils';
 import { CompileClassDto } from '@unispec/driver-nestjs';
@@ -18,19 +18,39 @@ const SetupCompilers = () => {
 
   const classCompiler = new CompileClassDto(repository, [new CompileClassHandlerGraphQlDto(), new CompileClassHandlerSwaggerDto()], dtoClassesMap);
 
+  const graphQlRepresentationCompiler = new CompileNodeGraphQlRepresentation(repository, classCompiler);
   const swaggerRepresentationCompiler = new CompileNodeSwaggerRepresentation(repository, classCompiler);
 
-  return { repository, classCompiler, swaggerRepresentationCompiler };
+  return { repository, classCompiler, graphQlRepresentationCompiler, swaggerRepresentationCompiler };
 };
 
-export const { repository, classCompiler, swaggerRepresentationCompiler } = SetupCompilers();
+export const { repository, classCompiler, graphQlRepresentationCompiler, swaggerRepresentationCompiler } = SetupCompilers();
 
-export const BuildGraphQlRepresentation = (opaqueTarget: string | IUniNode, meta?: Record<string, any> | undefined) => {
-  const targetRealNode = repository.GetRealTarget(opaqueTarget);
+const ResolveGraphQlTargetView = (repository: UniRepository, cursor: IUniNode | string) => {
+  let targetNode: IUniNode | string | null = repository.GetRealTarget(cursor);
 
-  if (targetRealNode) {
-    const representationCompiler = new CompileNodeGraphQlRepresentation(repository, classCompiler);
-    return representationCompiler.Handle(targetRealNode, meta);
+  if (CheckView(targetNode) && CheckTypeObject(targetNode.type)) {
+    const fullReferenced = targetNode.type.partialOf ? repository.GetRealTarget(targetNode.type.partialOf) : null;
+
+    if (fullReferenced && CheckView(fullReferenced)) {
+      targetNode = fullReferenced;
+    }
+  }
+
+  if (targetNode) {
+    return targetNode;
+  } else {
+    console.log({ cursor, targetNode });
+
+    throw new TypeError('Cannot resolve graphql target view.');
+  }
+};
+
+export const BuildGraphQlRepresentation = (targetCursor: string | IUniNode, meta?: Record<string, any> | undefined) => {
+  const target = ResolveGraphQlTargetView(graphQlRepresentationCompiler.repository, targetCursor);
+
+  if (target) {
+    return graphQlRepresentationCompiler.Handle(target, meta);
   } else {
     throw new TypeError();
   }

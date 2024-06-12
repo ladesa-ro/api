@@ -1,25 +1,27 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
-import { Resolver } from '@nestjs/graphql';
+import { Info as GqlInfo, Resolver as GqlResolver } from '@nestjs/graphql';
+import { GraphQLResolveInfo } from 'graphql';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
-import { AmbienteDto } from './ambiente.dtos';
+import { graphqlExtractSelection } from '../../../helpers/ladesa/-helpers/graphql-selection';
 import { AmbienteService } from './ambiente.service';
 
-@Resolver(() => AmbienteDto)
+@GqlResolver()
 export class AmbienteResolver {
   constructor(
     //
     private ambienteService: AmbienteService,
   ) {}
   //
-  // @Operation(LadesaTypings.Tokens.Ambiente.Operations.List)
-  // async ambienteFindAll(
-  //   //
-  //   @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-  //   @CombinedInput() combinedInput: LadesaTypings.AmbienteListCombinedInput,
-  // ) {
-  //   return this.ambienteService.ambienteFindAll(contextoDeAcesso, combinedInput);
-  // }
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.List)
+  async ambienteFindAll(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() combinedInput: LadesaTypings.AmbienteListCombinedInput,
+    @GqlInfo() info: GraphQLResolveInfo,
+  ) {
+    return this.ambienteService.ambienteFindAll(contextoDeAcesso, combinedInput, graphqlExtractSelection(info, 'paginated'));
+  }
   //
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.FindById)
   async ambienteFindOneById(

@@ -1,11 +1,9 @@
 import { Resolver } from '@nestjs/graphql';
-import { EnderecoService } from './endereco.service';
-import { EnderecoDto } from './endereco.dtos';
 
-@Resolver(() => EnderecoDto)
+@Resolver()
 export class EnderecoResolver {
-  constructor(
-    //
-    private _enderecoService: EnderecoService,
-  ) {}
+  // constructor(
+  //   //
+  //   private _enderecoService: EnderecoService,
+  // ) {}
 }
