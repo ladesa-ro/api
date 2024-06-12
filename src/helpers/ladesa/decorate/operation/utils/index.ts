@@ -10,6 +10,7 @@ import { CompileYupSchema } from '../../../-helpers/CompileYupSchema';
 import { ValidationPipeYup } from '../../../../../validacao';
 import { getLadesaNodesRepository } from '../../../providers';
 import { COMBINED_INPUT_PARAM } from '../CombinedInput';
+import { InputCombinerGraphQl } from '../IntegrationGraphQl/InputCombinerGraphQl';
 
 const dtoClassesMap = new Map<string, object>();
 
@@ -159,12 +160,7 @@ export class OperationDecoratorsBuilder {
               createParamDecorator((_, executionContext: ExecutionContextHost) => {
                 if (executionContext.getType<string>() === 'graphql') {
                   const [, input] = executionContext.getArgs();
-
-                  return {
-                    params: {
-                      ...input,
-                    },
-                  };
+                  return InputCombinerGraphQl.DecombineInput(operation, input);
                 } else {
                   const httpContext = executionContext.switchToHttp();
 
@@ -180,7 +176,7 @@ export class OperationDecoratorsBuilder {
                     queries,
                   };
                 }
-              })(null, new ValidationPipeYup(combinedInputValidator, { path: null, scope: 'args' })),
+              })(null, new ValidationPipeYup(combinedInputValidator)),
             );
 
             for (const paramDecorator of context.combinedInputParameterDecorators) {

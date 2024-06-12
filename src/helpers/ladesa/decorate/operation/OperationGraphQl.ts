@@ -1,6 +1,6 @@
 import { Args as GqlArgs, Mutation as GqlMutation, Query as GqlQuery } from '@nestjs/graphql';
-import { BuildTypeObject, BuildView, CheckType } from '@unispec/ast-builder';
 import { camelCase } from 'lodash';
+import { InputCombinerGraphQl } from './IntegrationGraphQl/InputCombinerGraphQl';
 import { AbstractOperationDecoratorsHandler, BuildGraphQlRepresentation, DecorateMethodContext, detectStrategy } from './utils';
 
 export class OperationDecoratorsHandlerGraphQl extends AbstractOperationDecoratorsHandler {
@@ -77,41 +77,14 @@ export class OperationDecoratorsHandlerGraphQl extends AbstractOperationDecorato
   }
 
   HandleInputs(context: DecorateMethodContext) {
-    const { operation, repository } = context;
+    const { operation } = context;
 
-    const input = operation.input;
+    const graphQlRepresentation = InputCombinerGraphQl.CombinedRepresentation(operation);
 
-    if (!input) {
-      return;
-    }
+    const typeFn = graphQlRepresentation?.type;
 
-    const operationCombinedGraphQlInput = BuildView({
-      name: operation.name,
-      type: BuildTypeObject({
-        properties: {
-          ...input.params,
-        },
-      }),
-    });
-
-    const graphQlRepresentation = BuildGraphQlRepresentation(operationCombinedGraphQlInput, { gqlStrategy: 'args-type' });
-
-    const typeFn = graphQlRepresentation.type;
-
-    if (!typeFn) {
-      return;
-    }
-
-    for (const [key, opaqueTargetNode] of Object.entries(input.params ?? {})) {
-      const name = key;
-
-      const realTargetNode = repository.GetRealTarget(opaqueTargetNode);
-
-      if (CheckType(realTargetNode)) {
-        context.CombinedInputAdd(GqlArgs({ type: typeFn }));
-      } else {
-        throw new TypeError(`Invalid param real target: ${name}.`);
-      }
+    if (typeFn) {
+      context.CombinedInputAdd(GqlArgs({ type: typeFn }));
     }
   }
 }

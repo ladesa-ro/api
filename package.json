@@ -33,7 +33,7 @@
   "dependencies": {
     "@apollo/server": "^4.10.4",
     "@keycloak/keycloak-admin-client": "^24.0.5",
-    "@ladesa-ro/especificacao": "^2.1.6-next.3",
+    "@ladesa-ro/especificacao": "^2.1.6-next.4",
     "@nestjs/apollo": "^12.1.0",
     "@nestjs/common": "^10.3.9",
     "@nestjs/config": "^3.2.2",
@@ -46,12 +46,12 @@
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/throttler": "^5.1.2",
     "@sisgea/spec": "^1.1.0-development.53",
-    "@unispec/ast-builder": "^0.26.1-next.42",
-    "@unispec/ast-types": "^0.26.1-next.42",
-    "@unispec/ast-utils": "^0.26.1-next.42",
-    "@unispec/driver-nestjs": "^0.26.1-next.42",
-    "@unispec/driver-nestjs-graphql": "^0.26.1-next.42",
-    "@unispec/driver-nestjs-swagger": "^0.26.1-next.42",
+    "@unispec/ast-builder": "^0.26.1-next.43",
+    "@unispec/ast-types": "^0.26.1-next.43",
+    "@unispec/ast-utils": "^0.26.1-next.43",
+    "@unispec/driver-nestjs": "^0.26.1-next.43",
+    "@unispec/driver-nestjs-graphql": "^0.26.1-next.43",
+    "@unispec/driver-nestjs-swagger": "^0.26.1-next.43",
     "change-case": "^5.4.4",
     "compression": "^1.7.4",
     "fs-jetpack": "^5.1.0",
@@ -138,5 +138,5 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "packageManager": "npm@10.8.1+sha512.0e9d42e92bd2318408ed81eaff2da5f78baf23ee7d12a6eed44a6e2901d0f29d7ab715d1b918ade601f72e769a824d9a5c322383f22bbbda5dd396e79de2a077"
+  "packageManager": "npm@10.8.1+sha512.0e9d43e92bd2318408ed81eaff2da5f78baf23ee7d12a6eed44a6e2901d0f29d7ab715d1b918ade601f72e769a824d9a5c322383f22bbbda5dd396e79de2a077"
 }
