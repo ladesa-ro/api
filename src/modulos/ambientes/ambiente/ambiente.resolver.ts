@@ -1,45 +1,58 @@
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
+import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { AmbienteDto } from './ambiente.dtos';
-// import { AmbienteService } from './ambiente.service';
-// import * as Spec from '@sisgea/spec';
-// import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-// import { DadosEntradaGql, Operacao } from '../../../legacy/especificacao';
+import { AmbienteService } from './ambiente.service';
 
 @Resolver(() => AmbienteDto)
 export class AmbienteResolver {
-  // constructor(
+  constructor(
+    //
+    private ambienteService: AmbienteService,
+  ) {}
+  //
+  // @Operation(LadesaTypings.Tokens.Ambiente.Operations.List)
+  // async ambienteFindAll(
   //   //
-  //   private ambienteService: AmbienteService,
-  // ) {}
-  //
-  // @Operacao(Spec.AmbienteFindAllOperator())
-  // async ambienteFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteFindAllOperator()) dto: Spec.IPaginatedInputDto) {
-  //   return this.ambienteService.ambienteFindAll(contextoDeAcesso, dto);
-  // }
-  //
-  // @Operacao(Spec.AmbienteFindOneByIdOperator())
-  // async ambienteFindOneById(
   //   @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-  //   @DadosEntradaGql(Spec.AmbienteFindOneByIdOperator())
-  //   dto: LadesaTypings.AmbienteFindOneInput,
+  //   @CombinedInput() combinedInput: LadesaTypings.AmbienteListCombinedInput,
   // ) {
-  //   return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, dto);
+  //   return this.ambienteService.ambienteFindAll(contextoDeAcesso, combinedInput);
   // }
   //
-  // @Operacao(Spec.AmbienteCreateOperator())
-  // async ambienteCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteCreateOperator()) dto: Spec.IAmbienteInputDto) {
-  //   return this.ambienteService.ambienteCreate(contextoDeAcesso, dto);
-  // }
-  // @Operacao(Spec.AmbienteUpdateOperator())
-  // async ambienteUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.AmbienteUpdateOperator()) dto: Spec.IAmbienteUpdateDto) {
-  //   return this.ambienteService.ambienteUpdate(contextoDeAcesso, dto);
-  // }
-  // @Operacao(Spec.AmbienteDeleteOperator())
-  // async ambienteDeleteOneById(
-  //   @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-  //   @DadosEntradaGql(Spec.AmbienteDeleteOperator())
-  //   dto: Spec.IAmbienteDeleteOneByIdInputDto,
-  // ) {
-  //   return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, dto);
-  // }
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.FindById)
+  async ambienteFindOneById(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() combinedInput: LadesaTypings.AmbienteFindByIDCombinedInput,
+  ) {
+    return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: combinedInput.params.id });
+  }
+  //
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.Create)
+  async ambienteCreate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.AmbienteCreateCombinedInput,
+  ) {
+    return this.ambienteService.ambienteCreate(contextoDeAcesso, dto);
+  }
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.UpdateById)
+  async ambienteUpdate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.AmbienteUpdateByIDCombinedInput,
+  ) {
+    return this.ambienteService.ambienteUpdate(contextoDeAcesso, dto);
+  }
+
+  @Operation(LadesaTypings.Tokens.Ambiente.Operations.DeleteById)
+  async ambienteDeleteOneById(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() combinedInput: LadesaTypings.AmbienteDeleteByIDCombinedInput,
+  ) {
+    return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, { id: combinedInput.params.id });
+  }
 }
