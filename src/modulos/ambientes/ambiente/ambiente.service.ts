@@ -42,7 +42,7 @@ export class AmbienteService {
 
   //
 
-  static AmbienteQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IAmbienteQueryBuilderViewOptions = {}) {
+  static AmbienteQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IAmbienteQueryBuilderViewOptions = {}, _selection?:string[]|boolean) {
     qb.addSelect([
       //
       `${alias}.id`,
@@ -76,7 +76,11 @@ export class AmbienteService {
 
   //
 
-  async ambienteFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteListCombinedInput | null = null): Promise<LadesaTypings.AmbienteListCombinedSuccessOutput['body']> {
+  async ambienteFindAll(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.AmbienteListCombinedInput | null = null,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.AmbienteListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
@@ -146,7 +150,7 @@ export class AmbienteService {
 
     qb.select([]);
 
-    AmbienteService.AmbienteQueryBuilderView(aliasAmbiente, qb, { loadBloco: true });
+    AmbienteService.AmbienteQueryBuilderView(aliasAmbiente, qb, { loadBloco: true }, selection);
 
     // =========================================================
 

@@ -4,7 +4,7 @@ services:
     user: node
     command: sh -c "tail -f /dev/null"
     container_name: ladesa-api
-    working_dir: /sisgha-api
+    working_dir: /ladesa-api
     depends_on:
       - ladesa-api-db
     networks:
@@ -13,7 +13,7 @@ services:
       - 3701:3701
       - 9229:9229
     volumes:
-      - ../../:/sisgha-api
+      - ../../:/ladesa-api
       - ./volumes/uploaded:/container/uploaded
     environment:
       - STORAGE_PATH=/container/uploaded

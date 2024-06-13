@@ -1,10 +1,12 @@
-import { Mutation as GqlMutation, Query as GqlQuery } from '@nestjs/graphql';
+import { Args as GqlArgs, Mutation as GqlMutation, Query as GqlQuery } from '@nestjs/graphql';
 import { camelCase } from 'lodash';
+import { InputCombinerGraphQl } from './IntegrationGraphQl/InputCombinerGraphQl';
 import { AbstractOperationDecoratorsHandler, BuildGraphQlRepresentation, DecorateMethodContext, detectStrategy } from './utils';
 
 export class OperationDecoratorsHandlerGraphQl extends AbstractOperationDecoratorsHandler {
   Build(context: DecorateMethodContext) {
     this.HandleOutput(context);
+    this.HandleInputs(context);
   }
 
   HandleOutput(context: DecorateMethodContext) {
@@ -37,14 +39,17 @@ export class OperationDecoratorsHandlerGraphQl extends AbstractOperationDecorato
 
     const SuccessDto = outputSuccessTarget && BuildGraphQlRepresentation(outputSuccessTarget, { mode: 'output' });
 
-    if (!SuccessDto) {
+    const typeFn = SuccessDto?.type;
+
+    if (!typeFn) {
       return;
     }
 
     switch (operation.meta?.gql?.kind) {
       case 'query': {
         context.Add(
-          GqlQuery(() => SuccessDto, {
+          GqlQuery(typeFn, {
+            nullable: SuccessDto.nullable,
             name: camelCase(operation.name),
             description: operation.description,
           }),
@@ -55,7 +60,8 @@ export class OperationDecoratorsHandlerGraphQl extends AbstractOperationDecorato
 
       case 'mutation': {
         context.Add(
-          GqlMutation(() => SuccessDto, {
+          GqlMutation(typeFn, {
+            nullable: SuccessDto.nullable,
             name: camelCase(operation.name),
             description: operation.description,
           }),
@@ -67,6 +73,18 @@ export class OperationDecoratorsHandlerGraphQl extends AbstractOperationDecorato
       default: {
         break;
       }
+    }
+  }
+
+  HandleInputs(context: DecorateMethodContext) {
+    const { operation } = context;
+
+    const graphQlRepresentation = InputCombinerGraphQl.CombinedRepresentation(operation);
+
+    const typeFn = graphQlRepresentation?.type;
+
+    if (typeFn) {
+      context.CombinedInputAdd(GqlArgs({ type: typeFn }));
     }
   }
 }
