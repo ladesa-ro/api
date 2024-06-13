@@ -65,9 +65,9 @@ export type IAuthzStatementDisciplinaFind = IBaseAuthzFilter<'disciplina:find'>;
 
 // =====================
 
-export type IAuthzStatementTurmaCreate = IBaseAuthzCheck<'turma:create', { dto: Spec.ITurmaInputDto }>;
-export type IAuthzStatementTurmaUpdate = IBaseAuthzFilter<'turma:update', { dto: Spec.ITurmaUpdateDto }>;
-export type IAuthzStatementTurmaDelete = IBaseAuthzFilter<'turma:delete', { dto: Spec.ITurmaDeleteOneByIdInputDto }>;
+export type IAuthzStatementTurmaCreate = IBaseAuthzCheck<'turma:create', { dto: LadesaTypings.TurmaCreateCombinedInput }>;
+export type IAuthzStatementTurmaUpdate = IBaseAuthzFilter<'turma:update', { dto: LadesaTypings.TurmaUpdateByIDCombinedInput }>;
+export type IAuthzStatementTurmaDelete = IBaseAuthzFilter<'turma:delete', { dto: LadesaTypings.TurmaFindOneInput }>;
 export type IAuthzStatementTurmaFind = IBaseAuthzFilter<'turma:find'>;
 
 // =====================
