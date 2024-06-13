@@ -100,12 +100,12 @@ export type IAuthzStatementDiarioFind = IBaseAuthzFilter<'diario:find'>;
 
 // =====================
 
-export type IAuthzStatementReservaCreate = IBaseAuthzCheck<'reserva:create', { dto: Spec.IReservaInputDto }>;
-export type IAuthzStatementReservaUpdate = IBaseAuthzFilter<'reserva:update', { dto: Spec.IReservaUpdateDto }>;
+export type IAuthzStatementReservaCreate = IBaseAuthzCheck<'reserva:create', { dto: LadesaTypings.ReservaCreateCombinedInput }>;
+export type IAuthzStatementReservaUpdate = IBaseAuthzFilter<'reserva:update', { dto: LadesaTypings.ReservaUpdateByIDCombinedInput }>;
 export type IAuthzStatementReservaDelete = IBaseAuthzFilter<
   'reserva:delete',
   {
-    dto: Spec.IReservaDeleteOneByIdInputDto;
+    dto: LadesaTypings.ReservaFindOneInput;
   }
 >;
 export type IAuthzStatementReservaFind = IBaseAuthzFilter<'reserva:find'>;
