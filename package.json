@@ -50,7 +50,7 @@
     "@unispec/ast-types": "^0.26.1-next.38",
     "@unispec/ast-utils": "^0.26.1-next.38",
     "@unispec/driver-nestjs": "^0.26.1-next.38",
-    "@unispec/driver-nestjs-graphql": "^0.26.1-next.38",
+    "@unispec/driver-nestjs-graphql": "^0.26.1-next.43",
     "@unispec/driver-nestjs-swagger": "^0.26.1-next.38",
     "change-case": "^5.4.4",
     "compression": "^1.7.4",
