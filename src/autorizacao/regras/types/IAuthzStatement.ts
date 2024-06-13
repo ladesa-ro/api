@@ -40,15 +40,10 @@ export type IAuthzStatementUsuarioDelete = IBaseAuthzFilter<'usuario:delete', { 
 
 // =====================
 
-export type IAuthzStatementModalidadeCreate = IBaseAuthzCheck<'modalidade:create', { dto: Spec.IModalidadeCreateDto }>;
+export type IAuthzStatementModalidadeCreate = IBaseAuthzCheck<'modalidade:create', { dto: LadesaTypings.ModalidadeCreateCombinedInput }>;
 export type IAuthzStatementModalidadeFind = IBaseAuthzFilter<'modalidade:find'>;
-export type IAuthzStatementModalidadeUpdate = IBaseAuthzFilter<'modalidade:update', { dto: Spec.IModalidadeUpdateDto }>;
-export type IAuthzStatementModalidadeDelete = IBaseAuthzFilter<
-  'modalidade:delete',
-  {
-    dto: Spec.IModalidadeDeleteOneByIdInputDto;
-  }
->;
+export type IAuthzStatementModalidadeUpdate = IBaseAuthzFilter<'modalidade:update', { dto: LadesaTypings.ModalidadeUpdateByIDCombinedInput }>;
+export type IAuthzStatementModalidadeDelete = IBaseAuthzFilter<'modalidade:delete', { dto: LadesaTypings.ModalidadeFindOneInput }>;
 
 // =====================
 
