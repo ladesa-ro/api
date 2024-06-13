@@ -1,6 +1,5 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Info, Resolver } from '@nestjs/graphql';
-import { IEstadoFindOneByIdInputDto } from '@sisgea/spec';
 import { GraphQLResolveInfo } from 'graphql';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
@@ -29,10 +28,10 @@ export class EstadoResolver {
   async estadoFindOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() dto: IEstadoFindOneByIdInputDto,
+    @CombinedInput() dto: LadesaTypings.EstadoFindByIDCombinedInput,
     @Info() info: GraphQLResolveInfo,
   ) {
-    return this.estadoService.findByIdStrict(contextoDeAcesso, dto, graphqlExtractSelection(info));
+    return this.estadoService.findByIdStrict(contextoDeAcesso, { id: dto.params.id }, graphqlExtractSelection(info));
   }
   // ========================================================
 }

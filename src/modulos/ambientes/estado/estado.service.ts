@@ -1,11 +1,9 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '@sisgea/spec';
 import { map } from 'lodash';
-import { LadesaSearch } from '../../../../dist/helpers/ladesa/search/search-strategies';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
-import { LadesaPaginatedResultDto } from '../../../helpers/ladesa/search/search-strategies';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { paginateConfig } from '../../../legacy/utils';
 
@@ -72,44 +70,7 @@ export class EstadoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async findByUf(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto, selection?: string[]) {
-    // =========================================================
-
-    const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
-
-    // =========================================================
-
-    await contextoDeAcesso.aplicarFiltro('estado:find', qb, aliasEstado, null);
-
-    // =========================================================
-
-    qb.andWhere(`${aliasEstado}.sigla = :sigla`, { sigla: dto.uf.toUpperCase() });
-
-    // =========================================================
-
-    qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Estado.Entity, qb, aliasEstado, selection);
-
-    // =========================================================
-
-    const estado = await qb.getOne();
-
-    // =========================================================
-
-    return estado;
-  }
-
-  async findByUfStrict(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto, selection?: string[]) {
-    const estado = await this.findByUf(contextoDeAcesso, dto, selection);
-
-    if (!estado) {
-      throw new NotFoundException();
-    }
-
-    return estado;
-  }
-
-  async findById(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto, selection?: string[]) {
+  async findById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EstadoFindOneInput, selection?: string[]) {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder('estado');
@@ -136,7 +97,7 @@ export class EstadoService {
     return estado;
   }
 
-  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto, selection?: string[]) {
+  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EstadoFindOneInput, selection?: string[]) {
     const estado = await this.findById(contextoDeAcesso, dto, selection);
 
     if (!estado) {

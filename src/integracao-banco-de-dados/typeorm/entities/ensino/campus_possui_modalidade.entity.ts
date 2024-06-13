@@ -1,10 +1,9 @@
-import * as Spec from '@sisgea/spec';
 import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CampusEntity } from '../ambientes/campus.entity';
 import { ModalidadeEntity } from './modalidade.entity';
 
 @Entity('campus_possui_modalidade')
-export class CampusPossuiModalidadeEntity implements Spec.ICampusPossuiModalidadeModel {
+export class CampusPossuiModalidadeEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
