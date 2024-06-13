@@ -1,8 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import LadesaTypings from '@ladesa-ro/especificacao';
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { EstadoService } from './estado.service';
 
 @ApiTags('Estados')
@@ -11,24 +11,22 @@ export class EstadoController {
   constructor(private estadoService: EstadoService) {}
 
   @Get('/')
-  @Operacao(Spec.EstadoFindAllOperator())
-  async findAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.EstadoFindAllOperator()) dto: Spec.IPaginatedInputDto): Promise<Spec.IEstadoFindAllResultDto> {
+  @Operation(LadesaTypings.Tokens.Estado.Operations.List)
+  async findAll(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.EstadoListCombinedInput,
+  ): Promise<LadesaTypings.EstadoListCombinedSuccessOutput['body']> {
     return this.estadoService.findAll(contextoDeAcesso, dto);
   }
 
-  @Get('/uf/:uf')
-  @Operacao(Spec.EstadoFindOneByUfOperator())
-  async findByUf(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.EstadoFindOneByUfOperator())
-    { uf }: Spec.IEstadoFindOneByUfInputDto,
-  ) {
-    return this.estadoService.findByUfStrict(contextoDeAcesso, { uf });
-  }
-
   @Get('/:id')
-  @Operacao(Spec.EstadoFindOneByIdOperator())
-  async findById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id') id: number) {
-    return this.estadoService.findByIdStrict(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Estado.Operations.FindById)
+  async findById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.EstadoFindByIDCombinedInput,
+  ) {
+    return this.estadoService.findByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
 }

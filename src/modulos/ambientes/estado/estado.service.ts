@@ -1,11 +1,11 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '@sisgea/spec';
 import { map } from 'lodash';
-import { busca, getPaginatedResultDto } from '../../../busca';
+import { LadesaSearch } from '../../../../dist/helpers/ladesa/search/search-strategies';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
+import { LadesaPaginatedResultDto } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { paginateConfig } from '../../../legacy/utils';
 
@@ -21,7 +21,7 @@ export class EstadoService {
 
   //
 
-  async findAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null, selection?: string[]): Promise<Spec.IEstadoFindAllResultDto> {
+  async findAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EstadoListCombinedInput | null = null, selection?: string[]): Promise<LadesaTypings.EstadoListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
@@ -32,7 +32,7 @@ export class EstadoService {
 
     // =========================================================
 
-    const paginated = await busca('/estado', dto ?? null, qb, {
+    const paginated = await LadesaSearch('/estado', dto ?? null, qb, {
       ...paginateConfig,
       select: [
         //
@@ -69,7 +69,7 @@ export class EstadoService {
 
     // =========================================================
 
-    return getPaginatedResultDto(paginated);
+    return LadesaPaginatedResultDto(paginated);
   }
 
   async findByUf(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto, selection?: string[]) {
