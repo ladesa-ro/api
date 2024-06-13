@@ -20,10 +20,10 @@ export type IAuthzStatementCampusDelete = IBaseAuthzFilter<'campus:delete', { dt
 
 // =====================
 
-export type IAuthzStatementBlocoCreate = IBaseAuthzCheck<'bloco:create', { dto: Spec.IBlocoCreateDto }>;
+export type IAuthzStatementBlocoCreate = IBaseAuthzCheck<'bloco:create', { dto: LadesaTypings.BlocoCreateCombinedInput }>;
 export type IAuthzStatementBlocoFind = IBaseAuthzFilter<'bloco:find'>;
-export type IAuthzStatementBlocoUpdate = IBaseAuthzFilter<'bloco:update', { dto: Spec.IBlocoUpdateDto }>;
-export type IAuthzStatementBlocoDelete = IBaseAuthzFilter<'bloco:delete', { dto: Spec.IBlocoDeleteOneByIdInputDto }>;
+export type IAuthzStatementBlocoUpdate = IBaseAuthzFilter<'bloco:update', { dto: LadesaTypings.BlocoUpdateByIDCombinedInput }>;
+export type IAuthzStatementBlocoDelete = IBaseAuthzFilter<'bloco:delete', { dto: LadesaTypings.BlocoFindOneInput }>;
 
 // =====================
 
