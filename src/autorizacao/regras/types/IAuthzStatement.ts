@@ -58,14 +58,9 @@ export type IAuthzStatementCursoFind = IBaseAuthzFilter<'curso:find'>;
 
 // =====================
 
-export type IAuthzStatementDisciplinaCreate = IBaseAuthzCheck<'disciplina:create', { dto: Spec.IDisciplinaInputDto }>;
-export type IAuthzStatementDisciplinaUpdate = IBaseAuthzFilter<'disciplina:update', { dto: Spec.IDisciplinaUpdateDto }>;
-export type IAuthzStatementDisciplinaDelete = IBaseAuthzFilter<
-  'disciplina:delete',
-  {
-    dto: Spec.IDisciplinaDeleteOneByIdInputDto;
-  }
->;
+export type IAuthzStatementDisciplinaCreate = IBaseAuthzCheck<'disciplina:create', { dto: LadesaTypings.DisciplinaCreateCombinedInput }>;
+export type IAuthzStatementDisciplinaUpdate = IBaseAuthzFilter<'disciplina:update', { dto: LadesaTypings.DisciplinaUpdateByIDCombinedInput }>;
+export type IAuthzStatementDisciplinaDelete = IBaseAuthzFilter<'disciplina:delete', { dto: LadesaTypings.DisciplinaFindOneInput }>;
 export type IAuthzStatementDisciplinaFind = IBaseAuthzFilter<'disciplina:find'>;
 
 // =====================
