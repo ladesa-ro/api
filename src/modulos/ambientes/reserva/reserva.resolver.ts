@@ -24,9 +24,9 @@ export class ReservaResolver {
   async reservaFindOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() dto: LadesaTypings.ReservaFindOneInput,
+    @CombinedInput() dto: LadesaTypings.ReservaFindByIDCombinedInput,
   ) {
-    return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, dto);
+    return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.Reserva.Operations.Create)
@@ -49,8 +49,9 @@ export class ReservaResolver {
   async reservaDeleteOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() dto: LadesaTypings.ReservaFindOneInput,
+    // TODO: replace with ReservaDeleteByIDCombinedInput
+    @CombinedInput() dto: LadesaTypings.ReservaFindByIDCombinedInput,
   ) {
-    return this.reservaService.reservaDeleteOneById(contextoDeAcesso, dto);
+    return this.reservaService.reservaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 }

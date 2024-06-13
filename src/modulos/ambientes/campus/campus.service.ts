@@ -364,9 +364,7 @@ export class CampusService {
         ...dtoCampus,
       });
 
-      campusRepository.merge(campus, {
-        id: campus.id,
-      });
+      campusRepository.merge(campus, { id: currentCampus.id });
 
       // =========================================================
 

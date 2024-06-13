@@ -3,6 +3,7 @@ import { Info, Resolver } from '@nestjs/graphql';
 import { GraphQLResolveInfo } from 'graphql';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
+import { graphqlExtractSelection } from '../../../helpers/ladesa/-helpers/graphql-selection';
 import { CidadeService } from './cidade.service';
 
 @Resolver()
@@ -18,24 +19,20 @@ export class CidadeResolver {
   async cidadeFindAll(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() dto: Spec.IPaginatedInputDto,
+    @CombinedInput() dto: LadesaTypings.CidadeListCombinedInput,
     @Info() info: GraphQLResolveInfo,
   ) {
-    const selection = getFieldNames(info as any)
-      .filter((i) => i.startsWith('data.'))
-      .map((i) => i.slice(i.indexOf('.') + 1));
-    return this.cidadeService.findAll(contextoDeAcesso, dto, selection);
+    return this.cidadeService.findAll(contextoDeAcesso, dto, graphqlExtractSelection(info, 'paginated'));
   }
 
   // ========================================================
   @Operation(LadesaTypings.Tokens.Cidade.Operations.FindById)
   async cidadeFindById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput()
-    dto: LadesaTypings.CidadeFindOneInput,
+    @CombinedInput() dto: LadesaTypings.CidadeFindByIDCombinedInput,
     @Info() info: GraphQLResolveInfo,
   ) {
-    const selection = getFieldNames(info as any);
-    return this.cidadeService.findByIdStrict(contextoDeAcesso, dto, selection);
+    return this.cidadeService.findByIdStrict(contextoDeAcesso, { id: dto.params.id }, graphqlExtractSelection(info));
   }
 }

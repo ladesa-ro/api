@@ -10,9 +10,9 @@ export class BlocoResolver {
     //
     private blocoService: BlocoService,
   ) {}
-  
+
   //
-  
+
   @Operation(LadesaTypings.Tokens.Bloco.Operations.List)
   async blocoFindAll(
     //
@@ -26,9 +26,9 @@ export class BlocoResolver {
   async blocoFindOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() dto: LadesaTypings.BlocoFindOneInput,
+    @CombinedInput() dto: LadesaTypings.BlocoFindByIDCombinedInput,
   ) {
-    return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, dto);
+    return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.Bloco.Operations.Create)
@@ -51,8 +51,8 @@ export class BlocoResolver {
   async blocoDeleteOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() dto: LadesaTypings.BlocoFindOneInput,
+    @CombinedInput() dto: LadesaTypings.BlocoDeleteByIDCombinedInput,
   ) {
-    return this.blocoService.blocoDeleteOneById(contextoDeAcesso, dto);
+    return this.blocoService.blocoDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 }

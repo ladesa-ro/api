@@ -1,5 +1,4 @@
 import type * as LadesaTypings from '@ladesa-ro/especificacao';
-import * as Spec from '@sisgea/spec';
 import { IBaseAuthzCheck, IBaseAuthzFilter } from './IBaseAuthz';
 
 // ===================================================================================
@@ -30,12 +29,7 @@ export type IAuthzStatementBlocoDelete = IBaseAuthzFilter<'bloco:delete', { dto:
 export type IAuthzStatementAmbienteCreate = IBaseAuthzCheck<'ambiente:create', { dto: LadesaTypings.AmbienteCreateCombinedInput }>;
 export type IAuthzStatementAmbienteFind = IBaseAuthzFilter<'ambiente:find'>;
 export type IAuthzStatementAmbienteUpdate = IBaseAuthzFilter<'ambiente:update', { dto: LadesaTypings.AmbienteUpdateByIDCombinedInput }>;
-export type IAuthzStatementAmbienteDelete = IBaseAuthzFilter<
-  'ambiente:delete',
-  {
-    dto: Spec.IAmbienteDeleteOneByIdInputDto;
-  }
->;
+export type IAuthzStatementAmbienteDelete = IBaseAuthzFilter<'ambiente:delete', { dto: LadesaTypings.AmbienteFindOneInput }>;
 
 // =====================
 
@@ -107,24 +101,9 @@ export type IAuthzStatementReservaFind = IBaseAuthzFilter<'reserva:find'>;
 
 // =====================
 
-export type IAuthzStatementCalendarioLetivoCreate = IBaseAuthzCheck<
-  'calendario_letivo:create',
-  {
-    dto: Spec.ICalendarioLetivoCreateDto;
-  }
->;
-export type IAuthzStatementCalendarioLetivoUpdate = IBaseAuthzFilter<
-  'calendario_letivo:update',
-  {
-    dto: Spec.ICalendarioLetivoUpdateDto;
-  }
->;
-export type IAuthzStatementCalendarioLetivoDelete = IBaseAuthzFilter<
-  'calendario_letivo:delete',
-  {
-    dto: Spec.ICalendarioLetivoDeleteOneByIdInputDto;
-  }
->;
+export type IAuthzStatementCalendarioLetivoCreate = IBaseAuthzCheck<'calendario_letivo:create', { dto: LadesaTypings.CalendarioLetivoCreateCombinedInput }>;
+export type IAuthzStatementCalendarioLetivoUpdate = IBaseAuthzFilter<'calendario_letivo:update', { dto: LadesaTypings.CalendarioLetivoUpdateByIDCombinedInput }>;
+export type IAuthzStatementCalendarioLetivoDelete = IBaseAuthzFilter<'calendario_letivo:delete', { dto: LadesaTypings.CalendarioLetivoFindOneInput }>;
 export type IAuthzStatementCalendarioLetivoFind = IBaseAuthzFilter<'calendario_letivo:find'>;
 
 export type IAuthzStatementDiarioProfessorCreate = IBaseAuthzCheck<

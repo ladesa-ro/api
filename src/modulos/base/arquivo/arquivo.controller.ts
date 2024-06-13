@@ -14,6 +14,7 @@ export class ArquivoController {
   @Operation(LadesaTypings.Tokens.Arquivo.Operations.GetFile)
   async getFile(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+
     @Param('id') id: string,
     @Query('acesso.recurso.id') acessoRecursoId: string,
     @Query('acesso.recurso.nome') acessoRecursoNome: string,

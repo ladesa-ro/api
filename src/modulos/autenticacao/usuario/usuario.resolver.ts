@@ -24,9 +24,9 @@ export class UsuarioResolver {
   async usuarioFindOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() dto: LadesaTypings.UsuarioFindOneInput,
+    @CombinedInput() dto: LadesaTypings.UsuarioFindByIDCombinedInput,
   ) {
-    return this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, dto);
+    return this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.Usuario.Operations.Create)
@@ -49,8 +49,8 @@ export class UsuarioResolver {
   async usuarioDeleteOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() dto: LadesaTypings.UsuarioFindOneInput,
+    @CombinedInput() dto: LadesaTypings.UsuarioDeleteByIDCombinedInput,
   ) {
-    return this.usuarioService.usuarioDeleteOneById(contextoDeAcesso, dto);
+    return this.usuarioService.usuarioDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 }

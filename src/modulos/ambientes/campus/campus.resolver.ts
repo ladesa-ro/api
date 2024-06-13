@@ -24,9 +24,9 @@ export class CampusResolver {
   async campusFindOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() dto: LadesaTypings.CampusFindOneInput,
+    @CombinedInput() dto: LadesaTypings.CampusFindByIDCombinedInput,
   ) {
-    return this.campusService.campusFindByIdStrict(contextoDeAcesso, dto);
+    return this.campusService.campusFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
@@ -47,10 +47,10 @@ export class CampusResolver {
   }
   @Operation(LadesaTypings.Tokens.Campus.Operations.DeleteById)
   async campusDeleteOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput()
-    dto: LadesaTypings.CampusFindOneInput,
+    @CombinedInput() dto: LadesaTypings.CampusDeleteByIDCombinedInput,
   ) {
-    return this.campusService.campusDeleteOneById(contextoDeAcesso, dto);
+    return this.campusService.campusDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 }
