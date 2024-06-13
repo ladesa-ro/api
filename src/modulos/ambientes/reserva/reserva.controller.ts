@@ -29,7 +29,7 @@ export class ReservaController {
   async reservaFindById(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() dto: LadesaTypings.AmbienteFindByIDCombinedInput,
+    @CombinedInput() dto: LadesaTypings.ReservaFindByIDCombinedInput,
   ) {
     return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
@@ -65,7 +65,7 @@ export class ReservaController {
   async reservaDeleteOneById(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() dto: LadesaTypings.AmbienteFindByIDCombinedInput,
+    @CombinedInput() dto: LadesaTypings.ReservaDeleteByIDCombinedInput,
   ) {
     return this.reservaService.reservaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }

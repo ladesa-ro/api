@@ -49,8 +49,7 @@ export class ReservaResolver {
   async reservaDeleteOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    // TODO: replace with ReservaDeleteByIDCombinedInput
-    @CombinedInput() dto: LadesaTypings.ReservaFindByIDCombinedInput,
+    @CombinedInput() dto: LadesaTypings.ReservaDeleteByIDCombinedInput,
   ) {
     return this.reservaService.reservaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
