@@ -68,7 +68,9 @@ export class BlocoService {
 
   async blocoFindAll(
     //
-    contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.BlocoListCombinedInput | null = null): Promise<LadesaTypings.BlocoListCombinedSuccessOutput['body']> {
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.BlocoListCombinedInput | null = null,
+  ): Promise<LadesaTypings.BlocoListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);

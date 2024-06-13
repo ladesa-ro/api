@@ -13,10 +13,10 @@ export type IAuthzStatementCidadeFind = IBaseAuthzFilter<'cidade:find'>;
 
 // =====================
 
-export type IAuthzStatementCampusCreate = IBaseAuthzCheck<'campus:create', { dto: Spec.ICampusCreateDto }>;
+export type IAuthzStatementCampusCreate = IBaseAuthzCheck<'campus:create', { dto: LadesaTypings.CampusCreateCombinedInput }>;
 export type IAuthzStatementCampusFind = IBaseAuthzFilter<'campus:find'>;
-export type IAuthzStatementCampusUpdate = IBaseAuthzFilter<'campus:update', { dto: Spec.ICampusUpdateDto }>;
-export type IAuthzStatementCampusDelete = IBaseAuthzFilter<'campus:delete', { dto: Spec.ICampusDeleteOneByIdInputDto }>;
+export type IAuthzStatementCampusUpdate = IBaseAuthzFilter<'campus:update', { dto: LadesaTypings.CampusUpdateByIDCombinedInput }>;
+export type IAuthzStatementCampusDelete = IBaseAuthzFilter<'campus:delete', { dto: LadesaTypings.CampusFindOneInput }>;
 
 // =====================
 

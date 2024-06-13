@@ -45,7 +45,11 @@ export class AmbienteController {
 
   @Patch('/:id')
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.UpdateById)
-  async ambienteUpdate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @CombinedInput() dto: LadesaTypings.AmbienteUpdateByIDCombinedInput) {
+  async ambienteUpdate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.AmbienteUpdateByIDCombinedInput,
+  ) {
     return this.ambienteService.ambienteUpdate(contextoDeAcesso, dto);
   }
 
@@ -53,7 +57,11 @@ export class AmbienteController {
 
   @Get('/:id/imagem/capa')
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.GetCoverImage)
-  async ambienteGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
+  async ambienteGetImagemCapa(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
     return this.ambienteService.ambienteGetImagemCapa(contextoDeAcesso, id);
   }
 

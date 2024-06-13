@@ -10,7 +10,9 @@ export class BlocoResolver {
     //
     private blocoService: BlocoService,
   ) {}
+  
   //
+  
   @Operation(LadesaTypings.Tokens.Bloco.Operations.List)
   async blocoFindAll(
     //
