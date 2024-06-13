@@ -1,6 +1,7 @@
+import 'reflect-metadata';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { getDataSourceEnvironmentConfigService } from './utils/getDataSourceEnvironmentConfigService';
 import { EnvironmentConfigService } from '../../../config';
+import { getDataSourceEnvironmentConfigService } from './utils/getDataSourceEnvironmentConfigService';
 
 export const getMigrationDataSource = async (environmentConfigServiceBase: EnvironmentConfigService | null = null) => {
   const environmentConfigService = await getDataSourceEnvironmentConfigService(environmentConfigServiceBase);

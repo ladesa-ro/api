@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { DataSourceOptions } from 'typeorm';
@@ -10,6 +10,7 @@ import { IConfigIntegrateAuthKeycloakCredentials, IConfigIntegrateAuthOidcClient
 export class EnvironmentConfigService implements IConfig {
   constructor(
     // ...
+    @Inject(ConfigService)
     private nestConfigService: ConfigService,
   ) {}
 
