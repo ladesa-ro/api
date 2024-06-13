@@ -17,19 +17,19 @@ export class AmbienteResolver {
   async ambienteFindAll(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() combinedInput: LadesaTypings.AmbienteListCombinedInput,
+    @CombinedInput() dto: LadesaTypings.AmbienteListCombinedInput,
     @GqlInfo() info: GraphQLResolveInfo,
   ) {
-    return this.ambienteService.ambienteFindAll(contextoDeAcesso, combinedInput, graphqlExtractSelection(info, 'paginated'));
+    return this.ambienteService.ambienteFindAll(contextoDeAcesso, dto, graphqlExtractSelection(info, 'paginated'));
   }
   //
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.FindById)
   async ambienteFindOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() combinedInput: LadesaTypings.AmbienteFindByIDCombinedInput,
+    @CombinedInput() dto: LadesaTypings.AmbienteFindByIDCombinedInput,
   ) {
-    return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: combinedInput.params.id });
+    return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.Create)
@@ -53,8 +53,8 @@ export class AmbienteResolver {
   async ambienteDeleteOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() combinedInput: LadesaTypings.AmbienteDeleteByIDCombinedInput,
+    @CombinedInput() dto: LadesaTypings.AmbienteDeleteByIDCombinedInput,
   ) {
-    return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, { id: combinedInput.params.id });
+    return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 }
