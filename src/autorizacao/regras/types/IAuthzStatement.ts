@@ -39,15 +39,10 @@ export type IAuthzStatementAmbienteDelete = IBaseAuthzFilter<
 
 // =====================
 
-export type IAuthzStatementUsuarioCreate = IBaseAuthzCheck<'usuario:create', { dto: Spec.IUsuarioCreateDto }>;
+export type IAuthzStatementUsuarioCreate = IBaseAuthzCheck<'usuario:create', { dto: LadesaTypings.UsuarioCreateCombinedInput }>;
 export type IAuthzStatementUsuarioFind = IBaseAuthzFilter<'usuario:find'>;
-export type IAuthzStatementUsuarioUpdate = IBaseAuthzFilter<'usuario:update', { dto: Spec.IUsuarioUpdateDto }>;
-export type IAuthzStatementUsuarioDelete = IBaseAuthzFilter<
-  'usuario:delete',
-  {
-    dto: Spec.IUsuarioDeleteOneByIdInputDto;
-  }
->;
+export type IAuthzStatementUsuarioUpdate = IBaseAuthzFilter<'usuario:update', { dto: LadesaTypings.UsuarioUpdateByIDCombinedInput }>;
+export type IAuthzStatementUsuarioDelete = IBaseAuthzFilter<'usuario:delete', { dto: LadesaTypings.UsuarioFindOneInput }>;
 
 // =====================
 
