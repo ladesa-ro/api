@@ -91,26 +91,11 @@ export type IAuthzStatementCalendarioLetivoUpdate = IBaseAuthzFilter<'calendario
 export type IAuthzStatementCalendarioLetivoDelete = IBaseAuthzFilter<'calendario_letivo:delete', { dto: LadesaTypings.CalendarioLetivoFindOneInput }>;
 export type IAuthzStatementCalendarioLetivoFind = IBaseAuthzFilter<'calendario_letivo:find'>;
 
-export type IAuthzStatementDiarioProfessorCreate = IBaseAuthzCheck<
-  'diario_professor:create',
-  {
-    dto: Spec.IDiarioProfessorInputDto;
-  }
->;
+export type IAuthzStatementDiarioProfessorCreate = IBaseAuthzCheck<'diario_professor:create', { dto: LadesaTypings.DiarioProfessorCreateCombinedInput }>;
 
-export type IAuthzStatementDiarioProfessorUpdate = IBaseAuthzFilter<
-  'diario_professor:update',
-  {
-    dto: Spec.IDiarioProfessorUpdateDto;
-  }
->;
+export type IAuthzStatementDiarioProfessorUpdate = IBaseAuthzFilter<'diario_professor:update', { dto: LadesaTypings.DiarioProfessorUpdateByIDCombinedInput }>;
 
-export type IAuthzStatementDiarioProfessorDelete = IBaseAuthzFilter<
-  'diario_professor:delete',
-  {
-    dto: Spec.IDiarioProfessorDeleteOneByIdInputDto;
-  }
->;
+export type IAuthzStatementDiarioProfessorDelete = IBaseAuthzFilter<'diario_professor:delete', { dto: LadesaTypings.DiarioProfessorFindOneInput }>;
 
 export type IAuthzStatementDiarioProfessorFilter = IBaseAuthzFilter<'diario_professor:find'>;
 
