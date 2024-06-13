@@ -24,7 +24,7 @@ export class CalendarioLetivoEntity implements LadesaTypings.CalendarioLetivo {
 
   @ManyToOne(() => ModalidadeEntity)
   @JoinColumn({ name: 'id_modalidade_fk' })
-  modalidade!: LadesaTypings.Modalidade;
+  modalidade!: LadesaTypings.Modalidade | null;
 
   //
 

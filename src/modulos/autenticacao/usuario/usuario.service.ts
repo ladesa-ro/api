@@ -1,11 +1,10 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
-import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { UsuarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { KeycloakService } from '../../../integracao-identidade-e-acesso';
@@ -113,7 +112,7 @@ export class UsuarioService {
 
   //
 
-  async usuarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.IUsuarioFindAllResultDto> {
+  async usuarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.UsuarioListCombinedInput | null = null): Promise<LadesaTypings.UsuarioListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -124,7 +123,7 @@ export class UsuarioService {
 
     // =========================================================
 
-    const paginated = await busca('#/', dto, qb, {
+    const paginated = await LadesaSearch('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -175,7 +174,7 @@ export class UsuarioService {
 
     // =========================================================
 
-    return getPaginatedResultDto(paginated);
+    return LadesaPaginatedResultDto(paginated);
   }
 
   async usuarioFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.UsuarioFindOneInput): Promise<LadesaTypings.UsuarioFindOneResult | null> {
@@ -300,7 +299,7 @@ export class UsuarioService {
     return isAvailable;
   }
 
-  private async ensureDtoAvailability(dto: Partial<Pick<Spec.IUsuarioInputDto, 'email' | 'matriculaSiape'>>, currentUsuarioId: string | null = null) {
+  private async ensureDtoAvailability(dto: Partial<Pick<LadesaTypings.Usuario, 'email' | 'matriculaSiape'>>, currentUsuarioId: string | null = null) {
     // ===================================
 
     let isEmailAvailable = true;
@@ -480,14 +479,14 @@ export class UsuarioService {
 
   //
 
-  async usuarioCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IUsuarioInputDto) {
+  async usuarioCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.UsuarioCreateCombinedInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('usuario:create', { dto });
 
     // =========================================================
 
-    const input = pick(dto, ['nome', 'matriculaSiape', 'email']);
+    const input = pick(dto.body, ['nome', 'matriculaSiape', 'email']);
 
     await this.ensureDtoAvailability(input, null);
 
@@ -527,11 +526,11 @@ export class UsuarioService {
     return this.usuarioFindByIdStrict(contextoDeAcesso, { id: usuario.id });
   }
 
-  async usuarioUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IUsuarioUpdateDto) {
+  async usuarioUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.UsuarioUpdateByIDCombinedInput) {
     // =========================================================
 
     const currentUsuario = await this.usuarioFindByIdStrict(contextoDeAcesso, {
-      id: dto.id,
+      id: dto.params.id,
     });
 
     const currentMatriculaSiape = currentUsuario.matriculaSiape ?? (await this.internalResolveMatriculaSiape(currentUsuario.id));
@@ -544,11 +543,11 @@ export class UsuarioService {
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('usuario:update', { dto }, dto.id, this.usuarioRepository.createQueryBuilder(aliasUsuario));
+    await contextoDeAcesso.ensurePermission('usuario:update', { dto }, dto.params.id, this.usuarioRepository.createQueryBuilder(aliasUsuario));
 
-    const input = pick(dto, ['nome', 'matriculaSiape', 'email']);
+    const input = pick(dto.body, ['nome', 'matriculaSiape', 'email']);
 
-    await this.ensureDtoAvailability(input, dto.id);
+    await this.ensureDtoAvailability(input, dto.params.id);
 
     const usuario = {
       id: currentUsuario.id,
@@ -585,7 +584,7 @@ export class UsuarioService {
           await kcAdminClient.users.update(
             { id: kcUser.id! },
             {
-              email: dto.email,
+              email: dto.body.email,
             },
           );
         }
@@ -599,7 +598,7 @@ export class UsuarioService {
 
   //
 
-  async usuarioDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IUsuarioDeleteOneByIdInputDto) {
+  async usuarioDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.UsuarioFindOneInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('usuario:delete', { dto }, dto.id, this.usuarioRepository.createQueryBuilder(aliasUsuario));

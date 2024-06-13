@@ -1,11 +1,10 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DiarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
@@ -69,7 +68,7 @@ export class DiarioService {
 
   //
 
-  async diarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.IDiarioFindAllResultDto> {
+  async diarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioListCombinedInput | null = null): Promise<LadesaTypings.DiarioListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.diarioRepository.createQueryBuilder(aliasDiario);
@@ -80,7 +79,7 @@ export class DiarioService {
 
     // =========================================================
 
-    const paginated = await busca('#/', dto, qb, {
+    const paginated = await LadesaSearch('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -144,7 +143,7 @@ export class DiarioService {
 
     // =========================================================
 
-    return getPaginatedResultDto(paginated);
+    return LadesaPaginatedResultDto(paginated);
   }
 
   async diarioFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioFindOneInput): Promise<LadesaTypings.DiarioFindOneResult | null> {
@@ -236,14 +235,14 @@ export class DiarioService {
 
   //
 
-  async diarioCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioInputDto) {
+  async diarioCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioCreateCombinedInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('diario:create', { dto });
 
     // =========================================================
 
-    const dtoDiario = pick(dto, ['situacao', 'ano', 'etapa']);
+    const dtoDiario = pick(dto.body, ['situacao', 'ano', 'etapa']);
 
     const diario = this.diarioRepository.create();
 
@@ -253,8 +252,8 @@ export class DiarioService {
 
     // =========================================================
 
-    if (dto.ambientePadrao !== null) {
-      const ambientePadrao = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.ambientePadrao.id });
+    if (dto.body.ambientePadrao !== null) {
+      const ambientePadrao = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.body.ambientePadrao.id });
 
       this.diarioRepository.merge(diario, {
         ambientePadrao: {
@@ -269,7 +268,7 @@ export class DiarioService {
 
     // =========================================================
 
-    const disciplina = await this.disciplinaService.disciplinaFindByIdSimpleStrict(contextoDeAcesso, dto.disciplina.id);
+    const disciplina = await this.disciplinaService.disciplinaFindByIdSimpleStrict(contextoDeAcesso, dto.body.disciplina.id);
 
     this.diarioRepository.merge(diario, {
       disciplina: {
@@ -279,7 +278,7 @@ export class DiarioService {
 
     // =========================================================
 
-    const turma = await this.turmaService.turmaFindByIdSimpleStrict(contextoDeAcesso, dto.turma.id);
+    const turma = await this.turmaService.turmaFindByIdSimpleStrict(contextoDeAcesso, dto.body.turma.id);
 
     this.diarioRepository.merge(diario, {
       turma: {
@@ -296,18 +295,18 @@ export class DiarioService {
     return this.diarioFindByIdStrict(contextoDeAcesso, { id: diario.id });
   }
 
-  async diarioUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioUpdateDto) {
+  async diarioUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioUpdateByIDCombinedInput) {
     // =========================================================
 
     const currentDiario = await this.diarioFindByIdStrict(contextoDeAcesso, {
-      id: dto.id,
+      id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('diario:update', { dto }, dto.id, this.diarioRepository.createQueryBuilder(aliasDiario));
+    await contextoDeAcesso.ensurePermission('diario:update', { dto }, dto.params.id, this.diarioRepository.createQueryBuilder(aliasDiario));
 
-    const dtoDiario = pick(dto, ['situacao', 'ano', 'etapa', 'turma', 'disciplina', 'ambientePadrao']);
+    const dtoDiario = pick(dto.body, ['situacao', 'ano', 'etapa', 'turma', 'disciplina', 'ambientePadrao']);
 
     const diario = {
       id: currentDiario.id,
@@ -319,9 +318,9 @@ export class DiarioService {
 
     // =========================================================
 
-    if (has(dto, 'ambientePadrao') && dto.ambientePadrao !== undefined) {
-      if (dto.ambientePadrao !== null) {
-        const ambientePadrao = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.ambientePadrao.id });
+    if (has(dto.body, 'ambientePadrao') && dto.body.ambientePadrao !== undefined) {
+      if (dto.body.ambientePadrao !== null) {
+        const ambientePadrao = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.body.ambientePadrao.id });
 
         this.diarioRepository.merge(diario, {
           ambientePadrao: {
@@ -337,8 +336,8 @@ export class DiarioService {
 
     // =========================================================
 
-    if (has(dto, 'disciplina') && dto.disciplina !== undefined) {
-      const disciplina = await this.disciplinaService.disciplinaFindByIdSimpleStrict(contextoDeAcesso, dto.disciplina.id);
+    if (has(dto.body, 'disciplina') && dto.body.disciplina !== undefined) {
+      const disciplina = await this.disciplinaService.disciplinaFindByIdSimpleStrict(contextoDeAcesso, dto.body.disciplina.id);
 
       this.diarioRepository.merge(diario, {
         disciplina: {
@@ -349,8 +348,8 @@ export class DiarioService {
 
     // =========================================================
 
-    if (has(dto, 'turma') && dto.turma !== undefined) {
-      const turma = await this.turmaService.turmaFindByIdSimpleStrict(contextoDeAcesso, dto.turma.id);
+    if (has(dto.body, 'turma') && dto.body.turma !== undefined) {
+      const turma = await this.turmaService.turmaFindByIdSimpleStrict(contextoDeAcesso, dto.body.turma.id);
 
       this.diarioRepository.merge(diario, {
         turma: {
@@ -370,7 +369,7 @@ export class DiarioService {
 
   //
 
-  async diarioDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDiarioDeleteOneByIdInputDto) {
+  async diarioDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioFindOneInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('diario:delete', { dto }, dto.id, this.diarioRepository.createQueryBuilder(aliasDiario));

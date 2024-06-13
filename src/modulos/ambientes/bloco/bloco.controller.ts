@@ -1,8 +1,8 @@
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { BlocoService } from './bloco.service';
 
 @ApiTags('Blocos')
@@ -13,55 +13,65 @@ export class BlocoController {
   //
 
   @Get('/')
-  @Operacao(Spec.BlocoFindAllOperator())
-  async blocoFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.BlocoFindAllOperator()) dto: Spec.IPaginatedInputDto): Promise<Spec.IBlocoFindAllResultDto> {
-    return this.blocoService.blocoFindAll(contextoDeAcesso, dto);
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.List)
+  async blocoFindAll(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() combinedInput: LadesaTypings.BlocoListCombinedInput,
+  ): Promise<LadesaTypings.BlocoListCombinedSuccessOutput['body']> {
+    return this.blocoService.blocoFindAll(contextoDeAcesso, combinedInput);
   }
 
   //
 
   @Get('/:id')
-  @Operacao(Spec.BlocoFindOneByIdOperator())
-  async blocoFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.FindById)
+  async blocoFindById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
     return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, { id });
   }
 
   //
 
   @Post('/')
-  @Operacao(Spec.BlocoCreateOperator())
-  async blocoCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.BlocoCreateOperator()) dto: Spec.IBlocoInputDto) {
-    return this.blocoService.blocoCreate(contextoDeAcesso, dto);
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.Create)
+  async blocoCreate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() combinedInput: LadesaTypings.BlocoCreateCombinedInput,
+  ) {
+    return this.blocoService.blocoCreate(contextoDeAcesso, combinedInput);
   }
 
   //
 
   @Patch('/:id')
-  @Operacao(Spec.BlocoUpdateOperator())
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.UpdateById)
   async blocoUpdate(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.BlocoUpdateOperator())
-    { ...dto }: Spec.IBlocoUpdateDto,
-    @Param('id', ParseUUIDPipe) id: string,
+    @CombinedInput() combinedInput: LadesaTypings.BlocoUpdateByIDCombinedInput,
   ) {
-    const dtoUpdate: Spec.IBlocoUpdateDto = {
-      ...dto,
-      id,
-    };
-
-    return this.blocoService.blocoUpdate(contextoDeAcesso, dtoUpdate);
+    return this.blocoService.blocoUpdate(contextoDeAcesso, combinedInput);
   }
 
   //
 
   @Get('/:id/imagem/capa')
-  @Operacao(Spec.BlocoGetImagemCapaOperator())
-  async blocoGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.GetCoverImage)
+  async blocoGetImagemCapa(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
     return this.blocoService.blocoGetImagemCapa(contextoDeAcesso, id);
   }
 
   @Put('/:id/imagem/capa')
-  @Operacao(Spec.BlocoSetImagemCapaOperator())
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.SetCoverImage)
   async blocoImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
@@ -74,9 +84,13 @@ export class BlocoController {
   //
 
   @Delete('/:id')
-  @Operacao(Spec.BlocoDeleteOperator())
-  async blocoDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.blocoService.blocoDeleteOneById(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.DeleteById)
+  async blocoDeleteOneById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() combinedInput: LadesaTypings.BlocoDeleteByIDCombinedInput,
+  ) {
+    return this.blocoService.blocoDeleteOneById(contextoDeAcesso, { id: combinedInput.params.id });
   }
 
   //

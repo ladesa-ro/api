@@ -1,12 +1,11 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { CursoEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
@@ -72,7 +71,7 @@ export class CursoService {
 
   //
 
-  async cursoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.ICursoFindAllResultDto> {
+  async cursoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CursoListCombinedInput | null = null): Promise<LadesaTypings.CursoListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
@@ -83,7 +82,7 @@ export class CursoService {
 
     // =========================================================
 
-    const paginated = await busca('#/', dto, qb, {
+    const paginated = await LadesaSearch('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -151,7 +150,7 @@ export class CursoService {
 
     // =========================================================
 
-    return getPaginatedResultDto(paginated);
+    return LadesaPaginatedResultDto(paginated);
   }
 
   async cursoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.CursoFindOneInput): Promise<LadesaTypings.CursoFindOneResult | null> {
@@ -245,14 +244,14 @@ export class CursoService {
 
   //
 
-  async cursoCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICursoInputDto) {
+  async cursoCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CursoCreateCombinedInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('curso:create', { dto });
 
     // =========================================================
 
-    const dtoCurso = pick(dto, ['nome', 'nomeAbreviado']);
+    const dtoCurso = pick(dto.body, ['nome', 'nomeAbreviado']);
 
     const curso = this.cursoRepository.create();
 
@@ -262,7 +261,7 @@ export class CursoService {
 
     // =========================================================
 
-    const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.campus.id);
+    const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.body.campus.id);
 
     this.cursoRepository.merge(curso, {
       campus: {
@@ -272,7 +271,7 @@ export class CursoService {
 
     // =========================================================
 
-    const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(contextoDeAcesso, dto.modalidade.id);
+    const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(contextoDeAcesso, dto.body.modalidade.id);
 
     this.cursoRepository.merge(curso, {
       modalidade: {
@@ -289,18 +288,18 @@ export class CursoService {
     return this.cursoFindByIdStrict(contextoDeAcesso, { id: curso.id });
   }
 
-  async cursoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICursoUpdateDto) {
+  async cursoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CursoUpdateByIDCombinedInput) {
     // =========================================================
 
     const currentCurso = await this.cursoFindByIdStrict(contextoDeAcesso, {
-      id: dto.id,
+      id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('curso:update', { dto }, dto.id, this.cursoRepository.createQueryBuilder(aliasCurso));
+    await contextoDeAcesso.ensurePermission('curso:update', { dto }, dto.params.id, this.cursoRepository.createQueryBuilder(aliasCurso));
 
-    const dtoCurso = pick(dto, ['nome', 'nomeAbreviado', 'campus', 'modalidade']);
+    const dtoCurso = pick(dto.body, ['nome', 'nomeAbreviado', 'campus', 'modalidade']);
 
     const curso = {
       id: currentCurso.id,
@@ -312,8 +311,8 @@ export class CursoService {
 
     // =========================================================
 
-    if (has(dto, 'campus') && dto.campus !== undefined) {
-      const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.campus.id);
+    if (has(dto.body, 'campus') && dto.body.campus !== undefined) {
+      const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.body.campus.id);
 
       this.cursoRepository.merge(curso, {
         campus: {
@@ -324,8 +323,8 @@ export class CursoService {
 
     // =========================================================
 
-    if (has(dto, 'modalidade') && dto.modalidade !== undefined) {
-      const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(contextoDeAcesso, dto.modalidade.id);
+    if (has(dto.body, 'modalidade') && dto.body.modalidade !== undefined) {
+      const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(contextoDeAcesso, dto.body.modalidade.id);
 
       this.cursoRepository.merge(curso, {
         modalidade: {
@@ -400,7 +399,7 @@ export class CursoService {
 
   //
 
-  async cursoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICursoDeleteOneByIdInputDto) {
+  async cursoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CursoFindOneInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('curso:delete', { dto }, dto.id, this.cursoRepository.createQueryBuilder(aliasCurso));

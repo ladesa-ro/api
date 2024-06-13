@@ -1,11 +1,10 @@
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '@/legacy/utils/QueryBuilderViewOptionsLoad';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import { FilterOperator } from 'nestjs-paginate';
 import { NotBrackets, SelectQueryBuilder } from 'typeorm';
-import { busca } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { paginateConfig } from '../../../legacy/utils';
 import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
@@ -68,14 +67,14 @@ export class VinculoService {
 
   //
 
-  async vinculoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null) {
+  async vinculoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoListCombinedInput | null = null) {
     const qb = this.vinculoRepository.createQueryBuilder(aliasVinculo);
 
     VinculoService.VinculoQueryBuilderView(aliasVinculo, qb);
 
     await contextoDeAcesso.aplicarFiltro('vinculo:find', qb, aliasVinculo, null);
 
-    return busca('#/', dto, qb, {
+    const paginated = LadesaSearch('#/', dto, qb, {
       ...paginateConfig,
 
       relations: {
@@ -107,6 +106,8 @@ export class VinculoService {
         'usuario.id': [FilterOperator.EQ],
       },
     });
+
+    return paginated;
   }
 
   async vinculoFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoFindOneInput): Promise<LadesaTypings.VinculoFindOneResult | null> {
@@ -147,13 +148,13 @@ export class VinculoService {
     return vinculo;
   }
 
-  async vinculoSetVinculos(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IVinculoUpdateInputDto) {
-    const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.campus.id);
-    const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(contextoDeAcesso, dto.usuario.id);
+  async vinculoSetVinculos(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoUpdateCombinedInput) {
+    const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.body.campus.id);
+    const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(contextoDeAcesso, dto.body.usuario.id);
 
     const vinculosParaManter = new Set();
 
-    for (const cargo of dto.cargos) {
+    for (const cargo of dto.body.cargos) {
       const vinculoAtualAtivo = await this.vinculoRepository
         .createQueryBuilder('vinculo')
         .innerJoin('vinculo.campus', 'campus')
@@ -199,21 +200,12 @@ export class VinculoService {
       .andWhere(new NotBrackets((qb) => qb.whereInIds([...vinculosParaManter])))
       .execute();
 
-    return this.vinculoFindAll(contextoDeAcesso, {
-      filter: [
-        {
-          property: 'ativo',
-          restrictions: ['true'],
-        },
-        {
-          property: 'usuario.id',
-          restrictions: [`${usuario.id}`],
-        },
-        {
-          property: 'campus.id',
-          restrictions: [`${campus.id}`],
-        },
-      ],
+    return this.vinculoFindAll(contextoDeAcesso, <any>{
+      queries: {
+        'filter.ativo': ['true'],
+        'filter.usuario.id': [`${usuario.id}`],
+        'filter.campus.id': [`${campus.id}`],
+      },
     });
   }
 }

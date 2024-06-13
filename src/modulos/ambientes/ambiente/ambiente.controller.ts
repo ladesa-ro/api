@@ -14,9 +14,9 @@ export class AmbienteController {
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.List)
   async ambienteFindAll(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() combinedInput: LadesaTypings.AmbienteListCombinedInput,
+    @CombinedInput() dto: LadesaTypings.AmbienteListCombinedInput,
   ): Promise<LadesaTypings.AmbienteListCombinedSuccessOutput['body']> {
-    return this.ambienteService.ambienteFindAll(contextoDeAcesso, combinedInput);
+    return this.ambienteService.ambienteFindAll(contextoDeAcesso, dto);
   }
 
   //
@@ -26,9 +26,9 @@ export class AmbienteController {
   async ambienteFindById(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() combinedInput: LadesaTypings.AmbienteFindByIDCombinedInput,
+    @CombinedInput() dto: LadesaTypings.AmbienteFindByIDCombinedInput,
   ) {
-    return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: combinedInput.params.id });
+    return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
 
   @Post('/')
@@ -45,7 +45,11 @@ export class AmbienteController {
 
   @Patch('/:id')
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.UpdateById)
-  async ambienteUpdate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @CombinedInput() dto: LadesaTypings.AmbienteUpdateByIDCombinedInput) {
+  async ambienteUpdate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.AmbienteUpdateByIDCombinedInput,
+  ) {
     return this.ambienteService.ambienteUpdate(contextoDeAcesso, dto);
   }
 
@@ -53,7 +57,11 @@ export class AmbienteController {
 
   @Get('/:id/imagem/capa')
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.GetCoverImage)
-  async ambienteGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
+  async ambienteGetImagemCapa(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
     return this.ambienteService.ambienteGetImagemCapa(contextoDeAcesso, id);
   }
 
@@ -75,9 +83,9 @@ export class AmbienteController {
   async ambienteDeleteOneById(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @CombinedInput() combinedInput: LadesaTypings.AmbienteDeleteByIDCombinedInput,
+    @CombinedInput() dto: LadesaTypings.AmbienteDeleteByIDCombinedInput,
   ) {
-    return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, { id: combinedInput.params.id });
+    return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 
   //

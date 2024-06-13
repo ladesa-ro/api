@@ -1,9 +1,9 @@
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { Public } from '../../autenticacao';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../helpers/ladesa';
 import { AutenticacaoService } from './autenticacao.service';
 
 @ApiTags('Autenticacao')
@@ -12,28 +12,43 @@ export class AutenticacaoController {
   constructor(private readonly autenticacaoService: AutenticacaoService) {}
 
   @Get('/quem-sou-eu')
-  @Operacao(Spec.AutenticacaoQuemSouEuOperator())
-  quemSouEu(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso) {
+  @Operation(LadesaTypings.Tokens.Auth.Operations.WhoAmI)
+  quemSouEu(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+  ) {
     return this.autenticacaoService.quemSouEu(contextoDeAcesso);
   }
 
   @Post('/login')
   @Public()
-  @Operacao(Spec.AutenticacaoLoginOperator())
-  login(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.AutenticacaoLoginOperator()) dto: Spec.IAutenticacaoLoginInputDto) {
+  @Operation(LadesaTypings.Tokens.Auth.Operations.Login)
+  login(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.AuthLoginCombinedInput,
+  ) {
     return this.autenticacaoService.login(contextoDeAcesso, dto);
   }
 
   @Post('/login/refresh')
   @Public()
-  @Operacao(Spec.AutenticacaoRefreshOperator())
-  refresh(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.AutenticacaoRefreshOperator()) dto: Spec.IAutenticacaoRefreshInputDto) {
+  @Operation(LadesaTypings.Tokens.Auth.Operations.Refresh)
+  refresh(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.AuthRefreshCombinedInput,
+  ) {
     return this.autenticacaoService.refresh(contextoDeAcesso, dto);
   }
 
   @Post('/definir-senha')
-  @Operacao(Spec.AutenticacaoDefinirSenhaOperator())
-  definirSenha(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.AutenticacaoDefinirSenhaOperator()) dto: Spec.IAutenticacaoDefinirSenhaInputDto) {
+  @Operation(LadesaTypings.Tokens.Auth.Operations.SetInitialPassword)
+  definirSenha(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.AuthSetInitialPasswordCombinedInput,
+  ) {
     return this.autenticacaoService.definirSenha(contextoDeAcesso, dto);
   }
 }

@@ -1,11 +1,9 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
-import { IEstadoFindOneByIdInputDto, IEstadoFindOneByUfInputDto } from '@sisgea/spec';
 import { map } from 'lodash';
-import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { paginateConfig } from '../../../legacy/utils';
 
@@ -21,7 +19,7 @@ export class EstadoService {
 
   //
 
-  async findAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null, selection?: string[]): Promise<Spec.IEstadoFindAllResultDto> {
+  async findAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EstadoListCombinedInput | null = null, selection?: string[]): Promise<LadesaTypings.EstadoListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
@@ -32,7 +30,7 @@ export class EstadoService {
 
     // =========================================================
 
-    const paginated = await busca('/estado', dto ?? null, qb, {
+    const paginated = await LadesaSearch('/estado', dto ?? null, qb, {
       ...paginateConfig,
       select: [
         //
@@ -69,47 +67,10 @@ export class EstadoService {
 
     // =========================================================
 
-    return getPaginatedResultDto(paginated);
+    return LadesaPaginatedResultDto(paginated);
   }
 
-  async findByUf(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto, selection?: string[]) {
-    // =========================================================
-
-    const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
-
-    // =========================================================
-
-    await contextoDeAcesso.aplicarFiltro('estado:find', qb, aliasEstado, null);
-
-    // =========================================================
-
-    qb.andWhere(`${aliasEstado}.sigla = :sigla`, { sigla: dto.uf.toUpperCase() });
-
-    // =========================================================
-
-    qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Estado.Entity, qb, aliasEstado, selection);
-
-    // =========================================================
-
-    const estado = await qb.getOne();
-
-    // =========================================================
-
-    return estado;
-  }
-
-  async findByUfStrict(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByUfInputDto, selection?: string[]) {
-    const estado = await this.findByUf(contextoDeAcesso, dto, selection);
-
-    if (!estado) {
-      throw new NotFoundException();
-    }
-
-    return estado;
-  }
-
-  async findById(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto, selection?: string[]) {
+  async findById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EstadoFindOneInput, selection?: string[]) {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder('estado');
@@ -136,7 +97,7 @@ export class EstadoService {
     return estado;
   }
 
-  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: IEstadoFindOneByIdInputDto, selection?: string[]) {
+  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EstadoFindOneInput, selection?: string[]) {
     const estado = await this.findById(contextoDeAcesso, dto, selection);
 
     if (!estado) {

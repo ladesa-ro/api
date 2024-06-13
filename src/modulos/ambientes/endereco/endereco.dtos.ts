@@ -1,12 +1,12 @@
-import { Endereco, EnderecoCreate, EnderecoFindOneResult, GetDeclarationValidator, GetSchema } from '@sisgea/spec';
-import * as yup from 'yup';
-import { CreateEntityDtoClass } from '../../../legacy/especificacao';
-import { createValidationContract } from '../../../validacao';
+import * as LadesaTypings from '@ladesa-ro/especificacao';
+import { getLadesaNodesRepository } from '../../../helpers/ladesa';
+import { CompileYupSchema } from '../../../helpers/ladesa/-helpers/CompileYupSchema';
 
-// ======================================================
-export const EnderecoDto = CreateEntityDtoClass(Endereco, 'output');
-export const EnderecoCreateDto = CreateEntityDtoClass(() => EnderecoCreate(), 'input');
-export const EnderecoFindOneResultDto = CreateEntityDtoClass(EnderecoFindOneResult, 'output');
-// ======================================================
+export const GetEnderecoInputSchema = () => {
+  const repository = getLadesaNodesRepository();
+  const yupCompiler = new CompileYupSchema(repository);
 
-export const EnderecoCreateDtoValidationContract = createValidationContract(() => GetSchema(GetDeclarationValidator(EnderecoCreate()), yup) as yup.ObjectSchema<any>);
+  const enderecoInputView = repository.GetRealTargetStrict(LadesaTypings.Tokens.Endereco.Views.Input);
+
+  return yupCompiler.Handle(enderecoInputView);
+};

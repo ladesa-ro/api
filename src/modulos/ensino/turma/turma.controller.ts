@@ -1,8 +1,8 @@
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { TurmaService } from './turma.service';
 
 @ApiTags('Turmas')
@@ -13,55 +13,65 @@ export class TurmaController {
   //
 
   @Get('/')
-  @Operacao(Spec.TurmaFindAllOperator())
-  async turmaFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.TurmaFindAllOperator()) dto: Spec.IPaginatedInputDto): Promise<Spec.ITurmaFindAllResultDto> {
+  @Operation(LadesaTypings.Tokens.Turma.Operations.List)
+  async turmaFindAll(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.TurmaListCombinedInput,
+  ): Promise<LadesaTypings.TurmaListCombinedSuccessOutput['body']> {
     return this.turmaService.turmaFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id')
-  @Operacao(Spec.TurmaFindOneByIdOperator())
-  async turmaFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.turmaService.turmaFindByIdStrict(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Turma.Operations.FindById)
+  async turmaFindById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.TurmaFindByIDCombinedInput,
+  ) {
+    return this.turmaService.turmaFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
 
   //
 
   @Post('/')
-  @Operacao(Spec.TurmaCreateOperator())
-  async turmaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.TurmaCreateOperator()) dto: Spec.ITurmaInputDto) {
+  @Operation(LadesaTypings.Tokens.Turma.Operations.Create)
+  async turmaCreate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.TurmaCreateCombinedInput,
+  ) {
     return this.turmaService.turmaCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @Operacao(Spec.TurmaUpdateOperator())
+  @Operation(LadesaTypings.Tokens.Turma.Operations.Create)
   async turmaUpdate(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.TurmaUpdateOperator())
-    { ...dto }: Spec.ITurmaUpdateDto,
-    @Param('id', ParseUUIDPipe) id: string,
+    @CombinedInput() dto: LadesaTypings.TurmaUpdateByIDCombinedInput,
   ) {
-    const dtoUpdate: Spec.ITurmaUpdateDto = {
-      ...dto,
-      id,
-    };
-
-    return this.turmaService.turmaUpdate(contextoDeAcesso, dtoUpdate);
+    return this.turmaService.turmaUpdate(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id/imagem/capa')
-  @Operacao(Spec.TurmaGetImagemCapaOperator())
-  async turmaGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
+  @Operation(LadesaTypings.Tokens.Turma.Operations.GetCoverImage)
+  async turmaGetImagemCapa(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
     return this.turmaService.turmaGetImagemCapa(contextoDeAcesso, id);
   }
 
   @Put('/:id/imagem/capa')
-  @Operacao(Spec.TurmaSetImagemCapaOperator())
+  @Operation(LadesaTypings.Tokens.Turma.Operations.SetCoverImage)
   async turmaImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
@@ -74,9 +84,13 @@ export class TurmaController {
   //
 
   @Delete('/:id')
-  @Operacao(Spec.TurmaDeleteOperator())
-  async turmaDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.turmaService.turmaDeleteOneById(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Turma.Operations.DeleteById)
+  async turmaDeleteOneById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.TurmaDeleteByIDCombinedInput,
+  ) {
+    return this.turmaService.turmaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 
   //

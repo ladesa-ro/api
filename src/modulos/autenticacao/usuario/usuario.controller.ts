@@ -1,8 +1,8 @@
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
@@ -13,58 +13,61 @@ export class UsuarioController {
   //
 
   @Get('/')
-  @Operacao(Spec.UsuarioFindAllOperator())
+  @Operation(LadesaTypings.Tokens.Usuario.Operations.List)
   async usuarioFindAll(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.UsuarioFindAllOperator()) dto: Spec.IPaginatedInputDto,
-  ): Promise<Spec.IUsuarioFindAllResultDto> {
+    @CombinedInput() dto: LadesaTypings.UsuarioListCombinedInput,
+  ): Promise<LadesaTypings.UsuarioListCombinedSuccessOutput['body']> {
     return this.usuarioService.usuarioFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id')
-  @Operacao(Spec.UsuarioFindOneByIdOperator())
-  async usuarioFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Usuario.Operations.FindById)
+  async usuarioFindById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.UsuarioFindByIDCombinedInput,
+  ) {
+    return this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
 
   //
 
   @Post('/')
-  @Operacao(Spec.UsuarioCreateOperator())
-  async usuarioCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.UsuarioCreateOperator()) dto: Spec.IUsuarioInputDto) {
+  @Operation(LadesaTypings.Tokens.Usuario.Operations.Create)
+  async usuarioCreate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.UsuarioCreateCombinedInput,
+  ) {
     return this.usuarioService.usuarioCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @Operacao(Spec.UsuarioUpdateOperator())
-  async usuarioUpdate(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.UsuarioUpdateOperator())
-    { ...dto }: Spec.IUsuarioUpdateDto,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    const dtoUpdate: Spec.IUsuarioUpdateDto = {
-      ...dto,
-      id,
-    };
-
-    return this.usuarioService.usuarioUpdate(contextoDeAcesso, dtoUpdate);
+  @Operation(LadesaTypings.Tokens.Usuario.Operations.Create)
+  async usuarioUpdate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @CombinedInput() dto: LadesaTypings.UsuarioUpdateByIDCombinedInput) {
+    return this.usuarioService.usuarioUpdate(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id/imagem/capa')
-  @Operacao(Spec.UsuarioGetImagemCapaOperator())
-  async usuarioGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.usuarioService.usuarioGetImagemCapa(contextoDeAcesso, id);
+  @Operation(LadesaTypings.Tokens.Usuario.Operations.GetCoverImage)
+  async usuarioGetImagemCapa(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.UsuarioFindByIDCombinedInput,
+  ) {
+    return this.usuarioService.usuarioGetImagemCapa(contextoDeAcesso, dto.params.id);
   }
 
   @Put('/:id/imagem/capa')
-  @Operacao(Spec.UsuarioSetImagemCapaOperator())
+  @Operation(LadesaTypings.Tokens.Usuario.Operations.SetCoverImage)
   async usuarioImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
@@ -77,13 +80,17 @@ export class UsuarioController {
   //
 
   @Get('/:id/imagem/perfil')
-  @Operacao(Spec.UsuarioGetImagemPerfilOperator())
-  async usuarioGetImagemPerfil(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.usuarioService.usuarioGetImagemPerfil(contextoDeAcesso, id);
+  @Operation(LadesaTypings.Tokens.Usuario.Operations.GetProfileImage)
+  async usuarioGetImagemPerfil(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.UsuarioFindByIDCombinedInput,
+  ) {
+    return this.usuarioService.usuarioGetImagemPerfil(contextoDeAcesso, dto.params.id);
   }
 
   @Put('/:id/imagem/perfil')
-  @Operacao(Spec.UsuarioSetImagemPerfilOperator())
+  @Operation(LadesaTypings.Tokens.Usuario.Operations.SetProfileImage)
   async usuarioImagemPerfilSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
@@ -96,9 +103,13 @@ export class UsuarioController {
   //
 
   @Delete('/:id')
-  @Operacao(Spec.UsuarioDeleteOperator())
-  async usuarioDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.usuarioService.usuarioDeleteOneById(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Usuario.Operations.DeleteById)
+  async usuarioDeleteOneById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.UsuarioDeleteByIDCombinedInput,
+  ) {
+    return this.usuarioService.usuarioDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 
   //

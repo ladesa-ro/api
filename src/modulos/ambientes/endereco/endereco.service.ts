@@ -1,12 +1,11 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { IEnderecoFindOneByIdInputDto, IEnderecoFindOneResultDto, IEnderecoInputDto, IEnderecoModel, parsePayloadYup } from '@sisgea/spec';
 import { pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { EnderecoCreateDtoValidationContract } from './endereco.dtos';
+import { GetEnderecoInputSchema } from './endereco.dtos';
 
 // ============================================================================
 
@@ -44,7 +43,7 @@ export class EnderecoService {
 
   //
 
-  async internalFindOneById(id: IEnderecoModel['id']) {
+  async internalFindOneById(id: LadesaTypings.Endereco['id']) {
     const endereco = await this.enderecoRepository.findOne({
       where: {
         id: id,
@@ -54,7 +53,7 @@ export class EnderecoService {
     return endereco;
   }
 
-  async internalFindOneByIdStrict(id: IEnderecoModel['id']) {
+  async internalFindOneByIdStrict(id: LadesaTypings.Endereco['id']) {
     const endereco = await this.internalFindOneById(id);
 
     if (!endereco) {
@@ -64,8 +63,9 @@ export class EnderecoService {
     return endereco;
   }
 
-  async internalEnderecoCreateOrUpdate(id: IEnderecoModel['id'] | null, payload: IEnderecoInputDto) {
-    const dto = await parsePayloadYup(EnderecoCreateDtoValidationContract(), payload);
+  async internalEnderecoCreateOrUpdate(id: LadesaTypings.Endereco['id'] | null, payload: LadesaTypings.EnderecoInput) {
+    const enderecoInputSchema = GetEnderecoInputSchema();
+    const dto = await enderecoInputSchema.validate(payload, { stripUnknown: true });
 
     const endereco = this.enderecoRepository.create();
 
@@ -83,7 +83,7 @@ export class EnderecoService {
       cidade: {
         id: dto.cidade.id,
       },
-    } as IEnderecoInputDto;
+    } as LadesaTypings.EnderecoInput;
 
     this.enderecoRepository.merge(endereco, enderecoInputDto);
 
@@ -94,7 +94,7 @@ export class EnderecoService {
 
   //
 
-  async findById(contextoDeAcesso: IContextoDeAcesso, dto: IEnderecoFindOneByIdInputDto): Promise<IEnderecoFindOneResultDto | null> {
+  async findById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EnderecoFindOneInput): Promise<LadesaTypings.EnderecoFindOneResult | null> {
     const qb = this.enderecoRepository.createQueryBuilder(aliasEndereco);
 
     // =========================================================
@@ -120,7 +120,7 @@ export class EnderecoService {
     return endereco;
   }
 
-  async findByIdStrict(requestContext: IContextoDeAcesso, dto: IEnderecoFindOneByIdInputDto) {
+  async findByIdStrict(requestContext: IContextoDeAcesso, dto: LadesaTypings.EnderecoFindOneInput) {
     const endereco = await this.findById(requestContext, dto);
 
     if (!endereco) {

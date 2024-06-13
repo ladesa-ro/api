@@ -1,8 +1,8 @@
-import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
+import LadesaTypings from '@ladesa-ro/especificacao';
+import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { CalendarioLetivoService } from './calendario-letivo.service';
 
 @ApiTags('Calendarios Letivos')
@@ -11,54 +11,60 @@ export class CalendarioLetivoController {
   constructor(private calendarioLetivoService: CalendarioLetivoService) {}
 
   @Get('/')
-  @Operacao(Spec.CalendarioLetivoFindAllOperator())
+  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.List)
   async calendarioFindAll(
-    @ContextoDeAcessoHttp() clienttAcess: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CalendarioLetivoFindAllOperator()) dto: Spec.IPaginatedInputDto,
-  ): Promise<Spec.ICalendarioLetivoFindAllResultDto> {
-    return this.calendarioLetivoService.calendarioLetivoFindAll(clienttAcess, dto);
+    @ContextoDeAcessoHttp() clientAccess: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.CalendarioLetivoListCombinedInput,
+  ): Promise<LadesaTypings.CalendarioLetivoListCombinedSuccessOutput['body']> {
+    return this.calendarioLetivoService.calendarioLetivoFindAll(clientAccess, dto);
   }
 
   //
 
   @Get('/:id')
-  @Operacao(Spec.CalendarioLetivoFindOneByIdOperator())
-  async calendarioLetivoFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.FindById)
+  async calendarioLetivoFindById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.CalendarioLetivoFindByIDCombinedInput,
+  ) {
+    return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
 
   //
 
   @Post('/')
-  @Operacao(Spec.CalendarioLetivoCreateOperator())
-  async campusCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.CalendarioLetivoCreateOperator()) dto: Spec.ICalendarioLetivoInputDto) {
+  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.Create)
+  async campusCreate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.CalendarioLetivoCreateCombinedInput,
+  ) {
     return this.calendarioLetivoService.calendarioLetivoCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @Operacao(Spec.CalendarioLetivoUpdateOperator())
+  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.Create)
   async calendarioLetivoUpdate(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CalendarioLetivoUpdateOperator())
-    { ...dto }: Spec.ICalendarioLetivoUpdateDto,
-    @Param('id', ParseUUIDPipe) id: string,
+    @CombinedInput() dto: LadesaTypings.CalendarioLetivoUpdateByIDCombinedInput,
   ) {
-    const dtoUpdate: Spec.ICalendarioLetivoUpdateDto = {
-      ...dto,
-      id,
-    };
-
-    return this.calendarioLetivoService.calendarioLetivoUpdate(contextoDeAcesso, dtoUpdate);
+    return this.calendarioLetivoService.calendarioLetivoUpdate(contextoDeAcesso, dto);
   }
 
   //
 
   @Delete('/:id')
-  @Operacao(Spec.CalendarioLetivoDeleteOperator())
-  async CalendarioLetivoDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.calendarioLetivoService.calendarioLetivoDeleteOneById(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.DeleteById)
+  async CalendarioLetivoDeleteOneById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.CalendarioLetivoDeleteByIDCombinedInput,
+  ) {
+    return this.calendarioLetivoService.calendarioLetivoDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 
   //

@@ -1,8 +1,8 @@
-import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
+import LadesaTypings from '@ladesa-ro/especificacao';
+import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { DiarioProfessorService } from './diario-professor.service';
 
 @ApiTags('DiarioProfessor')
@@ -13,54 +13,60 @@ export class DiarioProfessorController {
   //
 
   @Get('/')
-  @Operacao(Spec.DiarioProfessorFindAllOperator())
+  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.List)
   async diarioProfessorFindAll(
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.DiarioProfessorFindAllOperator()) dto: Spec.IPaginatedInputDto,
-  ): Promise<Spec.IDiarioProfessorFindAllResultDto> {
+    @CombinedInput() dto: LadesaTypings.DiarioProfessorListCombinedInput,
+  ): Promise<LadesaTypings.DiarioProfessorListCombinedSuccessOutput['body']> {
     return this.diarioProfessorService.diarioProfessorFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id')
-  @Operacao(Spec.DiarioProfessorFindOneByIdOperator())
-  async diarioProfessorFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.diarioProfessorService.diarioProfessorFindByIdStrict(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.FindById)
+  async diarioProfessorFindById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.DiarioProfessorFindByIDCombinedInput,
+  ) {
+    return this.diarioProfessorService.diarioProfessorFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
 
   //
 
   @Post('/')
-  @Operacao(Spec.DiarioProfessorCreateOperator())
-  async diarioProfessorCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.DiarioProfessorCreateOperator()) dto: Spec.IDiarioProfessorInputDto) {
+  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.Create)
+  async diarioProfessorCreate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.DiarioProfessorCreateCombinedInput,
+  ) {
     return this.diarioProfessorService.diarioProfessorCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @Operacao(Spec.DiarioProfessorUpdateOperator())
+  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.Create)
   async diarioProfessorUpdate(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.DiarioProfessorUpdateOperator())
-    { ...dto }: Spec.IDiarioProfessorUpdateDto,
-    @Param('id', ParseUUIDPipe) id: string,
+    @CombinedInput() dto: LadesaTypings.DiarioProfessorUpdateByIDCombinedInput,
   ) {
-    const dtoUpdate: Spec.IDiarioProfessorUpdateDto = {
-      ...dto,
-      id,
-    };
-
-    return this.diarioProfessorService.diarioProfessorUpdate(contextoDeAcesso, dtoUpdate);
+    return this.diarioProfessorService.diarioProfessorUpdate(contextoDeAcesso, dto);
   }
 
   //
 
   @Delete('/:id')
-  @Operacao(Spec.DiarioProfessorDeleteOperator())
-  async diarioProfessorDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.diarioProfessorService.diarioProfessorDeleteOneById(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.DeleteById)
+  async diarioProfessorDeleteOneById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.DiarioProfessorDeleteByIDCombinedInput,
+  ) {
+    return this.diarioProfessorService.diarioProfessorDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 
   //

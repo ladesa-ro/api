@@ -1,5 +1,5 @@
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { BadRequestException, ForbiddenException, HttpException, Injectable, ServiceUnavailableException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import { BaseClient, TokenSet } from 'openid-client';
 import { IContextoDeAcesso } from '../../contexto-de-acesso';
 import { DatabaseContextService } from '../../integracao-banco-de-dados';
@@ -31,7 +31,7 @@ export class AutenticacaoService {
     };
   }
 
-  async login(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IAutenticacaoLoginInputDto): Promise<Spec.IAutenticacaoLoginResultDto> {
+  async login(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AuthLoginCombinedInput): Promise<LadesaTypings.AuthLoginCombinedSuccessOutput["body"]> {
     if (contextoDeAcesso.usuario !== null) {
       throw new BadRequestException('Você não pode usar a rota de login caso já esteja logado.');
     }
@@ -40,18 +40,18 @@ export class AutenticacaoService {
 
     try {
       trustIssuerClient = await this.openidConnectService.getTrustIssuerClient();
-    } catch (error) {
+    } catch (_error) {
       throw new ServiceUnavailableException();
     }
 
-    const { usuario, userRepresentation } = await this.findByMatriculaSiape(dto.matriculaSiape);
+    const { usuario, userRepresentation } = await this.findByMatriculaSiape(dto.body.matriculaSiape);
 
     try {
       if (usuario && userRepresentation) {
         const tokenset = await trustIssuerClient.grant({
           grant_type: 'password',
           username: userRepresentation.username,
-          password: dto.senha,
+          password: dto.body.senha,
           scope: 'openid profile',
         });
 
@@ -59,38 +59,38 @@ export class AutenticacaoService {
 
         return formattedTokenSet;
       }
-    } catch (error) {}
+    } catch (_error) {}
 
     throw new ForbiddenException('Credenciais inválidas.');
   }
 
-  async refresh(_: IContextoDeAcesso, dto: Spec.IAutenticacaoRefreshInputDto): Promise<Spec.IAutenticacaoLoginResultDto> {
+  async refresh(_: IContextoDeAcesso, dto: LadesaTypings.AuthRefreshCombinedInput): Promise<LadesaTypings.AuthLoginCombinedSuccessOutput["body"]> {
     let trustIssuerClient: BaseClient;
 
     try {
       trustIssuerClient = await this.openidConnectService.getTrustIssuerClient();
-    } catch (error) {
+    } catch (_error) {
       throw new ServiceUnavailableException();
     }
 
     try {
-      const refreshToken = dto.refreshToken;
+      const refreshToken = dto.body.refreshToken;
 
       if (refreshToken) {
         const tokenset = await trustIssuerClient.refresh(refreshToken);
         const formattedTokenSet = this.formatTokenSet(tokenset);
         return formattedTokenSet;
       }
-    } catch (error) {}
+    } catch (_error) {}
 
     throw new ForbiddenException('Credenciais inválidas ou expiradas.');
   }
 
-  async definirSenha(_contextoDeAcesso: IContextoDeAcesso, dto: Spec.IAutenticacaoDefinirSenhaInputDto): Promise<Spec.IAutenticacaoDefinirSenhaResultDto> {
+  async definirSenha(_contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AuthSetInitialPasswordCombinedInput): Promise<LadesaTypings.AuthSetInitialPasswordCombinedSuccessOutput["body"]> {
     try {
       const kcAdminClient = await this.keycloakService.getAdminClient();
 
-      const { usuario, userRepresentation } = await this.findByMatriculaSiape(dto.matriculaSiape);
+      const { usuario, userRepresentation } = await this.findByMatriculaSiape(dto.body.matriculaSiape);
 
       if (!usuario || !userRepresentation) {
         throw new ForbiddenException('Usuário indisponível.');
@@ -104,7 +104,7 @@ export class AutenticacaoService {
           credential: {
             type: 'password',
             temporary: false,
-            value: dto.senha,
+            value: dto.body.senha,
           },
         });
         await kcAdminClient.users.update(
@@ -116,9 +116,7 @@ export class AutenticacaoService {
           },
         );
 
-        return {
-          result: 'ok',
-        };
+        return true;
       } else {
         throw new ForbiddenException('A senha do usuário já foi definida.');
       }

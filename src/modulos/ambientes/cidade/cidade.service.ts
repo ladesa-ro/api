@@ -1,13 +1,12 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import { map } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { paginateConfig } from '../../../legacy/utils';
-import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 
 const aliasCidade = 'cidade';
 
@@ -23,7 +22,7 @@ export class CidadeService {
 
   //
 
-  async findAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null, selection?: string[]) {
+  async findAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CidadeListCombinedInput | null = null, selection?: string[]) {
     // =========================================================
 
     const qb = this.cidadeRepository.createQueryBuilder('cidade');
@@ -34,7 +33,7 @@ export class CidadeService {
 
     // =========================================================
 
-    const paginated = await busca('/busca', dto, qb.clone(), {
+    const paginated = await LadesaSearch('/cidades', dto, qb.clone(), {
       ...paginateConfig,
       select: [
         //
@@ -75,7 +74,7 @@ export class CidadeService {
 
     // =========================================================
 
-    return getPaginatedResultDto(paginated);
+    return LadesaPaginatedResultDto(paginated);
   }
 
   async findById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CidadeFindOneInput, selection?: string[]) {

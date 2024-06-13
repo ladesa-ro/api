@@ -1,3 +1,3 @@
-import { IUsuarioModel } from '@sisgea/spec';
+import LadesaTypings from '@ladesa-ro/especificacao';
 
-export type IUsuarioDaRequisicao = null | Pick<IUsuarioModel, 'id' | 'nome' | 'matriculaSiape' | 'email' | 'isSuperUser'>;
+export type IUsuarioDaRequisicao = null | Pick<LadesaTypings.Usuario, 'id' | 'nome' | 'matriculaSiape' | 'email' | 'isSuperUser'>;
