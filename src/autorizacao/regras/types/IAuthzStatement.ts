@@ -77,9 +77,9 @@ export type IAuthzStatementTurmaFind = IBaseAuthzFilter<'turma:find'>;
 
 // =====================
 
-export type IAuthzStatementDiarioCreate = IBaseAuthzCheck<'diario:create', { dto: Spec.IDiarioInputDto }>;
-export type IAuthzStatementDiarioUpdate = IBaseAuthzFilter<'diario:update', { dto: Spec.IDiarioUpdateDto }>;
-export type IAuthzStatementDiarioDelete = IBaseAuthzFilter<'diario:delete', { dto: Spec.IDiarioDeleteOneByIdInputDto }>;
+export type IAuthzStatementDiarioCreate = IBaseAuthzCheck<'diario:create', { dto: LadesaTypings.DiarioCreateCombinedInput }>;
+export type IAuthzStatementDiarioUpdate = IBaseAuthzFilter<'diario:update', { dto: LadesaTypings.DiarioUpdateByIDCombinedInput }>;
+export type IAuthzStatementDiarioDelete = IBaseAuthzFilter<'diario:delete', { dto: LadesaTypings.DiarioFindOneInput }>;
 export type IAuthzStatementDiarioFind = IBaseAuthzFilter<'diario:find'>;
 
 // =====================
