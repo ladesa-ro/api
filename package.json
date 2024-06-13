@@ -15,8 +15,8 @@
     "start:dev": "nest start --watch -e 'node --experimental-require-module --trace-warnings'",
     "start:debug": "nest start --debug 0.0.0.0:9229 --watch -e 'node --experimental-require-module --trace-warnings'",
     "start:prod": "node --experimental-require-module dist/main",
-    "typeorm": "./node_modules/.bin/ts-node --transpileOnly ./node_modules/.bin/typeorm",
-    "typeorm-db-migration": "./node_modules/.bin/ts-node --transpileOnly ./node_modules/.bin/typeorm -d src/integracao-banco-de-dados/typeorm/data-sources/migration.data-source.ts",
+    "typeorm": "tsx ./node_modules/.bin/typeorm",
+    "typeorm-db-migration": "tsx ./node_modules/.bin/typeorm -d src/integracao-banco-de-dados/typeorm/data-sources/migration.data-source.ts",
     "typeorm:entity": "npm run typeorm -- entity:create",
     "typeorm:generate": "npm run typeorm -- migration:generate",
     "typeorm:create": "npm run typeorm -- migration:create",
@@ -25,7 +25,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:debug": "node --inspect-brk --import tsx -r tsconfig-paths/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "plop": "npx esbuild .plop/plopfile.ts --format=esm --external:inquirer --external:ast-types --external:magicast --platform=node --bundle --outfile=plopfile.mjs 1>/dev/null && plop && npm run format:write",
     "prepare": "husky"
@@ -72,9 +72,8 @@
     "rimraf": "^5.0.7",
     "rxjs": "^7.8.1",
     "sharp": "^0.33.4",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.15.4",
     "typeorm": "^0.3.17",
-    "typescript": "^5.4.5",
     "uuid": "^10.0.0",
     "yup": "^1.3.3"
   },
@@ -114,6 +113,7 @@
     "ts-loader": "^9.4.3",
     "tsconfig-paths": "^4.2.0",
     "type-fest": "^4.20.0",
+    "typescript": "^5.4.5",
     "typescript-eslint": "^7.13.0"
   },
   "jest": {

@@ -10,10 +10,10 @@ export class CalendarioLetivoEntity implements LadesaTypings.CalendarioLetivo {
 
   //
 
-  @Column({ name: 'nome' })
+  @Column({ name: 'nome', type: 'text' })
   nome!: string;
 
-  @Column({ name: 'ano_letivo' })
+  @Column({ name: 'ano_letivo', type: 'integer' })
   ano!: number;
 
   //Chaves Estrangeiras

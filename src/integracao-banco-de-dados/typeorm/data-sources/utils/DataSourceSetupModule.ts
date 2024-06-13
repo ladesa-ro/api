@@ -4,10 +4,8 @@ import { EnvironmentConfigModule } from '../../../../config';
 
 @Module({
   imports: [
-    // ...
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    //
+    ConfigModule.forRoot({ isGlobal: true }),
     EnvironmentConfigModule,
   ],
   providers: [
