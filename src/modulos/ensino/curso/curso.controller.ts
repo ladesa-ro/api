@@ -1,8 +1,8 @@
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { CursoService } from './curso.service';
 
 @ApiTags('Cursos')
@@ -13,55 +13,61 @@ export class CursoController {
   //
 
   @Get('/')
-  @Operacao(Spec.CursoFindAllOperator())
-  async cursoFindAll(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.CursoFindAllOperator()) dto: Spec.IPaginatedInputDto): Promise<Spec.ICursoFindAllResultDto> {
+  @Operation(LadesaTypings.Tokens.Curso.Operations.List)
+  async cursoFindAll(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.CursoListCombinedInput,
+  ): Promise<LadesaTypings.CursoListCombinedSuccessOutput['body']> {
     return this.cursoService.cursoFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id')
-  @Operacao(Spec.CursoFindOneByIdOperator())
-  async cursoFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.cursoService.cursoFindByIdStrict(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Curso.Operations.FindById)
+  async cursoFindById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.CursoFindByIDCombinedInput,
+  ) {
+    return this.cursoService.cursoFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
 
   //
 
   @Post('/')
-  @Operacao(Spec.CursoCreateOperator())
-  async cursoCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.CursoCreateOperator()) dto: Spec.ICursoInputDto) {
+  @Operation(LadesaTypings.Tokens.Curso.Operations.Create)
+  async cursoCreate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.CursoCreateCombinedInput,
+  ) {
     return this.cursoService.cursoCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @Operacao(Spec.CursoUpdateOperator())
-  async cursoUpdate(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CursoUpdateOperator())
-    { ...dto }: Spec.ICursoUpdateDto,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    const dtoUpdate: Spec.ICursoUpdateDto = {
-      ...dto,
-      id,
-    };
-
-    return this.cursoService.cursoUpdate(contextoDeAcesso, dtoUpdate);
+  @Operation(LadesaTypings.Tokens.Curso.Operations.Create)
+  async cursoUpdate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @CombinedInput() dto: LadesaTypings.CursoUpdateByIDCombinedInput) {
+    return this.cursoService.cursoUpdate(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id/imagem/capa')
-  @Operacao(Spec.CursoGetImagemCapaOperator())
-  async cursoGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
+  @Operation(LadesaTypings.Tokens.Curso.Operations.GetCoverImage)
+  async cursoGetImagemCapa(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
     return this.cursoService.cursoGetImagemCapa(contextoDeAcesso, id);
   }
 
   @Put('/:id/imagem/capa')
-  @Operacao(Spec.CursoSetImagemCapaOperator())
+  @Operation(LadesaTypings.Tokens.Curso.Operations.SetCoverImage)
   async cursoImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
@@ -74,9 +80,13 @@ export class CursoController {
   //
 
   @Delete('/:id')
-  @Operacao(Spec.CursoDeleteOperator())
-  async cursoDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.cursoService.cursoDeleteOneById(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Curso.Operations.DeleteById)
+  async cursoDeleteOneById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.CursoFindByIDCombinedInput,
+  ) {
+    return this.cursoService.cursoDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 
   //

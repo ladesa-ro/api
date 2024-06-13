@@ -51,9 +51,9 @@ export type IAuthzStatementVinculoFind = IBaseAuthzFilter<'vinculo:find'>;
 
 // =====================
 
-export type IAuthzStatementCursoCreate = IBaseAuthzCheck<'curso:create', { dto: Spec.ICursoInputDto }>;
-export type IAuthzStatementCursoUpdate = IBaseAuthzFilter<'curso:update', { dto: Spec.ICursoUpdateDto }>;
-export type IAuthzStatementCursoDelete = IBaseAuthzFilter<'curso:delete', { dto: Spec.ICursoDeleteOneByIdInputDto }>;
+export type IAuthzStatementCursoCreate = IBaseAuthzCheck<'curso:create', { dto: LadesaTypings.CursoCreateCombinedInput }>;
+export type IAuthzStatementCursoUpdate = IBaseAuthzFilter<'curso:update', { dto: LadesaTypings.CursoUpdateByIDCombinedInput }>;
+export type IAuthzStatementCursoDelete = IBaseAuthzFilter<'curso:delete', { dto: LadesaTypings.CursoFindOneInput }>;
 export type IAuthzStatementCursoFind = IBaseAuthzFilter<'curso:find'>;
 
 // =====================
