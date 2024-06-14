@@ -1,5 +1,7 @@
 # api
 
+[![CI][action-ci-src]][action-ci-href]
+
 ## Desenvolvimento
 
 ```sh
@@ -61,3 +63,11 @@ $ npm run start:prod
 [MIT - Ladesa e Colaboradores, 2024](./LICENSE).
 
 [MIT - Gabriel R. Antunes, 2024](./LICENSE).
+
+
+<!-- Badges -->
+
+<!-- Badges / Actions  -->
+
+[action-ci-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci.yml?style=flat&logo=github&logoColor=white&label=CI&labelColor=18181B&color=F0DB4F
+[action-ci-href]: https://github.com/ladesa-ro/api/actions/workflows/ci.yml
