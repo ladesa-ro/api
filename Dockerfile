@@ -19,6 +19,6 @@ FROM prod-deps
 COPY --from=assets /ladesa/ladesa-api /ladesa/ladesa-api
 WORKDIR /ladesa/ladesa-api
 
-HEALTHCHECK --start-period=10s --interval=5m --timeout=3s --retries=4 CMD ./health.sh
+HEALTHCHECK --start-period=50s --interval=1m --timeout=3s --retries=4 CMD ./health.sh
 
 CMD npm run migration:run && npm run start:prod
