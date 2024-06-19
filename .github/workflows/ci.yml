@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
+      - 'production'
       - 'development'
 
 jobs:
@@ -32,6 +33,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Build and push
+        if: ${{github.ref_name == 'production'}}
+        uses: docker/build-push-action@v6
+        with:
+          push: false
+          tags: registry.ladesa.com.br/api:production
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
       - name: Dispatch infrastructure deploy workflow
         run: |
           curl -L \
@@ -39,5 +49,5 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.DEPLOY_DISPATCH_TOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ secrets.DEPLOY_OWNER }}/${{ secrets.DEPLOY_REPOSITORY }}/actions/workflows/${{ secrets.DEPLOY_WORKFLOW }}/dispatches \
-            -d '{"ref":"${{secrets.DEPLOY_BRANCH}}","inputs":{}}'
+            https://api.github.com/repos/${{ env.DEPLOY_OWNER }}/${{ env.DEPLOY_REPOSITORY }}/actions/workflows/${{ env.DEPLOY_WORKFLOW }}/dispatches \
+            -d '{"ref":"${{env.DEPLOY_BRANCH}}","inputs":{}}'
