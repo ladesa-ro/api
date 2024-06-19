@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - ${{ vars.CI_DEVELOPMENT_BRANCH }}
-      - ${{ vars.CI_PRODUCTION_BRANCH }}
+      - 'development'
+      - 'production'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
