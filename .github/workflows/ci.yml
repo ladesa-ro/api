@@ -1,4 +1,4 @@
-name: ci
+name: Continuous Integration
 
 on:
   workflow_dispatch:
@@ -29,25 +29,26 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
-      - name: Build and push
-        if: ${{github.ref_name == 'development'}}
+      - name: Build (and push if enabled) channel development
+        if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == 'development' }}
         uses: docker/build-push-action@v6
         with:
           push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
-          tags: ${{ secrets.REGISTRY_URL }}/api:development
+          tags: ${{ secrets.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_DEVELOPMENT }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Build and push
-        if: ${{github.ref_name == 'production'}}
+      - name: Build (and push if enabled) channel production
+        if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == 'production' }}
         uses: docker/build-push-action@v6
         with:
           push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
-          tags: ${{ secrets.REGISTRY_URL }}/api:production
+          tags: ${{ secrets.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_PRODUCTION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Dispatch infrastructure deploy workflow
+        if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && env.ENABLE_PUSH_IMAGE == 'true' && env.ENABLE_TRIGGER_DEPLOY == 'true' }}
         run: |
           curl -L \
             -X POST \
