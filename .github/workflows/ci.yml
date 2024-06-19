@@ -4,15 +4,15 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'production'
-      - 'development'
+      - ${{ vars.CI_DEVELOPMENT_BRANCH }}
+      - ${{ vars.CI_PRODUCTION_BRANCH }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  docker:
+  image-build-push:
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -30,7 +30,7 @@ jobs:
           password: ${{ secrets.REGISTRY_TOKEN }}
 
       - name: Build (and push if enabled) channel development
-        if: ${{ vars.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == 'development' }}
+        if: ${{ vars.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == vars.CI_DEVELOPMENT_BRANCH }}
         uses: docker/build-push-action@v6
         with:
           push: ${{ vars.ENABLE_PUSH_IMAGE == 'true' }}
@@ -39,7 +39,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Build (and push if enabled) channel production
-        if: ${{ vars.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == 'production' }}
+        if: ${{ vars.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == vars.CI_PRODUCTION_BRANCH }}
         uses: docker/build-push-action@v6
         with:
           push: ${{ vars.ENABLE_PUSH_IMAGE == 'true' }}
