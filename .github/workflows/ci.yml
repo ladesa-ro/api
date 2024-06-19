@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
+      - 'production'
       - 'development'
 
 jobs:
@@ -29,6 +30,15 @@ jobs:
         with:
           push: false
           tags: registry.ladesa.com.br/api:development
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push
+        if: ${{github.ref_name == 'production'}}
+        uses: docker/build-push-action@v6
+        with:
+          push: false
+          tags: registry.ladesa.com.br/api:production
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
