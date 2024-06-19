@@ -1,8 +1,16 @@
 # api
 
-[![CI][action-ci-src]][action-ci-href]
+## Ambientes
 
-## Desenvolvimento
+### Produção
+
+[![CI Production][action-ci-prod-src]][action-ci-prod-href]
+
+### Desenvolvimento
+
+[![CI Development][action-ci-dev-src]][action-ci-dev-href]
+
+## Hackeando
 
 ```sh
 git clone https://github.com/ladesa-ro/api.git;
@@ -64,10 +72,14 @@ $ npm run start:prod
 
 [MIT - Gabriel R. Antunes, 2024](./LICENSE).
 
-
 <!-- Badges -->
 
-<!-- Badges / Actions  -->
+<!-- Badges / Actions / Production  -->
 
-[action-ci-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci.yml?style=flat&logo=github&logoColor=white&label=CI&labelColor=18181B&color=F0DB4F
-[action-ci-href]: https://github.com/ladesa-ro/api/actions/workflows/ci.yml
+[action-ci-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci.yml?style=flat&logo=github&logoColor=white&label=CI@production&branch=production&labelColor=18181B
+[action-ci-prod-href]: https://github.com/ladesa-ro/api/actions/workflows/ci.yml?query=branch%3Aproduction
+
+<!-- Badges / Actions / Development  -->
+
+[action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=development&labelColor=18181B
+[action-ci-dev-href]: https://github.com/ladesa-ro/api/actions/workflows/ci.yml?query=branch%3Adevelopment
