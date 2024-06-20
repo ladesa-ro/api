@@ -42,7 +42,7 @@ export class AmbienteService {
 
   //
 
-  static AmbienteQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IAmbienteQueryBuilderViewOptions = {}, _selection?:string[]|boolean) {
+  static AmbienteQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IAmbienteQueryBuilderViewOptions = {}, _selection?: string[] | boolean) {
     qb.addSelect([
       //
       `${alias}.id`,

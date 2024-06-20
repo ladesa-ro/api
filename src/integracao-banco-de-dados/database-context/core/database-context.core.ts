@@ -170,4 +170,10 @@ export class DatabaseContextCore {
   }
 
   // =====================================================
+
+  get eventoRepository() {
+    return repositories.createEventoRepository(this.ds);
+  }
+
+  // =====================================================
 }

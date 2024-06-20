@@ -4,7 +4,7 @@ import { EstadoEntity } from './estado.entity';
 
 @Entity('base_cidade')
 export class CidadeEntity implements LadesaTypings.Cidade {
-  @PrimaryColumn({ name: 'id', type: "integer" })
+  @PrimaryColumn({ name: 'id', type: 'integer' })
   id!: number;
 
   // ...
