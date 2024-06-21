@@ -62,7 +62,7 @@ export class EventoService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('calendario_letivo:find' /* MUDAR ISSO AQUI */, qb, aliasEvento, null);
+    await contextoDeAcesso.aplicarFiltro('evento:find', qb, aliasEvento, null);
 
     // =========================================================
 
@@ -137,7 +137,7 @@ export class EventoService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('calendario_letivo:find', qb, aliasEvento, null);
+    await contextoDeAcesso.aplicarFiltro('evento:find', qb, aliasEvento, null);
 
     // =========================================================
 
@@ -180,7 +180,7 @@ export class EventoService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('calendario_letivo:find', qb, aliasEvento, null);
+    await contextoDeAcesso.aplicarFiltro('evento:find', qb, aliasEvento, null);
 
     // =========================================================
 
@@ -222,7 +222,7 @@ export class EventoService {
   async eventoCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoCreateCombinedInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('calendario_letivo:create', { dto });
+    await contextoDeAcesso.ensurePermission('evento:create', { dto });
 
     // =========================================================
 
@@ -264,7 +264,7 @@ export class EventoService {
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('calendario_letivo:update', { dto }, dto.params.id, this.eventoRepository.createQueryBuilder(aliasEvento));
+    await contextoDeAcesso.ensurePermission('evento:update', { dto }, dto.params.id, this.eventoRepository.createQueryBuilder(aliasEvento));
 
     const dtoEvento = pick(dto.body, ['nome', 'cor', 'data_inicio', 'data_termino']);
 
@@ -302,7 +302,7 @@ export class EventoService {
   async eventoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoFindOneInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('calendario_letivo:delete', { dto }, dto.id, this.eventoRepository.createQueryBuilder(aliasEvento));
+    await contextoDeAcesso.ensurePermission('evento:delete', { dto }, dto.id, this.eventoRepository.createQueryBuilder(aliasEvento));
 
     // =========================================================
 
