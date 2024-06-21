@@ -31,7 +31,7 @@ export class AutenticacaoService {
     };
   }
 
-  async login(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AuthLoginCombinedInput): Promise<LadesaTypings.AuthLoginCombinedSuccessOutput["body"]> {
+  async login(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AuthLoginCombinedInput): Promise<LadesaTypings.AuthLoginCombinedSuccessOutput['body']> {
     if (contextoDeAcesso.usuario !== null) {
       throw new BadRequestException('Você não pode usar a rota de login caso já esteja logado.');
     }
@@ -64,7 +64,7 @@ export class AutenticacaoService {
     throw new ForbiddenException('Credenciais inválidas.');
   }
 
-  async refresh(_: IContextoDeAcesso, dto: LadesaTypings.AuthRefreshCombinedInput): Promise<LadesaTypings.AuthLoginCombinedSuccessOutput["body"]> {
+  async refresh(_: IContextoDeAcesso, dto: LadesaTypings.AuthRefreshCombinedInput): Promise<LadesaTypings.AuthLoginCombinedSuccessOutput['body']> {
     let trustIssuerClient: BaseClient;
 
     try {
@@ -86,7 +86,7 @@ export class AutenticacaoService {
     throw new ForbiddenException('Credenciais inválidas ou expiradas.');
   }
 
-  async definirSenha(_contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AuthSetInitialPasswordCombinedInput): Promise<LadesaTypings.AuthSetInitialPasswordCombinedSuccessOutput["body"]> {
+  async definirSenha(_contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AuthSetInitialPasswordCombinedInput): Promise<LadesaTypings.AuthSetInitialPasswordCombinedSuccessOutput['body']> {
     try {
       const kcAdminClient = await this.keycloakService.getAdminClient();
 

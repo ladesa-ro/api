@@ -91,6 +91,9 @@ export type IAuthzStatementCalendarioLetivoUpdate = IBaseAuthzFilter<'calendario
 export type IAuthzStatementCalendarioLetivoDelete = IBaseAuthzFilter<'calendario_letivo:delete', { dto: LadesaTypings.CalendarioLetivoFindOneInput }>;
 export type IAuthzStatementCalendarioLetivoFind = IBaseAuthzFilter<'calendario_letivo:find'>;
 
+// =====================
+
+
 export type IAuthzStatementDiarioProfessorCreate = IBaseAuthzCheck<'diario_professor:create', { dto: LadesaTypings.DiarioProfessorCreateCombinedInput }>;
 
 export type IAuthzStatementDiarioProfessorUpdate = IBaseAuthzFilter<'diario_professor:update', { dto: LadesaTypings.DiarioProfessorUpdateByIDCombinedInput }>;
@@ -99,7 +102,15 @@ export type IAuthzStatementDiarioProfessorDelete = IBaseAuthzFilter<'diario_prof
 
 export type IAuthzStatementDiarioProfessorFilter = IBaseAuthzFilter<'diario_professor:find'>;
 
+// =====================
+
+export type IAuthzStatementEventoCreate = IBaseAuthzCheck<'evento:create', { dto: LadesaTypings.EventoCreateCombinedInput }>;
+export type IAuthzStatementEventoUpdate = IBaseAuthzFilter<'evento:update', { dto: LadesaTypings.EventoUpdateByIDCombinedInput }>;
+export type IAuthzStatementEventoDelete = IBaseAuthzFilter<'evento:delete', { dto: LadesaTypings.EventoFindOneInput }>;
+export type IAuthzStatementEventoFind = IBaseAuthzFilter<'evento:find'>;
+
 // ===================================================================================
+
 
 export type IAuthzStatementCheck =
   | IAuthzStatementCampusCreate
@@ -113,7 +124,8 @@ export type IAuthzStatementCheck =
   | IAuthzStatementCalendarioLetivoCreate
   | IAuthzStatementDiarioCreate
   | IAuthzStatementReservaCreate
-  | IAuthzStatementDiarioProfessorCreate;
+  | IAuthzStatementDiarioProfessorCreate
+  | IAuthzStatementEventoCreate;
 
 // =====================
 
@@ -158,7 +170,10 @@ export type IAuthzStatementFilter =
   | IAuthzStatementCalendarioLetivoUpdate
   | IAuthzStatementDiarioProfessorUpdate
   | IAuthzStatementDiarioProfessorDelete
-  | IAuthzStatementDiarioProfessorFilter;
+  | IAuthzStatementDiarioProfessorFilter
+  | IAuthzStatementEventoFind
+  | IAuthzStatementEventoUpdate
+  | IAuthzStatementEventoDelete;
 
 // =====================
 
