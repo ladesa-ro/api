@@ -226,7 +226,7 @@ export class EventoService {
 
     // =========================================================
 
-    const dtoEvento = pick(dto.body, ['nome', 'cor', 'data_inicio', 'data_termino']);
+    const dtoEvento = pick(dto.body, ['nome', 'cor', 'dataInicio', 'dataTermino']);
 
     const evento = this.eventoRepository.create();
 
@@ -266,7 +266,7 @@ export class EventoService {
 
     await contextoDeAcesso.ensurePermission('evento:update', { dto }, dto.params.id, this.eventoRepository.createQueryBuilder(aliasEvento));
 
-    const dtoEvento = pick(dto.body, ['nome', 'cor', 'data_inicio', 'data_termino']);
+    const dtoEvento = pick(dto.body, ['nome', 'cor', 'dataInicio', 'dataTermino']);
 
     const evento = {
       id: currentEvento.id,
