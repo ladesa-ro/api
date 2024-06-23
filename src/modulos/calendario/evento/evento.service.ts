@@ -317,7 +317,7 @@ export class EventoService {
         .set({
           dateDeleted: 'NOW()',
         })
-        .where('id = :eventoId', { calendarioLetivoId: evento.id })
+        .where('id = :eventoId', { eventoId: evento.id })
         .andWhere('dateDeleted IS NULL')
         .execute();
     }
