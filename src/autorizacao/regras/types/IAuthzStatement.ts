@@ -109,6 +109,13 @@ export type IAuthzStatementEventoUpdate = IBaseAuthzFilter<'evento:update', { dt
 export type IAuthzStatementEventoDelete = IBaseAuthzFilter<'evento:delete', { dto: LadesaTypings.EventoFindOneInput }>;
 export type IAuthzStatementEventoFind = IBaseAuthzFilter<'evento:find'>;
 
+// =====================
+
+export type IAuthzStatementDiaCalendarioCreate = IBaseAuthzCheck<'dia_calendario:create', { dto: LadesaTypings.DiaCalendarioCreateCombinedInput }>;
+export type IAuthzStatementDiaCalendarioUpdate = IBaseAuthzFilter<'dia_calendario:update', { dto: LadesaTypings.DiaCalendarioUpdateByIDCombinedInput }>;
+export type IAuthzStatementDiaCalendarioDelete = IBaseAuthzFilter<'dia_calendario:delete', { dto: LadesaTypings.DiaCalendarioFindOneInput }>;
+export type IAuthzStatementDiaCalendarioFind = IBaseAuthzFilter<'dia_calendario:find'>;
+
 // ===================================================================================
 
 
@@ -125,7 +132,8 @@ export type IAuthzStatementCheck =
   | IAuthzStatementDiarioCreate
   | IAuthzStatementReservaCreate
   | IAuthzStatementDiarioProfessorCreate
-  | IAuthzStatementEventoCreate;
+  | IAuthzStatementEventoCreate
+  | IAuthzStatementDiaCalendarioCreate;
 
 // =====================
 
@@ -173,7 +181,10 @@ export type IAuthzStatementFilter =
   | IAuthzStatementDiarioProfessorFilter
   | IAuthzStatementEventoFind
   | IAuthzStatementEventoUpdate
-  | IAuthzStatementEventoDelete;
+  | IAuthzStatementEventoDelete
+  | IAuthzStatementDiaCalendarioFind
+  | IAuthzStatementDiaCalendarioUpdate
+  | IAuthzStatementDiaCalendarioDelete;
 
 // =====================
 

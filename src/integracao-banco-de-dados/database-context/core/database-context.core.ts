@@ -175,5 +175,8 @@ export class DatabaseContextCore {
     return repositories.createEventoRepository(this.ds);
   }
 
+  get diaCalendarioRepository() {
+    return repositories.createDiaCalendarioRepository(this.ds);
+  }
   // =====================================================
 }
