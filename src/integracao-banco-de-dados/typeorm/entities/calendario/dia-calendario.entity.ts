@@ -12,7 +12,7 @@ export class DiaCalendarioEntity implements LadesaTypings.DiaCalendario {
     @Column({ name: 'data', type: 'date', nullable: false })
     data!: Date;
     
-    @Column({ name: 'diaLetivo', type: 'bool', nullable: false })
+    @Column({ name: 'dia_letivo', type: 'bool', nullable: false })
     diaLetivo!: boolean;
 
     @Column({ name: 'feriado', type: 'bool', nullable: false })
@@ -21,7 +21,7 @@ export class DiaCalendarioEntity implements LadesaTypings.DiaCalendario {
     //Chaves Estrangeiras
 
     @ManyToOne(() => CalendarioLetivoEntity)
-    @JoinColumn({ name: 'id_calendario_fk' })
+    @JoinColumn({ name: 'id_calendario_letivo_fk' })
     calendario!: LadesaTypings.CalendarioLetivo | null;
 
     //

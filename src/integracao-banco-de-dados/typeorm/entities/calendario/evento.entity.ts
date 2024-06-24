@@ -12,9 +12,6 @@ export class EventoEntity implements LadesaTypings.Evento {
   @Column({ name: 'nome', type: 'text' })
   nome!: string | null;
 
-  @Column({ name: 'ano_letivo', type: 'integer' })
-  ano!: number;
-
   @Column({ name: 'data_inicio', type: 'timestamptz', nullable: false })
   dataInicio!: Date;
 
@@ -27,7 +24,7 @@ export class EventoEntity implements LadesaTypings.Evento {
   //Chaves Estrangeiras
 
   @ManyToOne(() => CalendarioLetivoEntity)
-  @JoinColumn({ name: 'id_calendario_fk' })
+  @JoinColumn({ name: 'id_calendario_letivo_fk' })
   calendario!: LadesaTypings.CalendarioLetivo | null;
 
   //

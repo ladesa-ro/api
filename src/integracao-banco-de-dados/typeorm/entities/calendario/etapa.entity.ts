@@ -25,7 +25,7 @@ export class EtapaEntity implements LadesaTypings.Etapa {
   //Chaves Estrangeiras
 
   @ManyToOne(() => CalendarioLetivoEntity)
-  @JoinColumn({ name: 'id_calendario_fk' })
+  @JoinColumn({ name: 'id_calendario_letivo_fk' })
   calendario!: LadesaTypings.CalendarioLetivo | null;
 
   //
