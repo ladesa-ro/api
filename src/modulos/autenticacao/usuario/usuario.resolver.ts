@@ -1,6 +1,6 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextGraphQl } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { UsuarioService } from './usuario.service';
 
@@ -14,43 +14,43 @@ export class UsuarioResolver {
   @Operation(LadesaTypings.Tokens.Usuario.Operations.List)
   async usuarioFindAll(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.UsuarioListCombinedInput,
   ) {
-    return this.usuarioService.usuarioFindAll(contextoDeAcesso, dto);
+    return this.usuarioService.usuarioFindAll(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.Usuario.Operations.FindById)
   async usuarioFindOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.UsuarioFindByIDCombinedInput,
   ) {
-    return this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.usuarioService.usuarioFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.Usuario.Operations.Create)
   async usuarioCreate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.UsuarioCreateCombinedInput,
   ) {
-    return this.usuarioService.usuarioCreate(contextoDeAcesso, dto);
+    return this.usuarioService.usuarioCreate(accessContext, dto);
   }
   @Operation(LadesaTypings.Tokens.Usuario.Operations.Create)
   async usuarioUpdate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.UsuarioUpdateByIDCombinedInput,
   ) {
-    return this.usuarioService.usuarioUpdate(contextoDeAcesso, dto);
+    return this.usuarioService.usuarioUpdate(accessContext, dto);
   }
   @Operation(LadesaTypings.Tokens.Usuario.Operations.DeleteById)
   async usuarioDeleteOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.UsuarioDeleteByIDCombinedInput,
   ) {
-    return this.usuarioService.usuarioDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.usuarioService.usuarioDeleteOneById(accessContext, { id: dto.params.id });
   }
 }

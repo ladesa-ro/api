@@ -1,6 +1,6 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextGraphQl } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { DisciplinaService } from './disciplina.service';
 
@@ -14,43 +14,43 @@ export class DisciplinaResolver {
   @Operation(LadesaTypings.Tokens.Disciplina.Operations.List)
   async disciplinaFindAll(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DisciplinaListCombinedInput,
   ) {
-    return this.disciplinaService.disciplinaFindAll(contextoDeAcesso, dto);
+    return this.disciplinaService.disciplinaFindAll(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.Disciplina.Operations.FindById)
   async disciplinaFindOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DisciplinaFindByIDCombinedInput,
   ) {
-    return this.disciplinaService.disciplinaFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.disciplinaService.disciplinaFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.Disciplina.Operations.Create)
   async disciplinaCreate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DisciplinaCreateCombinedInput,
   ) {
-    return this.disciplinaService.disciplinaCreate(contextoDeAcesso, dto);
+    return this.disciplinaService.disciplinaCreate(accessContext, dto);
   }
   @Operation(LadesaTypings.Tokens.Disciplina.Operations.Create)
   async disciplinaUpdate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DisciplinaUpdateByIDCombinedInput,
   ) {
-    return this.disciplinaService.disciplinaUpdate(contextoDeAcesso, dto);
+    return this.disciplinaService.disciplinaUpdate(accessContext, dto);
   }
   @Operation(LadesaTypings.Tokens.Disciplina.Operations.DeleteById)
   async disciplinaDeleteOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DisciplinaDeleteByIDCombinedInput,
   ) {
-    return this.disciplinaService.disciplinaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.disciplinaService.disciplinaDeleteOneById(accessContext, { id: dto.params.id });
   }
 }

@@ -1,7 +1,7 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextHttp } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { EtapaService } from './etapa.service';
 
@@ -12,10 +12,7 @@ export class EtapaController {
 
   @Get('/')
   @Operation(LadesaTypings.Tokens.Etapa.Operations.List)
-  async etapaFindAll(
-    @ContextoDeAcessoHttp() clientAccess: IContextoDeAcesso,
-    @CombinedInput() dto: LadesaTypings.EtapaListCombinedInput,
-  ): Promise<LadesaTypings.EtapaListCombinedSuccessOutput['body']> {
+  async etapaFindAll(@AccessContextHttp() clientAccess: AccessContext, @CombinedInput() dto: LadesaTypings.EtapaListCombinedInput): Promise<LadesaTypings.EtapaListCombinedSuccessOutput['body']> {
     return this.etapaService.etapaFindAll(clientAccess, dto);
   }
 
@@ -25,10 +22,10 @@ export class EtapaController {
   @Operation(LadesaTypings.Tokens.Etapa.Operations.FindById)
   async etapaFindById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EtapaFindByIDCombinedInput,
   ) {
-    return this.etapaService.etapaFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.etapaService.etapaFindByIdStrict(accessContext, { id: dto.params.id });
   }
 
   //
@@ -37,10 +34,10 @@ export class EtapaController {
   @Operation(LadesaTypings.Tokens.Etapa.Operations.Create)
   async etapaCreate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EtapaCreateCombinedInput,
   ) {
-    return this.etapaService.etapaCreate(contextoDeAcesso, dto);
+    return this.etapaService.etapaCreate(accessContext, dto);
   }
 
   //
@@ -49,10 +46,10 @@ export class EtapaController {
   @Operation(LadesaTypings.Tokens.Etapa.Operations.Create)
   async etapaUpdate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EtapaUpdateByIDCombinedInput,
   ) {
-    return this.etapaService.etapaUpdate(contextoDeAcesso, dto);
+    return this.etapaService.etapaUpdate(accessContext, dto);
   }
 
   //
@@ -61,10 +58,10 @@ export class EtapaController {
   @Operation(LadesaTypings.Tokens.Etapa.Operations.DeleteById)
   async etapaDeleteOneById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EtapaDeleteByIDCombinedInput,
   ) {
-    return this.etapaService.etapaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.etapaService.etapaDeleteOneById(accessContext, { id: dto.params.id });
   }
 
   //

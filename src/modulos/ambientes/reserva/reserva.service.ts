@@ -2,7 +2,7 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -32,7 +32,7 @@ export class ReservaService {
   //
 
   async reservaFindAll(
-    contextoDeAcesso: IContextoDeAcesso,
+    accessContext: AccessContext,
     dto: LadesaTypings.ReservaListCombinedInput | null = null,
     selection?: string[] | boolean,
   ): Promise<LadesaTypings.ReservaListCombinedSuccessOutput['body']> {
@@ -42,7 +42,7 @@ export class ReservaService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('reserva:find', qb, aliasReserva, null);
+    await accessContext.aplicarFiltro('reserva:find', qb, aliasReserva, null);
 
     // =========================================================
 
@@ -117,14 +117,14 @@ export class ReservaService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async reservaFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.ReservaFindOneResult | null> {
+  async reservaFindById(accessContext: AccessContext, dto: LadesaTypings.ReservaFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.ReservaFindOneResult | null> {
     // =========================================================
 
     const qb = this.reservaRepository.createQueryBuilder(aliasReserva);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('reserva:find', qb, aliasReserva, null);
+    await accessContext.aplicarFiltro('reserva:find', qb, aliasReserva, null);
 
     // =========================================================
 
@@ -144,8 +144,8 @@ export class ReservaService {
     return reserva;
   }
 
-  async reservaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaFindOneInput, selection?: string[] | boolean) {
-    const reserva = await this.reservaFindById(contextoDeAcesso, dto, selection);
+  async reservaFindByIdStrict(accessContext: AccessContext, dto: LadesaTypings.ReservaFindOneInput, selection?: string[] | boolean) {
+    const reserva = await this.reservaFindById(accessContext, dto, selection);
 
     if (!reserva) {
       throw new NotFoundException();
@@ -154,14 +154,14 @@ export class ReservaService {
     return reserva;
   }
 
-  async reservaFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.ReservaFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.ReservaFindOneResult | null> {
+  async reservaFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.ReservaFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.ReservaFindOneResult | null> {
     // =========================================================
 
     const qb = this.reservaRepository.createQueryBuilder(aliasReserva);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('reserva:find', qb, aliasReserva, null);
+    await accessContext.aplicarFiltro('reserva:find', qb, aliasReserva, null);
 
     // =========================================================
 
@@ -181,8 +181,8 @@ export class ReservaService {
     return reserva;
   }
 
-  async reservaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.ReservaFindOneInput['id'], selection?: string[]) {
-    const reserva = await this.reservaFindByIdSimple(contextoDeAcesso, id, selection);
+  async reservaFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.ReservaFindOneInput['id'], selection?: string[]) {
+    const reserva = await this.reservaFindByIdSimple(accessContext, id, selection);
 
     if (!reserva) {
       throw new NotFoundException();
@@ -193,10 +193,10 @@ export class ReservaService {
 
   //
 
-  async reservaCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaCreateCombinedInput) {
+  async reservaCreate(accessContext: AccessContext, dto: LadesaTypings.ReservaCreateCombinedInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('reserva:create', { dto });
+    await accessContext.ensurePermission('reserva:create', { dto });
 
     // =========================================================
 
@@ -210,7 +210,7 @@ export class ReservaService {
 
     // =========================================================
 
-    const ambiente = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.body.ambiente.id });
+    const ambiente = await this.ambienteService.ambienteFindByIdStrict(accessContext, { id: dto.body.ambiente.id });
 
     this.reservaRepository.merge(reserva, {
       ambiente: {
@@ -220,7 +220,7 @@ export class ReservaService {
 
     // =========================================================
 
-    const usuario = await this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.body.usuario.id });
+    const usuario = await this.usuarioService.usuarioFindByIdStrict(accessContext, { id: dto.body.usuario.id });
 
     this.reservaRepository.merge(reserva, {
       usuario: {
@@ -234,19 +234,19 @@ export class ReservaService {
 
     // =========================================================
 
-    return this.reservaFindByIdStrict(contextoDeAcesso, { id: reserva.id });
+    return this.reservaFindByIdStrict(accessContext, { id: reserva.id });
   }
 
-  async reservaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaUpdateByIDCombinedInput) {
+  async reservaUpdate(accessContext: AccessContext, dto: LadesaTypings.ReservaUpdateByIDCombinedInput) {
     // =========================================================
 
-    const currentReserva = await this.reservaFindByIdStrict(contextoDeAcesso, {
+    const currentReserva = await this.reservaFindByIdStrict(accessContext, {
       id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('reserva:update', { dto }, dto.params.id, this.reservaRepository.createQueryBuilder(aliasReserva));
+    await accessContext.ensurePermission('reserva:update', { dto }, dto.params.id, this.reservaRepository.createQueryBuilder(aliasReserva));
 
     const dtoReserva = pick(dto.body, ['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino']);
 
@@ -261,7 +261,7 @@ export class ReservaService {
     // =========================================================
 
     if (has(dto.body, 'ambiente') && dto.body.ambiente !== undefined) {
-      const ambiente = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.body.ambiente.id });
+      const ambiente = await this.ambienteService.ambienteFindByIdStrict(accessContext, { id: dto.body.ambiente.id });
 
       this.reservaRepository.merge(reserva, {
         ambiente: {
@@ -273,7 +273,7 @@ export class ReservaService {
     // =========================================================
 
     if (has(dto.body, 'usuario') && dto.body.usuario !== undefined) {
-      const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(contextoDeAcesso, dto.body.usuario.id);
+      const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(accessContext, dto.body.usuario.id);
 
       this.reservaRepository.merge(reserva, {
         usuario: {
@@ -288,19 +288,19 @@ export class ReservaService {
 
     // =========================================================
 
-    return this.reservaFindByIdStrict(contextoDeAcesso, { id: reserva.id });
+    return this.reservaFindByIdStrict(accessContext, { id: reserva.id });
   }
 
   //
 
-  async reservaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaFindOneInput) {
+  async reservaDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.ReservaFindOneInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('reserva:delete', { dto }, dto.id, this.reservaRepository.createQueryBuilder(aliasReserva));
+    await accessContext.ensurePermission('reserva:delete', { dto }, dto.id, this.reservaRepository.createQueryBuilder(aliasReserva));
 
     // =========================================================
 
-    const reserva = await this.reservaFindByIdStrict(contextoDeAcesso, dto);
+    const reserva = await this.reservaFindByIdStrict(accessContext, dto);
 
     // =========================================================
 

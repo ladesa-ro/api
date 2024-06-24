@@ -1,7 +1,7 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextHttp } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { DiaCalendarioService } from './dia-calendario.service';
 
@@ -13,7 +13,7 @@ export class DiaCalendarioController {
   @Get('/')
   @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.List)
   async diaCalendarioFindAll(
-    @ContextoDeAcessoHttp() clientAccess: IContextoDeAcesso,
+    @AccessContextHttp() clientAccess: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiaCalendarioListCombinedInput,
   ): Promise<LadesaTypings.DiaCalendarioListCombinedSuccessOutput['body']> {
     return this.diaCalendarioService.diaCalendarioFindAll(clientAccess, dto);
@@ -25,10 +25,10 @@ export class DiaCalendarioController {
   @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.FindById)
   async diaCalendarioFindById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiaCalendarioFindByIDCombinedInput,
   ) {
-    return this.diaCalendarioService.diaCalendarioFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.diaCalendarioService.diaCalendarioFindByIdStrict(accessContext, { id: dto.params.id });
   }
 
   //
@@ -37,10 +37,10 @@ export class DiaCalendarioController {
   @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.Create)
   async diaCalendarioCreate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiaCalendarioCreateCombinedInput,
   ) {
-    return this.diaCalendarioService.diaCalendarioCreate(contextoDeAcesso, dto);
+    return this.diaCalendarioService.diaCalendarioCreate(accessContext, dto);
   }
 
   //
@@ -49,10 +49,10 @@ export class DiaCalendarioController {
   @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.Create)
   async diaCalendarioUpdate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiaCalendarioUpdateByIDCombinedInput,
   ) {
-    return this.diaCalendarioService.diaCalendarioUpdate(contextoDeAcesso, dto);
+    return this.diaCalendarioService.diaCalendarioUpdate(accessContext, dto);
   }
 
   //
@@ -61,10 +61,10 @@ export class DiaCalendarioController {
   @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.DeleteById)
   async diaCalendarioDeleteOneById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiaCalendarioDeleteByIDCombinedInput,
   ) {
-    return this.diaCalendarioService.diaCalendarioDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.diaCalendarioService.diaCalendarioDeleteOneById(accessContext, { id: dto.params.id });
   }
 
   //

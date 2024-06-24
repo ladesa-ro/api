@@ -1,6 +1,6 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextGraphQl } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { ReservaService } from './reserva.service';
 
@@ -14,43 +14,43 @@ export class ReservaResolver {
   @Operation(LadesaTypings.Tokens.Reserva.Operations.List)
   async reservaFindAll(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.ReservaListCombinedInput,
   ) {
-    return this.reservaService.reservaFindAll(contextoDeAcesso, dto);
+    return this.reservaService.reservaFindAll(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.Reserva.Operations.FindById)
   async reservaFindOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.ReservaFindByIDCombinedInput,
   ) {
-    return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.reservaService.reservaFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.Reserva.Operations.Create)
   async reservaCreate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.ReservaCreateCombinedInput,
   ) {
-    return this.reservaService.reservaCreate(contextoDeAcesso, dto);
+    return this.reservaService.reservaCreate(accessContext, dto);
   }
   @Operation(LadesaTypings.Tokens.Reserva.Operations.Create)
   async reservaUpdate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.ReservaUpdateByIDCombinedInput,
   ) {
-    return this.reservaService.reservaUpdate(contextoDeAcesso, dto);
+    return this.reservaService.reservaUpdate(accessContext, dto);
   }
   @Operation(LadesaTypings.Tokens.Reserva.Operations.DeleteById)
   async reservaDeleteOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.ReservaDeleteByIDCombinedInput,
   ) {
-    return this.reservaService.reservaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.reservaService.reservaDeleteOneById(accessContext, { id: dto.params.id });
   }
 }

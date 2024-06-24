@@ -1,7 +1,7 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextHttp } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { TurmaService } from './turma.service';
 
@@ -16,10 +16,10 @@ export class TurmaController {
   @Operation(LadesaTypings.Tokens.Turma.Operations.List)
   async turmaFindAll(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.TurmaListCombinedInput,
   ): Promise<LadesaTypings.TurmaListCombinedSuccessOutput['body']> {
-    return this.turmaService.turmaFindAll(contextoDeAcesso, dto);
+    return this.turmaService.turmaFindAll(accessContext, dto);
   }
 
   //
@@ -28,10 +28,10 @@ export class TurmaController {
   @Operation(LadesaTypings.Tokens.Turma.Operations.FindById)
   async turmaFindById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.TurmaFindByIDCombinedInput,
   ) {
-    return this.turmaService.turmaFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.turmaService.turmaFindByIdStrict(accessContext, { id: dto.params.id });
   }
 
   //
@@ -40,10 +40,10 @@ export class TurmaController {
   @Operation(LadesaTypings.Tokens.Turma.Operations.Create)
   async turmaCreate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.TurmaCreateCombinedInput,
   ) {
-    return this.turmaService.turmaCreate(contextoDeAcesso, dto);
+    return this.turmaService.turmaCreate(accessContext, dto);
   }
 
   //
@@ -52,10 +52,10 @@ export class TurmaController {
   @Operation(LadesaTypings.Tokens.Turma.Operations.Create)
   async turmaUpdate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.TurmaUpdateByIDCombinedInput,
   ) {
-    return this.turmaService.turmaUpdate(contextoDeAcesso, dto);
+    return this.turmaService.turmaUpdate(accessContext, dto);
   }
 
   //
@@ -64,21 +64,21 @@ export class TurmaController {
   @Operation(LadesaTypings.Tokens.Turma.Operations.GetCoverImage)
   async turmaGetImagemCapa(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.turmaService.turmaGetImagemCapa(contextoDeAcesso, id);
+    return this.turmaService.turmaGetImagemCapa(accessContext, id);
   }
 
   @Put('/:id/imagem/capa')
   @Operation(LadesaTypings.Tokens.Turma.Operations.SetCoverImage)
   async turmaImagemCapaSave(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @UploadedFile() file: Express.Multer.File,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.turmaService.turmaUpdateImagemCapa(contextoDeAcesso, { id }, file);
+    return this.turmaService.turmaUpdateImagemCapa(accessContext, { id }, file);
   }
 
   //
@@ -87,10 +87,10 @@ export class TurmaController {
   @Operation(LadesaTypings.Tokens.Turma.Operations.DeleteById)
   async turmaDeleteOneById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.TurmaDeleteByIDCombinedInput,
   ) {
-    return this.turmaService.turmaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.turmaService.turmaDeleteOneById(accessContext, { id: dto.params.id });
   }
 
   //

@@ -8,35 +8,35 @@ export class AutenticacaoResolver {
   // ) {}
   // //
   // @Operacao(Spec.AutenticacaoQuemSouEuOperator())
-  // async authQuemSouEu(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso) {
-  //   return this.autenticacaoService.quemSouEu(contextoDeAcesso);
+  // async authQuemSouEu(@AccessContextGraphQl() accessContext: IAccessContext) {
+  //   return this.autenticacaoService.quemSouEu(accessContext);
   // }
   // //
   // @Operacao(Spec.AutenticacaoLoginOperator())
   // async autenticacaoLogin(
-  //   @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+  //   @AccessContextGraphQl() accessContext: IAccessContext,
   //   @DadosEntradaGql(Spec.AutenticacaoLoginOperator())
   //   dto: Spec.IAutenticacaoLoginInputDto,
   // ) {
-  //   return this.autenticacaoService.login(contextoDeAcesso, dto);
+  //   return this.autenticacaoService.login(accessContext, dto);
   // }
   // //
   // @Operacao(Spec.AutenticacaoRefreshOperator())
   // async autenticacaoRefresh(
-  //   @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+  //   @AccessContextGraphQl() accessContext: IAccessContext,
   //   @DadosEntradaGql(Spec.AutenticacaoRefreshOperator())
   //   dto: Spec.IAutenticacaoRefreshInputDto,
   // ) {
-  //   return this.autenticacaoService.refresh(contextoDeAcesso, dto);
+  //   return this.autenticacaoService.refresh(accessContext, dto);
   // }
   // //
   // @Operacao(Spec.AutenticacaoDefinirSenhaOperator())
   // async autenticacaoDefinirSenha(
-  //   @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+  //   @AccessContextGraphQl() accessContext: IAccessContext,
   //   @DadosEntradaGql(Spec.AutenticacaoDefinirSenhaOperator())
   //   dto: Spec.IAutenticacaoDefinirSenhaInputDto,
   // ) {
-  //   return this.autenticacaoService.definirSenha(contextoDeAcesso, dto);
+  //   return this.autenticacaoService.definirSenha(accessContext, dto);
   // }
   //
 }

@@ -1,6 +1,6 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextGraphQl } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { DiaCalendarioService } from './dia-calendario.service';
 
@@ -11,45 +11,45 @@ export class DiaCalendarioResolver {
   @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.List)
   async diaCalendarioFindAll(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiaCalendarioListCombinedInput,
   ) {
-    return this.diaCalendarioService.diaCalendarioFindAll(contextoDeAcesso, dto);
+    return this.diaCalendarioService.diaCalendarioFindAll(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.FindById)
   async diaCalendarioFindOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiaCalendarioFindByIDCombinedInput,
   ) {
-    return this.diaCalendarioService.diaCalendarioFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.diaCalendarioService.diaCalendarioFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.Create)
   async diaCalendarioCreate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiaCalendarioCreateCombinedInput,
   ) {
-    return this.diaCalendarioService.diaCalendarioCreate(contextoDeAcesso, dto);
+    return this.diaCalendarioService.diaCalendarioCreate(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.Create)
   async diaCalendarioUpdate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiaCalendarioUpdateByIDCombinedInput,
   ) {
-    return this.diaCalendarioService.diaCalendarioUpdate(contextoDeAcesso, dto);
+    return this.diaCalendarioService.diaCalendarioUpdate(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.DeleteById)
   async diaCalendarioDeleteOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiaCalendarioDeleteByIDCombinedInput,
   ) {
-    return this.diaCalendarioService.diaCalendarioDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.diaCalendarioService.diaCalendarioDeleteOneById(accessContext, { id: dto.params.id });
   }
 }

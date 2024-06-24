@@ -1,16 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { BaseClient, Issuer } from 'openid-client';
-import { EnvironmentConfigService } from '../../config';
+import { AppConfigService } from '../../config';
 
 @Injectable()
 export class OpenidConnectService {
   trustIssuerClient: BaseClient | null = null;
   #initialized = false;
 
-  constructor(readonly configService: EnvironmentConfigService) {}
+  constructor(
+    //
+    @Inject(AppConfigService)
+    readonly appConfigService: AppConfigService,
+  ) {}
 
   private get oidcClientCredentials() {
-    return this.configService.getOidcClientCredentials();
+    return this.appConfigService.getOidcClientCredentials();
   }
 
   async setup() {

@@ -1,7 +1,7 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { pick } from 'lodash';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { GetEnderecoInputSchema } from './endereco.dtos';
@@ -75,12 +75,12 @@ export class EnderecoService {
 
   //
 
-  async findById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EnderecoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.EnderecoFindOneResult | null> {
+  async findById(accessContext: AccessContext, dto: LadesaTypings.EnderecoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.EnderecoFindOneResult | null> {
     const qb = this.enderecoRepository.createQueryBuilder(aliasEndereco);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('endereco:find', qb, aliasEndereco, null);
+    await accessContext.aplicarFiltro('endereco:find', qb, aliasEndereco, null);
 
     // =========================================================
 
@@ -100,7 +100,7 @@ export class EnderecoService {
     return endereco;
   }
 
-  async findByIdStrict(requestContext: IContextoDeAcesso, dto: LadesaTypings.EnderecoFindOneInput) {
+  async findByIdStrict(requestContext: AccessContext, dto: LadesaTypings.EnderecoFindOneInput) {
     const endereco = await this.findById(requestContext, dto);
 
     if (!endereco) {

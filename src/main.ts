@@ -3,7 +3,7 @@ import { SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
 import helmet from 'helmet';
 import 'reflect-metadata';
-import { EnvironmentConfigService } from './config';
+import { AppConfigService } from './config';
 import { MainModule } from './main.module';
 import { SetupSwaggerDocument } from './nest-app/swagger';
 
@@ -11,7 +11,7 @@ async function setupApp() {
   const app = await NestFactory.create(MainModule);
 
   //
-  const configService = app.get(EnvironmentConfigService);
+  const configService = app.get(AppConfigService);
   //
 
   const prefix = configService.getRuntimePrefix();
@@ -52,8 +52,8 @@ async function setupApp() {
 async function bootstrap() {
   //
   const app = await setupApp();
-  const environmentConfigService = app.get(EnvironmentConfigService);
-  const port = environmentConfigService.getRuntimePort();
+  const appConfigService = app.get(AppConfigService);
+  const port = appConfigService.getRuntimePort();
   await app.listen(port);
 }
 

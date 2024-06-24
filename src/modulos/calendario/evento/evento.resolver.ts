@@ -1,6 +1,6 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextGraphQl } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { EventoService } from './evento.service';
 
@@ -11,45 +11,45 @@ export class EventoResolver {
   @Operation(LadesaTypings.Tokens.Evento.Operations.List)
   async eventoFindAll(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EventoListCombinedInput,
   ) {
-    return this.eventoService.eventoFindAll(contextoDeAcesso, dto);
+    return this.eventoService.eventoFindAll(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.Evento.Operations.FindById)
   async eventoFindOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EventoFindByIDCombinedInput,
   ) {
-    return this.eventoService.eventoFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.eventoService.eventoFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.Evento.Operations.Create)
   async eventoCreate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EventoCreateCombinedInput,
   ) {
-    return this.eventoService.eventoCreate(contextoDeAcesso, dto);
+    return this.eventoService.eventoCreate(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.Evento.Operations.Create)
   async eventoUpdate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EventoUpdateByIDCombinedInput,
   ) {
-    return this.eventoService.eventoUpdate(contextoDeAcesso, dto);
+    return this.eventoService.eventoUpdate(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.Evento.Operations.DeleteById)
   async eventoDeleteOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EventoDeleteByIDCombinedInput,
   ) {
-    return this.eventoService.eventoDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.eventoService.eventoDeleteOneById(accessContext, { id: dto.params.id });
   }
 }

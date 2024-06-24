@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { EnvironmentConfigModule } from '../../../../config';
+import { ConfigModule as NestConfigModule } from '@nestjs/config';
+import { ConfigModule } from '../../../../config';
 
 @Module({
   imports: [
     //
-    ConfigModule.forRoot({ isGlobal: true }),
-    EnvironmentConfigModule,
+    NestConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule,
   ],
   providers: [
     // ...

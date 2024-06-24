@@ -1,7 +1,7 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { map, pick } from 'lodash';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -31,7 +31,7 @@ export class DisciplinaService {
   //
 
   async disciplinaFindAll(
-    contextoDeAcesso: IContextoDeAcesso,
+    accessContext: AccessContext,
     dto: LadesaTypings.DisciplinaListCombinedInput | null = null,
     selection?: string[] | boolean,
   ): Promise<LadesaTypings.DisciplinaListCombinedSuccessOutput['body']> {
@@ -41,7 +41,7 @@ export class DisciplinaService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('disciplina:find', qb, aliasDisciplina, null);
+    await accessContext.aplicarFiltro('disciplina:find', qb, aliasDisciplina, null);
 
     // =========================================================
 
@@ -92,19 +92,15 @@ export class DisciplinaService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async disciplinaFindById(
-    contextoDeAcesso: IContextoDeAcesso | null,
-    dto: LadesaTypings.DisciplinaFindOneInput,
-    selection?: string[] | boolean,
-  ): Promise<LadesaTypings.DisciplinaFindOneResult | null> {
+  async disciplinaFindById(accessContext: AccessContext | null, dto: LadesaTypings.DisciplinaFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.DisciplinaFindOneResult | null> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
 
     // =========================================================
 
-    if (contextoDeAcesso) {
-      await contextoDeAcesso.aplicarFiltro('disciplina:find', qb, aliasDisciplina, null);
+    if (accessContext) {
+      await accessContext.aplicarFiltro('disciplina:find', qb, aliasDisciplina, null);
     }
 
     // =========================================================
@@ -125,8 +121,8 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.DisciplinaFindOneInput, selection?: string[] | boolean) {
-    const disciplina = await this.disciplinaFindById(contextoDeAcesso, dto, selection);
+  async disciplinaFindByIdStrict(accessContext: AccessContext | null, dto: LadesaTypings.DisciplinaFindOneInput, selection?: string[] | boolean) {
+    const disciplina = await this.disciplinaFindById(accessContext, dto, selection);
 
     if (!disciplina) {
       throw new NotFoundException();
@@ -135,18 +131,14 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdSimple(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.DisciplinaFindOneInput['id'],
-    selection?: string[] | boolean,
-  ): Promise<LadesaTypings.DisciplinaFindOneResult | null> {
+  async disciplinaFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.DisciplinaFindOneInput['id'], selection?: string[] | boolean): Promise<LadesaTypings.DisciplinaFindOneResult | null> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('disciplina:find', qb, aliasDisciplina, null);
+    await accessContext.aplicarFiltro('disciplina:find', qb, aliasDisciplina, null);
 
     // =========================================================
 
@@ -166,8 +158,8 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.DisciplinaFindOneInput['id'], selection?: string[]) {
-    const disciplina = await this.disciplinaFindByIdSimple(contextoDeAcesso, id, selection);
+  async disciplinaFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.DisciplinaFindOneInput['id'], selection?: string[]) {
+    const disciplina = await this.disciplinaFindByIdSimple(accessContext, id, selection);
 
     if (!disciplina) {
       throw new NotFoundException();
@@ -178,10 +170,10 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DisciplinaCreateCombinedInput) {
+  async disciplinaCreate(accessContext: AccessContext, dto: LadesaTypings.DisciplinaCreateCombinedInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('disciplina:create', { dto });
+    await accessContext.ensurePermission('disciplina:create', { dto });
 
     // =========================================================
 
@@ -199,19 +191,19 @@ export class DisciplinaService {
 
     // =========================================================
 
-    return this.disciplinaFindByIdStrict(contextoDeAcesso, { id: disciplina.id });
+    return this.disciplinaFindByIdStrict(accessContext, { id: disciplina.id });
   }
 
-  async disciplinaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DisciplinaUpdateByIDCombinedInput) {
+  async disciplinaUpdate(accessContext: AccessContext, dto: LadesaTypings.DisciplinaUpdateByIDCombinedInput) {
     // =========================================================
 
-    const currentDisciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, {
+    const currentDisciplina = await this.disciplinaFindByIdStrict(accessContext, {
       id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('disciplina:update', { dto }, dto.params.id, this.disciplinaRepository.createQueryBuilder(aliasDisciplina));
+    await accessContext.ensurePermission('disciplina:update', { dto }, dto.params.id, this.disciplinaRepository.createQueryBuilder(aliasDisciplina));
 
     const dtoDisciplina = pick(dto.body, ['nome', 'nomeAbreviado', 'cargaHoraria']);
 
@@ -229,13 +221,13 @@ export class DisciplinaService {
 
     // =========================================================
 
-    return this.disciplinaFindByIdStrict(contextoDeAcesso, { id: disciplina.id });
+    return this.disciplinaFindByIdStrict(accessContext, { id: disciplina.id });
   }
 
   //
 
-  async disciplinaGetImagemCapa(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
-    const disciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, { id: id });
+  async disciplinaGetImagemCapa(accessContext: AccessContext | null, id: string) {
+    const disciplina = await this.disciplinaFindByIdStrict(accessContext, { id: id });
 
     if (disciplina.imagemCapa) {
       const [versao] = disciplina.imagemCapa.versoes;
@@ -249,14 +241,14 @@ export class DisciplinaService {
     throw new NotFoundException();
   }
 
-  async disciplinaUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DisciplinaFindOneInput, file: Express.Multer.File) {
+  async disciplinaUpdateImagemCapa(accessContext: AccessContext, dto: LadesaTypings.DisciplinaFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
-    const currentDisciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, { id: dto.id });
+    const currentDisciplina = await this.disciplinaFindByIdStrict(accessContext, { id: dto.id });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission(
+    await accessContext.ensurePermission(
       'disciplina:update',
       {
         dto: {
@@ -289,14 +281,14 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DisciplinaFindOneInput) {
+  async disciplinaDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.DisciplinaFindOneInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('disciplina:delete', { dto }, dto.id, this.disciplinaRepository.createQueryBuilder(aliasDisciplina));
+    await accessContext.ensurePermission('disciplina:delete', { dto }, dto.id, this.disciplinaRepository.createQueryBuilder(aliasDisciplina));
 
     // =========================================================
 
-    const disciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, dto);
+    const disciplina = await this.disciplinaFindByIdStrict(accessContext, dto);
 
     // =========================================================
 

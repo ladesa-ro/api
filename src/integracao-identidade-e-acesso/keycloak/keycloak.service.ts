@@ -1,6 +1,6 @@
 import { Credentials } from '@keycloak/keycloak-admin-client/lib/utils/auth';
-import { Injectable } from '@nestjs/common';
-import { EnvironmentConfigService } from '../../config';
+import { Inject, Injectable } from '@nestjs/common';
+import { AppConfigService } from '../../config';
 import { KeycloakAdminClient } from '../../helpers/module.kc-admin-client';
 import { wait } from '../../legacy/utils/wait';
 
@@ -8,17 +8,19 @@ const INTERVAL_AUTH = 58 * 1000;
 
 @Injectable()
 export class KeycloakService {
-  kcAdminClient: KeycloakAdminClient | null = null;
   #initialized = false;
   #authInterval: NodeJS.Timeout | null = null;
 
+  kcAdminClient: KeycloakAdminClient | null = null;
+
   constructor(
     //
-    readonly configService: EnvironmentConfigService,
+    @Inject(AppConfigService)
+    readonly appConfigService: AppConfigService,
   ) {}
 
   private get keycloakConfigCredentials() {
-    return this.configService.getKeycloakConfigCredentials();
+    return this.appConfigService.getKeycloakConfigCredentials();
   }
 
   async setupAuthInterval() {

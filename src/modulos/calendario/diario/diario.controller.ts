@@ -1,7 +1,7 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextHttp } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { DiarioService } from './diario.service';
 
@@ -16,10 +16,10 @@ export class DiarioController {
   @Operation(LadesaTypings.Tokens.Diario.Operations.List)
   async diarioFindAll(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiarioListCombinedInput,
   ): Promise<LadesaTypings.DiarioListCombinedSuccessOutput['body']> {
-    return this.diarioService.diarioFindAll(contextoDeAcesso, dto);
+    return this.diarioService.diarioFindAll(accessContext, dto);
   }
 
   //
@@ -28,10 +28,10 @@ export class DiarioController {
   @Operation(LadesaTypings.Tokens.Diario.Operations.FindById)
   async diarioFindById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiarioFindByIDCombinedInput,
   ) {
-    return this.diarioService.diarioFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.diarioService.diarioFindByIdStrict(accessContext, { id: dto.params.id });
   }
 
   //
@@ -40,10 +40,10 @@ export class DiarioController {
   @Operation(LadesaTypings.Tokens.Diario.Operations.Create)
   async diarioCreate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiarioCreateCombinedInput,
   ) {
-    return this.diarioService.diarioCreate(contextoDeAcesso, dto);
+    return this.diarioService.diarioCreate(accessContext, dto);
   }
 
   //
@@ -52,10 +52,10 @@ export class DiarioController {
   @Operation(LadesaTypings.Tokens.Diario.Operations.Create)
   async diarioUpdate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiarioUpdateByIDCombinedInput,
   ) {
-    return this.diarioService.diarioUpdate(contextoDeAcesso, dto);
+    return this.diarioService.diarioUpdate(accessContext, dto);
   }
 
   //
@@ -64,10 +64,10 @@ export class DiarioController {
   @Operation(LadesaTypings.Tokens.Diario.Operations.DeleteById)
   async diarioDeleteOneById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiarioDeleteByIDCombinedInput,
   ) {
-    return this.diarioService.diarioDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.diarioService.diarioDeleteOneById(accessContext, { id: dto.params.id });
   }
 
   //

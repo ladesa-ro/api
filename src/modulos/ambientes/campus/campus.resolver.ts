@@ -1,6 +1,6 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextGraphQl } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { CampusService } from './campus.service';
 
@@ -14,43 +14,43 @@ export class CampusResolver {
   @Operation(LadesaTypings.Tokens.Campus.Operations.List)
   async campusFindAll(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CampusListCombinedInput,
   ) {
-    return this.campusService.campusFindAll(contextoDeAcesso, dto);
+    return this.campusService.campusFindAll(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.Campus.Operations.FindById)
   async campusFindOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CampusFindByIDCombinedInput,
   ) {
-    return this.campusService.campusFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.campusService.campusFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
   async campusCreate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CampusCreateCombinedInput,
   ) {
-    return this.campusService.campusCreate(contextoDeAcesso, dto);
+    return this.campusService.campusCreate(accessContext, dto);
   }
   @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
   async campusUpdate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CampusUpdateByIDCombinedInput,
   ) {
-    return this.campusService.campusUpdate(contextoDeAcesso, dto);
+    return this.campusService.campusUpdate(accessContext, dto);
   }
   @Operation(LadesaTypings.Tokens.Campus.Operations.DeleteById)
   async campusDeleteOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CampusDeleteByIDCombinedInput,
   ) {
-    return this.campusService.campusDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.campusService.campusDeleteOneById(accessContext, { id: dto.params.id });
   }
 }

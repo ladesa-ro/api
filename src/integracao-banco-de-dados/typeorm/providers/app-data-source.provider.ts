@@ -1,14 +1,14 @@
 import { Provider } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { EnvironmentConfigService } from '../../../config';
+import { AppConfigService } from '../../../config';
 
 export const APP_DATA_SOURCE_TOKEN = Symbol();
 
 export const appDataSourceProvider: Provider = {
   provide: APP_DATA_SOURCE_TOKEN,
 
-  useFactory: async (environmentConfigService: EnvironmentConfigService) => {
-    const options = environmentConfigService.getTypeOrmAppDataSourceOptions();
+  useFactory: async (appConfigService: AppConfigService) => {
+    const options = appConfigService.getTypeOrmAppDataSourceOptions();
 
     const dataSource = new DataSource(options);
 
@@ -29,5 +29,5 @@ export const appDataSourceProvider: Provider = {
     return initializePromise;
   },
 
-  inject: [EnvironmentConfigService],
+  inject: [AppConfigService],
 };
