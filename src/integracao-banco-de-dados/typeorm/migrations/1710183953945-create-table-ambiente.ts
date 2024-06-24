@@ -27,7 +27,7 @@ export class CreateTableAmbiente1710183953945 implements MigrationInterface {
           {
             name: 'descricao',
             type: 'text',
-            isNullable: false,
+            isNullable: true,
           },
 
           {

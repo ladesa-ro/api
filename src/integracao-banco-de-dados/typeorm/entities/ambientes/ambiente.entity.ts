@@ -13,8 +13,8 @@ export class AmbienteEntity implements LadesaTypings.Ambiente {
   @Column({ name: 'nome', type: 'text', nullable: false })
   nome!: string;
 
-  @Column({ name: 'descricao', type: 'text', nullable: false })
-  descricao!: string;
+  @Column({ name: 'descricao', type: 'text', nullable: true })
+  descricao!: string | null;
 
   @Column({ name: 'codigo', type: 'text', nullable: false })
   codigo!: string;
