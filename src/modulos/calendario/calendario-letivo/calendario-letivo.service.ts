@@ -2,25 +2,18 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { CalendarioLetivoEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
-import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
+import { paginateConfig } from '../../../legacy/utils';
+import { CampusService } from '../../ambientes/campus/campus.service';
 import { ModalidadeService } from '../../ensino/modalidade/modalidade.service';
 
 // ============================================================================
 
 const aliasCalendarioLetivo = 'calendarioLetivo';
-
-// ============================================================================
-
-export type ICalendarioLetivoQueryBuilderViewOptions = {
-  loadCampus?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -38,30 +31,10 @@ export class CalendarioLetivoService {
 
   //
 
-  static CalendarioLetivoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: ICalendarioLetivoQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.nome`,
-      `${alias}.ano`,
-    ]);
-
-    const loadCampus = getQueryBuilderViewLoadMeta(options.loadCampus, true, `${alias}_campus`);
-
-    if (loadCampus) {
-      qb.innerJoin(`${alias}.campus`, `${loadCampus.alias}`);
-      CampusService.CampusQueryBuilderView(loadCampus.alias, qb, loadCampus.options);
-    }
-
-    qb.leftJoin(`${alias}.modalidade`, `${alias}_modalidade`);
-    QbEfficientLoad(LadesaTypings.Tokens.Modalidade.Entity, qb, `${alias}_modalidade`);
-  }
-
-  //
-
   async calendarioLetivoFindAll(
     contextoDeAcesso: IContextoDeAcesso,
     dto: LadesaTypings.CalendarioLetivoListCombinedInput | null = null,
+    selection?: string[] | boolean,
   ): Promise<LadesaTypings.CalendarioLetivoListCombinedSuccessOutput['body']> {
     // =========================================================
 
@@ -137,8 +110,7 @@ export class CalendarioLetivoService {
     // =========================================================
 
     qb.select([]);
-
-    CalendarioLetivoService.CalendarioLetivoQueryBuilderView(aliasCalendarioLetivo, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.CalendarioLetivo.Views.FindOneResult, qb, aliasCalendarioLetivo, selection);
 
     // =========================================================
 
@@ -150,7 +122,11 @@ export class CalendarioLetivoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async caledarioLetivoFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CalendarioLetivoFindOneInput): Promise<LadesaTypings.CalendarioLetivoFindOneResult | null> {
+  async caledarioLetivoFindById(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.CalendarioLetivoFindOneInput,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.CalendarioLetivoFindOneResult | null> {
     // =========================================================
 
     const qb = this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo);
@@ -166,8 +142,7 @@ export class CalendarioLetivoService {
     // =========================================================
 
     qb.select([]);
-
-    CalendarioLetivoService.CalendarioLetivoQueryBuilderView(aliasCalendarioLetivo, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.CalendarioLetivo.Views.FindOneResult, qb, aliasCalendarioLetivo, selection);
 
     // =========================================================
 
@@ -178,8 +153,8 @@ export class CalendarioLetivoService {
     return calendarioLetivo;
   }
 
-  async calendarioLetivoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CalendarioLetivoFindOneInput) {
-    const calendarioLetivo = await this.caledarioLetivoFindById(contextoDeAcesso, dto);
+  async calendarioLetivoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CalendarioLetivoFindOneInput, selection?: string[] | boolean) {
+    const calendarioLetivo = await this.caledarioLetivoFindById(contextoDeAcesso, dto, selection);
 
     if (!calendarioLetivo) {
       throw new NotFoundException();
@@ -191,7 +166,6 @@ export class CalendarioLetivoService {
   async calendarioLetivoFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
     id: LadesaTypings.CalendarioLetivoFindOneInput['id'],
-    options?: ICalendarioLetivoQueryBuilderViewOptions,
     selection?: string[],
   ): Promise<LadesaTypings.CalendarioLetivoFindOneResult | null> {
     // =========================================================
@@ -209,14 +183,7 @@ export class CalendarioLetivoService {
     // =========================================================
 
     qb.select([]);
-
-    CalendarioLetivoService.CalendarioLetivoQueryBuilderView(aliasCalendarioLetivo, qb, {
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.CalendarioLetivo.Views.FindOneResult, qb, aliasCalendarioLetivo, selection);
 
     // =========================================================
 
@@ -227,13 +194,8 @@ export class CalendarioLetivoService {
     return calendarioLetivo;
   }
 
-  async calendarioLetivoFindByIdSimpleStrict(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.CalendarioLetivoFindOneInput['id'],
-    options?: ICalendarioLetivoQueryBuilderViewOptions,
-    selection?: string[],
-  ) {
-    const calendarioLetivo = await this.calendarioLetivoFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async calendarioLetivoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CalendarioLetivoFindOneInput['id'], selection?: string[]) {
+    const calendarioLetivo = await this.calendarioLetivoFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!calendarioLetivo) {
       throw new NotFoundException();

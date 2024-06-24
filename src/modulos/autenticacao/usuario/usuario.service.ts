@@ -1,28 +1,20 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { UsuarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { KeycloakService } from '../../../integracao-identidade-e-acesso';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
+import { paginateConfig } from '../../../legacy/utils';
 import { ValidationFailedException } from '../../../nest-app';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
+import { ImagemService } from '../../base/imagem/imagem.service';
 
 // ============================================================================
 
 const aliasUsuario = 'usuario';
-
-// ============================================================================
-
-export type IUsuarioQueryBuilderViewOptions = {
-  loadImagemCapa?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
-  loadImagemPerfil?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -43,50 +35,7 @@ export class UsuarioService {
 
   //
 
-  static UsuarioQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IUsuarioQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.nome`,
-      `${alias}.matriculaSiape`,
-      `${alias}.email`,
-    ]);
-
-    qb.leftJoinAndMapMany(`${alias}.vinculosAtivos`, `${alias}.vinculos`, `${alias}_vinculo`, `${alias}_vinculo.ativo = TRUE`);
-    qb.expressionMap.selects.splice(qb.expressionMap.selects.length - 1, 1);
-
-    qb.leftJoin(`${alias}_vinculo.campus`, `${alias}_vinculo_campus`);
-
-    qb.addSelect([
-      //
-      `${alias}_vinculo.id`,
-      `${alias}_vinculo.ativo`,
-      `${alias}_vinculo.cargo`,
-      //
-      `${alias}_vinculo_campus.id`,
-      `${alias}_vinculo_campus.apelido`,
-      `${alias}_vinculo_campus.nomeFantasia`,
-      `${alias}_vinculo_campus.razaoSocial`,
-    ]);
-
-    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
-
-    if (loadImagemCapa) {
-      qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
-    }
-
-    const loadImagemPerfil = getQueryBuilderViewLoadMeta(options.loadImagemPerfil, true, `${alias}_imagemPerfil`);
-
-    if (loadImagemPerfil) {
-      qb.leftJoin(`${alias}.imagemPerfil`, `${loadImagemPerfil.alias}`);
-      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemPerfil.alias);
-    }
-  }
-
-  //
-
-  async internalFindByMatriculaSiape(matriculaSiape: string): Promise<LadesaTypings.UsuarioFindOneResult | null> {
+  async internalFindByMatriculaSiape(matriculaSiape: string, selection?: string[] | boolean): Promise<LadesaTypings.UsuarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -98,9 +47,7 @@ export class UsuarioService {
     // =========================================================
 
     qb.select([]);
-
-    UsuarioService.UsuarioQueryBuilderView(aliasUsuario, qb);
-
+    QbEfficientLoad(LadesaTypings.Tokens.Usuario.Views.FindOneResult, qb, aliasUsuario, selection);
     // =========================================================
 
     const usuario = await qb.getOne();
@@ -112,7 +59,11 @@ export class UsuarioService {
 
   //
 
-  async usuarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.UsuarioListCombinedInput | null = null): Promise<LadesaTypings.UsuarioListCombinedSuccessOutput['body']> {
+  async usuarioFindAll(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.UsuarioListCombinedInput | null = null,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.UsuarioListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -164,9 +115,7 @@ export class UsuarioService {
     // =========================================================
 
     qb.select([]);
-
-    UsuarioService.UsuarioQueryBuilderView(aliasUsuario, qb, {});
-
+    QbEfficientLoad(LadesaTypings.Tokens.Usuario.Views.FindOneResult, qb, aliasUsuario, selection);
     // =========================================================
 
     const pageItemsView = await qb.andWhereInIds(map(paginated.data, 'id')).getMany();
@@ -177,7 +126,7 @@ export class UsuarioService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async usuarioFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.UsuarioFindOneInput): Promise<LadesaTypings.UsuarioFindOneResult | null> {
+  async usuarioFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.UsuarioFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.UsuarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -195,8 +144,7 @@ export class UsuarioService {
     // =========================================================
 
     qb.select([]);
-
-    UsuarioService.UsuarioQueryBuilderView(aliasUsuario, qb);
+    QbEfficientLoad(LadesaTypings.Tokens.Usuario.Views.FindOneResult, qb, aliasUsuario, selection);
 
     // =========================================================
 
@@ -207,8 +155,8 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.UsuarioFindOneInput) {
-    const usuario = await this.usuarioFindById(contextoDeAcesso, dto);
+  async usuarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.UsuarioFindOneInput, selection?: string[] | boolean) {
+    const usuario = await this.usuarioFindById(contextoDeAcesso, dto, selection);
 
     if (!usuario) {
       throw new NotFoundException();
@@ -217,12 +165,7 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdSimple(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.UsuarioFindOneInput['id'],
-    _options?: IUsuarioQueryBuilderViewOptions,
-    selection?: string[],
-  ): Promise<LadesaTypings.UsuarioFindOneResult | null> {
+  async usuarioFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.UsuarioFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.UsuarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
@@ -238,12 +181,7 @@ export class UsuarioService {
     // =========================================================
 
     qb.select([]);
-
-    UsuarioService.UsuarioQueryBuilderView(aliasUsuario, qb);
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.Usuario.Views.FindOneResult, qb, aliasUsuario, selection);
 
     // =========================================================
 
@@ -254,8 +192,8 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.UsuarioFindOneInput['id'], options?: IUsuarioQueryBuilderViewOptions, selection?: string[]) {
-    const usuario = await this.usuarioFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async usuarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.UsuarioFindOneInput['id'], selection?: string[]) {
+    const usuario = await this.usuarioFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!usuario) {
       throw new NotFoundException();

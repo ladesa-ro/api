@@ -1,25 +1,18 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DiarioProfessorEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
-import { IVinculoQueryBuilderViewOptions, VinculoService } from '../../autenticacao/vinculo/vinculo.service';
-import { DiarioService, IDiarioQueryBuilderViewOptions } from '../diario/diario.service';
+import { paginateConfig } from '../../../legacy/utils';
+import { VinculoService } from '../../autenticacao/vinculo/vinculo.service';
+import { DiarioService } from '../diario/diario.service';
 
 // ============================================================================
 
 const aliasDiarioProfessor = 'diario_professor';
-
-// ============================================================================
-
-export type IDiarioProfessorQueryBuilderViewOptions = {
-  loadDiario?: IQueryBuilderViewOptionsLoad<IDiarioQueryBuilderViewOptions>;
-  loadvinculo?: IQueryBuilderViewOptionsLoad<IVinculoQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -37,33 +30,10 @@ export class DiarioProfessorService {
 
   //
 
-  static DiarioProfessorQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IDiarioProfessorQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.situacao`,
-    ]);
-
-    const loadDiario = getQueryBuilderViewLoadMeta(options.loadDiario, true, `${alias}_d`);
-
-    if (loadDiario) {
-      qb.leftJoin(`${alias}.diario`, `${loadDiario.alias}`);
-      DiarioService.DiarioQueryBuilderView(loadDiario.alias, qb, loadDiario.options);
-    }
-
-    const loadvinculo = getQueryBuilderViewLoadMeta(options.loadvinculo, true, `${alias}_vp`);
-
-    if (loadvinculo) {
-      qb.leftJoin(`${alias}.vinculo`, `${loadvinculo.alias}`);
-      VinculoService.VinculoQueryBuilderView(loadvinculo.alias, qb, loadvinculo.options);
-    }
-  }
-
-  //
-
   async diarioProfessorFindAll(
     contextoDeAcesso: IContextoDeAcesso,
     dto: LadesaTypings.DiarioProfessorListCombinedInput | null = null,
+    selection?: string[] | boolean,
   ): Promise<LadesaTypings.DiarioProfessorListCombinedSuccessOutput['body']> {
     // =========================================================
 
@@ -121,7 +91,7 @@ export class DiarioProfessorService {
     // =========================================================
 
     qb.select([]);
-    DiarioProfessorService.DiarioProfessorQueryBuilderView(aliasDiarioProfessor, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.DiarioProfessor.Views.FindOneResult, qb, aliasDiarioProfessor, selection);
 
     // =========================================================
 
@@ -133,7 +103,11 @@ export class DiarioProfessorService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async diarioProfessorFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioProfessorFindOneInput): Promise<LadesaTypings.DiarioProfessorFindOneResult | null> {
+  async diarioProfessorFindById(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.DiarioProfessorFindOneInput,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.DiarioProfessorFindOneResult | null> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -149,8 +123,7 @@ export class DiarioProfessorService {
     // =========================================================
 
     qb.select([]);
-
-    DiarioProfessorService.DiarioProfessorQueryBuilderView(aliasDiarioProfessor, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.DiarioProfessor.Views.FindOneResult, qb, aliasDiarioProfessor, selection);
 
     // =========================================================
 
@@ -161,8 +134,8 @@ export class DiarioProfessorService {
     return diarioProfessor;
   }
 
-  async diarioProfessorFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioProfessorFindOneInput) {
-    const diarioProfessor = await this.diarioProfessorFindById(contextoDeAcesso, dto);
+  async diarioProfessorFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioProfessorFindOneInput, selection?: string[] | boolean) {
+    const diarioProfessor = await this.diarioProfessorFindById(contextoDeAcesso, dto, selection);
 
     if (!diarioProfessor) {
       throw new NotFoundException();
@@ -174,8 +147,7 @@ export class DiarioProfessorService {
   async diarioProfessorFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
     id: LadesaTypings.DiarioProfessorFindOneInput['id'],
-    options?: IDiarioProfessorQueryBuilderViewOptions,
-    selection?: string[],
+    selection?: string[] | boolean,
   ): Promise<LadesaTypings.DiarioProfessorFindOneResult | null> {
     // =========================================================
 
@@ -192,14 +164,7 @@ export class DiarioProfessorService {
     // =========================================================
 
     qb.select([]);
-
-    DiarioProfessorService.DiarioProfessorQueryBuilderView(aliasDiarioProfessor, qb, {
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.DiarioProfessor.Views.FindOneResult, qb, aliasDiarioProfessor, selection);
 
     // =========================================================
 
@@ -210,13 +175,8 @@ export class DiarioProfessorService {
     return diarioProfessor;
   }
 
-  async diarioProfessorFindByIdSimpleStrict(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.DiarioProfessorFindOneInput['id'],
-    options?: IDiarioProfessorQueryBuilderViewOptions,
-    selection?: string[],
-  ) {
-    const diarioProfessor = await this.diarioProfessorFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async diarioProfessorFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.DiarioProfessorFindOneInput['id'], selection?: string[] | boolean) {
+    const diarioProfessor = await this.diarioProfessorFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!diarioProfessor) {
       throw new NotFoundException();

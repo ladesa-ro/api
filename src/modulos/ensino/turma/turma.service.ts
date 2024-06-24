@@ -2,30 +2,21 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { TurmaEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
-import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambientes/ambiente/ambiente.service';
+import { paginateConfig } from '../../../legacy/utils';
+import { AmbienteService } from '../../ambientes/ambiente/ambiente.service';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
-import { CursoService, ICursoQueryBuilderViewOptions } from '../curso/curso.service';
+import { ImagemService } from '../../base/imagem/imagem.service';
+import { CursoService } from '../curso/curso.service';
 
 // ============================================================================
 
 const aliasTurma = 'turma';
-
-// ============================================================================
-
-export type ITurmaQueryBuilderViewOptions = {
-  loadCurso?: IQueryBuilderViewOptionsLoad<ICursoQueryBuilderViewOptions>;
-  loadAmbientePadraoAula?: IQueryBuilderViewOptionsLoad<IAmbienteQueryBuilderViewOptions>;
-  loadImagemCapa?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -45,38 +36,11 @@ export class TurmaService {
 
   //
 
-  static TurmaQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: ITurmaQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.periodo`,
-    ]);
-
-    const loadCurso = getQueryBuilderViewLoadMeta(options.loadCurso, true, `${alias}_c`);
-
-    if (loadCurso) {
-      qb.innerJoin(`${alias}.curso`, `${loadCurso.alias}`);
-      CursoService.CursoQueryBuilderView(loadCurso.alias, qb, loadCurso.options);
-    }
-
-    const loadAmbientePadraoAula = getQueryBuilderViewLoadMeta(options.loadAmbientePadraoAula, true, `${alias}_apa`);
-
-    if (loadAmbientePadraoAula) {
-      qb.leftJoin(`${alias}.ambientePadraoAula`, `${loadAmbientePadraoAula.alias}`);
-      AmbienteService.AmbienteQueryBuilderView(loadAmbientePadraoAula.alias, qb, loadAmbientePadraoAula.options);
-    }
-
-    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_ic`);
-
-    if (loadImagemCapa) {
-      qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
-    }
-  }
-
-  //
-
-  async turmaFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.TurmaListCombinedInput | null = null): Promise<LadesaTypings.TurmaListCombinedSuccessOutput['body']> {
+  async turmaFindAll(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.TurmaListCombinedInput | null = null,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.TurmaListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.turmaRepository.createQueryBuilder(aliasTurma);
@@ -148,8 +112,7 @@ export class TurmaService {
     // =========================================================
 
     qb.select([]);
-
-    TurmaService.TurmaQueryBuilderView(aliasTurma, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Turma.Views.FindOneResult, qb, aliasTurma, selection);
 
     // =========================================================
 
@@ -161,7 +124,7 @@ export class TurmaService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async turmaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.TurmaFindOneInput): Promise<LadesaTypings.TurmaFindOneResult | null> {
+  async turmaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.TurmaFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.TurmaFindOneResult | null> {
     // =========================================================
 
     const qb = this.turmaRepository.createQueryBuilder(aliasTurma);
@@ -179,8 +142,7 @@ export class TurmaService {
     // =========================================================
 
     qb.select([]);
-
-    TurmaService.TurmaQueryBuilderView(aliasTurma, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Turma.Views.FindOneResult, qb, aliasTurma, selection);
 
     // =========================================================
 
@@ -191,8 +153,8 @@ export class TurmaService {
     return turma;
   }
 
-  async turmaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.TurmaFindOneInput) {
-    const turma = await this.turmaFindById(contextoDeAcesso, dto);
+  async turmaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.TurmaFindOneInput, selection?: string[] | boolean) {
+    const turma = await this.turmaFindById(contextoDeAcesso, dto, selection);
 
     if (!turma) {
       throw new NotFoundException();
@@ -201,12 +163,7 @@ export class TurmaService {
     return turma;
   }
 
-  async turmaFindByIdSimple(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.TurmaFindOneInput['id'],
-    options?: ITurmaQueryBuilderViewOptions,
-    selection?: string[],
-  ): Promise<LadesaTypings.TurmaFindOneResult | null> {
+  async turmaFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.TurmaFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.TurmaFindOneResult | null> {
     // =========================================================
 
     const qb = this.turmaRepository.createQueryBuilder(aliasTurma);
@@ -222,14 +179,7 @@ export class TurmaService {
     // =========================================================
 
     qb.select([]);
-
-    TurmaService.TurmaQueryBuilderView(aliasTurma, qb, {
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.Turma.Views.FindOneResult, qb, aliasTurma, selection);
 
     // =========================================================
 
@@ -240,8 +190,8 @@ export class TurmaService {
     return turma;
   }
 
-  async turmaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.TurmaFindOneInput['id'], options?: ITurmaQueryBuilderViewOptions, selection?: string[]) {
-    const turma = await this.turmaFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async turmaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.TurmaFindOneInput['id'], selection?: string[]) {
+    const turma = await this.turmaFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!turma) {
       throw new NotFoundException();

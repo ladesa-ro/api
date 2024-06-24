@@ -3,22 +3,16 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
-import { CalendarioLetivoService, ICalendarioLetivoQueryBuilderViewOptions } from '../calendario-letivo/calendario-letivo.service';
+import { paginateConfig } from '../../../legacy/utils';
+import { CalendarioLetivoService } from '../calendario-letivo/calendario-letivo.service';
 
 // ============================================================================
 
 const aliasDiaCalendario = 'diaCalendario';
-
-// ============================================================================
-
-export type IDiaCalendarioQueryBuilderViewOptions = {
-  loadCalendario?: IQueryBuilderViewOptionsLoad<ICalendarioLetivoQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -35,28 +29,10 @@ export class DiaCalendarioService {
 
   //
 
-  static DiaCalendarioQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IDiaCalendarioQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.data`,
-      `${alias}.diaLetivo`,
-      `${alias}.feriado`,
-    ]);
-
-    const loadCalendario = getQueryBuilderViewLoadMeta(options.loadCalendario, true, `${alias}_calendario`);
-
-    if (loadCalendario) {
-      qb.innerJoin(`${alias}.calendario`, `${loadCalendario.alias}`);
-      CalendarioLetivoService.CalendarioLetivoQueryBuilderView(loadCalendario.alias, qb, loadCalendario.options);
-    }
-  }
-
-  //
-
   async diaCalendarioFindAll(
     contextoDeAcesso: IContextoDeAcesso,
     dto: LadesaTypings.DiaCalendarioListCombinedInput | null = null,
+    selection?: string[] | boolean,
   ): Promise<LadesaTypings.DiaCalendarioListCombinedSuccessOutput['body']> {
     // =========================================================
 
@@ -116,8 +92,7 @@ export class DiaCalendarioService {
     // =========================================================
 
     qb.select([]);
-
-    DiaCalendarioService.DiaCalendarioQueryBuilderView(aliasDiaCalendario, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.DiaCalendario.Views.FindOneResult, qb, aliasDiaCalendario, selection);
 
     // =========================================================
 
@@ -129,7 +104,11 @@ export class DiaCalendarioService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async diaCalendarioFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiaCalendarioFindOneInput): Promise<LadesaTypings.DiaCalendarioFindOneResult | null> {
+  async diaCalendarioFindById(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.DiaCalendarioFindOneInput,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.DiaCalendarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.diaCalendarioRepository.createQueryBuilder(aliasDiaCalendario);
@@ -145,8 +124,7 @@ export class DiaCalendarioService {
     // =========================================================
 
     qb.select([]);
-
-    DiaCalendarioService.DiaCalendarioQueryBuilderView(aliasDiaCalendario, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.DiaCalendario.Views.FindOneResult, qb, aliasDiaCalendario, selection);
 
     // =========================================================
 
@@ -157,8 +135,8 @@ export class DiaCalendarioService {
     return diaCalendario;
   }
 
-  async diaCalendarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiaCalendarioFindOneInput) {
-    const diaCalendario = await this.diaCalendarioFindById(contextoDeAcesso, dto);
+  async diaCalendarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiaCalendarioFindOneInput, selection?: string[] | boolean) {
+    const diaCalendario = await this.diaCalendarioFindById(contextoDeAcesso, dto, selection);
 
     if (!diaCalendario) {
       throw new NotFoundException();
@@ -170,7 +148,6 @@ export class DiaCalendarioService {
   async diaCalendarioFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
     id: LadesaTypings.DiaCalendarioFindOneInput['id'],
-    options?: IDiaCalendarioQueryBuilderViewOptions,
     selection?: string[],
   ): Promise<LadesaTypings.DiaCalendarioFindOneResult | null> {
     // =========================================================
@@ -188,14 +165,7 @@ export class DiaCalendarioService {
     // =========================================================
 
     qb.select([]);
-
-    DiaCalendarioService.DiaCalendarioQueryBuilderView(aliasDiaCalendario, qb, {
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.DiaCalendario.Views.FindOneResult, qb, aliasDiaCalendario, selection);
 
     // =========================================================
 
@@ -206,13 +176,8 @@ export class DiaCalendarioService {
     return diaCalendario;
   }
 
-  async DiaCalendarioFindByIdSimpleStrict(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.DiaCalendarioFindOneInput['id'],
-    options?: IDiaCalendarioQueryBuilderViewOptions,
-    selection?: string[],
-  ) {
-    const diaCalendario = await this.diaCalendarioFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async DiaCalendarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.DiaCalendarioFindOneInput['id'], selection?: string[]) {
+    const diaCalendario = await this.diaCalendarioFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!diaCalendario) {
       throw new NotFoundException();

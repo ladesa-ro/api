@@ -2,28 +2,20 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { CursoEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
-import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
+import { paginateConfig } from '../../../legacy/utils';
+import { CampusService } from '../../ambientes/campus/campus.service';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
+import { ImagemService } from '../../base/imagem/imagem.service';
 import { ModalidadeService } from '../modalidade/modalidade.service';
 
 // ============================================================================
 
 const aliasCurso = 'curso';
-
-// ============================================================================
-
-export type ICursoQueryBuilderViewOptions = {
-  loadCampus?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
-  loadImagemCapa?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -43,35 +35,11 @@ export class CursoService {
 
   //
 
-  static CursoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: ICursoQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.nome`,
-      `${alias}.nomeAbreviado`,
-    ]);
-
-    const loadCampus = getQueryBuilderViewLoadMeta(options.loadCampus, true, `${alias}_campus`);
-
-    if (loadCampus) {
-      qb.innerJoin(`${alias}.campus`, `${loadCampus.alias}`);
-      CampusService.CampusQueryBuilderView(loadCampus.alias, qb, loadCampus.options);
-    }
-
-    qb.leftJoin(`${alias}.modalidade`, `${alias}_modalidade`);
-    QbEfficientLoad(LadesaTypings.Tokens.Modalidade.Entity, qb, `${alias}_modalidade`);
-
-    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
-
-    if (loadImagemCapa) {
-      qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
-    }
-  }
-
-  //
-
-  async cursoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CursoListCombinedInput | null = null): Promise<LadesaTypings.CursoListCombinedSuccessOutput['body']> {
+  async cursoFindAll(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.CursoListCombinedInput | null = null,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.CursoListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
@@ -140,8 +108,7 @@ export class CursoService {
     // =========================================================
 
     qb.select([]);
-
-    CursoService.CursoQueryBuilderView(aliasCurso, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Curso.Views.FindOneResult, qb, aliasCurso, selection);
 
     // =========================================================
 
@@ -153,7 +120,7 @@ export class CursoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async cursoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.CursoFindOneInput): Promise<LadesaTypings.CursoFindOneResult | null> {
+  async cursoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.CursoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.CursoFindOneResult | null> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
@@ -171,8 +138,7 @@ export class CursoService {
     // =========================================================
 
     qb.select([]);
-
-    CursoService.CursoQueryBuilderView(aliasCurso, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Curso.Views.FindOneResult, qb, aliasCurso, selection);
 
     // =========================================================
 
@@ -183,8 +149,8 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.CursoFindOneInput) {
-    const curso = await this.cursoFindById(contextoDeAcesso, dto);
+  async cursoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.CursoFindOneInput, selection?: string[] | boolean) {
+    const curso = await this.cursoFindById(contextoDeAcesso, dto, selection);
 
     if (!curso) {
       throw new NotFoundException();
@@ -193,12 +159,7 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdSimple(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.CursoFindOneInput['id'],
-    options?: ICursoQueryBuilderViewOptions,
-    selection?: string[],
-  ): Promise<LadesaTypings.CursoFindOneResult | null> {
+  async cursoFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CursoFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.CursoFindOneResult | null> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
@@ -214,14 +175,7 @@ export class CursoService {
     // =========================================================
 
     qb.select([]);
-
-    CursoService.CursoQueryBuilderView(aliasCurso, qb, {
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.Curso.Views.FindOneResult, qb, aliasCurso, selection);
 
     // =========================================================
 
@@ -232,8 +186,8 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CursoFindOneInput['id'], options?: ICursoQueryBuilderViewOptions, selection?: string[]) {
-    const curso = await this.cursoFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async cursoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CursoFindOneInput['id'], selection?: string[]) {
+    const curso = await this.cursoFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!curso) {
       throw new NotFoundException();

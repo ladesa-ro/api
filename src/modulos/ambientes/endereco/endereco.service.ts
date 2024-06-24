@@ -1,7 +1,6 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { pick } from 'lodash';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -21,24 +20,6 @@ export class EnderecoService {
 
   get enderecoRepository() {
     return this.databaseContext.enderecoRepository;
-  }
-
-  //
-
-  static EnderecoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.cep`,
-      `${alias}.logradouro`,
-      `${alias}.numero`,
-      `${alias}.bairro`,
-      `${alias}.complemento`,
-      `${alias}.pontoReferencia`,
-    ]);
-
-    qb.leftJoin(`${alias}.cidade`, `${alias}_cidade`);
-    QbEfficientLoad(LadesaTypings.Tokens.Cidade.Entity, qb, `${alias}_cidade`);
   }
 
   //
@@ -94,7 +75,7 @@ export class EnderecoService {
 
   //
 
-  async findById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EnderecoFindOneInput): Promise<LadesaTypings.EnderecoFindOneResult | null> {
+  async findById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EnderecoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.EnderecoFindOneResult | null> {
     const qb = this.enderecoRepository.createQueryBuilder(aliasEndereco);
 
     // =========================================================
@@ -108,8 +89,7 @@ export class EnderecoService {
     // =========================================================
 
     qb.select([]);
-
-    EnderecoService.EnderecoQueryBuilderView(aliasEndereco, qb);
+    QbEfficientLoad(LadesaTypings.Tokens.Endereco.Views.FindOneResult, qb, aliasEndereco, selection);
 
     // =========================================================
 

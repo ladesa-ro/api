@@ -3,7 +3,7 @@ import { uniq } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
 import { getLadesaNodesRepository } from './providers';
 
-export const QbEfficientLoad = (opaqueTargetViewCursor: string, qb: SelectQueryBuilder<any>, alias: string, selection: true | string[] = true) => {
+export const QbEfficientLoad = (opaqueTargetViewCursor: string, qb: SelectQueryBuilder<any>, alias: string, selection: boolean | string[] = true) => {
   const repository = getLadesaNodesRepository();
 
   const realTargetNodeView = repository.GetRealTargetStrict(opaqueTargetViewCursor);
@@ -16,7 +16,15 @@ export const QbEfficientLoad = (opaqueTargetViewCursor: string, qb: SelectQueryB
     if (CheckTypeObject(realTargetViewNodeType)) {
       let counter = 0;
 
-      const rootSelection = selection === true ? true : uniq(['id', ...selection.map((i) => i.split('.')[0])]);
+      let rootSelection: true | string[] = [];
+
+      if (typeof selection === 'boolean') {
+        if (selection) {
+          rootSelection = true;
+        }
+      } else {
+        rootSelection = uniq(['id', ...selection.map((i) => i.split('.')[0])]);
+      }
 
       for (const [propertyKey, opaquePropertyNode] of Object.entries(realTargetViewNodeType.properties)) {
         counter++;
@@ -33,7 +41,15 @@ export const QbEfficientLoad = (opaqueTargetViewCursor: string, qb: SelectQueryB
             const opaqueChildNodeType = realPropertyNode.type;
 
             if (CheckTypeObject(opaqueChildNodeType)) {
-              const childSelection = selection === true ? true : uniq(selection.filter((i) => i.startsWith(`${propertyKey}.`)).map((i) => i.slice(i.indexOf('.') + 1)));
+              const childSelection =
+                rootSelection === true
+                  ? true
+                  : uniq(
+                      //
+                      rootSelection //
+                        .filter((i) => i.startsWith(`${propertyKey}.`))
+                        .map((i) => i.slice(i.indexOf('.') + 1)),
+                    );
 
               const childAlias = `${alias}_${propertyKey[0]}${counter}`;
 

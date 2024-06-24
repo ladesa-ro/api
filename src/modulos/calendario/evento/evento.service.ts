@@ -3,22 +3,16 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
-import { CalendarioLetivoService, ICalendarioLetivoQueryBuilderViewOptions } from '../calendario-letivo/calendario-letivo.service';
+import { paginateConfig } from '../../../legacy/utils';
+import { CalendarioLetivoService } from '../calendario-letivo/calendario-letivo.service';
 
 // ============================================================================
 
 const aliasEvento = 'evento';
-
-// ============================================================================
-
-export type IEventoQueryBuilderViewOptions = {
-  loadCalendario?: IQueryBuilderViewOptionsLoad<ICalendarioLetivoQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -35,27 +29,11 @@ export class EventoService {
 
   //
 
-  static EventoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IEventoQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.nome`,
-      `${alias}.dataInicio`,
-      `${alias}.dataTermino`,
-      `${alias}.cor`,
-    ]);
-
-    const loadCalendario = getQueryBuilderViewLoadMeta(options.loadCalendario, true, `${alias}_calendario`);
-
-    if (loadCalendario) {
-      qb.innerJoin(`${alias}.calendario`, `${loadCalendario.alias}`);
-      CalendarioLetivoService.CalendarioLetivoQueryBuilderView(loadCalendario.alias, qb, loadCalendario.options);
-    }
-  }
-
-  //
-
-  async eventoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoListCombinedInput | null = null): Promise<LadesaTypings.EventoListCombinedSuccessOutput['body']> {
+  async eventoFindAll(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.EventoListCombinedInput | null = null,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.EventoListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.eventoRepository.createQueryBuilder(aliasEvento);
@@ -117,8 +95,7 @@ export class EventoService {
     // =========================================================
 
     qb.select([]);
-
-    EventoService.EventoQueryBuilderView(aliasEvento, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Evento.Views.FindOneResult, qb, aliasEvento, selection);
 
     // =========================================================
 
@@ -130,7 +107,7 @@ export class EventoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async eventoFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoFindOneInput): Promise<LadesaTypings.EventoFindOneResult | null> {
+  async eventoFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.EventoFindOneResult | null> {
     // =========================================================
 
     const qb = this.eventoRepository.createQueryBuilder(aliasEvento);
@@ -146,9 +123,7 @@ export class EventoService {
     // =========================================================
 
     qb.select([]);
-
-    EventoService.EventoQueryBuilderView(aliasEvento, qb, {});
-
+    QbEfficientLoad(LadesaTypings.Tokens.Evento.Views.FindOneResult, qb, aliasEvento, selection);
     // =========================================================
 
     const evento = await qb.getOne();
@@ -158,8 +133,8 @@ export class EventoService {
     return evento;
   }
 
-  async eventoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoFindOneInput) {
-    const evento = await this.eventoFindById(contextoDeAcesso, dto);
+  async eventoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoFindOneInput, selection?: string[] | boolean) {
+    const evento = await this.eventoFindById(contextoDeAcesso, dto, selection);
 
     if (!evento) {
       throw new NotFoundException();
@@ -168,12 +143,7 @@ export class EventoService {
     return evento;
   }
 
-  async eventoFindByIdSimple(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.EventoFindOneInput['id'],
-    options?: IEventoQueryBuilderViewOptions,
-    selection?: string[],
-  ): Promise<LadesaTypings.EventoFindOneResult | null> {
+  async eventoFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.EventoFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.EventoFindOneResult | null> {
     // =========================================================
 
     const qb = this.eventoRepository.createQueryBuilder(aliasEvento);
@@ -189,14 +159,7 @@ export class EventoService {
     // =========================================================
 
     qb.select([]);
-
-    EventoService.EventoQueryBuilderView(aliasEvento, qb, {
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.Evento.Views.FindOneResult, qb, aliasEvento, selection);
 
     // =========================================================
 
@@ -207,8 +170,8 @@ export class EventoService {
     return evento;
   }
 
-  async EventoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.EventoFindOneInput['id'], options?: IEventoQueryBuilderViewOptions, selection?: string[]) {
-    const evento = await this.eventoFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async EventoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.EventoFindOneInput['id'], selection?: string[]) {
+    const evento = await this.eventoFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!evento) {
       throw new NotFoundException();

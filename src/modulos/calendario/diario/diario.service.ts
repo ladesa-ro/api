@@ -2,28 +2,20 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DiarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
-import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambientes/ambiente/ambiente.service';
+import { paginateConfig } from '../../../legacy/utils';
+import { AmbienteService } from '../../ambientes/ambiente/ambiente.service';
 import { CalendarioLetivoService } from '../../calendario/calendario-letivo/calendario-letivo.service';
-import { DisciplinaService, IDisciplinaQueryBuilderViewOptions } from '../../ensino/disciplina/disciplina.service';
-import { ITurmaQueryBuilderViewOptions, TurmaService } from '../../ensino/turma/turma.service';
+import { DisciplinaService } from '../../ensino/disciplina/disciplina.service';
+import { TurmaService } from '../../ensino/turma/turma.service';
 
 // ============================================================================
 
 const aliasDiario = 'diario';
-
-// ============================================================================
-
-export type IDiarioQueryBuilderViewOptions = {
-  loadTurma?: IQueryBuilderViewOptionsLoad<ITurmaQueryBuilderViewOptions>;
-  loadDisciplina?: IQueryBuilderViewOptionsLoad<IDisciplinaQueryBuilderViewOptions>;
-  loadAmbientePadrao?: IQueryBuilderViewOptionsLoad<IAmbienteQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -43,34 +35,11 @@ export class DiarioService {
 
   //
 
-  static DiarioQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IDiarioQueryBuilderViewOptions = {}) {
-    qb.addSelect([`${alias}.id`, `${alias}.ativo`, `${alias}.ano`, `${alias}.etapa`]);
-
-    const loadAmbientePadrao = getQueryBuilderViewLoadMeta(options.loadAmbientePadrao, true, `${alias}_ap`);
-
-    if (loadAmbientePadrao) {
-      qb.leftJoin(`${alias}.ambientePadrao`, `${loadAmbientePadrao.alias}`);
-      AmbienteService.AmbienteQueryBuilderView(loadAmbientePadrao.alias, qb, loadAmbientePadrao.options);
-    }
-
-    const loadDisciplina = getQueryBuilderViewLoadMeta(options.loadDisciplina, true, `${alias}_d`);
-
-    if (loadDisciplina) {
-      qb.leftJoin(`${alias}.disciplina`, `${loadDisciplina.alias}`);
-      DisciplinaService.DisciplinaQueryBuilderView(loadDisciplina.alias, qb, loadDisciplina.options);
-    }
-
-    const loadTurma = getQueryBuilderViewLoadMeta(options.loadTurma, true, `${alias}_t`);
-
-    if (loadTurma) {
-      qb.leftJoin(`${alias}.turma`, `${loadTurma.alias}`);
-      TurmaService.TurmaQueryBuilderView(loadTurma.alias, qb, loadTurma.options);
-    }
-  }
-
-  //
-
-  async diarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioListCombinedInput | null = null): Promise<LadesaTypings.DiarioListCombinedSuccessOutput['body']> {
+  async diarioFindAll(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.DiarioListCombinedInput | null = null,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.DiarioListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.diarioRepository.createQueryBuilder(aliasDiario);
@@ -88,8 +57,6 @@ export class DiarioService {
         'id',
         //
         'ativo',
-        'ano',
-        'etapa',
         //
         'turma.id',
         'turma.periodo',
@@ -102,8 +69,6 @@ export class DiarioService {
       sortableColumns: [
         //
         'ativo',
-        'ano',
-        'etapa',
         //
         'disciplina.nome',
         'ambientePadrao.nome',
@@ -135,8 +100,7 @@ export class DiarioService {
     // =========================================================
 
     qb.select([]);
-
-    DiarioService.DiarioQueryBuilderView(aliasDiario, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Diario.Views.FindOneResult, qb, aliasDiario, selection);
 
     // =========================================================
 
@@ -148,7 +112,7 @@ export class DiarioService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async diarioFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioFindOneInput): Promise<LadesaTypings.DiarioFindOneResult | null> {
+  async diarioFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.DiarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.diarioRepository.createQueryBuilder(aliasDiario);
@@ -164,8 +128,7 @@ export class DiarioService {
     // =========================================================
 
     qb.select([]);
-
-    DiarioService.DiarioQueryBuilderView(aliasDiario, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Diario.Views.FindOneResult, qb, aliasDiario, selection);
 
     // =========================================================
 
@@ -176,8 +139,8 @@ export class DiarioService {
     return diario;
   }
 
-  async diarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioFindOneInput) {
-    const diario = await this.diarioFindById(contextoDeAcesso, dto);
+  async diarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiarioFindOneInput, selection?: string[] | boolean) {
+    const diario = await this.diarioFindById(contextoDeAcesso, dto, selection);
 
     if (!diario) {
       throw new NotFoundException();
@@ -186,12 +149,7 @@ export class DiarioService {
     return diario;
   }
 
-  async diarioFindByIdSimple(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.DiarioFindOneInput['id'],
-    options?: IDiarioQueryBuilderViewOptions,
-    selection?: string[],
-  ): Promise<LadesaTypings.DiarioFindOneResult | null> {
+  async diarioFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.DiarioFindOneInput['id'], selection?: string[] | boolean): Promise<LadesaTypings.DiarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.diarioRepository.createQueryBuilder(aliasDiario);
@@ -207,14 +165,7 @@ export class DiarioService {
     // =========================================================
 
     qb.select([]);
-
-    DiarioService.DiarioQueryBuilderView(aliasDiario, qb, {
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.Diario.Views.FindOneResult, qb, aliasDiario, selection);
 
     // =========================================================
 
@@ -225,8 +176,8 @@ export class DiarioService {
     return diario;
   }
 
-  async diarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.DiarioFindOneInput['id'], options?: IDiarioQueryBuilderViewOptions, selection?: string[]) {
-    const diario = await this.diarioFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async diarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.DiarioFindOneInput['id'], selection?: string[] | boolean) {
+    const diario = await this.diarioFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!diario) {
       throw new NotFoundException();

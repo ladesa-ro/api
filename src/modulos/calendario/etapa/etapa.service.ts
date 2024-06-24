@@ -3,22 +3,16 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
-import { CalendarioLetivoService, ICalendarioLetivoQueryBuilderViewOptions } from '../calendario-letivo/calendario-letivo.service';
+import { paginateConfig } from '../../../legacy/utils';
+import { CalendarioLetivoService } from '../calendario-letivo/calendario-letivo.service';
 
 // ============================================================================
 
 const aliasEtapa = 'etapa';
-
-// ============================================================================
-
-export type IEtapaQueryBuilderViewOptions = {
-  loadCalendario?: IQueryBuilderViewOptionsLoad<ICalendarioLetivoQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -35,27 +29,11 @@ export class EtapaService {
 
   //
 
-  static EtapaQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IEtapaQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.numero`,
-      `${alias}.dataInicio`,
-      `${alias}.dataTermino`,
-      `${alias}.cor`,
-    ]);
-
-    const loadCalendario = getQueryBuilderViewLoadMeta(options.loadCalendario, true, `${alias}_calendario`);
-
-    if (loadCalendario) {
-      qb.innerJoin(`${alias}.calendario`, `${loadCalendario.alias}`);
-      CalendarioLetivoService.CalendarioLetivoQueryBuilderView(loadCalendario.alias, qb, loadCalendario.options);
-    }
-  }
-
-  //
-
-  async etapaFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaListCombinedInput | null = null): Promise<LadesaTypings.EtapaListCombinedSuccessOutput['body']> {
+  async etapaFindAll(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.EtapaListCombinedInput | null = null,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.EtapaListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.etapaRepository.createQueryBuilder(aliasEtapa);
@@ -118,7 +96,7 @@ export class EtapaService {
 
     qb.select([]);
 
-    EtapaService.EtapaQueryBuilderView(aliasEtapa, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Etapa.Views.FindOneResult, qb, aliasEtapa, selection);
 
     // =========================================================
 
@@ -130,7 +108,7 @@ export class EtapaService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async etapaFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaFindOneInput): Promise<LadesaTypings.EtapaFindOneResult | null> {
+  async etapaFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.EtapaFindOneResult | null> {
     // =========================================================
 
     const qb = this.etapaRepository.createQueryBuilder(aliasEtapa);
@@ -147,7 +125,7 @@ export class EtapaService {
 
     qb.select([]);
 
-    EtapaService.EtapaQueryBuilderView(aliasEtapa, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Etapa.Views.FindOneResult, qb, aliasEtapa, selection);
 
     // =========================================================
 
@@ -158,8 +136,8 @@ export class EtapaService {
     return etapa;
   }
 
-  async etapaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaFindOneInput) {
-    const etapa = await this.etapaFindById(contextoDeAcesso, dto);
+  async etapaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaFindOneInput, selection?: string[] | boolean) {
+    const etapa = await this.etapaFindById(contextoDeAcesso, dto, selection);
 
     if (!etapa) {
       throw new NotFoundException();
@@ -168,12 +146,7 @@ export class EtapaService {
     return etapa;
   }
 
-  async etapaFindByIdSimple(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.EtapaFindOneInput['id'],
-    options?: IEtapaQueryBuilderViewOptions,
-    selection?: string[],
-  ): Promise<LadesaTypings.EtapaFindOneResult | null> {
+  async etapaFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.EtapaFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.EtapaFindOneResult | null> {
     // =========================================================
 
     const qb = this.etapaRepository.createQueryBuilder(aliasEtapa);
@@ -189,14 +162,7 @@ export class EtapaService {
     // =========================================================
 
     qb.select([]);
-
-    EtapaService.EtapaQueryBuilderView(aliasEtapa, qb, {
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.Etapa.Views.FindOneResult, qb, aliasEtapa, selection);
 
     // =========================================================
 
@@ -207,8 +173,8 @@ export class EtapaService {
     return etapa;
   }
 
-  async EtapaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.EtapaFindOneInput['id'], options?: IEtapaQueryBuilderViewOptions, selection?: string[]) {
-    const etapa = await this.etapaFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async EtapaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.EtapaFindOneInput['id'], selection?: string[]) {
+    const etapa = await this.etapaFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!etapa) {
       throw new NotFoundException();

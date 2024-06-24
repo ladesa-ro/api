@@ -2,13 +2,12 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { get, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { v4 } from 'uuid';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { CampusEntity, ModalidadeEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
+import { CampusEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { paginateConfig } from '../../../legacy/utils';
 import { ModalidadeService } from '../../ensino/modalidade/modalidade.service';
 import { EnderecoService } from '../endereco/endereco.service';
@@ -16,12 +15,6 @@ import { EnderecoService } from '../endereco/endereco.service';
 // ============================================================================
 
 const aliasCampus = 'campus';
-
-// ============================================================================
-
-export type ICampusQueryBuilderViewOptions = {
-  loadEndereco?: boolean;
-};
 
 // ============================================================================
 
@@ -43,37 +36,11 @@ export class CampusService {
 
   //
 
-  static CampusQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: ICampusQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.nomeFantasia`,
-      `${alias}.razaoSocial`,
-      `${alias}.apelido`,
-      `${alias}.cnpj`,
-    ]);
-
-    if (options.loadEndereco) {
-      qb.leftJoin(`${alias}.endereco`, `${alias}_endereco`);
-      EnderecoService.EnderecoQueryBuilderView(`${alias}_endereco`, qb);
-    }
-
-    {
-      const loadModalidadesAlias = `${alias}_modalidade`;
-
-      const aliasCampusPossuiModalidade = `${alias}_campus_possui_modalidade`;
-      qb.leftJoin(`${alias}.campusPossuiModalidade`, aliasCampusPossuiModalidade);
-
-      qb.leftJoinAndMapMany(`${alias}.modalidades`, ModalidadeEntity, `${loadModalidadesAlias}`, `${loadModalidadesAlias}.id = ${aliasCampusPossuiModalidade}.id_modalidade_fk`);
-      qb.expressionMap.selects.splice(qb.expressionMap.selects.length - 1, 1);
-
-      QbEfficientLoad(LadesaTypings.Tokens.Modalidade.Entity, qb, loadModalidadesAlias);
-    }
-  }
-
-  //
-
-  async campusFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CampusListCombinedInput | null = null): Promise<LadesaTypings.CampusListCombinedSuccessOutput['body']> {
+  async campusFindAll(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.CampusListCombinedInput | null = null,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.CampusListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
@@ -156,10 +123,7 @@ export class CampusService {
     // =========================================================
 
     qb.select([]);
-
-    CampusService.CampusQueryBuilderView(aliasCampus, qb, {
-      loadEndereco: true,
-    });
+    QbEfficientLoad(LadesaTypings.Tokens.Campus.Views.FindOneResult, qb, aliasCampus, selection);
 
     // =========================================================
 
@@ -171,12 +135,7 @@ export class CampusService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async campusFindById(
-    contextoDeAcesso: IContextoDeAcesso,
-    dto: LadesaTypings.CampusFindOneInput,
-    options?: ICampusQueryBuilderViewOptions,
-    selection?: string[],
-  ): Promise<LadesaTypings.CampusFindOneResult | null> {
+  async campusFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CampusFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.CampusFindOneResult | null> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
@@ -192,15 +151,7 @@ export class CampusService {
     // =========================================================
 
     qb.select([]);
-
-    CampusService.CampusQueryBuilderView(aliasCampus, qb, {
-      loadEndereco: true,
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.Campus.Views.FindOneResult, qb, aliasCampus, selection);
 
     // =========================================================
 
@@ -211,8 +162,8 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CampusFindOneInput) {
-    const campus = await this.campusFindById(contextoDeAcesso, dto);
+  async campusFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CampusFindOneInput, selection?: string[] | boolean) {
+    const campus = await this.campusFindById(contextoDeAcesso, dto, selection);
 
     if (!campus) {
       throw new NotFoundException();
@@ -221,12 +172,7 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdSimple(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.CampusFindOneInput['id'],
-    options?: ICampusQueryBuilderViewOptions,
-    selection?: string[],
-  ): Promise<LadesaTypings.CampusFindOneResult | null> {
+  async campusFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CampusFindOneInput['id'], selection?: string[] | boolean): Promise<LadesaTypings.CampusFindOneResult | null> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
@@ -242,15 +188,7 @@ export class CampusService {
     // =========================================================
 
     qb.select([]);
-
-    CampusService.CampusQueryBuilderView(aliasCampus, qb, {
-      loadEndereco: false,
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.Campus.Views.FindOneResult, qb, aliasCampus, selection);
 
     // =========================================================
 
@@ -261,8 +199,8 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CampusFindOneInput['id'], options?: ICampusQueryBuilderViewOptions, selection?: string[]) {
-    const campus = await this.campusFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async campusFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CampusFindOneInput['id'], selection?: string[] | boolean) {
+    const campus = await this.campusFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!campus) {
       throw new NotFoundException();
@@ -306,34 +244,7 @@ export class CampusService {
       });
 
       // =========================================================
-
       await campusRepository.save(campus);
-
-      // =========================================================
-
-      // const modalidades = get(dto.body, 'modalidades')!;
-
-      // for (const modalidadeRef of modalidades) {
-      //   const modalidade = await this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, { id: modalidadeRef.id });
-
-      //   const campusPossuiModalidade = campusPossuiModalidadeRepository.create();
-
-      //   campusPossuiModalidadeRepository.merge(campusPossuiModalidade, {
-      //     id: v4(),
-      //   });
-
-      //   campusPossuiModalidadeRepository.merge(campusPossuiModalidade, {
-      //     modalidade: {
-      //       id: modalidade.id,
-      //     },
-      //     campus: {
-      //       id: campus.id,
-      //     },
-      //   });
-
-      //   await campusPossuiModalidadeRepository.save(campusPossuiModalidade);
-      // }
-
       // =========================================================
 
       return campus;

@@ -2,28 +2,19 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { AmbienteEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '../../../legacy/utils';
 import { paginateConfig } from '../../../legacy/utils/paginateConfig';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
-import { BlocoService, IBlocoQueryBuilderViewOptions } from '../bloco/bloco.service';
+import { ImagemService } from '../../base/imagem/imagem.service';
+import { BlocoService } from '../bloco/bloco.service';
 
 // ============================================================================
 
 const aliasAmbiente = 'ambiente';
-
-// ============================================================================
-
-export type IAmbienteQueryBuilderViewOptions = {
-  loadBloco?: IQueryBuilderViewOptionsLoad<IBlocoQueryBuilderViewOptions>;
-  loadImagemCapa?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -38,40 +29,6 @@ export class AmbienteService {
 
   get ambienteRepository() {
     return this.databaseContext.ambienteRepository;
-  }
-
-  //
-
-  static AmbienteQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IAmbienteQueryBuilderViewOptions = {}, _selection?: string[] | boolean) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      //
-      `${alias}.nome`,
-      `${alias}.descricao`,
-      `${alias}.codigo`,
-      `${alias}.capacidade`,
-      `${alias}.tipo`,
-      //
-      `${alias}.dateCreated`,
-      `${alias}.dateUpdated`,
-      `${alias}.dateDeleted`,
-      //
-    ]);
-
-    const loadBloco = getQueryBuilderViewLoadMeta(options.loadBloco, true, `${alias}_bloco`);
-
-    if (loadBloco) {
-      qb.leftJoin(`${alias}.bloco`, `${loadBloco.alias}`);
-      BlocoService.BlocoQueryBuilderView(loadBloco.alias, qb, loadBloco.options);
-    }
-
-    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
-
-    if (loadImagemCapa) {
-      qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
-    }
   }
 
   //
@@ -150,7 +107,7 @@ export class AmbienteService {
 
     qb.select([]);
 
-    AmbienteService.AmbienteQueryBuilderView(aliasAmbiente, qb, { loadBloco: true }, selection);
+    QbEfficientLoad(LadesaTypings.Tokens.Ambiente.Views.FindOneResult, qb, aliasAmbiente, selection);
 
     // =========================================================
 
@@ -162,7 +119,7 @@ export class AmbienteService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.AmbienteFindOneInput): Promise<LadesaTypings.AmbienteFindOneResult | null> {
+  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.AmbienteFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.AmbienteFindOneResult | null> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
@@ -180,10 +137,7 @@ export class AmbienteService {
     // =========================================================
 
     qb.select([]);
-
-    AmbienteService.AmbienteQueryBuilderView(aliasAmbiente, qb, {
-      loadBloco: true,
-    });
+    QbEfficientLoad(LadesaTypings.Tokens.Ambiente.Views.FindOneResult, qb, aliasAmbiente, selection);
 
     // =========================================================
 
@@ -194,8 +148,8 @@ export class AmbienteService {
     return ambiente;
   }
 
-  async ambienteFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.AmbienteFindOneInput) {
-    const ambiente = await this.ambienteFindById(contextoDeAcesso, dto);
+  async ambienteFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.AmbienteFindOneInput, selection?: string[] | boolean) {
+    const ambiente = await this.ambienteFindById(contextoDeAcesso, dto, selection);
 
     if (!ambiente) {
       throw new NotFoundException();

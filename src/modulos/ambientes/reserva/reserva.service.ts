@@ -2,25 +2,18 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { ReservaEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
-import { IUsuarioQueryBuilderViewOptions, UsuarioService } from '../../autenticacao/usuario/usuario.service';
-import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../ambiente/ambiente.service';
+import { paginateConfig } from '../../../legacy/utils';
+import { UsuarioService } from '../../autenticacao/usuario/usuario.service';
+import { AmbienteService } from '../ambiente/ambiente.service';
 
 // ============================================================================
 
 const aliasReserva = 'reserva';
-
-// ============================================================================
-
-export type IReservaQueryBuilderViewOptions = {
-  loadUsuario?: IQueryBuilderViewOptionsLoad<IUsuarioQueryBuilderViewOptions>;
-  loadAmbiente?: IQueryBuilderViewOptionsLoad<IAmbienteQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -38,35 +31,11 @@ export class ReservaService {
 
   //
 
-  static ReservaQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IReservaQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.situacao`,
-      `${alias}.motivo`,
-      `${alias}.tipo`,
-      `${alias}.dataInicio`,
-      `${alias}.dataTermino`,
-    ]);
-
-    const loadUsuario = getQueryBuilderViewLoadMeta(options.loadUsuario, true, `${alias}_usuario`);
-
-    if (loadUsuario) {
-      qb.innerJoin(`${alias}.usuario`, `${loadUsuario.alias}`);
-      UsuarioService.UsuarioQueryBuilderView(loadUsuario.alias, qb);
-    }
-
-    const loadAmbiente = getQueryBuilderViewLoadMeta(options.loadAmbiente, true, `${alias}_ambiente`);
-
-    if (loadAmbiente) {
-      qb.innerJoin(`${alias}.ambiente`, `${loadAmbiente.alias}`);
-      AmbienteService.AmbienteQueryBuilderView(loadAmbiente.alias, qb, loadAmbiente.options);
-    }
-  }
-
-  //
-
-  async reservaFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaListCombinedInput | null = null): Promise<LadesaTypings.ReservaListCombinedSuccessOutput['body']> {
+  async reservaFindAll(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.ReservaListCombinedInput | null = null,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.ReservaListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.reservaRepository.createQueryBuilder(aliasReserva);
@@ -136,8 +105,7 @@ export class ReservaService {
     // =========================================================
 
     qb.select([]);
-
-    ReservaService.ReservaQueryBuilderView(aliasReserva, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Reserva.Views.FindOneResult, qb, aliasReserva, selection);
 
     // =========================================================
 
@@ -149,7 +117,7 @@ export class ReservaService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async reservaFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaFindOneInput): Promise<LadesaTypings.ReservaFindOneResult | null> {
+  async reservaFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.ReservaFindOneResult | null> {
     // =========================================================
 
     const qb = this.reservaRepository.createQueryBuilder(aliasReserva);
@@ -165,8 +133,7 @@ export class ReservaService {
     // =========================================================
 
     qb.select([]);
-
-    ReservaService.ReservaQueryBuilderView(aliasReserva, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Reserva.Views.FindOneResult, qb, aliasReserva, selection);
 
     // =========================================================
 
@@ -177,8 +144,8 @@ export class ReservaService {
     return reserva;
   }
 
-  async reservaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaFindOneInput) {
-    const reserva = await this.reservaFindById(contextoDeAcesso, dto);
+  async reservaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaFindOneInput, selection?: string[] | boolean) {
+    const reserva = await this.reservaFindById(contextoDeAcesso, dto, selection);
 
     if (!reserva) {
       throw new NotFoundException();
@@ -187,12 +154,7 @@ export class ReservaService {
     return reserva;
   }
 
-  async reservaFindByIdSimple(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.ReservaFindOneInput['id'],
-    options?: IReservaQueryBuilderViewOptions,
-    selection?: string[],
-  ): Promise<LadesaTypings.ReservaFindOneResult | null> {
+  async reservaFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.ReservaFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.ReservaFindOneResult | null> {
     // =========================================================
 
     const qb = this.reservaRepository.createQueryBuilder(aliasReserva);
@@ -208,14 +170,7 @@ export class ReservaService {
     // =========================================================
 
     qb.select([]);
-
-    ReservaService.ReservaQueryBuilderView(aliasReserva, qb, {
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.Reserva.Views.FindOneResult, qb, aliasReserva, selection);
 
     // =========================================================
 
@@ -226,8 +181,8 @@ export class ReservaService {
     return reserva;
   }
 
-  async reservaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.ReservaFindOneInput['id'], options?: IReservaQueryBuilderViewOptions, selection?: string[]) {
-    const reserva = await this.reservaFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async reservaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.ReservaFindOneInput['id'], selection?: string[]) {
+    const reserva = await this.reservaFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!reserva) {
       throw new NotFoundException();

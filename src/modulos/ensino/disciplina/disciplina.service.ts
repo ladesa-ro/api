@@ -1,25 +1,18 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { map, pick } from 'lodash';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DisciplinaEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
+import { paginateConfig } from '../../../legacy/utils';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
+import { ImagemService } from '../../base/imagem/imagem.service';
 
 // ============================================================================
 
 const aliasDisciplina = 'disciplina';
-
-// ============================================================================
-
-export type IDisciplinaQueryBuilderViewOptions = {
-  loadImagemCapa?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -37,26 +30,11 @@ export class DisciplinaService {
 
   //
 
-  static DisciplinaQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IDisciplinaQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.nome`,
-      `${alias}.nomeAbreviado`,
-      `${alias}.cargaHoraria`,
-    ]);
-
-    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
-
-    if (loadImagemCapa) {
-      qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
-    }
-  }
-
-  //
-
-  async disciplinaFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DisciplinaListCombinedInput | null = null): Promise<LadesaTypings.DisciplinaListCombinedSuccessOutput['body']> {
+  async disciplinaFindAll(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.DisciplinaListCombinedInput | null = null,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.DisciplinaListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
@@ -102,8 +80,7 @@ export class DisciplinaService {
     // =========================================================
 
     qb.select([]);
-
-    DisciplinaService.DisciplinaQueryBuilderView(aliasDisciplina, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Disciplina.Views.FindOneResult, qb, aliasDisciplina, selection);
 
     // =========================================================
 
@@ -115,7 +92,11 @@ export class DisciplinaService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async disciplinaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.DisciplinaFindOneInput): Promise<LadesaTypings.DisciplinaFindOneResult | null> {
+  async disciplinaFindById(
+    contextoDeAcesso: IContextoDeAcesso | null,
+    dto: LadesaTypings.DisciplinaFindOneInput,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.DisciplinaFindOneResult | null> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
@@ -133,8 +114,7 @@ export class DisciplinaService {
     // =========================================================
 
     qb.select([]);
-
-    DisciplinaService.DisciplinaQueryBuilderView(aliasDisciplina, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Disciplina.Views.FindOneResult, qb, aliasDisciplina, selection);
 
     // =========================================================
 
@@ -145,8 +125,8 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.DisciplinaFindOneInput) {
-    const disciplina = await this.disciplinaFindById(contextoDeAcesso, dto);
+  async disciplinaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.DisciplinaFindOneInput, selection?: string[] | boolean) {
+    const disciplina = await this.disciplinaFindById(contextoDeAcesso, dto, selection);
 
     if (!disciplina) {
       throw new NotFoundException();
@@ -158,8 +138,7 @@ export class DisciplinaService {
   async disciplinaFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
     id: LadesaTypings.DisciplinaFindOneInput['id'],
-    options?: IDisciplinaQueryBuilderViewOptions,
-    selection?: string[],
+    selection?: string[] | boolean,
   ): Promise<LadesaTypings.DisciplinaFindOneResult | null> {
     // =========================================================
 
@@ -176,14 +155,7 @@ export class DisciplinaService {
     // =========================================================
 
     qb.select([]);
-
-    DisciplinaService.DisciplinaQueryBuilderView(aliasDisciplina, qb, {
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.Disciplina.Views.FindOneResult, qb, aliasDisciplina, selection);
 
     // =========================================================
 
@@ -194,8 +166,8 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.DisciplinaFindOneInput['id'], options?: IDisciplinaQueryBuilderViewOptions, selection?: string[]) {
-    const disciplina = await this.disciplinaFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async disciplinaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.DisciplinaFindOneInput['id'], selection?: string[]) {
+    const disciplina = await this.disciplinaFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!disciplina) {
       throw new NotFoundException();

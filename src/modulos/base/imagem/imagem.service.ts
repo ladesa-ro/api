@@ -1,6 +1,5 @@
 import { Injectable, ServiceUnavailableException, UnprocessableEntityException } from '@nestjs/common';
 import sharp from 'sharp';
-import { SelectQueryBuilder } from 'typeorm';
 import { v4 } from 'uuid';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { ArquivoService } from '../arquivo/arquivo.service';
@@ -15,37 +14,12 @@ type ISaveImageOptions = {
   }[];
 };
 
-export type IImagemQueryBuilderViewOptions = any;
-
 @Injectable()
 export class ImagemService {
   constructor(
     private arquivoService: ArquivoService,
     private databaseContextService: DatabaseContextService,
   ) {}
-
-  //
-  static ImagemQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, _: IImagemQueryBuilderViewOptions = {}) {
-    qb.leftJoin(`${alias}.versao`, `${alias}_imagemArquivo`);
-    qb.leftJoin(`${alias}_imagemArquivo.arquivo`, `${alias}_imagemArquivo_arquivo`);
-
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.descricao`,
-      //
-      `${alias}_imagemArquivo.id`,
-      `${alias}_imagemArquivo.largura`,
-      `${alias}_imagemArquivo.altura`,
-      `${alias}_imagemArquivo.formato`,
-      `${alias}_imagemArquivo.mimeType`,
-      //
-      `${alias}_imagemArquivo_arquivo.id`,
-      `${alias}_imagemArquivo_arquivo.nome`,
-      `${alias}_imagemArquivo_arquivo.mimeType`,
-      `${alias}_imagemArquivo_arquivo.sizeBytes`,
-    ]);
-  }
 
   //
 

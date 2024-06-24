@@ -2,27 +2,19 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { SelectQueryBuilder } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { BlocoEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
+import { paginateConfig } from '../../../legacy/utils';
 import { ArquivoService } from '../../base/arquivo/arquivo.service';
-import { IImagemQueryBuilderViewOptions, ImagemService } from '../../base/imagem/imagem.service';
-import { CampusService, ICampusQueryBuilderViewOptions } from '../campus/campus.service';
+import { ImagemService } from '../../base/imagem/imagem.service';
+import { CampusService } from '../campus/campus.service';
 
 // ============================================================================
 
 const aliasBloco = 'bloco';
-
-// ============================================================================
-
-export type IBlocoQueryBuilderViewOptions = {
-  loadCampus?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
-  loadImagemCapa?: IQueryBuilderViewOptionsLoad<IImagemQueryBuilderViewOptions>;
-};
 
 // ============================================================================
 
@@ -41,35 +33,11 @@ export class BlocoService {
 
   //
 
-  static BlocoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IBlocoQueryBuilderViewOptions = {}) {
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.nome`,
-      `${alias}.codigo`,
-    ]);
-
-    const loadCampus = getQueryBuilderViewLoadMeta(options.loadCampus, true, `${alias}_campus`);
-
-    if (loadCampus) {
-      qb.leftJoin(`${alias}.campus`, `${loadCampus.alias}`);
-      CampusService.CampusQueryBuilderView(loadCampus.alias, qb, loadCampus.options);
-    }
-
-    const loadImagemCapa = getQueryBuilderViewLoadMeta(options.loadImagemCapa, true, `${alias}_imagemCapa`);
-
-    if (loadImagemCapa) {
-      qb.leftJoin(`${alias}.imagemCapa`, `${loadImagemCapa.alias}`);
-      QbEfficientLoad(LadesaTypings.Tokens.Imagem.Entity, qb, loadImagemCapa.alias);
-    }
-  }
-
-  //
-
   async blocoFindAll(
     //
     contextoDeAcesso: IContextoDeAcesso,
     dto: LadesaTypings.BlocoListCombinedInput | null = null,
+    selection?: string[] | boolean,
   ): Promise<LadesaTypings.BlocoListCombinedSuccessOutput['body']> {
     // =========================================================
 
@@ -128,7 +96,7 @@ export class BlocoService {
     // =========================================================
 
     qb.select([]);
-    BlocoService.BlocoQueryBuilderView(aliasBloco, qb, { loadCampus: true });
+    QbEfficientLoad(LadesaTypings.Tokens.Bloco.Views.FindOneResult, qb, aliasBloco, selection);
 
     // =========================================================
     const pageItemsView = await qb.andWhereInIds(map(paginated.data, 'id')).getMany();
@@ -138,7 +106,7 @@ export class BlocoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async blocoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.BlocoFindOneInput): Promise<LadesaTypings.BlocoFindOneResult | null> {
+  async blocoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.BlocoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.BlocoFindOneResult | null> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
@@ -156,10 +124,7 @@ export class BlocoService {
     // =========================================================
 
     qb.select([]);
-
-    BlocoService.BlocoQueryBuilderView(aliasBloco, qb, {
-      loadCampus: true,
-    });
+    QbEfficientLoad(LadesaTypings.Tokens.Bloco.Views.FindOneResult, qb, aliasBloco, selection);
 
     // =========================================================
 
@@ -170,8 +135,8 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.BlocoFindOneInput) {
-    const bloco = await this.blocoFindById(contextoDeAcesso, dto);
+  async blocoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.BlocoFindOneInput, selection?: string[] | boolean) {
+    const bloco = await this.blocoFindById(contextoDeAcesso, dto, selection);
 
     if (!bloco) {
       throw new NotFoundException();
@@ -180,12 +145,7 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdSimple(
-    contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.BlocoFindOneInput['id'],
-    options?: IBlocoQueryBuilderViewOptions,
-    selection?: string[],
-  ): Promise<LadesaTypings.BlocoFindOneResult | null> {
+  async blocoFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.BlocoFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.BlocoFindOneResult | null> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
@@ -201,15 +161,7 @@ export class BlocoService {
     // =========================================================
 
     qb.select([]);
-
-    BlocoService.BlocoQueryBuilderView(aliasBloco, qb, {
-      loadCampus: false,
-      ...options,
-    });
-
-    if (selection) {
-      qb.select(selection);
-    }
+    QbEfficientLoad(LadesaTypings.Tokens.Bloco.Views.FindOneResult, qb, aliasBloco, selection);
 
     // =========================================================
 
@@ -220,8 +172,8 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.BlocoFindOneInput['id'], options?: IBlocoQueryBuilderViewOptions, selection?: string[]) {
-    const bloco = await this.blocoFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async blocoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.BlocoFindOneInput['id'], selection?: string[]) {
+    const bloco = await this.blocoFindByIdSimple(contextoDeAcesso, id, selection);
 
     if (!bloco) {
       throw new NotFoundException();

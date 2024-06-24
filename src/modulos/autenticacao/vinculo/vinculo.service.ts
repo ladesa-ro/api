@@ -1,25 +1,18 @@
-import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta } from '@/legacy/utils/QueryBuilderViewOptionsLoad';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { FilterOperator } from 'nestjs-paginate';
-import { NotBrackets, SelectQueryBuilder } from 'typeorm';
+import { NotBrackets } from 'typeorm';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { paginateConfig } from '../../../legacy/utils';
-import { CampusService, ICampusQueryBuilderViewOptions } from '../../ambientes/campus/campus.service';
+import { CampusService } from '../../ambientes/campus/campus.service';
 import { UsuarioService } from '../usuario/usuario.service';
 
 // ============================================================================
 
 const aliasVinculo = 'vinculo';
-
-// ============================================================================
-
-export type IVinculoQueryBuilderViewOptions = {
-  loadCampus?: IQueryBuilderViewOptionsLoad<ICampusQueryBuilderViewOptions>;
-  loadUsuario?: IQueryBuilderViewOptionsLoad<unknown>;
-};
 
 // ============================================================================
 
@@ -43,34 +36,10 @@ export class VinculoService {
 
   //
 
-  static VinculoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IVinculoQueryBuilderViewOptions = {}) {
-    const loadCampus = getQueryBuilderViewLoadMeta(options.loadCampus, true, `${alias}_c`);
-    const loadUsuario = getQueryBuilderViewLoadMeta(options.loadUsuario, true, `${alias}_u`);
-
-    qb.addSelect([
-      //
-      `${alias}.id`,
-      `${alias}.ativo`,
-      `${alias}.cargo`,
-    ]);
-
-    if (loadUsuario) {
-      qb.innerJoin(`${alias}.usuario`, `${loadUsuario.alias}`);
-      UsuarioService.UsuarioQueryBuilderView(loadUsuario.alias, qb);
-    }
-
-    if (loadCampus) {
-      qb.innerJoin(`${alias}.campus`, `${loadCampus.alias}`);
-      CampusService.CampusQueryBuilderView(loadCampus.alias, qb, loadCampus.options);
-    }
-  }
-
-  //
-
-  async vinculoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoListCombinedInput | null = null) {
+  async vinculoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoListCombinedInput | null = null, selection?: string[] | boolean) {
     const qb = this.vinculoRepository.createQueryBuilder(aliasVinculo);
 
-    VinculoService.VinculoQueryBuilderView(aliasVinculo, qb);
+    QbEfficientLoad(LadesaTypings.Tokens.Vinculo.Views.FindOneResult, qb, aliasVinculo, selection);
 
     await contextoDeAcesso.aplicarFiltro('vinculo:find', qb, aliasVinculo, null);
 
@@ -110,7 +79,7 @@ export class VinculoService {
     return paginated;
   }
 
-  async vinculoFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoFindOneInput): Promise<LadesaTypings.VinculoFindOneResult | null> {
+  async vinculoFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.VinculoFindOneResult | null> {
     // =========================================================
 
     const qb = this.vinculoRepository.createQueryBuilder(aliasVinculo);
@@ -126,8 +95,7 @@ export class VinculoService {
     // =========================================================
 
     qb.select([]);
-
-    VinculoService.VinculoQueryBuilderView(aliasVinculo, qb, {});
+    QbEfficientLoad(LadesaTypings.Tokens.Vinculo.Views.FindOneResult, qb, aliasVinculo, selection);
 
     // =========================================================
 
@@ -138,8 +106,8 @@ export class VinculoService {
     return vinculo;
   }
 
-  async vinculoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoFindOneInput) {
-    const vinculo = await this.vinculoFindById(contextoDeAcesso, dto);
+  async vinculoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoFindOneInput, selection?: string[] | boolean) {
+    const vinculo = await this.vinculoFindById(contextoDeAcesso, dto, selection);
 
     if (!vinculo) {
       throw new NotFoundException();
