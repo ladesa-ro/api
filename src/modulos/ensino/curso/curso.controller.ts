@@ -1,7 +1,7 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextHttp } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { CursoService } from './curso.service';
 
@@ -16,10 +16,10 @@ export class CursoController {
   @Operation(LadesaTypings.Tokens.Curso.Operations.List)
   async cursoFindAll(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CursoListCombinedInput,
   ): Promise<LadesaTypings.CursoListCombinedSuccessOutput['body']> {
-    return this.cursoService.cursoFindAll(contextoDeAcesso, dto);
+    return this.cursoService.cursoFindAll(accessContext, dto);
   }
 
   //
@@ -28,10 +28,10 @@ export class CursoController {
   @Operation(LadesaTypings.Tokens.Curso.Operations.FindById)
   async cursoFindById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CursoFindByIDCombinedInput,
   ) {
-    return this.cursoService.cursoFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.cursoService.cursoFindByIdStrict(accessContext, { id: dto.params.id });
   }
 
   //
@@ -40,18 +40,18 @@ export class CursoController {
   @Operation(LadesaTypings.Tokens.Curso.Operations.Create)
   async cursoCreate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CursoCreateCombinedInput,
   ) {
-    return this.cursoService.cursoCreate(contextoDeAcesso, dto);
+    return this.cursoService.cursoCreate(accessContext, dto);
   }
 
   //
 
   @Patch('/:id')
   @Operation(LadesaTypings.Tokens.Curso.Operations.Create)
-  async cursoUpdate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @CombinedInput() dto: LadesaTypings.CursoUpdateByIDCombinedInput) {
-    return this.cursoService.cursoUpdate(contextoDeAcesso, dto);
+  async cursoUpdate(@AccessContextHttp() accessContext: AccessContext, @CombinedInput() dto: LadesaTypings.CursoUpdateByIDCombinedInput) {
+    return this.cursoService.cursoUpdate(accessContext, dto);
   }
 
   //
@@ -60,21 +60,21 @@ export class CursoController {
   @Operation(LadesaTypings.Tokens.Curso.Operations.GetCoverImage)
   async cursoGetImagemCapa(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.cursoService.cursoGetImagemCapa(contextoDeAcesso, id);
+    return this.cursoService.cursoGetImagemCapa(accessContext, id);
   }
 
   @Put('/:id/imagem/capa')
   @Operation(LadesaTypings.Tokens.Curso.Operations.SetCoverImage)
   async cursoImagemCapaSave(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @UploadedFile() file: Express.Multer.File,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.cursoService.cursoUpdateImagemCapa(contextoDeAcesso, { id }, file);
+    return this.cursoService.cursoUpdateImagemCapa(accessContext, { id }, file);
   }
 
   //
@@ -83,10 +83,10 @@ export class CursoController {
   @Operation(LadesaTypings.Tokens.Curso.Operations.DeleteById)
   async cursoDeleteOneById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CursoFindByIDCombinedInput,
   ) {
-    return this.cursoService.cursoDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.cursoService.cursoDeleteOneById(accessContext, { id: dto.params.id });
   }
 
   //

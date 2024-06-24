@@ -2,7 +2,7 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -36,7 +36,7 @@ export class CursoService {
   //
 
   async cursoFindAll(
-    contextoDeAcesso: IContextoDeAcesso,
+    accessContext: AccessContext,
     dto: LadesaTypings.CursoListCombinedInput | null = null,
     selection?: string[] | boolean,
   ): Promise<LadesaTypings.CursoListCombinedSuccessOutput['body']> {
@@ -46,7 +46,7 @@ export class CursoService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('curso:find', qb, aliasCurso, null);
+    await accessContext.aplicarFiltro('curso:find', qb, aliasCurso, null);
 
     // =========================================================
 
@@ -120,15 +120,15 @@ export class CursoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async cursoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.CursoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.CursoFindOneResult | null> {
+  async cursoFindById(accessContext: AccessContext | null, dto: LadesaTypings.CursoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.CursoFindOneResult | null> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
 
     // =========================================================
 
-    if (contextoDeAcesso) {
-      await contextoDeAcesso.aplicarFiltro('curso:find', qb, aliasCurso, null);
+    if (accessContext) {
+      await accessContext.aplicarFiltro('curso:find', qb, aliasCurso, null);
     }
 
     // =========================================================
@@ -149,8 +149,8 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.CursoFindOneInput, selection?: string[] | boolean) {
-    const curso = await this.cursoFindById(contextoDeAcesso, dto, selection);
+  async cursoFindByIdStrict(accessContext: AccessContext | null, dto: LadesaTypings.CursoFindOneInput, selection?: string[] | boolean) {
+    const curso = await this.cursoFindById(accessContext, dto, selection);
 
     if (!curso) {
       throw new NotFoundException();
@@ -159,14 +159,14 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CursoFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.CursoFindOneResult | null> {
+  async cursoFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.CursoFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.CursoFindOneResult | null> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('curso:find', qb, aliasCurso, null);
+    await accessContext.aplicarFiltro('curso:find', qb, aliasCurso, null);
 
     // =========================================================
 
@@ -186,8 +186,8 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CursoFindOneInput['id'], selection?: string[]) {
-    const curso = await this.cursoFindByIdSimple(contextoDeAcesso, id, selection);
+  async cursoFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.CursoFindOneInput['id'], selection?: string[]) {
+    const curso = await this.cursoFindByIdSimple(accessContext, id, selection);
 
     if (!curso) {
       throw new NotFoundException();
@@ -198,10 +198,10 @@ export class CursoService {
 
   //
 
-  async cursoCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CursoCreateCombinedInput) {
+  async cursoCreate(accessContext: AccessContext, dto: LadesaTypings.CursoCreateCombinedInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('curso:create', { dto });
+    await accessContext.ensurePermission('curso:create', { dto });
 
     // =========================================================
 
@@ -215,7 +215,7 @@ export class CursoService {
 
     // =========================================================
 
-    const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.body.campus.id);
+    const campus = await this.campusService.campusFindByIdSimpleStrict(accessContext, dto.body.campus.id);
 
     this.cursoRepository.merge(curso, {
       campus: {
@@ -225,7 +225,7 @@ export class CursoService {
 
     // =========================================================
 
-    const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(contextoDeAcesso, dto.body.modalidade.id);
+    const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(accessContext, dto.body.modalidade.id);
 
     this.cursoRepository.merge(curso, {
       modalidade: {
@@ -239,19 +239,19 @@ export class CursoService {
 
     // =========================================================
 
-    return this.cursoFindByIdStrict(contextoDeAcesso, { id: curso.id });
+    return this.cursoFindByIdStrict(accessContext, { id: curso.id });
   }
 
-  async cursoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CursoUpdateByIDCombinedInput) {
+  async cursoUpdate(accessContext: AccessContext, dto: LadesaTypings.CursoUpdateByIDCombinedInput) {
     // =========================================================
 
-    const currentCurso = await this.cursoFindByIdStrict(contextoDeAcesso, {
+    const currentCurso = await this.cursoFindByIdStrict(accessContext, {
       id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('curso:update', { dto }, dto.params.id, this.cursoRepository.createQueryBuilder(aliasCurso));
+    await accessContext.ensurePermission('curso:update', { dto }, dto.params.id, this.cursoRepository.createQueryBuilder(aliasCurso));
 
     const dtoCurso = pick(dto.body, ['nome', 'nomeAbreviado', 'campus', 'modalidade']);
 
@@ -266,7 +266,7 @@ export class CursoService {
     // =========================================================
 
     if (has(dto.body, 'campus') && dto.body.campus !== undefined) {
-      const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.body.campus.id);
+      const campus = await this.campusService.campusFindByIdSimpleStrict(accessContext, dto.body.campus.id);
 
       this.cursoRepository.merge(curso, {
         campus: {
@@ -278,7 +278,7 @@ export class CursoService {
     // =========================================================
 
     if (has(dto.body, 'modalidade') && dto.body.modalidade !== undefined) {
-      const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(contextoDeAcesso, dto.body.modalidade.id);
+      const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(accessContext, dto.body.modalidade.id);
 
       this.cursoRepository.merge(curso, {
         modalidade: {
@@ -293,13 +293,13 @@ export class CursoService {
 
     // =========================================================
 
-    return this.cursoFindByIdStrict(contextoDeAcesso, { id: curso.id });
+    return this.cursoFindByIdStrict(accessContext, { id: curso.id });
   }
 
   //
 
-  async cursoGetImagemCapa(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
-    const curso = await this.cursoFindByIdStrict(contextoDeAcesso, { id: id });
+  async cursoGetImagemCapa(accessContext: AccessContext | null, id: string) {
+    const curso = await this.cursoFindByIdStrict(accessContext, { id: id });
 
     if (curso.imagemCapa) {
       const [versao] = curso.imagemCapa.versoes;
@@ -313,14 +313,14 @@ export class CursoService {
     throw new NotFoundException();
   }
 
-  async cursoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CursoFindOneInput, file: Express.Multer.File) {
+  async cursoUpdateImagemCapa(accessContext: AccessContext, dto: LadesaTypings.CursoFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
-    const currentCurso = await this.cursoFindByIdStrict(contextoDeAcesso, { id: dto.id });
+    const currentCurso = await this.cursoFindByIdStrict(accessContext, { id: dto.id });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission(
+    await accessContext.ensurePermission(
       'curso:update',
       {
         dto: {
@@ -353,14 +353,14 @@ export class CursoService {
 
   //
 
-  async cursoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CursoFindOneInput) {
+  async cursoDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.CursoFindOneInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('curso:delete', { dto }, dto.id, this.cursoRepository.createQueryBuilder(aliasCurso));
+    await accessContext.ensurePermission('curso:delete', { dto }, dto.id, this.cursoRepository.createQueryBuilder(aliasCurso));
 
     // =========================================================
 
-    const curso = await this.cursoFindByIdStrict(contextoDeAcesso, dto);
+    const curso = await this.cursoFindByIdStrict(accessContext, dto);
 
     // =========================================================
 

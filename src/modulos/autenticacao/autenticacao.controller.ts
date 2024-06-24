@@ -1,10 +1,10 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Public } from '../../autenticacao';
-import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../contexto-de-acesso';
+import { AccessContext, AccessContextHttp } from '../../access-context';
 import { CombinedInput, Operation } from '../../helpers/ladesa';
 import { AutenticacaoService } from './autenticacao.service';
+import { Public } from '../../authentication';
 
 @ApiTags('Autenticacao')
 @Controller('/autenticacao')
@@ -15,9 +15,9 @@ export class AutenticacaoController {
   @Operation(LadesaTypings.Tokens.Auth.Operations.WhoAmI)
   quemSouEu(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
   ) {
-    return this.autenticacaoService.quemSouEu(contextoDeAcesso);
+    return this.autenticacaoService.quemSouEu(accessContext);
   }
 
   @Post('/login')
@@ -25,10 +25,10 @@ export class AutenticacaoController {
   @Operation(LadesaTypings.Tokens.Auth.Operations.Login)
   login(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.AuthLoginCombinedInput,
   ) {
-    return this.autenticacaoService.login(contextoDeAcesso, dto);
+    return this.autenticacaoService.login(accessContext, dto);
   }
 
   @Post('/login/refresh')
@@ -36,19 +36,19 @@ export class AutenticacaoController {
   @Operation(LadesaTypings.Tokens.Auth.Operations.Refresh)
   refresh(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.AuthRefreshCombinedInput,
   ) {
-    return this.autenticacaoService.refresh(contextoDeAcesso, dto);
+    return this.autenticacaoService.refresh(accessContext, dto);
   }
 
   @Post('/definir-senha')
   @Operation(LadesaTypings.Tokens.Auth.Operations.SetInitialPassword)
   definirSenha(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.AuthSetInitialPasswordCombinedInput,
   ) {
-    return this.autenticacaoService.definirSenha(contextoDeAcesso, dto);
+    return this.autenticacaoService.definirSenha(accessContext, dto);
   }
 }

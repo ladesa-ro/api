@@ -1,7 +1,7 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextHttp } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { ModalidadeService } from './modalidade.service';
 
@@ -16,10 +16,10 @@ export class ModalidadeController {
   @Operation(LadesaTypings.Tokens.Modalidade.Operations.List)
   async modalidadeFindAll(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.ModalidadeListCombinedInput,
   ): Promise<LadesaTypings.ModalidadeListCombinedSuccessOutput['body']> {
-    return this.modalidadeService.modalidadeFindAll(contextoDeAcesso, dto);
+    return this.modalidadeService.modalidadeFindAll(accessContext, dto);
   }
 
   //
@@ -28,10 +28,10 @@ export class ModalidadeController {
   @Operation(LadesaTypings.Tokens.Modalidade.Operations.FindById)
   async modalidadeFindById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.ModalidadeFindByIDCombinedInput,
   ) {
-    return this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.modalidadeService.modalidadeFindByIdStrict(accessContext, { id: dto.params.id });
   }
 
   //
@@ -40,10 +40,10 @@ export class ModalidadeController {
   @Operation(LadesaTypings.Tokens.Modalidade.Operations.Create)
   async modalidadeCreate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.ModalidadeCreateCombinedInput,
   ) {
-    return this.modalidadeService.modalidadeCreate(contextoDeAcesso, dto);
+    return this.modalidadeService.modalidadeCreate(accessContext, dto);
   }
 
   //
@@ -52,10 +52,10 @@ export class ModalidadeController {
   @Operation(LadesaTypings.Tokens.Modalidade.Operations.Create)
   async modalidadeUpdate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.ModalidadeUpdateByIDCombinedInput,
   ) {
-    return this.modalidadeService.modalidadeUpdate(contextoDeAcesso, dto);
+    return this.modalidadeService.modalidadeUpdate(accessContext, dto);
   }
 
   //
@@ -64,10 +64,10 @@ export class ModalidadeController {
   @Operation(LadesaTypings.Tokens.Modalidade.Operations.DeleteById)
   async modalidadeDeleteOneById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.ModalidadeDeleteByIDCombinedInput,
   ) {
-    return this.modalidadeService.modalidadeDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.modalidadeService.modalidadeDeleteOneById(accessContext, { id: dto.params.id });
   }
 
   //

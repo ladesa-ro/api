@@ -1,7 +1,7 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextHttp } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { EventoService } from './evento.service';
 
@@ -12,10 +12,7 @@ export class EventoController {
 
   @Get('/')
   @Operation(LadesaTypings.Tokens.Evento.Operations.List)
-  async eventoFindAll(
-    @ContextoDeAcessoHttp() clientAccess: IContextoDeAcesso,
-    @CombinedInput() dto: LadesaTypings.EventoListCombinedInput,
-  ): Promise<LadesaTypings.EventoListCombinedSuccessOutput['body']> {
+  async eventoFindAll(@AccessContextHttp() clientAccess: AccessContext, @CombinedInput() dto: LadesaTypings.EventoListCombinedInput): Promise<LadesaTypings.EventoListCombinedSuccessOutput['body']> {
     return this.eventoService.eventoFindAll(clientAccess, dto);
   }
 
@@ -25,10 +22,10 @@ export class EventoController {
   @Operation(LadesaTypings.Tokens.Evento.Operations.FindById)
   async eventoFindById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EventoFindByIDCombinedInput,
   ) {
-    return this.eventoService.eventoFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.eventoService.eventoFindByIdStrict(accessContext, { id: dto.params.id });
   }
 
   //
@@ -37,10 +34,10 @@ export class EventoController {
   @Operation(LadesaTypings.Tokens.Evento.Operations.Create)
   async eventoCreate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EventoCreateCombinedInput,
   ) {
-    return this.eventoService.eventoCreate(contextoDeAcesso, dto);
+    return this.eventoService.eventoCreate(accessContext, dto);
   }
 
   //
@@ -49,10 +46,10 @@ export class EventoController {
   @Operation(LadesaTypings.Tokens.Evento.Operations.Create)
   async eventoUpdate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EventoUpdateByIDCombinedInput,
   ) {
-    return this.eventoService.eventoUpdate(contextoDeAcesso, dto);
+    return this.eventoService.eventoUpdate(accessContext, dto);
   }
 
   //
@@ -61,10 +58,10 @@ export class EventoController {
   @Operation(LadesaTypings.Tokens.Evento.Operations.DeleteById)
   async eventoDeleteOneById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EventoDeleteByIDCombinedInput,
   ) {
-    return this.eventoService.eventoDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.eventoService.eventoDeleteOneById(accessContext, { id: dto.params.id });
   }
 
   //

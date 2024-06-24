@@ -2,7 +2,7 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -34,7 +34,7 @@ export class AmbienteService {
   //
 
   async ambienteFindAll(
-    contextoDeAcesso: IContextoDeAcesso,
+    accessContext: AccessContext,
     dto: LadesaTypings.AmbienteListCombinedInput | null = null,
     selection?: string[] | boolean,
   ): Promise<LadesaTypings.AmbienteListCombinedSuccessOutput['body']> {
@@ -44,7 +44,7 @@ export class AmbienteService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('ambiente:find', qb, aliasAmbiente, null);
+    await accessContext.aplicarFiltro('ambiente:find', qb, aliasAmbiente, null);
 
     // =========================================================
 
@@ -119,15 +119,15 @@ export class AmbienteService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async ambienteFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.AmbienteFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.AmbienteFindOneResult | null> {
+  async ambienteFindById(accessContext: AccessContext | null, dto: LadesaTypings.AmbienteFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.AmbienteFindOneResult | null> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
 
     // =========================================================
 
-    if (contextoDeAcesso) {
-      await contextoDeAcesso.aplicarFiltro('ambiente:find', qb, aliasAmbiente, null);
+    if (accessContext) {
+      await accessContext.aplicarFiltro('ambiente:find', qb, aliasAmbiente, null);
     }
 
     // =========================================================
@@ -148,8 +148,8 @@ export class AmbienteService {
     return ambiente;
   }
 
-  async ambienteFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.AmbienteFindOneInput, selection?: string[] | boolean) {
-    const ambiente = await this.ambienteFindById(contextoDeAcesso, dto, selection);
+  async ambienteFindByIdStrict(accessContext: AccessContext | null, dto: LadesaTypings.AmbienteFindOneInput, selection?: string[] | boolean) {
+    const ambiente = await this.ambienteFindById(accessContext, dto, selection);
 
     if (!ambiente) {
       throw new NotFoundException();
@@ -160,10 +160,10 @@ export class AmbienteService {
 
   //
 
-  async ambienteCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteCreateCombinedInput) {
+  async ambienteCreate(accessContext: AccessContext, dto: LadesaTypings.AmbienteCreateCombinedInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('ambiente:create', { dto });
+    await accessContext.ensurePermission('ambiente:create', { dto });
 
     // =========================================================
 
@@ -177,7 +177,7 @@ export class AmbienteService {
 
     // =========================================================
 
-    const bloco = await this.blocoService.blocoFindByIdSimpleStrict(contextoDeAcesso, dto.body.bloco.id);
+    const bloco = await this.blocoService.blocoFindByIdSimpleStrict(accessContext, dto.body.bloco.id);
 
     this.ambienteRepository.merge(ambiente, {
       bloco: {
@@ -191,19 +191,19 @@ export class AmbienteService {
 
     // =========================================================
 
-    return this.ambienteFindByIdStrict(contextoDeAcesso, { id: ambiente.id });
+    return this.ambienteFindByIdStrict(accessContext, { id: ambiente.id });
   }
 
-  async ambienteUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteUpdateByIDCombinedInput) {
+  async ambienteUpdate(accessContext: AccessContext, dto: LadesaTypings.AmbienteUpdateByIDCombinedInput) {
     // =========================================================
 
-    const currentAmbiente = await this.ambienteFindByIdStrict(contextoDeAcesso, {
+    const currentAmbiente = await this.ambienteFindByIdStrict(accessContext, {
       id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('ambiente:update', { dto }, dto.params.id, this.ambienteRepository.createQueryBuilder(aliasAmbiente));
+    await accessContext.ensurePermission('ambiente:update', { dto }, dto.params.id, this.ambienteRepository.createQueryBuilder(aliasAmbiente));
 
     const dtoAmbiente = pick(dto.body, ['nome', 'descricao', 'codigo', 'capacidade', 'tipo']);
 
@@ -221,13 +221,13 @@ export class AmbienteService {
 
     // =========================================================
 
-    return this.ambienteFindByIdStrict(contextoDeAcesso, { id: ambiente.id });
+    return this.ambienteFindByIdStrict(accessContext, { id: ambiente.id });
   }
 
   //
 
-  async ambienteGetImagemCapa(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
-    const ambiente = await this.ambienteFindByIdStrict(contextoDeAcesso, { id: id });
+  async ambienteGetImagemCapa(accessContext: AccessContext | null, id: string) {
+    const ambiente = await this.ambienteFindByIdStrict(accessContext, { id: id });
 
     if (ambiente.imagemCapa) {
       const [versao] = ambiente.imagemCapa.versoes;
@@ -241,14 +241,14 @@ export class AmbienteService {
     throw new NotFoundException();
   }
 
-  async ambienteUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteFindOneInput, file: Express.Multer.File) {
+  async ambienteUpdateImagemCapa(accessContext: AccessContext, dto: LadesaTypings.AmbienteFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
-    const currentAmbiente = await this.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.id });
+    const currentAmbiente = await this.ambienteFindByIdStrict(accessContext, { id: dto.id });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission(
+    await accessContext.ensurePermission(
       'ambiente:update',
       {
         dto: {
@@ -282,14 +282,14 @@ export class AmbienteService {
 
   //
 
-  async ambienteDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AmbienteFindOneInput) {
+  async ambienteDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.AmbienteFindOneInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('ambiente:delete', { dto }, dto.id, this.ambienteRepository.createQueryBuilder(aliasAmbiente));
+    await accessContext.ensurePermission('ambiente:delete', { dto }, dto.id, this.ambienteRepository.createQueryBuilder(aliasAmbiente));
 
     // =========================================================
 
-    const bloco = await this.ambienteFindByIdStrict(contextoDeAcesso, dto);
+    const bloco = await this.ambienteFindByIdStrict(accessContext, dto);
 
     // =========================================================
 

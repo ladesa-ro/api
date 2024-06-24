@@ -1,7 +1,7 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextHttp } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { AmbienteService } from './ambiente.service';
 
@@ -13,10 +13,10 @@ export class AmbienteController {
   @Get('/')
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.List)
   async ambienteFindAll(
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.AmbienteListCombinedInput,
   ): Promise<LadesaTypings.AmbienteListCombinedSuccessOutput['body']> {
-    return this.ambienteService.ambienteFindAll(contextoDeAcesso, dto);
+    return this.ambienteService.ambienteFindAll(accessContext, dto);
   }
 
   //
@@ -25,20 +25,20 @@ export class AmbienteController {
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.FindById)
   async ambienteFindById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.AmbienteFindByIDCombinedInput,
   ) {
-    return this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.ambienteService.ambienteFindByIdStrict(accessContext, { id: dto.params.id });
   }
 
   @Post('/')
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.Create)
   async ambienteCreate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.AmbienteCreateCombinedInput,
   ) {
-    return this.ambienteService.ambienteCreate(contextoDeAcesso, dto);
+    return this.ambienteService.ambienteCreate(accessContext, dto);
   }
 
   //
@@ -47,10 +47,10 @@ export class AmbienteController {
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.UpdateById)
   async ambienteUpdate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.AmbienteUpdateByIDCombinedInput,
   ) {
-    return this.ambienteService.ambienteUpdate(contextoDeAcesso, dto);
+    return this.ambienteService.ambienteUpdate(accessContext, dto);
   }
 
   //
@@ -59,21 +59,21 @@ export class AmbienteController {
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.GetCoverImage)
   async ambienteGetImagemCapa(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.ambienteService.ambienteGetImagemCapa(contextoDeAcesso, id);
+    return this.ambienteService.ambienteGetImagemCapa(accessContext, id);
   }
 
   @Put('/:id/imagem/capa')
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.SetCoverImage)
   async ambienteImagemCapaSave(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @UploadedFile() file: Express.Multer.File,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.ambienteService.ambienteUpdateImagemCapa(contextoDeAcesso, { id }, file);
+    return this.ambienteService.ambienteUpdateImagemCapa(accessContext, { id }, file);
   }
 
   //
@@ -82,10 +82,10 @@ export class AmbienteController {
   @Operation(LadesaTypings.Tokens.Ambiente.Operations.DeleteById)
   async ambienteDeleteOneById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.AmbienteDeleteByIDCombinedInput,
   ) {
-    return this.ambienteService.ambienteDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.ambienteService.ambienteDeleteOneById(accessContext, { id: dto.params.id });
   }
 
   //

@@ -1,11 +1,11 @@
 import type * as LadesaTypings from '@ladesa-ro/especificacao';
-import { ForbiddenException, Injectable, NotFoundException, ServiceUnavailableException, StreamableFile } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable, NotFoundException, ServiceUnavailableException, StreamableFile } from '@nestjs/common';
 import jetpack, { createReadStream } from 'fs-jetpack';
 import { writeFile } from 'node:fs/promises';
 import { Readable } from 'node:stream';
 import { v4 } from 'uuid';
-import { EnvironmentConfigService } from '../../../config';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
+import { AppConfigService } from '../../../config';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { ArquivoEntity, UsuarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { ValidationContractUuid } from '../../../validacao';
@@ -19,7 +19,9 @@ type IGetFileAcesso = null | {
 export class ArquivoService {
   constructor(
     private databaseContextService: DatabaseContextService,
-    private environmentConfigService: EnvironmentConfigService,
+
+    @Inject(AppConfigService)
+    private appConfigService: AppConfigService,
   ) {}
 
   get arquivoRepository() {
@@ -27,7 +29,7 @@ export class ArquivoService {
   }
 
   private get storagePath() {
-    return this.environmentConfigService.getStoragePath();
+    return this.appConfigService.getStoragePath();
   }
 
   async dataExists(id: LadesaTypings.Arquivo['id']) {
@@ -45,7 +47,7 @@ export class ArquivoService {
     return null;
   }
 
-  async getFile(contextoDeAcesso: IContextoDeAcesso | null, id: LadesaTypings.Arquivo['id'], acesso: IGetFileAcesso | null) {
+  async getFile(accessContext: AccessContext | null, id: LadesaTypings.Arquivo['id'], acesso: IGetFileAcesso | null) {
     const qb = this.arquivoRepository.createQueryBuilder('arquivo');
 
     qb.where('arquivo.id = :arquivoId', { arquivoId: id });
@@ -64,8 +66,8 @@ export class ArquivoService {
           .innerJoin('versao.imagem', 'imagem')
           .innerJoin('imagem.blocoCapa', 'blocoCapa');
 
-        if (contextoDeAcesso) {
-          await contextoDeAcesso.aplicarFiltro('bloco:find', qb, 'blocoCapa', null);
+        if (accessContext) {
+          await accessContext.aplicarFiltro('bloco:find', qb, 'blocoCapa', null);
         }
 
         qb.andWhere('blocoCapa.id = :blocoId', { blocoId: acesso.id });
@@ -76,8 +78,8 @@ export class ArquivoService {
           .innerJoin('versao.imagem', 'imagem')
           .innerJoin('imagem.ambienteCapa', 'ambienteCapa');
 
-        if (contextoDeAcesso) {
-          await contextoDeAcesso.aplicarFiltro('ambiente:find', qb, 'ambienteCapa', null);
+        if (accessContext) {
+          await accessContext.aplicarFiltro('ambiente:find', qb, 'ambienteCapa', null);
         }
 
         qb.andWhere('ambienteCapa.id = :ambienteId', { ambienteId: acesso.id });
@@ -88,8 +90,8 @@ export class ArquivoService {
           .innerJoin('versao.imagem', 'imagem')
           .leftJoin(UsuarioEntity, 'usuario', '(usuario.id_imagem_capa_fk = imagem.id OR usuario.id_imagem_perfil_fk = imagem.id)');
 
-        if (contextoDeAcesso) {
-          await contextoDeAcesso.aplicarFiltro('usuario:find', qb, 'usuario', null);
+        if (accessContext) {
+          await accessContext.aplicarFiltro('usuario:find', qb, 'usuario', null);
         }
 
         qb.andWhere('usuario.id = :usuarioId', { usuarioId: acesso.id });
@@ -120,8 +122,8 @@ export class ArquivoService {
     };
   }
 
-  async getStreamableFile(contextoDeAcesso: IContextoDeAcesso | null, id: LadesaTypings.Arquivo['id'], acesso: IGetFileAcesso | null) {
-    const file = await this.getFile(contextoDeAcesso, id, acesso);
+  async getStreamableFile(accessContext: AccessContext | null, id: LadesaTypings.Arquivo['id'], acesso: IGetFileAcesso | null) {
+    const file = await this.getFile(accessContext, id, acesso);
 
     if (!file.stream) {
       throw new ServiceUnavailableException();

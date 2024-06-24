@@ -1,15 +1,15 @@
 import { NestFactory } from '@nestjs/core';
-import { EnvironmentConfigService } from '../../../../config';
+import { AppConfigService } from '../../../../config';
 import { DataSourceSetupModule } from './DataSourceSetupModule';
 
-export const getDataSourceEnvironmentConfigService = async (environmentConfigService: EnvironmentConfigService | null) => {
-  if (environmentConfigService === null) {
+export const getDataSourceAppConfigService = async (appConfigService: AppConfigService | null) => {
+  if (appConfigService === null) {
     const app = await NestFactory.create(DataSourceSetupModule);
 
-    const environmentConfigService = app.get(EnvironmentConfigService);
+    const appConfigService = app.get(AppConfigService);
 
-    return environmentConfigService;
+    return appConfigService;
   }
 
-  return environmentConfigService;
+  return appConfigService;
 };

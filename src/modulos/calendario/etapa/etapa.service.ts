@@ -3,7 +3,7 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -30,7 +30,7 @@ export class EtapaService {
   //
 
   async etapaFindAll(
-    contextoDeAcesso: IContextoDeAcesso,
+    accessContext: AccessContext,
     dto: LadesaTypings.EtapaListCombinedInput | null = null,
     selection?: string[] | boolean,
   ): Promise<LadesaTypings.EtapaListCombinedSuccessOutput['body']> {
@@ -40,7 +40,7 @@ export class EtapaService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('etapa:find', qb, aliasEtapa, null);
+    await accessContext.aplicarFiltro('etapa:find', qb, aliasEtapa, null);
 
     // =========================================================
 
@@ -108,14 +108,14 @@ export class EtapaService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async etapaFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.EtapaFindOneResult | null> {
+  async etapaFindById(accessContext: AccessContext, dto: LadesaTypings.EtapaFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.EtapaFindOneResult | null> {
     // =========================================================
 
     const qb = this.etapaRepository.createQueryBuilder(aliasEtapa);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('etapa:find', qb, aliasEtapa, null);
+    await accessContext.aplicarFiltro('etapa:find', qb, aliasEtapa, null);
 
     // =========================================================
 
@@ -136,8 +136,8 @@ export class EtapaService {
     return etapa;
   }
 
-  async etapaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaFindOneInput, selection?: string[] | boolean) {
-    const etapa = await this.etapaFindById(contextoDeAcesso, dto, selection);
+  async etapaFindByIdStrict(accessContext: AccessContext, dto: LadesaTypings.EtapaFindOneInput, selection?: string[] | boolean) {
+    const etapa = await this.etapaFindById(accessContext, dto, selection);
 
     if (!etapa) {
       throw new NotFoundException();
@@ -146,14 +146,14 @@ export class EtapaService {
     return etapa;
   }
 
-  async etapaFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.EtapaFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.EtapaFindOneResult | null> {
+  async etapaFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.EtapaFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.EtapaFindOneResult | null> {
     // =========================================================
 
     const qb = this.etapaRepository.createQueryBuilder(aliasEtapa);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('etapa:find', qb, aliasEtapa, null);
+    await accessContext.aplicarFiltro('etapa:find', qb, aliasEtapa, null);
 
     // =========================================================
 
@@ -173,8 +173,8 @@ export class EtapaService {
     return etapa;
   }
 
-  async EtapaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.EtapaFindOneInput['id'], selection?: string[]) {
-    const etapa = await this.etapaFindByIdSimple(contextoDeAcesso, id, selection);
+  async EtapaFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.EtapaFindOneInput['id'], selection?: string[]) {
+    const etapa = await this.etapaFindByIdSimple(accessContext, id, selection);
 
     if (!etapa) {
       throw new NotFoundException();
@@ -185,10 +185,10 @@ export class EtapaService {
 
   //
 
-  async etapaCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaCreateCombinedInput) {
+  async etapaCreate(accessContext: AccessContext, dto: LadesaTypings.EtapaCreateCombinedInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('etapa:create', { dto });
+    await accessContext.ensurePermission('etapa:create', { dto });
 
     // =========================================================
 
@@ -203,7 +203,7 @@ export class EtapaService {
     // =========================================================
 
     if (dto.body.calendario) {
-      const calendario = await this.calendarioLetivoService.calendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario.id);
+      const calendario = await this.calendarioLetivoService.calendarioLetivoFindByIdSimpleStrict(accessContext, dto.body.calendario.id);
 
       this.etapaRepository.merge(etapa, {
         calendario: {
@@ -218,19 +218,19 @@ export class EtapaService {
 
     // =========================================================
 
-    return this.etapaFindByIdStrict(contextoDeAcesso, { id: etapa.id });
+    return this.etapaFindByIdStrict(accessContext, { id: etapa.id });
   }
 
-  async etapaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaUpdateByIDCombinedInput) {
+  async etapaUpdate(accessContext: AccessContext, dto: LadesaTypings.EtapaUpdateByIDCombinedInput) {
     // =========================================================
 
-    const currentEtapa = await this.etapaFindByIdStrict(contextoDeAcesso, {
+    const currentEtapa = await this.etapaFindByIdStrict(accessContext, {
       id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('etapa:update', { dto }, dto.params.id, this.etapaRepository.createQueryBuilder(aliasEtapa));
+    await accessContext.ensurePermission('etapa:update', { dto }, dto.params.id, this.etapaRepository.createQueryBuilder(aliasEtapa));
 
     const dtoEtapa = pick(dto.body, ['numero', 'cor', 'dataInicio', 'dataTermino']);
 
@@ -245,7 +245,7 @@ export class EtapaService {
     // =========================================================
 
     if (has(dto.body, 'calendario') && dto.body.calendario !== undefined) {
-      const calendario = await this.calendarioLetivoService.calendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario!.id);
+      const calendario = await this.calendarioLetivoService.calendarioLetivoFindByIdSimpleStrict(accessContext, dto.body.calendario!.id);
 
       this.etapaRepository.merge(etapa, {
         calendario: {
@@ -260,19 +260,19 @@ export class EtapaService {
 
     // =========================================================
 
-    return this.etapaFindByIdStrict(contextoDeAcesso, { id: etapa.id });
+    return this.etapaFindByIdStrict(accessContext, { id: etapa.id });
   }
 
   //
 
-  async etapaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaFindOneInput) {
+  async etapaDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.EtapaFindOneInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('etapa:delete', { dto }, dto.id, this.etapaRepository.createQueryBuilder(aliasEtapa));
+    await accessContext.ensurePermission('etapa:delete', { dto }, dto.id, this.etapaRepository.createQueryBuilder(aliasEtapa));
 
     // =========================================================
 
-    const etapa = await this.etapaFindByIdStrict(contextoDeAcesso, dto);
+    const etapa = await this.etapaFindByIdStrict(accessContext, dto);
 
     // =========================================================
 

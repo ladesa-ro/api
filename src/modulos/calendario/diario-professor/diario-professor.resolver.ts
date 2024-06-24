@@ -1,6 +1,6 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextGraphQl } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { DiarioProfessorService } from './diario-professor.service';
 
@@ -10,41 +10,41 @@ export class DiarioProfessorResolver {
   @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.List)
   async diarioProfessorFindAll(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiarioProfessorListCombinedInput,
   ) {
-    return this.diarioProfessorService.diarioProfessorFindAll(contextoDeAcesso, dto);
+    return this.diarioProfessorService.diarioProfessorFindAll(accessContext, dto);
   }
   @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.FindById)
   async diarioProfessorFindOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiarioProfessorFindByIDCombinedInput,
   ) {
-    return this.diarioProfessorService.diarioProfessorFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.diarioProfessorService.diarioProfessorFindByIdStrict(accessContext, { id: dto.params.id });
   }
   @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.Create)
   async diarioProfessorCreate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiarioProfessorCreateCombinedInput,
   ) {
-    return this.diarioProfessorService.diarioProfessorCreate(contextoDeAcesso, dto);
+    return this.diarioProfessorService.diarioProfessorCreate(accessContext, dto);
   }
   @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.Create)
   async diarioProfessorUpdate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiarioProfessorUpdateByIDCombinedInput,
   ) {
-    return this.diarioProfessorService.diarioProfessorUpdate(contextoDeAcesso, dto);
+    return this.diarioProfessorService.diarioProfessorUpdate(accessContext, dto);
   }
   @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.DeleteById)
   async diarioProfessorDeleteOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiarioProfessorDeleteByIDCombinedInput,
   ) {
-    return this.diarioProfessorService.diarioProfessorDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.diarioProfessorService.diarioProfessorDeleteOneById(accessContext, { id: dto.params.id });
   }
 }

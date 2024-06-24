@@ -1,7 +1,7 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { BadRequestException, ForbiddenException, HttpException, Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { BaseClient, TokenSet } from 'openid-client';
-import { IContextoDeAcesso } from '../../contexto-de-acesso';
+import { AccessContext } from '../../access-context';
 import { DatabaseContextService } from '../../integracao-banco-de-dados';
 import { KeycloakService, OpenidConnectService } from '../../integracao-identidade-e-acesso';
 import { UsuarioService } from './usuario/usuario.service';
@@ -23,16 +23,16 @@ export class AutenticacaoService {
 
   //
 
-  async quemSouEu(contextoDeAcesso: IContextoDeAcesso) {
-    const usuario = contextoDeAcesso.usuario ? await this.usuarioService.usuarioFindById(contextoDeAcesso, { id: contextoDeAcesso.usuario.id }) : null;
+  async quemSouEu(accessContext: AccessContext) {
+    const usuario = accessContext.requestActor ? await this.usuarioService.usuarioFindById(accessContext, { id: accessContext.requestActor.id }) : null;
 
     return {
       usuario: usuario,
     };
   }
 
-  async login(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AuthLoginCombinedInput): Promise<LadesaTypings.AuthLoginCombinedSuccessOutput['body']> {
-    if (contextoDeAcesso.usuario !== null) {
+  async login(accessContext: AccessContext, dto: LadesaTypings.AuthLoginCombinedInput): Promise<LadesaTypings.AuthLoginCombinedSuccessOutput['body']> {
+    if (accessContext.requestActor !== null) {
       throw new BadRequestException('Você não pode usar a rota de login caso já esteja logado.');
     }
 
@@ -64,7 +64,7 @@ export class AutenticacaoService {
     throw new ForbiddenException('Credenciais inválidas.');
   }
 
-  async refresh(_: IContextoDeAcesso, dto: LadesaTypings.AuthRefreshCombinedInput): Promise<LadesaTypings.AuthLoginCombinedSuccessOutput['body']> {
+  async refresh(_: AccessContext, dto: LadesaTypings.AuthRefreshCombinedInput): Promise<LadesaTypings.AuthLoginCombinedSuccessOutput['body']> {
     let trustIssuerClient: BaseClient;
 
     try {
@@ -86,7 +86,7 @@ export class AutenticacaoService {
     throw new ForbiddenException('Credenciais inválidas ou expiradas.');
   }
 
-  async definirSenha(_contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.AuthSetInitialPasswordCombinedInput): Promise<LadesaTypings.AuthSetInitialPasswordCombinedSuccessOutput['body']> {
+  async definirSenha(_accessContext: AccessContext, dto: LadesaTypings.AuthSetInitialPasswordCombinedInput): Promise<LadesaTypings.AuthSetInitialPasswordCombinedSuccessOutput['body']> {
     try {
       const kcAdminClient = await this.keycloakService.getAdminClient();
 

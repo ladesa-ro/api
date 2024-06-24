@@ -2,7 +2,7 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { FilterOperator } from 'nestjs-paginate';
 import { NotBrackets } from 'typeorm';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -36,12 +36,12 @@ export class VinculoService {
 
   //
 
-  async vinculoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoListCombinedInput | null = null, selection?: string[] | boolean) {
+  async vinculoFindAll(accessContext: AccessContext, dto: LadesaTypings.VinculoListCombinedInput | null = null, selection?: string[] | boolean) {
     const qb = this.vinculoRepository.createQueryBuilder(aliasVinculo);
 
     QbEfficientLoad(LadesaTypings.Tokens.Vinculo.Views.FindOneResult, qb, aliasVinculo, selection);
 
-    await contextoDeAcesso.aplicarFiltro('vinculo:find', qb, aliasVinculo, null);
+    await accessContext.aplicarFiltro('vinculo:find', qb, aliasVinculo, null);
 
     const paginated = LadesaSearch('#/', dto, qb, {
       ...paginateConfig,
@@ -79,14 +79,14 @@ export class VinculoService {
     return paginated;
   }
 
-  async vinculoFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.VinculoFindOneResult | null> {
+  async vinculoFindById(accessContext: AccessContext, dto: LadesaTypings.VinculoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.VinculoFindOneResult | null> {
     // =========================================================
 
     const qb = this.vinculoRepository.createQueryBuilder(aliasVinculo);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('vinculo:find', qb, aliasVinculo, null);
+    await accessContext.aplicarFiltro('vinculo:find', qb, aliasVinculo, null);
 
     // =========================================================
 
@@ -106,8 +106,8 @@ export class VinculoService {
     return vinculo;
   }
 
-  async vinculoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoFindOneInput, selection?: string[] | boolean) {
-    const vinculo = await this.vinculoFindById(contextoDeAcesso, dto, selection);
+  async vinculoFindByIdStrict(accessContext: AccessContext, dto: LadesaTypings.VinculoFindOneInput, selection?: string[] | boolean) {
+    const vinculo = await this.vinculoFindById(accessContext, dto, selection);
 
     if (!vinculo) {
       throw new NotFoundException();
@@ -116,9 +116,9 @@ export class VinculoService {
     return vinculo;
   }
 
-  async vinculoSetVinculos(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.VinculoUpdateCombinedInput) {
-    const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.body.campus.id);
-    const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(contextoDeAcesso, dto.body.usuario.id);
+  async vinculoSetVinculos(accessContext: AccessContext, dto: LadesaTypings.VinculoUpdateCombinedInput) {
+    const campus = await this.campusService.campusFindByIdSimpleStrict(accessContext, dto.body.campus.id);
+    const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(accessContext, dto.body.usuario.id);
 
     const vinculosParaManter = new Set();
 
@@ -168,7 +168,7 @@ export class VinculoService {
       .andWhere(new NotBrackets((qb) => qb.whereInIds([...vinculosParaManter])))
       .execute();
 
-    return this.vinculoFindAll(contextoDeAcesso, <any>{
+    return this.vinculoFindAll(accessContext, <any>{
       queries: {
         'filter.ativo': ['true'],
         'filter.usuario.id': [`${usuario.id}`],

@@ -1,7 +1,7 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextHttp } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { CampusService } from './campus.service';
 
@@ -16,10 +16,10 @@ export class CampusController {
   @Operation(LadesaTypings.Tokens.Campus.Operations.List)
   async campusFindAll(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CampusListCombinedInput,
   ): Promise<LadesaTypings.CampusListCombinedSuccessOutput['body']> {
-    return this.campusService.campusFindAll(contextoDeAcesso, dto);
+    return this.campusService.campusFindAll(accessContext, dto);
   }
 
   //
@@ -28,10 +28,10 @@ export class CampusController {
   @Operation(LadesaTypings.Tokens.Campus.Operations.FindById)
   async campusFindById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.AmbienteFindByIDCombinedInput,
   ) {
-    return this.campusService.campusFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.campusService.campusFindByIdStrict(accessContext, { id: dto.params.id });
   }
 
   //
@@ -40,10 +40,10 @@ export class CampusController {
   @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
   async campusCreate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CampusCreateCombinedInput,
   ) {
-    return this.campusService.campusCreate(contextoDeAcesso, dto);
+    return this.campusService.campusCreate(accessContext, dto);
   }
 
   //
@@ -52,10 +52,10 @@ export class CampusController {
   @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
   async campusUpdate(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CampusUpdateByIDCombinedInput,
   ) {
-    return this.campusService.campusUpdate(contextoDeAcesso, dto);
+    return this.campusService.campusUpdate(accessContext, dto);
   }
 
   //
@@ -64,10 +64,10 @@ export class CampusController {
   @Operation(LadesaTypings.Tokens.Campus.Operations.DeleteById)
   async campusDeleteOneById(
     //
-    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.AmbienteFindByIDCombinedInput,
   ) {
-    return this.campusService.campusDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.campusService.campusDeleteOneById(accessContext, { id: dto.params.id });
   }
 
   //

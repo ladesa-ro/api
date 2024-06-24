@@ -1,7 +1,7 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { map } from 'lodash';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -19,14 +19,14 @@ export class EstadoService {
 
   //
 
-  async findAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EstadoListCombinedInput | null = null, selection?: string[]): Promise<LadesaTypings.EstadoListCombinedSuccessOutput['body']> {
+  async findAll(accessContext: AccessContext, dto: LadesaTypings.EstadoListCombinedInput | null = null, selection?: string[]): Promise<LadesaTypings.EstadoListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('estado:find', qb, aliasEstado, null);
+    await accessContext.aplicarFiltro('estado:find', qb, aliasEstado, null);
 
     // =========================================================
 
@@ -70,14 +70,14 @@ export class EstadoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async findById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EstadoFindOneInput, selection?: string[]) {
+  async findById(accessContext: AccessContext, dto: LadesaTypings.EstadoFindOneInput, selection?: string[]) {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder('estado');
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('estado:find', qb, aliasEstado, null);
+    await accessContext.aplicarFiltro('estado:find', qb, aliasEstado, null);
 
     // =========================================================
 
@@ -97,8 +97,8 @@ export class EstadoService {
     return estado;
   }
 
-  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EstadoFindOneInput, selection?: string[]) {
-    const estado = await this.findById(contextoDeAcesso, dto, selection);
+  async findByIdStrict(accessContext: AccessContext, dto: LadesaTypings.EstadoFindOneInput, selection?: string[]) {
+    const estado = await this.findById(accessContext, dto, selection);
 
     if (!estado) {
       throw new NotFoundException();

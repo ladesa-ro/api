@@ -1,7 +1,7 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -60,7 +60,7 @@ export class UsuarioService {
   //
 
   async usuarioFindAll(
-    contextoDeAcesso: IContextoDeAcesso,
+    accessContext: AccessContext,
     dto: LadesaTypings.UsuarioListCombinedInput | null = null,
     selection?: string[] | boolean,
   ): Promise<LadesaTypings.UsuarioListCombinedSuccessOutput['body']> {
@@ -70,7 +70,7 @@ export class UsuarioService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('usuario:find', qb, aliasUsuario, null);
+    await accessContext.aplicarFiltro('usuario:find', qb, aliasUsuario, null);
 
     // =========================================================
 
@@ -126,15 +126,15 @@ export class UsuarioService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async usuarioFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.UsuarioFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.UsuarioFindOneResult | null> {
+  async usuarioFindById(accessContext: AccessContext | null, dto: LadesaTypings.UsuarioFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.UsuarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
 
     // =========================================================
 
-    if (contextoDeAcesso) {
-      await contextoDeAcesso.aplicarFiltro('usuario:find', qb, aliasUsuario, null);
+    if (accessContext) {
+      await accessContext.aplicarFiltro('usuario:find', qb, aliasUsuario, null);
     }
 
     // =========================================================
@@ -155,8 +155,8 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.UsuarioFindOneInput, selection?: string[] | boolean) {
-    const usuario = await this.usuarioFindById(contextoDeAcesso, dto, selection);
+  async usuarioFindByIdStrict(accessContext: AccessContext | null, dto: LadesaTypings.UsuarioFindOneInput, selection?: string[] | boolean) {
+    const usuario = await this.usuarioFindById(accessContext, dto, selection);
 
     if (!usuario) {
       throw new NotFoundException();
@@ -165,14 +165,14 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.UsuarioFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.UsuarioFindOneResult | null> {
+  async usuarioFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.UsuarioFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.UsuarioFindOneResult | null> {
     // =========================================================
 
     const qb = this.usuarioRepository.createQueryBuilder(aliasUsuario);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('usuario:find', qb, aliasUsuario, null);
+    await accessContext.aplicarFiltro('usuario:find', qb, aliasUsuario, null);
 
     // =========================================================
 
@@ -192,8 +192,8 @@ export class UsuarioService {
     return usuario;
   }
 
-  async usuarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.UsuarioFindOneInput['id'], selection?: string[]) {
-    const usuario = await this.usuarioFindByIdSimple(contextoDeAcesso, id, selection);
+  async usuarioFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.UsuarioFindOneInput['id'], selection?: string[]) {
+    const usuario = await this.usuarioFindByIdSimple(accessContext, id, selection);
 
     if (!usuario) {
       throw new NotFoundException();
@@ -309,8 +309,8 @@ export class UsuarioService {
 
   //
 
-  async usuarioGetImagemCapa(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
-    const usuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: id });
+  async usuarioGetImagemCapa(accessContext: AccessContext | null, id: string) {
+    const usuario = await this.usuarioFindByIdStrict(accessContext, { id: id });
 
     if (usuario.imagemCapa) {
       const [versao] = usuario.imagemCapa.versoes;
@@ -324,14 +324,14 @@ export class UsuarioService {
     throw new NotFoundException();
   }
 
-  async usuarioUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.UsuarioFindOneInput, file: Express.Multer.File) {
+  async usuarioUpdateImagemCapa(accessContext: AccessContext, dto: LadesaTypings.UsuarioFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
-    const currentUsuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.id });
+    const currentUsuario = await this.usuarioFindByIdStrict(accessContext, { id: dto.id });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission(
+    await accessContext.ensurePermission(
       'usuario:update',
       {
         dto: {
@@ -362,8 +362,8 @@ export class UsuarioService {
     return true;
   }
 
-  async usuarioGetImagemPerfil(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
-    const usuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: id });
+  async usuarioGetImagemPerfil(accessContext: AccessContext | null, id: string) {
+    const usuario = await this.usuarioFindByIdStrict(accessContext, { id: id });
 
     if (usuario.imagemPerfil) {
       const [versao] = usuario.imagemPerfil.versoes;
@@ -377,14 +377,14 @@ export class UsuarioService {
     throw new NotFoundException();
   }
 
-  async usuarioUpdateImagemPerfil(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.UsuarioFindOneInput, file: Express.Multer.File) {
+  async usuarioUpdateImagemPerfil(accessContext: AccessContext, dto: LadesaTypings.UsuarioFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
-    const currentUsuario = await this.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.id });
+    const currentUsuario = await this.usuarioFindByIdStrict(accessContext, { id: dto.id });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission(
+    await accessContext.ensurePermission(
       'usuario:update',
       {
         dto: {
@@ -417,10 +417,10 @@ export class UsuarioService {
 
   //
 
-  async usuarioCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.UsuarioCreateCombinedInput) {
+  async usuarioCreate(accessContext: AccessContext, dto: LadesaTypings.UsuarioCreateCombinedInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('usuario:create', { dto });
+    await accessContext.ensurePermission('usuario:create', { dto });
 
     // =========================================================
 
@@ -461,13 +461,13 @@ export class UsuarioService {
         throw new InternalServerErrorException();
       });
 
-    return this.usuarioFindByIdStrict(contextoDeAcesso, { id: usuario.id });
+    return this.usuarioFindByIdStrict(accessContext, { id: usuario.id });
   }
 
-  async usuarioUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.UsuarioUpdateByIDCombinedInput) {
+  async usuarioUpdate(accessContext: AccessContext, dto: LadesaTypings.UsuarioUpdateByIDCombinedInput) {
     // =========================================================
 
-    const currentUsuario = await this.usuarioFindByIdStrict(contextoDeAcesso, {
+    const currentUsuario = await this.usuarioFindByIdStrict(accessContext, {
       id: dto.params.id,
     });
 
@@ -481,7 +481,7 @@ export class UsuarioService {
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('usuario:update', { dto }, dto.params.id, this.usuarioRepository.createQueryBuilder(aliasUsuario));
+    await accessContext.ensurePermission('usuario:update', { dto }, dto.params.id, this.usuarioRepository.createQueryBuilder(aliasUsuario));
 
     const input = pick(dto.body, ['nome', 'matriculaSiape', 'email']);
 
@@ -531,19 +531,19 @@ export class UsuarioService {
 
     // =========================================================
 
-    return this.usuarioFindByIdStrict(contextoDeAcesso, { id: usuario.id });
+    return this.usuarioFindByIdStrict(accessContext, { id: usuario.id });
   }
 
   //
 
-  async usuarioDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.UsuarioFindOneInput) {
+  async usuarioDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.UsuarioFindOneInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('usuario:delete', { dto }, dto.id, this.usuarioRepository.createQueryBuilder(aliasUsuario));
+    await accessContext.ensurePermission('usuario:delete', { dto }, dto.id, this.usuarioRepository.createQueryBuilder(aliasUsuario));
 
     // =========================================================
 
-    const usuario = await this.usuarioFindByIdStrict(contextoDeAcesso, dto);
+    const usuario = await this.usuarioFindByIdStrict(accessContext, dto);
 
     // =========================================================
 

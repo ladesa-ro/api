@@ -1,6 +1,6 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextGraphQl } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { CalendarioLetivoService } from './calendario-letivo.service';
 
@@ -11,45 +11,45 @@ export class CalendarioLetivoResolver {
   @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.List)
   async calendarioLetivoFindAll(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CalendarioLetivoListCombinedInput,
   ) {
-    return this.calendarioLetivoService.calendarioLetivoFindAll(contextoDeAcesso, dto);
+    return this.calendarioLetivoService.calendarioLetivoFindAll(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.FindById)
   async calendarioLetivoFindOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CalendarioLetivoFindByIDCombinedInput,
   ) {
-    return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.Create)
   async calendarioLetivoCreate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CalendarioLetivoCreateCombinedInput,
   ) {
-    return this.calendarioLetivoService.calendarioLetivoCreate(contextoDeAcesso, dto);
+    return this.calendarioLetivoService.calendarioLetivoCreate(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.Create)
   async calendarioLetivoUpdate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CalendarioLetivoUpdateByIDCombinedInput,
   ) {
-    return this.calendarioLetivoService.calendarioLetivoUpdate(contextoDeAcesso, dto);
+    return this.calendarioLetivoService.calendarioLetivoUpdate(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.DeleteById)
   async calendarioLetivoDeleteOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.CalendarioLetivoDeleteByIDCombinedInput,
   ) {
-    return this.calendarioLetivoService.calendarioLetivoDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.calendarioLetivoService.calendarioLetivoDeleteOneById(accessContext, { id: dto.params.id });
   }
 }

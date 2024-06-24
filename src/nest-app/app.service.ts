@@ -1,9 +1,13 @@
-import { Injectable } from '@nestjs/common';
-import { EnvironmentConfigService } from '../config';
+import { Inject, Injectable } from '@nestjs/common';
+import { AppConfigService } from '../config';
 
 @Injectable()
 export class AppService {
-  constructor(readonly configService: EnvironmentConfigService) {}
+  constructor(
+    //
+    @Inject(AppConfigService)
+    readonly configService: AppConfigService,
+  ) {}
 
   getHello() {
     return {

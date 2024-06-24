@@ -1,6 +1,6 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextGraphQl } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { EtapaService } from './etapa.service';
 
@@ -11,45 +11,45 @@ export class EtapaResolver {
   @Operation(LadesaTypings.Tokens.Etapa.Operations.List)
   async etapaFindAll(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EtapaListCombinedInput,
   ) {
-    return this.etapaService.etapaFindAll(contextoDeAcesso, dto);
+    return this.etapaService.etapaFindAll(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.Etapa.Operations.FindById)
   async etapaFindOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EtapaFindByIDCombinedInput,
   ) {
-    return this.etapaService.etapaFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
+    return this.etapaService.etapaFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
   @Operation(LadesaTypings.Tokens.Etapa.Operations.Create)
   async etapaCreate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EtapaCreateCombinedInput,
   ) {
-    return this.etapaService.etapaCreate(contextoDeAcesso, dto);
+    return this.etapaService.etapaCreate(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.Etapa.Operations.Create)
   async etapaUpdate(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EtapaUpdateByIDCombinedInput,
   ) {
-    return this.etapaService.etapaUpdate(contextoDeAcesso, dto);
+    return this.etapaService.etapaUpdate(accessContext, dto);
   }
   //
   @Operation(LadesaTypings.Tokens.Etapa.Operations.DeleteById)
   async etapaDeleteOneById(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.EtapaDeleteByIDCombinedInput,
   ) {
-    return this.etapaService.etapaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
+    return this.etapaService.etapaDeleteOneById(accessContext, { id: dto.params.id });
   }
 }

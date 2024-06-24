@@ -2,7 +2,7 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -35,7 +35,7 @@ export class BlocoService {
 
   async blocoFindAll(
     //
-    contextoDeAcesso: IContextoDeAcesso,
+    accessContext: AccessContext,
     dto: LadesaTypings.BlocoListCombinedInput | null = null,
     selection?: string[] | boolean,
   ): Promise<LadesaTypings.BlocoListCombinedSuccessOutput['body']> {
@@ -45,7 +45,7 @@ export class BlocoService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('bloco:find', qb, aliasBloco, null);
+    await accessContext.aplicarFiltro('bloco:find', qb, aliasBloco, null);
 
     // =========================================================
 
@@ -106,15 +106,15 @@ export class BlocoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async blocoFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.BlocoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.BlocoFindOneResult | null> {
+  async blocoFindById(accessContext: AccessContext | null, dto: LadesaTypings.BlocoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.BlocoFindOneResult | null> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
 
     // =========================================================
 
-    if (contextoDeAcesso) {
-      await contextoDeAcesso.aplicarFiltro('bloco:find', qb, aliasBloco, null);
+    if (accessContext) {
+      await accessContext.aplicarFiltro('bloco:find', qb, aliasBloco, null);
     }
 
     // =========================================================
@@ -135,8 +135,8 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.BlocoFindOneInput, selection?: string[] | boolean) {
-    const bloco = await this.blocoFindById(contextoDeAcesso, dto, selection);
+  async blocoFindByIdStrict(accessContext: AccessContext | null, dto: LadesaTypings.BlocoFindOneInput, selection?: string[] | boolean) {
+    const bloco = await this.blocoFindById(accessContext, dto, selection);
 
     if (!bloco) {
       throw new NotFoundException();
@@ -145,14 +145,14 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.BlocoFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.BlocoFindOneResult | null> {
+  async blocoFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.BlocoFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.BlocoFindOneResult | null> {
     // =========================================================
 
     const qb = this.blocoRepository.createQueryBuilder(aliasBloco);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('bloco:find', qb, aliasBloco, null);
+    await accessContext.aplicarFiltro('bloco:find', qb, aliasBloco, null);
 
     // =========================================================
 
@@ -172,8 +172,8 @@ export class BlocoService {
     return bloco;
   }
 
-  async blocoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.BlocoFindOneInput['id'], selection?: string[]) {
-    const bloco = await this.blocoFindByIdSimple(contextoDeAcesso, id, selection);
+  async blocoFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.BlocoFindOneInput['id'], selection?: string[]) {
+    const bloco = await this.blocoFindByIdSimple(accessContext, id, selection);
 
     if (!bloco) {
       throw new NotFoundException();
@@ -184,8 +184,8 @@ export class BlocoService {
 
   //
 
-  async blocoGetImagemCapa(contextoDeAcesso: IContextoDeAcesso | null, id: string) {
-    const bloco = await this.blocoFindByIdStrict(contextoDeAcesso, { id: id });
+  async blocoGetImagemCapa(accessContext: AccessContext | null, id: string) {
+    const bloco = await this.blocoFindByIdStrict(accessContext, { id: id });
 
     if (bloco.imagemCapa) {
       const [versao] = bloco.imagemCapa.versoes;
@@ -199,14 +199,14 @@ export class BlocoService {
     throw new NotFoundException();
   }
 
-  async blocoUpdateImagemCapa(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.BlocoFindOneInput, file: Express.Multer.File) {
+  async blocoUpdateImagemCapa(accessContext: AccessContext, dto: LadesaTypings.BlocoFindOneInput, file: Express.Multer.File) {
     // =========================================================
 
-    const currentBloco = await this.blocoFindByIdStrict(contextoDeAcesso, { id: dto.id });
+    const currentBloco = await this.blocoFindByIdStrict(accessContext, { id: dto.id });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('bloco:update', { dto: { id: currentBloco.id } }, currentBloco.id, this.blocoRepository.createQueryBuilder(aliasBloco));
+    await accessContext.ensurePermission('bloco:update', { dto: { id: currentBloco.id } }, currentBloco.id, this.blocoRepository.createQueryBuilder(aliasBloco));
 
     // =========================================================
 
@@ -231,10 +231,10 @@ export class BlocoService {
 
   //
 
-  async blocoCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.BlocoCreateCombinedInput) {
+  async blocoCreate(accessContext: AccessContext, dto: LadesaTypings.BlocoCreateCombinedInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('bloco:create', { dto });
+    await accessContext.ensurePermission('bloco:create', { dto });
 
     // =========================================================
 
@@ -248,7 +248,7 @@ export class BlocoService {
 
     // =========================================================
 
-    const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.body.campus.id);
+    const campus = await this.campusService.campusFindByIdSimpleStrict(accessContext, dto.body.campus.id);
 
     this.blocoRepository.merge(bloco, {
       campus: {
@@ -262,19 +262,19 @@ export class BlocoService {
 
     // =========================================================
 
-    return this.blocoFindByIdStrict(contextoDeAcesso, { id: bloco.id });
+    return this.blocoFindByIdStrict(accessContext, { id: bloco.id });
   }
 
-  async blocoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.BlocoUpdateByIDCombinedInput) {
+  async blocoUpdate(accessContext: AccessContext, dto: LadesaTypings.BlocoUpdateByIDCombinedInput) {
     // =========================================================
 
-    const currentBloco = await this.blocoFindByIdStrict(contextoDeAcesso, {
+    const currentBloco = await this.blocoFindByIdStrict(accessContext, {
       id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('bloco:update', { dto }, dto.params.id, this.blocoRepository.createQueryBuilder(aliasBloco));
+    await accessContext.ensurePermission('bloco:update', { dto }, dto.params.id, this.blocoRepository.createQueryBuilder(aliasBloco));
 
     // =========================================================
 
@@ -294,19 +294,19 @@ export class BlocoService {
 
     // =========================================================
 
-    return this.blocoFindByIdStrict(contextoDeAcesso, { id: bloco.id });
+    return this.blocoFindByIdStrict(accessContext, { id: bloco.id });
   }
 
   //
 
-  async blocoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.BlocoFindOneInput) {
+  async blocoDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.BlocoFindOneInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('bloco:delete', { dto }, dto.id, this.blocoRepository.createQueryBuilder(aliasBloco));
+    await accessContext.ensurePermission('bloco:delete', { dto }, dto.id, this.blocoRepository.createQueryBuilder(aliasBloco));
 
     // =========================================================
 
-    const bloco = await this.blocoFindByIdStrict(contextoDeAcesso, dto);
+    const bloco = await this.blocoFindByIdStrict(accessContext, dto);
 
     // =========================================================
 

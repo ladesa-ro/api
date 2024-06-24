@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { get, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
 import { v4 } from 'uuid';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -37,7 +37,7 @@ export class CampusService {
   //
 
   async campusFindAll(
-    contextoDeAcesso: IContextoDeAcesso,
+    accessContext: AccessContext,
     dto: LadesaTypings.CampusListCombinedInput | null = null,
     selection?: string[] | boolean,
   ): Promise<LadesaTypings.CampusListCombinedSuccessOutput['body']> {
@@ -47,7 +47,7 @@ export class CampusService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('campus:find', qb, aliasCampus, null);
+    await accessContext.aplicarFiltro('campus:find', qb, aliasCampus, null);
 
     // =========================================================
 
@@ -135,14 +135,14 @@ export class CampusService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async campusFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CampusFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.CampusFindOneResult | null> {
+  async campusFindById(accessContext: AccessContext, dto: LadesaTypings.CampusFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.CampusFindOneResult | null> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('campus:find', qb, aliasCampus, null);
+    await accessContext.aplicarFiltro('campus:find', qb, aliasCampus, null);
 
     // =========================================================
 
@@ -162,8 +162,8 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CampusFindOneInput, selection?: string[] | boolean) {
-    const campus = await this.campusFindById(contextoDeAcesso, dto, selection);
+  async campusFindByIdStrict(accessContext: AccessContext, dto: LadesaTypings.CampusFindOneInput, selection?: string[] | boolean) {
+    const campus = await this.campusFindById(accessContext, dto, selection);
 
     if (!campus) {
       throw new NotFoundException();
@@ -172,14 +172,14 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CampusFindOneInput['id'], selection?: string[] | boolean): Promise<LadesaTypings.CampusFindOneResult | null> {
+  async campusFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.CampusFindOneInput['id'], selection?: string[] | boolean): Promise<LadesaTypings.CampusFindOneResult | null> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('campus:find', qb, aliasCampus, null);
+    await accessContext.aplicarFiltro('campus:find', qb, aliasCampus, null);
 
     // =========================================================
 
@@ -199,8 +199,8 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.CampusFindOneInput['id'], selection?: string[] | boolean) {
-    const campus = await this.campusFindByIdSimple(contextoDeAcesso, id, selection);
+  async campusFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.CampusFindOneInput['id'], selection?: string[] | boolean) {
+    const campus = await this.campusFindByIdSimple(accessContext, id, selection);
 
     if (!campus) {
       throw new NotFoundException();
@@ -211,10 +211,10 @@ export class CampusService {
 
   //
 
-  async campusCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CampusCreateCombinedInput) {
+  async campusCreate(accessContext: AccessContext, dto: LadesaTypings.CampusCreateCombinedInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('campus:create', { dto });
+    await accessContext.ensurePermission('campus:create', { dto });
 
     // =========================================================
 
@@ -250,19 +250,19 @@ export class CampusService {
       return campus;
     });
 
-    return this.campusFindByIdStrict(contextoDeAcesso, { id: campus.id });
+    return this.campusFindByIdStrict(accessContext, { id: campus.id });
   }
 
-  async campusUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CampusUpdateByIDCombinedInput) {
+  async campusUpdate(accessContext: AccessContext, dto: LadesaTypings.CampusUpdateByIDCombinedInput) {
     // =========================================================
 
-    const currentCampus = await this.campusFindByIdStrict(contextoDeAcesso, {
+    const currentCampus = await this.campusFindByIdStrict(accessContext, {
       id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('campus:update', { dto }, dto.params.id, this.campusRepository.createQueryBuilder(aliasCampus));
+    await accessContext.ensurePermission('campus:update', { dto }, dto.params.id, this.campusRepository.createQueryBuilder(aliasCampus));
 
     const campus = await this.databaseContext.transaction(async ({ databaseContext: { campusRepository } }) => {
       const dtoCampus = pick(dto.body, ['nomeFantasia', 'razaoSocial', 'apelido', 'cnpj']);
@@ -316,7 +316,7 @@ export class CampusService {
       //     .execute();
 
       //   for (const modalidadeRef of modalidades) {
-      //     const modalidade = await this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, {
+      //     const modalidade = await this.modalidadeService.modalidadeFindByIdStrict(accessContext, {
       //       id: modalidadeRef.id,
       //     });
 
@@ -346,19 +346,19 @@ export class CampusService {
 
     // =========================================================
 
-    return this.campusFindByIdStrict(contextoDeAcesso, { id: campus.id });
+    return this.campusFindByIdStrict(accessContext, { id: campus.id });
   }
 
   //
 
-  async campusDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CampusFindOneInput) {
+  async campusDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.CampusFindOneInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('campus:delete', { dto }, dto.id, this.campusRepository.createQueryBuilder(aliasCampus));
+    await accessContext.ensurePermission('campus:delete', { dto }, dto.id, this.campusRepository.createQueryBuilder(aliasCampus));
 
     // =========================================================
 
-    const campus = await this.campusFindByIdStrict(contextoDeAcesso, dto);
+    const campus = await this.campusFindByIdStrict(accessContext, dto);
 
     // =========================================================
 

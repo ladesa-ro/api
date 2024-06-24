@@ -1,6 +1,6 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver as GqlResolver } from '@nestjs/graphql';
-import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext, AccessContextGraphQl } from '../../../access-context';
 import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { VinculoService } from './vinculo.service';
 
@@ -16,18 +16,18 @@ export class VinculoResolver {
   @Operation(LadesaTypings.Tokens.Vinculo.Operations.List)
   async vinculoFindAll(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.VinculoListCombinedInput,
   ) {
-    return this.vinculoService.vinculoFindAll(contextoDeAcesso, dto);
+    return this.vinculoService.vinculoFindAll(accessContext, dto);
   }
 
   @Operation(LadesaTypings.Tokens.Vinculo.Operations.Update)
   async vinculoSetVinculos(
     //
-    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.VinculoUpdateCombinedInput,
   ) {
-    return this.vinculoService.vinculoSetVinculos(contextoDeAcesso, dto);
+    return this.vinculoService.vinculoSetVinculos(accessContext, dto);
   }
 }

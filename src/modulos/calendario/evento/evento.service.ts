@@ -3,7 +3,7 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -30,7 +30,7 @@ export class EventoService {
   //
 
   async eventoFindAll(
-    contextoDeAcesso: IContextoDeAcesso,
+    accessContext: AccessContext,
     dto: LadesaTypings.EventoListCombinedInput | null = null,
     selection?: string[] | boolean,
   ): Promise<LadesaTypings.EventoListCombinedSuccessOutput['body']> {
@@ -40,7 +40,7 @@ export class EventoService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('evento:find', qb, aliasEvento, null);
+    await accessContext.aplicarFiltro('evento:find', qb, aliasEvento, null);
 
     // =========================================================
 
@@ -107,14 +107,14 @@ export class EventoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async eventoFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.EventoFindOneResult | null> {
+  async eventoFindById(accessContext: AccessContext, dto: LadesaTypings.EventoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.EventoFindOneResult | null> {
     // =========================================================
 
     const qb = this.eventoRepository.createQueryBuilder(aliasEvento);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('evento:find', qb, aliasEvento, null);
+    await accessContext.aplicarFiltro('evento:find', qb, aliasEvento, null);
 
     // =========================================================
 
@@ -133,8 +133,8 @@ export class EventoService {
     return evento;
   }
 
-  async eventoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoFindOneInput, selection?: string[] | boolean) {
-    const evento = await this.eventoFindById(contextoDeAcesso, dto, selection);
+  async eventoFindByIdStrict(accessContext: AccessContext, dto: LadesaTypings.EventoFindOneInput, selection?: string[] | boolean) {
+    const evento = await this.eventoFindById(accessContext, dto, selection);
 
     if (!evento) {
       throw new NotFoundException();
@@ -143,14 +143,14 @@ export class EventoService {
     return evento;
   }
 
-  async eventoFindByIdSimple(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.EventoFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.EventoFindOneResult | null> {
+  async eventoFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.EventoFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.EventoFindOneResult | null> {
     // =========================================================
 
     const qb = this.eventoRepository.createQueryBuilder(aliasEvento);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('evento:find', qb, aliasEvento, null);
+    await accessContext.aplicarFiltro('evento:find', qb, aliasEvento, null);
 
     // =========================================================
 
@@ -170,8 +170,8 @@ export class EventoService {
     return evento;
   }
 
-  async EventoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.EventoFindOneInput['id'], selection?: string[]) {
-    const evento = await this.eventoFindByIdSimple(contextoDeAcesso, id, selection);
+  async EventoFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.EventoFindOneInput['id'], selection?: string[]) {
+    const evento = await this.eventoFindByIdSimple(accessContext, id, selection);
 
     if (!evento) {
       throw new NotFoundException();
@@ -182,10 +182,10 @@ export class EventoService {
 
   //
 
-  async eventoCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoCreateCombinedInput) {
+  async eventoCreate(accessContext: AccessContext, dto: LadesaTypings.EventoCreateCombinedInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('evento:create', { dto });
+    await accessContext.ensurePermission('evento:create', { dto });
 
     // =========================================================
 
@@ -200,7 +200,7 @@ export class EventoService {
     // =========================================================
 
     if (dto.body.calendario) {
-      const calendario = await this.calendarioLetivoService.calendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario.id);
+      const calendario = await this.calendarioLetivoService.calendarioLetivoFindByIdSimpleStrict(accessContext, dto.body.calendario.id);
 
       this.eventoRepository.merge(evento, {
         calendario: {
@@ -215,19 +215,19 @@ export class EventoService {
 
     // =========================================================
 
-    return this.eventoFindByIdStrict(contextoDeAcesso, { id: evento.id });
+    return this.eventoFindByIdStrict(accessContext, { id: evento.id });
   }
 
-  async eventoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoUpdateByIDCombinedInput) {
+  async eventoUpdate(accessContext: AccessContext, dto: LadesaTypings.EventoUpdateByIDCombinedInput) {
     // =========================================================
 
-    const currentEvento = await this.eventoFindByIdStrict(contextoDeAcesso, {
+    const currentEvento = await this.eventoFindByIdStrict(accessContext, {
       id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('evento:update', { dto }, dto.params.id, this.eventoRepository.createQueryBuilder(aliasEvento));
+    await accessContext.ensurePermission('evento:update', { dto }, dto.params.id, this.eventoRepository.createQueryBuilder(aliasEvento));
 
     const dtoEvento = pick(dto.body, ['nome', 'cor', 'dataInicio', 'dataTermino']);
 
@@ -242,7 +242,7 @@ export class EventoService {
     // =========================================================
 
     if (has(dto.body, 'calendario') && dto.body.calendario !== undefined) {
-      const calendario = await this.calendarioLetivoService.calendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario!.id);
+      const calendario = await this.calendarioLetivoService.calendarioLetivoFindByIdSimpleStrict(accessContext, dto.body.calendario!.id);
 
       this.eventoRepository.merge(evento, {
         calendario: {
@@ -257,19 +257,19 @@ export class EventoService {
 
     // =========================================================
 
-    return this.eventoFindByIdStrict(contextoDeAcesso, { id: evento.id });
+    return this.eventoFindByIdStrict(accessContext, { id: evento.id });
   }
 
   //
 
-  async eventoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoFindOneInput) {
+  async eventoDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.EventoFindOneInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('evento:delete', { dto }, dto.id, this.eventoRepository.createQueryBuilder(aliasEvento));
+    await accessContext.ensurePermission('evento:delete', { dto }, dto.id, this.eventoRepository.createQueryBuilder(aliasEvento));
 
     // =========================================================
 
-    const evento = await this.eventoFindByIdStrict(contextoDeAcesso, dto);
+    const evento = await this.eventoFindByIdStrict(accessContext, dto);
 
     // =========================================================
 

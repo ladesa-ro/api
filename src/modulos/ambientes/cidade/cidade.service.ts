@@ -2,7 +2,7 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { map } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { AccessContext } from '../../../access-context';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
@@ -22,14 +22,14 @@ export class CidadeService {
 
   //
 
-  async findAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CidadeListCombinedInput | null = null, selection?: string[]) {
+  async findAll(accessContext: AccessContext, dto: LadesaTypings.CidadeListCombinedInput | null = null, selection?: string[]) {
     // =========================================================
 
     const qb = this.cidadeRepository.createQueryBuilder('cidade');
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('cidade:find', qb, aliasCidade, null);
+    await accessContext.aplicarFiltro('cidade:find', qb, aliasCidade, null);
 
     // =========================================================
 
@@ -77,7 +77,7 @@ export class CidadeService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async findById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CidadeFindOneInput, selection?: string[]) {
+  async findById(accessContext: AccessContext, dto: LadesaTypings.CidadeFindOneInput, selection?: string[]) {
     // =========================================================
 
     const { cidadeRepository: baseCidadeRepository } = this.databaseContextService;
@@ -88,7 +88,7 @@ export class CidadeService {
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('cidade:find', qb, aliasCidade, null);
+    await accessContext.aplicarFiltro('cidade:find', qb, aliasCidade, null);
 
     // =========================================================
 
@@ -108,8 +108,8 @@ export class CidadeService {
     return cidade;
   }
 
-  async findByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CidadeFindOneInput, selection?: string[]) {
-    const cidade = await this.findById(contextoDeAcesso, dto, selection);
+  async findByIdStrict(accessContext: AccessContext, dto: LadesaTypings.CidadeFindOneInput, selection?: string[]) {
+    const cidade = await this.findById(accessContext, dto, selection);
 
     if (!cidade) {
       throw new NotFoundException();
