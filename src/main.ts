@@ -1,4 +1,3 @@
-import { SetupSwaggerDocument } from '@/documentacao/SetupSwaggerDocument';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
@@ -6,6 +5,7 @@ import helmet from 'helmet';
 import 'reflect-metadata';
 import { EnvironmentConfigService } from './config';
 import { MainModule } from './main.module';
+import { SetupSwaggerDocument } from './nest-app/swagger';
 
 async function setupApp() {
   const app = await NestFactory.create(MainModule);
@@ -17,7 +17,7 @@ async function setupApp() {
   const prefix = configService.getRuntimePrefix();
 
   if (prefix) {
-    app.setGlobalPrefix(prefix);
+    app.setGlobalPrefix(prefix, { exclude: ['health'] });
   }
 
   //
