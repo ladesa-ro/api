@@ -10,7 +10,7 @@ import { DiarioEntity } from '../../../integracao-banco-de-dados/typeorm/entitie
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { AmbienteService, IAmbienteQueryBuilderViewOptions } from '../../ambientes/ambiente/ambiente.service';
 import { CalendarioLetivoService } from '../../calendario/calendario-letivo/calendario-letivo.service';
-import { IDisciplinaQueryBuilderViewOptions, DisciplinaService } from '../../ensino/disciplina/disciplina.service';
+import { DisciplinaService, IDisciplinaQueryBuilderViewOptions } from '../../ensino/disciplina/disciplina.service';
 import { ITurmaQueryBuilderViewOptions, TurmaService } from '../../ensino/turma/turma.service';
 
 // ============================================================================
@@ -44,7 +44,7 @@ export class DiarioService {
   //
 
   static DiarioQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IDiarioQueryBuilderViewOptions = {}) {
-    qb.addSelect([`${alias}.id`, `${alias}.situacao`, `${alias}.ano`, `${alias}.etapa`]);
+    qb.addSelect([`${alias}.id`, `${alias}.ativo`, `${alias}.ano`, `${alias}.etapa`]);
 
     const loadAmbientePadrao = getQueryBuilderViewLoadMeta(options.loadAmbientePadrao, true, `${alias}_ap`);
 
@@ -87,7 +87,7 @@ export class DiarioService {
         //
         'id',
         //
-        'situacao',
+        'ativo',
         'ano',
         'etapa',
         //
@@ -101,7 +101,7 @@ export class DiarioService {
       ],
       sortableColumns: [
         //
-        'situacao',
+        'ativo',
         'ano',
         'etapa',
         //
@@ -117,7 +117,7 @@ export class DiarioService {
         //
         'id',
         //
-        'situacao',
+        'ativo',
         'ano',
         'etapa',
         'turma.periodo',
@@ -299,7 +299,7 @@ export class DiarioService {
 
     await contextoDeAcesso.ensurePermission('diario:update', { dto }, dto.params.id, this.diarioRepository.createQueryBuilder(aliasDiario));
 
-    const dtoDiario = pick(dto.body, ['situacao', 'ano', 'etapa', 'turma', 'disciplina', 'ambientePadrao']);
+    const dtoDiario = pick(dto.body, ['ativo', 'ano', 'etapa', 'turma', 'disciplina', 'ambientePadrao']);
 
     const diario = {
       id: currentDiario.id,
