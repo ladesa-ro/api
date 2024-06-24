@@ -78,7 +78,7 @@ export class EnvironmentConfigService implements IConfig {
   }
 
   getTypeOrmBasePath(): string {
-    return join(__dirname, '..', 'integracao-banco-de-dados/typeorm');
+    return join(__dirname, '../..', 'integracao-banco-de-dados/typeorm');
   }
 
   getTypeOrmPathEntities(): string {
