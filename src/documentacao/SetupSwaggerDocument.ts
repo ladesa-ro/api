@@ -35,11 +35,19 @@ export function SetupSwaggerDocument(configService: IConfig | null = null) {
 
   config.addTag('Calendarios Letivos', 'Calendario / Calendarios Letivos');
 
-  const servers = configService?.getSwaggerServers();
+  if (configService) {
+    const prefix = configService.getRuntimePrefix();
 
-  if (servers) {
-    for (const server of servers) {
-      config.addServer(server);
+    if (prefix) {
+      config.setBasePath(prefix);
+    }
+
+    const servers = configService.getSwaggerServers();
+
+    if (servers) {
+      for (const server of servers) {
+        config.addServer(server);
+      }
     }
   }
 

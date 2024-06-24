@@ -7,6 +7,8 @@ export interface IConfigRuntime {
 
   getRuntimeIsDevelopment(): boolean;
 
+  getRuntimePrefix(): null | string;
+
   getSwaggerServers(): null | string[];
 
   //

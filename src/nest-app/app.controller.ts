@@ -24,6 +24,10 @@ export class AppController {
           enum: ['up'],
           description: 'Status desta aplicação.',
         },
+        prefix: {
+          description: 'Prefixo do serviço API.',
+          oneOf: [{ type: 'string' }, { type: 'null' }],
+        },
       },
       required: ['service', 'status'],
     },

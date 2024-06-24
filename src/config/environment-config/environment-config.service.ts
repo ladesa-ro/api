@@ -44,6 +44,16 @@ export class EnvironmentConfigService implements IConfig {
     return storagePath;
   }
 
+  getRuntimePrefix(): string {
+    const apiPrefix = this.nestConfigService.get<string>('API_PREFIX');
+
+    if (apiPrefix) {
+      return apiPrefix;
+    }
+
+    return '/';
+  }
+
   getRuntimeIsProduction(): boolean {
     return this.getRuntimeNodeEnv() === 'production';
   }
