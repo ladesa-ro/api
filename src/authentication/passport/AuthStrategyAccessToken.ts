@@ -6,12 +6,12 @@ import { AuthStrategy } from './AuthStrategy';
 
 @Injectable()
 export class AuthStrategyAccessToken extends PassportStrategy(Strategy, AuthStrategy.ACCESS_TOKEN) {
-  constructor(private usuarioDaRequisicaoService: RequestActorService) {
+  constructor(private requestActorService: RequestActorService) {
     super();
   }
 
   async validate(accessToken?: string) {
-    const currentUsuario = await this.usuarioDaRequisicaoService.getCurrentFuncionarioByAccessToken(accessToken);
+    const currentUsuario = await this.requestActorService.getCurrentFuncionarioByAccessToken(accessToken);
 
     if (!currentUsuario) {
       throw new UnauthorizedException('Not authenticated.');
