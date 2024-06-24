@@ -1,11 +1,10 @@
-import * as LadesaTypings from '@ladesa-ro/especificacao';
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaGql, Operacao } from '../../../legacy/especificacao';
-import { BlocoDto } from './bloco.dtos';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { BlocoService } from './bloco.service';
-@Resolver(() => BlocoDto)
+
+@Resolver()
 export class BlocoResolver {
   constructor(
     //
@@ -14,40 +13,46 @@ export class BlocoResolver {
 
   //
 
-  @Operacao(Spec.BlocoFindAllOperator())
-  async blocoFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.BlocoFindAllOperator()) dto: Spec.IPaginatedInputDto) {
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.List)
+  async blocoFindAll(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.BlocoListCombinedInput,
+  ) {
     return this.blocoService.blocoFindAll(contextoDeAcesso, dto);
   }
-
   //
-
-  @Operacao(Spec.BlocoFindOneByIdOperator())
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.FindById)
   async blocoFindOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.BlocoFindOneByIdOperator())
-    dto: LadesaTypings.BlocoFindOneInput,
+    @CombinedInput() dto: LadesaTypings.BlocoFindByIDCombinedInput,
   ) {
-    return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, dto);
+    return this.blocoService.blocoFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
-
   //
-
-  @Operacao(Spec.BlocoCreateOperator())
-  async blocoCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.BlocoCreateOperator()) dto: Spec.IBlocoInputDto) {
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.Create)
+  async blocoCreate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.BlocoCreateCombinedInput,
+  ) {
     return this.blocoService.blocoCreate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.BlocoUpdateOperator())
-  async blocoUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.BlocoUpdateOperator()) dto: Spec.IBlocoUpdateDto) {
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.Create)
+  async blocoUpdate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.BlocoUpdateByIDCombinedInput,
+  ) {
     return this.blocoService.blocoUpdate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.BlocoDeleteOperator())
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.DeleteById)
   async blocoDeleteOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.BlocoDeleteOperator())
-    dto: Spec.IBlocoDeleteOneByIdInputDto,
+    @CombinedInput() dto: LadesaTypings.BlocoDeleteByIDCombinedInput,
   ) {
-    return this.blocoService.blocoDeleteOneById(contextoDeAcesso, dto);
+    return this.blocoService.blocoDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 }

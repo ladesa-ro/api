@@ -1,11 +1,10 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { ReservaEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
@@ -67,7 +66,7 @@ export class ReservaService {
 
   //
 
-  async reservaFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.IReservaFindAllResultDto> {
+  async reservaFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaListCombinedInput | null = null): Promise<LadesaTypings.ReservaListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.reservaRepository.createQueryBuilder(aliasReserva);
@@ -78,7 +77,7 @@ export class ReservaService {
 
     // =========================================================
 
-    const paginated = await busca('#/', dto, qb, {
+    const paginated = await LadesaSearch('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -147,7 +146,7 @@ export class ReservaService {
 
     // =========================================================
 
-    return getPaginatedResultDto(paginated);
+    return LadesaPaginatedResultDto(paginated);
   }
 
   async reservaFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaFindOneInput): Promise<LadesaTypings.ReservaFindOneResult | null> {
@@ -239,14 +238,14 @@ export class ReservaService {
 
   //
 
-  async reservaCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IReservaInputDto) {
+  async reservaCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaCreateCombinedInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('reserva:create', { dto });
 
     // =========================================================
 
-    const dtoReserva = pick(dto, ['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino']);
+    const dtoReserva = pick(dto.body, ['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino']);
 
     const reserva = this.reservaRepository.create();
 
@@ -256,7 +255,7 @@ export class ReservaService {
 
     // =========================================================
 
-    const ambiente = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.ambiente.id });
+    const ambiente = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.body.ambiente.id });
 
     this.reservaRepository.merge(reserva, {
       ambiente: {
@@ -266,7 +265,7 @@ export class ReservaService {
 
     // =========================================================
 
-    const usuario = await this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.usuario.id });
+    const usuario = await this.usuarioService.usuarioFindByIdStrict(contextoDeAcesso, { id: dto.body.usuario.id });
 
     this.reservaRepository.merge(reserva, {
       usuario: {
@@ -283,18 +282,18 @@ export class ReservaService {
     return this.reservaFindByIdStrict(contextoDeAcesso, { id: reserva.id });
   }
 
-  async reservaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IReservaUpdateDto) {
+  async reservaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaUpdateByIDCombinedInput) {
     // =========================================================
 
     const currentReserva = await this.reservaFindByIdStrict(contextoDeAcesso, {
-      id: dto.id,
+      id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('reserva:update', { dto }, dto.id, this.reservaRepository.createQueryBuilder(aliasReserva));
+    await contextoDeAcesso.ensurePermission('reserva:update', { dto }, dto.params.id, this.reservaRepository.createQueryBuilder(aliasReserva));
 
-    const dtoReserva = pick(dto, ['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino']);
+    const dtoReserva = pick(dto.body, ['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino']);
 
     const reserva = {
       id: currentReserva.id,
@@ -306,8 +305,8 @@ export class ReservaService {
 
     // =========================================================
 
-    if (has(dto, 'ambiente') && dto.ambiente !== undefined) {
-      const ambiente = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.ambiente.id });
+    if (has(dto.body, 'ambiente') && dto.body.ambiente !== undefined) {
+      const ambiente = await this.ambienteService.ambienteFindByIdStrict(contextoDeAcesso, { id: dto.body.ambiente.id });
 
       this.reservaRepository.merge(reserva, {
         ambiente: {
@@ -318,8 +317,8 @@ export class ReservaService {
 
     // =========================================================
 
-    if (has(dto, 'usuario') && dto.usuario !== undefined) {
-      const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(contextoDeAcesso, dto.usuario.id);
+    if (has(dto.body, 'usuario') && dto.body.usuario !== undefined) {
+      const usuario = await this.usuarioService.usuarioFindByIdSimpleStrict(contextoDeAcesso, dto.body.usuario.id);
 
       this.reservaRepository.merge(reserva, {
         usuario: {
@@ -339,7 +338,7 @@ export class ReservaService {
 
   //
 
-  async reservaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IReservaDeleteOneByIdInputDto) {
+  async reservaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.ReservaFindOneInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('reserva:delete', { dto }, dto.id, this.reservaRepository.createQueryBuilder(aliasReserva));

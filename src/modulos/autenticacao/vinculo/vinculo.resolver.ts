@@ -1,7 +1,10 @@
-import * as Spec from '@sisgea/spec';
+import LadesaTypings from '@ladesa-ro/especificacao';
+import { Resolver as GqlResolver } from '@nestjs/graphql';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaGql, Operacao } from '../../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { VinculoService } from './vinculo.service';
+
+@GqlResolver()
 export class VinculoResolver {
   constructor(
     //
@@ -10,13 +13,21 @@ export class VinculoResolver {
 
   //
 
-  @Operacao(Spec.VinculoFindAllOperator())
-  async vinculoFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso) {
-    return this.vinculoService.vinculoFindAll(contextoDeAcesso);
+  @Operation(LadesaTypings.Tokens.Vinculo.Operations.List)
+  async vinculoFindAll(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.VinculoListCombinedInput,
+  ) {
+    return this.vinculoService.vinculoFindAll(contextoDeAcesso, dto);
   }
 
-  @Operacao(Spec.VinculoUpdateOperator())
-  async vinculoSetVinculos(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.VinculoUpdateOperator()) dto: Spec.IVinculoUpdateInputDto) {
+  @Operation(LadesaTypings.Tokens.Vinculo.Operations.Update)
+  async vinculoSetVinculos(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.VinculoUpdateCombinedInput,
+  ) {
     return this.vinculoService.vinculoSetVinculos(contextoDeAcesso, dto);
   }
 }

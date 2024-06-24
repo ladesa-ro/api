@@ -6,15 +6,15 @@ import { ValidationFailedException } from '../../nest-app/adapters';
 import { tryCast } from './tryCast';
 
 interface ValidationPipeYupOptions {
-  scope: 'body' | 'param' | 'query' | 'arg' | 'args';
-  path: string | null;
+  scope?: 'body' | 'param' | 'query' | 'arg' | 'args';
+  path?: string | null;
 }
 
 @Injectable()
 export class ValidationPipeYup implements PipeTransform {
   constructor(
     private yupSchema: ISchema<any, any>,
-    private options: ValidationPipeYupOptions,
+    private options: ValidationPipeYupOptions = {},
   ) {}
 
   async transform(value: any /*, metadata: ArgumentMetadata */) {

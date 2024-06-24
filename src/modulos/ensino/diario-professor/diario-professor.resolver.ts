@@ -1,56 +1,50 @@
-import * as LadesaTypings from '@ladesa-ro/especificacao';
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaGql, Operacao } from '../../../legacy/especificacao';
-import { DiarioProfessorDto } from './diario-professor.dtos';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { DiarioProfessorService } from './diario-professor.service';
-@Resolver(() => DiarioProfessorDto)
+
+@Resolver()
 export class DiarioProfessorResolver {
   constructor(private diarioProfessorService: DiarioProfessorService) {}
-
-  @Operacao(Spec.DiarioProfessorFindAllOperator())
+  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.List)
   async diarioProfessorFindAll(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.DiarioProfessorFindAllOperator()) dto: Spec.IPaginatedInputDto,
+    @CombinedInput() dto: LadesaTypings.DiarioProfessorListCombinedInput,
   ) {
     return this.diarioProfessorService.diarioProfessorFindAll(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.DiarioProfessorFindOneByIdOperator())
+  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.FindById)
   async diarioProfessorFindOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.DiarioProfessorFindOneByIdOperator()) dto: LadesaTypings.DiarioProfessorFindOneInput,
+    @CombinedInput() dto: LadesaTypings.DiarioProfessorFindByIDCombinedInput,
   ) {
-    return this.diarioProfessorService.diarioProfessorFindByIdStrict(contextoDeAcesso, dto);
+    return this.diarioProfessorService.diarioProfessorFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
-
-  @Operacao(Spec.DiarioProfessorCreateOperator())
+  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.Create)
   async diarioProfessorCreate(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.DiarioProfessorCreateOperator()) dto: Spec.IDiarioProfessorInputDto,
+    @CombinedInput() dto: LadesaTypings.DiarioProfessorCreateCombinedInput,
   ) {
     return this.diarioProfessorService.diarioProfessorCreate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.DiarioProfessorUpdateOperator())
+  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.Create)
   async diarioProfessorUpdate(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.DiarioProfessorUpdateOperator()) dto: Spec.IDiarioProfessorUpdateDto,
+    @CombinedInput() dto: LadesaTypings.DiarioProfessorUpdateByIDCombinedInput,
   ) {
     return this.diarioProfessorService.diarioProfessorUpdate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.DiarioProfessorDeleteOperator())
+  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.DeleteById)
   async diarioProfessorDeleteOneById(
     //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.DiarioProfessorDeleteOperator()) dto: Spec.IDiarioProfessorDeleteOneByIdInputDto,
+    @CombinedInput() dto: LadesaTypings.DiarioProfessorDeleteByIDCombinedInput,
   ) {
-    return this.diarioProfessorService.diarioProfessorDeleteOneById(contextoDeAcesso, dto);
+    return this.diarioProfessorService.diarioProfessorDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 }

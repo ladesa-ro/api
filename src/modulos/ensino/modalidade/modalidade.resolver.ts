@@ -1,65 +1,60 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
-import { Info, Resolver } from '@nestjs/graphql';
-import * as Spec from '@sisgea/spec';
-import type { GraphQLResolveInfo } from 'graphql';
-import getFieldNames from 'graphql-list-fields';
+import { Info as GqlInfo, Resolver as GqlResolver } from '@nestjs/graphql';
+import { GraphQLResolveInfo } from 'graphql';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaGql, Operacao } from '../../../legacy/especificacao';
-import { ModalidadeDto } from './modalidade.dtos';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
+import { graphqlExtractSelection } from '../../../helpers/ladesa/-helpers/graphql-selection';
 import { ModalidadeService } from './modalidade.service';
-@Resolver(() => ModalidadeDto)
+
+@GqlResolver()
 export class ModalidadeResolver {
   constructor(
     //
     private modalidadeService: ModalidadeService,
   ) {}
-
   //
-
-  @Operacao(Spec.ModalidadeFindAllOperator())
+  @Operation(LadesaTypings.Tokens.Modalidade.Operations.List)
   async modalidadeFindAll(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.ModalidadeFindAllOperator()) dto: Spec.IPaginatedInputDto,
-    @Info() info: GraphQLResolveInfo,
+    @CombinedInput() dto: LadesaTypings.ModalidadeListCombinedInput,
+    @GqlInfo() info: GraphQLResolveInfo,
   ) {
-    const selection = getFieldNames(info as any)
-      .filter((i) => i.startsWith('data.'))
-      .map((i) => i.slice(i.indexOf('.') + 1));
-
-    return this.modalidadeService.modalidadeFindAll(contextoDeAcesso, dto, selection);
+    return this.modalidadeService.modalidadeFindAll(contextoDeAcesso, dto, graphqlExtractSelection(info, 'paginated'));
   }
-
   //
-
-  @Operacao(Spec.ModalidadeFindOneByIdOperator())
+  @Operation(LadesaTypings.Tokens.Modalidade.Operations.FindById)
   async modalidadeFindOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.ModalidadeFindOneByIdOperator())
-    dto: LadesaTypings.ModalidadeFindOneInput,
-    @Info() info: GraphQLResolveInfo,
+    @CombinedInput() dto: LadesaTypings.ModalidadeFindByIDCombinedInput,
+    @GqlInfo() info: GraphQLResolveInfo,
   ) {
-    const selection = getFieldNames(info as any);
-    return this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, dto, ['id', ...selection]);
+    return this.modalidadeService.modalidadeFindByIdStrict(contextoDeAcesso, { id: dto.params.id }, ['id', ...graphqlExtractSelection(info)]);
   }
-
   //
-
-  @Operacao(Spec.ModalidadeCreateOperator())
-  async modalidadeCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.ModalidadeCreateOperator()) dto: Spec.IModalidadeInputDto) {
+  @Operation(LadesaTypings.Tokens.Modalidade.Operations.Create)
+  async modalidadeCreate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.ModalidadeCreateCombinedInput,
+  ) {
     return this.modalidadeService.modalidadeCreate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.ModalidadeUpdateOperator())
-  async modalidadeUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.ModalidadeUpdateOperator()) dto: Spec.IModalidadeUpdateDto) {
+  @Operation(LadesaTypings.Tokens.Modalidade.Operations.Create)
+  async modalidadeUpdate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.ModalidadeUpdateByIDCombinedInput,
+  ) {
     return this.modalidadeService.modalidadeUpdate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.ModalidadeDeleteOperator())
+  @Operation(LadesaTypings.Tokens.Modalidade.Operations.DeleteById)
   async modalidadeDeleteOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.ModalidadeDeleteOperator())
-    dto: Spec.IModalidadeDeleteOneByIdInputDto,
+    @CombinedInput() dto: LadesaTypings.ModalidadeDeleteByIDCombinedInput,
   ) {
-    return this.modalidadeService.modalidadeDeleteOneById(contextoDeAcesso, dto);
+    return this.modalidadeService.modalidadeDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 }

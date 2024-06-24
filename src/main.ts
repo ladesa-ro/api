@@ -1,4 +1,3 @@
-import { SetupSwaggerDocument } from '@/documentacao/SetupSwaggerDocument';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
@@ -6,15 +5,24 @@ import helmet from 'helmet';
 import 'reflect-metadata';
 import { EnvironmentConfigService } from './config';
 import { MainModule } from './main.module';
+import { SetupSwaggerDocument } from './nest-app/swagger';
 
 async function setupApp() {
   const app = await NestFactory.create(MainModule);
 
-  const environmentConfigService = app.get(EnvironmentConfigService);
+  //
+  const configService = app.get(EnvironmentConfigService);
+  //
+
+  const prefix = configService.getRuntimePrefix();
+
+  if (prefix) {
+    app.setGlobalPrefix(prefix, { exclude: ['health'] });
+  }
 
   //
 
-  const isProduction = environmentConfigService.getRuntimeIsProduction();
+  const isProduction = configService.getRuntimeIsProduction();
 
   app.use(
     helmet({
@@ -32,11 +40,9 @@ async function setupApp() {
 
   //
 
-  const config = SetupSwaggerDocument(environmentConfigService);
-
+  const config = SetupSwaggerDocument(configService);
   const document = SwaggerModule.createDocument(app, config.build());
-
-  SwaggerModule.setup('doc-api', app, document);
+  SwaggerModule.setup(`${prefix ?? ''}doc-api`, app, document);
 
   app.enableCors();
 

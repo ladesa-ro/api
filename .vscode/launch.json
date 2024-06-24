@@ -11,7 +11,8 @@
       "restart": true,
       "port": 9229,
       "localRoot": "${workspaceFolder}",
-      "remoteRoot": "/sisgha-api"
+      "remoteRoot": "/ladesa-api",
+      "timeout": 10
     }
   ]
 }

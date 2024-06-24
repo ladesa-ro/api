@@ -10,8 +10,11 @@ import { OperationDecoratorsBuilder } from './utils';
 export const OPERATION_KEY = 'operacao4';
 
 export const BuildOperationDecorators = (operation: IUniNodeOperation, repository: UniRepository) => {
-  const operationDecoratorsBuilder = new OperationDecoratorsBuilder([new OperationDecoratorsHandlerSwagger(), new OperationDecoratorsHandlerGraphQl()]);
-
+  const operationDecoratorsBuilder = new OperationDecoratorsBuilder([
+    //
+    new OperationDecoratorsHandlerSwagger(),
+    new OperationDecoratorsHandlerGraphQl(),
+  ]);
   return operationDecoratorsBuilder.Build(operation, repository);
 };
 

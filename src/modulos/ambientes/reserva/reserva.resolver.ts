@@ -1,53 +1,56 @@
-import * as LadesaTypings from '@ladesa-ro/especificacao';
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaGql, Operacao } from '../../../legacy/especificacao';
-import { ReservaDto } from './reserva.dtos';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { ReservaService } from './reserva.service';
-@Resolver(() => ReservaDto)
+
+@Resolver()
 export class ReservaResolver {
   constructor(
     //
     private reservaService: ReservaService,
   ) {}
-
   //
-
-  @Operacao(Spec.ReservaFindAllOperator())
-  async reservaFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.ReservaFindAllOperator()) dto: Spec.IPaginatedInputDto) {
+  @Operation(LadesaTypings.Tokens.Reserva.Operations.List)
+  async reservaFindAll(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.ReservaListCombinedInput,
+  ) {
     return this.reservaService.reservaFindAll(contextoDeAcesso, dto);
   }
-
   //
-
-  @Operacao(Spec.ReservaFindOneByIdOperator())
+  @Operation(LadesaTypings.Tokens.Reserva.Operations.FindById)
   async reservaFindOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.ReservaFindOneByIdOperator())
-    dto: LadesaTypings.ReservaFindOneInput,
+    @CombinedInput() dto: LadesaTypings.ReservaFindByIDCombinedInput,
   ) {
-    return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, dto);
+    return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
-
   //
-
-  @Operacao(Spec.ReservaCreateOperator())
-  async reservaCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.ReservaCreateOperator()) dto: Spec.IReservaInputDto) {
+  @Operation(LadesaTypings.Tokens.Reserva.Operations.Create)
+  async reservaCreate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.ReservaCreateCombinedInput,
+  ) {
     return this.reservaService.reservaCreate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.ReservaUpdateOperator())
-  async reservaUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.ReservaUpdateOperator()) dto: Spec.IReservaUpdateDto) {
+  @Operation(LadesaTypings.Tokens.Reserva.Operations.Create)
+  async reservaUpdate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.ReservaUpdateByIDCombinedInput,
+  ) {
     return this.reservaService.reservaUpdate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.ReservaDeleteOperator())
+  @Operation(LadesaTypings.Tokens.Reserva.Operations.DeleteById)
   async reservaDeleteOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.ReservaDeleteOperator())
-    dto: Spec.IReservaDeleteOneByIdInputDto,
+    @CombinedInput() dto: LadesaTypings.ReservaDeleteByIDCombinedInput,
   ) {
-    return this.reservaService.reservaDeleteOneById(contextoDeAcesso, dto);
+    return this.reservaService.reservaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 }

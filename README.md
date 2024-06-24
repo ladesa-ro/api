@@ -1,22 +1,34 @@
 # api
 
-## Desenvolvimento
+## Ambientes
 
-```sh
-git clone https://github.com/sisgha/api.git;
-cd api;
+### Produção
+
+[![CI Production][action-ci-prod-src]][action-ci-prod-href]
+
+Link: [`não disponível`][env-prod-href].
+
+### Desenvolvimento
+
+[![CI Development][action-ci-dev-src]][action-ci-dev-href]
+
+Link: [`https://luna.sisgha.com/api`][env-dev-href].
+
+## Configuração Local
+
+### Obter o código fonte do projeto
+
+```bash
+git clone https://github.com/ladesa-ro/api.git
+cd api
 ```
-
-### Aplicação node.js
-
-API nest.
 
 ### Serviços do [.devops/development/docker-compose.yml](./.devops/development/docker-compose.yml)
 
 | Host            | Endereço         | Descrição               | Plataforma Base                   |
 | --------------- | ---------------- | ----------------------- | --------------------------------- |
-| `sisgea-api`    | `localhost:3000` | Aplicação NodeJS.       | `docker.io/library/node:22`       |
-| `sisgea-api-db` | `localhost:5432` | Banco de dados postgres | `docker.io/bitnami/postgresql:15` |
+| `ladesa-api`    | `localhost:3701` | Aplicação NodeJS.       | `docker.io/library/node:22`       |
+| `ladesa-api-db` | `localhost:5432` | Banco de dados postgres | `docker.io/bitnami/postgresql:15` |
 
 ### Scripts Make
 
@@ -24,7 +36,7 @@ O projeto conta com um [arquivo make](./Makefile) que comporta scrips destinados
 
 ```Makefile
 dev-setup:
-  # Configura o ambiente de deselvolvimento, como a criação da rede sisgea-net e os arquivos .env.
+  # Configura o ambiente de deselvolvimento, como a criação da rede ladesa-net e os arquivos .env.
 dev-up:
   # Inicia os containers docker.
 dev-shell:
@@ -37,27 +49,25 @@ dev-logs:
   # Mostra os registros dos containers
 ```
 
-### Aplicação nest/nodejs
-
-```bash
-npm install
-```
-
-#### Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
 ## Licença
 
 [MIT - Ladesa e Colaboradores, 2024](./LICENSE).
 
 [MIT - Gabriel R. Antunes, 2024](./LICENSE).
+
+<!-- Links -->
+
+[env-prod-href]: #
+[env-dev-href]: https://luna.sisgha.com/api
+
+<!-- Badges -->
+
+<!-- Badges / Actions / Production  -->
+
+[action-ci-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci.yml?style=flat&logo=github&logoColor=white&label=CI@production&branch=production&labelColor=18181B
+[action-ci-prod-href]: https://github.com/ladesa-ro/api/actions/workflows/ci.yml?query=branch%3Aproduction
+
+<!-- Badges / Actions / Development  -->
+
+[action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=development&labelColor=18181B
+[action-ci-dev-href]: https://github.com/ladesa-ro/api/actions/workflows/ci.yml?query=branch%3Adevelopment

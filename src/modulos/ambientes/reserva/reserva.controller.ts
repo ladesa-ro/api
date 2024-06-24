@@ -1,8 +1,8 @@
-import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
+import LadesaTypings from '@ladesa-ro/especificacao';
+import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { ReservaService } from './reserva.service';
 
 @ApiTags('Reservas')
@@ -13,54 +13,61 @@ export class ReservaController {
   //
 
   @Get('/')
-  @Operacao(Spec.ReservaFindAllOperator())
+  @Operation(LadesaTypings.Tokens.Reserva.Operations.List)
   async reservaFindAll(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.ReservaFindAllOperator()) dto: Spec.IPaginatedInputDto,
-  ): Promise<Spec.IReservaFindAllResultDto> {
+    @CombinedInput() dto: LadesaTypings.ReservaListCombinedInput,
+  ): Promise<LadesaTypings.ReservaListCombinedSuccessOutput['body']> {
     return this.reservaService.reservaFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id')
-  @Operacao(Spec.ReservaFindOneByIdOperator())
-  async reservaFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Reserva.Operations.FindById)
+  async reservaFindById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.ReservaFindByIDCombinedInput,
+  ) {
+    return this.reservaService.reservaFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
 
   //
 
   @Post('/')
-  @Operacao(Spec.ReservaCreateOperator())
-  async reservaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.ReservaCreateOperator()) dto: Spec.IReservaInputDto) {
+  @Operation(LadesaTypings.Tokens.Reserva.Operations.Create)
+  async reservaCreate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.ReservaCreateCombinedInput,
+  ) {
     return this.reservaService.reservaCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @Operacao(Spec.ReservaUpdateOperator())
+  @Operation(LadesaTypings.Tokens.Reserva.Operations.Create)
   async reservaUpdate(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.ReservaUpdateOperator())
-    { ...dto }: Spec.IReservaUpdateDto,
-    @Param('id', ParseUUIDPipe) id: string,
+    @CombinedInput() dto: LadesaTypings.ReservaUpdateByIDCombinedInput,
   ) {
-    const dtoUpdate: Spec.IReservaUpdateDto = {
-      ...dto,
-      id,
-    };
-
-    return this.reservaService.reservaUpdate(contextoDeAcesso, dtoUpdate);
+    return this.reservaService.reservaUpdate(contextoDeAcesso, dto);
   }
 
   //
 
   @Delete('/:id')
-  @Operacao(Spec.ReservaDeleteOperator())
-  async reservaDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.reservaService.reservaDeleteOneById(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Reserva.Operations.DeleteById)
+  async reservaDeleteOneById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.ReservaDeleteByIDCombinedInput,
+  ) {
+    return this.reservaService.reservaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 
   //

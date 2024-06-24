@@ -1,17 +1,9 @@
-import { Param as HttpParam, Query as HttpQuery, UseInterceptors, createParamDecorator } from '@nestjs/common';
-import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
+import { Param as HttpParam, Query as HttpQuery, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiProduces, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { CheckType, CheckTypeFile } from '@unispec/ast-builder';
 import { camelCase } from 'lodash';
-import { CompileYupSchema } from '../../-helpers/CompileYupSchema';
-import { ValidationPipeYup } from '../../../../validacao';
-import { COMBINED_INPUT_PARAM } from './CombinedInput';
 import { AbstractOperationDecoratorsHandler, BuildSwaggerRepresentation, DecorateMethodContext, detectStrategy, swaggerRepresentationCompiler } from './utils';
-
-export type IHandleInputContext = DecorateMethodContext & {
-  combinedInputParameterDecorators: ParameterDecorator[];
-};
 
 export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecoratorsHandler {
   Build(context: DecorateMethodContext) {
@@ -122,13 +114,8 @@ export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecorato
   HandleInputs(context: DecorateMethodContext) {
     const { operation, repository } = context;
 
-    const handleInputContext: IHandleInputContext = {
-      ...context,
-      combinedInputParameterDecorators: [],
-    };
-
-    this.HandleInputParams(handleInputContext);
-    this.HandleInputQueries(handleInputContext);
+    this.HandleInputParams(context);
+    this.HandleInputQueries(context);
 
     const input = operation.input;
 
@@ -152,45 +139,9 @@ export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecorato
         }
       }
     }
-
-    const compileYupSchema = new CompileYupSchema(context.repository);
-
-    const combinedInputValidator = compileYupSchema.Handle(operation);
-
-    context.Add((target, propertyKey, descriptor) => {
-      if (descriptor.value) {
-        const combinedInputParam = Reflect.getMetadata(COMBINED_INPUT_PARAM, descriptor.value);
-
-        if (combinedInputParam) {
-          const { parameterIndex } = combinedInputParam;
-
-          handleInputContext.combinedInputParameterDecorators.push(
-            createParamDecorator((_, executionContext: ExecutionContextHost) => {
-              const httpContext = executionContext.switchToHttp();
-
-              const request = httpContext.getRequest();
-
-              const body = request.body;
-              const params = request.params;
-              const queries = request.query;
-
-              return {
-                body,
-                params,
-                queries,
-              };
-            })(null, new ValidationPipeYup(combinedInputValidator, { path: null, scope: 'args' })),
-          );
-
-          for (const paramDecorator of handleInputContext.combinedInputParameterDecorators) {
-            paramDecorator(target, propertyKey, parameterIndex);
-          }
-        }
-      }
-    });
   }
 
-  HandleInputParams(context: IHandleInputContext) {
+  HandleInputParams(context: DecorateMethodContext) {
     const { operation, repository } = context;
 
     const input = operation.input;
@@ -207,7 +158,7 @@ export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecorato
       if (CheckType(realTargetNode)) {
         context.Add(
           ApiParam({
-            ...swaggerRepresentationCompiler.Handle(realTargetNode),
+            ...swaggerRepresentationCompiler.Handle(realTargetNode, { mode: 'input' }),
             name: name,
             required: realTargetNode.required,
             description: realTargetNode.description,
@@ -220,7 +171,7 @@ export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecorato
       }
     }
   }
-  HandleInputQueries(context: IHandleInputContext) {
+  HandleInputQueries(context: DecorateMethodContext) {
     const { operation, repository } = context;
 
     const input = operation.input;
@@ -237,7 +188,7 @@ export class OperationDecoratorsHandlerSwagger extends AbstractOperationDecorato
       if (CheckType(realTargetNode)) {
         context.Add(
           ApiQuery({
-            ...swaggerRepresentationCompiler.Handle(realTargetNode),
+            ...swaggerRepresentationCompiler.Handle(realTargetNode, { mode: 'input' }),
             name: name,
             required: realTargetNode.required,
             description: realTargetNode.description,

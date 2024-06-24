@@ -1,8 +1,8 @@
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { DisciplinaService } from './disciplina.service';
 
 @ApiTags('Disciplinas')
@@ -13,58 +13,65 @@ export class DisciplinaController {
   //
 
   @Get('/')
-  @Operacao(Spec.DisciplinaFindAllOperator())
+  @Operation(LadesaTypings.Tokens.Disciplina.Operations.List)
   async disciplinaFindAll(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.DisciplinaFindAllOperator()) dto: Spec.IPaginatedInputDto,
-  ): Promise<Spec.IDisciplinaFindAllResultDto> {
+    @CombinedInput() dto: LadesaTypings.DisciplinaListCombinedInput,
+  ): Promise<LadesaTypings.DisciplinaListCombinedSuccessOutput['body']> {
     return this.disciplinaService.disciplinaFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id')
-  @Operacao(Spec.DisciplinaFindOneByIdOperator())
-  async disciplinaFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.disciplinaService.disciplinaFindByIdStrict(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Disciplina.Operations.FindById)
+  async disciplinaFindById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.DisciplinaFindByIDCombinedInput,
+  ) {
+    return this.disciplinaService.disciplinaFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
 
   //
 
   @Post('/')
-  @Operacao(Spec.DisciplinaCreateOperator())
-  async disciplinaCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.DisciplinaCreateOperator()) dto: Spec.IDisciplinaInputDto) {
+  @Operation(LadesaTypings.Tokens.Disciplina.Operations.Create)
+  async disciplinaCreate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.DisciplinaCreateCombinedInput,
+  ) {
     return this.disciplinaService.disciplinaCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @Operacao(Spec.DisciplinaUpdateOperator())
+  @Operation(LadesaTypings.Tokens.Disciplina.Operations.Create)
   async disciplinaUpdate(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.DisciplinaUpdateOperator())
-    { ...dto }: Spec.IDisciplinaUpdateDto,
-    @Param('id', ParseUUIDPipe) id: string,
+    @CombinedInput() dto: LadesaTypings.DisciplinaUpdateByIDCombinedInput,
   ) {
-    const dtoUpdate: Spec.IDisciplinaUpdateDto = {
-      ...dto,
-      id,
-    };
-
-    return this.disciplinaService.disciplinaUpdate(contextoDeAcesso, dtoUpdate);
+    return this.disciplinaService.disciplinaUpdate(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id/imagem/capa')
-  @Operacao(Spec.DisciplinaGetImagemCapaOperator())
-  async disciplinaGetImagemCapa(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
+  @Operation(LadesaTypings.Tokens.Disciplina.Operations.GetCoverImage)
+  async disciplinaGetImagemCapa(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
     return this.disciplinaService.disciplinaGetImagemCapa(contextoDeAcesso, id);
   }
 
   @Put('/:id/imagem/capa')
-  @Operacao(Spec.DisciplinaSetImagemCapaOperator())
+  @Operation(LadesaTypings.Tokens.Disciplina.Operations.SetCoverImage)
   async disciplinaImagemCapaSave(
     //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
@@ -77,9 +84,13 @@ export class DisciplinaController {
   //
 
   @Delete('/:id')
-  @Operacao(Spec.DisciplinaDeleteOperator())
-  async disciplinaDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.disciplinaService.disciplinaDeleteOneById(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Disciplina.Operations.DeleteById)
+  async disciplinaDeleteOneById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.DisciplinaDeleteByIDCombinedInput,
+  ) {
+    return this.disciplinaService.disciplinaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 
   //

@@ -1,12 +1,11 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
 import { SelectQueryBuilder } from 'typeorm';
-import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { CalendarioLetivoEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
@@ -60,7 +59,10 @@ export class CalendarioLetivoService {
 
   //
 
-  async calendarioLetivoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.ICalendarioLetivoFindAllResultDto> {
+  async calendarioLetivoFindAll(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.CalendarioLetivoListCombinedInput | null = null,
+  ): Promise<LadesaTypings.CalendarioLetivoListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo);
@@ -71,7 +73,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    const paginated = await busca('#/', dto, qb, {
+    const paginated = await LadesaSearch('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -145,7 +147,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    return getPaginatedResultDto(paginated);
+    return LadesaPaginatedResultDto(paginated);
   }
 
   async caledarioLetivoFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CalendarioLetivoFindOneInput): Promise<LadesaTypings.CalendarioLetivoFindOneResult | null> {
@@ -242,14 +244,14 @@ export class CalendarioLetivoService {
 
   //
 
-  async calendarioLetivoCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICalendarioLetivoInputDto) {
+  async calendarioLetivoCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CalendarioLetivoCreateCombinedInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('calendario_letivo:create', { dto });
 
     // =========================================================
 
-    const dtoCalendarioLetivo = pick(dto, ['nome', 'ano']);
+    const dtoCalendarioLetivo = pick(dto.body, ['nome', 'ano']);
 
     const calendarioLetivo = this.calendarioLetivoRepository.create();
 
@@ -259,7 +261,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.campus.id);
+    const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.body.campus.id);
 
     this.calendarioLetivoRepository.merge(calendarioLetivo, {
       campus: {
@@ -269,60 +271,8 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(contextoDeAcesso, dto.modalidade.id);
-
-    this.calendarioLetivoRepository.merge(calendarioLetivo, {
-      modalidade: {
-        id: modalidade.id,
-      },
-    });
-
-    // =========================================================
-
-    await this.calendarioLetivoRepository.save(calendarioLetivo);
-
-    // =========================================================
-
-    return this.calendarioLetivoFindByIdStrict(contextoDeAcesso, { id: calendarioLetivo.id });
-  }
-
-  async calendarioLetivoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICalendarioLetivoUpdateDto) {
-    // =========================================================
-
-    const currentCalendarioLetivo = await this.calendarioLetivoFindByIdStrict(contextoDeAcesso, {
-      id: dto.id,
-    });
-
-    // =========================================================
-
-    await contextoDeAcesso.ensurePermission('calendario_letivo:update', { dto }, dto.id, this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo));
-
-    const dtoCalendarioLetivo = pick(dto, ['nome', 'ano']);
-
-    const calendarioLetivo = {
-      id: currentCalendarioLetivo.id,
-    } as CalendarioLetivoEntity;
-
-    this.calendarioLetivoRepository.merge(calendarioLetivo, {
-      ...dtoCalendarioLetivo,
-    });
-
-    // =========================================================
-
-    if (has(dto, 'campus') && dto.campus !== undefined) {
-      const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.campus.id);
-
-      this.calendarioLetivoRepository.merge(calendarioLetivo, {
-        campus: {
-          id: campus.id,
-        },
-      });
-    }
-
-    // =========================================================
-
-    if (has(dto, 'modalidade') && dto.modalidade !== undefined) {
-      const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(contextoDeAcesso, dto.modalidade.id);
+    if (dto.body.modalidade) {
+      const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(contextoDeAcesso, dto.body.modalidade.id);
 
       this.calendarioLetivoRepository.merge(calendarioLetivo, {
         modalidade: {
@@ -340,9 +290,63 @@ export class CalendarioLetivoService {
     return this.calendarioLetivoFindByIdStrict(contextoDeAcesso, { id: calendarioLetivo.id });
   }
 
+  async calendarioLetivoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CalendarioLetivoUpdateByIDCombinedInput) {
+    // =========================================================
+
+    const currentCalendarioLetivo = await this.calendarioLetivoFindByIdStrict(contextoDeAcesso, {
+      id: dto.params.id,
+    });
+
+    // =========================================================
+
+    await contextoDeAcesso.ensurePermission('calendario_letivo:update', { dto }, dto.params.id, this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo));
+
+    const dtoCalendarioLetivo = pick(dto.body, ['nome', 'ano']);
+
+    const calendarioLetivo = {
+      id: currentCalendarioLetivo.id,
+    } as CalendarioLetivoEntity;
+
+    this.calendarioLetivoRepository.merge(calendarioLetivo, {
+      ...dtoCalendarioLetivo,
+    });
+
+    // =========================================================
+
+    if (has(dto.body, 'campus') && dto.body.campus !== undefined) {
+      const campus = await this.campusService.campusFindByIdSimpleStrict(contextoDeAcesso, dto.body.campus.id);
+
+      this.calendarioLetivoRepository.merge(calendarioLetivo, {
+        campus: {
+          id: campus.id,
+        },
+      });
+    }
+
+    // =========================================================
+
+    if (has(dto.body, 'modalidade') && dto.body.modalidade !== undefined) {
+      const modalidade = dto.body.modalidade && (await this.modalidadeService.modalidadeFindByIdSimpleStrict(contextoDeAcesso, dto.body.modalidade.id));
+
+      this.calendarioLetivoRepository.merge(calendarioLetivo, {
+        modalidade: modalidade && {
+          id: modalidade.id,
+        },
+      });
+    }
+
+    // =========================================================
+
+    await this.calendarioLetivoRepository.save(calendarioLetivo);
+
+    // =========================================================
+
+    return this.calendarioLetivoFindByIdStrict(contextoDeAcesso, { id: calendarioLetivo.id });
+  }
+
   //
 
-  async calendarioLetivoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.ICalendarioLetivoDeleteOneByIdInputDto) {
+  async calendarioLetivoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.CalendarioLetivoFindOneInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('calendario_letivo:delete', { dto }, dto.id, this.calendarioLetivoRepository.createQueryBuilder(aliasCalendarioLetivo));

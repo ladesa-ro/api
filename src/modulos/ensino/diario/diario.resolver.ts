@@ -1,53 +1,56 @@
-import * as LadesaTypings from '@ladesa-ro/especificacao';
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaGql, Operacao } from '../../../legacy/especificacao';
-import { DiarioDto } from './diario.dtos';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { DiarioService } from './diario.service';
-@Resolver(() => DiarioDto)
+
+@Resolver()
 export class DiarioResolver {
   constructor(
     //
     private diarioService: DiarioService,
   ) {}
-
   //
-
-  @Operacao(Spec.DiarioFindAllOperator())
-  async diarioFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.DiarioFindAllOperator()) dto: Spec.IPaginatedInputDto) {
+  @Operation(LadesaTypings.Tokens.Diario.Operations.List)
+  async diarioFindAll(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.DiarioListCombinedInput,
+  ) {
     return this.diarioService.diarioFindAll(contextoDeAcesso, dto);
   }
-
   //
-
-  @Operacao(Spec.DiarioFindOneByIdOperator())
+  @Operation(LadesaTypings.Tokens.Diario.Operations.FindById)
   async diarioFindOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.DiarioFindOneByIdOperator())
-    dto: LadesaTypings.DiarioFindOneInput,
+    @CombinedInput() dto: LadesaTypings.DiarioFindByIDCombinedInput,
   ) {
-    return this.diarioService.diarioFindByIdStrict(contextoDeAcesso, dto);
+    return this.diarioService.diarioFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
-
   //
-
-  @Operacao(Spec.DiarioCreateOperator())
-  async diarioCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.DiarioCreateOperator()) dto: Spec.IDiarioInputDto) {
+  @Operation(LadesaTypings.Tokens.Diario.Operations.Create)
+  async diarioCreate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.DiarioCreateCombinedInput,
+  ) {
     return this.diarioService.diarioCreate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.DiarioUpdateOperator())
-  async diarioUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.DiarioUpdateOperator()) dto: Spec.IDiarioUpdateDto) {
+  @Operation(LadesaTypings.Tokens.Diario.Operations.Create)
+  async diarioUpdate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.DiarioUpdateByIDCombinedInput,
+  ) {
     return this.diarioService.diarioUpdate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.DiarioDeleteOperator())
+  @Operation(LadesaTypings.Tokens.Diario.Operations.DeleteById)
   async diarioDeleteOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.DiarioDeleteOperator())
-    dto: Spec.IDiarioDeleteOneByIdInputDto,
+    @CombinedInput() dto: LadesaTypings.DiarioDeleteByIDCombinedInput,
   ) {
-    return this.diarioService.diarioDeleteOneById(contextoDeAcesso, dto);
+    return this.diarioService.diarioDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 }

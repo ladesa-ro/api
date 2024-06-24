@@ -10,10 +10,10 @@ export class CalendarioLetivoEntity implements LadesaTypings.CalendarioLetivo {
 
   //
 
-  @Column({ name: 'nome' })
+  @Column({ name: 'nome', type: 'text' })
   nome!: string;
 
-  @Column({ name: 'ano_letivo' })
+  @Column({ name: 'ano_letivo', type: 'integer' })
   ano!: number;
 
   //Chaves Estrangeiras
@@ -24,7 +24,7 @@ export class CalendarioLetivoEntity implements LadesaTypings.CalendarioLetivo {
 
   @ManyToOne(() => ModalidadeEntity)
   @JoinColumn({ name: 'id_modalidade_fk' })
-  modalidade!: LadesaTypings.Modalidade;
+  modalidade!: LadesaTypings.Modalidade | null;
 
   //
 

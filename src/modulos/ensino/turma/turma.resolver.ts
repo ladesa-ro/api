@@ -1,54 +1,56 @@
-import * as LadesaTypings from '@ladesa-ro/especificacao';
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaGql, Operacao } from '../../../legacy/especificacao';
-import { TurmaDto } from './turma.dtos';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { TurmaService } from './turma.service';
 
-@Resolver(() => TurmaDto)
+@Resolver()
 export class TurmaResolver {
   constructor(
     //
     private turmaService: TurmaService,
   ) {}
-
   //
-
-  @Operacao(Spec.TurmaFindAllOperator())
-  async turmaFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.TurmaFindAllOperator()) dto: Spec.IPaginatedInputDto) {
+  @Operation(LadesaTypings.Tokens.Turma.Operations.List)
+  async turmaFindAll(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.TurmaListCombinedInput,
+  ) {
     return this.turmaService.turmaFindAll(contextoDeAcesso, dto);
   }
-
   //
-
-  @Operacao(Spec.TurmaFindOneByIdOperator())
+  @Operation(LadesaTypings.Tokens.Turma.Operations.FindById)
   async turmaFindOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.TurmaFindOneByIdOperator())
-    dto: LadesaTypings.TurmaFindOneInput,
+    @CombinedInput() dto: LadesaTypings.TurmaFindByIDCombinedInput,
   ) {
-    return this.turmaService.turmaFindByIdStrict(contextoDeAcesso, dto);
+    return this.turmaService.turmaFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
-
   //
-
-  @Operacao(Spec.TurmaCreateOperator())
-  async turmaCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.TurmaCreateOperator()) dto: Spec.ITurmaInputDto) {
+  @Operation(LadesaTypings.Tokens.Turma.Operations.Create)
+  async turmaCreate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.TurmaCreateCombinedInput,
+  ) {
     return this.turmaService.turmaCreate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.TurmaUpdateOperator())
-  async turmaUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.TurmaUpdateOperator()) dto: Spec.ITurmaUpdateDto) {
+  @Operation(LadesaTypings.Tokens.Turma.Operations.Create)
+  async turmaUpdate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.TurmaUpdateByIDCombinedInput,
+  ) {
     return this.turmaService.turmaUpdate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.TurmaDeleteOperator())
+  @Operation(LadesaTypings.Tokens.Turma.Operations.DeleteById)
   async turmaDeleteOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.TurmaDeleteOperator())
-    dto: Spec.ITurmaDeleteOneByIdInputDto,
+    @CombinedInput() dto: LadesaTypings.TurmaFindByIDCombinedInput,
   ) {
-    return this.turmaService.turmaDeleteOneById(contextoDeAcesso, dto);
+    return this.turmaService.turmaDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 }

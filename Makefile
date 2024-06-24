@@ -1,8 +1,8 @@
 
-d_network=sisgea-luna-net
-d_container_app=sisgea-luna-backend
+d_network=ladesa-net
+d_container_app=ladesa-api
 
-compose_options=--file .devops/development/docker-compose.yml -p sisgea-luna-backend
+compose_options=--file .devops/development/docker-compose.yml -p ladesa-api
 
 dev-setup:
 

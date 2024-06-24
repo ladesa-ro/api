@@ -1,53 +1,56 @@
-import * as LadesaTypings from '@ladesa-ro/especificacao';
+import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoGraphQl, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaGql, Operacao } from '../../../legacy/especificacao';
-import { CampusDto } from './campus.dtos';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { CampusService } from './campus.service';
-@Resolver(() => CampusDto)
+
+@Resolver()
 export class CampusResolver {
   constructor(
     //
     private campusService: CampusService,
   ) {}
-
   //
-
-  @Operacao(Spec.CampusFindAllOperator())
-  async campusFindAll(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.CampusFindAllOperator()) dto: Spec.IPaginatedInputDto) {
+  @Operation(LadesaTypings.Tokens.Campus.Operations.List)
+  async campusFindAll(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.CampusListCombinedInput,
+  ) {
     return this.campusService.campusFindAll(contextoDeAcesso, dto);
   }
-
   //
-
-  @Operacao(Spec.CampusFindOneByIdOperator())
+  @Operation(LadesaTypings.Tokens.Campus.Operations.FindById)
   async campusFindOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.CampusFindOneByIdOperator())
-    dto: LadesaTypings.CampusFindOneInput,
+    @CombinedInput() dto: LadesaTypings.CampusFindByIDCombinedInput,
   ) {
-    return this.campusService.campusFindByIdStrict(contextoDeAcesso, dto);
+    return this.campusService.campusFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
-
   //
-
-  @Operacao(Spec.CampusCreateOperator())
-  async campusCreate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.CampusCreateOperator()) dto: Spec.ICampusInputDto) {
+  @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
+  async campusCreate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.CampusCreateCombinedInput,
+  ) {
     return this.campusService.campusCreate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.CampusUpdateOperator())
-  async campusUpdate(@ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaGql(Spec.CampusUpdateOperator()) dto: Spec.ICampusUpdateDto) {
+  @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
+  async campusUpdate(
+    //
+    @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.CampusUpdateByIDCombinedInput,
+  ) {
     return this.campusService.campusUpdate(contextoDeAcesso, dto);
   }
-
-  @Operacao(Spec.CampusDeleteOperator())
+  @Operation(LadesaTypings.Tokens.Campus.Operations.DeleteById)
   async campusDeleteOneById(
+    //
     @ContextoDeAcessoGraphQl() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaGql(Spec.CampusDeleteOperator())
-    dto: Spec.ICampusDeleteOneByIdInputDto,
+    @CombinedInput() dto: LadesaTypings.CampusDeleteByIDCombinedInput,
   ) {
-    return this.campusService.campusDeleteOneById(contextoDeAcesso, dto);
+    return this.campusService.campusDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 }

@@ -1,8 +1,8 @@
-import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
+import LadesaTypings from '@ladesa-ro/especificacao';
+import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { DiarioService } from './diario.service';
 
 @ApiTags('Diarios')
@@ -13,54 +13,61 @@ export class DiarioController {
   //
 
   @Get('/')
-  @Operacao(Spec.DiarioFindAllOperator())
+  @Operation(LadesaTypings.Tokens.Diario.Operations.List)
   async diarioFindAll(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.DiarioFindAllOperator()) dto: Spec.IPaginatedInputDto,
-  ): Promise<Spec.IDiarioFindAllResultDto> {
+    @CombinedInput() dto: LadesaTypings.DiarioListCombinedInput,
+  ): Promise<LadesaTypings.DiarioListCombinedSuccessOutput['body']> {
     return this.diarioService.diarioFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id')
-  @Operacao(Spec.DiarioFindOneByIdOperator())
-  async diarioFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.diarioService.diarioFindByIdStrict(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Diario.Operations.FindById)
+  async diarioFindById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.DiarioFindByIDCombinedInput,
+  ) {
+    return this.diarioService.diarioFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
 
   //
 
   @Post('/')
-  @Operacao(Spec.DiarioCreateOperator())
-  async diarioCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.DiarioCreateOperator()) dto: Spec.IDiarioInputDto) {
+  @Operation(LadesaTypings.Tokens.Diario.Operations.Create)
+  async diarioCreate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.DiarioCreateCombinedInput,
+  ) {
     return this.diarioService.diarioCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @Operacao(Spec.DiarioUpdateOperator())
+  @Operation(LadesaTypings.Tokens.Diario.Operations.Create)
   async diarioUpdate(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.DiarioUpdateOperator())
-    { ...dto }: Spec.IDiarioUpdateDto,
-    @Param('id', ParseUUIDPipe) id: string,
+    @CombinedInput() dto: LadesaTypings.DiarioUpdateByIDCombinedInput,
   ) {
-    const dtoUpdate: Spec.IDiarioUpdateDto = {
-      ...dto,
-      id,
-    };
-
-    return this.diarioService.diarioUpdate(contextoDeAcesso, dtoUpdate);
+    return this.diarioService.diarioUpdate(contextoDeAcesso, dto);
   }
 
   //
 
   @Delete('/:id')
-  @Operacao(Spec.DiarioDeleteOperator())
-  async diarioDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.diarioService.diarioDeleteOneById(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Diario.Operations.DeleteById)
+  async diarioDeleteOneById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.DiarioDeleteByIDCombinedInput,
+  ) {
+    return this.diarioService.diarioDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 
   //

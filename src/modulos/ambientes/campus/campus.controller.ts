@@ -1,8 +1,8 @@
-import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
+import LadesaTypings from '@ladesa-ro/especificacao';
+import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Spec from '@sisgea/spec';
 import { ContextoDeAcessoHttp, IContextoDeAcesso } from '../../../contexto-de-acesso';
-import { DadosEntradaHttp, Operacao } from '../../../legacy/especificacao';
+import { CombinedInput, Operation } from '../../../helpers/ladesa';
 import { CampusService } from './campus.service';
 
 @ApiTags('Campi')
@@ -13,54 +13,61 @@ export class CampusController {
   //
 
   @Get('/')
-  @Operacao(Spec.CampusFindAllOperator())
+  @Operation(LadesaTypings.Tokens.Campus.Operations.List)
   async campusFindAll(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CampusFindAllOperator()) dto: Spec.IPaginatedInputDto,
-  ): Promise<Spec.ICampusFindAllResultDto> {
+    @CombinedInput() dto: LadesaTypings.CampusListCombinedInput,
+  ): Promise<LadesaTypings.CampusListCombinedSuccessOutput['body']> {
     return this.campusService.campusFindAll(contextoDeAcesso, dto);
   }
 
   //
 
   @Get('/:id')
-  @Operacao(Spec.CampusFindOneByIdOperator())
-  async campusFindById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.campusService.campusFindByIdStrict(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Campus.Operations.FindById)
+  async campusFindById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.AmbienteFindByIDCombinedInput,
+  ) {
+    return this.campusService.campusFindByIdStrict(contextoDeAcesso, { id: dto.params.id });
   }
 
   //
 
   @Post('/')
-  @Operacao(Spec.CampusCreateOperator())
-  async campusCreate(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @DadosEntradaHttp(Spec.CampusCreateOperator()) dto: Spec.ICampusInputDto) {
+  @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
+  async campusCreate(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.CampusCreateCombinedInput,
+  ) {
     return this.campusService.campusCreate(contextoDeAcesso, dto);
   }
 
   //
 
   @Patch('/:id')
-  @Operacao(Spec.CampusUpdateOperator())
+  @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
   async campusUpdate(
+    //
     @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
-    @DadosEntradaHttp(Spec.CampusUpdateOperator())
-    { ...dto }: Spec.ICampusUpdateDto,
-    @Param('id', ParseUUIDPipe) id: string,
+    @CombinedInput() dto: LadesaTypings.CampusUpdateByIDCombinedInput,
   ) {
-    const dtoUpdate: Spec.ICampusUpdateDto = {
-      ...dto,
-      id,
-    };
-
-    return this.campusService.campusUpdate(contextoDeAcesso, dtoUpdate);
+    return this.campusService.campusUpdate(contextoDeAcesso, dto);
   }
 
   //
 
   @Delete('/:id')
-  @Operacao(Spec.CampusDeleteOperator())
-  async campusDeleteOneById(@ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso, @Param('id', ParseUUIDPipe) id: string) {
-    return this.campusService.campusDeleteOneById(contextoDeAcesso, { id });
+  @Operation(LadesaTypings.Tokens.Campus.Operations.DeleteById)
+  async campusDeleteOneById(
+    //
+    @ContextoDeAcessoHttp() contextoDeAcesso: IContextoDeAcesso,
+    @CombinedInput() dto: LadesaTypings.AmbienteFindByIDCombinedInput,
+  ) {
+    return this.campusService.campusDeleteOneById(contextoDeAcesso, { id: dto.params.id });
   }
 
   //

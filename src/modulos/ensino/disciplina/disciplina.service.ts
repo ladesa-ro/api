@@ -1,11 +1,10 @@
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as Spec from '@sisgea/spec';
 import { map, pick } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
-import { busca, getPaginatedResultDto } from '../../../busca';
 import { IContextoDeAcesso } from '../../../contexto-de-acesso';
 import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { DisciplinaEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
@@ -57,7 +56,7 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaFindAll(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IPaginatedInputDto | null = null): Promise<Spec.IDisciplinaFindAllResultDto> {
+  async disciplinaFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DisciplinaListCombinedInput | null = null): Promise<LadesaTypings.DisciplinaListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
@@ -68,7 +67,7 @@ export class DisciplinaService {
 
     // =========================================================
 
-    const paginated = await busca('#/', dto, qb, {
+    const paginated = await LadesaSearch('#/', dto, qb, {
       ...paginateConfig,
       select: [
         //
@@ -113,7 +112,7 @@ export class DisciplinaService {
 
     // =========================================================
 
-    return getPaginatedResultDto(paginated);
+    return LadesaPaginatedResultDto(paginated);
   }
 
   async disciplinaFindById(contextoDeAcesso: IContextoDeAcesso | null, dto: LadesaTypings.DisciplinaFindOneInput): Promise<LadesaTypings.DisciplinaFindOneResult | null> {
@@ -207,14 +206,14 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaCreate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDisciplinaInputDto) {
+  async disciplinaCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DisciplinaCreateCombinedInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('disciplina:create', { dto });
 
     // =========================================================
 
-    const dtoDisciplina = pick(dto, ['nome', 'nomeAbreviado', 'cargaHoraria']);
+    const dtoDisciplina = pick(dto.body, ['nome', 'nomeAbreviado', 'cargaHoraria']);
 
     const disciplina = this.disciplinaRepository.create();
 
@@ -231,18 +230,18 @@ export class DisciplinaService {
     return this.disciplinaFindByIdStrict(contextoDeAcesso, { id: disciplina.id });
   }
 
-  async disciplinaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDisciplinaUpdateDto) {
+  async disciplinaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DisciplinaUpdateByIDCombinedInput) {
     // =========================================================
 
     const currentDisciplina = await this.disciplinaFindByIdStrict(contextoDeAcesso, {
-      id: dto.id,
+      id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('disciplina:update', { dto }, dto.id, this.disciplinaRepository.createQueryBuilder(aliasDisciplina));
+    await contextoDeAcesso.ensurePermission('disciplina:update', { dto }, dto.params.id, this.disciplinaRepository.createQueryBuilder(aliasDisciplina));
 
-    const dtoDisciplina = pick(dto, ['nome', 'nomeAbreviado', 'cargaHoraria']);
+    const dtoDisciplina = pick(dto.body, ['nome', 'nomeAbreviado', 'cargaHoraria']);
 
     const disciplina = {
       id: currentDisciplina.id,
@@ -318,7 +317,7 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: Spec.IDisciplinaDeleteOneByIdInputDto) {
+  async disciplinaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DisciplinaFindOneInput) {
     // =========================================================
 
     await contextoDeAcesso.ensurePermission('disciplina:delete', { dto }, dto.id, this.disciplinaRepository.createQueryBuilder(aliasDisciplina));
