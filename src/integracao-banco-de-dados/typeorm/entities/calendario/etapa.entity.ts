@@ -2,16 +2,17 @@ import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CalendarioLetivoEntity } from './calendario-letivo.entity';
 
-@Entity('evento')
-export class EventoEntity implements LadesaTypings.Evento {
+@Entity('etapa')
+export class EtapaEntity implements LadesaTypings.Etapa {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   //
 
-  @Column({ name: 'nome', type: 'text' })
-  nome!: string | null;
+  @Column({ name: 'numero', type: 'int' })
+  numero!: number | null;
 
+ 
   @Column({ name: 'data_inicio', type: 'timestamptz', nullable: false })
   dataInicio!: Date;
 

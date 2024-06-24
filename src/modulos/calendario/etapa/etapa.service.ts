@@ -8,38 +8,38 @@ import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { CalendarioLetivoService, ICalendarioLetivoQueryBuilderViewOptions } from '../calendario-letivo/calendario-letivo.service';
-import { EventoEntity } from '@/integracao-banco-de-dados/typeorm/entities/calendario/evento.entity';
+import { EtapaEntity } from '@/integracao-banco-de-dados/typeorm/entities/calendario/etapa.entity';
 
 // ============================================================================
 
-const aliasEvento = 'evento';
+const aliasEtapa = 'etapa';
 
 // ============================================================================
 
-export type IEventoQueryBuilderViewOptions = {
+export type IEtapaQueryBuilderViewOptions = {
   loadCalendario?: IQueryBuilderViewOptionsLoad<ICalendarioLetivoQueryBuilderViewOptions>;
 };
 
 // ============================================================================
 
 @Injectable()
-export class EventoService {
+export class EtapaService {
   constructor(
     private databaseContext: DatabaseContextService,
     private calendarioLetivoService: CalendarioLetivoService,
   ) {}
 
-  get eventoRepository() {
-    return this.databaseContext.eventoRepository;
+  get etapaRepository() {
+    return this.databaseContext.etapaRepository;
   }
 
   //
 
-  static EventoQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IEventoQueryBuilderViewOptions = {}) {
+  static EtapaQueryBuilderView(alias: string, qb: SelectQueryBuilder<any>, options: IEtapaQueryBuilderViewOptions = {}) {
     qb.addSelect([
       //
       `${alias}.id`,
-      `${alias}.nome`,
+      `${alias}.numero`,
       `${alias}.dataInicio`,
       `${alias}.dataTermino`,
       `${alias}.cor`,
@@ -55,14 +55,14 @@ export class EventoService {
 
   //
 
-  async eventoFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoListCombinedInput | null = null): Promise<LadesaTypings.EventoListCombinedSuccessOutput['body']> {
+  async etapaFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaListCombinedInput | null = null): Promise<LadesaTypings.EtapaListCombinedSuccessOutput['body']> {
     // =========================================================
 
-    const qb = this.eventoRepository.createQueryBuilder(aliasEvento);
+    const qb = this.etapaRepository.createQueryBuilder(aliasEtapa);
 
     // =========================================================
 
-    await contextoDeAcesso.aplicarFiltro('evento:find', qb, aliasEvento, null);
+    await contextoDeAcesso.aplicarFiltro('etapa:find', qb, aliasEtapa, null);
 
     // =========================================================
 
@@ -72,7 +72,7 @@ export class EventoService {
         //
         'id',
         //
-        'nome',
+        'numero',
         'dataInicio',
         'dataTermino',
         'cor',
@@ -84,7 +84,7 @@ export class EventoService {
       ],
       sortableColumns: [
         //
-        'nome',
+        'numero',
         'dataInicio',
         'dataInicio',
         'cor',
@@ -97,7 +97,7 @@ export class EventoService {
         //
         'id',
         //
-        'nome',
+        'numero',
         'dataInicio',
         'dataTermino',
         'cor',
@@ -118,7 +118,7 @@ export class EventoService {
 
     qb.select([]);
 
-    EventoService.EventoQueryBuilderView(aliasEvento, qb, {});
+    EtapaService.EtapaQueryBuilderView(aliasEtapa, qb, {});
 
     // =========================================================
 
@@ -130,67 +130,67 @@ export class EventoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async eventoFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoFindOneInput): Promise<LadesaTypings.EventoFindOneResult | null> {
+  async etapaFindById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaFindOneInput): Promise<LadesaTypings.EtapaFindOneResult | null> {
     // =========================================================
 
-    const qb = this.eventoRepository.createQueryBuilder(aliasEvento);
-
-    // =========================================================
-
-    await contextoDeAcesso.aplicarFiltro('evento:find', qb, aliasEvento, null);
+    const qb = this.etapaRepository.createQueryBuilder(aliasEtapa);
 
     // =========================================================
 
-    qb.andWhere(`${aliasEvento}.id = :id`, { id: dto.id });
+    await contextoDeAcesso.aplicarFiltro('etapa:find', qb, aliasEtapa, null);
+
+    // =========================================================
+
+    qb.andWhere(`${aliasEtapa}.id = :id`, { id: dto.id });
 
     // =========================================================
 
     qb.select([]);
 
-    EventoService.EventoQueryBuilderView(aliasEvento, qb, {});
+    EtapaService.EtapaQueryBuilderView(aliasEtapa, qb, {});
 
     // =========================================================
 
-    const evento = await qb.getOne();
+    const etapa = await qb.getOne();
 
     // =========================================================
 
-    return evento;
+    return etapa;
   }
 
-  async eventoFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoFindOneInput) {
-    const evento = await this.eventoFindById(contextoDeAcesso, dto);
+  async etapaFindByIdStrict(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaFindOneInput) {
+    const etapa = await this.etapaFindById(contextoDeAcesso, dto);
 
-    if (!evento) {
+    if (!etapa) {
       throw new NotFoundException();
     }
 
-    return evento;
+    return etapa;
   }
 
-  async eventoFindByIdSimple(
+  async etapaFindByIdSimple(
     contextoDeAcesso: IContextoDeAcesso,
-    id: LadesaTypings.EventoFindOneInput['id'],
-    options?: IEventoQueryBuilderViewOptions,
+    id: LadesaTypings.EtapaFindOneInput['id'],
+    options?: IEtapaQueryBuilderViewOptions,
     selection?: string[],
-  ): Promise<LadesaTypings.EventoFindOneResult | null> {
+  ): Promise<LadesaTypings.EtapaFindOneResult | null> {
     // =========================================================
 
-    const qb = this.eventoRepository.createQueryBuilder(aliasEvento);
-
-    // =========================================================
-
-    await contextoDeAcesso.aplicarFiltro('evento:find', qb, aliasEvento, null);
+    const qb = this.etapaRepository.createQueryBuilder(aliasEtapa);
 
     // =========================================================
 
-    qb.andWhere(`${aliasEvento}.id = :id`, { id });
+    await contextoDeAcesso.aplicarFiltro('etapa:find', qb, aliasEtapa, null);
+
+    // =========================================================
+
+    qb.andWhere(`${aliasEtapa}.id = :id`, { id });
 
     // =========================================================
 
     qb.select([]);
 
-    EventoService.EventoQueryBuilderView(aliasEvento, qb, {
+    EtapaService.EtapaQueryBuilderView(aliasEtapa, qb, {
       ...options,
     });
 
@@ -200,38 +200,38 @@ export class EventoService {
 
     // =========================================================
 
-    const evento = await qb.getOne();
+    const etapa = await qb.getOne();
 
     // =========================================================
 
-    return evento;
+    return etapa;
   }
 
-  async EventoFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.EventoFindOneInput['id'], options?: IEventoQueryBuilderViewOptions, selection?: string[]) {
-    const evento = await this.eventoFindByIdSimple(contextoDeAcesso, id, options, selection);
+  async EtapaFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.EtapaFindOneInput['id'], options?: IEtapaQueryBuilderViewOptions, selection?: string[]) {
+    const etapa = await this.etapaFindByIdSimple(contextoDeAcesso, id, options, selection);
 
-    if (!evento) {
+    if (!etapa) {
       throw new NotFoundException();
     }
 
-    return evento;
+    return etapa;
   }
 
   //
 
-  async eventoCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoCreateCombinedInput) {
+  async etapaCreate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaCreateCombinedInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('evento:create', { dto });
+    await contextoDeAcesso.ensurePermission('etapa:create', { dto });
 
     // =========================================================
 
-    const dtoEvento = pick(dto.body, ['nome', 'cor', 'dataInicio', 'dataTermino']);
+    const dtoEtapa = pick(dto.body, ['numero', 'cor', 'dataInicio', 'dataTermino']);
 
-    const evento = this.eventoRepository.create();
+    const etapa = this.etapaRepository.create();
 
-    this.eventoRepository.merge(evento, {
-      ...dtoEvento,
+    this.etapaRepository.merge(etapa, {
+      ...dtoEtapa,
     });
 
     // =========================================================
@@ -239,7 +239,7 @@ export class EventoService {
     if (dto.body.calendario) {
       const calendario = await this.calendarioLetivoService.CalendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario.id);
 
-      this.eventoRepository.merge(evento, {
+      this.etapaRepository.merge(etapa, {
         calendario: {
           id: calendario.id,
         },
@@ -248,32 +248,32 @@ export class EventoService {
 
     // =========================================================
 
-    await this.eventoRepository.save(evento);
+    await this.etapaRepository.save(etapa);
 
     // =========================================================
 
-    return this.eventoFindByIdStrict(contextoDeAcesso, { id: evento.id });
+    return this.etapaFindByIdStrict(contextoDeAcesso, { id: etapa.id });
   }
 
-  async eventoUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoUpdateByIDCombinedInput) {
+  async etapaUpdate(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaUpdateByIDCombinedInput) {
     // =========================================================
 
-    const currentEvento = await this.eventoFindByIdStrict(contextoDeAcesso, {
+    const currentEtapa = await this.etapaFindByIdStrict(contextoDeAcesso, {
       id: dto.params.id,
     });
 
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('evento:update', { dto }, dto.params.id, this.eventoRepository.createQueryBuilder(aliasEvento));
+    await contextoDeAcesso.ensurePermission('etapa:update', { dto }, dto.params.id, this.etapaRepository.createQueryBuilder(aliasEtapa));
 
-    const dtoEvento = pick(dto.body, ['nome', 'cor', 'dataInicio', 'dataTermino']);
+    const dtoEtapa = pick(dto.body, ['numero', 'cor', 'dataInicio', 'dataTermino']);
 
-    const evento = {
-      id: currentEvento.id,
-    } as EventoEntity;
+    const etapa = {
+      id: currentEtapa.id,
+    } as EtapaEntity;
 
-    this.eventoRepository.merge(evento, {
-      ...dtoEvento,
+    this.etapaRepository.merge(etapa, {
+      ...dtoEtapa,
     });
 
     // =========================================================
@@ -281,7 +281,7 @@ export class EventoService {
     if (has(dto.body, 'calendario') && dto.body.calendario !== undefined) {
       const calendario = await this.calendarioLetivoService.CalendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario!.id);
 
-      this.eventoRepository.merge(evento, {
+      this.etapaRepository.merge(etapa, {
         calendario: {
           id: calendario.id,
         },
@@ -290,34 +290,34 @@ export class EventoService {
 
     // =========================================================
 
-    await this.eventoRepository.save(evento);
+    await this.etapaRepository.save(etapa);
 
     // =========================================================
 
-    return this.eventoFindByIdStrict(contextoDeAcesso, { id: evento.id });
+    return this.etapaFindByIdStrict(contextoDeAcesso, { id: etapa.id });
   }
 
   //
 
-  async eventoDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EventoFindOneInput) {
+  async etapaDeleteOneById(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.EtapaFindOneInput) {
     // =========================================================
 
-    await contextoDeAcesso.ensurePermission('evento:delete', { dto }, dto.id, this.eventoRepository.createQueryBuilder(aliasEvento));
-
-    // =========================================================
-
-    const evento = await this.eventoFindByIdStrict(contextoDeAcesso, dto);
+    await contextoDeAcesso.ensurePermission('etapa:delete', { dto }, dto.id, this.etapaRepository.createQueryBuilder(aliasEtapa));
 
     // =========================================================
 
-    if (evento) {
-      await this.eventoRepository
-        .createQueryBuilder(aliasEvento)
+    const etapa = await this.etapaFindByIdStrict(contextoDeAcesso, dto);
+
+    // =========================================================
+
+    if (etapa) {
+      await this.etapaRepository
+        .createQueryBuilder(aliasEtapa)
         .update()
         .set({
           dateDeleted: 'NOW()',
         })
-        .where('id = :eventoId', { eventoId: evento.id })
+        .where('id = :etapaId', { etapaId: etapa.id })
         .andWhere('dateDeleted IS NULL')
         .execute();
     }
