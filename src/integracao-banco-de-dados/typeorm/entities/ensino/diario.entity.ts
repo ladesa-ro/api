@@ -2,6 +2,7 @@ import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { AmbienteEntity } from '../ambientes/ambiente.entity';
 import { ImagemEntity } from '../base/imagem.entity';
+import { CalendarioLetivoEntity } from '../calendario';
 import { DisciplinaEntity } from './disciplina.entity';
 import { TurmaEntity } from './turma.entity';
 
@@ -12,14 +13,13 @@ export class DiarioEntity implements LadesaTypings.Diario {
 
   //
 
-  @Column({ name: 'situacao', type: 'text', nullable: false })
-  situacao!: string;
+  @Column({ name: 'ativo', type: 'boolean', nullable: false })
+  ativo!: boolean;
+  //
 
-  @Column({ name: 'ano', type: 'int', nullable: false })
-  ano!: number;
-
-  @Column({ name: 'etapa', type: 'text', nullable: true })
-  etapa!: string | null;
+  @ManyToOne(() => CalendarioLetivoEntity)
+  @JoinColumn({ name: 'id_calendario_letivo_fk' })
+  calendarioLetivo!: CalendarioLetivoEntity;
 
   @ManyToOne(() => TurmaEntity)
   @JoinColumn({ name: 'id_turma_fk' })

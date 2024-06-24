@@ -227,7 +227,7 @@ export class CalendarioLetivoService {
     return calendarioLetivo;
   }
 
-  async CalendarioLetivoFindByIdSimpleStrict(
+  async calendarioLetivoFindByIdSimpleStrict(
     contextoDeAcesso: IContextoDeAcesso,
     id: LadesaTypings.CalendarioLetivoFindOneInput['id'],
     options?: ICalendarioLetivoQueryBuilderViewOptions,

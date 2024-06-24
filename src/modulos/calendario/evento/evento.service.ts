@@ -1,3 +1,4 @@
+import { EventoEntity } from '@/integracao-banco-de-dados/typeorm/entities/calendario/evento.entity';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
@@ -8,7 +9,6 @@ import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { CalendarioLetivoService, ICalendarioLetivoQueryBuilderViewOptions } from '../calendario-letivo/calendario-letivo.service';
-import { EventoEntity } from '@/integracao-banco-de-dados/typeorm/entities/calendario/evento.entity';
 
 // ============================================================================
 
@@ -237,7 +237,7 @@ export class EventoService {
     // =========================================================
 
     if (dto.body.calendario) {
-      const calendario = await this.calendarioLetivoService.CalendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario.id);
+      const calendario = await this.calendarioLetivoService.calendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario.id);
 
       this.eventoRepository.merge(evento, {
         calendario: {
@@ -279,7 +279,7 @@ export class EventoService {
     // =========================================================
 
     if (has(dto.body, 'calendario') && dto.body.calendario !== undefined) {
-      const calendario = await this.calendarioLetivoService.CalendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario!.id);
+      const calendario = await this.calendarioLetivoService.calendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario!.id);
 
       this.eventoRepository.merge(evento, {
         calendario: {

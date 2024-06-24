@@ -1,3 +1,4 @@
+import { DiaCalendarioEntity } from '@/integracao-banco-de-dados/typeorm/entities/calendario/dia-calendario.entity';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
@@ -8,7 +9,6 @@ import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/
 import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { IQueryBuilderViewOptionsLoad, getQueryBuilderViewLoadMeta, paginateConfig } from '../../../legacy/utils';
 import { CalendarioLetivoService, ICalendarioLetivoQueryBuilderViewOptions } from '../calendario-letivo/calendario-letivo.service';
-import { DiaCalendarioEntity } from '@/integracao-banco-de-dados/typeorm/entities/calendario/dia-calendario.entity';
 
 // ============================================================================
 
@@ -54,7 +54,10 @@ export class DiaCalendarioService {
 
   //
 
-  async diaCalendarioFindAll(contextoDeAcesso: IContextoDeAcesso, dto: LadesaTypings.DiaCalendarioListCombinedInput | null = null): Promise<LadesaTypings.DiaCalendarioListCombinedSuccessOutput['body']> {
+  async diaCalendarioFindAll(
+    contextoDeAcesso: IContextoDeAcesso,
+    dto: LadesaTypings.DiaCalendarioListCombinedInput | null = null,
+  ): Promise<LadesaTypings.DiaCalendarioListCombinedSuccessOutput['body']> {
     // =========================================================
 
     const qb = this.diaCalendarioRepository.createQueryBuilder(aliasDiaCalendario);
@@ -203,7 +206,12 @@ export class DiaCalendarioService {
     return diaCalendario;
   }
 
-  async DiaCalendarioFindByIdSimpleStrict(contextoDeAcesso: IContextoDeAcesso, id: LadesaTypings.DiaCalendarioFindOneInput['id'], options?: IDiaCalendarioQueryBuilderViewOptions, selection?: string[]) {
+  async DiaCalendarioFindByIdSimpleStrict(
+    contextoDeAcesso: IContextoDeAcesso,
+    id: LadesaTypings.DiaCalendarioFindOneInput['id'],
+    options?: IDiaCalendarioQueryBuilderViewOptions,
+    selection?: string[],
+  ) {
     const diaCalendario = await this.diaCalendarioFindByIdSimple(contextoDeAcesso, id, options, selection);
 
     if (!diaCalendario) {
@@ -233,7 +241,7 @@ export class DiaCalendarioService {
     // =========================================================
 
     if (dto.body.calendario) {
-      const calendario = await this.calendarioLetivoService.CalendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario.id);
+      const calendario = await this.calendarioLetivoService.calendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario.id);
 
       this.diaCalendarioRepository.merge(diaCalendario, {
         calendario: {
@@ -275,7 +283,7 @@ export class DiaCalendarioService {
     // =========================================================
 
     if (has(dto.body, 'calendario') && dto.body.calendario !== undefined) {
-      const calendario = await this.calendarioLetivoService.CalendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario!.id);
+      const calendario = await this.calendarioLetivoService.calendarioLetivoFindByIdSimpleStrict(contextoDeAcesso, dto.body.calendario!.id);
 
       this.diaCalendarioRepository.merge(diaCalendario, {
         calendario: {

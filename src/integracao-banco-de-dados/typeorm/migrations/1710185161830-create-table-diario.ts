@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 const tableName = 'diario';
 
-export class CreateTableDiario1710184970531 implements MigrationInterface {
+export class CreateTableDiario1710185161830 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -19,27 +19,25 @@ export class CreateTableDiario1710184970531 implements MigrationInterface {
           //
 
           {
-            name: 'situacao',
-            type: 'text',
+            name: 'ativo',
+            type: 'boolean',
+            isNullable: false,
+            default: 'TRUE',
+          },
+
+          //
+          {
+            name: 'id_calendario_letivo_fk',
+            type: 'uuid',
             isNullable: false,
           },
 
-          {
-            name: 'ano',
-            type: 'int',
-            isNullable: false,
-          },
-          {
-            name: 'etapa',
-            type: 'text',
-            isNullable: true,
-          },
-          //
           {
             name: 'id_disciplina_fk',
             type: 'uuid',
             isNullable: false,
           },
+
           {
             name: 'id_turma_fk',
             type: 'uuid',
@@ -76,6 +74,12 @@ export class CreateTableDiario1710184970531 implements MigrationInterface {
           },
         ],
         foreignKeys: [
+          {
+            name: `fk__${tableName}__depende__calendario_letivo`,
+            columnNames: ['id_calendario_letivo_fk'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'calendario_letivo',
+          },
           {
             name: `fk__${tableName}__depende__disciplina`,
             columnNames: ['id_disciplina_fk'],
