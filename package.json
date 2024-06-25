@@ -2,9 +2,6 @@
   "name": "@ladesa-ro/api",
   "version": "0.0.0",
   "private": true,
-  "workspaces": [
-    "api-service"
-  ],
   "scripts": {
     "commit": "git-cz",
     "prepare": "husky",

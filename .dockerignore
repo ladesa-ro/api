@@ -1,0 +1,9 @@
+**/.git
+**/.github
+**/.husky
+**/.vscode
+**/api-clients
+**/*.env
+**/*.env*
+**/node_modules
+Dockerfile*

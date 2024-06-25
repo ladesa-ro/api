@@ -58,7 +58,7 @@ jobs:
         if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == env.CI_DEVELOPMENT_BRANCH }}
         uses: docker/build-push-action@v6
         with:
-          context: './api-service'
+          file: 'Dockerfile.service'
           push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
           tags: ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_DEVELOPMENT }}
           cache-from: type=gha
@@ -68,7 +68,7 @@ jobs:
         if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == env.CI_PRODUCTION_BRANCH }}
         uses: docker/build-push-action@v6
         with:
-          context: './api-service'
+          file: 'Dockerfile.service'
           push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
           tags: ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_PRODUCTION }}
           cache-from: type=gha
