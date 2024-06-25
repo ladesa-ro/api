@@ -43,7 +43,7 @@ export class EtapaController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Etapa.Operations.UpdateById)
   async etapaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,

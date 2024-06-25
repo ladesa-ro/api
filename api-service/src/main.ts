@@ -39,10 +39,11 @@ async function setupApp() {
   app.use(compression());
 
   //
-
   const config = SetupSwaggerDocument(configService);
   const document = SwaggerModule.createDocument(app, config.build());
+  //
   SwaggerModule.setup(`${prefix ?? ''}doc-api`, app, document);
+  //
 
   app.enableCors();
 

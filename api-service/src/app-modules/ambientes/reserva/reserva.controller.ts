@@ -49,7 +49,7 @@ export class ReservaController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Reserva.Operations.UpdateById)
   async reservaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,

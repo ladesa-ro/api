@@ -43,7 +43,7 @@ export class EventoController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.Evento.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Evento.Operations.UpdateById)
   async eventoUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,

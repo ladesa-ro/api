@@ -49,7 +49,7 @@ export class UsuarioController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Usuario.Operations.UpdateById)
   async usuarioUpdate(@AccessContextHttp() accessContext: AccessContext, @CombinedInput() dto: LadesaTypings.UsuarioUpdateByIDCombinedInput) {
     return this.usuarioService.usuarioUpdate(accessContext, dto);
   }

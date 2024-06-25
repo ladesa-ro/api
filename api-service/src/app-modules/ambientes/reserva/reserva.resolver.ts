@@ -37,7 +37,7 @@ export class ReservaResolver {
   ) {
     return this.reservaService.reservaCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Reserva.Operations.UpdateById)
   async reservaUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

@@ -49,7 +49,7 @@ export class CursoController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.Curso.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Curso.Operations.UpdateById)
   async cursoUpdate(@AccessContextHttp() accessContext: AccessContext, @CombinedInput() dto: LadesaTypings.CursoUpdateByIDCombinedInput) {
     return this.cursoService.cursoUpdate(accessContext, dto);
   }

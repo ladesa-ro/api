@@ -46,7 +46,7 @@ export class DiaCalendarioController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.Create)
+  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.UpdateById)
   async diaCalendarioUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,

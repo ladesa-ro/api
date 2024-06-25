@@ -37,7 +37,7 @@ export class DiarioResolver {
   ) {
     return this.diarioService.diarioCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Diario.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Diario.Operations.UpdateById)
   async diarioUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

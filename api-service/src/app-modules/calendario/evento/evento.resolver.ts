@@ -35,7 +35,7 @@ export class EventoResolver {
     return this.eventoService.eventoCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Evento.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Evento.Operations.UpdateById)
   async eventoUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

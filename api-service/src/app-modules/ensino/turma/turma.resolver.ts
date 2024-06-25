@@ -37,7 +37,7 @@ export class TurmaResolver {
   ) {
     return this.turmaService.turmaCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Turma.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Turma.Operations.UpdateById)
   async turmaUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

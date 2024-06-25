@@ -31,7 +31,7 @@ export class DiarioProfessorResolver {
   ) {
     return this.diarioProfessorService.diarioProfessorCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.Create)
+  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.UpdateById)
   async diarioProfessorUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

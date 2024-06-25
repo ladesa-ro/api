@@ -37,7 +37,7 @@ export class UsuarioResolver {
   ) {
     return this.usuarioService.usuarioCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Usuario.Operations.UpdateById)
   async usuarioUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

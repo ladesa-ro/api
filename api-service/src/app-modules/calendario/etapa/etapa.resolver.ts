@@ -35,7 +35,7 @@ export class EtapaResolver {
     return this.etapaService.etapaCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Etapa.Operations.UpdateById)
   async etapaUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

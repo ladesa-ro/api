@@ -48,7 +48,7 @@ export class DiarioProfessorController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.Create)
+  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.UpdateById)
   async diarioProfessorUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
