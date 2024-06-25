@@ -4,6 +4,7 @@ import { AutenticacaoModule } from './autenticacao/autenticacao.module';
 import { BaseModule } from './base/base.module';
 import { CalendarioModule } from './calendario/calendario.module';
 import { EnsinoModule } from './ensino/ensino.module';
+import { HorarioAcademicoModule } from './horario-academico/horario-academico.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { EnsinoModule } from './ensino/ensino.module';
     AmbientesModule,
     EnsinoModule,
     CalendarioModule,
+    HorarioAcademicoModule
   ],
 })
 export class AppModulesModule {}

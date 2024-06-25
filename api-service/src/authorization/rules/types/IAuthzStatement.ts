@@ -122,6 +122,13 @@ export type IAuthzStatementEtapaUpdate = IBaseAuthzFilter<'etapa:update', { dto:
 export type IAuthzStatementEtapaDelete = IBaseAuthzFilter<'etapa:delete', { dto: LadesaTypings.EtapaFindOneInput }>;
 export type IAuthzStatementEtapaFind = IBaseAuthzFilter<'etapa:find'>;
 
+// =====================
+
+export type IAuthzStatementTurmaDisponibilidadeCreate = IBaseAuthzCheck<'turma_disponibilidade:create', { dto: LadesaTypings.TurmaDisponibilidadeCreateCombinedInput }>;
+export type IAuthzStatementTurmaDisponibilidadeUpdate = IBaseAuthzFilter<'turma_disponibilidade:update', { dto: LadesaTypings.TurmaDisponibilidadeUpdateByIDCombinedInput }>;
+export type IAuthzStatementTurmaDisponibilidadeDelete = IBaseAuthzFilter<'turma_disponibilidade:delete', { dto: LadesaTypings.TurmaDisponibilidadeFindOneInput }>;
+export type IAuthzStatementTurmaDisponibilidadeFind = IBaseAuthzFilter<'turma_disponibilidade:find'>;
+
 // ===================================================================================
 
 export type IAuthzStatementCheck =
@@ -139,7 +146,8 @@ export type IAuthzStatementCheck =
   | IAuthzStatementDiarioProfessorCreate
   | IAuthzStatementEventoCreate
   | IAuthzStatementDiaCalendarioCreate
-  | IAuthzStatementEtapaCreate;
+  | IAuthzStatementEtapaCreate
+  | IAuthzStatementTurmaDisponibilidadeCreate;
 
 // =====================
 
@@ -193,7 +201,10 @@ export type IAuthzStatementFilter =
   | IAuthzStatementDiaCalendarioDelete
   | IAuthzStatementEtapaUpdate
   | IAuthzStatementEtapaFind
-  | IAuthzStatementEtapaDelete;
+  | IAuthzStatementEtapaDelete
+  | IAuthzStatementTurmaDisponibilidadeUpdate
+  | IAuthzStatementTurmaDisponibilidadeDelete
+  | IAuthzStatementTurmaDisponibilidadeFind;
 
 // =====================
 
