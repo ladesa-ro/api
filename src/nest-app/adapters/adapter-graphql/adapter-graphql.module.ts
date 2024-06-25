@@ -9,8 +9,8 @@ import { GraphQLModule } from '@nestjs/graphql';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
 
+      useGlobalPrefix: true,
       autoSchemaFile: true,
-
       introspection: true,
 
       cache: new InMemoryLRUCache({
