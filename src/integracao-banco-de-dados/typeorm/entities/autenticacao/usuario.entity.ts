@@ -47,8 +47,4 @@ export class UsuarioEntity implements LadesaTypings.Usuario {
 
   @Column({ name: 'date_deleted', type: 'timestamptz', nullable: true })
   dateDeleted!: null | Date;
-
-  //
-
-  vinculosAtivos!: VinculoEntity[];
 }
