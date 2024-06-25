@@ -1,9 +1,9 @@
 import { castArray } from 'lodash';
 import { SelectQueryBuilder } from 'typeorm';
+import { DatabaseContextService } from '../../adapters/adapter-database';
 import { createForbiddenExceptionForAction } from '../../app-standards/AppStandards';
 import { IRequestActor } from '../../authentication';
 import { AuthzPolicyPublic, IAuthzStatement, IAuthzStatementFilter, IBaseAuthzFilterFn, IBaseAuthzStatementContext } from '../../authorization';
-import { DatabaseContextService } from '../../integracao-banco-de-dados';
 import { IAccessContext } from '../typings';
 
 export class AccessContext implements IAccessContext {

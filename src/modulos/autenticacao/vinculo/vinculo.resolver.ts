@@ -1,7 +1,7 @@
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver as GqlResolver } from '@nestjs/graphql';
 import { AccessContext, AccessContextGraphQl } from '../../../access-context';
-import { CombinedInput, Operation } from '../../../helpers/ladesa';
+import { CombinedInput, Operation } from '../../../fixtures';
 import { VinculoService } from './vinculo.service';
 
 @GqlResolver()

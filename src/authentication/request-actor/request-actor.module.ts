@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { IntegracaoIdentidadeEAcessoModule } from '../../integracao-identidade-e-acesso';
+import { AdapterIdentityAndAccessModule } from '../../adapters/adapter-identity-and-access';
 import { RequestActorService } from './request-actor.service';
 
 @Module({
-  imports: [IntegracaoIdentidadeEAcessoModule],
+  imports: [AdapterIdentityAndAccessModule],
   providers: [RequestActorService],
   exports: [RequestActorService],
 })

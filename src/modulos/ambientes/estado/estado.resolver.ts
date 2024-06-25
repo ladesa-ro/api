@@ -2,8 +2,8 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Info, Resolver } from '@nestjs/graphql';
 import { GraphQLResolveInfo } from 'graphql';
 import { AccessContext, AccessContextGraphQl } from '../../../access-context';
-import { CombinedInput, Operation } from '../../../helpers/ladesa';
-import { graphqlExtractSelection } from '../../../helpers/ladesa/-helpers/graphql-selection';
+import { CombinedInput, Operation } from '../../../fixtures';
+import { graphqlExtractSelection } from '../../../fixtures';
 import { EstadoService } from './estado.service';
 
 @Resolver()

@@ -1,6 +1,6 @@
 import { Injectable, PipeTransform } from '@nestjs/common';
+import { DatabaseContextService } from '../../../adapters/adapter-database';
 import { IRequestActor } from '../../../authentication';
-import { DatabaseContextService } from '../../../integracao-banco-de-dados';
 import { AccessContext } from '../../core';
 
 @Injectable()

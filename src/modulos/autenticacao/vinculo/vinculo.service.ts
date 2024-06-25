@@ -3,10 +3,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { FilterOperator } from 'nestjs-paginate';
 import { NotBrackets } from 'typeorm';
 import { AccessContext } from '../../../access-context';
-import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
-import { LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
-import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { paginateConfig } from '../../../legacy/utils';
+import { DatabaseContextService } from '../../../adapters/adapter-database';
+import { paginateConfig } from '../../../fixtures';
+import { QbEfficientLoad } from '../../../fixtures/ladesa-spec/QbEfficientLoad';
+import { LadesaSearch } from '../../../fixtures/ladesa-spec/search/search-strategies';
 import { CampusService } from '../../ambientes/campus/campus.service';
 import { UsuarioService } from '../usuario/usuario.service';
 

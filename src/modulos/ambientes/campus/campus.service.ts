@@ -4,11 +4,11 @@ import { get, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
 import { v4 } from 'uuid';
 import { AccessContext } from '../../../access-context';
-import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
-import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
-import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { CampusEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
-import { paginateConfig } from '../../../legacy/utils';
+import { DatabaseContextService } from '../../../adapters/adapter-database';
+import { CampusEntity } from '../../../adapters/adapter-database/typeorm/entities';
+import { paginateConfig } from '../../../fixtures';
+import { QbEfficientLoad } from '../../../fixtures/ladesa-spec/QbEfficientLoad';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../fixtures/ladesa-spec/search/search-strategies';
 import { ModalidadeService } from '../../ensino/modalidade/modalidade.service';
 import { EnderecoService } from '../endereco/endereco.service';
 

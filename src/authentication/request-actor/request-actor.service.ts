@@ -1,13 +1,13 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { pick } from 'lodash';
-import { DatabaseContextService } from '../../integracao-banco-de-dados';
-import { IntegracaoIdentidadeEAcessoService } from '../../integracao-identidade-e-acesso';
+import { DatabaseContextService } from '../../adapters/adapter-database';
+import { IdentityAndAccessService } from '../../adapters/adapter-identity-and-access';
 import { IRequestActor } from './typings/IRequestActor';
 
 @Injectable()
 export class RequestActorService {
   constructor(
-    private integracaoIdentidadeEAcessoServicec: IntegracaoIdentidadeEAcessoService,
+    private integracaoIdentidadeEAcessoServicec: IdentityAndAccessService,
     private dabaseContextService: DatabaseContextService,
   ) {}
 

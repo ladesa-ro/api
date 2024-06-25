@@ -3,12 +3,12 @@ import { SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
 import helmet from 'helmet';
 import 'reflect-metadata';
-import { AppConfigService } from './config';
-import { MainModule } from './main.module';
-import { SetupSwaggerDocument } from './nest-app/swagger';
+import { SetupSwaggerDocument } from './adapters/adapter-http-swagger';
+import { AppConfigService } from './app-config';
+import { AppModule } from './app.module';
 
 async function setupApp() {
-  const app = await NestFactory.create(MainModule);
+  const app = await NestFactory.create(AppModule);
 
   //
   const configService = app.get(AppConfigService);

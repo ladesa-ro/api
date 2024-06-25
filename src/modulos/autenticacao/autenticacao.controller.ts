@@ -2,9 +2,9 @@ import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AccessContext, AccessContextHttp } from '../../access-context';
-import { CombinedInput, Operation } from '../../helpers/ladesa';
-import { AutenticacaoService } from './autenticacao.service';
 import { Public } from '../../authentication';
+import { AutenticacaoService } from './autenticacao.service';
+import { Operation, CombinedInput } from '../../fixtures';
 
 @ApiTags('Autenticacao')
 @Controller('/autenticacao')
