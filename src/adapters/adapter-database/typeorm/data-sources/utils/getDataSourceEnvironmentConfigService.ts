@@ -1,5 +1,5 @@
+import { AppConfigService } from '@/app-config';
 import { NestFactory } from '@nestjs/core';
-import { AppConfigService } from '../../../../../app-config';
 import { DataSourceSetupModule } from './DataSourceSetupModule';
 
 export const getDataSourceAppConfigService = async (appConfigService: AppConfigService | null) => {

@@ -1,5 +1,5 @@
+import { IConfig } from '@/app-config';
 import { DocumentBuilder } from '@nestjs/swagger';
-import { IConfig } from '../../app-config';
 
 export function SetupSwaggerDocument(configService: IConfig | null = null) {
   const config = new DocumentBuilder();

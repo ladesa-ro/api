@@ -1,4 +1,5 @@
 import { AccessContext } from '@/access-context';
+import { AppConfigService } from '@/app-config';
 import type * as LadesaTypings from '@ladesa-ro/especificacao';
 import { ForbiddenException, Inject, Injectable, NotFoundException, ServiceUnavailableException, StreamableFile } from '@nestjs/common';
 import jetpack, { createReadStream } from 'fs-jetpack';
@@ -7,7 +8,6 @@ import { Readable } from 'node:stream';
 import { v4 } from 'uuid';
 import { DatabaseContextService } from '../../../adapters/adapter-database';
 import { ArquivoEntity, UsuarioEntity } from '../../../adapters/adapter-database/typeorm/entities';
-import { AppConfigService } from '../../../app-config';
 import { ValidationContractUuid } from '../../../fixtures';
 
 type IGetFileAcesso = null | {

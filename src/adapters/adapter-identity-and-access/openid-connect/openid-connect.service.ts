@@ -1,6 +1,6 @@
+import { AppConfigService } from '@/app-config';
 import { Inject, Injectable } from '@nestjs/common';
 import { BaseClient, Issuer } from 'openid-client';
-import { AppConfigService } from '../../../app-config';
 
 @Injectable()
 export class OpenidConnectService {

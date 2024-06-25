@@ -3,7 +3,7 @@ import { SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
 import helmet from 'helmet';
 import 'reflect-metadata';
-import { SetupSwaggerDocument } from './adapters/adapter-http-swagger';
+import { SetupSwaggerDocument } from './adapters/adapter-http/swagger';
 import { AppConfigService } from './app-config';
 import { AppModule } from './app.module';
 

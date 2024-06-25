@@ -1,6 +1,6 @@
+import { AppConfigService } from '@/app-config';
 import 'reflect-metadata';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { AppConfigService } from '../../../../app-config';
 import { getDataSourceAppConfigService } from './utils/getDataSourceEnvironmentConfigService';
 
 export const getMigrationDataSource = async (appConfigServiceBase: AppConfigService | null = null) => {

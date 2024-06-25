@@ -1,7 +1,7 @@
+import { AppConfigService } from '@/app-config';
 import KeycloakAdminClient from '@keycloak/keycloak-admin-client';
 import { Credentials } from '@keycloak/keycloak-admin-client/lib/utils/auth';
 import { Inject, Injectable } from '@nestjs/common';
-import { AppConfigService } from '../../../app-config';
 import { wait } from '../../../fixtures/utils';
 
 const INTERVAL_AUTH = 58 * 1000;

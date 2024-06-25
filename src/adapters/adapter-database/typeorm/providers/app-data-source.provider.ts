@@ -1,6 +1,6 @@
+import { AppConfigService } from '@/app-config';
 import { Provider } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { AppConfigService } from '../../../../app-config';
 
 export const APP_DATA_SOURCE_TOKEN = Symbol();
 
