@@ -3,7 +3,7 @@ import { omit } from 'lodash';
 import type { ISchema } from 'yup';
 import * as yup from 'yup';
 import { tryCast } from './tryCast';
-import { ValidationFailedException } from '../../app-standards';
+import { ValidationFailedException } from '../../../app-standards';
 
 interface ValidationPipeYupOptions {
   scope?: 'body' | 'param' | 'query' | 'arg' | 'args';
