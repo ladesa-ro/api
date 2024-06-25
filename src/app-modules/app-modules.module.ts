@@ -15,4 +15,4 @@ import { EnsinoModule } from './ensino/ensino.module';
     CalendarioModule,
   ],
 })
-export class ModulosModule {}
+export class AppModulesModule {}

@@ -9,9 +9,9 @@ import { paginateConfig } from '../../../fixtures';
 import { QbEfficientLoad } from '../../../fixtures/ladesa-spec/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../fixtures/ladesa-spec/search/search-strategies';
 import { AmbienteService } from '../../ambientes/ambiente/ambiente.service';
-import { CalendarioLetivoService } from '../../calendario/calendario-letivo/calendario-letivo.service';
 import { DisciplinaService } from '../../ensino/disciplina/disciplina.service';
 import { TurmaService } from '../../ensino/turma/turma.service';
+import { CalendarioLetivoService } from '../calendario-letivo/calendario-letivo.service';
 
 // ============================================================================
 
