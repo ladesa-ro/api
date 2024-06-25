@@ -2,8 +2,8 @@ import { Injectable, PipeTransform } from '@nestjs/common';
 import { omit } from 'lodash';
 import type { ISchema } from 'yup';
 import * as yup from 'yup';
-import { ValidationFailedException } from '../../nest-app/adapters';
 import { tryCast } from './tryCast';
+import { ValidationFailedException } from '../../app-standards';
 
 interface ValidationPipeYupOptions {
   scope?: 'body' | 'param' | 'query' | 'arg' | 'args';

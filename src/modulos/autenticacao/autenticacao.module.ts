@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { KeycloakModule, OpenidConnectModule } from '../../integracao-identidade-e-acesso';
+import { KeycloakModule, OpenidConnectModule } from '../../adapters/adapter-identity-and-access';
 import { AutenticacaoController } from './autenticacao.controller';
 import { AutenticacaoResolver } from './autenticacao.resolver';
 import { AutenticacaoService } from './autenticacao.service';

@@ -5,9 +5,9 @@ import { writeFile } from 'node:fs/promises';
 import { Readable } from 'node:stream';
 import { v4 } from 'uuid';
 import { AccessContext } from '../../../access-context';
-import { AppConfigService } from '../../../config';
-import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { ArquivoEntity, UsuarioEntity } from '../../../integracao-banco-de-dados/typeorm/entities';
+import { DatabaseContextService } from '../../../adapters/adapter-database';
+import { ArquivoEntity, UsuarioEntity } from '../../../adapters/adapter-database/typeorm/entities';
+import { AppConfigService } from '../../../app-config';
 import { ValidationContractUuid } from '../../../validacao';
 
 type IGetFileAcesso = null | {

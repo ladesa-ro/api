@@ -1,7 +1,7 @@
 import { Injectable, ServiceUnavailableException, UnprocessableEntityException } from '@nestjs/common';
 import sharp from 'sharp';
 import { v4 } from 'uuid';
-import { DatabaseContextService } from '../../../integracao-banco-de-dados';
+import { DatabaseContextService } from '../../../adapters/adapter-database';
 import { ArquivoService } from '../arquivo/arquivo.service';
 
 type ISaveImageOptions = {

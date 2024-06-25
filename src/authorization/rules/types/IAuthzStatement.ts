@@ -93,7 +93,6 @@ export type IAuthzStatementCalendarioLetivoFind = IBaseAuthzFilter<'calendario_l
 
 // =====================
 
-
 export type IAuthzStatementDiarioProfessorCreate = IBaseAuthzCheck<'diario_professor:create', { dto: LadesaTypings.DiarioProfessorCreateCombinedInput }>;
 
 export type IAuthzStatementDiarioProfessorUpdate = IBaseAuthzFilter<'diario_professor:update', { dto: LadesaTypings.DiarioProfessorUpdateByIDCombinedInput }>;
@@ -124,7 +123,6 @@ export type IAuthzStatementEtapaDelete = IBaseAuthzFilter<'etapa:delete', { dto:
 export type IAuthzStatementEtapaFind = IBaseAuthzFilter<'etapa:find'>;
 
 // ===================================================================================
-
 
 export type IAuthzStatementCheck =
   | IAuthzStatementCampusCreate

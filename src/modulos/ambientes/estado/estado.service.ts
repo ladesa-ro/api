@@ -2,10 +2,10 @@ import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { map } from 'lodash';
 import { AccessContext } from '../../../access-context';
-import { QbEfficientLoad } from '../../../helpers/ladesa/QbEfficientLoad';
-import { LadesaPaginatedResultDto, LadesaSearch } from '../../../helpers/ladesa/search/search-strategies';
-import { DatabaseContextService } from '../../../integracao-banco-de-dados';
-import { paginateConfig } from '../../../legacy/utils';
+import { DatabaseContextService } from '../../../adapters/adapter-database';
+import { paginateConfig } from '../../../fixtures';
+import { QbEfficientLoad } from '../../../fixtures/ladesa-spec/QbEfficientLoad';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../fixtures/ladesa-spec/search/search-strategies';
 
 const aliasEstado = 'estado';
 

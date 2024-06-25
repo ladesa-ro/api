@@ -2,7 +2,7 @@ import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AccessContext, AccessContextHttp } from '../../../access-context';
-import { CombinedInput, Operation } from '../../../helpers/ladesa';
+import { CombinedInput, Operation } from '../../../fixtures';
 import { EventoService } from './evento.service';
 
 @ApiTags('Eventos')

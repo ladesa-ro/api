@@ -5,7 +5,7 @@ export const tryParseJSON = (value: any) => {
     if (typeof value === 'string') {
       return JSON.parse(value);
     }
-  } catch (e) {}
+  } catch (_e) {}
 
   return value;
 };
@@ -13,7 +13,7 @@ export const tryParseJSON = (value: any) => {
 export const tryCast = (schema: ISchema<any>, value: any, options?: CastOptions) => {
   try {
     return schema.cast(tryParseJSON(value), { ...options });
-  } catch (e) {}
+  } catch (_e) {}
 
   return value;
 };
