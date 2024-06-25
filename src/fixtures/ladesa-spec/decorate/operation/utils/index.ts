@@ -7,7 +7,7 @@ import { CompileClassDto } from '@unispec/driver-nestjs';
 import { CompileClassHandlerGraphQlDto, CompileNodeGraphQlRepresentation } from '@unispec/driver-nestjs-graphql';
 import { CompileClassHandlerSwaggerDto, CompileNodeSwaggerRepresentation } from '@unispec/driver-nestjs-swagger';
 import { CompileYupSchema } from '../../../-helpers/CompileYupSchema';
-import { ValidationPipeYup } from '../../../../../validacao';
+import { ValidationPipeYup } from '../../../../../fixtures';
 import { getLadesaNodesRepository } from '../../../providers';
 import { COMBINED_INPUT_PARAM } from '../CombinedInput';
 import { InputCombinerGraphQl } from '../IntegrationGraphQl/InputCombinerGraphQl';

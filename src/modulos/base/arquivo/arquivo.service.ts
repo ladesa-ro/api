@@ -8,7 +8,7 @@ import { AccessContext } from '../../../access-context';
 import { DatabaseContextService } from '../../../adapters/adapter-database';
 import { ArquivoEntity, UsuarioEntity } from '../../../adapters/adapter-database/typeorm/entities';
 import { AppConfigService } from '../../../app-config';
-import { ValidationContractUuid } from '../../../validacao';
+import { ValidationContractUuid } from '../../../fixtures';
 
 type IGetFileAcesso = null | {
   nome?: string;

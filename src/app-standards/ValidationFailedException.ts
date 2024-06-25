@@ -13,7 +13,7 @@ export class ValidationFailedException extends UnprocessableEntityException {
     const response: IValidationFailedExceptionResponse = {
       statusCode: 422,
       errors: errors,
-      code: 'validacao-failed',
+      code: 'validation-failed',
       message: 'Validation failed',
       timestamp: new Date().toISOString(),
     };
