@@ -13,6 +13,7 @@ import {
   IUniNodeView,
 } from '@unispec/ast-types';
 import { CompileNode } from '@unispec/ast-utils';
+import { isValid, parse } from 'date-fns';
 import * as yup from 'yup';
 
 const autoCastArray = true;
@@ -80,10 +81,10 @@ export class CompileYupSchema extends CompileNode {
   protected HandleTypeString(node: IUniNodeTypeString, context?: any) {
     let schemaCursor = yup.string();
 
-    const format = node.format;
+    const nodeFormat = node.format;
 
-    if (format) {
-      switch (format) {
+    if (nodeFormat) {
+      switch (nodeFormat) {
         case 'e-mail': {
           schemaCursor = schemaCursor.email();
           break;
@@ -99,10 +100,57 @@ export class CompileYupSchema extends CompileNode {
           break;
         }
 
-        default:
-        case 'date':
+        case 'date': {
+          schemaCursor
+            .transform((value) => {
+              // len(yyyy-MM-dd) == 10
+
+              if (typeof value === 'string') {
+                return value.slice(0, 10);
+              }
+
+              return value;
+            })
+            .test('is-date', (value) => {
+              if (typeof value === 'string') {
+                const asDate = parse(value, 'yyyy-MM-dd', new Date());
+                return isValid(asDate);
+              }
+
+              return false;
+            });
+
+          break;
+        }
+
         case 'time': {
-          console.warn(`[CompileYupSchema#HandleTypeString] not implemented format support: ${format}.`);
+          schemaCursor
+            .transform((value) => {
+              if (typeof value === 'string') {
+                const pattern = /^([\d]{1,2}):([\d]{1,2})(?::([\d]{1,2}))?$/;
+
+                const match = value.match(pattern);
+
+                if (match) {
+                  const [, h = '0', m = '0', s = '0'] = match;
+                  return [h, m, s].map((part) => part.padStart(2, '0'));
+                }
+              }
+
+              return value;
+            })
+            .test('is-time', (value) => {
+              if (typeof value === 'string') {
+                const asDate = parse(value, 'HH:mm:ss', new Date());
+                return isValid(asDate);
+              }
+
+              return false;
+            });
+        }
+
+        default: {
+          console.warn(`[CompileYupSchema#HandleTypeString] not implemented format support: ${nodeFormat}.`);
           break;
         }
       }
