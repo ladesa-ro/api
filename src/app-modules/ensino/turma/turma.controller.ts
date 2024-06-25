@@ -1,8 +1,8 @@
+import { AccessContext, AccessContextHttp } from '@/access-context';
+import { CombinedInput, Operation } from '@/app-standards';
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AccessContext, AccessContextHttp } from '../../../access-context';
-import { CombinedInput, Operation } from '../../../fixtures';
 import { TurmaService } from './turma.service';
 
 @ApiTags('Turmas')

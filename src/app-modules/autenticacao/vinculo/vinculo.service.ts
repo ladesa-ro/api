@@ -1,12 +1,12 @@
+import { AccessContext } from '@/access-context';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { FilterOperator } from 'nestjs-paginate';
 import { NotBrackets } from 'typeorm';
-import { AccessContext } from '../../../access-context';
 import { DatabaseContextService } from '../../../adapters/adapter-database';
+import { QbEfficientLoad } from '../../../app-standards/ladesa-spec/QbEfficientLoad';
+import { LadesaSearch } from '../../../app-standards/ladesa-spec/search/search-strategies';
 import { paginateConfig } from '../../../fixtures';
-import { QbEfficientLoad } from '../../../fixtures/ladesa-spec/QbEfficientLoad';
-import { LadesaSearch } from '../../../fixtures/ladesa-spec/search/search-strategies';
 import { CampusService } from '../../ambientes/campus/campus.service';
 import { UsuarioService } from '../usuario/usuario.service';
 

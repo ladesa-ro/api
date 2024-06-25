@@ -1,12 +1,12 @@
+import { AccessContext } from '@/access-context';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
-import { AccessContext } from '../../../access-context';
 import { DatabaseContextService } from '../../../adapters/adapter-database';
 import { DiarioProfessorEntity } from '../../../adapters/adapter-database/typeorm/entities';
+import { QbEfficientLoad } from '../../../app-standards/ladesa-spec/QbEfficientLoad';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../app-standards/ladesa-spec/search/search-strategies';
 import { paginateConfig } from '../../../fixtures';
-import { QbEfficientLoad } from '../../../fixtures/ladesa-spec/QbEfficientLoad';
-import { LadesaPaginatedResultDto, LadesaSearch } from '../../../fixtures/ladesa-spec/search/search-strategies';
 import { VinculoService } from '../../autenticacao/vinculo/vinculo.service';
 import { DiarioService } from '../diario/diario.service';
 

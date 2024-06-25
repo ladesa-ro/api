@@ -1,6 +1,5 @@
+import { CompileYupSchema, getLadesaNodesRepository } from '@/app-standards';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
-import { getLadesaNodesRepository } from '../../../fixtures';
-import { CompileYupSchema } from '../../../fixtures/ladesa-spec/-helpers/CompileYupSchema';
 
 export const GetEnderecoInputSchema = () => {
   const repository = getLadesaNodesRepository();

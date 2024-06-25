@@ -1,7 +1,7 @@
+import { AccessContext, AccessContextGraphQl } from '@/access-context';
+import { CombinedInput, Operation } from '@/app-standards';
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Resolver } from '@nestjs/graphql';
-import { AccessContext, AccessContextGraphQl } from '../../../access-context';
-import { CombinedInput, Operation } from '../../../fixtures';
 import { DiarioService } from './diario.service';
 
 @Resolver()

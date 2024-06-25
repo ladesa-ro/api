@@ -1,9 +1,8 @@
+import { AccessContext, AccessContextGraphQl } from '@/access-context';
+import { CombinedInput, Operation, graphqlExtractSelection } from '@/app-standards';
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Info, Resolver } from '@nestjs/graphql';
 import { GraphQLResolveInfo } from 'graphql';
-import { AccessContext, AccessContextGraphQl } from '../../../access-context';
-import { CombinedInput, Operation } from '../../../fixtures';
-import { graphqlExtractSelection } from '../../../fixtures';
 import { CidadeService } from './cidade.service';
 
 @Resolver()

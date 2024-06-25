@@ -1,13 +1,13 @@
+import { AccessContext } from '@/access-context';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
 import { FilterOperator } from 'nestjs-paginate';
-import { AccessContext } from '../../../access-context';
 import { DatabaseContextService } from '../../../adapters/adapter-database';
 import { CalendarioLetivoEntity } from '../../../adapters/adapter-database/typeorm/entities';
+import { QbEfficientLoad } from '../../../app-standards/ladesa-spec/QbEfficientLoad';
+import { LadesaPaginatedResultDto, LadesaSearch } from '../../../app-standards/ladesa-spec/search/search-strategies';
 import { paginateConfig } from '../../../fixtures';
-import { QbEfficientLoad } from '../../../fixtures/ladesa-spec/QbEfficientLoad';
-import { LadesaPaginatedResultDto, LadesaSearch } from '../../../fixtures/ladesa-spec/search/search-strategies';
 import { CampusService } from '../../ambientes/campus/campus.service';
 import { ModalidadeService } from '../../ensino/modalidade/modalidade.service';
 

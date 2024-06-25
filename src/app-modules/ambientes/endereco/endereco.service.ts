@@ -1,9 +1,9 @@
+import { AccessContext } from '@/access-context';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { pick } from 'lodash';
-import { AccessContext } from '../../../access-context';
 import { DatabaseContextService } from '../../../adapters/adapter-database';
-import { QbEfficientLoad } from '../../../fixtures/ladesa-spec/QbEfficientLoad';
+import { QbEfficientLoad } from '../../../app-standards/ladesa-spec/QbEfficientLoad';
 import { GetEnderecoInputSchema } from './endereco.dtos';
 
 // ============================================================================

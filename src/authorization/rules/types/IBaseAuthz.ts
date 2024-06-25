@@ -1,6 +1,6 @@
+import type { AccessContext } from '@/access-context';
 import { Promisable } from 'type-fest';
 import { SelectQueryBuilder } from 'typeorm';
-import type { AccessContext } from '../../../access-context';
 
 //
 

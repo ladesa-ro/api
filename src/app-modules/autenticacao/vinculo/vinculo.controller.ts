@@ -1,8 +1,8 @@
+import { AccessContext, AccessContextHttp } from '@/access-context';
+import { CombinedInput, Operation } from '@/app-standards';
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AccessContext, AccessContextHttp } from '../../../access-context';
-import { CombinedInput, Operation } from '../../../fixtures';
 import { VinculoService } from './vinculo.service';
 
 @Controller('/vinculos')

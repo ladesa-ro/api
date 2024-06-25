@@ -1,8 +1,8 @@
+import { AccessContext, AccessContextHttp } from '@/access-context';
+import { Operation } from '@/app-standards';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Get, Param, Query, StreamableFile } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AccessContext, AccessContextHttp } from '../../../access-context';
-import { Operation } from '../../../fixtures';
 import { ArquivoService } from './arquivo.service';
 
 @ApiTags('Arquivos')
