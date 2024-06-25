@@ -2,17 +2,10 @@
 
 ## Ambientes
 
-### Produção
-
-[![CI Production][action-ci-prod-src]][action-ci-prod-href]
-
-Link: [`não disponível`][env-prod-href].
-
-### Desenvolvimento
-
-[![CI Development][action-ci-dev-src]][action-ci-dev-href]
-
-Link: [`https://luna.sisgha.com/api`][env-dev-href].
+| Estágio         | Devops                                                       | URL                             |
+| --------------- | ------------------------------------------------------------ | ------------------------------- |
+| Produção        | [![CI: Production][action-ci-prod-src]][action-ci-prod-href] | `não disponível`.               |
+| Desenvolvimento | [![CI: Development][action-ci-dev-src]][action-ci-dev-href]  | <https://dev.ladesa.com.br/api> |
 
 ## Configuração Local
 
@@ -23,7 +16,7 @@ git clone https://github.com/ladesa-ro/api.git
 cd api
 ```
 
-### Serviços do [.devops/development/docker-compose.yml](./.devops/development/docker-compose.yml)
+### Serviços do [api-service/.devops/development/docker-compose.yml](./.devops/development/docker-compose.yml)
 
 | Host            | Endereço         | Descrição               | Plataforma Base                   |
 | --------------- | ---------------- | ----------------------- | --------------------------------- |
@@ -34,19 +27,51 @@ cd api
 
 O projeto conta com um [arquivo make](./Makefile) que comporta scrips destinados ao desenvolvimento da aplicação.
 
-```Makefile
-dev-setup:
-  # Configura o ambiente de deselvolvimento, como a criação da rede ladesa-net e os arquivos .env.
-dev-up:
-  # Inicia os containers docker.
-dev-shell:
-  # Inicia os containers docker e abre o bash na aplicação node.
-dev-down:
-  # Para todos os containers.
-dev-cleanup:
-  # Para todos os containers e remove os containers e volumes associados.
-dev-logs:
-  # Mostra os registros dos containers
+#### `dev-setup`
+
+```sh
+make dev-setup; # Configura o ambiente de deselvolvimento, como a criação da rede ladesa-net e os arquivos .env.
+
+```
+
+#### `dev-up`
+
+```sh
+make dev-up; # Inicia os containers docker.
+```
+
+#### `dev-shell`
+
+```sh
+make dev-shell; # Inicia os containers docker e abre o bash na aplicação node.
+```
+
+- Após este processo, talvez você queira executar dentro do shell do container:
+
+  ```sh
+  npm install;
+  ```
+
+  ```sh
+  npm run start:dev;
+  ```
+
+#### `dev-down`
+
+```sh
+make dev-down; # Para todos os containers.
+```
+
+#### `dev-cleanup`
+
+```sh
+make dev-cleanup; # Para todos os containers e remove os containers e volumes associados.
+```
+
+#### `dev-logs`
+
+```sh
+make dev-logs; # Mostra os registros dos containers
 ```
 
 ## Licença
@@ -56,9 +81,6 @@ dev-logs:
 [MIT - Gabriel R. Antunes, 2024](./LICENSE).
 
 <!-- Links -->
-
-[env-prod-href]: #
-[env-dev-href]: https://luna.sisgha.com/api
 
 <!-- Badges -->
 

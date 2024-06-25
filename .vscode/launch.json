@@ -10,8 +10,8 @@
       "name": "Attach to remote",
       "restart": true,
       "port": 9229,
-      "localRoot": "${workspaceFolder}",
-      "remoteRoot": "/ladesa-api",
+      "localRoot": "${workspaceFolder}/api-service",
+      "remoteRoot": "/ladesa-api/",
       "timeout": 10
     }
   ]

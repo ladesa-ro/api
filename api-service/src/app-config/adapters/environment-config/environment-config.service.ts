@@ -50,7 +50,7 @@ export class EnvironmentConfigService implements IConfig {
       return apiPrefix;
     }
 
-    return '/';
+    return '';
   }
 
   getRuntimeIsProduction(): boolean {
