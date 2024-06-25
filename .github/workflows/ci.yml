@@ -37,6 +37,9 @@ jobs:
   service-image-build-push:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -55,7 +58,7 @@ jobs:
         if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == env.CI_DEVELOPMENT_BRANCH }}
         uses: docker/build-push-action@v6
         with:
-          context: './api-service/'
+          context: './api-service'
           push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
           tags: ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_DEVELOPMENT }}
           cache-from: type=gha
@@ -65,7 +68,7 @@ jobs:
         if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == env.CI_PRODUCTION_BRANCH }}
         uses: docker/build-push-action@v6
         with:
-          context: './api-service/'
+          context: './api-service'
           push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
           tags: ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_PRODUCTION }}
           cache-from: type=gha
