@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { pick } from 'lodash';
 import { DatabaseContextService } from '../../integracao-banco-de-dados';
 import { IntegracaoIdentidadeEAcessoService } from '../../integracao-identidade-e-acesso';
-import { IUsuarioDaRequisicao } from './typings/IRequestActor';
+import { IRequestActor } from './typings/IRequestActor';
 
 @Injectable()
 export class RequestActorService {
@@ -19,7 +19,7 @@ export class RequestActorService {
 
   //
 
-  async getCurrentFuncionarioByAccessToken(accessToken?: string): Promise<IUsuarioDaRequisicao> {
+  async getCurrentFuncionarioByAccessToken(accessToken?: string): Promise<IRequestActor> {
     if (typeof accessToken === 'string') {
       if (process.env.ENABLE_MOCK_ACCESS_TOKEN === 'true') {
         const matriculaSiapeMockMatch = accessToken.match(/^mock\.siape\.(\d{1,})$/);
@@ -38,7 +38,7 @@ export class RequestActorService {
     return null;
   }
 
-  private async getCurrentUsuarioByMatriculaSiape(matriculaSiape: string): Promise<IUsuarioDaRequisicao> {
+  private async getCurrentUsuarioByMatriculaSiape(matriculaSiape: string): Promise<IRequestActor> {
     const usuario = await this.usuarioRepository
       .createQueryBuilder('usuario')
       .select([
