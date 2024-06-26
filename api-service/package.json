@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "prebuild": "rimraf dist",
     "build": "nest build",
-    "generate:openapi-json": "tsx scripts/codgen-openapi-json.ts --project tsconfig.build.json",
+    "prebuild": "rimraf dist",
+    "generate:openapi-json": "npm run build && ./scripts/codegen-openapi-json.ts",
     "start": "nest start -e 'node --experimental-require-module --trace-warnings'",
     "check:static": "tsc --noEmit",
     "start:dev": "nest start --watch -e 'node --experimental-require-module --trace-warnings'",

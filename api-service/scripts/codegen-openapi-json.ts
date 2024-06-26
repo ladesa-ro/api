@@ -1,3 +1,5 @@
+#!/usr/bin/env tsx
+
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import fs from 'node:fs/promises';
