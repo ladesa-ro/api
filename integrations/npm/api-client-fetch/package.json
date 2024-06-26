@@ -16,18 +16,20 @@
     "prebuild": "rimraf dist",
     "test": "npx tsc --noEmit",
     "dev": "tsc -p tsconfig.json --watch",
-    "build": "npm run build:code",
-    "build:code": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
     "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
-    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "generate:docs": "false && (rimraf docs; typedoc --out docs src/index.ts)",
     "generate:api": "rimraf ./src/http/generated; openapi-ts; prettier --cache --ignore-unknown \"./src/http/generated/**/*\" --write",
     "generate": "npm run generate:api && npm run generate:docs",
-    "generate-and-build": "npm run generate && npm run build"
+    "generate-and-build": "npm run generate && npm run build",
+    "release:base": "release-it -c .release-it.json --git.changelog=\"git log -- .\" --no-git.tag"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.48.0",
+    "@release-it/bumper": "^6.0.1",
+    "@release-it/conventional-changelog": "^8.0.1",
     "prettier": "^3.2.5",
+    "release-it": "^17.4.0",
     "rimraf": "^5.0.5",
     "typescript": "^5.5.2"
   }
