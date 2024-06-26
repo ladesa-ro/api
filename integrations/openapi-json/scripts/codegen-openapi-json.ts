@@ -1,11 +1,11 @@
 #!/usr/bin/env tsx
 
-import { NestFactory } from '@nestjs/core';
-import { SwaggerModule } from '@nestjs/swagger';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { SetupSwaggerDocument } from '../dist/adapters/adapter-http/swagger/index.js';
-import { AppModule } from '../dist/app.module.js';
+import { SetupSwaggerDocument } from '../../../api-service/dist/adapters/adapter-http/swagger/index.js';
+import { AppModule } from '../../../api-service/dist/app.module.js';
+import { NestFactory } from '../../../api-service/node_modules/@nestjs/core';
+import { SwaggerModule } from '../../../api-service/node_modules/@nestjs/swagger';
 
 const paths = {
   get here() {
@@ -14,7 +14,7 @@ const paths = {
 
   workspace: {
     get dir() {
-      return path.join(paths.here, '../..');
+      return path.join(paths.here, '../../..');
     },
 
     integrations: {
@@ -29,7 +29,7 @@ const paths = {
 
         files: {
           get spec() {
-            return path.join(paths.workspace.integrations.openApiJson.dir, 'openapi-spec.json');
+            return path.join(paths.workspace.integrations.openApiJson.dir, 'out/openapi-spec.json');
           },
         },
       },
