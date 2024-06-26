@@ -34,7 +34,7 @@ env:
   DEPLOY_BRANCH: ${{ vars.DEPLOY_BRANCH }}
 
 jobs:
-  service-image-build-push:
+  api-service-image-build-push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -74,6 +74,10 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  api-service-deploy:
+    runs-on: ubuntu-latest
+    needs: api-service-image-build-push
+    steps:
       - name: Dispatch infrastructure deploy workflow
         if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && env.ENABLE_PUSH_IMAGE == 'true' && env.ENABLE_TRIGGER_DEPLOY == 'true' }}
         run: |

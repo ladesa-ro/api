@@ -5,10 +5,10 @@ WORKDIR /var/lib/ladesa-ro/r/api/api-service
 
 FROM base as prod-deps
 COPY ./api-service/package.json ./api-service/package-lock.json ./
-RUN npm ci --omit=dev --ignore-scripts
+RUN --mount=type=cache,id=npm,target=/root/.npm npm ci --omit=dev --ignore-scripts
 
 FROM prod-deps as dev-deps
-RUN npm ci
+RUN --mount=type=cache,id=npm,target=/root/.npm npm ci
 
 FROM dev-deps as assets
 COPY ./api-service/tsconfig.json ./api-service/tsconfig.build.json ./
