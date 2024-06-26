@@ -15,20 +15,20 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "test": "npx tsc --noEmit",
-    "dev": "tsc -p tsconfig.build.json --watch",
+    "dev": "tsc -p tsconfig.json --watch",
     "build": "npm run build:code",
-    "build:code": "tsc -p tsconfig.build.json",
+    "build:code": "tsc -p tsconfig.json",
     "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "generate:docs": "rimraf docs; typedoc --out docs src/index.ts",
+    "generate:docs": "false && (rimraf docs; typedoc --out docs src/index.ts)",
     "generate:api": "rimraf ./src/http/generated; openapi-ts; prettier --cache --ignore-unknown \"./src/http/generated/**/*\" --write",
-    "generate": "npm run generate:api && npm run generate:docs"
+    "generate": "npm run generate:api && npm run generate:docs",
+    "generate-and-build": "npm run generate && npm run build"
   },
   "devDependencies": {
-    "@hey-api/openapi-ts": "^0.46.2",
+    "@hey-api/openapi-ts": "^0.48.0",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "typedoc": "^0.25.13",
     "typescript": "^5.5.2"
   }
 }

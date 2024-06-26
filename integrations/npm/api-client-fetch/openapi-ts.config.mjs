@@ -1,10 +1,27 @@
 /** @type {import('@hey-api/openapi-ts').UserConfig} */
 
 export default {
+  //
+
   base: '#',
+
+  //
+
   client: 'fetch',
-  format: 'prettier',
+
   name: 'LadesaApiClient',
+  services: {
+    asClass: true,
+  },
+
+  //
+
   input: '../../openapi-json/openapi-spec.json',
-  output: './src/http/generated',
+
+  output: {
+    format: 'prettier',
+    path: './src/http/generated',
+  },
+
+  //
 };
