@@ -5,7 +5,7 @@
     "generate": {
       "command": "./scripts/codegen-openapi-json.ts",
       "dependencies": [
-        "../../api-service:build"
+        "../../api-service:deps-and-build"
       ]
     },
     "build": {

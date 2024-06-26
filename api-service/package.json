@@ -7,8 +7,13 @@
       "command": "npm ci"
     },
     "build": {
-      "command": "nest build",
-      "dependencies": ["deps:dev"]
+      "command": "nest build"
+    },
+    "deps-and-build": {
+      "dependencies": [
+        "deps:dev",
+        "build"
+      ]
     }
   },
   "scripts": {

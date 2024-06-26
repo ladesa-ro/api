@@ -2,10 +2,10 @@
 
 ## Ambientes
 
-| Estágio         | Devops                                                                                                                                                                                           | URL                                                            |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- |
-| Produção        | [![CI/CD Service: Production][action-ci-cd-service-prod-src]][action-ci-cd-service-prod-href]                                                                                                    | `não disponível`.                                              |
-| Desenvolvimento | [![CI/CD Service: Development][action-api-integrations-dev-src]][action-ci-cd-service-dev-href] [![API Integrations Codegen][action-api-integrations-dev-src]][action-api-integrations-dev-href] | <https://luna.sisgha.com/api>; <https://dev.ladesa.com.br/api> |
+| Estágio         | Devops                                                                                                                                                                                        | URL                                                             |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Produção        | [![CI/CD Service: Production][action-ci-cd-service-prod-src]][action-ci-cd-service-prod-href]                                                                                                 | `não disponível`.                                               |
+| Desenvolvimento | [![CI/CD Service: Development][action-ci-cd-service-dev-src]][action-ci-cd-service-dev-href] [![API Integrations Codegen][action-api-integrations-dev-src]][action-api-integrations-dev-href] | <https://luna.sisgha.com/api>; <https://dev.ladesa.com.br/api>; |
 
 ## Configuração Local
 
@@ -24,10 +24,10 @@ cd api-service
 
 ### Serviços do [api-service/.devops/development/docker-compose.yml](./api-service/.devops/development/docker-compose.yml)
 
-| Host            | Endereço         | Descrição               | Plataforma Base                   |
-| --------------- | ---------------- | ----------------------- | --------------------------------- |
-| `ladesa-api`    | `localhost:3701` | Aplicação NodeJS.       | `docker.io/library/node:22`       |
-| `ladesa-api-db` | `localhost:5432` | Banco de dados postgres | `docker.io/bitnami/postgresql:15` |
+| Host            | Endereço         | Descrição                | Plataforma Base                   |
+| --------------- | ---------------- | ------------------------ | --------------------------------- |
+| `ladesa-api`    | `localhost:3701` | Aplicação NodeJS.        | `docker.io/library/node:22`       |
+| `ladesa-api-db` | `localhost:5432` | Banco de dados postgres. | `docker.io/bitnami/postgresql:15` |
 
 ### Scripts Make
 
@@ -92,14 +92,15 @@ make dev-logs; # Mostra os registros dos containers
 
 <!-- Badges / Actions / Production  -->
 
-[action-ci-cd-service-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci.yml?style=flat&logo=github&logoColor=white&label=CI@production&branch=production&labelColor=18181B
+[action-ci-cd-service-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci-cd-service.yml?style=flat&logo=github&logoColor=white&label=CI%2FCD%20Service%20Production&branch=production&labelColor=18181B
 [action-ci-cd-service-prod-href]: https://github.com/ladesa-ro/api/actions/workflows/ci.yml?query=branch%3Aproduction
 
 <!-- Badges / Actions / Development / CI-CD-Service  -->
 
+[action-ci-cd-service-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci-cd-service.yml?style=flat&logo=github&logoColor=white&label=CI%2FCD%20Service%20Development&branch=development&labelColor=18181B
 [action-ci-cd-service-dev-href]: https://github.com/ladesa-ro/api/actions/workflows/ci-cd-service.yml?query=branch%3Adevelopment
 
 <!-- Badges / Actions / Development / API Integrations Codegen  -->
 
-[action-api-integrations-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/api-integrations.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=development&labelColor=18181B
+[action-api-integrations-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/api-integrations.yml?style=flat&logo=github&logoColor=white&label=API+Integrations+Codegen&branch=development&labelColor=18181B
 [action-api-integrations-dev-href]: https://github.com/ladesa-ro/api/actions/workflows/api-integrations.yml?query=branch%3Adevelopment
