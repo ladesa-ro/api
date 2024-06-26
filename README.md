@@ -16,7 +16,13 @@ git clone https://github.com/ladesa-ro/api.git
 cd api
 ```
 
-### Serviços do [api-service/.devops/development/docker-compose.yml](./.devops/development/docker-compose.yml)
+## `api-service`
+
+```bash
+cd api-service
+```
+
+### Serviços do [api-service/.devops/development/docker-compose.yml](./api-service/.devops/development/docker-compose.yml)
 
 | Host            | Endereço         | Descrição               | Plataforma Base                   |
 | --------------- | ---------------- | ----------------------- | --------------------------------- |
@@ -25,7 +31,7 @@ cd api
 
 ### Scripts Make
 
-O projeto conta com um [arquivo make](./Makefile) que comporta scrips destinados ao desenvolvimento da aplicação.
+O projeto conta com um [arquivo make](./api-service/Makefile) que comporta scrips destinados ao desenvolvimento da aplicação.
 
 #### `dev-setup`
 
