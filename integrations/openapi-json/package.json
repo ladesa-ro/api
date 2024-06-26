@@ -19,6 +19,7 @@
     "generate": "wireit"
   },
   "devDependencies": {
+    "tsx": "^4.15.7",
     "wireit": "^0.14.4"
   }
 }
