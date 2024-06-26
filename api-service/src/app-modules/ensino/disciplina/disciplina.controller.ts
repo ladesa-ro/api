@@ -49,7 +49,7 @@ export class DisciplinaController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Disciplina.Operations.UpdateById)
   async disciplinaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,

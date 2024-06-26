@@ -39,7 +39,7 @@ export class BlocoResolver {
   ) {
     return this.blocoService.blocoCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Bloco.Operations.UpdateById)
   async blocoUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

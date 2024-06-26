@@ -49,7 +49,7 @@ export class DiarioController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.Diario.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Diario.Operations.UpdateById)
   async diarioUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,

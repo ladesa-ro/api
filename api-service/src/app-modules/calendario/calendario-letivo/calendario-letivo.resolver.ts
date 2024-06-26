@@ -35,7 +35,7 @@ export class CalendarioLetivoResolver {
     return this.calendarioLetivoService.calendarioLetivoCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.Create)
+  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.UpdateById)
   async calendarioLetivoUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

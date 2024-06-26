@@ -37,7 +37,8 @@ export class CampusResolver {
   ) {
     return this.campusService.campusCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
+
+  @Operation(LadesaTypings.Tokens.Campus.Operations.UpdateById)
   async campusUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

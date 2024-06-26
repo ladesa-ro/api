@@ -1,0 +1,25 @@
+{
+  "name": "@ladesa-ro/api-integration-openapi-json",
+  "private": true,
+  "wireit": {
+    "generate": {
+      "command": "./scripts/codegen-openapi-json.ts",
+      "dependencies": [
+        "../../api-service:build"
+      ]
+    },
+    "build": {
+      "dependencies": [
+        "generate"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "wireit",
+    "generate": "wireit"
+  },
+  "devDependencies": {
+    "tsx": "^4.15.7",
+    "wireit": "^0.14.4"
+  }
+}

@@ -49,7 +49,7 @@ export class TurmaController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.Turma.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Turma.Operations.UpdateById)
   async turmaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,

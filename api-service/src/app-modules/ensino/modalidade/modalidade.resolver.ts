@@ -40,7 +40,7 @@ export class ModalidadeResolver {
   ) {
     return this.modalidadeService.modalidadeCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Modalidade.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Modalidade.Operations.UpdateById)
   async modalidadeUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

@@ -37,7 +37,7 @@ export class DisciplinaResolver {
   ) {
     return this.disciplinaService.disciplinaCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Disciplina.Operations.UpdateById)
   async disciplinaUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

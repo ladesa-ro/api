@@ -49,7 +49,7 @@ export class CampusController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Campus.Operations.UpdateById)
   async campusUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,

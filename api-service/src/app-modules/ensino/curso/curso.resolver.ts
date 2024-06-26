@@ -37,7 +37,7 @@ export class CursoResolver {
   ) {
     return this.cursoService.cursoCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Curso.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Curso.Operations.UpdateById)
   async cursoUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

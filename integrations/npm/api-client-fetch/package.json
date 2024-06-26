@@ -1,0 +1,53 @@
+{
+  "name": "@ladesa-ro/api-client-fetch",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "description": "LADESA - Biblioteca de integração a API - Pacote NPM.",
+  "files": [
+    "*.md",
+    "dist/**/*.*"
+  ],
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "cleanup:generated": "wireit",
+    "test": "wireit",
+    "dev": "wireit",
+    "build": "wireit",
+    "generate": "wireit",
+    "generate:api": "wireit",
+    "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
+    "release:base": "release-it -c .release-it.json --git.changelog=\"git log -- .\" --no-git.tag"
+  },
+  "wireit": {
+    "cleanup:generated": {
+      "command": "rimraf ./src/http/generated"
+    },
+    "test": {
+      "command": "npx tsc --noEmit"
+    },
+    "dev": {
+      "command": "tsc -p tsconfig.json --watch"
+    },
+    "build": {
+      "command": "tsc -p tsconfig.json",
+      "dependencies": ["generate"]
+    },
+    "generate:api": {
+      "command": "openapi-ts",
+      "dependencies": ["../../openapi-json:generate", "cleanup:generated"]
+    },
+    "generate": {
+      "dependencies": ["generate:api"]
+    }
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "^0.48.0",
+    "@release-it/bumper": "^6.0.1",
+    "@release-it/conventional-changelog": "^8.0.1",
+    "prettier": "^3.2.5",
+    "release-it": "^17.4.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.5.2",
+    "wireit": "^0.14.4"
+  }
+}

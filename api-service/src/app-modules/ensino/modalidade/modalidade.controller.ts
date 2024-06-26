@@ -49,7 +49,7 @@ export class ModalidadeController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.Modalidade.Operations.Create)
+  @Operation(LadesaTypings.Tokens.Modalidade.Operations.UpdateById)
   async modalidadeUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,

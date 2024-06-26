@@ -35,7 +35,7 @@ export class DiaCalendarioResolver {
     return this.diaCalendarioService.diaCalendarioCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.Create)
+  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.UpdateById)
   async diaCalendarioUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
