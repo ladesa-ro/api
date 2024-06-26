@@ -1,0 +1,34 @@
+{
+  "name": "@ladesa-ro/api-client-fetch",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "description": "LADESA - Biblioteca de integração a API - Pacote NPM.",
+  "homepage": "https://ladesa-ro.github.io/api/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ladesa-ro/api.git"
+  },
+  "files": [
+    "*.md",
+    "dist/**/*.*"
+  ],
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "test": "npx tsc --noEmit",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "build": "npm run build:code",
+    "build:code": "tsc -p tsconfig.build.json",
+    "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
+    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "generate:docs": "rimraf docs; typedoc --out docs src/index.ts",
+    "generate:api": "rimraf ./src/http/generated; openapi-ts; prettier --cache --ignore-unknown \"./src/http/generated/**/*\" --write",
+    "generate": "npm run generate:api && npm run generate:docs"
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "^0.46.2",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "typedoc": "^0.25.13",
+    "typescript": "^5.5.2"
+  }
+}
