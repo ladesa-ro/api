@@ -1,0 +1,43 @@
+name: 'API Integrations'
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - 'development'
+  #     - 'production'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integrations-codegen:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: 'npm'
+          cache-dependency-path: '*'
+
+      - run: npm ci
+        working-directory: integrations
+
+      - run: npm run build
+        working-directory: integrations
+
+      # - run: git config user.name 'github-actions[bot]'
+      # - run: git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      # - name: Commit generated integrations
+      #   run: |
+      #     git add -A integrations;
+      #     git commit -m "chore(integrations): generate code"
+      #     git push;
