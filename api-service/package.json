@@ -18,6 +18,7 @@
   },
   "scripts": {
     "build": "wireit",
+    "deps:dev": "wireit",
     "prebuild": "rimraf dist",
     "generate:openapi-json": "wireit",
     "start": "nest start -e 'node --experimental-require-module --trace-warnings'",
