@@ -2,10 +2,19 @@
   "name": "@ladesa-ro/api-service",
   "version": "0.0.0",
   "private": true,
+  "wireit": {
+    "deps:dev": {
+      "command": "npm ci"
+    },
+    "build": {
+      "command": "nest build",
+      "dependencies": ["deps:dev"]
+    }
+  },
   "scripts": {
-    "build": "nest build",
+    "build": "wireit",
     "prebuild": "rimraf dist",
-    "generate:openapi-json": "npm run build && ./scripts/codegen-openapi-json.ts",
+    "generate:openapi-json": "wireit",
     "start": "nest start -e 'node --experimental-require-module --trace-warnings'",
     "check:static": "tsc --noEmit",
     "start:dev": "nest start --watch -e 'node --experimental-require-module --trace-warnings'",
@@ -99,7 +108,8 @@
     "ts-loader": "^9.4.3",
     "tsconfig-paths": "^4.2.0",
     "type-fest": "^4.20.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "wireit": "^0.14.4"
   },
   "jest": {
     "moduleFileExtensions": [

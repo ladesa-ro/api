@@ -3,32 +3,51 @@
   "version": "0.1.0",
   "main": "dist/index.js",
   "description": "LADESA - Biblioteca de integração a API - Pacote NPM.",
-  "homepage": "https://ladesa-ro.github.io/api/",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ladesa-ro/api.git"
-  },
   "files": [
     "*.md",
     "dist/**/*.*"
   ],
   "scripts": {
     "prebuild": "rimraf dist",
-    "test": "npx tsc --noEmit",
-    "dev": "tsc -p tsconfig.json --watch",
-    "build": "npm run build:code",
-    "build:code": "tsc -p tsconfig.json",
+    "cleanup:generated": "wireit",
+    "test": "wireit",
+    "dev": "wireit",
+    "build": "wireit",
+    "generate": "wireit",
+    "generate:api": "wireit",
     "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
-    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "generate:docs": "false && (rimraf docs; typedoc --out docs src/index.ts)",
-    "generate:api": "rimraf ./src/http/generated; openapi-ts; prettier --cache --ignore-unknown \"./src/http/generated/**/*\" --write",
-    "generate": "npm run generate:api && npm run generate:docs",
-    "generate-and-build": "npm run generate && npm run build"
+    "release:base": "release-it -c .release-it.json --git.changelog=\"git log -- .\" --no-git.tag"
+  },
+  "wireit": {
+    "cleanup:generated": {
+      "command": "rimraf ./src/http/generated"
+    },
+    "test": {
+      "command": "npx tsc --noEmit"
+    },
+    "dev": {
+      "command": "tsc -p tsconfig.json --watch"
+    },
+    "build": {
+      "command": "tsc -p tsconfig.json",
+      "dependencies": ["generate"]
+    },
+    "generate:api": {
+      "command": "openapi-ts",
+      "dependencies": ["../../openapi-json:generate", "cleanup:generated"]
+    },
+    "generate": {
+      "dependencies": ["generate:api"]
+    }
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.48.0",
+    "@release-it/bumper": "^6.0.1",
+    "@release-it/conventional-changelog": "^8.0.1",
     "prettier": "^3.2.5",
+    "release-it": "^17.4.0",
     "rimraf": "^5.0.5",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.2",
+    "wireit": "^0.14.4"
   }
 }

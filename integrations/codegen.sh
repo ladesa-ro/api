@@ -2,9 +2,8 @@
 
 set -xe;
 
-(cd ../api-service; npm run generate:openapi-json;);
-
-(cd ./npm/api-client-fetch; npm run generate-and-build;);
+(cd ../api-service; npm run build;);
+(cd ./npm/api-client-fetch; npm run build;);
 
 # docker run --rm \
 #   -u 1000 \
