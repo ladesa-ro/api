@@ -98,7 +98,6 @@ jobs:
         with:
           image: ${{ steps.image-name.outputs.IMAGE_NAME }}
           options: |
-            -u 1001
             -v ${{ github.workspace }}/integrations/openapi-json:/var/ladesa-ro/wflow/tmp
             -e OUT_FILE=/var/ladesa-ro/wflow/tmp/generated.json
           run: |
