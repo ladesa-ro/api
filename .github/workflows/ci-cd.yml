@@ -34,8 +34,10 @@ env:
   DEPLOY_BRANCH: ${{ vars.DEPLOY_BRANCH }}
 
 jobs:
-  api-service-image-build-push--and-integrations-codegen:
+  api-service-image-build-push--and--integrations-codegen:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -111,7 +113,7 @@ jobs:
 
   api-service-deploy:
     runs-on: ubuntu-latest
-    needs: api-service-image-build-push--and-integrations-codegen
+    needs: api-service-image-build-push--and--integrations-codegen
     steps:
       - name: Dispatch infrastructure deploy workflow
         if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && env.ENABLE_PUSH_IMAGE == 'true' && env.ENABLE_TRIGGER_DEPLOY == 'true' }}
