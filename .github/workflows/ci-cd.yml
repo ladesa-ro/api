@@ -86,6 +86,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           file: 'Dockerfile.service'
+          load: true
           push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
           tags: ${{ steps.image-name.outputs.IMAGE_NAME }}
           cache-from: type=gha
