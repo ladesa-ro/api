@@ -2,10 +2,17 @@
 
 ## Ambientes
 
-| Estágio         | Devops                                                                                        | URL                                                             |
-| --------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| Produção        | [![CI/CD Service: Production][action-ci-cd-service-prod-src]][action-ci-cd-service-prod-href] | `não disponível`.                                               |
-| Desenvolvimento | [![CI/CD Service: Development][action-ci-cd-service-dev-src]][action-ci-cd-service-dev-href]  | <https://luna.sisgha.com/api>; <https://dev.ladesa.com.br/api>; |
+| Estágio         | Devops                                                                               | URL                                                             |
+| --------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------- |
+| Produção        | [![CI/CD Production][action-ci-cd-service-prod-src]][action-ci-cd-service-prod-href] | `não disponível`.                                               |
+| Desenvolvimento | [![CI/CD Development][action-ci-cd-service-dev-src]][action-ci-cd-service-dev-href]  | <https://luna.sisgha.com/api>; <https://dev.ladesa.com.br/api>; |
+
+## Clientes
+
+### JavaScript
+
+[![NPM Package][npm-package-src]][npm-package-href] [![NPM Package Source Code][source-code-src]][source-npm-href] [![NPM latest version][npm-package-latest-version-src]][npm-package-versions-href]
+[![NPM alpha Version][npm-package-alpha-version-src]][npm-package-versions-href]
 
 ## Configuração Local
 
@@ -99,3 +106,19 @@ make dev-logs; # Mostra os registros dos containers
 
 [action-ci-cd-service-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci-cd.yml?style=flat&logo=github&logoColor=white&label=CI%2FCD%20Service%20Development&branch=development&labelColor=18181B
 [action-ci-cd-service-dev-href]: https://github.com/ladesa-ro/api/actions/workflows/ci-cd.yml?query=branch%3Adevelopment
+
+<!-- Badges / Source Code  -->
+
+[source-code-src]: https://img.shields.io/badge/repo-GitHub-white?style=flat&logo=git&logoColor=white&labelColor=%2318181B
+[source-npm-href]: https://github.com/ladesa-ro/api/tree/development/integrations/npm/api-client-fetch
+
+<!-- Badges / Integrations / NPM -->
+
+[npm-package-src]: https://img.shields.io/badge/npm-%40ladesa--ro%2Fapi--client--fetch-18181B?style=flat&logo=npm&logoColor=white&labelColor=%23CB3837
+[npm-package-href]: https://npmjs.com/package/@ladesa-ro/api-client-fetch
+
+<!-- Badges / Integrations / NPM / Versions -->
+
+[npm-package-versions-href]: https://www.npmjs.com/package/@ladesa-ro/api-client-fetch?activeTab=versions
+[npm-package-latest-version-src]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fregistry.npmjs.com%2F%40ladesa-ro%2Fapi-client-fetch&query=%24%5B%22dist-tags%22%5D.latest&prefix=v&style=flat&logo=npm&logoColor=white&label=stable&style=flat&colorA=18181B&colorB=F0DB4F
+[npm-package-alpha-version-src]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fregistry.npmjs.com%2F%40ladesa-ro%2Fapi-client-fetch&query=%24%5B%22dist-tags%22%5D.alpha&prefix=v&style=flat&logo=npm&logoColor=white&label=alpha&style=flat&colorA=18181B&colorB=F0DB4F
