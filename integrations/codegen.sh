@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -xe;
+echo CI_CD_CODEGEN_OPENAPI=${CI_CD_CODEGEN_OPENAPI:-false}
+echo CI_CD_CODEGEN_NPM_API_CLIENT_FETCH=${CI_CD_CODEGEN_NPM_API_CLIENT_FETCH:-false}
 
 if [[ "${CI_CD_CODEGEN_OPENAPI}" == "true" ]]; then
   (cd ./openapi-json; ./scripts/codegen.sh);
