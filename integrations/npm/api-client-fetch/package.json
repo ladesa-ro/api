@@ -3,6 +3,19 @@
   "version": "1.0.0-alpha.0",
   "main": "dist/index.js",
   "description": "LADESA - Biblioteca de integração a API - Pacote NPM.",
+  "keywords": [
+    "unispec"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ladesa-ro/api.git"
+  },
+  "author": "Gabriel R. Antunes <gabrielrodantunes@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/ladesa-ro/api/issues"
+  },
+  "homepage": "https://github.com/ladesa-ro/api/tree/development/integrations/npm/api-client-fetch#readme",
   "publishConfig": {
     "provenance": true,
     "access": "public"
