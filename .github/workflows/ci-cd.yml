@@ -98,10 +98,11 @@ jobs:
         with:
           image: ${{ steps.image-name.outputs.IMAGE_NAME }}
           options: |
-            -v ${{ github.workspace }}/integrations/openapi-json:/var/ladesa-ro/wflow/tmp
-            -e OUT_FILE=/var/ladesa-ro/wflow/tmp/generated.json
+            -v ${{ github.workspace }}/integrations/openapi-json:/tmp/openapi-json
+            -e OUT_FILE=/tmp/openapi-json/generated.json
           run: |
             npm run gen:openapi
+            chmod -R 644 /tmp/openapi-json
 
       - name: Log git changes
         run: |
@@ -110,6 +111,8 @@ jobs:
       - name: Commit generated code if possible
         shell: bash
         run: |
+          echo $UID
+
           chmod -R 644 integrations
 
           if [[ ! "$(git status --porcelain | grep integrations | wc -l)" == "0" ]]; then
