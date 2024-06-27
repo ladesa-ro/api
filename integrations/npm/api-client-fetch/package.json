@@ -4,7 +4,12 @@
   "main": "dist/index.js",
   "description": "LADESA - Biblioteca de integração a API - Pacote NPM.",
   "keywords": [
-    "unispec"
+    "ladesa-ro",
+    "api",
+    "api-client",
+    "fetch",
+    "sisgha",
+    "sisgea"
   ],
   "license": "MIT",
   "repository": {
