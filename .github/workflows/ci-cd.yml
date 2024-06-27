@@ -98,10 +98,10 @@ jobs:
         with:
           image: ${{ steps.image-name.outputs.IMAGE_NAME }}
           options: |
+            -u 1001
             -v ${{ github.workspace }}/integrations/openapi-json:/tmp/openapi-json
             -e OUT_FILE=/tmp/openapi-json/generated.json
-          run: |
-            bash -c "npm run gen:openapi && chmod -R 644 /tmp/openapi-json;"
+          run: npm run gen:openapi
 
       - name: Log git changes
         run: |
