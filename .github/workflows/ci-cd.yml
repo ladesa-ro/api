@@ -98,7 +98,7 @@ jobs:
         with:
           image: ${{ steps.image-name.outputs.IMAGE_NAME }}
           options: |
-            -u 1000
+            -u 1001
             -v ${{ github.workspace }}/integrations/openapi-json:/var/ladesa-ro/wflow/tmp
             -e OUT_FILE=/var/ladesa-ro/wflow/tmp/generated.json
           run: |
@@ -116,6 +116,8 @@ jobs:
             git config user.email 'github-actions[bot]@users.noreply.github.com'
             
             git merge -m "chore: merge origin/${{ github.ref_name }} into ${{ github.ref_name }} [skip ci]" -X theirs origin/${{ github.ref_name }};
+
+            chmod -R 644 integrations
 
             git add -A integrations;
             git commit -m "chore(integrations): codegen [skip ci]"
