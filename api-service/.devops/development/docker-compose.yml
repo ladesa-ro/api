@@ -13,7 +13,7 @@ services:
       - 3701:3701
       - 9229:9229
     volumes:
-      - ../../:/var/lib/ladesa-ro/devops/api/
+      - ../../../:/var/lib/ladesa-ro/devops/api/
       - ./volumes/uploaded:/container/uploaded
     environment:
       - STORAGE_PATH=/container/uploaded
