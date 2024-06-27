@@ -69,7 +69,15 @@ jobs:
       - name: Log git changes
         run: |
           git status
-          git checkout -- integrations
+
+      - name: Commit generated code if possible
+        shell: bash
+        run: |
+          if [[ ! "$(git status --porcelain | grep integrations | wc -l)" == "0" ]]; then
+            git add -A integrations;
+            git commit -m "chore(integrations): codegen [skip ci]"
+            git push origin ${{ github.ref_name }}
+          fi
 
       - name: Login to Registry
         if: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
