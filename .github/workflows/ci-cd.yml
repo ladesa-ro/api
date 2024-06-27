@@ -34,37 +34,14 @@ env:
   DEPLOY_BRANCH: ${{ vars.DEPLOY_BRANCH }}
 
 jobs:
-  build-docker-image:
+  api-service-image-build-push--and-integrations-codegen:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build local image
-        uses: docker/build-push-action@v6
-        with:
-          file: 'Dockerfile.service'
-          load: true
-          push: false
-          tags: local-service-build
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-  integrations-codegen:
-    runs-on: ubuntu-latest
-    needs: build-docker-image
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -90,20 +67,9 @@ jobs:
             npm run gen:openapi
 
       - name: Log git changes
-        run: git status
-
-  api-service-image-build-push:
-    runs-on: ubuntu-latest
-    needs: integrations-codegen
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        run: |
+          git status
+          git checkout -- integrations
 
       - name: Login to Registry
         if: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
@@ -135,7 +101,7 @@ jobs:
 
   api-service-deploy:
     runs-on: ubuntu-latest
-    needs: api-service-image-build-push
+    needs: api-service-image-build-pus--and-codegen-integrationsh
     steps:
       - name: Dispatch infrastructure deploy workflow
         if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && env.ENABLE_PUSH_IMAGE == 'true' && env.ENABLE_TRIGGER_DEPLOY == 'true' }}
