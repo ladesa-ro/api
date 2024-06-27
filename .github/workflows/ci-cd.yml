@@ -74,7 +74,7 @@ jobs:
 
             if [[ "${{ github.ref_name }}" == "${{ env.CI_DEVELOPMENT_BRANCH }}" ]]; then
               image_name="${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_DEVELOPMENT }}"
-            elif [[ "${{ github.ref_name }}" == "${{ env.CI_PRODUCTION_BRANCH }}" ]]
+            elif [[ "${{ github.ref_name }}" == "${{ env.CI_PRODUCTION_BRANCH }}" ]]; then
               image_name="${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_PRODUCTION }}"
             fi
           fi
