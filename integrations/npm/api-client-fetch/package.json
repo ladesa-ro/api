@@ -7,17 +7,6 @@
     "*.md",
     "dist/**/*.*"
   ],
-  "scripts": {
-    "prebuild": "rimraf dist",
-    "cleanup:generated": "wireit",
-    "test": "wireit",
-    "dev": "wireit",
-    "build": "wireit",
-    "generate": "wireit",
-    "generate:api": "wireit",
-    "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
-    "release:base": "release-it -c .release-it.json --git.changelog=\"git log -- .\" --no-git.tag"
-  },
   "wireit": {
     "cleanup:generated": {
       "command": "rimraf ./src/http/generated"
@@ -29,16 +18,30 @@
       "command": "tsc -p tsconfig.json --watch"
     },
     "build": {
-      "command": "tsc -p tsconfig.json",
-      "dependencies": ["generate"]
+      "command": "tsc -p tsconfig.json"
     },
     "generate:api": {
       "command": "openapi-ts",
-      "dependencies": ["../../openapi-json:generate", "cleanup:generated"]
+      "dependencies": [
+        "cleanup:generated"
+      ]
     },
     "generate": {
-      "dependencies": ["generate:api"]
+      "dependencies": [
+        "generate:api"
+      ]
     }
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "test": "wireit",
+    "dev": "wireit",
+    "build": "wireit",
+    "generate": "wireit",
+    "generate:api": "wireit",
+    "cleanup:generated": "wireit",
+    "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
+    "release:base": "release-it -c .release-it.json --git.changelog=\"git log -- .\" --no-git.tag"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.48.0",

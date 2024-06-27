@@ -16,7 +16,7 @@ export default {
 
   //
 
-  input: '../../openapi-json/out/openapi-spec.json',
+  input: '../../openapi-json/generated.json',
 
   output: {
     format: 'prettier',

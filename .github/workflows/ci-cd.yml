@@ -92,7 +92,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Run the build process with Docker
+      - name: "Codegen: OpenAPI JSON with built image"
         uses: addnab/docker-run-action@v3
         if: ${{ steps.image-name.outputs.IMAGE_NAME != 'disabled' }}
         with:
@@ -102,6 +102,13 @@ jobs:
             -v ${{ github.workspace }}/integrations/openapi-json:/tmp/openapi-json
             -e OUT_FILE=/tmp/openapi-json/generated.json
           run: npm run gen:openapi
+
+      - name: "Codegen: remaining integrations"
+        shell: bash
+        working-directory: integrations
+        run: |
+          export CI_CD_CODEGEN_NPM_API_CLIENT_FETCH=true
+          ./codegen.sh
 
       - name: Log git changes
         run: |

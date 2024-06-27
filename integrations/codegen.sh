@@ -2,12 +2,10 @@
 
 set -xe;
 
-(cd ../api-service; npm run build;);
-(cd ./npm/api-client-fetch; npm run build;);
+if [[ "${CI_CD_CODEGEN_OPENAPI}" == "true" ]]; then
+  (cd ./openapi-json; ./scripts/codegen.sh);
+fi
 
-# docker run --rm \
-#   -u 1000 \
-#   -v ${PWD}:/local openapitools/openapi-generator-cli generate \
-#   -i /local/openapi-json/openapi-json.json \
-#   -g typescript-fetch \
-#   -o /local/npm/typescript-fetch
+if [[ "${CI_CD_CODEGEN_NPM_API_CLIENT_FETCH}" == "true" ]]; then
+  (cd ./npm/api-client-fetch; ./scripts/codegen.sh;)
+fi
