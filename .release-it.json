@@ -1,0 +1,28 @@
+{
+  "plugins": {
+    "@release-it/bumper": {
+      "in": "version.json",
+      "out": ["version.json", "package.json", "api-service/package.json"]
+    }
+  },
+  "hooks": {
+    "after:bump": "npx auto-changelog -p"
+  },
+  "git": {
+    "tag": true,
+    "push": false,
+    "commit": true,
+    "tagName": "v${version}",
+    "requireCleanWorkingDir": false,
+    "commitMessage": "chore: release v${version} [skip ci]",
+    "changelog": "npx auto-changelog --stdout --commit-limit false -u --template https://raw.githubusercontent.com/release-it/release-it/main/templates/changelog-compact.hbs"
+  },
+  "github": {
+    "release": false
+  },
+  "npm": {
+    "publish": false,
+    "versionArgs": ["--allow-same-version", "--workspaces-update=false"],
+    "publishArgs": ["--include-workspace-root"]
+  }
+}

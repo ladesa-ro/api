@@ -41,12 +41,11 @@
     "generate:api": "wireit",
     "cleanup:generated": "wireit",
     "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
-    "release:base": "release-it -c .release-it.json --git.changelog=\"git log -- .\" --no-git.tag"
+    "release:base": "release-it -c .release-it.json"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.48.0",
     "@release-it/bumper": "^6.0.1",
-    "@release-it/conventional-changelog": "^8.0.1",
     "prettier": "^3.2.5",
     "release-it": "^17.4.0",
     "rimraf": "^5.0.5",

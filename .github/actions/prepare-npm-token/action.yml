@@ -1,0 +1,16 @@
+name: "Prepare: Setup NPM token"
+description: "Prepares the repo by setting the NPM token"
+inputs:
+  npm-token:
+    description: "The NPM token"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Configure NPM token
+      shell: bash
+      env:
+        NPM_TOKEN: ${{ inputs.npm-token }}
+      run: |
+        npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"

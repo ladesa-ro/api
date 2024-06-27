@@ -58,8 +58,7 @@ jobs:
         with:
           node-version: 22.x
           cache: 'npm'
-
-      - run: npm config set loglevel=verbose
+          cache-dependency-path: package-lock.json
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -100,7 +99,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: "Codegen: OpenAPI JSON with built image"
+      - name: 'Codegen: OpenAPI JSON with built image'
         uses: addnab/docker-run-action@v3
         if: ${{ steps.image-name.outputs.IMAGE_NAME != 'disabled' }}
         with:
@@ -111,12 +110,18 @@ jobs:
             -e OUT_FILE=/tmp/openapi-json/generated.json
           run: npm run gen:openapi
 
-      - name: "Codegen: remaining integrations"
+      - run: npm config set loglevel=verbose
+      - run: npm ci
+
+      - name: 'Codegen: remaining integrations'
         shell: bash
         working-directory: integrations
         run: |
           export CI_CD_CODEGEN_NPM_API_CLIENT_FETCH=true
           ./codegen.sh
+
+      - run: git config user.name 'github-actions[bot]'
+      - run: git config user.email 'github-actions[bot]@users.noreply.github.com'
 
       - name: Log git changes
         run: |
@@ -126,16 +131,39 @@ jobs:
         shell: bash
         run: |
           if [[ ! "$(git status --porcelain | grep integrations | wc -l)" == "0" ]]; then
-            git config user.name 'github-actions[bot]'
-            git config user.email 'github-actions[bot]@users.noreply.github.com'
-            
             git merge -m "chore: merge origin/${{ github.ref_name }} into ${{ github.ref_name }} [skip ci]" -X theirs origin/${{ github.ref_name }};
-
             git add -A integrations;
-            git commit -m "chore(integrations): codegen [skip ci]"
-
+            git commit -m "feat(integrations): codegen [skip ci]"
             git push origin ${{ github.ref_name }}
           fi
+
+      - name: Prepare NPM token
+        uses: ./.github/actions/prepare-npm-token
+        with:
+          npm-token: ${{ secrets.NPM_TOKEN }}
+
+      - name: Release development
+        run: npm run release:development
+        if: github.ref_name == env.CI_DEVELOPMENT_BRANCH
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release production
+        run: npm run release:production
+        if: github.ref_name == env.CI_PRODUCTION_BRANCH
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: update development from production
+        if: github.ref_name == env.CI_PRODUCTION_BRANCH
+        run: |
+          git checkout ${{ env.CI_DEVELOPMENT_BRANCH }};
+
+          git merge -m "chore: merge ${{ env.CI_PRODUCTION_BRANCH }} into ${{ env.CI_DEVELOPMENT_BRANCH }} [skip ci]" -X theirs ${{ env.CI_PRODUCTION_BRANCH }};
+
+          git push origin ${{ env.CI_DEVELOPMENT_BRANCH }};
+
+          git checkout ${{ env.CI_PRODUCTION_BRANCH }};
 
   api-service-deploy:
     runs-on: ubuntu-latest

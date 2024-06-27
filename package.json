@@ -1,7 +1,10 @@
 {
-  "name": "@ladesa-ro/api",
-  "version": "0.0.0",
+  "name": "@ladesa-ro/api-root",
+  "version": "1.0.0-alpha.1",
   "private": true,
+  "workspaces": [
+    "integrations/npm/api-client-fetch"
+  ],
   "scripts": {
     "commit": "git-cz",
     "prepare": "husky",
@@ -9,7 +12,18 @@
     "lint:fix": "eslint -c eslint.config.mjs --fix src",
     "check:static": "npm run format:check; npm run lint:check",
     "format:check": "prettier --end-of-line lf --check \"src/**/*.ts\" \"test/**/*.ts\"",
-    "format:write": "prettier --end-of-line lf --write \"src/**/*.ts\" \"test/**/*.ts\""
+    "format:write": "prettier --end-of-line lf --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "w:release:base": "release-it -c .release-it.json",
+    "release:base": "bash -c 'npm run --workspaces release:base -- \"$@\" && npm run w:release:base -- \"$@\"' bash ",
+    "release:check": "npm run release:base -- --ci --dry-run -VV",
+    "release:patch": "npm run release:base -- patch --ci",
+    "release:minor": "npm run release:base -- minor --ci",
+    "release:major": "npm run release:base -- major --ci",
+    "release:patch:alpha": "npm run release:base -- patch --preRelease=alpha --ci",
+    "release:minor:alpha": "npm run release:base -- minor --preRelease=alpha --ci",
+    "release:major:alpha": "npm run release:base -- major --preRelease=alpha --ci",
+    "release:development": "npm run release:base -- --preRelease=alpha --ci",
+    "release:production": "npm run release:base -- --ci"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
@@ -28,5 +42,9 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "packageManager": "npm@10.8.1+sha512.0e9d43e92bd2318408ed81eaff2da5f78baf23ee7d12a6eed44a6e2901d0f29d7ab715d1b918ade601f72e769a824d9a5c322383f22bbbda5dd396e79de2a077"
+  "packageManager": "npm@10.8.1+sha512.0e9d43e92bd2318408ed81eaff2da5f78baf23ee7d12a6eed44a6e2901d0f29d7ab715d1b918ade601f72e769a824d9a5c322383f22bbbda5dd396e79de2a077",
+  "dependencies": {
+    "@release-it/bumper": "^6.0.1",
+    "auto-changelog": "^2.4.0"
+  }
 }
