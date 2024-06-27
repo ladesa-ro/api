@@ -101,7 +101,7 @@ jobs:
 
   api-service-deploy:
     runs-on: ubuntu-latest
-    needs: api-service-image-build-pus--and-codegen-integrationsh
+    needs: api-service-image-build-push--and-integrations-codegen
     steps:
       - name: Dispatch infrastructure deploy workflow
         if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && env.ENABLE_PUSH_IMAGE == 'true' && env.ENABLE_TRIGGER_DEPLOY == 'true' }}
