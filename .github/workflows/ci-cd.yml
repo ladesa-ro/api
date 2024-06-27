@@ -67,35 +67,35 @@ jobs:
       - name: Determine target image name
         id: image-name
         run: |
-          image_name="disabled"
+          IMAGE_NAME="disabled"
 
           if [[ "${{env.ENABLE_BUILD_IMAGE}}" == "true" ]]; then
-            image_name="local-service"
+            IMAGE_NAME="local-service"
 
             if [[ "${{ github.ref_name }}" == "${{ env.CI_DEVELOPMENT_BRANCH }}" ]]; then
-              image_name="${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_DEVELOPMENT }}"
+              IMAGE_NAME="${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_DEVELOPMENT }}"
             elif [[ "${{ github.ref_name }}" == "${{ env.CI_PRODUCTION_BRANCH }}" ]]; then
-              image_name="${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_PRODUCTION }}"
+              IMAGE_NAME="${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_PRODUCTION }}"
             fi
           fi
 
-          echo "${image_name}" >> $GITHUB_OUTPUT
+          echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_OUTPUT
 
-      - name: Build ${{ env.ENABLE_PUSH_IMAGE && 'and push image' }}
-        if: ${{ steps.image-name.outputs != 'disabled' }}
+      - name: Build and push image (if enabled)
+        if: ${{ steps.image-name.outputs.IMAGE_NAME != 'disabled' }}
         uses: docker/build-push-action@v6
         with:
           file: 'Dockerfile.service'
           push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
-          tags: ${{ steps.image-name.outputs }}
+          tags: ${{ steps.image-name.outputs.IMAGE_NAME }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Run the build process with Docker
         uses: addnab/docker-run-action@v3
-        if: ${{ steps.image-name.outputs != 'disabled' }}
+        if: ${{ steps.image-name.outputs.IMAGE_NAME != 'disabled' }}
         with:
-          image: ${{ steps.image-name.outputs }}
+          image: ${{ steps.image-name.outputs.IMAGE_NAME }}
           options: |
             -u 1000
             -v ${{ github.workspace }}/integrations/openapi-json:/var/ladesa-ro/wflow/tmp
