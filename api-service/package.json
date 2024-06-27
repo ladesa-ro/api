@@ -10,9 +10,9 @@
       "command": "nest build"
     },
     "deps-and-build": {
+      "command": "npm run build",
       "dependencies": [
-        "deps:dev",
-        "build"
+        "deps:dev"
       ]
     }
   },
