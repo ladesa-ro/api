@@ -37,11 +37,20 @@
                           "type": "null"
                         }
                       ]
+                    },
+                    "version": {
+                      "description": "Versão do serviço API.",
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        }
+                      ]
                     }
                   },
                   "required": [
                     "service",
-                    "status"
+                    "status",
+                    "version"
                   ]
                 }
               }
