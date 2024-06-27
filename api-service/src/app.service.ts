@@ -14,6 +14,7 @@ export class AppService {
       status: 'up',
       service: '@ladesa-ro/api',
       prefix: this.configService.getRuntimePrefix(),
+      version: this.configService.getRuntimeVersion(),
     };
   }
 }

@@ -1,5 +1,7 @@
 export interface IConfigRuntime {
   //
+  getRuntimeVersion(): string;
+  //
   getRuntimePort(): number;
   getRuntimeNodeEnv(): string;
   getRuntimeIsProduction(): boolean;
