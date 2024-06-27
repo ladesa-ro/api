@@ -3,6 +3,10 @@
   "version": "1.0.0-alpha.0",
   "main": "dist/index.js",
   "description": "LADESA - Biblioteca de integração a API - Pacote NPM.",
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  },
   "files": [
     "*.md",
     "dist/**/*.*"

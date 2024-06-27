@@ -5,6 +5,7 @@ echo Codegen: NPM api client fetch
 echo =====================================================
 
 npm run generate;
+npm run build;
 
 # docker run --rm \
 #   -u 1000 \
