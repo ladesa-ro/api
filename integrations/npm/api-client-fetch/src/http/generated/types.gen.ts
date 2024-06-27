@@ -1918,6 +1918,10 @@ export type AppControllerGetHelloResponse = {
    * Prefixo do serviço API.
    */
   prefix?: string | null;
+  /**
+   * Versão do serviço API.
+   */
+  version: string;
 };
 
 export type ArquivoGetFileData = {
@@ -3134,6 +3138,10 @@ export type $OpenApiTs = {
            * Prefixo do serviço API.
            */
           prefix?: string | null;
+          /**
+           * Versão do serviço API.
+           */
+          version: string;
         };
       };
     };
