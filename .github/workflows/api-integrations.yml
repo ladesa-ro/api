@@ -2,10 +2,10 @@ name: 'API Integrations'
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - 'development'
-  #     - 'production'
+  push:
+    branches:
+      - 'development'
+      - 'production'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,25 +20,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js 22.x
-        uses: actions/setup-node@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build local image
+        uses: docker/build-push-action@v6
         with:
-          node-version: 22.x
-          cache: 'npm'
-          cache-dependency-path: '*'
+          file: 'Dockerfile.service'
+          load: true
+          push: false
+          tags: local-service-build
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - run: npm ci
-        working-directory: integrations
+      - name: Run the build process with Docker
+        uses: addnab/docker-run-action@v3
+        with:
+          image: local-service-build
+          options: |
+            -v ${{ github.workspace }}/integrations/openapi-json:/var/ladesa-ro/wflow/tmp |
+            -e OUT_FILE=/var/ladesa-ro/wflow/tmp/generated.json
+          run: |
+            npm run gen:openapi
 
-      - name: Build Integrations
-        run: WIREIT_PARALLEL=1 WIREIT_LOGGER=metrics npm run build
-        working-directory: integrations
-
-      # - run: git config user.name 'github-actions[bot]'
-      # - run: git config user.email 'github-actions[bot]@users.noreply.github.com'
-
-      # - name: Commit generated integrations
-      #   run: |
-      #     git add -A integrations;
-      #     git commit -m "chore(integrations): generate code"
-      #     git push;
+      - name: Log git changes
+        run: git status

@@ -2,25 +2,10 @@
   "name": "@ladesa-ro/api-service",
   "version": "0.0.0",
   "private": true,
-  "wireit": {
-    "deps:dev": {
-      "command": "npm ci"
-    },
-    "build": {
-      "command": "nest build"
-    },
-    "deps-and-build": {
-      "command": "npm run build",
-      "dependencies": [
-        "deps:dev"
-      ]
-    }
-  },
   "scripts": {
-    "build": "wireit",
-    "deps:dev": "wireit",
+    "build": "nest build",
     "prebuild": "rimraf dist",
-    "generate:openapi-json": "wireit",
+    "gen:openapi": "./scripts/codegen-openapi-json.ts",
     "start": "nest start -e 'node --experimental-require-module --trace-warnings'",
     "check:static": "tsc --noEmit",
     "start:dev": "nest start --watch -e 'node --experimental-require-module --trace-warnings'",
