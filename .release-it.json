@@ -10,7 +10,7 @@
   },
   "git": {
     "tag": true,
-    "push": false,
+    "push": true,
     "commit": true,
     "tagName": "v${version}",
     "requireCleanWorkingDir": false,
