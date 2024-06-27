@@ -17,7 +17,7 @@
     "release": false
   },
   "npm": {
-    "publish": false,
+    "publish": true,
     "versionArgs": ["--allow-same-version", "--workspaces-update=false"],
     "publishArgs": ["--include-workspace-root"]
   }
