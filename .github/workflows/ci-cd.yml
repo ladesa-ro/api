@@ -110,13 +110,13 @@ jobs:
       - name: Commit generated code if possible
         shell: bash
         run: |
+          chmod -R 644 integrations
+
           if [[ ! "$(git status --porcelain | grep integrations | wc -l)" == "0" ]]; then
             git config user.name 'github-actions[bot]'
             git config user.email 'github-actions[bot]@users.noreply.github.com'
             
             git merge -m "chore: merge origin/${{ github.ref_name }} into ${{ github.ref_name }} [skip ci]" -X theirs origin/${{ github.ref_name }};
-
-            chmod -R 644 integrations
 
             git add -A integrations;
             git commit -m "chore(integrations): codegen [skip ci]"
