@@ -10,7 +10,7 @@
     "check:static": "tsc --noEmit",
     "start:dev": "nest start --watch -e 'node --experimental-require-module --trace-warnings'",
     "start:debug": "nest start --debug 0.0.0.0:9229 --watch -e 'node --experimental-require-module --trace-warnings'",
-    "start:prod": "node --experimental-require-module dist/main",
+    "start:prod": "node --experimental-require-module dist/src/main",
     "typeorm": "tsx ./node_modules/.bin/typeorm",
     "typeorm-db-migration": "tsx ./node_modules/.bin/typeorm -d src/adapters/adapter-database/typeorm/data-sources/migration.data-source.ts",
     "typeorm:entity": "npm run typeorm -- entity:create",
