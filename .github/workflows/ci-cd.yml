@@ -173,8 +173,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           load: true
-          context: .
-          file: '.github/fixtures/api-service-version-patch/Dockerfile'
+          file: 'Dockerfile.service'
           push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
           tags: ${{ steps.image-name.outputs.IMAGE_NAME }}
           cache-from: type=gha
