@@ -6,7 +6,7 @@
     }
   },
   "hooks": {
-    "after:bump": "npx auto-changelog -p; git add -A ."
+    "after:bump": "npx auto-changelog -p && git add CHANGELOG.md"
   },
   "git": {
     "tag": true,
