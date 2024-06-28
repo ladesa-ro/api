@@ -1,3 +1,7 @@
-(npm i --ignore-scripts &>/dev/null; exit 0);
+#!/usr/bin/env bash
+
+if [[ ! "$(npx --no lint-staged -v &>/dev/null; echo $?)" -eq "0" ]]; then
+  (npm i --ignore-scripts &>/dev/null; exit 0);
+fi
 
 npx lint-staged
