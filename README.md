@@ -11,8 +11,23 @@
 
 ### JavaScript
 
-[![NPM Package][npm-package-src]][npm-package-href] [![NPM Package Source Code][source-code-src]][source-npm-href] [![NPM latest version][npm-package-latest-version-src]][npm-package-versions-href]
+[![NPM Package: @ladesa-ro/api-client-fetch][npm-package-src]][npm-package-href] [![NPM Package Source Code: @ladesa-ro/api-client-fetch][source-code-src]][source-npm-href]
+
+#### Versão estável
+
+[![NPM latest version][npm-package-latest-version-src]][npm-package-versions-href]
+
+```sh
+npm i @ladesa-ro/api-client-fetch@latest
+```
+
+#### Versão de desenvolvimento
+
 [![NPM alpha Version][npm-package-alpha-version-src]][npm-package-versions-href]
+
+```sh
+npm i @ladesa-ro/api-client-fetch@alpha
+```
 
 ## Configuração Local
 
@@ -109,7 +124,7 @@ make dev-logs; # Mostra os registros dos containers
 
 <!-- Badges / Source Code  -->
 
-[source-code-src]: https://img.shields.io/badge/repo-GitHub-white?style=flat&logo=git&logoColor=white&labelColor=%2318181B
+[source-code-src]: https://img.shields.io/badge/Source--Code-GitHub-white?style=flat&logo=git&logoColor=white&labelColor=%2318181B
 [source-npm-href]: https://github.com/ladesa-ro/api/tree/development/integrations/npm/api-client-fetch
 
 <!-- Badges / Integrations / NPM -->
