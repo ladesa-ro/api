@@ -13,6 +13,7 @@ RUN --mount=type=cache,id=npm,target=/root/.npm npm ci
 FROM dev-deps as assets
 COPY ./api-service/tsconfig.json ./api-service/tsconfig.build.json ./
 COPY ./api-service/src/ ./src/
+COPY ./api-service/version.json ./
 RUN npm run build
 COPY ./api-service/scripts/ ./scripts/
 RUN rm -rf node_modules
