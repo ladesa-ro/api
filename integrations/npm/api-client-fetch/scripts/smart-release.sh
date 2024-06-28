@@ -8,11 +8,11 @@ changes="$(git diff --name-only HEAD ${last_tag_sha} | cat )"
 
 desired=integrations/npm/api-client-fetch
 
-diff_desired=$(echo "${changes}" | grep "${desired}")
+diff_desired=$(echo "${changes}" | grep "${desired}"; exit 0)
 
 diff_desired_count=0
 
-if [[ -n "${changes}" ]]; then
+if [[ -n "${diff_desired}" ]]; then
   diff_desired_count=$( echo "${diff_desired}" | wc -l )
 fi
 
