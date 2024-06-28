@@ -63,7 +63,7 @@
     "generate:api": "wireit",
     "cleanup:generated": "wireit",
     "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
-    "release:base": "release-it -c .release-it.json"
+    "release:base": "./scripts/smart-release.sh"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.48.0",
