@@ -20,9 +20,5 @@
   "github": {
     "release": false
   },
-  "npm": {
-    "publish": false,
-    "versionArgs": ["--allow-same-version", "--workspaces-update=false"],
-    "publishArgs": ["--include-workspace-root"]
-  }
+  "npm": false
 }

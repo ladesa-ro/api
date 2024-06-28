@@ -1,6 +1,6 @@
 {
   "name": "@ladesa-ro/api-root",
-  "version": "1.0.0-alpha.7",
+  "version": "0.0.0-freezed.0",
   "private": true,
   "workspaces": [
     "integrations/npm/api-client-fetch"
@@ -14,7 +14,7 @@
     "format:check": "prettier --end-of-line lf --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:write": "prettier --end-of-line lf --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "w:release:base": "release-it -c .release-it.json",
-    "release:base": "bash -c 'npm run --workspaces release:base -- \"$@\" && npm run w:release:base -- \"$@\"' bash ",
+    "release:base": "./scripts/smart-release.sh",
     "release:check": "npm run release:base -- --ci --dry-run -VV",
     "release:patch": "npm run release:base -- patch --ci",
     "release:minor": "npm run release:base -- minor --ci",
