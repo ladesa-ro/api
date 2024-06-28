@@ -64,7 +64,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to Registry
+      - name: Login into Registry
         if: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
         uses: docker/login-action@v3
         with:
@@ -89,14 +89,14 @@ jobs:
 
           echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_OUTPUT
 
-      - name: Build and push image (if enabled)
+      - name: Build api service locally
         if: ${{ steps.image-name.outputs.IMAGE_NAME != 'disabled' }}
         uses: docker/build-push-action@v6
         with:
-          file: 'Dockerfile.service'
           load: true
-          push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
-          tags: ${{ steps.image-name.outputs.IMAGE_NAME }}
+          push: false
+          tags: ci-cd.local/api-service
+          file: 'Dockerfile.service'
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -166,6 +166,16 @@ jobs:
 
           git checkout ${{ env.CI_PRODUCTION_BRANCH }};
 
+      - name: Build and push image
+        if: ${{ steps.image-name.outputs.IMAGE_NAME != 'disabled' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: '.github/fixtures/api-service-version-patch/Dockerfile'
+          push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
+          tags: ${{ steps.image-name.outputs.IMAGE_NAME }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
   api-service-deploy:
     runs-on: ubuntu-latest
     needs: ci-cd

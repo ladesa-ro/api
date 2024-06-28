@@ -2,7 +2,7 @@
   "plugins": {
     "@release-it/bumper": {
       "in": "version.json",
-      "out": ["version.json", "package.json", "api-service/package.json"]
+      "out": ["version.json", "package.json", "api-service/version.json"]
     }
   },
   "hooks": {
