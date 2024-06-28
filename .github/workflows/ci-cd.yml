@@ -173,6 +173,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           load: true
+          context: .
           file: 'Dockerfile.service'
           push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
           tags: ${{ steps.image-name.outputs.IMAGE_NAME }}
