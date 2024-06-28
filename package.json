@@ -1,6 +1,6 @@
 {
   "name": "@ladesa-ro/api-root",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "private": true,
   "workspaces": [
     "integrations/npm/api-client-fetch"
