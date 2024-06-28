@@ -12,6 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  CI_CD_LOCAL_API_SERVICE_IMAGE: ci-cd.local/api-service
+
   CI_DEVELOPMENT_BRANCH: ${{ vars.CI_DEVELOPMENT_BRANCH }}
   CI_PRODUCTION_BRANCH: ${{ vars.CI_PRODUCTION_BRANCH }}
 
@@ -72,39 +74,22 @@ jobs:
           username: ${{ env.REGISTRY_USERNAME }}
           password: ${{ env.REGISTRY_TOKEN }}
 
-      - name: Determine target image name
-        id: image-name
-        run: |
-          IMAGE_NAME="disabled"
-
-          if [[ "${{env.ENABLE_BUILD_IMAGE}}" == "true" ]]; then
-            IMAGE_NAME="local-service"
-
-            if [[ "${{ github.ref_name }}" == "${{ env.CI_DEVELOPMENT_BRANCH }}" ]]; then
-              IMAGE_NAME="${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_DEVELOPMENT }}"
-            elif [[ "${{ github.ref_name }}" == "${{ env.CI_PRODUCTION_BRANCH }}" ]]; then
-              IMAGE_NAME="${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_PRODUCTION }}"
-            fi
-          fi
-
-          echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_OUTPUT
-
       - name: Build api service locally
-        if: ${{ steps.image-name.outputs.IMAGE_NAME != 'disabled' }}
+        if: ${{ env.ENABLE_BUILD_IMAGE == 'true' }}
         uses: docker/build-push-action@v6
         with:
           load: true
           push: false
-          tags: ci-cd.local/api-service
+          tags: ${{ env.CI_CD_LOCAL_API_SERVICE_IMAGE }}
           file: 'Dockerfile.service'
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: 'Codegen: OpenAPI JSON with built image'
         uses: addnab/docker-run-action@v3
-        if: ${{ steps.image-name.outputs.IMAGE_NAME != 'disabled' }}
+        if: ${{ env.ENABLE_BUILD_IMAGE == 'true' }}
         with:
-          image: ${{ steps.image-name.outputs.IMAGE_NAME }}
+          image: ${{ env.CI_CD_LOCAL_API_SERVICE_IMAGE }}
           options: |
             -u 1001
             -v ${{ github.workspace }}/integrations/openapi-json:/tmp/openapi-json
@@ -165,6 +150,23 @@ jobs:
           git push origin ${{ env.CI_DEVELOPMENT_BRANCH }};
 
           git checkout ${{ env.CI_PRODUCTION_BRANCH }};
+
+      - name: Determine target image name
+        id: image-name
+        run: |
+          IMAGE_NAME="disabled"
+
+          if [[ "${{env.ENABLE_BUILD_IMAGE}}" == "true" ]]; then
+            IMAGE_NAME="local-service"
+
+            if [[ "${{ github.ref_name }}" == "${{ env.CI_DEVELOPMENT_BRANCH }}" ]]; then
+              IMAGE_NAME="${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_DEVELOPMENT }}"
+            elif [[ "${{ github.ref_name }}" == "${{ env.CI_PRODUCTION_BRANCH }}" ]]; then
+              IMAGE_NAME="${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_PRODUCTION }}"
+            fi
+          fi
+
+          echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_OUTPUT
 
       - name: Build and push image
         if: ${{ steps.image-name.outputs.IMAGE_NAME != 'disabled' }}
