@@ -82,7 +82,7 @@ export class EnvironmentConfigService implements IConfig {
   }
 
   getTypeOrmBasePath(): string {
-    return join(__dirname, '../..', 'adapters/database/typeorm');
+    return join(__dirname, '../../..', 'adapters/adapter-database/typeorm');
   }
 
   getTypeOrmPathEntities(): string {

@@ -7,7 +7,6 @@ last_tag_sha=$(git rev-list -n 1 ${last_tag})
 changes="$(git diff --name-only HEAD ${last_tag_sha} | cat )"
 
 desired="(^integrations/openapi-json/generated.json|^api-service)"
-
 diff_desired=$(echo "${changes}" | grep -E "${desired}"; exit 0)
 
 diff_desired_count=0
