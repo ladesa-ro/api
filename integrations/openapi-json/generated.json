@@ -37,11 +37,20 @@
                           "type": "null"
                         }
                       ]
+                    },
+                    "version": {
+                      "description": "Versão do serviço API.",
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        }
+                      ]
                     }
                   },
                   "required": [
                     "service",
-                    "status"
+                    "status",
+                    "version"
                   ]
                 }
               }
@@ -617,6 +626,26 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": false
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Resposta da operação \"UsuarioSetCoverImage\".",
@@ -2004,6 +2033,26 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": false
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Resposta da operação \"BlocoSetCoverImage\".",
@@ -2375,6 +2424,26 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": false
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Resposta da operação \"AmbienteSetCoverImage\".",
@@ -3003,6 +3072,26 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": false
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Resposta da operação \"CursoSetCoverImage\".",
@@ -3350,6 +3439,26 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": false
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Resposta da operação \"DisciplinaSetCoverImage\".",
@@ -3793,6 +3902,26 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": false
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Resposta da operação \"TurmaSetCoverImage\".",

@@ -1,0 +1,195 @@
+name: 'CI / CD'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'development'
+      - 'production'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI_CD_LOCAL_API_SERVICE_IMAGE: ci-cd.local/api-service
+
+  CI_DEVELOPMENT_BRANCH: ${{ vars.CI_DEVELOPMENT_BRANCH }}
+  CI_PRODUCTION_BRANCH: ${{ vars.CI_PRODUCTION_BRANCH }}
+
+  ENABLE_BUILD_IMAGE: ${{ vars.ENABLE_BUILD_IMAGE }}
+  IMAGE_TAG_DEVELOPMENT: ${{ vars.IMAGE_TAG_DEVELOPMENT }}
+  IMAGE_TAG_PRODUCTION: ${{ vars.IMAGE_TAG_PRODUCTION }}
+
+  ENABLE_PUSH_IMAGE: ${{ vars.ENABLE_PUSH_IMAGE }}
+
+  REGISTRY_URL: ${{ secrets.REGISTRY_URL }}
+  REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+  REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+  IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+
+  ENABLE_TRIGGER_DEPLOY: ${{ vars.ENABLE_TRIGGER_DEPLOY }}
+  DEPLOY_DISPATCH_TOKEN: ${{ secrets.DEPLOY_DISPATCH_TOKEN }}
+  DEPLOY_OWNER: ${{ vars.DEPLOY_OWNER }}
+  DEPLOY_REPOSITORY: ${{ vars.DEPLOY_REPOSITORY }}
+  DEPLOY_WORKFLOW: ${{ vars.DEPLOY_WORKFLOW }}
+  DEPLOY_BRANCH: ${{ vars.DEPLOY_BRANCH }}
+
+jobs:
+  ci-cd:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.LADESA_BOT_ID }}
+          private-key: ${{ secrets.LADESA_BOT_SECRET }}
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
+
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login into Registry
+        if: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY_URL }}
+          username: ${{ env.REGISTRY_USERNAME }}
+          password: ${{ env.REGISTRY_TOKEN }}
+
+      - name: Build api service locally
+        if: ${{ env.ENABLE_BUILD_IMAGE == 'true' }}
+        uses: docker/build-push-action@v6
+        with:
+          load: true
+          push: false
+          tags: ${{ env.CI_CD_LOCAL_API_SERVICE_IMAGE }}
+          file: 'Dockerfile.service'
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: 'Codegen: OpenAPI JSON with built image'
+        uses: addnab/docker-run-action@v3
+        if: ${{ env.ENABLE_BUILD_IMAGE == 'true' }}
+        with:
+          image: ${{ env.CI_CD_LOCAL_API_SERVICE_IMAGE }}
+          options: |
+            -u 1001
+            -v ${{ github.workspace }}/integrations/openapi-json:/tmp/openapi-json
+            -e OUT_FILE=/tmp/openapi-json/generated.json
+          run: npm run gen:openapi
+
+      - run: npm config set loglevel=verbose
+      - run: npm ci
+
+      - name: 'Codegen: remaining integrations'
+        shell: bash
+        working-directory: integrations
+        run: |
+          export CI_CD_CODEGEN_NPM_API_CLIENT_FETCH=true
+          ./codegen.sh
+
+      - run: git config user.name 'github-actions[bot]'
+      - run: git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Log git changes
+        run: |
+          git status
+
+      - name: Commit generated code if possible
+        shell: bash
+        run: |
+          if [[ ! "$(git status --porcelain | grep integrations | wc -l)" == "0" ]]; then
+            git merge -m "chore: merge origin/${{ github.ref_name }} into ${{ github.ref_name }} [skip ci]" -X theirs origin/${{ github.ref_name }};
+            git add -A integrations;
+            git commit -m "feat(integrations): codegen [skip ci]"
+            git push origin ${{ github.ref_name }}
+          fi
+
+      - name: Prepare NPM token
+        uses: ./.github/actions/prepare-npm-token
+        with:
+          npm-token: ${{ secrets.NPM_TOKEN }}
+
+      - name: Release development
+        run: npm run release:development
+        if: github.ref_name == env.CI_DEVELOPMENT_BRANCH
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release production
+        run: npm run release:production
+        if: github.ref_name == env.CI_PRODUCTION_BRANCH
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: update development from production
+        if: github.ref_name == env.CI_PRODUCTION_BRANCH
+        run: |
+          git checkout ${{ env.CI_DEVELOPMENT_BRANCH }};
+
+          git merge -m "chore: merge ${{ env.CI_PRODUCTION_BRANCH }} into ${{ env.CI_DEVELOPMENT_BRANCH }} [skip ci]" -X theirs ${{ env.CI_PRODUCTION_BRANCH }};
+
+          git push origin ${{ env.CI_DEVELOPMENT_BRANCH }};
+
+          git checkout ${{ env.CI_PRODUCTION_BRANCH }};
+
+      - name: Determine target image name
+        id: image-name
+        run: |
+          IMAGE_NAME="disabled"
+
+          if [[ "${{env.ENABLE_BUILD_IMAGE}}" == "true" ]]; then
+            IMAGE_NAME="local-service"
+
+            if [[ "${{ github.ref_name }}" == "${{ env.CI_DEVELOPMENT_BRANCH }}" ]]; then
+              IMAGE_NAME="${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_DEVELOPMENT }}"
+            elif [[ "${{ github.ref_name }}" == "${{ env.CI_PRODUCTION_BRANCH }}" ]]; then
+              IMAGE_NAME="${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_PRODUCTION }}"
+            fi
+          fi
+
+          echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Build and push image
+        if: ${{ steps.image-name.outputs.IMAGE_NAME != 'disabled' }}
+        uses: docker/build-push-action@v6
+        with:
+          load: true
+          context: .
+          file: 'Dockerfile.service'
+          push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
+          tags: ${{ steps.image-name.outputs.IMAGE_NAME }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+  api-service-deploy:
+    runs-on: ubuntu-latest
+    needs: ci-cd
+    steps:
+      - name: Dispatch infrastructure deploy workflow
+        if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && env.ENABLE_PUSH_IMAGE == 'true' && env.ENABLE_TRIGGER_DEPLOY == 'true' }}
+        run: |
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ env.DEPLOY_DISPATCH_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ env.DEPLOY_OWNER }}/${{ env.DEPLOY_REPOSITORY }}/actions/workflows/${{ env.DEPLOY_WORKFLOW }}/dispatches \
+            -d '{"ref":"${{ env.DEPLOY_BRANCH }}","inputs":{}}'

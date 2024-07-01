@@ -28,8 +28,12 @@ export class AppController {
           description: 'Prefixo do serviço API.',
           oneOf: [{ type: 'string' }, { type: 'null' }],
         },
+        version: {
+          description: 'Versão do serviço API.',
+          oneOf: [{ type: 'string' }],
+        },
       },
-      required: ['service', 'status'],
+      required: ['service', 'status', 'version'],
     },
   })
   getHello() {

@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { DataSourceOptions } from 'typeorm';
+import pkg from '../../../../version.json';
 import * as entities from '../../../adapters/adapter-database/typeorm/entities';
 import { IConfig } from '../../types';
 import { IConfigIntegrateAuthKeycloakCredentials, IConfigIntegrateAuthOidcClientCredentials } from '../../types/IConfigIntegrateAuth';
@@ -13,6 +14,10 @@ export class EnvironmentConfigService implements IConfig {
     @Inject(NestConfigService)
     private nestConfigService: NestConfigService,
   ) {}
+
+  getRuntimeVersion(): string {
+    return this.nestConfigService.get<string>('LADESA_API_VERSION') ?? pkg.version;
+  }
 
   getRuntimePort(): number {
     const configPort = this.nestConfigService.get<number | string>('PORT') ?? null;

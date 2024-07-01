@@ -476,6 +476,7 @@ export class UsuariosService {
    * Define a imagem de capa.
    * @param data The data for the request.
    * @param data.id ID do Registro.
+   * @param data.formData
    * @returns boolean Resposta da operação "UsuarioSetCoverImage".
    * @throws ApiError
    */
@@ -486,6 +487,8 @@ export class UsuariosService {
       path: {
         id: data.id,
       },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
       errors: {
         403: 'O solicitante não tem permissão para executar esta ação.',
         404: 'Registro não encontrado.',
@@ -1080,6 +1083,7 @@ export class BlocosService {
    * Define a imagem de capa.
    * @param data The data for the request.
    * @param data.id ID do Registro.
+   * @param data.formData
    * @returns boolean Resposta da operação "BlocoSetCoverImage".
    * @throws ApiError
    */
@@ -1090,6 +1094,8 @@ export class BlocosService {
       path: {
         id: data.id,
       },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
       errors: {
         403: 'O solicitante não tem permissão para executar esta ação.',
         404: 'Registro não encontrado.',
@@ -1243,6 +1249,7 @@ export class AmbientesService {
    * Define a imagem de capa.
    * @param data The data for the request.
    * @param data.id ID do Registro.
+   * @param data.formData
    * @returns boolean Resposta da operação "AmbienteSetCoverImage".
    * @throws ApiError
    */
@@ -1253,6 +1260,8 @@ export class AmbientesService {
       path: {
         id: data.id,
       },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
       errors: {
         403: 'O solicitante não tem permissão para executar esta ação.',
         404: 'Registro não encontrado.',
@@ -1523,6 +1532,7 @@ export class CursosService {
    * Define a imagem de capa.
    * @param data The data for the request.
    * @param data.id ID do Registro.
+   * @param data.formData
    * @returns boolean Resposta da operação "CursoSetCoverImage".
    * @throws ApiError
    */
@@ -1533,6 +1543,8 @@ export class CursosService {
       path: {
         id: data.id,
       },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
       errors: {
         403: 'O solicitante não tem permissão para executar esta ação.',
         404: 'Registro não encontrado.',
@@ -1682,6 +1694,7 @@ export class DisciplinasService {
    * Define a imagem de capa.
    * @param data The data for the request.
    * @param data.id ID do Registro.
+   * @param data.formData
    * @returns boolean Resposta da operação "DisciplinaSetCoverImage".
    * @throws ApiError
    */
@@ -1692,6 +1705,8 @@ export class DisciplinasService {
       path: {
         id: data.id,
       },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
       errors: {
         403: 'O solicitante não tem permissão para executar esta ação.',
         404: 'Registro não encontrado.',
@@ -1857,6 +1872,7 @@ export class TurmasService {
    * Define a imagem de capa.
    * @param data The data for the request.
    * @param data.id ID do Registro.
+   * @param data.formData
    * @returns boolean Resposta da operação "TurmaSetCoverImage".
    * @throws ApiError
    */
@@ -1867,6 +1883,8 @@ export class TurmasService {
       path: {
         id: data.id,
       },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
       errors: {
         403: 'O solicitante não tem permissão para executar esta ação.',
         404: 'Registro não encontrado.',

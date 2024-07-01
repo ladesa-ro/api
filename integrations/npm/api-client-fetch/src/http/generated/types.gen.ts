@@ -1918,6 +1918,10 @@ export type AppControllerGetHelloResponse = {
    * Prefixo do serviço API.
    */
   prefix?: string | null;
+  /**
+   * Versão do serviço API.
+   */
+  version: string;
 };
 
 export type ArquivoGetFileData = {
@@ -2021,6 +2025,9 @@ export type UsuarioGetCoverImageData = {
 export type UsuarioGetCoverImageResponse = Blob | File;
 
 export type UsuarioSetCoverImageData = {
+  formData: {
+    file: Blob | File;
+  };
   /**
    * ID do Registro.
    */
@@ -2337,6 +2344,9 @@ export type BlocoGetCoverImageData = {
 export type BlocoGetCoverImageResponse = Blob | File;
 
 export type BlocoSetCoverImageData = {
+  formData: {
+    file: Blob | File;
+  };
   /**
    * ID do Registro.
    */
@@ -2418,6 +2428,9 @@ export type AmbienteGetCoverImageData = {
 export type AmbienteGetCoverImageResponse = Blob | File;
 
 export type AmbienteSetCoverImageData = {
+  formData: {
+    file: Blob | File;
+  };
   /**
    * ID do Registro.
    */
@@ -2554,6 +2567,9 @@ export type CursoGetCoverImageData = {
 export type CursoGetCoverImageResponse = Blob | File;
 
 export type CursoSetCoverImageData = {
+  formData: {
+    file: Blob | File;
+  };
   /**
    * ID do Registro.
    */
@@ -2627,6 +2643,9 @@ export type DisciplinaGetCoverImageData = {
 export type DisciplinaGetCoverImageResponse = Blob | File;
 
 export type DisciplinaSetCoverImageData = {
+  formData: {
+    file: Blob | File;
+  };
   /**
    * ID do Registro.
    */
@@ -2732,6 +2751,9 @@ export type TurmaGetCoverImageData = {
 export type TurmaGetCoverImageResponse = Blob | File;
 
 export type TurmaSetCoverImageData = {
+  formData: {
+    file: Blob | File;
+  };
   /**
    * ID do Registro.
    */
@@ -3134,6 +3156,10 @@ export type $OpenApiTs = {
            * Prefixo do serviço API.
            */
           prefix?: string | null;
+          /**
+           * Versão do serviço API.
+           */
+          version: string;
         };
       };
     };

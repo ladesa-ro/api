@@ -1,33 +1,23 @@
 {
-  "git": {
-    "commit": false,
-    "push": false,
-    "requireCommits": true,
-    "requireCleanWorkingDir": false,
-    "commitMessage": "chore(integrations/npm/api-client-fetch): release v${version} [skip ci]"
+  "plugins": {
+    "@release-it/bumper": {
+      "in": "package.json",
+      "out": ["package.json", "package-lock.json"]
+    }
   },
-
+  "git": {
+    "tag": false,
+    "push": false,
+    "commit": false,
+    "tagName": "v${version}",
+    "requireCleanWorkingDir": false,
+    "commitMessage": "chore: release v${version} [skip ci]"
+  },
   "github": {
     "release": false
   },
   "npm": {
-    "publish": false
-  },
-
-  "plugins": {
-    "@release-it/conventional-changelog": {
-      "preset": {
-        "name": "angular"
-      },
-      "infile": "CHANGELOG.md",
-      "gitRawCommitsOpts": {
-        "path": "integrations/npm/api-client-fetch"
-      }
-    }
-  },
-
-  "hooks": {
-    "before:bump": "npm run build",
-    "after:bump": ["git add package.json", "git add package-lock.json", "git add CHANGELOG.md"]
+    "publish": true,
+    "versionArgs": ["--allow-same-version", "--workspaces-update=false"]
   }
 }

@@ -2,10 +2,42 @@
 
 ## Ambientes
 
-| Estágio         | Devops                                                       | URL                                                            |
-| --------------- | ------------------------------------------------------------ | -------------------------------------------------------------- |
-| Produção        | [![CI: Production][action-ci-prod-src]][action-ci-prod-href] | `não disponível`.                                              |
-| Desenvolvimento | [![CI: Development][action-ci-dev-src]][action-ci-dev-href]  | <https://luna.sisgha.com/api>; <https://dev.ladesa.com.br/api> |
+### Desenvolvimento
+
+[![CI/CD Development][action-ci-cd-service-dev-src]][action-ci-cd-service-dev-href]
+
+| #   | Link                            |
+| --- | ------------------------------- |
+| 1   | <https://dev.ladesa.com.br/api> |
+| 2   | <https://luna.sisgha.com/api>   |
+
+#### Clientes do ambiente de desenvolvimento
+
+- NPM / JavaScript
+
+  [![NPM Package: @ladesa-ro/api-client-fetch][npm-package-alpha-src]][npm-package-alpha-href] [![NPM alpha version][npm-package-alpha-version-src]][npm-package-versions-href]
+
+  ```sh
+  npm i @ladesa-ro/api-client-fetch@alpha
+  ```
+
+### Produção
+
+[![CI/CD Production][action-ci-cd-service-prod-src]][action-ci-cd-service-prod-href]
+
+| #   | Link             |
+| --- | ---------------- |
+| -   | `não disponível` |
+
+#### Clientes do ambiente de produção
+
+- NPM / JavaScript
+
+  [![NPM Package: @ladesa-ro/api-client-fetch@latest][npm-package-latest-src]][npm-package-latest-href] [![NPM latest version][npm-package-latest-version-src]][npm-package-versions-href]
+
+  ```sh
+  npm i @ladesa-ro/api-client-fetch@latest
+  ```
 
 ## Configuração Local
 
@@ -24,10 +56,10 @@ cd api-service
 
 ### Serviços do [api-service/.devops/development/docker-compose.yml](./api-service/.devops/development/docker-compose.yml)
 
-| Host            | Endereço         | Descrição               | Plataforma Base                   |
-| --------------- | ---------------- | ----------------------- | --------------------------------- |
-| `ladesa-api`    | `localhost:3701` | Aplicação NodeJS.       | `docker.io/library/node:22`       |
-| `ladesa-api-db` | `localhost:5432` | Banco de dados postgres | `docker.io/bitnami/postgresql:15` |
+| Host            | Endereço         | Descrição                | Plataforma Base                   |
+| --------------- | ---------------- | ------------------------ | --------------------------------- |
+| `ladesa-api`    | `localhost:3701` | Aplicação NodeJS.        | `docker.io/library/node:22`       |
+| `ladesa-api-db` | `localhost:5432` | Banco de dados postgres. | `docker.io/bitnami/postgresql:15` |
 
 ### Scripts Make
 
@@ -92,10 +124,28 @@ make dev-logs; # Mostra os registros dos containers
 
 <!-- Badges / Actions / Production  -->
 
-[action-ci-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci.yml?style=flat&logo=github&logoColor=white&label=CI@production&branch=production&labelColor=18181B
-[action-ci-prod-href]: https://github.com/ladesa-ro/api/actions/workflows/ci.yml?query=branch%3Aproduction
+[action-ci-cd-service-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci-cd.yml?style=flat&logo=github&logoColor=white&label=CI%2FCD%20Service%20Production&branch=production&labelColor=18181B
+[action-ci-cd-service-prod-href]: https://github.com/ladesa-ro/api/actions/workflows/ci.yml?query=branch%3Aproduction
 
-<!-- Badges / Actions / Development  -->
+<!-- Badges / Actions / Development / CI-CD-Service  -->
 
-[action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=development&labelColor=18181B
-[action-ci-dev-href]: https://github.com/ladesa-ro/api/actions/workflows/ci.yml?query=branch%3Adevelopment
+[action-ci-cd-service-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci-cd.yml?style=flat&logo=github&logoColor=white&label=CI%2FCD%20Service%20Development&branch=development&labelColor=18181B
+[action-ci-cd-service-dev-href]: https://github.com/ladesa-ro/api/actions/workflows/ci-cd.yml?query=branch%3Adevelopment
+
+<!-- Badges / Source Code  -->
+
+<!-- Badges / Integrations / NPM -->
+
+[npm-package-versions-href]: https://www.npmjs.com/package/@ladesa-ro/api-client-fetch?activeTab=versions
+
+<!-- Badges / Integrations / NPM / Alpha -->
+
+[npm-package-alpha-src]: https://img.shields.io/badge/npm-%40ladesa--ro%2Fapi--client--fetch@alpha-18181B?style=flat&logo=npm&logoColor=white&labelColor=%23CB3837
+[npm-package-alpha-href]: https://npmjs.com/package/@ladesa-ro/api-client-fetch
+[npm-package-alpha-version-src]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fregistry.npmjs.com%2F%40ladesa-ro%2Fapi-client-fetch&query=%24%5B%22dist-tags%22%5D.alpha&prefix=v&style=flat&logo=npm&logoColor=white&label=alpha&style=flat&colorA=18181B&colorB=F0DB4F
+
+<!-- Badges / Integrations / NPM / Latest -->
+
+[npm-package-latest-src]: https://img.shields.io/badge/npm-%40ladesa--ro%2Fapi--client--fetch@latest-18181B?style=flat&logo=npm&logoColor=white&labelColor=%23CB3837
+[npm-package-latest-href]: https://npmjs.com/package/@ladesa-ro/api-client-fetch
+[npm-package-latest-version-src]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fregistry.npmjs.com%2F%40ladesa-ro%2Fapi-client-fetch&query=%24%5B%22dist-tags%22%5D.latest&prefix=v&style=flat&logo=npm&logoColor=white&label=latest&style=flat&colorA=18181B&colorB=F0DB4F

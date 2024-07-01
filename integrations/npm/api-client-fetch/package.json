@@ -1,23 +1,34 @@
 {
   "name": "@ladesa-ro/api-client-fetch",
-  "version": "0.1.0",
+  "version": "1.0.0-alpha.5",
   "main": "dist/index.js",
   "description": "LADESA - Biblioteca de integração a API - Pacote NPM.",
+  "keywords": [
+    "ladesa-ro",
+    "api",
+    "api-client",
+    "fetch",
+    "sisgha",
+    "sisgea"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ladesa-ro/api.git"
+  },
+  "author": "Gabriel R. Antunes <gabrielrodantunes@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/ladesa-ro/api/issues"
+  },
+  "homepage": "https://github.com/ladesa-ro/api/tree/development/integrations/npm/api-client-fetch#readme",
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  },
   "files": [
     "*.md",
     "dist/**/*.*"
   ],
-  "scripts": {
-    "prebuild": "rimraf dist",
-    "cleanup:generated": "wireit",
-    "test": "wireit",
-    "dev": "wireit",
-    "build": "wireit",
-    "generate": "wireit",
-    "generate:api": "wireit",
-    "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
-    "release:base": "release-it -c .release-it.json --git.changelog=\"git log -- .\" --no-git.tag"
-  },
   "wireit": {
     "cleanup:generated": {
       "command": "rimraf ./src/http/generated"
@@ -29,21 +40,34 @@
       "command": "tsc -p tsconfig.json --watch"
     },
     "build": {
-      "command": "tsc -p tsconfig.json",
-      "dependencies": ["generate"]
+      "command": "tsc -p tsconfig.json"
     },
     "generate:api": {
       "command": "openapi-ts",
-      "dependencies": ["../../openapi-json:generate", "cleanup:generated"]
+      "dependencies": [
+        "cleanup:generated"
+      ]
     },
     "generate": {
-      "dependencies": ["generate:api"]
+      "dependencies": [
+        "generate:api"
+      ]
     }
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "test": "wireit",
+    "dev": "wireit",
+    "build": "wireit",
+    "generate": "wireit",
+    "generate:api": "wireit",
+    "cleanup:generated": "wireit",
+    "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
+    "release:base": "./scripts/smart-release.sh"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.48.0",
     "@release-it/bumper": "^6.0.1",
-    "@release-it/conventional-changelog": "^8.0.1",
     "prettier": "^3.2.5",
     "release-it": "^17.4.0",
     "rimraf": "^5.0.5",

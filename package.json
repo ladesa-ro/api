@@ -1,7 +1,10 @@
 {
-  "name": "@ladesa-ro/api",
-  "version": "0.0.0",
+  "name": "@ladesa-ro/api-root",
+  "version": "0.0.0-freezed.0",
   "private": true,
+  "workspaces": [
+    "integrations/npm/api-client-fetch"
+  ],
   "scripts": {
     "commit": "git-cz",
     "prepare": "husky",
@@ -9,12 +12,31 @@
     "lint:fix": "eslint -c eslint.config.mjs --fix src",
     "check:static": "npm run format:check; npm run lint:check",
     "format:check": "prettier --end-of-line lf --check \"src/**/*.ts\" \"test/**/*.ts\"",
-    "format:write": "prettier --end-of-line lf --write \"src/**/*.ts\" \"test/**/*.ts\""
+    "format:write": "prettier --end-of-line lf --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "w:release:base": "release-it -c .release-it.json",
+    "release:base": "./scripts/smart-release.sh",
+    "release:check": "npm run release:base -- --ci --dry-run -VV",
+    "release:patch": "npm run release:base -- patch --ci",
+    "release:minor": "npm run release:base -- minor --ci",
+    "release:major": "npm run release:base -- major --ci",
+    "release:patch:alpha": "npm run release:base -- patch --preRelease=alpha --ci",
+    "release:minor:alpha": "npm run release:base -- minor --preRelease=alpha --ci",
+    "release:major:alpha": "npm run release:base -- major --preRelease=alpha --ci",
+    "release:development": "npm run release:base -- --preRelease=alpha --ci",
+    "release:production": "npm run release:base -- --ci"
   },
-  "devDependencies": {
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "packageManager": "npm@10.8.1+sha512.0e9d43e92bd2318408ed81eaff2da5f78baf23ee7d12a6eed44a6e2901d0f29d7ab715d1b918ade601f72e769a824d9a5c322383f22bbbda5dd396e79de2a077",
+  "dependencies": {
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@eslint/js": "^9.5.0",
+    "@release-it/bumper": "^6.0.1",
+    "auto-changelog": "^2.4.0",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^9.0.11",
@@ -22,11 +44,5 @@
     "release-it": "^17.4.0",
     "typescript": "^5.4.5",
     "typescript-eslint": "^8.0.0-alpha.33"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "packageManager": "npm@10.8.1+sha512.0e9d43e92bd2318408ed81eaff2da5f78baf23ee7d12a6eed44a6e2901d0f29d7ab715d1b918ade601f72e769a824d9a5c322383f22bbbda5dd396e79de2a077"
+  }
 }

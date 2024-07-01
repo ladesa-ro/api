@@ -2,8 +2,12 @@
 **/.github
 **/.husky
 **/.vscode
-**/api-clients
+**/.vscode
+integrations/**/*
+**/node_modules
 **/*.env
 **/*.env*
-**/node_modules
 Dockerfile*
+/package.json
+/package-lock.json
+.dockerignore
