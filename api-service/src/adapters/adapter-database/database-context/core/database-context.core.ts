@@ -186,4 +186,19 @@ export class DatabaseContextCore {
     return repositories.createEtapaRepository(this.ds);
   }
   // =====================================================
+
+  get intervaloDeTempoRepository() {
+    return repositories.createIntervaloDeTempoRepository(this.ds);
+  }
+  // =====================================================
+
+  
+  // =====================================================
+  // == [ Horario Academico ] ============================
+  // =====================================================
+
+  get turmaDisponibilidadeRepository() {
+    return repositories.createTurmaDisponibilidadeRepository(this.ds);
+  }
+  // =====================================================
 }
