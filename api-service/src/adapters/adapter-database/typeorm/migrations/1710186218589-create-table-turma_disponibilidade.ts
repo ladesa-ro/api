@@ -55,7 +55,7 @@ export class CreateTableTurmaDisponibilidade1710186218589 implements MigrationIn
         foreignKeys: [
           {
             name: `fk__${tableName}__depende__turma`,
-            columnNames: ['id_turma_fk '],
+            columnNames: ['id_turma_fk'],
             referencedColumnNames: ['id'],
             referencedTableName: 'turma',
           },
