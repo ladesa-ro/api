@@ -1,5 +1,5 @@
 import type * as LadesaTypings from '@ladesa-ro/especificacao';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeepPartial, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TurmaEntity } from '../ensino';
 
 @Entity('turma_disponibilidade')
