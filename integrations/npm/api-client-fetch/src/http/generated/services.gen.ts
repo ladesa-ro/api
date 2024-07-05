@@ -203,6 +203,16 @@ import type {
   EtapaUpdateByIdResponse,
   EtapaDeleteByIdData,
   EtapaDeleteByIdResponse,
+  TurmaDisponibilidadeListData,
+  TurmaDisponibilidadeListResponse,
+  TurmaDisponibilidadeCreateData,
+  TurmaDisponibilidadeCreateResponse,
+  TurmaDisponibilidadeFindByIdData,
+  TurmaDisponibilidadeFindByIdResponse,
+  TurmaDisponibilidadeUpdateByIdData,
+  TurmaDisponibilidadeUpdateByIdResponse,
+  TurmaDisponibilidadeDeleteByIdData,
+  TurmaDisponibilidadeDeleteByIdResponse,
 } from './types.gen';
 
 export class BaseService {
@@ -2606,6 +2616,125 @@ export class EtapasService {
     return this.httpRequest.request({
       method: 'DELETE',
       url: '/etapas/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+}
+
+export class TurmasDisponibilidadeService {
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Operação 'TurmaDisponibilidadeList'.
+   * @param data The data for the request.
+   * @param data.page Página da listagem.
+   * @param data.limit Limite de resultados por página.
+   * @param data.search Busca textual.
+   * @param data.sortBy Configurações de ordenamento.
+   * @param data.filterTurmaId Filtros para 'turma.id'.
+   * @returns TurmaDisponibilidadeFindAllResultDto Resposta da operação "TurmaDisponibilidadeList".
+   * @throws ApiError
+   */
+  public turmaDisponibilidadeList(data: TurmaDisponibilidadeListData = {}): CancelablePromise<TurmaDisponibilidadeListResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/turmas-disponibilidade',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.turma.id': data.filterTurmaId,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'TurmaDisponibilidadeCreate'.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns TurmaDisponibilidadeFindOneResultDto Resposta da operação "TurmaDisponibilidadeCreate".
+   * @throws ApiError
+   */
+  public turmaDisponibilidadeCreate(data: TurmaDisponibilidadeCreateData): CancelablePromise<TurmaDisponibilidadeCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/turmas-disponibilidade',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'TurmaDisponibilidadeFindById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns TurmaDisponibilidadeFindOneResultDto Resposta da operação "TurmaDisponibilidadeFindById".
+   * @throws ApiError
+   */
+  public turmaDisponibilidadeFindById(data: TurmaDisponibilidadeFindByIdData): CancelablePromise<TurmaDisponibilidadeFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/turmas-disponibilidade/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Update operation
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @param data.requestBody
+   * @returns TurmaDisponibilidadeFindOneResultDto Resposta da operação "TurmaDisponibilidadeUpdateById".
+   * @throws ApiError
+   */
+  public turmaDisponibilidadeUpdateById(data: TurmaDisponibilidadeUpdateByIdData): CancelablePromise<TurmaDisponibilidadeUpdateByIdResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/turmas-disponibilidade/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'TurmaDisponibilidadeDeleteById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns boolean Resposta da operação "TurmaDisponibilidadeDeleteById".
+   * @throws ApiError
+   */
+  public turmaDisponibilidadeDeleteById(data: TurmaDisponibilidadeDeleteByIdData): CancelablePromise<TurmaDisponibilidadeDeleteByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/turmas-disponibilidade/{id}',
       path: {
         id: data.id,
       },

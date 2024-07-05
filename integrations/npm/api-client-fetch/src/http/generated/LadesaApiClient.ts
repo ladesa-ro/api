@@ -22,6 +22,7 @@ import { EventosService } from './services.gen';
 import { ModalidadesService } from './services.gen';
 import { ReservasService } from './services.gen';
 import { TurmasService } from './services.gen';
+import { TurmasDisponibilidadeService } from './services.gen';
 import { UsuariosService } from './services.gen';
 import { VinculosService } from './services.gen';
 
@@ -47,6 +48,7 @@ export class LadesaApiClient {
   public readonly modalidades: ModalidadesService;
   public readonly reservas: ReservasService;
   public readonly turmas: TurmasService;
+  public readonly turmasDisponibilidade: TurmasDisponibilidadeService;
   public readonly usuarios: UsuariosService;
   public readonly vinculos: VinculosService;
 
@@ -88,6 +90,7 @@ export class LadesaApiClient {
     this.modalidades = new ModalidadesService(this.request);
     this.reservas = new ReservasService(this.request);
     this.turmas = new TurmasService(this.request);
+    this.turmasDisponibilidade = new TurmasDisponibilidadeService(this.request);
     this.usuarios = new UsuariosService(this.request);
     this.vinculos = new VinculosService(this.request);
   }

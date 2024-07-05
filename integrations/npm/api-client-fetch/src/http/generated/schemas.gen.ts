@@ -3337,3 +3337,143 @@ export const $EtapaInputUpdateDto = {
     },
   },
 } as const;
+
+export const $TurmaDisponibilidadeFindOneResultDto = {
+  type: 'object',
+  properties: {
+    dataInicio: {
+      type: 'string',
+      format: 'date',
+      nullable: false,
+      description: 'Data de início.',
+    },
+    dataFim: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Data de término.',
+    },
+    turma: {
+      nullable: true,
+      description: 'Turma.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/TurmaFindOneResultDto',
+        },
+      ],
+    },
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+    dateCreated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Criação do Registro.',
+    },
+    dateUpdated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Atualização do Registro.',
+    },
+    dateDeleted: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data de Exclusão do Registro.',
+    },
+  },
+  required: ['dataInicio', 'dataFim', 'turma', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+} as const;
+
+export const $TurmaDisponibilidadeFindAllResultDto = {
+  type: 'object',
+  properties: {
+    meta: {
+      nullable: false,
+      description: 'Metadados da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultMetaDto',
+        },
+      ],
+    },
+    data: {
+      nullable: false,
+      description: 'Resultados da busca atual.',
+      type: 'array',
+      items: {
+        $ref: '#/components/schemas/TurmaDisponibilidadeFindOneResultDto',
+      },
+    },
+    links: {
+      nullable: false,
+      description: 'Links da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultLinksDto',
+        },
+      ],
+    },
+  },
+  required: ['meta', 'data', 'links'],
+} as const;
+
+export const $TurmaDisponibilidadeInputCreateDto = {
+  type: 'object',
+  properties: {
+    dataInicio: {
+      type: 'string',
+      format: 'date',
+      nullable: false,
+      description: 'Data de início.',
+    },
+    dataFim: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Data de término.',
+    },
+    turma: {
+      nullable: true,
+      description: 'Turma.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/TurmaFindOneInputDto',
+        },
+      ],
+    },
+  },
+  required: ['dataInicio', 'dataFim', 'turma'],
+} as const;
+
+export const $TurmaDisponibilidadeInputUpdateDto = {
+  type: 'object',
+  properties: {
+    dataInicio: {
+      type: 'string',
+      format: 'date',
+      nullable: false,
+      description: 'Data de início.',
+    },
+    dataFim: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Data de término.',
+    },
+    turma: {
+      nullable: true,
+      description: 'Turma.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/TurmaFindOneInputDto',
+        },
+      ],
+    },
+  },
+} as const;

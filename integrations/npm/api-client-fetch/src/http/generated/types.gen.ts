@@ -1905,6 +1905,82 @@ export type EtapaInputUpdateDto = {
   calendario?: CalendarioLetivoFindOneInputDto | null;
 };
 
+export type TurmaDisponibilidadeFindOneResultDto = {
+  /**
+   * Data de início.
+   */
+  dataInicio: string;
+  /**
+   * Data de término.
+   */
+  dataFim: string | null;
+  /**
+   * Turma.
+   */
+  turma: TurmaFindOneResultDto | null;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type TurmaDisponibilidadeFindAllResultDto = {
+  /**
+   * Metadados da busca.
+   */
+  meta: PaginatedResultMetaDto;
+  /**
+   * Resultados da busca atual.
+   */
+  data: Array<TurmaDisponibilidadeFindOneResultDto>;
+  /**
+   * Links da busca.
+   */
+  links: PaginatedResultLinksDto;
+};
+
+export type TurmaDisponibilidadeInputCreateDto = {
+  /**
+   * Data de início.
+   */
+  dataInicio: string;
+  /**
+   * Data de término.
+   */
+  dataFim: string | null;
+  /**
+   * Turma.
+   */
+  turma: TurmaFindOneInputDto | null;
+};
+
+export type TurmaDisponibilidadeInputUpdateDto = {
+  /**
+   * Data de início.
+   */
+  dataInicio?: string;
+  /**
+   * Data de término.
+   */
+  dataFim?: string | null;
+  /**
+   * Turma.
+   */
+  turma?: TurmaFindOneInputDto | null;
+};
+
 export type AppControllerGetHelloResponse = {
   /**
    * O nome desta aplicação.
@@ -3135,6 +3211,65 @@ export type EtapaDeleteByIdData = {
 };
 
 export type EtapaDeleteByIdResponse = boolean;
+
+export type TurmaDisponibilidadeListData = {
+  /**
+   * Filtros para 'turma.id'.
+   */
+  filterTurmaId?: Array<string>;
+  /**
+   * Limite de resultados por página.
+   */
+  limit?: number;
+  /**
+   * Página da listagem.
+   */
+  page?: number;
+  /**
+   * Busca textual.
+   */
+  search?: string;
+  /**
+   * Configurações de ordenamento.
+   */
+  sortBy?: Array<string>;
+};
+
+export type TurmaDisponibilidadeListResponse = TurmaDisponibilidadeFindAllResultDto;
+
+export type TurmaDisponibilidadeCreateData = {
+  requestBody: TurmaDisponibilidadeInputCreateDto;
+};
+
+export type TurmaDisponibilidadeCreateResponse = TurmaDisponibilidadeFindOneResultDto;
+
+export type TurmaDisponibilidadeFindByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type TurmaDisponibilidadeFindByIdResponse = TurmaDisponibilidadeFindOneResultDto;
+
+export type TurmaDisponibilidadeUpdateByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  requestBody: TurmaDisponibilidadeInputUpdateDto;
+};
+
+export type TurmaDisponibilidadeUpdateByIdResponse = TurmaDisponibilidadeFindOneResultDto;
+
+export type TurmaDisponibilidadeDeleteByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type TurmaDisponibilidadeDeleteByIdResponse = boolean;
 
 export type $OpenApiTs = {
   '/': {
@@ -4944,6 +5079,95 @@ export type $OpenApiTs = {
       res: {
         /**
          * Resposta da operação "EtapaDeleteById".
+         */
+        200: boolean;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/turmas-disponibilidade': {
+    get: {
+      req: TurmaDisponibilidadeListData;
+      res: {
+        /**
+         * Resposta da operação "TurmaDisponibilidadeList".
+         */
+        200: TurmaDisponibilidadeFindAllResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    post: {
+      req: TurmaDisponibilidadeCreateData;
+      res: {
+        /**
+         * Resposta da operação "TurmaDisponibilidadeCreate".
+         */
+        200: TurmaDisponibilidadeFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/turmas-disponibilidade/{id}': {
+    get: {
+      req: TurmaDisponibilidadeFindByIdData;
+      res: {
+        /**
+         * Resposta da operação "TurmaDisponibilidadeFindById".
+         */
+        200: TurmaDisponibilidadeFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    patch: {
+      req: TurmaDisponibilidadeUpdateByIdData;
+      res: {
+        /**
+         * Resposta da operação "TurmaDisponibilidadeUpdateById".
+         */
+        200: TurmaDisponibilidadeFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    delete: {
+      req: TurmaDisponibilidadeDeleteByIdData;
+      res: {
+        /**
+         * Resposta da operação "TurmaDisponibilidadeDeleteById".
          */
         200: boolean;
         /**
