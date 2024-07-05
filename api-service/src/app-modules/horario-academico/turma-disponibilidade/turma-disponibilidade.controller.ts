@@ -43,7 +43,7 @@ export class TurmaDisponibilidadeController {
   //
 
   @Patch('/:id')
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.Create)
+  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.UpdateById)
   async turmaDisponibilidadeUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,

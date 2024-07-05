@@ -35,7 +35,7 @@ export class TurmaDisponibilidadeResolver {
     return this.turmaDisponibilidadeService.turmaDisponibilidadeCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.Create)
+  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.UpdateById)
   async turmaDisponibilidadeUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
