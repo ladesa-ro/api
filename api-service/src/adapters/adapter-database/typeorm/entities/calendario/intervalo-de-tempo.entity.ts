@@ -8,10 +8,7 @@ export class IntervaloDeTempoEntity implements LadesaTypings.IntervaloDeTempo {
   id!: string;
 
   //
-
-  @Column({ name: 'numero', type: 'int' })
-  numero!: number | null;
-
+  
   @Column({ name: 'perido_inicio', type: 'time', nullable: false })
   periodoInicio!: string;
 
