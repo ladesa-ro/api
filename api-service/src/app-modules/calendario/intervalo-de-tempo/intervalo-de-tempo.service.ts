@@ -38,7 +38,7 @@ export class IntervaloDeTempoService {
     const dtoInterval = pick(dto, ['periodoInicio', 'periodoFim',]);
 
 
-    const newInterval = this.intervaloTempoRepository.create(dtoInterval);
+    const newInterval = this.intervaloTempoRepository.create();
 
     this.intervaloTempoRepository.merge(newInterval, {
       ...dtoInterval,
