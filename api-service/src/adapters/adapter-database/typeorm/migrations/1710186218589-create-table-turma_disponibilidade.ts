@@ -28,7 +28,7 @@ export class CreateTableTurmaDisponibilidade1710186218589 implements MigrationIn
           },
           //
           {
-            name: 'id_turma_fk ',
+            name: 'id_turma_fk',
             type: 'uuid',
             isNullable: false,
           },
