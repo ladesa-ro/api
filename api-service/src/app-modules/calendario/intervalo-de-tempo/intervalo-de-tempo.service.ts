@@ -19,7 +19,7 @@ export class IntervaloDeTempoService {
 
   //
 
-  async intervaloFindOne(dto: LadesaTypings.IntervaloDeTempoInput){
+  private async intervaloFindOne(dto: LadesaTypings.IntervaloDeTempoInput){
     return this.intervaloTempoRepository.findOne({
       where: {
         periodoFim: dto.periodoFim,
@@ -46,6 +46,6 @@ export class IntervaloDeTempoService {
 
     await this.intervaloTempoRepository.save(newInterval);
 
-    return this.intervaloTempoRepository.findBy({id: newInterval.id});
+    return this.intervaloTempoRepository.findOneBy({id: newInterval.id});
   }
 }

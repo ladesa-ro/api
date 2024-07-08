@@ -192,6 +192,10 @@ export class DatabaseContextCore {
   }
   // =====================================================
 
+
+  get aulaRepository() {
+    return repositories.createAulaRepository(this.ds);
+  }
   
   // =====================================================
   // == [ Horario Academico ] ============================
