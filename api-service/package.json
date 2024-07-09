@@ -28,7 +28,7 @@
   "dependencies": {
     "@apollo/server": "^4.10.4",
     "@keycloak/keycloak-admin-client": "^25.0.0",
-    "@ladesa-ro/especificacao": "^2.1.7-next.9",
+    "@ladesa-ro/especificacao": "^2.1.7-next.10",
     "@nestjs/apollo": "^12.1.0",
     "@nestjs/common": "^10.3.9",
     "@nestjs/config": "^3.2.2",
