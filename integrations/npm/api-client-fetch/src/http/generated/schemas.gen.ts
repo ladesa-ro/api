@@ -529,98 +529,6 @@ export const $UsuarioInputUpdateDto = {
   },
 } as const;
 
-export const $VinculoFindAllResultDto = {
-  type: 'object',
-  properties: {
-    meta: {
-      nullable: false,
-      description: 'Metadados da busca.',
-      allOf: [
-        {
-          $ref: '#/components/schemas/PaginatedResultMetaDto',
-        },
-      ],
-    },
-    data: {
-      nullable: false,
-      description: 'Resultados da busca atual.',
-      type: 'array',
-      items: {
-        $ref: '#/components/schemas/VinculoFindAllResultDto',
-      },
-    },
-    links: {
-      nullable: false,
-      description: 'Links da busca.',
-      allOf: [
-        {
-          $ref: '#/components/schemas/PaginatedResultLinksDto',
-        },
-      ],
-    },
-  },
-  required: ['meta', 'data', 'links'],
-} as const;
-
-export const $CampusFindOneInputDto = {
-  type: 'object',
-  properties: {
-    id: {
-      type: 'string',
-      format: 'uuid',
-      nullable: false,
-      description: 'ID do Registro.',
-    },
-  },
-  required: ['id'],
-} as const;
-
-export const $UsuarioFindOneInputDto = {
-  type: 'object',
-  properties: {
-    id: {
-      type: 'string',
-      format: 'uuid',
-      nullable: false,
-      description: 'ID do Registro.',
-    },
-  },
-  required: ['id'],
-} as const;
-
-export const $VinculoUpdateInputDto = {
-  type: 'object',
-  properties: {
-    campus: {
-      nullable: false,
-      description: 'Campus associado ao vínculo.',
-      allOf: [
-        {
-          $ref: '#/components/schemas/CampusFindOneInputDto',
-        },
-      ],
-    },
-    usuario: {
-      nullable: false,
-      description: 'Usuário associado ao vínculo.',
-      allOf: [
-        {
-          $ref: '#/components/schemas/UsuarioFindOneInputDto',
-        },
-      ],
-    },
-    cargos: {
-      nullable: false,
-      description: 'Cargos do usuário no vínculo.',
-      type: 'array',
-      items: {
-        type: 'string',
-      },
-    },
-  },
-  required: ['campus', 'usuario', 'cargos'],
-} as const;
-
 export const $EstadoFindOneResultDto = {
   type: 'object',
   properties: {
@@ -797,6 +705,157 @@ export const $CampusFindOneResultDto = {
     },
   },
   required: ['nomeFantasia', 'razaoSocial', 'apelido', 'cnpj', 'endereco', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+} as const;
+
+export const $VinculoFindOneResultDto = {
+  type: 'object',
+  properties: {
+    ativo: {
+      type: 'boolean',
+      nullable: false,
+      description: 'Indica se o vínculo está ativo.',
+    },
+    cargo: {
+      type: 'string',
+      nullable: false,
+      description: 'Cargo do usuário no vínculo.',
+    },
+    campus: {
+      nullable: false,
+      description: 'Campus associado ao vínculo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/CampusFindOneResultDto',
+        },
+      ],
+    },
+    usuario: {
+      nullable: false,
+      description: 'Usuário associado ao vínculo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/UsuarioFindOneResultDto',
+        },
+      ],
+    },
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+    dateCreated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Criação do Registro.',
+    },
+    dateUpdated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Atualização do Registro.',
+    },
+    dateDeleted: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data de Exclusão do Registro.',
+    },
+  },
+  required: ['ativo', 'cargo', 'campus', 'usuario', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+} as const;
+
+export const $VinculoFindAllResultDto = {
+  type: 'object',
+  properties: {
+    meta: {
+      nullable: false,
+      description: 'Metadados da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultMetaDto',
+        },
+      ],
+    },
+    data: {
+      nullable: false,
+      description: 'Resultados da busca atual.',
+      type: 'array',
+      items: {
+        $ref: '#/components/schemas/VinculoFindOneResultDto',
+      },
+    },
+    links: {
+      nullable: false,
+      description: 'Links da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultLinksDto',
+        },
+      ],
+    },
+  },
+  required: ['meta', 'data', 'links'],
+} as const;
+
+export const $CampusFindOneInputDto = {
+  type: 'object',
+  properties: {
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+  },
+  required: ['id'],
+} as const;
+
+export const $UsuarioFindOneInputDto = {
+  type: 'object',
+  properties: {
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+  },
+  required: ['id'],
+} as const;
+
+export const $VinculoUpdateInputDto = {
+  type: 'object',
+  properties: {
+    campus: {
+      nullable: false,
+      description: 'Campus associado ao vínculo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/CampusFindOneInputDto',
+        },
+      ],
+    },
+    usuario: {
+      nullable: false,
+      description: 'Usuário associado ao vínculo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/UsuarioFindOneInputDto',
+        },
+      ],
+    },
+    cargos: {
+      nullable: false,
+      description: 'Cargos do usuário no vínculo.',
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
+  },
+  required: ['campus', 'usuario', 'cargos'],
 } as const;
 
 export const $CampusFindAllResultDto = {
@@ -2953,65 +3012,6 @@ export const $DiarioInputUpdateDto = {
       ],
     },
   },
-} as const;
-
-export const $VinculoFindOneResultDto = {
-  type: 'object',
-  properties: {
-    ativo: {
-      type: 'boolean',
-      nullable: false,
-      description: 'Indica se o vínculo está ativo.',
-    },
-    cargo: {
-      type: 'string',
-      nullable: false,
-      description: 'Cargo do usuário no vínculo.',
-    },
-    campus: {
-      nullable: false,
-      description: 'Campus associado ao vínculo.',
-      allOf: [
-        {
-          $ref: '#/components/schemas/CampusFindOneResultDto',
-        },
-      ],
-    },
-    usuario: {
-      nullable: false,
-      description: 'Usuário associado ao vínculo.',
-      allOf: [
-        {
-          $ref: '#/components/schemas/UsuarioFindOneResultDto',
-        },
-      ],
-    },
-    id: {
-      type: 'string',
-      format: 'uuid',
-      nullable: false,
-      description: 'ID do Registro.',
-    },
-    dateCreated: {
-      type: 'string',
-      format: 'date-time',
-      nullable: false,
-      description: 'Data de Criação do Registro.',
-    },
-    dateUpdated: {
-      type: 'string',
-      format: 'date-time',
-      nullable: false,
-      description: 'Data de Atualização do Registro.',
-    },
-    dateDeleted: {
-      type: 'string',
-      format: 'date-time',
-      nullable: true,
-      description: 'Data de Exclusão do Registro.',
-    },
-  },
-  required: ['ativo', 'cargo', 'campus', 'usuario', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
 } as const;
 
 export const $DiarioProfessorFindOneResultDto = {
