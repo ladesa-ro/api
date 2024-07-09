@@ -468,7 +468,7 @@ export const $UsuarioFindAllResultDto = {
       description: 'Resultados da busca atual.',
       type: 'array',
       items: {
-        $ref: '#/components/schemas/UsuarioFindAllResultDto',
+        $ref: '#/components/schemas/UsuarioFindOneResultDto',
       },
     },
     links: {

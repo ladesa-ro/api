@@ -284,7 +284,7 @@ export type UsuarioFindAllResultDto = {
   /**
    * Resultados da busca atual.
    */
-  data: Array<UsuarioFindAllResultDto>;
+  data: Array<UsuarioFindOneResultDto>;
   /**
    * Links da busca.
    */
