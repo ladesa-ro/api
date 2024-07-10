@@ -79,7 +79,6 @@ export class TurmaDisponibilidadeService {
       defaultSortBy: [],
       filterableColumns: {
         'turma.id': [FilterOperator.EQ],
-        'turma.periodo': [FilterOperator.EQ],
       },
     });
 
@@ -271,7 +270,7 @@ export class TurmaDisponibilidadeService {
         .set({
           dateDeleted: 'NOW()',
         })
-        .where('id = :turmaId', { turmaId: turmaDisponibilidade.id })
+        .where('id = :turmaDisponibilidadeId', { turmaDisponibilidadeId: turmaDisponibilidade.id })
         .andWhere('dateDeleted IS NULL')
         .execute();
     }
