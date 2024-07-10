@@ -205,4 +205,8 @@ export class DatabaseContextCore {
     return repositories.createTurmaDisponibilidadeRepository(this.ds);
   }
   // =====================================================
+  get turmaDisponibilidadeDiaRepository() {
+    return repositories.createTurmaDisponibilidadeDiaRepository(this.ds);
+  }
+  // =====================================================
 }
