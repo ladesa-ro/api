@@ -284,7 +284,7 @@ export type UsuarioFindAllResultDto = {
   /**
    * Resultados da busca atual.
    */
-  data: Array<UsuarioFindAllResultDto>;
+  data: Array<UsuarioFindOneResultDto>;
   /**
    * Links da busca.
    */
@@ -319,50 +319,6 @@ export type UsuarioInputUpdateDto = {
    * E-mail do usuário.
    */
   email?: string;
-};
-
-export type VinculoFindAllResultDto = {
-  /**
-   * Metadados da busca.
-   */
-  meta: PaginatedResultMetaDto;
-  /**
-   * Resultados da busca atual.
-   */
-  data: Array<VinculoFindAllResultDto>;
-  /**
-   * Links da busca.
-   */
-  links: PaginatedResultLinksDto;
-};
-
-export type CampusFindOneInputDto = {
-  /**
-   * ID do Registro.
-   */
-  id: string;
-};
-
-export type UsuarioFindOneInputDto = {
-  /**
-   * ID do Registro.
-   */
-  id: string;
-};
-
-export type VinculoUpdateInputDto = {
-  /**
-   * Campus associado ao vínculo.
-   */
-  campus: CampusFindOneInputDto;
-  /**
-   * Usuário associado ao vínculo.
-   */
-  usuario: UsuarioFindOneInputDto;
-  /**
-   * Cargos do usuário no vínculo.
-   */
-  cargos: Array<string>;
 };
 
 export type EstadoFindOneResultDto = {
@@ -476,6 +432,85 @@ export type CampusFindOneResultDto = {
    * Data de Exclusão do Registro.
    */
   dateDeleted: string | null;
+};
+
+export type VinculoFindOneResultDto = {
+  /**
+   * Indica se o vínculo está ativo.
+   */
+  ativo: boolean;
+  /**
+   * Cargo do usuário no vínculo.
+   */
+  cargo: string;
+  /**
+   * Campus associado ao vínculo.
+   */
+  campus: CampusFindOneResultDto;
+  /**
+   * Usuário associado ao vínculo.
+   */
+  usuario: UsuarioFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type VinculoFindAllResultDto = {
+  /**
+   * Metadados da busca.
+   */
+  meta: PaginatedResultMetaDto;
+  /**
+   * Resultados da busca atual.
+   */
+  data: Array<VinculoFindOneResultDto>;
+  /**
+   * Links da busca.
+   */
+  links: PaginatedResultLinksDto;
+};
+
+export type CampusFindOneInputDto = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type UsuarioFindOneInputDto = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type VinculoUpdateInputDto = {
+  /**
+   * Campus associado ao vínculo.
+   */
+  campus: CampusFindOneInputDto;
+  /**
+   * Usuário associado ao vínculo.
+   */
+  usuario: UsuarioFindOneInputDto;
+  /**
+   * Cargos do usuário no vínculo.
+   */
+  cargos: Array<string>;
 };
 
 export type CampusFindAllResultDto = {
@@ -1690,41 +1725,6 @@ export type DiarioInputUpdateDto = {
    * Ambiente padrão.
    */
   ambientePadrao?: AmbienteFindOneInputDto | null;
-};
-
-export type VinculoFindOneResultDto = {
-  /**
-   * Indica se o vínculo está ativo.
-   */
-  ativo: boolean;
-  /**
-   * Cargo do usuário no vínculo.
-   */
-  cargo: string;
-  /**
-   * Campus associado ao vínculo.
-   */
-  campus: CampusFindOneResultDto;
-  /**
-   * Usuário associado ao vínculo.
-   */
-  usuario: UsuarioFindOneResultDto;
-  /**
-   * ID do Registro.
-   */
-  id: string;
-  /**
-   * Data de Criação do Registro.
-   */
-  dateCreated: string;
-  /**
-   * Data de Atualização do Registro.
-   */
-  dateUpdated: string;
-  /**
-   * Data de Exclusão do Registro.
-   */
-  dateDeleted: string | null;
 };
 
 export type DiarioProfessorFindOneResultDto = {
