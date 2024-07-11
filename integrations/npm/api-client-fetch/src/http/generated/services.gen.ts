@@ -203,6 +203,16 @@ import type {
   EtapaUpdateByIdResponse,
   EtapaDeleteByIdData,
   EtapaDeleteByIdResponse,
+  AulaListData,
+  AulaListResponse,
+  AulaCreateData,
+  AulaCreateResponse,
+  AulaFindByIdData,
+  AulaFindByIdResponse,
+  AulaUpdateByIdData,
+  AulaUpdateByIdResponse,
+  AulaDeleteByIdData,
+  AulaDeleteByIdResponse,
   TurmaDisponibilidadeListData,
   TurmaDisponibilidadeListResponse,
   TurmaDisponibilidadeCreateData,
@@ -213,6 +223,16 @@ import type {
   TurmaDisponibilidadeUpdateByIdResponse,
   TurmaDisponibilidadeDeleteByIdData,
   TurmaDisponibilidadeDeleteByIdResponse,
+  TurmaDisponibilidadeDiaListData,
+  TurmaDisponibilidadeDiaListResponse,
+  TurmaDisponibilidadeDiaCreateData,
+  TurmaDisponibilidadeDiaCreateResponse,
+  TurmaDisponibilidadeDiaFindByIdData,
+  TurmaDisponibilidadeDiaFindByIdResponse,
+  TurmaDisponibilidadeDiaUpdateByIdData,
+  TurmaDisponibilidadeDiaUpdateByIdResponse,
+  TurmaDisponibilidadeDiaDeleteByIdData,
+  TurmaDisponibilidadeDiaDeleteByIdResponse,
 } from './types.gen';
 
 export class BaseService {
@@ -2627,6 +2647,127 @@ export class EtapasService {
   }
 }
 
+export class AulasService {
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Operação 'AulaList'.
+   * @param data The data for the request.
+   * @param data.page Página da listagem.
+   * @param data.limit Limite de resultados por página.
+   * @param data.search Busca textual.
+   * @param data.sortBy Configurações de ordenamento.
+   * @param data.filterDiarioId Filtros para 'diario.id'.
+   * @param data.filterAmbienteId Filtros para 'ambiente.id'.
+   * @returns AulaFindAllResultDto Resposta da operação "AulaList".
+   * @throws ApiError
+   */
+  public aulaList(data: AulaListData = {}): CancelablePromise<AulaListResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/aulas',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.diario.id': data.filterDiarioId,
+        'filter.ambiente.id': data.filterAmbienteId,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'AulaCreate'.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns AulaFindOneResultDto Resposta da operação "AulaCreate".
+   * @throws ApiError
+   */
+  public aulaCreate(data: AulaCreateData): CancelablePromise<AulaCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/aulas',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'AulaFindById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns AulaFindOneResultDto Resposta da operação "AulaFindById".
+   * @throws ApiError
+   */
+  public aulaFindById(data: AulaFindByIdData): CancelablePromise<AulaFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/aulas/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Update operation
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @param data.requestBody
+   * @returns AulaFindOneResultDto Resposta da operação "AulaUpdateById".
+   * @throws ApiError
+   */
+  public aulaUpdateById(data: AulaUpdateByIdData): CancelablePromise<AulaUpdateByIdResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/aulas/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'AulaDeleteById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns boolean Resposta da operação "AulaDeleteById".
+   * @throws ApiError
+   */
+  public aulaDeleteById(data: AulaDeleteByIdData): CancelablePromise<AulaDeleteByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/aulas/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+}
+
 export class TurmasDisponibilidadeService {
   constructor(public readonly httpRequest: BaseHttpRequest) {}
 
@@ -2735,6 +2876,127 @@ export class TurmasDisponibilidadeService {
     return this.httpRequest.request({
       method: 'DELETE',
       url: '/turmas-disponibilidade/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+}
+
+export class TurmasDisponibilidadeDiaService {
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Operação 'TurmaDisponibilidadeDiaList'.
+   * @param data The data for the request.
+   * @param data.page Página da listagem.
+   * @param data.limit Limite de resultados por página.
+   * @param data.search Busca textual.
+   * @param data.sortBy Configurações de ordenamento.
+   * @param data.filterIntervaloDeTempoId Filtros para 'intervaloDeTempo.id'.
+   * @param data.filterTurmaDisponibilidadeId Filtros para 'turmaDisponibilidade.id'.
+   * @returns TurmaDisponibilidadeDiaFindAllResultDto Resposta da operação "TurmaDisponibilidadeDiaList".
+   * @throws ApiError
+   */
+  public turmaDisponibilidadeDiaList(data: TurmaDisponibilidadeDiaListData = {}): CancelablePromise<TurmaDisponibilidadeDiaListResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/turmas-disponibilidade-dia',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.intervaloDeTempo.id': data.filterIntervaloDeTempoId,
+        'filter.turmaDisponibilidade.id': data.filterTurmaDisponibilidadeId,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'TurmaDisponibilidadeDiaCreate'.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns TurmaDisponibilidadeDiaFindOneResultDto Resposta da operação "TurmaDisponibilidadeDiaCreate".
+   * @throws ApiError
+   */
+  public turmaDisponibilidadeDiaCreate(data: TurmaDisponibilidadeDiaCreateData): CancelablePromise<TurmaDisponibilidadeDiaCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/turmas-disponibilidade-dia',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'TurmaDisponibilidadeDiaFindById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns TurmaDisponibilidadeDiaFindOneResultDto Resposta da operação "TurmaDisponibilidadeDiaFindById".
+   * @throws ApiError
+   */
+  public turmaDisponibilidadeDiaFindById(data: TurmaDisponibilidadeDiaFindByIdData): CancelablePromise<TurmaDisponibilidadeDiaFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/turmas-disponibilidade-dia/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Update operation
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @param data.requestBody
+   * @returns TurmaDisponibilidadeDiaFindOneResultDto Resposta da operação "TurmaDisponibilidadeDiaUpdateById".
+   * @throws ApiError
+   */
+  public turmaDisponibilidadeDiaUpdateById(data: TurmaDisponibilidadeDiaUpdateByIdData): CancelablePromise<TurmaDisponibilidadeDiaUpdateByIdResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/turmas-disponibilidade-dia/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'TurmaDisponibilidadeDiaDeleteById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns boolean Resposta da operação "TurmaDisponibilidadeDiaDeleteById".
+   * @throws ApiError
+   */
+  public turmaDisponibilidadeDiaDeleteById(data: TurmaDisponibilidadeDiaDeleteByIdData): CancelablePromise<TurmaDisponibilidadeDiaDeleteByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/turmas-disponibilidade-dia/{id}',
       path: {
         id: data.id,
       },

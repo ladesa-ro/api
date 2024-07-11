@@ -1905,6 +1905,144 @@ export type EtapaInputUpdateDto = {
   calendario?: CalendarioLetivoFindOneInputDto | null;
 };
 
+export type IntervaloDeTempoFindOneResultDto = {
+  /**
+   * Horário que o intervalo de tempo inicia.
+   */
+  periodoInicio: string;
+  /**
+   * Horário que o intervalo de tempo termina.
+   */
+  periodoFim: string;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type AulaFindOneResultDto = {
+  /**
+   * Formato da aula.
+   */
+  formato: string | null;
+  /**
+   * Data da aula.
+   */
+  data: string;
+  /**
+   * Intervalo de Tempo associado à aula.
+   */
+  intervaloDeTempo: IntervaloDeTempoFindOneResultDto;
+  /**
+   * Diário associado à aula.
+   */
+  diario: DiarioFindOneResultDto;
+  /**
+   * Ambiente associado à aula.
+   */
+  ambiente: AmbienteFindOneResultDto | null;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type AulaFindAllResultDto = {
+  /**
+   * Metadados da busca.
+   */
+  meta: PaginatedResultMetaDto;
+  /**
+   * Resultados da busca atual.
+   */
+  data: Array<AulaFindOneResultDto>;
+  /**
+   * Links da busca.
+   */
+  links: PaginatedResultLinksDto;
+};
+
+export type IntervaloDeTempoInputDto = {
+  /**
+   * Horário que o intervalo de tempo inicia.
+   */
+  periodoInicio: string;
+  /**
+   * Horário que o intervalo de tempo termina.
+   */
+  periodoFim: string;
+};
+
+export type AulaInputCreateDto = {
+  /**
+   * Formato da aula.
+   */
+  formato: string | null;
+  /**
+   * Data da aula.
+   */
+  data: string;
+  /**
+   * Intervalo de Tempo associado à aula.
+   */
+  intervaloDeTempo: IntervaloDeTempoInputDto;
+  /**
+   * Diário associado à aula.
+   */
+  diario: DiarioFindOneInputDto;
+  /**
+   * Ambiente associado à aula.
+   */
+  ambiente: AmbienteFindOneInputDto | null;
+};
+
+export type AulaInputUpdateDto = {
+  /**
+   * Formato da aula.
+   */
+  formato?: string | null;
+  /**
+   * Data da aula.
+   */
+  data?: string;
+  /**
+   * Intervalo de Tempo associado à aula.
+   */
+  intervaloDeTempo?: IntervaloDeTempoInputDto;
+  /**
+   * Diário associado à aula.
+   */
+  diario?: DiarioFindOneInputDto;
+  /**
+   * Ambiente associado à aula.
+   */
+  ambiente?: AmbienteFindOneInputDto | null;
+};
+
 export type TurmaDisponibilidadeFindOneResultDto = {
   /**
    * Data de início.
@@ -1979,6 +2117,77 @@ export type TurmaDisponibilidadeInputUpdateDto = {
    * Turma.
    */
   turma?: TurmaFindOneInputDto | null;
+};
+
+export type TurmaDisponibilidadeDiaFindOneResultDto = {
+  /**
+   * Dia da semana.
+   */
+  diaSemanaIso: number;
+  /**
+   * Intervalo de tempo.
+   */
+  intervaloDeTempo: IntervaloDeTempoFindOneResultDto | null;
+  /**
+   * Disponibilidade da turma.
+   */
+  turmaDisponibilidade: TurmaDisponibilidadeFindOneResultDto | null;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type TurmaDisponibilidadeDiaFindAllResultDto = {
+  /**
+   * Metadados da busca.
+   */
+  meta: PaginatedResultMetaDto;
+  /**
+   * Resultados da busca atual.
+   */
+  data: Array<TurmaDisponibilidadeDiaFindOneResultDto>;
+  /**
+   * Links da busca.
+   */
+  links: PaginatedResultLinksDto;
+};
+
+export type TurmaDisponibilidadeFindOneInputDto = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type TurmaDisponibilidadeDiaInputCreateDto = {
+  /**
+   * Dia da semana.
+   */
+  diaSemanaIso: number;
+  /**
+   * Intervalo de tempo.
+   */
+  intervaloDeTempo: IntervaloDeTempoInputDto | null;
+  /**
+   * Disponibilidade da turma.
+   */
+  turmaDisponibilidade: TurmaDisponibilidadeFindOneInputDto | null;
+};
+
+export type TurmaDisponibilidadeDiaInputUpdateDto = {
+  /**
+   * Dia da semana.
+   */
+  diaSemanaIso?: number;
+  /**
+   * Intervalo de tempo.
+   */
+  intervaloDeTempo?: IntervaloDeTempoInputDto | null;
+  /**
+   * Disponibilidade da turma.
+   */
+  turmaDisponibilidade?: TurmaDisponibilidadeFindOneInputDto | null;
 };
 
 export type AppControllerGetHelloResponse = {
@@ -3212,6 +3421,69 @@ export type EtapaDeleteByIdData = {
 
 export type EtapaDeleteByIdResponse = boolean;
 
+export type AulaListData = {
+  /**
+   * Filtros para 'ambiente.id'.
+   */
+  filterAmbienteId?: Array<string>;
+  /**
+   * Filtros para 'diario.id'.
+   */
+  filterDiarioId?: Array<string>;
+  /**
+   * Limite de resultados por página.
+   */
+  limit?: number;
+  /**
+   * Página da listagem.
+   */
+  page?: number;
+  /**
+   * Busca textual.
+   */
+  search?: string;
+  /**
+   * Configurações de ordenamento.
+   */
+  sortBy?: Array<string>;
+};
+
+export type AulaListResponse = AulaFindAllResultDto;
+
+export type AulaCreateData = {
+  requestBody: AulaInputCreateDto;
+};
+
+export type AulaCreateResponse = AulaFindOneResultDto;
+
+export type AulaFindByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type AulaFindByIdResponse = AulaFindOneResultDto;
+
+export type AulaUpdateByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  requestBody: AulaInputUpdateDto;
+};
+
+export type AulaUpdateByIdResponse = AulaFindOneResultDto;
+
+export type AulaDeleteByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type AulaDeleteByIdResponse = boolean;
+
 export type TurmaDisponibilidadeListData = {
   /**
    * Filtros para 'turma.id'.
@@ -3270,6 +3542,69 @@ export type TurmaDisponibilidadeDeleteByIdData = {
 };
 
 export type TurmaDisponibilidadeDeleteByIdResponse = boolean;
+
+export type TurmaDisponibilidadeDiaListData = {
+  /**
+   * Filtros para 'intervaloDeTempo.id'.
+   */
+  filterIntervaloDeTempoId?: Array<string>;
+  /**
+   * Filtros para 'turmaDisponibilidade.id'.
+   */
+  filterTurmaDisponibilidadeId?: Array<string>;
+  /**
+   * Limite de resultados por página.
+   */
+  limit?: number;
+  /**
+   * Página da listagem.
+   */
+  page?: number;
+  /**
+   * Busca textual.
+   */
+  search?: string;
+  /**
+   * Configurações de ordenamento.
+   */
+  sortBy?: Array<string>;
+};
+
+export type TurmaDisponibilidadeDiaListResponse = TurmaDisponibilidadeDiaFindAllResultDto;
+
+export type TurmaDisponibilidadeDiaCreateData = {
+  requestBody: TurmaDisponibilidadeDiaInputCreateDto;
+};
+
+export type TurmaDisponibilidadeDiaCreateResponse = TurmaDisponibilidadeDiaFindOneResultDto;
+
+export type TurmaDisponibilidadeDiaFindByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type TurmaDisponibilidadeDiaFindByIdResponse = TurmaDisponibilidadeDiaFindOneResultDto;
+
+export type TurmaDisponibilidadeDiaUpdateByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  requestBody: TurmaDisponibilidadeDiaInputUpdateDto;
+};
+
+export type TurmaDisponibilidadeDiaUpdateByIdResponse = TurmaDisponibilidadeDiaFindOneResultDto;
+
+export type TurmaDisponibilidadeDiaDeleteByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type TurmaDisponibilidadeDiaDeleteByIdResponse = boolean;
 
 export type $OpenApiTs = {
   '/': {
@@ -5092,6 +5427,95 @@ export type $OpenApiTs = {
       };
     };
   };
+  '/aulas': {
+    get: {
+      req: AulaListData;
+      res: {
+        /**
+         * Resposta da operação "AulaList".
+         */
+        200: AulaFindAllResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    post: {
+      req: AulaCreateData;
+      res: {
+        /**
+         * Resposta da operação "AulaCreate".
+         */
+        200: AulaFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/aulas/{id}': {
+    get: {
+      req: AulaFindByIdData;
+      res: {
+        /**
+         * Resposta da operação "AulaFindById".
+         */
+        200: AulaFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    patch: {
+      req: AulaUpdateByIdData;
+      res: {
+        /**
+         * Resposta da operação "AulaUpdateById".
+         */
+        200: AulaFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    delete: {
+      req: AulaDeleteByIdData;
+      res: {
+        /**
+         * Resposta da operação "AulaDeleteById".
+         */
+        200: boolean;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
   '/turmas-disponibilidade': {
     get: {
       req: TurmaDisponibilidadeListData;
@@ -5168,6 +5592,95 @@ export type $OpenApiTs = {
       res: {
         /**
          * Resposta da operação "TurmaDisponibilidadeDeleteById".
+         */
+        200: boolean;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/turmas-disponibilidade-dia': {
+    get: {
+      req: TurmaDisponibilidadeDiaListData;
+      res: {
+        /**
+         * Resposta da operação "TurmaDisponibilidadeDiaList".
+         */
+        200: TurmaDisponibilidadeDiaFindAllResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    post: {
+      req: TurmaDisponibilidadeDiaCreateData;
+      res: {
+        /**
+         * Resposta da operação "TurmaDisponibilidadeDiaCreate".
+         */
+        200: TurmaDisponibilidadeDiaFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/turmas-disponibilidade-dia/{id}': {
+    get: {
+      req: TurmaDisponibilidadeDiaFindByIdData;
+      res: {
+        /**
+         * Resposta da operação "TurmaDisponibilidadeDiaFindById".
+         */
+        200: TurmaDisponibilidadeDiaFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    patch: {
+      req: TurmaDisponibilidadeDiaUpdateByIdData;
+      res: {
+        /**
+         * Resposta da operação "TurmaDisponibilidadeDiaUpdateById".
+         */
+        200: TurmaDisponibilidadeDiaFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    delete: {
+      req: TurmaDisponibilidadeDiaDeleteByIdData;
+      res: {
+        /**
+         * Resposta da operação "TurmaDisponibilidadeDiaDeleteById".
          */
         200: boolean;
         /**

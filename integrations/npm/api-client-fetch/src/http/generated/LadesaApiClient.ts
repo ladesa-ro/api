@@ -5,6 +5,7 @@ import { FetchHttpRequest } from './core/FetchHttpRequest';
 
 import { AmbientesService } from './services.gen';
 import { ArquivosService } from './services.gen';
+import { AulasService } from './services.gen';
 import { AutenticacaoService } from './services.gen';
 import { BaseService } from './services.gen';
 import { BlocosService } from './services.gen';
@@ -23,6 +24,7 @@ import { ModalidadesService } from './services.gen';
 import { ReservasService } from './services.gen';
 import { TurmasService } from './services.gen';
 import { TurmasDisponibilidadeService } from './services.gen';
+import { TurmasDisponibilidadeDiaService } from './services.gen';
 import { UsuariosService } from './services.gen';
 import { VinculosService } from './services.gen';
 
@@ -31,6 +33,7 @@ type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 export class LadesaApiClient {
   public readonly ambientes: AmbientesService;
   public readonly arquivos: ArquivosService;
+  public readonly aulas: AulasService;
   public readonly autenticacao: AutenticacaoService;
   public readonly base: BaseService;
   public readonly blocos: BlocosService;
@@ -49,6 +52,7 @@ export class LadesaApiClient {
   public readonly reservas: ReservasService;
   public readonly turmas: TurmasService;
   public readonly turmasDisponibilidade: TurmasDisponibilidadeService;
+  public readonly turmasDisponibilidadeDia: TurmasDisponibilidadeDiaService;
   public readonly usuarios: UsuariosService;
   public readonly vinculos: VinculosService;
 
@@ -73,6 +77,7 @@ export class LadesaApiClient {
 
     this.ambientes = new AmbientesService(this.request);
     this.arquivos = new ArquivosService(this.request);
+    this.aulas = new AulasService(this.request);
     this.autenticacao = new AutenticacaoService(this.request);
     this.base = new BaseService(this.request);
     this.blocos = new BlocosService(this.request);
@@ -91,6 +96,7 @@ export class LadesaApiClient {
     this.reservas = new ReservasService(this.request);
     this.turmas = new TurmasService(this.request);
     this.turmasDisponibilidade = new TurmasDisponibilidadeService(this.request);
+    this.turmasDisponibilidadeDia = new TurmasDisponibilidadeDiaService(this.request);
     this.usuarios = new UsuariosService(this.request);
     this.vinculos = new VinculosService(this.request);
   }

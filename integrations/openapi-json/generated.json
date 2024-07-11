@@ -5624,6 +5624,287 @@
         ]
       }
     },
+    "/aulas": {
+      "get": {
+        "operationId": "aulaList",
+        "summary": "",
+        "description": "Operação 'AulaList'.",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Página da listagem.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Limite de resultados por página.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Busca textual.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Configurações de ordenamento.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "filter.diario.id",
+            "required": false,
+            "in": "query",
+            "description": "Filtros para 'diario.id'.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "filter.ambiente.id",
+            "required": false,
+            "in": "query",
+            "description": "Filtros para 'ambiente.id'.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resposta da operação \"AulaList\".",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AulaFindAllResultDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "O solicitante não tem permissão para executar esta ação."
+          },
+          "404": {
+            "description": "Registro não encontrado."
+          }
+        },
+        "tags": [
+          "Aulas"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "aulaCreate",
+        "summary": "",
+        "description": "Operação 'AulaCreate'.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AulaInputCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resposta da operação \"AulaCreate\".",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AulaFindOneResultDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "O solicitante não tem permissão para executar esta ação."
+          },
+          "404": {
+            "description": "Registro não encontrado."
+          }
+        },
+        "tags": [
+          "Aulas"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/aulas/{id}": {
+      "get": {
+        "operationId": "aulaFindById",
+        "summary": "",
+        "description": "Operação 'AulaFindById'.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID do Registro.",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resposta da operação \"AulaFindById\".",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AulaFindOneResultDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "O solicitante não tem permissão para executar esta ação."
+          },
+          "404": {
+            "description": "Registro não encontrado."
+          }
+        },
+        "tags": [
+          "Aulas"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "aulaUpdateById",
+        "summary": "",
+        "description": "Update operation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID do Registro.",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AulaInputUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resposta da operação \"AulaUpdateById\".",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AulaFindOneResultDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "O solicitante não tem permissão para executar esta ação."
+          },
+          "404": {
+            "description": "Registro não encontrado."
+          }
+        },
+        "tags": [
+          "Aulas"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "aulaDeleteById",
+        "summary": "",
+        "description": "Operação 'AulaDeleteById'.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID do Registro.",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resposta da operação \"AulaDeleteById\".",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "O solicitante não tem permissão para executar esta ação."
+          },
+          "404": {
+            "description": "Registro não encontrado."
+          }
+        },
+        "tags": [
+          "Aulas"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/turmas-disponibilidade": {
       "get": {
         "operationId": "turmaDisponibilidadeList",
@@ -5885,6 +6166,287 @@
         },
         "tags": [
           "Turmas Disponibilidade"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/turmas-disponibilidade-dia": {
+      "get": {
+        "operationId": "turmaDisponibilidadeDiaList",
+        "summary": "",
+        "description": "Operação 'TurmaDisponibilidadeDiaList'.",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Página da listagem.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Limite de resultados por página.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Busca textual.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Configurações de ordenamento.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "filter.intervaloDeTempo.id",
+            "required": false,
+            "in": "query",
+            "description": "Filtros para 'intervaloDeTempo.id'.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "filter.turmaDisponibilidade.id",
+            "required": false,
+            "in": "query",
+            "description": "Filtros para 'turmaDisponibilidade.id'.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resposta da operação \"TurmaDisponibilidadeDiaList\".",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TurmaDisponibilidadeDiaFindAllResultDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "O solicitante não tem permissão para executar esta ação."
+          },
+          "404": {
+            "description": "Registro não encontrado."
+          }
+        },
+        "tags": [
+          "Turmas Disponibilidade Dia"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "turmaDisponibilidadeDiaCreate",
+        "summary": "",
+        "description": "Operação 'TurmaDisponibilidadeDiaCreate'.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TurmaDisponibilidadeDiaInputCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resposta da operação \"TurmaDisponibilidadeDiaCreate\".",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TurmaDisponibilidadeDiaFindOneResultDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "O solicitante não tem permissão para executar esta ação."
+          },
+          "404": {
+            "description": "Registro não encontrado."
+          }
+        },
+        "tags": [
+          "Turmas Disponibilidade Dia"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/turmas-disponibilidade-dia/{id}": {
+      "get": {
+        "operationId": "turmaDisponibilidadeDiaFindById",
+        "summary": "",
+        "description": "Operação 'TurmaDisponibilidadeDiaFindById'.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID do Registro.",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resposta da operação \"TurmaDisponibilidadeDiaFindById\".",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TurmaDisponibilidadeDiaFindOneResultDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "O solicitante não tem permissão para executar esta ação."
+          },
+          "404": {
+            "description": "Registro não encontrado."
+          }
+        },
+        "tags": [
+          "Turmas Disponibilidade Dia"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "turmaDisponibilidadeDiaUpdateById",
+        "summary": "",
+        "description": "Update operation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID do Registro.",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TurmaDisponibilidadeDiaInputUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resposta da operação \"TurmaDisponibilidadeDiaUpdateById\".",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TurmaDisponibilidadeDiaFindOneResultDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "O solicitante não tem permissão para executar esta ação."
+          },
+          "404": {
+            "description": "Registro não encontrado."
+          }
+        },
+        "tags": [
+          "Turmas Disponibilidade Dia"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "turmaDisponibilidadeDiaDeleteById",
+        "summary": "",
+        "description": "Operação 'TurmaDisponibilidadeDiaDeleteById'.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID do Registro.",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resposta da operação \"TurmaDisponibilidadeDiaDeleteById\".",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "O solicitante não tem permissão para executar esta ação."
+          },
+          "404": {
+            "description": "Registro não encontrado."
+          }
+        },
+        "tags": [
+          "Turmas Disponibilidade Dia"
         ],
         "security": [
           {
@@ -9652,6 +10214,283 @@
           }
         }
       },
+      "IntervaloDeTempoFindOneResultDto": {
+        "type": "object",
+        "properties": {
+          "periodoInicio": {
+            "type": "string",
+            "format": "time",
+            "nullable": false,
+            "description": "Horário que o intervalo de tempo inicia."
+          },
+          "periodoFim": {
+            "type": "string",
+            "format": "time",
+            "nullable": false,
+            "description": "Horário que o intervalo de tempo termina."
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": false,
+            "description": "ID do Registro."
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": false,
+            "description": "Data de Criação do Registro."
+          },
+          "dateUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": false,
+            "description": "Data de Atualização do Registro."
+          },
+          "dateDeleted": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Data de Exclusão do Registro."
+          }
+        },
+        "required": [
+          "periodoInicio",
+          "periodoFim",
+          "id",
+          "dateCreated",
+          "dateUpdated",
+          "dateDeleted"
+        ]
+      },
+      "AulaFindOneResultDto": {
+        "type": "object",
+        "properties": {
+          "formato": {
+            "type": "string",
+            "nullable": true,
+            "description": "Formato da aula."
+          },
+          "data": {
+            "type": "string",
+            "format": "date",
+            "nullable": false,
+            "description": "Data da aula."
+          },
+          "intervaloDeTempo": {
+            "nullable": false,
+            "description": "Intervalo de Tempo associado à aula.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntervaloDeTempoFindOneResultDto"
+              }
+            ]
+          },
+          "diario": {
+            "nullable": false,
+            "description": "Diário associado à aula.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DiarioFindOneResultDto"
+              }
+            ]
+          },
+          "ambiente": {
+            "nullable": true,
+            "description": "Ambiente associado à aula.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmbienteFindOneResultDto"
+              }
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": false,
+            "description": "ID do Registro."
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": false,
+            "description": "Data de Criação do Registro."
+          },
+          "dateUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": false,
+            "description": "Data de Atualização do Registro."
+          },
+          "dateDeleted": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Data de Exclusão do Registro."
+          }
+        },
+        "required": [
+          "formato",
+          "data",
+          "intervaloDeTempo",
+          "diario",
+          "ambiente",
+          "id",
+          "dateCreated",
+          "dateUpdated",
+          "dateDeleted"
+        ]
+      },
+      "AulaFindAllResultDto": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "nullable": false,
+            "description": "Metadados da busca.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaginatedResultMetaDto"
+              }
+            ]
+          },
+          "data": {
+            "nullable": false,
+            "description": "Resultados da busca atual.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AulaFindOneResultDto"
+            }
+          },
+          "links": {
+            "nullable": false,
+            "description": "Links da busca.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaginatedResultLinksDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "meta",
+          "data",
+          "links"
+        ]
+      },
+      "IntervaloDeTempoInputDto": {
+        "type": "object",
+        "properties": {
+          "periodoInicio": {
+            "type": "string",
+            "format": "time",
+            "nullable": false,
+            "description": "Horário que o intervalo de tempo inicia."
+          },
+          "periodoFim": {
+            "type": "string",
+            "format": "time",
+            "nullable": false,
+            "description": "Horário que o intervalo de tempo termina."
+          }
+        },
+        "required": [
+          "periodoInicio",
+          "periodoFim"
+        ]
+      },
+      "AulaInputCreateDto": {
+        "type": "object",
+        "properties": {
+          "formato": {
+            "type": "string",
+            "nullable": true,
+            "description": "Formato da aula."
+          },
+          "data": {
+            "type": "string",
+            "format": "date",
+            "nullable": false,
+            "description": "Data da aula."
+          },
+          "intervaloDeTempo": {
+            "nullable": false,
+            "description": "Intervalo de Tempo associado à aula.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntervaloDeTempoInputDto"
+              }
+            ]
+          },
+          "diario": {
+            "nullable": false,
+            "description": "Diário associado à aula.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DiarioFindOneInputDto"
+              }
+            ]
+          },
+          "ambiente": {
+            "nullable": true,
+            "description": "Ambiente associado à aula.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmbienteFindOneInputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "formato",
+          "data",
+          "intervaloDeTempo",
+          "diario",
+          "ambiente"
+        ]
+      },
+      "AulaInputUpdateDto": {
+        "type": "object",
+        "properties": {
+          "formato": {
+            "type": "string",
+            "nullable": true,
+            "description": "Formato da aula."
+          },
+          "data": {
+            "type": "string",
+            "format": "date",
+            "nullable": false,
+            "description": "Data da aula."
+          },
+          "intervaloDeTempo": {
+            "nullable": false,
+            "description": "Intervalo de Tempo associado à aula.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntervaloDeTempoInputDto"
+              }
+            ]
+          },
+          "diario": {
+            "nullable": false,
+            "description": "Diário associado à aula.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DiarioFindOneInputDto"
+              }
+            ]
+          },
+          "ambiente": {
+            "nullable": true,
+            "description": "Ambiente associado à aula.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmbienteFindOneInputDto"
+              }
+            ]
+          }
+        }
+      },
       "TurmaDisponibilidadeFindOneResultDto": {
         "type": "object",
         "properties": {
@@ -9799,6 +10638,157 @@
             "allOf": [
               {
                 "$ref": "#/components/schemas/TurmaFindOneInputDto"
+              }
+            ]
+          }
+        }
+      },
+      "TurmaDisponibilidadeDiaFindOneResultDto": {
+        "type": "object",
+        "properties": {
+          "diaSemanaIso": {
+            "type": "integer",
+            "nullable": false,
+            "description": "Dia da semana."
+          },
+          "intervaloDeTempo": {
+            "nullable": true,
+            "description": "Intervalo de tempo.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntervaloDeTempoFindOneResultDto"
+              }
+            ]
+          },
+          "turmaDisponibilidade": {
+            "nullable": true,
+            "description": "Disponibilidade da turma.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TurmaDisponibilidadeFindOneResultDto"
+              }
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": false,
+            "description": "ID do Registro."
+          }
+        },
+        "required": [
+          "diaSemanaIso",
+          "intervaloDeTempo",
+          "turmaDisponibilidade",
+          "id"
+        ]
+      },
+      "TurmaDisponibilidadeDiaFindAllResultDto": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "nullable": false,
+            "description": "Metadados da busca.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaginatedResultMetaDto"
+              }
+            ]
+          },
+          "data": {
+            "nullable": false,
+            "description": "Resultados da busca atual.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TurmaDisponibilidadeDiaFindOneResultDto"
+            }
+          },
+          "links": {
+            "nullable": false,
+            "description": "Links da busca.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaginatedResultLinksDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "meta",
+          "data",
+          "links"
+        ]
+      },
+      "TurmaDisponibilidadeFindOneInputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": false,
+            "description": "ID do Registro."
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "TurmaDisponibilidadeDiaInputCreateDto": {
+        "type": "object",
+        "properties": {
+          "diaSemanaIso": {
+            "type": "integer",
+            "nullable": false,
+            "description": "Dia da semana."
+          },
+          "intervaloDeTempo": {
+            "nullable": true,
+            "description": "Intervalo de tempo.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntervaloDeTempoInputDto"
+              }
+            ]
+          },
+          "turmaDisponibilidade": {
+            "nullable": true,
+            "description": "Disponibilidade da turma.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TurmaDisponibilidadeFindOneInputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "diaSemanaIso",
+          "intervaloDeTempo",
+          "turmaDisponibilidade"
+        ]
+      },
+      "TurmaDisponibilidadeDiaInputUpdateDto": {
+        "type": "object",
+        "properties": {
+          "diaSemanaIso": {
+            "type": "integer",
+            "nullable": false,
+            "description": "Dia da semana."
+          },
+          "intervaloDeTempo": {
+            "nullable": true,
+            "description": "Intervalo de tempo.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntervaloDeTempoInputDto"
+              }
+            ]
+          },
+          "turmaDisponibilidade": {
+            "nullable": true,
+            "description": "Disponibilidade da turma.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TurmaDisponibilidadeFindOneInputDto"
               }
             ]
           }
