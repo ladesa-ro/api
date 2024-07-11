@@ -192,6 +192,10 @@ export class DatabaseContextCore {
   }
   // =====================================================
 
+
+  get aulaRepository() {
+    return repositories.createAulaRepository(this.ds);
+  }
   
   // =====================================================
   // == [ Horario Academico ] ============================
@@ -199,6 +203,10 @@ export class DatabaseContextCore {
 
   get turmaDisponibilidadeRepository() {
     return repositories.createTurmaDisponibilidadeRepository(this.ds);
+  }
+  // =====================================================
+  get turmaDisponibilidadeDiaRepository() {
+    return repositories.createTurmaDisponibilidadeDiaRepository(this.ds);
   }
   // =====================================================
 }

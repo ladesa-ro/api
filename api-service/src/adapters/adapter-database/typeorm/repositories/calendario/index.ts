@@ -3,3 +3,4 @@ export * from '@/adapters/adapter-database/typeorm/repositories/calendario/etapa
 export * from '@/adapters/adapter-database/typeorm/repositories/calendario/evento.repository';
 export * from './calendario-letivo.repository';
 export * from './intervalo-de-tempo.repository';
+export * from './aula.repository';

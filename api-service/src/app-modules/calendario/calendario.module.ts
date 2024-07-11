@@ -5,6 +5,7 @@ import { DiarioProfessorModule } from './diario-professor/diario-professor.modul
 import { DiarioModule } from './diario/diario.module';
 import { EtapaModule } from './etapa/etapa.module';
 import { EventoModule } from './evento/evento.module';
+import { AulaModule } from './aula/aula.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { EventoModule } from './evento/evento.module';
     DiarioModule,
     DiarioProfessorModule,
     EtapaModule,
+    AulaModule
   ],
 })
 export class CalendarioModule {}
