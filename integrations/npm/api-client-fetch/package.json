@@ -70,7 +70,7 @@
     "@release-it/bumper": "^6.0.1",
     "prettier": "^3.2.5",
     "release-it": "^17.6.0",
-    "rimraf": "^5.0.5",
+    "rimraf": "^6.0.1",
     "typescript": "^5.5.2",
     "wireit": "^0.14.4"
   }
