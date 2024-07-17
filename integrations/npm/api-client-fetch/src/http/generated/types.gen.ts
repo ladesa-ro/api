@@ -2331,6 +2331,9 @@ export type UsuarioGetProfileImageData = {
 export type UsuarioGetProfileImageResponse = Blob | File;
 
 export type UsuarioSetProfileImageData = {
+  formData: {
+    file: Blob | File;
+  };
   /**
    * ID do Registro.
    */
