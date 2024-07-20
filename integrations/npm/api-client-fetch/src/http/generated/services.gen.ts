@@ -551,6 +551,7 @@ export class UsuariosService {
    * Define a imagem de perfil.
    * @param data The data for the request.
    * @param data.id ID do Registro.
+   * @param data.formData
    * @returns boolean Resposta da operação "UsuarioSetProfileImage".
    * @throws ApiError
    */
@@ -561,6 +562,8 @@ export class UsuariosService {
       path: {
         id: data.id,
       },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
       errors: {
         403: 'O solicitante não tem permissão para executar esta ação.',
         404: 'Registro não encontrado.',
