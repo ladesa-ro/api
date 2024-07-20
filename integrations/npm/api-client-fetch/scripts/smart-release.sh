@@ -22,9 +22,9 @@ if [[ ${diff_desired_count} -gt 0 ]]; then
   echo "Changed since last release"
   
   if [[ ${SMART_RELEASE_DRY_RUN} == "true" ]]; then
-    echo release-it -c .release-it.json $@
+    echo npx release-it -c .release-it.json $@
   else
-    release-it -c .release-it.json $@
+    npx release-it -c .release-it.json $@
   fi
 else
   echo "No changes since last release"
