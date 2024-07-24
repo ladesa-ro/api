@@ -93,6 +93,13 @@ type IAuthzPolicySetup = {
     update: Authz.IAuthzStatementCalendarioLetivoUpdate['filter'];
     create: Authz.IAuthzStatementCalendarioLetivoCreate['withCheck'];
   };
+
+  etapa: {
+    find: Authz.IAuthzStatementEtapaFind['filter'];
+    delete: Authz.IAuthzStatementEtapaDelete['filter'];
+    update: Authz.IAuthzStatementEtapaUpdate['filter'];
+    create: Authz.IAuthzStatementEtapaCreate['withCheck'];
+  };
 };
 
 export class BaseAuthzPolicy {
@@ -439,6 +446,34 @@ export class BaseAuthzPolicy {
       statementKind: 'filter',
       action: 'calendario_letivo:delete',
       filter: setup.calendarioLetivo.delete,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'etapa:create',
+      withCheck: setup.etapa.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'etapa:find',
+      filter: setup.etapa.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'etapa:update',
+      filter: setup.etapa.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'etapa:delete',
+      filter: setup.etapa.delete,
       payload: null as any,
     });
   }

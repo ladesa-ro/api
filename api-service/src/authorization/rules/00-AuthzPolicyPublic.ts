@@ -102,6 +102,13 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
         update: filterAllowNotDeleted,
         delete: filterAllowNotDeleted,
       },
+
+      etapa: {
+        create: true,
+        find: filterAllowNotDeleted,
+        update: filterAllowNotDeleted,
+        delete: filterAllowNotDeleted,
+      },
     });
   }
 }
