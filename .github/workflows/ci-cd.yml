@@ -56,10 +56,10 @@ jobs:
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v3
 
-      - name: Use Node.js 22.x
+      - name: Use Node.js 22.4.x
         uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          node-version: 22.4.x
           cache: 'npm'
           cache-dependency-path: package-lock.json
 

@@ -1,7 +1,7 @@
 import type KeycloakAdminClientPrimitive from '@keycloak/keycloak-admin-client';
 import KcModule from '@keycloak/keycloak-admin-client';
 
-const KeycloakAdminClient = (KcModule as any).default;
+const KeycloakAdminClient = KcModule;
 type KeycloakAdminClient = KeycloakAdminClientPrimitive;
 
 export { KeycloakAdminClient };
