@@ -109,6 +109,48 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
         update: filterAllowNotDeleted,
         delete: filterAllowNotDeleted,
       },
+
+      aula: {
+        create: true,
+        find: filterAllowNotDeleted,
+        update: filterAllowNotDeleted,
+        delete: filterAllowNotDeleted,
+      },
+
+      turmaDisponibilidade: {
+        create: true,
+        find: filterAllowNotDeleted,
+        update: filterAllowNotDeleted,
+        delete: filterAllowNotDeleted,
+      },
+
+      turmaDisponibilidadeDia: {
+        create: true,
+        find: filterAllowNotDeleted,
+        update: filterAllowNotDeleted,
+        delete: filterAllowNotDeleted,
+      },
+
+      diaCalendario: {
+        create: true,
+        find: filterAllowNotDeleted,
+        update: filterAllowNotDeleted,
+        delete: filterAllowNotDeleted,
+      },
+
+      evento: {
+        create: true,
+        find: filterAllowNotDeleted,
+        update: filterAllowNotDeleted,
+        delete: filterAllowNotDeleted,
+      },
+
+      diarioProfessor: {
+        create: true,
+        find: filterAllowNotDeleted,
+        update: filterAllowNotDeleted,
+        delete: filterAllowNotDeleted,
+      },
     });
   }
 }

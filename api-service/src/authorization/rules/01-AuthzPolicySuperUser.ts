@@ -101,6 +101,47 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
         update: true,
         delete: true,
       },
+      aula: {
+        create: true,
+        find: true,
+        update: true,
+        delete: true,
+      },
+
+      turmaDisponibilidade: {
+        create: true,
+        find: true,
+        update: true,
+        delete: true,
+      },
+
+      turmaDisponibilidadeDia: {
+        create: true,
+        find: true,
+        update: true,
+        delete: true,
+      },
+
+      diaCalendario: {
+        create: true,
+        find: true,
+        update: true,
+        delete: true,
+      },
+
+      evento: {
+        create: true,
+        find: true,
+        update: true,
+        delete: true,
+      },
+
+      diarioProfessor: {
+        create: true,
+        find: true,
+        update: true,
+        delete: true,
+      },
     });
   }
 }
