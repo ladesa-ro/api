@@ -34,7 +34,7 @@
   "dependencies": {
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
-    "@eslint/js": "^9.7.0",
+    "@eslint/js": "^9.8.0",
     "@release-it/bumper": "^6.0.1",
     "auto-changelog": "^2.4.0",
     "commitizen": "^4.3.0",
