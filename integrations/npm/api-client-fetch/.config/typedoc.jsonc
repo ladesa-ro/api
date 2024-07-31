@@ -1,5 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
+
   "entryPoints": ["../src/index.ts"],
   "out": "../docs",
   "includeVersion": true,
@@ -10,4 +11,7 @@
   },
 
   "plugin": ["typedoc-plugin-mdn-links"],
+
+  "hostedBaseUrl": "https://docs.ladesa.com.br/packages/npm/api-client-fetch",
+  "useHostedBaseUrlForAbsoluteLinks": true,
 }
