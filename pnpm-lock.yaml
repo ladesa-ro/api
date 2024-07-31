@@ -48,8 +48,8 @@ importers:
   integrations/npm/api-client-fetch:
     devDependencies:
       '@hey-api/openapi-ts':
-        specifier: ^0.49.0
-        version: 0.49.0(typescript@5.5.4)
+        specifier: ^0.51.0
+        version: 0.51.0(typescript@5.5.4)
       '@release-it/bumper':
         specifier: ^6.0.1
         version: 6.0.1(release-it@17.6.0(typescript@5.5.4))
@@ -188,8 +188,8 @@ packages:
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@hey-api/openapi-ts@0.49.0':
-    resolution: {integrity: sha512-x6JK3nJpIEEEdvgpSZfsE3dwGmI4GNivENKj0rHhwQDHOkP8CK4tP0at53WPKtbq4xlbRFvgIMKp36o0zsW04g==}
+  '@hey-api/openapi-ts@0.51.0':
+    resolution: {integrity: sha512-ODZyPrUIVeufqPr6A2MEuLlk+UtaPQT40sgDD2OyfpK5gYFXS+/3A11guQoTX+wdgUgM6CR+cNh4MDXAScAlKg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -2446,7 +2446,7 @@ snapshots:
 
   '@eslint/object-schema@2.1.4': {}
 
-  '@hey-api/openapi-ts@0.49.0(typescript@5.5.4)':
+  '@hey-api/openapi-ts@0.51.0(typescript@5.5.4)':
     dependencies:
       '@apidevtools/json-schema-ref-parser': 11.6.4
       c12: 1.11.1
