@@ -48,10 +48,8 @@
         "cleanup:generated"
       ]
     },
-    "generate": {
-      "dependencies": [
-        "generate:api"
-      ]
+    "generate:docs": {
+      "command": "typedoc --options .config/typedoc.jsonc"
     }
   },
   "scripts": {
@@ -59,8 +57,9 @@
     "test": "wireit",
     "dev": "wireit",
     "build": "wireit",
-    "generate": "wireit",
+    "generate": "pnpm run generate:api && pnpm run generate:docs",
     "generate:api": "wireit",
+    "generate:docs": "wireit",
     "cleanup:generated": "wireit",
     "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
     "release:base": "./scripts/smart-release.sh"
@@ -71,6 +70,8 @@
     "prettier": "^3.3.3",
     "release-it": "^17.6.0",
     "rimraf": "^6.0.1",
+    "typedoc": "^0.26.5",
+    "typedoc-plugin-mdn-links": "^3.2.6",
     "typescript": "^5.5.4",
     "wireit": "^0.14.5"
   }

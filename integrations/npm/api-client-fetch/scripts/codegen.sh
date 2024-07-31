@@ -4,8 +4,8 @@ echo =====================================================
 echo Codegen: NPM api client fetch
 echo =====================================================
 
-npm run generate;
-npm run build;
+pnpm run generate;
+pnpm run build;
 
 # docker run --rm \
 #   -u 1000 \

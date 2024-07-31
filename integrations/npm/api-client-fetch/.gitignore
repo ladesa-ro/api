@@ -1,5 +1,7 @@
 *.tsbuildinfo
 
+docs
+
 #
 *.env
 node_modules
