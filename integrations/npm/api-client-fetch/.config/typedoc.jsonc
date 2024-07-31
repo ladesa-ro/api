@@ -1,0 +1,13 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["../src/index.ts"],
+  "out": "../docs",
+  "includeVersion": true,
+  "searchInDocuments": true,
+  "searchInComments": true,
+  "navigationLinks": {
+    "Documentação do Sistema": "https://docs.ladesa.com.br/",
+  },
+
+  "plugin": ["typedoc-plugin-mdn-links"],
+}
