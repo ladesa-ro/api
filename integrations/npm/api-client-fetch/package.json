@@ -57,7 +57,7 @@
     "test": "wireit",
     "dev": "wireit",
     "build": "wireit",
-    "generate": "npm run generate:api && npm run generate:docs",
+    "generate": "pnpm run generate:api && pnpm run generate:docs",
     "generate:api": "wireit",
     "generate:docs": "wireit",
     "cleanup:generated": "wireit",
