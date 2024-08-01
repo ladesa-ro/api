@@ -3,12 +3,15 @@ import { CombinedInput, Operation } from '@/app-standards';
 import LadesaTypings from '@ladesa-ro/especificacao';
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { GerarHorarioService } from './gerar-horario.service';
 
 
 @ApiTags('Gerar Horario')
 @Controller('/gerar-horario')
 export class GerarHorarioController {
-    constructor() { }
+    constructor(
+        private gerarHorarioService: GerarHorarioService
+    ) { }
 
     //
 
@@ -16,7 +19,7 @@ export class GerarHorarioController {
     @Operation(LadesaTypings.Tokens.Modalidade.Operations.List)
     async modalidadeFindAll(
     ) {
-        return "olá mundo"
+        return this.gerarHorarioService.publishMessage();
 
     }
     //

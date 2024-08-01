@@ -4,9 +4,10 @@ import { AdapterDatabaseModule } from './adapter-database/adapter-database.modul
 import { AdapterGraphQLModule } from './adapter-graphql';
 import { GqlExceptionFilter } from './adapter-graphql/exception-filters/GqlExceptionFilter';
 import { AdapterHttpModule } from './adapter-http';
+import { MessageBrokerModule } from './adapter-message-broker/message-broker.module';
 
 @Module({
-  imports: [AdapterHttpModule, AdapterGraphQLModule, AdapterDatabaseModule, AdapterGraphQLModule],
+  imports: [AdapterHttpModule, AdapterGraphQLModule, AdapterDatabaseModule, AdapterGraphQLModule, MessageBrokerModule],
   providers: [
     {
       provide: APP_FILTER,
@@ -14,4 +15,4 @@ import { AdapterHttpModule } from './adapter-http';
     },
   ],
 })
-export class AdaptersModule {}
+export class AdaptersModule { }
