@@ -21,11 +21,11 @@ if [[ "${SMART_RELEASE_FORCE}" == "true" || ${diff_desired_count} -gt 0 ]]; then
   echo "Changed since last release"
   
   if [[ ${SMART_RELEASE_DRY_RUN} == "true" ]]; then
-    echo npm run --workspaces release:base -- $@
-    echo npm run w:release:base -- $@
+    echo pnpm run release:base $@
+    echo pnpm run -w w:release:base $@
   else
-    npm run --workspaces release:base -- $@ 
-    npm run w:release:base -- $@
+    pnpm run -r --if-present release:base $@ 
+    pnpm run -w w:release:base $@
   fi
 else
   echo "No changes since last release"

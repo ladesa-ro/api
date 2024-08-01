@@ -2,35 +2,32 @@
   "name": "@ladesa-ro/api-root",
   "version": "0.0.0-freezed.0",
   "private": true,
-  "workspaces": [
-    "integrations/npm/api-client-fetch"
-  ],
   "scripts": {
     "commit": "git-cz",
     "prepare": "husky",
     "lint:check": "eslint -c eslint.config.mjs src",
     "lint:fix": "eslint -c eslint.config.mjs --fix src",
-    "check:static": "npm run format:check; npm run lint:check",
+    "check:static": "pnpm run -w format:check; pnpm run -w lint:check",
     "format:check": "prettier --end-of-line lf --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:write": "prettier --end-of-line lf --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "w:release:base": "release-it -c .release-it.json",
     "release:base": "./scripts/smart-release.sh",
-    "release:check": "npm run release:base -- --ci --dry-run -VV",
-    "release:patch": "npm run release:base -- patch --ci",
-    "release:minor": "npm run release:base -- minor --ci",
-    "release:major": "npm run release:base -- major --ci",
-    "release:patch:alpha": "npm run release:base -- patch --preRelease=alpha --ci",
-    "release:minor:alpha": "npm run release:base -- minor --preRelease=alpha --ci",
-    "release:major:alpha": "npm run release:base -- major --preRelease=alpha --ci",
-    "release:development": "npm run release:base -- --preRelease=alpha --ci",
-    "release:production": "npm run release:base -- --ci"
+    "release:check": "pnpm run -w release:base --ci --dry-run -VV",
+    "release:patch": "pnpm run -w release:base patch --ci",
+    "release:minor": "pnpm run -w release:base minor --ci",
+    "release:major": "pnpm run -w release:base major --ci",
+    "release:patch:alpha": "pnpm run -w release:base patch --preRelease=alpha --ci",
+    "release:minor:alpha": "pnpm run -w release:base minor --preRelease=alpha --ci",
+    "release:major:alpha": "pnpm run -w release:base major --preRelease=alpha --ci",
+    "release:development": "pnpm run -w release:base --preRelease=alpha --ci",
+    "release:production": "pnpm run -w release:base --ci"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "packageManager": "npm@10.8.1+sha512.0e9d43e92bd2318408ed81eaff2da5f78baf23ee7d12a6eed44a6e2901d0f29d7ab715d1b918ade601f72e769a824d9a5c322383f22bbbda5dd396e79de2a077",
+  "packageManager": "pnpm@9.6.0+sha512.38dc6fba8dba35b39340b9700112c2fe1e12f10b17134715a4aa98ccf7bb035e76fd981cf0bb384dfa98f8d6af5481c2bef2f4266a24bfa20c34eb7147ce0b5e",
   "dependencies": {
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
