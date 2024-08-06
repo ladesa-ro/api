@@ -225,6 +225,243 @@ export const $UsuarioFindOneResultDto = {
   required: ['nome', 'matriculaSiape', 'email', 'isSuperUser', 'imagemCapa', 'imagemPerfil', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
 } as const;
 
+export const $EstadoFindOneResultDto = {
+  type: 'object',
+  properties: {
+    nome: {
+      type: 'string',
+      nullable: false,
+      description: 'Nome oficial do Estado.',
+    },
+    sigla: {
+      type: 'string',
+      nullable: false,
+      description: 'Sigla do Estado.',
+    },
+    id: {
+      type: 'integer',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+  },
+  required: ['nome', 'sigla', 'id'],
+} as const;
+
+export const $CidadeFindOneResultDto = {
+  type: 'object',
+  properties: {
+    nome: {
+      type: 'string',
+      nullable: false,
+      description: 'Nome oficial da Cidade.',
+    },
+    estado: {
+      nullable: false,
+      description: 'Estado da Cidade.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/EstadoFindOneResultDto',
+        },
+      ],
+    },
+    id: {
+      type: 'integer',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+  },
+  required: ['nome', 'estado', 'id'],
+} as const;
+
+export const $EnderecoFindOneResultDto = {
+  type: 'object',
+  properties: {
+    cep: {
+      type: 'string',
+      nullable: false,
+      description: '',
+    },
+    logradouro: {
+      type: 'string',
+      nullable: false,
+      description: 'Logradouro',
+    },
+    numero: {
+      type: 'integer',
+      nullable: false,
+      description: 'Número',
+    },
+    bairro: {
+      type: 'string',
+      nullable: false,
+      description: 'Bairro',
+    },
+    complemento: {
+      type: 'string',
+      nullable: true,
+      description: 'Complemento',
+    },
+    pontoReferencia: {
+      type: 'string',
+      nullable: true,
+      description: 'Ponto de referência',
+    },
+    cidade: {
+      nullable: false,
+      description: 'Cidade',
+      allOf: [
+        {
+          $ref: '#/components/schemas/CidadeFindOneResultDto',
+        },
+      ],
+    },
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+    dateCreated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Criação do Registro.',
+    },
+    dateUpdated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Atualização do Registro.',
+    },
+    dateDeleted: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data de Exclusão do Registro.',
+    },
+  },
+  required: ['cep', 'logradouro', 'numero', 'bairro', 'complemento', 'pontoReferencia', 'cidade', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+} as const;
+
+export const $CampusFindOneResultDto = {
+  type: 'object',
+  properties: {
+    nomeFantasia: {
+      type: 'string',
+      nullable: false,
+      description: 'Nome fantasia do Campus.',
+    },
+    razaoSocial: {
+      type: 'string',
+      nullable: false,
+      description: 'Razão social do Campus.',
+    },
+    apelido: {
+      type: 'string',
+      nullable: false,
+      description: 'Apelido do Campus.',
+    },
+    cnpj: {
+      type: 'string',
+      nullable: false,
+      description: 'CNPJ do Campus.',
+    },
+    endereco: {
+      nullable: false,
+      description: 'Endereço do Campus',
+      allOf: [
+        {
+          $ref: '#/components/schemas/EnderecoFindOneResultDto',
+        },
+      ],
+    },
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+    dateCreated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Criação do Registro.',
+    },
+    dateUpdated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Atualização do Registro.',
+    },
+    dateDeleted: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data de Exclusão do Registro.',
+    },
+  },
+  required: ['nomeFantasia', 'razaoSocial', 'apelido', 'cnpj', 'endereco', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+} as const;
+
+export const $VinculoFindOneResultDto = {
+  type: 'object',
+  properties: {
+    ativo: {
+      type: 'boolean',
+      nullable: false,
+      description: 'Indica se o vínculo está ativo.',
+    },
+    cargo: {
+      type: 'string',
+      nullable: false,
+      description: 'Cargo do usuário no vínculo.',
+    },
+    campus: {
+      nullable: false,
+      description: 'Campus associado ao vínculo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/CampusFindOneResultDto',
+        },
+      ],
+    },
+    usuario: {
+      nullable: false,
+      description: 'Usuário associado ao vínculo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/UsuarioFindOneResultDto',
+        },
+      ],
+    },
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+    dateCreated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Criação do Registro.',
+    },
+    dateUpdated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Atualização do Registro.',
+    },
+    dateDeleted: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data de Exclusão do Registro.',
+    },
+  },
+  required: ['ativo', 'cargo', 'campus', 'usuario', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+} as const;
+
 export const $AuthWhoAmIResultDto = {
   type: 'object',
   properties: {
@@ -237,8 +474,16 @@ export const $AuthWhoAmIResultDto = {
         },
       ],
     },
+    vinculosAtivos: {
+      nullable: false,
+      description: 'Vínculos do usuário logado.',
+      type: 'array',
+      items: {
+        $ref: '#/components/schemas/VinculoFindOneResultDto',
+      },
+    },
   },
-  required: ['usuario'],
+  required: ['usuario', 'vinculosAtivos'],
 } as const;
 
 export const $AuthLoginInputDto = {
@@ -527,243 +772,6 @@ export const $UsuarioInputUpdateDto = {
       description: 'E-mail do usuário.',
     },
   },
-} as const;
-
-export const $EstadoFindOneResultDto = {
-  type: 'object',
-  properties: {
-    nome: {
-      type: 'string',
-      nullable: false,
-      description: 'Nome oficial do Estado.',
-    },
-    sigla: {
-      type: 'string',
-      nullable: false,
-      description: 'Sigla do Estado.',
-    },
-    id: {
-      type: 'integer',
-      nullable: false,
-      description: 'ID do Registro.',
-    },
-  },
-  required: ['nome', 'sigla', 'id'],
-} as const;
-
-export const $CidadeFindOneResultDto = {
-  type: 'object',
-  properties: {
-    nome: {
-      type: 'string',
-      nullable: false,
-      description: 'Nome oficial da Cidade.',
-    },
-    estado: {
-      nullable: false,
-      description: 'Estado da Cidade.',
-      allOf: [
-        {
-          $ref: '#/components/schemas/EstadoFindOneResultDto',
-        },
-      ],
-    },
-    id: {
-      type: 'integer',
-      nullable: false,
-      description: 'ID do Registro.',
-    },
-  },
-  required: ['nome', 'estado', 'id'],
-} as const;
-
-export const $EnderecoFindOneResultDto = {
-  type: 'object',
-  properties: {
-    cep: {
-      type: 'string',
-      nullable: false,
-      description: '',
-    },
-    logradouro: {
-      type: 'string',
-      nullable: false,
-      description: 'Logradouro',
-    },
-    numero: {
-      type: 'integer',
-      nullable: false,
-      description: 'Número',
-    },
-    bairro: {
-      type: 'string',
-      nullable: false,
-      description: 'Bairro',
-    },
-    complemento: {
-      type: 'string',
-      nullable: true,
-      description: 'Complemento',
-    },
-    pontoReferencia: {
-      type: 'string',
-      nullable: true,
-      description: 'Ponto de referência',
-    },
-    cidade: {
-      nullable: false,
-      description: 'Cidade',
-      allOf: [
-        {
-          $ref: '#/components/schemas/CidadeFindOneResultDto',
-        },
-      ],
-    },
-    id: {
-      type: 'string',
-      format: 'uuid',
-      nullable: false,
-      description: 'ID do Registro.',
-    },
-    dateCreated: {
-      type: 'string',
-      format: 'date-time',
-      nullable: false,
-      description: 'Data de Criação do Registro.',
-    },
-    dateUpdated: {
-      type: 'string',
-      format: 'date-time',
-      nullable: false,
-      description: 'Data de Atualização do Registro.',
-    },
-    dateDeleted: {
-      type: 'string',
-      format: 'date-time',
-      nullable: true,
-      description: 'Data de Exclusão do Registro.',
-    },
-  },
-  required: ['cep', 'logradouro', 'numero', 'bairro', 'complemento', 'pontoReferencia', 'cidade', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
-} as const;
-
-export const $CampusFindOneResultDto = {
-  type: 'object',
-  properties: {
-    nomeFantasia: {
-      type: 'string',
-      nullable: false,
-      description: 'Nome fantasia do Campus.',
-    },
-    razaoSocial: {
-      type: 'string',
-      nullable: false,
-      description: 'Razão social do Campus.',
-    },
-    apelido: {
-      type: 'string',
-      nullable: false,
-      description: 'Apelido do Campus.',
-    },
-    cnpj: {
-      type: 'string',
-      nullable: false,
-      description: 'CNPJ do Campus.',
-    },
-    endereco: {
-      nullable: false,
-      description: 'Endereço do Campus',
-      allOf: [
-        {
-          $ref: '#/components/schemas/EnderecoFindOneResultDto',
-        },
-      ],
-    },
-    id: {
-      type: 'string',
-      format: 'uuid',
-      nullable: false,
-      description: 'ID do Registro.',
-    },
-    dateCreated: {
-      type: 'string',
-      format: 'date-time',
-      nullable: false,
-      description: 'Data de Criação do Registro.',
-    },
-    dateUpdated: {
-      type: 'string',
-      format: 'date-time',
-      nullable: false,
-      description: 'Data de Atualização do Registro.',
-    },
-    dateDeleted: {
-      type: 'string',
-      format: 'date-time',
-      nullable: true,
-      description: 'Data de Exclusão do Registro.',
-    },
-  },
-  required: ['nomeFantasia', 'razaoSocial', 'apelido', 'cnpj', 'endereco', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
-} as const;
-
-export const $VinculoFindOneResultDto = {
-  type: 'object',
-  properties: {
-    ativo: {
-      type: 'boolean',
-      nullable: false,
-      description: 'Indica se o vínculo está ativo.',
-    },
-    cargo: {
-      type: 'string',
-      nullable: false,
-      description: 'Cargo do usuário no vínculo.',
-    },
-    campus: {
-      nullable: false,
-      description: 'Campus associado ao vínculo.',
-      allOf: [
-        {
-          $ref: '#/components/schemas/CampusFindOneResultDto',
-        },
-      ],
-    },
-    usuario: {
-      nullable: false,
-      description: 'Usuário associado ao vínculo.',
-      allOf: [
-        {
-          $ref: '#/components/schemas/UsuarioFindOneResultDto',
-        },
-      ],
-    },
-    id: {
-      type: 'string',
-      format: 'uuid',
-      nullable: false,
-      description: 'ID do Registro.',
-    },
-    dateCreated: {
-      type: 'string',
-      format: 'date-time',
-      nullable: false,
-      description: 'Data de Criação do Registro.',
-    },
-    dateUpdated: {
-      type: 'string',
-      format: 'date-time',
-      nullable: false,
-      description: 'Data de Atualização do Registro.',
-    },
-    dateDeleted: {
-      type: 'string',
-      format: 'date-time',
-      nullable: true,
-      description: 'Data de Exclusão do Registro.',
-    },
-  },
-  required: ['ativo', 'cargo', 'campus', 'usuario', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
 } as const;
 
 export const $VinculoFindAllResultDto = {

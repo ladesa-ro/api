@@ -144,11 +144,163 @@ export type UsuarioFindOneResultDto = {
   dateDeleted: string | null;
 };
 
+export type EstadoFindOneResultDto = {
+  /**
+   * Nome oficial do Estado.
+   */
+  nome: string;
+  /**
+   * Sigla do Estado.
+   */
+  sigla: string;
+  /**
+   * ID do Registro.
+   */
+  id: number;
+};
+
+export type CidadeFindOneResultDto = {
+  /**
+   * Nome oficial da Cidade.
+   */
+  nome: string;
+  /**
+   * Estado da Cidade.
+   */
+  estado: EstadoFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: number;
+};
+
+export type EnderecoFindOneResultDto = {
+  cep: string;
+  /**
+   * Logradouro
+   */
+  logradouro: string;
+  /**
+   * Número
+   */
+  numero: number;
+  /**
+   * Bairro
+   */
+  bairro: string;
+  /**
+   * Complemento
+   */
+  complemento: string | null;
+  /**
+   * Ponto de referência
+   */
+  pontoReferencia: string | null;
+  /**
+   * Cidade
+   */
+  cidade: CidadeFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type CampusFindOneResultDto = {
+  /**
+   * Nome fantasia do Campus.
+   */
+  nomeFantasia: string;
+  /**
+   * Razão social do Campus.
+   */
+  razaoSocial: string;
+  /**
+   * Apelido do Campus.
+   */
+  apelido: string;
+  /**
+   * CNPJ do Campus.
+   */
+  cnpj: string;
+  /**
+   * Endereço do Campus
+   */
+  endereco: EnderecoFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type VinculoFindOneResultDto = {
+  /**
+   * Indica se o vínculo está ativo.
+   */
+  ativo: boolean;
+  /**
+   * Cargo do usuário no vínculo.
+   */
+  cargo: string;
+  /**
+   * Campus associado ao vínculo.
+   */
+  campus: CampusFindOneResultDto;
+  /**
+   * Usuário associado ao vínculo.
+   */
+  usuario: UsuarioFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
 export type AuthWhoAmIResultDto = {
   /**
    * Usuário autenticado.
    */
   usuario: UsuarioFindOneResultDto | null;
+  /**
+   * Vínculos do usuário logado.
+   */
+  vinculosAtivos: Array<VinculoFindOneResultDto>;
 };
 
 export type AuthLoginInputDto = {
@@ -319,154 +471,6 @@ export type UsuarioInputUpdateDto = {
    * E-mail do usuário.
    */
   email?: string;
-};
-
-export type EstadoFindOneResultDto = {
-  /**
-   * Nome oficial do Estado.
-   */
-  nome: string;
-  /**
-   * Sigla do Estado.
-   */
-  sigla: string;
-  /**
-   * ID do Registro.
-   */
-  id: number;
-};
-
-export type CidadeFindOneResultDto = {
-  /**
-   * Nome oficial da Cidade.
-   */
-  nome: string;
-  /**
-   * Estado da Cidade.
-   */
-  estado: EstadoFindOneResultDto;
-  /**
-   * ID do Registro.
-   */
-  id: number;
-};
-
-export type EnderecoFindOneResultDto = {
-  cep: string;
-  /**
-   * Logradouro
-   */
-  logradouro: string;
-  /**
-   * Número
-   */
-  numero: number;
-  /**
-   * Bairro
-   */
-  bairro: string;
-  /**
-   * Complemento
-   */
-  complemento: string | null;
-  /**
-   * Ponto de referência
-   */
-  pontoReferencia: string | null;
-  /**
-   * Cidade
-   */
-  cidade: CidadeFindOneResultDto;
-  /**
-   * ID do Registro.
-   */
-  id: string;
-  /**
-   * Data de Criação do Registro.
-   */
-  dateCreated: string;
-  /**
-   * Data de Atualização do Registro.
-   */
-  dateUpdated: string;
-  /**
-   * Data de Exclusão do Registro.
-   */
-  dateDeleted: string | null;
-};
-
-export type CampusFindOneResultDto = {
-  /**
-   * Nome fantasia do Campus.
-   */
-  nomeFantasia: string;
-  /**
-   * Razão social do Campus.
-   */
-  razaoSocial: string;
-  /**
-   * Apelido do Campus.
-   */
-  apelido: string;
-  /**
-   * CNPJ do Campus.
-   */
-  cnpj: string;
-  /**
-   * Endereço do Campus
-   */
-  endereco: EnderecoFindOneResultDto;
-  /**
-   * ID do Registro.
-   */
-  id: string;
-  /**
-   * Data de Criação do Registro.
-   */
-  dateCreated: string;
-  /**
-   * Data de Atualização do Registro.
-   */
-  dateUpdated: string;
-  /**
-   * Data de Exclusão do Registro.
-   */
-  dateDeleted: string | null;
-};
-
-export type VinculoFindOneResultDto = {
-  /**
-   * Indica se o vínculo está ativo.
-   */
-  ativo: boolean;
-  /**
-   * Cargo do usuário no vínculo.
-   */
-  cargo: string;
-  /**
-   * Campus associado ao vínculo.
-   */
-  campus: CampusFindOneResultDto;
-  /**
-   * Usuário associado ao vínculo.
-   */
-  usuario: UsuarioFindOneResultDto;
-  /**
-   * ID do Registro.
-   */
-  id: string;
-  /**
-   * Data de Criação do Registro.
-   */
-  dateCreated: string;
-  /**
-   * Data de Atualização do Registro.
-   */
-  dateUpdated: string;
-  /**
-   * Data de Exclusão do Registro.
-   */
-  dateDeleted: string | null;
 };
 
 export type VinculoFindAllResultDto = {
