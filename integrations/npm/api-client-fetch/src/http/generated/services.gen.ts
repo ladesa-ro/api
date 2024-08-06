@@ -1313,6 +1313,10 @@ export class ReservasService {
    * @param data.limit Limite de resultados por página.
    * @param data.search Busca textual.
    * @param data.sortBy Configurações de ordenamento.
+   * @param data.filterDataInicio Filtros para 'dataInicio'.
+   * @param data.filterDataTermino Filtros para 'dataTermino'.
+   * @param data.filterIntervaloDeTempoPeriodoInicio Filtros para 'intervaloDeTempo.periodoInicio'.
+   * @param data.filterIntervaloDeTempoPeriodoFim Filtros para 'intervaloDeTempo.periodoFim'.
    * @returns ReservaFindAllResultDto Resposta da operação "ReservaList".
    * @throws ApiError
    */
@@ -1325,6 +1329,10 @@ export class ReservasService {
         limit: data.limit,
         search: data.search,
         sortBy: data.sortBy,
+        'filter.dataInicio': data.filterDataInicio,
+        'filter.dataTermino': data.filterDataTermino,
+        'filter.intervaloDeTempo.periodoInicio': data.filterIntervaloDeTempoPeriodoInicio,
+        'filter.intervaloDeTempo.periodoFim': data.filterIntervaloDeTempoPeriodoFim,
       },
       errors: {
         403: 'O solicitante não tem permissão para executar esta ação.',

@@ -1589,6 +1589,49 @@ export const $AmbienteInputUpdateDto = {
   },
 } as const;
 
+export const $IntervaloDeTempoFindOneResultDto = {
+  type: 'object',
+  properties: {
+    periodoInicio: {
+      type: 'string',
+      format: 'time',
+      nullable: false,
+      description: 'Horário que o intervalo de tempo inicia.',
+    },
+    periodoFim: {
+      type: 'string',
+      format: 'time',
+      nullable: false,
+      description: 'Horário que o intervalo de tempo termina.',
+    },
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+    dateCreated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Criação do Registro.',
+    },
+    dateUpdated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Atualização do Registro.',
+    },
+    dateDeleted: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data de Exclusão do Registro.',
+    },
+  },
+  required: ['periodoInicio', 'periodoFim', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+} as const;
+
 export const $ReservaFindOneResultDto = {
   type: 'object',
   properties: {
@@ -1637,6 +1680,15 @@ export const $ReservaFindOneResultDto = {
         },
       ],
     },
+    intervaloDeTempo: {
+      nullable: false,
+      description: 'Intervalo de tempo reservado.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/IntervaloDeTempoFindOneResultDto',
+        },
+      ],
+    },
     id: {
       type: 'string',
       format: 'uuid',
@@ -1662,7 +1714,7 @@ export const $ReservaFindOneResultDto = {
       description: 'Data de Exclusão do Registro.',
     },
   },
-  required: ['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino', 'usuario', 'ambiente', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+  required: ['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino', 'usuario', 'ambiente', 'intervaloDeTempo', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
 } as const;
 
 export const $ReservaFindAllResultDto = {
@@ -1709,6 +1761,25 @@ export const $AmbienteFindOneInputDto = {
     },
   },
   required: ['id'],
+} as const;
+
+export const $IntervaloDeTempoInputDto = {
+  type: 'object',
+  properties: {
+    periodoInicio: {
+      type: 'string',
+      format: 'time',
+      nullable: false,
+      description: 'Horário que o intervalo de tempo inicia.',
+    },
+    periodoFim: {
+      type: 'string',
+      format: 'time',
+      nullable: false,
+      description: 'Horário que o intervalo de tempo termina.',
+    },
+  },
+  required: ['periodoInicio', 'periodoFim'],
 } as const;
 
 export const $ReservaInputCreateDto = {
@@ -1759,8 +1830,17 @@ export const $ReservaInputCreateDto = {
         },
       ],
     },
+    intervaloDeTempo: {
+      nullable: false,
+      description: 'Intervalo de tempo reservado.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/IntervaloDeTempoInputDto',
+        },
+      ],
+    },
   },
-  required: ['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino', 'usuario', 'ambiente'],
+  required: ['situacao', 'motivo', 'tipo', 'dataInicio', 'dataTermino', 'usuario', 'ambiente', 'intervaloDeTempo'],
 } as const;
 
 export const $ReservaInputUpdateDto = {
@@ -1808,6 +1888,15 @@ export const $ReservaInputUpdateDto = {
       allOf: [
         {
           $ref: '#/components/schemas/AmbienteFindOneInputDto',
+        },
+      ],
+    },
+    intervaloDeTempo: {
+      nullable: false,
+      description: 'Intervalo de tempo reservado.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/IntervaloDeTempoInputDto',
         },
       ],
     },
@@ -3346,49 +3435,6 @@ export const $EtapaInputUpdateDto = {
   },
 } as const;
 
-export const $IntervaloDeTempoFindOneResultDto = {
-  type: 'object',
-  properties: {
-    periodoInicio: {
-      type: 'string',
-      format: 'time',
-      nullable: false,
-      description: 'Horário que o intervalo de tempo inicia.',
-    },
-    periodoFim: {
-      type: 'string',
-      format: 'time',
-      nullable: false,
-      description: 'Horário que o intervalo de tempo termina.',
-    },
-    id: {
-      type: 'string',
-      format: 'uuid',
-      nullable: false,
-      description: 'ID do Registro.',
-    },
-    dateCreated: {
-      type: 'string',
-      format: 'date-time',
-      nullable: false,
-      description: 'Data de Criação do Registro.',
-    },
-    dateUpdated: {
-      type: 'string',
-      format: 'date-time',
-      nullable: false,
-      description: 'Data de Atualização do Registro.',
-    },
-    dateDeleted: {
-      type: 'string',
-      format: 'date-time',
-      nullable: true,
-      description: 'Data de Exclusão do Registro.',
-    },
-  },
-  required: ['periodoInicio', 'periodoFim', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
-} as const;
-
 export const $AulaFindOneResultDto = {
   type: 'object',
   properties: {
@@ -3489,25 +3535,6 @@ export const $AulaFindAllResultDto = {
     },
   },
   required: ['meta', 'data', 'links'],
-} as const;
-
-export const $IntervaloDeTempoInputDto = {
-  type: 'object',
-  properties: {
-    periodoInicio: {
-      type: 'string',
-      format: 'time',
-      nullable: false,
-      description: 'Horário que o intervalo de tempo inicia.',
-    },
-    periodoFim: {
-      type: 'string',
-      format: 'time',
-      nullable: false,
-      description: 'Horário que o intervalo de tempo termina.',
-    },
-  },
-  required: ['periodoInicio', 'periodoFim'],
 } as const;
 
 export const $AulaInputCreateDto = {

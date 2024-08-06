@@ -937,6 +937,33 @@ export type AmbienteInputUpdateDto = {
   bloco?: BlocoFindOneInputDto;
 };
 
+export type IntervaloDeTempoFindOneResultDto = {
+  /**
+   * Horário que o intervalo de tempo inicia.
+   */
+  periodoInicio: string;
+  /**
+   * Horário que o intervalo de tempo termina.
+   */
+  periodoFim: string;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
 export type ReservaFindOneResultDto = {
   /**
    * Situação da reserva.
@@ -966,6 +993,10 @@ export type ReservaFindOneResultDto = {
    * Ambiente que foi reservado.
    */
   ambiente: AmbienteFindOneResultDto;
+  /**
+   * Intervalo de tempo reservado.
+   */
+  intervaloDeTempo: IntervaloDeTempoFindOneResultDto;
   /**
    * ID do Registro.
    */
@@ -1006,6 +1037,17 @@ export type AmbienteFindOneInputDto = {
   id: string;
 };
 
+export type IntervaloDeTempoInputDto = {
+  /**
+   * Horário que o intervalo de tempo inicia.
+   */
+  periodoInicio: string;
+  /**
+   * Horário que o intervalo de tempo termina.
+   */
+  periodoFim: string;
+};
+
 export type ReservaInputCreateDto = {
   /**
    * Situação da reserva.
@@ -1035,6 +1077,10 @@ export type ReservaInputCreateDto = {
    * Ambiente que foi reservado.
    */
   ambiente: AmbienteFindOneInputDto;
+  /**
+   * Intervalo de tempo reservado.
+   */
+  intervaloDeTempo: IntervaloDeTempoInputDto;
 };
 
 export type ReservaInputUpdateDto = {
@@ -1066,6 +1112,10 @@ export type ReservaInputUpdateDto = {
    * Ambiente que foi reservado.
    */
   ambiente?: AmbienteFindOneInputDto;
+  /**
+   * Intervalo de tempo reservado.
+   */
+  intervaloDeTempo?: IntervaloDeTempoInputDto;
 };
 
 export type CursoFindOneResultDto = {
@@ -1909,33 +1959,6 @@ export type EtapaInputUpdateDto = {
   calendario?: CalendarioLetivoFindOneInputDto | null;
 };
 
-export type IntervaloDeTempoFindOneResultDto = {
-  /**
-   * Horário que o intervalo de tempo inicia.
-   */
-  periodoInicio: string;
-  /**
-   * Horário que o intervalo de tempo termina.
-   */
-  periodoFim: string;
-  /**
-   * ID do Registro.
-   */
-  id: string;
-  /**
-   * Data de Criação do Registro.
-   */
-  dateCreated: string;
-  /**
-   * Data de Atualização do Registro.
-   */
-  dateUpdated: string;
-  /**
-   * Data de Exclusão do Registro.
-   */
-  dateDeleted: string | null;
-};
-
 export type AulaFindOneResultDto = {
   /**
    * Formato da aula.
@@ -1988,17 +2011,6 @@ export type AulaFindAllResultDto = {
    * Links da busca.
    */
   links: PaginatedResultLinksDto;
-};
-
-export type IntervaloDeTempoInputDto = {
-  /**
-   * Horário que o intervalo de tempo inicia.
-   */
-  periodoInicio: string;
-  /**
-   * Horário que o intervalo de tempo termina.
-   */
-  periodoFim: string;
 };
 
 export type AulaInputCreateDto = {
@@ -2732,6 +2744,22 @@ export type AmbienteSetCoverImageData = {
 export type AmbienteSetCoverImageResponse = boolean;
 
 export type ReservaListData = {
+  /**
+   * Filtros para 'dataInicio'.
+   */
+  filterDataInicio?: Array<string>;
+  /**
+   * Filtros para 'dataTermino'.
+   */
+  filterDataTermino?: Array<string>;
+  /**
+   * Filtros para 'intervaloDeTempo.periodoFim'.
+   */
+  filterIntervaloDeTempoPeriodoFim?: Array<string>;
+  /**
+   * Filtros para 'intervaloDeTempo.periodoInicio'.
+   */
+  filterIntervaloDeTempoPeriodoInicio?: Array<string>;
   /**
    * Limite de resultados por página.
    */
