@@ -9,6 +9,7 @@ import { QbEfficientLoad } from '../../../app-standards/ladesa-spec/QbEfficientL
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../app-standards/ladesa-spec/search/search-strategies';
 import { paginateConfig } from '../../../fixtures';
 import { UsuarioService } from '../../autenticacao/usuario/usuario.service';
+import { IntervaloDeTempoService } from '../../calendario/intervalo-de-tempo/intervalo-de-tempo.service';
 import { AmbienteService } from '../ambiente/ambiente.service';
 
 // ============================================================================
@@ -23,6 +24,7 @@ export class ReservaService {
     private databaseContext: DatabaseContextService,
     private usuarioService: UsuarioService,
     private ambienteService: AmbienteService,
+    private intervaloService: IntervaloDeTempoService,
   ) {}
 
   get reservaRepository() {
@@ -44,6 +46,8 @@ export class ReservaService {
 
     await accessContext.aplicarFiltro('reserva:find', qb, aliasReserva, null);
 
+    const dateOperations = [FilterOperator.EQ, FilterOperator.GT, FilterOperator.GTE, FilterOperator.LT, FilterOperator.LTE] as const;
+
     // =========================================================
 
     const paginated = await LadesaSearch('#/', dto, qb, {
@@ -58,8 +62,13 @@ export class ReservaService {
         'situacao',
         'motivo',
         'tipo',
+        //
         'dataInicio',
         'dataTermino',
+        //
+        'intervaloDeTempo.periodoInicio',
+        'intervaloDeTempo.periodoFim',
+        //
         'ambiente.id',
         'ambiente.nome',
         'ambiente.capacidade',
@@ -75,6 +84,7 @@ export class ReservaService {
         'tipo',
         'dataInicio',
         'dataTermino',
+        //
         'ambiente.nome',
         'ambiente.descricao',
         'ambiente.codigo',
@@ -89,13 +99,21 @@ export class ReservaService {
           },
         },
         usuario: true,
+        intervaloDeTempo: true,
       },
+
       defaultSortBy: [],
+
       filterableColumns: {
         situacao: [FilterOperator.EQ],
         tipo: [FilterOperator.EQ],
-        dataInicio: [FilterOperator.EQ, FilterOperator.GT, FilterOperator.GTE, FilterOperator.LT, FilterOperator.LTE],
-        dataTermino: [FilterOperator.EQ, FilterOperator.GT, FilterOperator.GTE, FilterOperator.LT, FilterOperator.LTE, FilterOperator.NULL],
+
+        dataInicio: [...dateOperations],
+        dataTermino: [...dateOperations],
+
+        'intervaloDeTempo.periodoInicio': [...dateOperations],
+        'intervaloDeTempo.periodoFim': [...dateOperations],
+
         'ambiente.id': [FilterOperator.EQ],
         'ambiente.bloco.id': [FilterOperator.EQ],
         'ambiente.bloco.campus.id': [FilterOperator.EQ],
@@ -230,6 +248,18 @@ export class ReservaService {
 
     // =========================================================
 
+    if (has(dto.body, 'intervaloDeTempo') && dto.body.intervaloDeTempo !== undefined) {
+      const intervaloDeTempo = await this.intervaloService.intervaloCreateOrUpdate(accessContext, dto.body.intervaloDeTempo!);
+
+      this.reservaRepository.merge(reserva, {
+        intervaloDeTempo: {
+          id: intervaloDeTempo!.id,
+        },
+      });
+    }
+
+    // =========================================================
+
     await this.reservaRepository.save(reserva);
 
     // =========================================================
@@ -278,6 +308,18 @@ export class ReservaService {
       this.reservaRepository.merge(reserva, {
         usuario: {
           id: usuario.id,
+        },
+      });
+    }
+
+    // =========================================================
+
+    if (has(dto.body, 'intervaloDeTempo') && dto.body.intervaloDeTempo !== undefined) {
+      const intervaloDeTempo = await this.intervaloService.intervaloCreateOrUpdate(accessContext, dto.body.intervaloDeTempo!);
+
+      this.reservaRepository.merge(reserva, {
+        intervaloDeTempo: {
+          id: intervaloDeTempo!.id,
         },
       });
     }

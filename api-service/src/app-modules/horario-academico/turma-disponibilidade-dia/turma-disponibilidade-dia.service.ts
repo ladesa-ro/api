@@ -1,4 +1,6 @@
 import { AccessContext } from '@/access-context';
+import { TurmaDisponibilidadeDiaEntity } from '@/adapters/adapter-database/typeorm/entities';
+import { IntervaloDeTempoService } from '@/app-modules/calendario/intervalo-de-tempo/intervalo-de-tempo.service';
 import * as LadesaTypings from '@ladesa-ro/especificacao';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { has, map, pick } from 'lodash';
@@ -7,8 +9,6 @@ import { DatabaseContextService } from '../../../adapters/adapter-database';
 import { QbEfficientLoad } from '../../../app-standards/ladesa-spec/QbEfficientLoad';
 import { LadesaPaginatedResultDto, LadesaSearch } from '../../../app-standards/ladesa-spec/search/search-strategies';
 import { paginateConfig } from '../../../fixtures';
-import { TurmaDisponibilidadeDiaEntity } from '@/adapters/adapter-database/typeorm/entities';
-import { IntervaloDeTempoService } from '@/app-modules/calendario/intervalo-de-tempo/intervalo-de-tempo.service';
 import { TurmaDisponibilidadeService } from '../turma-disponibilidade/turma-disponibilidade.service';
 
 // ============================================================================
@@ -22,7 +22,7 @@ export class TurmaDisponibilidadeDiaService {
   constructor(
     private databaseContext: DatabaseContextService,
     private intervaloService: IntervaloDeTempoService,
-    private turmaDisponibilidadeService: TurmaDisponibilidadeService
+    private turmaDisponibilidadeService: TurmaDisponibilidadeService,
   ) {}
 
   get turmaDisponibilidadeDiaRepository() {
@@ -108,7 +108,11 @@ export class TurmaDisponibilidadeDiaService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async turmaDisponibilidadeDiaFindById(accessContext: AccessContext, dto: LadesaTypings.TurmaDisponibilidadeDiaFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.TurmaDisponibilidadeDiaFindOneResult | null> {
+  async turmaDisponibilidadeDiaFindById(
+    accessContext: AccessContext,
+    dto: LadesaTypings.TurmaDisponibilidadeDiaFindOneInput,
+    selection?: string[] | boolean,
+  ): Promise<LadesaTypings.TurmaDisponibilidadeDiaFindOneResult | null> {
     // =========================================================
 
     const qb = this.turmaDisponibilidadeDiaRepository.createQueryBuilder(aliasTurmaDisponibilidadeDia);
@@ -144,7 +148,11 @@ export class TurmaDisponibilidadeDiaService {
     return turmaDisponibilidadeDia;
   }
 
-  async turmaDisponibilidadeDiaFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.TurmaDisponibilidadeDiaFindOneInput['id'], selection?: string[]): Promise<LadesaTypings.TurmaDisponibilidadeDiaFindOneResult | null> {
+  async turmaDisponibilidadeDiaFindByIdSimple(
+    accessContext: AccessContext,
+    id: LadesaTypings.TurmaDisponibilidadeDiaFindOneInput['id'],
+    selection?: string[],
+  ): Promise<LadesaTypings.TurmaDisponibilidadeDiaFindOneResult | null> {
     // =========================================================
 
     const qb = this.turmaDisponibilidadeDiaRepository.createQueryBuilder(aliasTurmaDisponibilidadeDia);
