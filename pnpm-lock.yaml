@@ -72,8 +72,8 @@ importers:
         specifier: ^5.5.4
         version: 5.5.4
       wireit:
-        specifier: ^0.14.5
-        version: 0.14.5
+        specifier: ^0.14.7
+        version: 0.14.7
 
 packages:
 
@@ -2214,8 +2214,8 @@ packages:
     resolution: {integrity: sha512-NMD00arvqcq2nwqc5Q6KtrSRHK+fVD31erE5FEMahAw5PmVCgD7MUXodq3pdZSUkqA9Cda2iWx6s1XYwiJWRmw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  wireit@0.14.5:
-    resolution: {integrity: sha512-K4ka9YBpSyD6pmFZYTJd4VpPsAiPT6j/fOtLzYgnKWlPIMM7lAZjQQ30H7urO+Lqx1Wvrw88tQHBz4njy+lglg==}
+  wireit@0.14.7:
+    resolution: {integrity: sha512-bMyyaKtH8fTYD3cmI8ZULIwifDcgNRHyHfYF54QFISvKiDtDJ4yHJZRlW/q2j0DaRjuFbMkIhpE++/GtI5iipQ==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -4510,7 +4510,7 @@ snapshots:
     dependencies:
       execa: 5.1.1
 
-  wireit@0.14.5:
+  wireit@0.14.7:
     dependencies:
       brace-expansion: 4.0.0
       chokidar: 3.6.0
