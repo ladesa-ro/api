@@ -5,11 +5,13 @@ import { BaseClient, TokenSet } from 'openid-client';
 import { DatabaseContextService } from '../../adapters/adapter-database';
 import { KeycloakService, OpenidConnectService } from '../../adapters/adapter-identity-and-access';
 import { UsuarioService } from './usuario/usuario.service';
+import { VinculoService } from './vinculo/vinculo.service';
 
 @Injectable()
 export class AutenticacaoService {
   constructor(
     private usuarioService: UsuarioService,
+    private vinculoService: VinculoService,
     private keycloakService: KeycloakService,
     private databaseContext: DatabaseContextService,
     private openidConnectService: OpenidConnectService,
@@ -23,11 +25,25 @@ export class AutenticacaoService {
 
   //
 
-  async quemSouEu(accessContext: AccessContext) {
-    const usuario = accessContext.requestActor ? await this.usuarioService.usuarioFindById(accessContext, { id: accessContext.requestActor.id }) : null;
+  async whoAmI(accessContext: AccessContext): Promise<LadesaTypings.AuthWhoAmIResult> {
+    const usuario = accessContext.requestActor
+      ? await this.usuarioService.usuarioFindById(accessContext, {
+          id: accessContext.requestActor.id,
+        })
+      : null;
+
+    if (usuario) {
+      const vinculosAtivos = await this.vinculoService.vinculoGetAllActive(null, usuario.id);
+
+      return {
+        usuario,
+        vinculosAtivos: vinculosAtivos,
+      };
+    }
 
     return {
-      usuario: usuario,
+      usuario: null,
+      vinculosAtivos: [],
     };
   }
 

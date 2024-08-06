@@ -13,11 +13,11 @@ export class AutenticacaoController {
 
   @Get('/quem-sou-eu')
   @Operation(LadesaTypings.Tokens.Auth.Operations.WhoAmI)
-  quemSouEu(
+  whoAmI(
     //
     @AccessContextHttp() accessContext: AccessContext,
   ) {
-    return this.autenticacaoService.quemSouEu(accessContext);
+    return this.autenticacaoService.whoAmI(accessContext);
   }
 
   @Post('/login')
