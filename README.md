@@ -9,7 +9,6 @@
 | #   | Link                            |
 | --- | ------------------------------- |
 | 1   | <https://dev.ladesa.com.br/api> |
-| 2   | <https://luna.sisgha.com/api>   |
 
 #### Clientes do ambiente de desenvolvimento
 
