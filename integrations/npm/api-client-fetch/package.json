@@ -65,7 +65,7 @@
     "release:base": "./scripts/smart-release.sh"
   },
   "devDependencies": {
-    "@hey-api/openapi-ts": "^0.49.0",
+    "@hey-api/openapi-ts": "^0.52.8",
     "@release-it/bumper": "^6.0.1",
     "prettier": "^3.3.3",
     "release-it": "^17.6.0",
