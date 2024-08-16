@@ -144,11 +144,163 @@ export type UsuarioFindOneResultDto = {
   dateDeleted: string | null;
 };
 
+export type EstadoFindOneResultDto = {
+  /**
+   * Nome oficial do Estado.
+   */
+  nome: string;
+  /**
+   * Sigla do Estado.
+   */
+  sigla: string;
+  /**
+   * ID do Registro.
+   */
+  id: number;
+};
+
+export type CidadeFindOneResultDto = {
+  /**
+   * Nome oficial da Cidade.
+   */
+  nome: string;
+  /**
+   * Estado da Cidade.
+   */
+  estado: EstadoFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: number;
+};
+
+export type EnderecoFindOneResultDto = {
+  cep: string;
+  /**
+   * Logradouro
+   */
+  logradouro: string;
+  /**
+   * Número
+   */
+  numero: number;
+  /**
+   * Bairro
+   */
+  bairro: string;
+  /**
+   * Complemento
+   */
+  complemento: string | null;
+  /**
+   * Ponto de referência
+   */
+  pontoReferencia: string | null;
+  /**
+   * Cidade
+   */
+  cidade: CidadeFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type CampusFindOneResultDto = {
+  /**
+   * Nome fantasia do Campus.
+   */
+  nomeFantasia: string;
+  /**
+   * Razão social do Campus.
+   */
+  razaoSocial: string;
+  /**
+   * Apelido do Campus.
+   */
+  apelido: string;
+  /**
+   * CNPJ do Campus.
+   */
+  cnpj: string;
+  /**
+   * Endereço do Campus
+   */
+  endereco: EnderecoFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type VinculoFindOneResultDto = {
+  /**
+   * Indica se o vínculo está ativo.
+   */
+  ativo: boolean;
+  /**
+   * Cargo do usuário no vínculo.
+   */
+  cargo: string;
+  /**
+   * Campus associado ao vínculo.
+   */
+  campus: CampusFindOneResultDto;
+  /**
+   * Usuário associado ao vínculo.
+   */
+  usuario: UsuarioFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
 export type AuthWhoAmIResultDto = {
   /**
    * Usuário autenticado.
    */
   usuario: UsuarioFindOneResultDto | null;
+  /**
+   * Vínculos do usuário logado.
+   */
+  vinculosAtivos: Array<VinculoFindOneResultDto>;
 };
 
 export type AuthLoginInputDto = {
@@ -319,154 +471,6 @@ export type UsuarioInputUpdateDto = {
    * E-mail do usuário.
    */
   email?: string;
-};
-
-export type EstadoFindOneResultDto = {
-  /**
-   * Nome oficial do Estado.
-   */
-  nome: string;
-  /**
-   * Sigla do Estado.
-   */
-  sigla: string;
-  /**
-   * ID do Registro.
-   */
-  id: number;
-};
-
-export type CidadeFindOneResultDto = {
-  /**
-   * Nome oficial da Cidade.
-   */
-  nome: string;
-  /**
-   * Estado da Cidade.
-   */
-  estado: EstadoFindOneResultDto;
-  /**
-   * ID do Registro.
-   */
-  id: number;
-};
-
-export type EnderecoFindOneResultDto = {
-  cep: string;
-  /**
-   * Logradouro
-   */
-  logradouro: string;
-  /**
-   * Número
-   */
-  numero: number;
-  /**
-   * Bairro
-   */
-  bairro: string;
-  /**
-   * Complemento
-   */
-  complemento: string | null;
-  /**
-   * Ponto de referência
-   */
-  pontoReferencia: string | null;
-  /**
-   * Cidade
-   */
-  cidade: CidadeFindOneResultDto;
-  /**
-   * ID do Registro.
-   */
-  id: string;
-  /**
-   * Data de Criação do Registro.
-   */
-  dateCreated: string;
-  /**
-   * Data de Atualização do Registro.
-   */
-  dateUpdated: string;
-  /**
-   * Data de Exclusão do Registro.
-   */
-  dateDeleted: string | null;
-};
-
-export type CampusFindOneResultDto = {
-  /**
-   * Nome fantasia do Campus.
-   */
-  nomeFantasia: string;
-  /**
-   * Razão social do Campus.
-   */
-  razaoSocial: string;
-  /**
-   * Apelido do Campus.
-   */
-  apelido: string;
-  /**
-   * CNPJ do Campus.
-   */
-  cnpj: string;
-  /**
-   * Endereço do Campus
-   */
-  endereco: EnderecoFindOneResultDto;
-  /**
-   * ID do Registro.
-   */
-  id: string;
-  /**
-   * Data de Criação do Registro.
-   */
-  dateCreated: string;
-  /**
-   * Data de Atualização do Registro.
-   */
-  dateUpdated: string;
-  /**
-   * Data de Exclusão do Registro.
-   */
-  dateDeleted: string | null;
-};
-
-export type VinculoFindOneResultDto = {
-  /**
-   * Indica se o vínculo está ativo.
-   */
-  ativo: boolean;
-  /**
-   * Cargo do usuário no vínculo.
-   */
-  cargo: string;
-  /**
-   * Campus associado ao vínculo.
-   */
-  campus: CampusFindOneResultDto;
-  /**
-   * Usuário associado ao vínculo.
-   */
-  usuario: UsuarioFindOneResultDto;
-  /**
-   * ID do Registro.
-   */
-  id: string;
-  /**
-   * Data de Criação do Registro.
-   */
-  dateCreated: string;
-  /**
-   * Data de Atualização do Registro.
-   */
-  dateUpdated: string;
-  /**
-   * Data de Exclusão do Registro.
-   */
-  dateDeleted: string | null;
 };
 
 export type VinculoFindAllResultDto = {
@@ -933,6 +937,33 @@ export type AmbienteInputUpdateDto = {
   bloco?: BlocoFindOneInputDto;
 };
 
+export type IntervaloDeTempoFindOneResultDto = {
+  /**
+   * Horário que o intervalo de tempo inicia.
+   */
+  periodoInicio: string;
+  /**
+   * Horário que o intervalo de tempo termina.
+   */
+  periodoFim: string;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
 export type ReservaFindOneResultDto = {
   /**
    * Situação da reserva.
@@ -962,6 +993,10 @@ export type ReservaFindOneResultDto = {
    * Ambiente que foi reservado.
    */
   ambiente: AmbienteFindOneResultDto;
+  /**
+   * Intervalo de tempo reservado.
+   */
+  intervaloDeTempo: IntervaloDeTempoFindOneResultDto;
   /**
    * ID do Registro.
    */
@@ -1002,6 +1037,17 @@ export type AmbienteFindOneInputDto = {
   id: string;
 };
 
+export type IntervaloDeTempoInputDto = {
+  /**
+   * Horário que o intervalo de tempo inicia.
+   */
+  periodoInicio: string;
+  /**
+   * Horário que o intervalo de tempo termina.
+   */
+  periodoFim: string;
+};
+
 export type ReservaInputCreateDto = {
   /**
    * Situação da reserva.
@@ -1031,6 +1077,10 @@ export type ReservaInputCreateDto = {
    * Ambiente que foi reservado.
    */
   ambiente: AmbienteFindOneInputDto;
+  /**
+   * Intervalo de tempo reservado.
+   */
+  intervaloDeTempo: IntervaloDeTempoInputDto;
 };
 
 export type ReservaInputUpdateDto = {
@@ -1062,6 +1112,10 @@ export type ReservaInputUpdateDto = {
    * Ambiente que foi reservado.
    */
   ambiente?: AmbienteFindOneInputDto;
+  /**
+   * Intervalo de tempo reservado.
+   */
+  intervaloDeTempo?: IntervaloDeTempoInputDto;
 };
 
 export type CursoFindOneResultDto = {
@@ -1905,33 +1959,6 @@ export type EtapaInputUpdateDto = {
   calendario?: CalendarioLetivoFindOneInputDto | null;
 };
 
-export type IntervaloDeTempoFindOneResultDto = {
-  /**
-   * Horário que o intervalo de tempo inicia.
-   */
-  periodoInicio: string;
-  /**
-   * Horário que o intervalo de tempo termina.
-   */
-  periodoFim: string;
-  /**
-   * ID do Registro.
-   */
-  id: string;
-  /**
-   * Data de Criação do Registro.
-   */
-  dateCreated: string;
-  /**
-   * Data de Atualização do Registro.
-   */
-  dateUpdated: string;
-  /**
-   * Data de Exclusão do Registro.
-   */
-  dateDeleted: string | null;
-};
-
 export type AulaFindOneResultDto = {
   /**
    * Formato da aula.
@@ -1984,17 +2011,6 @@ export type AulaFindAllResultDto = {
    * Links da busca.
    */
   links: PaginatedResultLinksDto;
-};
-
-export type IntervaloDeTempoInputDto = {
-  /**
-   * Horário que o intervalo de tempo inicia.
-   */
-  periodoInicio: string;
-  /**
-   * Horário que o intervalo de tempo termina.
-   */
-  periodoFim: string;
 };
 
 export type AulaInputCreateDto = {
@@ -2728,6 +2744,22 @@ export type AmbienteSetCoverImageData = {
 export type AmbienteSetCoverImageResponse = boolean;
 
 export type ReservaListData = {
+  /**
+   * Filtros para 'dataInicio'.
+   */
+  filterDataInicio?: Array<string>;
+  /**
+   * Filtros para 'dataTermino'.
+   */
+  filterDataTermino?: Array<string>;
+  /**
+   * Filtros para 'intervaloDeTempo.periodoFim'.
+   */
+  filterIntervaloDeTempoPeriodoFim?: Array<string>;
+  /**
+   * Filtros para 'intervaloDeTempo.periodoInicio'.
+   */
+  filterIntervaloDeTempoPeriodoInicio?: Array<string>;
   /**
    * Limite de resultados por página.
    */

@@ -4,6 +4,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { FilterOperator } from 'nestjs-paginate';
 import { NotBrackets } from 'typeorm';
 import { DatabaseContextService } from '../../../adapters/adapter-database';
+import { UsuarioEntity } from '../../../adapters/adapter-database/typeorm/entities';
 import { QbEfficientLoad } from '../../../app-standards/ladesa-spec/QbEfficientLoad';
 import { LadesaSearch } from '../../../app-standards/ladesa-spec/search/search-strategies';
 import { paginateConfig } from '../../../fixtures';
@@ -35,6 +36,24 @@ export class VinculoService {
   }
 
   //
+
+  async vinculoGetAllActive(accessContext: AccessContext | null, usuarioId: UsuarioEntity['id']) {
+    const qb = this.vinculoRepository.createQueryBuilder('vinculo');
+
+    qb.innerJoin('vinculo.usuario', 'usuario');
+    qb.where('usuario.id = :usuarioId', { usuarioId });
+    qb.andWhere('vinculo.ativo = :ativo', { ativo: true });
+
+    if (accessContext) {
+      await accessContext.aplicarFiltro('vinculo:find', qb, aliasVinculo, null);
+    }
+
+    QbEfficientLoad(LadesaTypings.Tokens.Vinculo.Views.FindOneResult, qb, 'vinculo');
+
+    const vinculos = await qb.getMany();
+
+    return vinculos;
+  }
 
   async vinculoFindAll(accessContext: AccessContext, dto: LadesaTypings.VinculoListCombinedInput | null = null, selection?: string[] | boolean) {
     const qb = this.vinculoRepository.createQueryBuilder(aliasVinculo);

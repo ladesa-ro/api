@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UsuarioEntity } from '../autenticacao/usuario.entity';
 import { AmbienteEntity } from './ambiente.entity';
+import { IntervaloDeTempoEntity } from '../calendario';
 
 @Entity('reserva')
 export class ReservaEntity {
@@ -31,6 +32,10 @@ export class ReservaEntity {
   @ManyToOne(() => UsuarioEntity)
   @JoinColumn({ name: 'id_usuario_fk' })
   usuario!: UsuarioEntity;
+
+  @ManyToOne(() => IntervaloDeTempoEntity)
+  @JoinColumn({ name: 'id_intervalo_de_tempo_fk' })
+  intervaloDeTempo!: IntervaloDeTempoEntity;
 
   //
 
