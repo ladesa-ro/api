@@ -9,8 +9,8 @@ export class GerarHorarioService {
 
 
     publishMessage() {
-        this.messageBrokerService.publishDbEvent();
-        return "Ve se deu la"
+        return this.messageBrokerService.publishDbEvent();
+
     }
 
 }

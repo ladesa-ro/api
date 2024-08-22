@@ -16,11 +16,9 @@ export class GerarHorarioController {
     //
 
     @Get('/')
-    @Operation(LadesaTypings.Tokens.Modalidade.Operations.List)
     async modalidadeFindAll(
     ) {
         return this.gerarHorarioService.publishMessage();
-
     }
     //
 }
