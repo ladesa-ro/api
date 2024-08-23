@@ -73,6 +73,6 @@
     "typedoc": "^0.26.5",
     "typedoc-plugin-mdn-links": "^3.2.7",
     "typescript": "^5.5.4",
-    "wireit": "^0.14.7"
+    "wireit": "^0.14.8"
   }
 }
