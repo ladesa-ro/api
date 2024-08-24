@@ -7,7 +7,7 @@ import { AdapterHttpModule } from './adapter-http';
 import { MessageBrokerModule } from './adapter-message-broker/message-broker.module';
 
 @Module({
-  imports: [AdapterHttpModule, AdapterGraphQLModule, AdapterDatabaseModule, AdapterGraphQLModule, MessageBrokerModule],
+  imports: [AdapterHttpModule, AdapterGraphQLModule, AdapterDatabaseModule, AdapterGraphQLModule, /*MessageBrokerModule*/],
   providers: [
     {
       provide: APP_FILTER,
