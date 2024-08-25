@@ -157,6 +157,13 @@ export type IAuthzStatementDisponibilidadeProfessorDiaUpdate = IBaseAuthzFilter<
 export type IAuthzStatementDisponibilidadeProfessorDiaDelete = IBaseAuthzFilter<'disponibilidade_professor_dia:delete', { dto: LadesaTypings.DisponibilidadeProfessorDiaFindOneInput }>;
 export type IAuthzStatementDisponibilidadeProfessorDiaFind = IBaseAuthzFilter<'disponibilidade_professor_dia:find'>;
 
+// =====================
+
+export type IAuthzStatementDiarioPreferenciaAgrupamentoCreate = IBaseAuthzCheck<'diario_preferencia_agrupamento:create', { dto: LadesaTypings.DiarioPreferenciaAgrupamentoCreateCombinedInput }>;
+export type IAuthzStatementDiarioPreferenciaAgrupamentoUpdate = IBaseAuthzFilter<'diario_preferencia_agrupamento:update', { dto: LadesaTypings.DiarioPreferenciaAgrupamentoUpdateByIDCombinedInput }>;
+export type IAuthzStatementDiarioPreferenciaAgrupamentoDelete = IBaseAuthzFilter<'diario_preferencia_agrupamento:delete', { dto: LadesaTypings.DiarioPreferenciaAgrupamentoFindOneInput }>;
+export type IAuthzStatementDiarioPreferenciaAgrupamentoFind = IBaseAuthzFilter<'diario_preferencia_agrupamento:find'>;
+
 // ===================================================================================
 
 export type IAuthzStatementCheck =
@@ -179,7 +186,8 @@ export type IAuthzStatementCheck =
   | IAuthzStatementAulaCreate
   | IAuthzStatementTurmaDisponibilidadeDiaCreate
   | IAuthzStatementDisponibilidadeProfessorCreate
-  | IAuthzStatementDisponibilidadeProfessorDiaCreate;
+  | IAuthzStatementDisponibilidadeProfessorDiaCreate
+  | IAuthzStatementDiarioPreferenciaAgrupamentoCreate;
 
 // =====================
 
@@ -248,7 +256,10 @@ export type IAuthzStatementFilter =
   | IAuthzStatementDisponibilidadeProfessorFind
   | IAuthzStatementDisponibilidadeProfessorDiaUpdate
   | IAuthzStatementDisponibilidadeProfessorDiaFind
-  | IAuthzStatementDisponibilidadeProfessorDiaDelete;
+  | IAuthzStatementDisponibilidadeProfessorDiaDelete
+  | IAuthzStatementDiarioPreferenciaAgrupamentoUpdate
+  | IAuthzStatementDiarioPreferenciaAgrupamentoFind
+  | IAuthzStatementDiarioPreferenciaAgrupamentoDelete;
 
 // =====================
 

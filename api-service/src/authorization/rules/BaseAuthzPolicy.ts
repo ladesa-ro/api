@@ -156,6 +156,14 @@ type IAuthzPolicySetup = {
     update: Authz.IAuthzStatementDisponibilidadeProfessorDiaUpdate['filter'];
     create: Authz.IAuthzStatementDisponibilidadeProfessorDiaCreate['withCheck'];
   };
+
+
+  diarioPreferenciaAgrupamento: {
+    find: Authz.IAuthzStatementDiarioPreferenciaAgrupamentoFind['filter'];
+    delete: Authz.IAuthzStatementDiarioPreferenciaAgrupamentoDelete['filter'];
+    update: Authz.IAuthzStatementDiarioPreferenciaAgrupamentoUpdate['filter'];
+    create: Authz.IAuthzStatementDiarioPreferenciaAgrupamentoCreate['withCheck'];
+  };
 };
 
 export class BaseAuthzPolicy {
@@ -729,13 +737,6 @@ export class BaseAuthzPolicy {
       payload: null as any,
     });
 
-
-
-
-
-
-
-
     this.statements.push({
       statementKind: 'check',
       action: 'disponibilidade_professor_dia:create',
@@ -764,5 +765,32 @@ export class BaseAuthzPolicy {
       payload: null as any,
     });
 
+    this.statements.push({
+      statementKind: 'check',
+      action: 'diario_preferencia_agrupamento:create',
+      withCheck: setup.diarioPreferenciaAgrupamento.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'diario_preferencia_agrupamento:find',
+      filter: setup.diarioPreferenciaAgrupamento.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'diario_preferencia_agrupamento:update',
+      filter: setup.diarioPreferenciaAgrupamento.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'diario_preferencia_agrupamento:delete',
+      filter: setup.diarioPreferenciaAgrupamento.delete,
+      payload: null as any,
+    });
   }
 }

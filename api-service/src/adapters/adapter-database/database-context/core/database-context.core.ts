@@ -218,5 +218,11 @@ export class DatabaseContextCore {
   get DisponibilidadeProfessorDiaRepository() {
     return repositories.createDisponibilidadeProfessorDiaRepository(this.ds);
   }
+
+  // =====================================================
+  get diarioPreferenciaAgrupamentoRepository() {
+    return repositories.createDiarioPreferenciaAgrupamentoRepository(this.ds);
+  }
+
   // =====================================================
 }

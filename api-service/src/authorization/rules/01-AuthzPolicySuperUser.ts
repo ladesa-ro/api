@@ -156,6 +156,13 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
         update: true,
         delete: true,
       },
+
+      diarioPreferenciaAgrupamento: {
+        create: true,
+        find: true,
+        update: true,
+        delete: true,
+      },
     });
   }
 }
