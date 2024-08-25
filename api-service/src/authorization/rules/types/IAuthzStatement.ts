@@ -172,6 +172,13 @@ export type IAuthzStatementHorarioGeradoUpdate = IBaseAuthzFilter<'horario_gerad
 export type IAuthzStatementHorarioGeradoDelete = IBaseAuthzFilter<'horario_gerado:delete', { dto: LadesaTypings.HorarioGeradoFindOneInput }>;
 export type IAuthzStatementHorarioGeradoFind = IBaseAuthzFilter<'horario_gerado:find'>;
 
+// =====================
+
+export type IAuthzStatementHorarioGeradoAulaCreate = IBaseAuthzCheck<'horario_gerado_aula:create', { dto: LadesaTypings.HorarioGeradoAulaCreateCombinedInput }>;
+export type IAuthzStatementHorarioGeradoAulaUpdate = IBaseAuthzFilter<'horario_gerado_aula:update', { dto: LadesaTypings.HorarioGeradoAulaUpdateByIDCombinedInput }>;
+export type IAuthzStatementHorarioGeradoAulaDelete = IBaseAuthzFilter<'horario_gerado_aula:delete', { dto: LadesaTypings.HorarioGeradoAulaFindOneInput }>;
+export type IAuthzStatementHorarioGeradoAulaFind = IBaseAuthzFilter<'horario_gerado_aula:find'>;
+
 // ===================================================================================
 
 export type IAuthzStatementCheck =
@@ -196,7 +203,8 @@ export type IAuthzStatementCheck =
   | IAuthzStatementDisponibilidadeProfessorCreate
   | IAuthzStatementDisponibilidadeProfessorDiaCreate
   | IAuthzStatementDiarioPreferenciaAgrupamentoCreate
-  | IAuthzStatementHorarioGeradoCreate;
+  | IAuthzStatementHorarioGeradoCreate
+  | IAuthzStatementHorarioGeradoAulaCreate;
 
 // =====================
 
@@ -271,7 +279,10 @@ export type IAuthzStatementFilter =
   | IAuthzStatementDiarioPreferenciaAgrupamentoDelete
   | IAuthzStatementHorarioGeradoUpdate
   | IAuthzStatementHorarioGeradoFind
-  | IAuthzStatementHorarioGeradoDelete;
+  | IAuthzStatementHorarioGeradoDelete
+  | IAuthzStatementHorarioGeradoAulaUpdate
+  | IAuthzStatementHorarioGeradoAulaDelete
+  | IAuthzStatementHorarioGeradoAulaFind;
 
 // =====================
 

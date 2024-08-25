@@ -179,6 +179,13 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
         update: filterAllowNotDeleted,
         delete: filterAllowNotDeleted,
       },
+
+      horarioGeradoAula: {
+        create: true,
+        find: filterAllowNotDeleted,
+        update: filterAllowNotDeleted,
+        delete: filterAllowNotDeleted,
+      },
     });
   }
 }

@@ -5,6 +5,7 @@ import { DisponibilidadeProfessorModule } from './disponibilidade-professor/disp
 import { DisponibilidadeProfessorDiaModule } from './disponibilidade-professor-dia/disponibilidade-professor-dia.module';
 import { DiarioPreferenciaAgrupamentoModule } from './diario-preferencia-agrupamento/diario-preferencia-agrupamento.module';
 import { HorarioGeradoModule } from './horario-gerado/horario-gerado.module';
+import { HorarioGeradoAulaModule } from './horario-gerado-aula/horario-gerado-aula.module';
 
 
 @Module({
@@ -14,7 +15,8 @@ import { HorarioGeradoModule } from './horario-gerado/horario-gerado.module';
     DisponibilidadeProfessorModule,
     DisponibilidadeProfessorDiaModule,
     DiarioPreferenciaAgrupamentoModule,
-    HorarioGeradoModule
+    HorarioGeradoModule,
+    HorarioGeradoAulaModule
   ],
 })
 export class HorarioAcademicoModule {}
