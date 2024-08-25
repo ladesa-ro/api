@@ -224,5 +224,11 @@ export class DatabaseContextCore {
     return repositories.createDiarioPreferenciaAgrupamentoRepository(this.ds);
   }
 
+    // =====================================================
+    get horarioGeradoRepository() {
+      return repositories.createHorarioGeradoRepository(this.ds);
+    }
+  
+
   // =====================================================
 }

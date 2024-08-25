@@ -164,6 +164,14 @@ export type IAuthzStatementDiarioPreferenciaAgrupamentoUpdate = IBaseAuthzFilter
 export type IAuthzStatementDiarioPreferenciaAgrupamentoDelete = IBaseAuthzFilter<'diario_preferencia_agrupamento:delete', { dto: LadesaTypings.DiarioPreferenciaAgrupamentoFindOneInput }>;
 export type IAuthzStatementDiarioPreferenciaAgrupamentoFind = IBaseAuthzFilter<'diario_preferencia_agrupamento:find'>;
 
+
+// =====================
+
+export type IAuthzStatementHorarioGeradoCreate = IBaseAuthzCheck<'horario_gerado:create', { dto: LadesaTypings.HorarioGeradoCreateCombinedInput }>;
+export type IAuthzStatementHorarioGeradoUpdate = IBaseAuthzFilter<'horario_gerado:update', { dto: LadesaTypings.HorarioGeradoUpdateByIDCombinedInput }>;
+export type IAuthzStatementHorarioGeradoDelete = IBaseAuthzFilter<'horario_gerado:delete', { dto: LadesaTypings.HorarioGeradoFindOneInput }>;
+export type IAuthzStatementHorarioGeradoFind = IBaseAuthzFilter<'horario_gerado:find'>;
+
 // ===================================================================================
 
 export type IAuthzStatementCheck =
@@ -187,7 +195,8 @@ export type IAuthzStatementCheck =
   | IAuthzStatementTurmaDisponibilidadeDiaCreate
   | IAuthzStatementDisponibilidadeProfessorCreate
   | IAuthzStatementDisponibilidadeProfessorDiaCreate
-  | IAuthzStatementDiarioPreferenciaAgrupamentoCreate;
+  | IAuthzStatementDiarioPreferenciaAgrupamentoCreate
+  | IAuthzStatementHorarioGeradoCreate;
 
 // =====================
 
@@ -259,7 +268,10 @@ export type IAuthzStatementFilter =
   | IAuthzStatementDisponibilidadeProfessorDiaDelete
   | IAuthzStatementDiarioPreferenciaAgrupamentoUpdate
   | IAuthzStatementDiarioPreferenciaAgrupamentoFind
-  | IAuthzStatementDiarioPreferenciaAgrupamentoDelete;
+  | IAuthzStatementDiarioPreferenciaAgrupamentoDelete
+  | IAuthzStatementHorarioGeradoUpdate
+  | IAuthzStatementHorarioGeradoFind
+  | IAuthzStatementHorarioGeradoDelete;
 
 // =====================
 

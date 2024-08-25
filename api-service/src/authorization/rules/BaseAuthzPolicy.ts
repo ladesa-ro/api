@@ -164,6 +164,13 @@ type IAuthzPolicySetup = {
     update: Authz.IAuthzStatementDiarioPreferenciaAgrupamentoUpdate['filter'];
     create: Authz.IAuthzStatementDiarioPreferenciaAgrupamentoCreate['withCheck'];
   };
+
+  horarioGerado: {
+    find: Authz.IAuthzStatementHorarioGeradoFind['filter'];
+    delete: Authz.IAuthzStatementHorarioGeradoDelete['filter'];
+    update: Authz.IAuthzStatementHorarioGeradoUpdate['filter'];
+    create: Authz.IAuthzStatementHorarioGeradoCreate['withCheck'];
+  };
 };
 
 export class BaseAuthzPolicy {
@@ -790,6 +797,35 @@ export class BaseAuthzPolicy {
       statementKind: 'filter',
       action: 'diario_preferencia_agrupamento:delete',
       filter: setup.diarioPreferenciaAgrupamento.delete,
+      payload: null as any,
+    });
+
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'horario_gerado:create',
+      withCheck: setup.horarioGerado.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'horario_gerado:find',
+      filter: setup.horarioGerado.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'horario_gerado:update',
+      filter: setup.horarioGerado.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'horario_gerado:delete',
+      filter: setup.horarioGerado.delete,
       payload: null as any,
     });
   }

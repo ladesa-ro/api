@@ -172,6 +172,13 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
         update: filterAllowNotDeleted,
         delete: filterAllowNotDeleted,
       },
+
+      horarioGerado: {
+        create: true,
+        find: filterAllowNotDeleted,
+        update: filterAllowNotDeleted,
+        delete: filterAllowNotDeleted,
+      },
     });
   }
 }

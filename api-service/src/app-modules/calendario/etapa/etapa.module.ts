@@ -8,5 +8,6 @@ import { EtapaController } from './etapa.controller';
   imports: [CalendarioLetivoModule],
   providers: [EtapaService, EtapaResolver],
   controllers: [EtapaController],
+  exports: [EtapaService]
 })
 export class EtapaModule {}

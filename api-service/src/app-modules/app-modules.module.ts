@@ -19,9 +19,6 @@ import { DiarioPreferenciaAgrupamentoModule } from './horario-academico/diario-p
     EnsinoModule,
     CalendarioModule,
     HorarioAcademicoModule,
-    DisponibilidadeProfessorModule,
-    DisponibilidadeProfessorDiaModule,
-    DiarioPreferenciaAgrupamentoModule
     /*GerarHorarioModule*/
   ],
 })
