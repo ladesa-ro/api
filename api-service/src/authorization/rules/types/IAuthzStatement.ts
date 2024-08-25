@@ -150,6 +150,13 @@ export type IAuthzStatementDisponibilidadeProfessorUpdate = IBaseAuthzFilter<'di
 export type IAuthzStatementDisponibilidadeProfessorDelete = IBaseAuthzFilter<'disponibilidade_professor:delete', { dto: LadesaTypings.DisponibilidadeProfessorFindOneInput }>;
 export type IAuthzStatementDisponibilidadeProfessorFind = IBaseAuthzFilter<'disponibilidade_professor:find'>;
 
+// =====================
+
+export type IAuthzStatementDisponibilidadeProfessorDiaCreate = IBaseAuthzCheck<'disponibilidade_professor_dia:create', { dto: LadesaTypings.DisponibilidadeProfessorDiaCreateCombinedInput }>;
+export type IAuthzStatementDisponibilidadeProfessorDiaUpdate = IBaseAuthzFilter<'disponibilidade_professor_dia:update', { dto: LadesaTypings.DisponibilidadeProfessorDiaUpdateByIDCombinedInput }>;
+export type IAuthzStatementDisponibilidadeProfessorDiaDelete = IBaseAuthzFilter<'disponibilidade_professor_dia:delete', { dto: LadesaTypings.DisponibilidadeProfessorDiaFindOneInput }>;
+export type IAuthzStatementDisponibilidadeProfessorDiaFind = IBaseAuthzFilter<'disponibilidade_professor_dia:find'>;
+
 // ===================================================================================
 
 export type IAuthzStatementCheck =
@@ -171,7 +178,8 @@ export type IAuthzStatementCheck =
   | IAuthzStatementTurmaDisponibilidadeCreate
   | IAuthzStatementAulaCreate
   | IAuthzStatementTurmaDisponibilidadeDiaCreate
-  | IAuthzStatementDisponibilidadeProfessorCreate;
+  | IAuthzStatementDisponibilidadeProfessorCreate
+  | IAuthzStatementDisponibilidadeProfessorDiaCreate;
 
 // =====================
 
@@ -237,7 +245,10 @@ export type IAuthzStatementFilter =
   | IAuthzStatementTurmaDisponibilidadeDiaFind
   | IAuthzStatementDisponibilidadeProfessorUpdate
   | IAuthzStatementDisponibilidadeProfessorDelete
-  | IAuthzStatementDisponibilidadeProfessorFind;
+  | IAuthzStatementDisponibilidadeProfessorFind
+  | IAuthzStatementDisponibilidadeProfessorDiaUpdate
+  | IAuthzStatementDisponibilidadeProfessorDiaFind
+  | IAuthzStatementDisponibilidadeProfessorDiaDelete;
 
 // =====================
 

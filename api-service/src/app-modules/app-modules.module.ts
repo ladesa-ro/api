@@ -5,8 +5,9 @@ import { BaseModule } from './base/base.module';
 import { CalendarioModule } from './calendario/calendario.module';
 import { EnsinoModule } from './ensino/ensino.module';
 import { HorarioAcademicoModule } from './horario-academico/horario-academico.module';
-import { GerarHorarioModule } from './gerar-horario/gerar-horario.module';
 import { DisponibilidadeProfessorModule } from './horario-academico/disponibilidade-professor/disponibilidade-professor.module';
+import { DisponibilidadeProfessorDiaModule } from './horario-academico/disponibilidade-professor-dia/disponibilidade-professor-dia.module';
+//import { GerarHorarioModule } from './gerar-horario/gerar-horario.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { DisponibilidadeProfessorModule } from './horario-academico/disponibilid
     EnsinoModule,
     CalendarioModule,
     HorarioAcademicoModule,
-    DisponibilidadeProfessorModule
+    DisponibilidadeProfessorModule,
+    DisponibilidadeProfessorDiaModule
     /*GerarHorarioModule*/
   ],
 })

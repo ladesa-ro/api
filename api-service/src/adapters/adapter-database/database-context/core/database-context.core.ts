@@ -209,8 +209,14 @@ export class DatabaseContextCore {
     return repositories.createTurmaDisponibilidadeDiaRepository(this.ds);
   }
 
+  // =====================================================
   get DisponibilidadeProfessorRepository() {
     return repositories.createDisponibilidadeProfessorRepository(this.ds);
+  }
+
+  // =====================================================
+  get DisponibilidadeProfessorDiaRepository() {
+    return repositories.createDisponibilidadeProfessorDiaRepository(this.ds);
   }
   // =====================================================
 }

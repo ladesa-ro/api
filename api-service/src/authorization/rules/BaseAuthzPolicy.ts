@@ -149,6 +149,13 @@ type IAuthzPolicySetup = {
     update: Authz.IAuthzStatementDisponibilidadeProfessorUpdate['filter'];
     create: Authz.IAuthzStatementDisponibilidadeProfessorCreate['withCheck'];
   };
+
+  disponibilidadeProfessorDia: {
+    find: Authz.IAuthzStatementDisponibilidadeProfessorDiaFind['filter'];
+    delete: Authz.IAuthzStatementDisponibilidadeProfessorDiaDelete['filter'];
+    update: Authz.IAuthzStatementDisponibilidadeProfessorDiaUpdate['filter'];
+    create: Authz.IAuthzStatementDisponibilidadeProfessorDiaCreate['withCheck'];
+  };
 };
 
 export class BaseAuthzPolicy {
@@ -694,17 +701,6 @@ export class BaseAuthzPolicy {
       payload: null as any,
     });
 
-
-
-
-
-
-
-
-
-
-
-
     this.statements.push({
       statementKind: 'check',
       action: 'disponibilidade_professor:create',
@@ -732,5 +728,41 @@ export class BaseAuthzPolicy {
       filter: setup.disponibilidadeProfessor.delete,
       payload: null as any,
     });
+
+
+
+
+
+
+
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'disponibilidade_professor_dia:create',
+      withCheck: setup.disponibilidadeProfessorDia.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'disponibilidade_professor_dia:find',
+      filter: setup.disponibilidadeProfessorDia.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'disponibilidade_professor_dia:update',
+      filter: setup.disponibilidadeProfessorDia.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'disponibilidade_professor_dia:delete',
+      filter: setup.disponibilidadeProfessorDia.delete,
+      payload: null as any,
+    });
+
   }
 }

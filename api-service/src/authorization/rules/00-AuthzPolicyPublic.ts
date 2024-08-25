@@ -158,6 +158,13 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
         update: filterAllowNotDeleted,
         delete: filterAllowNotDeleted,
       },
+
+      disponibilidadeProfessorDia: {
+        create: true,
+        find: filterAllowNotDeleted,
+        update: filterAllowNotDeleted,
+        delete: filterAllowNotDeleted,
+      },
     });
   }
 }
