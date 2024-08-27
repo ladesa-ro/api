@@ -48,8 +48,8 @@ importers:
   integrations/npm/api-client-fetch:
     devDependencies:
       '@hey-api/openapi-ts':
-        specifier: ^0.49.0
-        version: 0.49.0(typescript@5.5.4)
+        specifier: ^0.52.11
+        version: 0.52.11(typescript@5.5.4)
       '@release-it/bumper':
         specifier: ^6.0.1
         version: 6.0.1(release-it@17.6.0(typescript@5.5.4))
@@ -77,8 +77,8 @@ importers:
 
 packages:
 
-  '@apidevtools/json-schema-ref-parser@11.6.4':
-    resolution: {integrity: sha512-9K6xOqeevacvweLGik6LnZCb1fBtCOSIWQs8d096XGeqoLKC33UVMGz9+77Gw44KvbH4pKcQPWo4ZpxkXYj05w==}
+  '@apidevtools/json-schema-ref-parser@11.7.0':
+    resolution: {integrity: sha512-pRrmXMCwnmrkS3MLgAIW5dXRzeTv6GLjkjb4HmxNnvAKXN1Nfzp4KmGADBQvlVUcqi+a5D+hfGDLLnd5NnYxog==}
     engines: {node: '>= 16'}
 
   '@babel/code-frame@7.24.7':
@@ -196,8 +196,8 @@ packages:
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@hey-api/openapi-ts@0.49.0':
-    resolution: {integrity: sha512-x6JK3nJpIEEEdvgpSZfsE3dwGmI4GNivENKj0rHhwQDHOkP8CK4tP0at53WPKtbq4xlbRFvgIMKp36o0zsW04g==}
+  '@hey-api/openapi-ts@0.52.11':
+    resolution: {integrity: sha512-S3NrCQDxy7AtW5sx8OVoBaqpaYNqYsD0y6YNwhUXPUahbrW7Wxm/N4RIEsRtXVbcjUqdAjo1FmFmeyEKYziJkw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -561,10 +561,6 @@ packages:
   camelcase@7.0.1:
     resolution: {integrity: sha512-xlx1yCK2Oc1APsPXDL2LdlNP6+uu8OCDdhOBSVT279M/S+y75O30C2VuD8T2ogdePBBl7PfPF4504tnLgX3zfw==}
     engines: {node: '>=14.16'}
-
-  camelcase@8.0.0:
-    resolution: {integrity: sha512-8WB3Jcas3swSvjIeA2yvCJ+Miyz5l1ZmB6HFb9R1317dt9LCQoswg/BGrmAmkWVEszSrrg4RwmO46qIm2OEnSA==}
-    engines: {node: '>=16'}
 
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -2290,7 +2286,7 @@ packages:
 
 snapshots:
 
-  '@apidevtools/json-schema-ref-parser@11.6.4':
+  '@apidevtools/json-schema-ref-parser@11.7.0':
     dependencies:
       '@jsdevtools/ono': 7.1.3
       '@types/json-schema': 7.0.15
@@ -2473,11 +2469,10 @@ snapshots:
 
   '@eslint/object-schema@2.1.4': {}
 
-  '@hey-api/openapi-ts@0.49.0(typescript@5.5.4)':
+  '@hey-api/openapi-ts@0.52.11(typescript@5.5.4)':
     dependencies:
-      '@apidevtools/json-schema-ref-parser': 11.6.4
+      '@apidevtools/json-schema-ref-parser': 11.7.0
       c12: 1.11.1
-      camelcase: 8.0.0
       commander: 12.1.0
       handlebars: 4.7.8
       typescript: 5.5.4
@@ -2888,8 +2883,6 @@ snapshots:
   callsites@3.1.0: {}
 
   camelcase@7.0.1: {}
-
-  camelcase@8.0.0: {}
 
   chalk@2.4.2:
     dependencies:
