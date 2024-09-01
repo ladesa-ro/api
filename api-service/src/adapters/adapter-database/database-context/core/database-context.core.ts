@@ -208,5 +208,31 @@ export class DatabaseContextCore {
   get turmaDisponibilidadeDiaRepository() {
     return repositories.createTurmaDisponibilidadeDiaRepository(this.ds);
   }
+
+  // =====================================================
+  get DisponibilidadeProfessorRepository() {
+    return repositories.createDisponibilidadeProfessorRepository(this.ds);
+  }
+
+  // =====================================================
+  get DisponibilidadeProfessorDiaRepository() {
+    return repositories.createDisponibilidadeProfessorDiaRepository(this.ds);
+  }
+
+  // =====================================================
+  get diarioPreferenciaAgrupamentoRepository() {
+    return repositories.createDiarioPreferenciaAgrupamentoRepository(this.ds);
+  }
+
+  // =====================================================
+  get horarioGeradoRepository() {
+    return repositories.createHorarioGeradoRepository(this.ds);
+  }
+
+  // =====================================================
+    get horarioGeradoAulaRepository() {
+      return repositories.createHorarioGeradoAulaRepository(this.ds);
+    }
+
   // =====================================================
 }

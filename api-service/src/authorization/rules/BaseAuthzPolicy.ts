@@ -93,6 +93,91 @@ type IAuthzPolicySetup = {
     update: Authz.IAuthzStatementCalendarioLetivoUpdate['filter'];
     create: Authz.IAuthzStatementCalendarioLetivoCreate['withCheck'];
   };
+
+  etapa: {
+    find: Authz.IAuthzStatementEtapaFind['filter'];
+    delete: Authz.IAuthzStatementEtapaDelete['filter'];
+    update: Authz.IAuthzStatementEtapaUpdate['filter'];
+    create: Authz.IAuthzStatementEtapaCreate['withCheck'];
+  };
+
+  aula: {
+    find: Authz.IAuthzStatementAulaFind['filter'];
+    delete: Authz.IAuthzStatementAulaDelete['filter'];
+    update: Authz.IAuthzStatementAulaUpdate['filter'];
+    create: Authz.IAuthzStatementAulaCreate['withCheck'];
+  };
+
+  turmaDisponibilidade: {
+    find: Authz.IAuthzStatementTurmaDisponibilidadeFind['filter'];
+    delete: Authz.IAuthzStatementTurmaDisponibilidadeDelete['filter'];
+    update: Authz.IAuthzStatementTurmaDisponibilidadeUpdate['filter'];
+    create: Authz.IAuthzStatementTurmaDisponibilidadeCreate['withCheck'];
+  };
+
+  turmaDisponibilidadeDia: {
+    find: Authz.IAuthzStatementTurmaDisponibilidadeDiaFind['filter'];
+    delete: Authz.IAuthzStatementTurmaDisponibilidadeDiaDelete['filter'];
+    update: Authz.IAuthzStatementTurmaDisponibilidadeDiaUpdate['filter'];
+    create: Authz.IAuthzStatementTurmaDisponibilidadeDiaCreate['withCheck'];
+  };
+
+  diaCalendario: {
+    find: Authz.IAuthzStatementDiaCalendarioFind['filter'];
+    delete: Authz.IAuthzStatementDiaCalendarioDelete['filter'];
+    update: Authz.IAuthzStatementDiaCalendarioUpdate['filter'];
+    create: Authz.IAuthzStatementDiaCalendarioCreate['withCheck'];
+  };
+
+  evento: {
+    find: Authz.IAuthzStatementEventoFind['filter'];
+    delete: Authz.IAuthzStatementEventoDelete['filter'];
+    update: Authz.IAuthzStatementEventoUpdate['filter'];
+    create: Authz.IAuthzStatementEventoCreate['withCheck'];
+  };
+
+  diarioProfessor: {
+    find: Authz.IAuthzStatementDiarioProfessorFilter['filter'];
+    delete: Authz.IAuthzStatementDiarioProfessorDelete['filter'];
+    update: Authz.IAuthzStatementDiarioProfessorUpdate['filter'];
+    create: Authz.IAuthzStatementDiarioProfessorCreate['withCheck'];
+  };
+
+  disponibilidadeProfessor: {
+    find: Authz.IAuthzStatementDisponibilidadeProfessorFind['filter'];
+    delete: Authz.IAuthzStatementDisponibilidadeProfessorDelete['filter'];
+    update: Authz.IAuthzStatementDisponibilidadeProfessorUpdate['filter'];
+    create: Authz.IAuthzStatementDisponibilidadeProfessorCreate['withCheck'];
+  };
+
+  disponibilidadeProfessorDia: {
+    find: Authz.IAuthzStatementDisponibilidadeProfessorDiaFind['filter'];
+    delete: Authz.IAuthzStatementDisponibilidadeProfessorDiaDelete['filter'];
+    update: Authz.IAuthzStatementDisponibilidadeProfessorDiaUpdate['filter'];
+    create: Authz.IAuthzStatementDisponibilidadeProfessorDiaCreate['withCheck'];
+  };
+
+
+  diarioPreferenciaAgrupamento: {
+    find: Authz.IAuthzStatementDiarioPreferenciaAgrupamentoFind['filter'];
+    delete: Authz.IAuthzStatementDiarioPreferenciaAgrupamentoDelete['filter'];
+    update: Authz.IAuthzStatementDiarioPreferenciaAgrupamentoUpdate['filter'];
+    create: Authz.IAuthzStatementDiarioPreferenciaAgrupamentoCreate['withCheck'];
+  };
+
+  horarioGerado: {
+    find: Authz.IAuthzStatementHorarioGeradoFind['filter'];
+    delete: Authz.IAuthzStatementHorarioGeradoDelete['filter'];
+    update: Authz.IAuthzStatementHorarioGeradoUpdate['filter'];
+    create: Authz.IAuthzStatementHorarioGeradoCreate['withCheck'];
+  };
+
+  horarioGeradoAula: {
+    find: Authz.IAuthzStatementHorarioGeradoAulaFind['filter'];
+    delete: Authz.IAuthzStatementHorarioGeradoAulaDelete['filter'];
+    update: Authz.IAuthzStatementHorarioGeradoAulaUpdate['filter'];
+    create: Authz.IAuthzStatementHorarioGeradoAulaCreate['withCheck'];
+  };
 };
 
 export class BaseAuthzPolicy {
@@ -439,6 +524,343 @@ export class BaseAuthzPolicy {
       statementKind: 'filter',
       action: 'calendario_letivo:delete',
       filter: setup.calendarioLetivo.delete,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'etapa:create',
+      withCheck: setup.etapa.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'etapa:find',
+      filter: setup.etapa.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'etapa:update',
+      filter: setup.etapa.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'etapa:delete',
+      filter: setup.etapa.delete,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'aula:create',
+      withCheck: setup.aula.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'aula:find',
+      filter: setup.aula.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'aula:update',
+      filter: setup.aula.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'aula:delete',
+      filter: setup.aula.delete,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'turma_disponibilidade:create',
+      withCheck: setup.turmaDisponibilidade.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'turma_disponibilidade:find',
+      filter: setup.turmaDisponibilidade.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'turma_disponibilidade:update',
+      filter: setup.turmaDisponibilidade.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'turma_disponibilidade:delete',
+      filter: setup.turmaDisponibilidade.delete,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'turma_disponibilidade_dia:create',
+      withCheck: setup.turmaDisponibilidadeDia.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'turma_disponibilidade_dia:find',
+      filter: setup.turmaDisponibilidadeDia.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'turma_disponibilidade_dia:update',
+      filter: setup.turmaDisponibilidadeDia.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'turma_disponibilidade_dia:delete',
+      filter: setup.turmaDisponibilidadeDia.delete,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'dia_calendario:create',
+      withCheck: setup.diaCalendario.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'dia_calendario:find',
+      filter: setup.diaCalendario.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'dia_calendario:update',
+      filter: setup.diaCalendario.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'dia_calendario:delete',
+      filter: setup.diaCalendario.delete,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'evento:create',
+      withCheck: setup.evento.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'evento:find',
+      filter: setup.evento.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'evento:update',
+      filter: setup.evento.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'evento:delete',
+      filter: setup.evento.delete,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'diario_professor:create',
+      withCheck: setup.diarioProfessor.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'diario_professor:find',
+      filter: setup.diarioProfessor.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'diario_professor:update',
+      filter: setup.diarioProfessor.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'diario_professor:delete',
+      filter: setup.diarioProfessor.delete,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'disponibilidade_professor:create',
+      withCheck: setup.disponibilidadeProfessor.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'disponibilidade_professor:find',
+      filter: setup.disponibilidadeProfessor.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'disponibilidade_professor:update',
+      filter: setup.disponibilidadeProfessor.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'disponibilidade_professor:delete',
+      filter: setup.disponibilidadeProfessor.delete,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'disponibilidade_professor_dia:create',
+      withCheck: setup.disponibilidadeProfessorDia.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'disponibilidade_professor_dia:find',
+      filter: setup.disponibilidadeProfessorDia.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'disponibilidade_professor_dia:update',
+      filter: setup.disponibilidadeProfessorDia.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'disponibilidade_professor_dia:delete',
+      filter: setup.disponibilidadeProfessorDia.delete,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'diario_preferencia_agrupamento:create',
+      withCheck: setup.diarioPreferenciaAgrupamento.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'diario_preferencia_agrupamento:find',
+      filter: setup.diarioPreferenciaAgrupamento.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'diario_preferencia_agrupamento:update',
+      filter: setup.diarioPreferenciaAgrupamento.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'diario_preferencia_agrupamento:delete',
+      filter: setup.diarioPreferenciaAgrupamento.delete,
+      payload: null as any,
+    });
+
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'horario_gerado:create',
+      withCheck: setup.horarioGerado.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'horario_gerado:find',
+      filter: setup.horarioGerado.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'horario_gerado:update',
+      filter: setup.horarioGerado.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'horario_gerado:delete',
+      filter: setup.horarioGerado.delete,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'check',
+      action: 'horario_gerado_aula:create',
+      withCheck: setup.horarioGeradoAula.create,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'horario_gerado_aula:find',
+      filter: setup.horarioGeradoAula.find,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'horario_gerado_aula:update',
+      filter: setup.horarioGeradoAula.update,
+      payload: null as any,
+    });
+
+    this.statements.push({
+      statementKind: 'filter',
+      action: 'horario_gerado_aula:delete',
+      filter: setup.horarioGeradoAula.delete,
       payload: null as any,
     });
   }

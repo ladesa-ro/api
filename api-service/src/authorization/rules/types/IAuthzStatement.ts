@@ -143,6 +143,42 @@ export type IAuthzStatementAulaUpdate = IBaseAuthzFilter<'aula:update', { dto: L
 export type IAuthzStatementAulaDelete = IBaseAuthzFilter<'aula:delete', { dto: LadesaTypings.AulaFindOneInput }>;
 export type IAuthzStatementAulaFind = IBaseAuthzFilter<'aula:find'>;
 
+// =====================
+
+export type IAuthzStatementDisponibilidadeProfessorCreate = IBaseAuthzCheck<'disponibilidade_professor:create', { dto: LadesaTypings.DisponibilidadeProfessorCreateCombinedInput }>;
+export type IAuthzStatementDisponibilidadeProfessorUpdate = IBaseAuthzFilter<'disponibilidade_professor:update', { dto: LadesaTypings.DisponibilidadeProfessorUpdateByIDCombinedInput }>;
+export type IAuthzStatementDisponibilidadeProfessorDelete = IBaseAuthzFilter<'disponibilidade_professor:delete', { dto: LadesaTypings.DisponibilidadeProfessorFindOneInput }>;
+export type IAuthzStatementDisponibilidadeProfessorFind = IBaseAuthzFilter<'disponibilidade_professor:find'>;
+
+// =====================
+
+export type IAuthzStatementDisponibilidadeProfessorDiaCreate = IBaseAuthzCheck<'disponibilidade_professor_dia:create', { dto: LadesaTypings.DisponibilidadeProfessorDiaCreateCombinedInput }>;
+export type IAuthzStatementDisponibilidadeProfessorDiaUpdate = IBaseAuthzFilter<'disponibilidade_professor_dia:update', { dto: LadesaTypings.DisponibilidadeProfessorDiaUpdateByIDCombinedInput }>;
+export type IAuthzStatementDisponibilidadeProfessorDiaDelete = IBaseAuthzFilter<'disponibilidade_professor_dia:delete', { dto: LadesaTypings.DisponibilidadeProfessorDiaFindOneInput }>;
+export type IAuthzStatementDisponibilidadeProfessorDiaFind = IBaseAuthzFilter<'disponibilidade_professor_dia:find'>;
+
+// =====================
+
+export type IAuthzStatementDiarioPreferenciaAgrupamentoCreate = IBaseAuthzCheck<'diario_preferencia_agrupamento:create', { dto: LadesaTypings.DiarioPreferenciaAgrupamentoCreateCombinedInput }>;
+export type IAuthzStatementDiarioPreferenciaAgrupamentoUpdate = IBaseAuthzFilter<'diario_preferencia_agrupamento:update', { dto: LadesaTypings.DiarioPreferenciaAgrupamentoUpdateByIDCombinedInput }>;
+export type IAuthzStatementDiarioPreferenciaAgrupamentoDelete = IBaseAuthzFilter<'diario_preferencia_agrupamento:delete', { dto: LadesaTypings.DiarioPreferenciaAgrupamentoFindOneInput }>;
+export type IAuthzStatementDiarioPreferenciaAgrupamentoFind = IBaseAuthzFilter<'diario_preferencia_agrupamento:find'>;
+
+
+// =====================
+
+export type IAuthzStatementHorarioGeradoCreate = IBaseAuthzCheck<'horario_gerado:create', { dto: LadesaTypings.HorarioGeradoCreateCombinedInput }>;
+export type IAuthzStatementHorarioGeradoUpdate = IBaseAuthzFilter<'horario_gerado:update', { dto: LadesaTypings.HorarioGeradoUpdateByIDCombinedInput }>;
+export type IAuthzStatementHorarioGeradoDelete = IBaseAuthzFilter<'horario_gerado:delete', { dto: LadesaTypings.HorarioGeradoFindOneInput }>;
+export type IAuthzStatementHorarioGeradoFind = IBaseAuthzFilter<'horario_gerado:find'>;
+
+// =====================
+
+export type IAuthzStatementHorarioGeradoAulaCreate = IBaseAuthzCheck<'horario_gerado_aula:create', { dto: LadesaTypings.HorarioGeradoAulaCreateCombinedInput }>;
+export type IAuthzStatementHorarioGeradoAulaUpdate = IBaseAuthzFilter<'horario_gerado_aula:update', { dto: LadesaTypings.HorarioGeradoAulaUpdateByIDCombinedInput }>;
+export type IAuthzStatementHorarioGeradoAulaDelete = IBaseAuthzFilter<'horario_gerado_aula:delete', { dto: LadesaTypings.HorarioGeradoAulaFindOneInput }>;
+export type IAuthzStatementHorarioGeradoAulaFind = IBaseAuthzFilter<'horario_gerado_aula:find'>;
+
 // ===================================================================================
 
 export type IAuthzStatementCheck =
@@ -163,7 +199,12 @@ export type IAuthzStatementCheck =
   | IAuthzStatementEtapaCreate
   | IAuthzStatementTurmaDisponibilidadeCreate
   | IAuthzStatementAulaCreate
-  | IAuthzStatementTurmaDisponibilidadeDiaCreate;
+  | IAuthzStatementTurmaDisponibilidadeDiaCreate
+  | IAuthzStatementDisponibilidadeProfessorCreate
+  | IAuthzStatementDisponibilidadeProfessorDiaCreate
+  | IAuthzStatementDiarioPreferenciaAgrupamentoCreate
+  | IAuthzStatementHorarioGeradoCreate
+  | IAuthzStatementHorarioGeradoAulaCreate;
 
 // =====================
 
@@ -226,7 +267,22 @@ export type IAuthzStatementFilter =
   | IAuthzStatementAulaFind
   | IAuthzStatementTurmaDisponibilidadeDiaUpdate
   | IAuthzStatementTurmaDisponibilidadeDiaDelete
-  | IAuthzStatementTurmaDisponibilidadeDiaFind;
+  | IAuthzStatementTurmaDisponibilidadeDiaFind
+  | IAuthzStatementDisponibilidadeProfessorUpdate
+  | IAuthzStatementDisponibilidadeProfessorDelete
+  | IAuthzStatementDisponibilidadeProfessorFind
+  | IAuthzStatementDisponibilidadeProfessorDiaUpdate
+  | IAuthzStatementDisponibilidadeProfessorDiaFind
+  | IAuthzStatementDisponibilidadeProfessorDiaDelete
+  | IAuthzStatementDiarioPreferenciaAgrupamentoUpdate
+  | IAuthzStatementDiarioPreferenciaAgrupamentoFind
+  | IAuthzStatementDiarioPreferenciaAgrupamentoDelete
+  | IAuthzStatementHorarioGeradoUpdate
+  | IAuthzStatementHorarioGeradoFind
+  | IAuthzStatementHorarioGeradoDelete
+  | IAuthzStatementHorarioGeradoAulaUpdate
+  | IAuthzStatementHorarioGeradoAulaDelete
+  | IAuthzStatementHorarioGeradoAulaFind;
 
 // =====================
 
