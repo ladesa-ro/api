@@ -3906,3 +3906,886 @@ export const $TurmaDisponibilidadeDiaInputUpdateDto = {
     },
   },
 } as const;
+
+export const $DisponibilidadeProfessorFindOneResultDto = {
+  type: 'object',
+  properties: {
+    dataInicio: {
+      type: 'string',
+      format: 'date',
+      nullable: false,
+      description: 'Data de início.',
+    },
+    dataFim: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Data de término.',
+    },
+    vinculoProfessor: {
+      nullable: false,
+      description: 'Vínculo de professor.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/VinculoFindOneResultDto',
+        },
+      ],
+    },
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+    dateCreated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Criação do Registro.',
+    },
+    dateUpdated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Atualização do Registro.',
+    },
+    dateDeleted: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data de Exclusão do Registro.',
+    },
+  },
+  required: ['dataInicio', 'dataFim', 'vinculoProfessor', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+} as const;
+
+export const $DisponibilidadeProfessorFindAllResultDto = {
+  type: 'object',
+  properties: {
+    meta: {
+      nullable: false,
+      description: 'Metadados da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultMetaDto',
+        },
+      ],
+    },
+    data: {
+      nullable: false,
+      description: 'Resultados da busca atual.',
+      type: 'array',
+      items: {
+        $ref: '#/components/schemas/DisponibilidadeProfessorFindOneResultDto',
+      },
+    },
+    links: {
+      nullable: false,
+      description: 'Links da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultLinksDto',
+        },
+      ],
+    },
+  },
+  required: ['meta', 'data', 'links'],
+} as const;
+
+export const $DisponibilidadeProfessorInputCreateDto = {
+  type: 'object',
+  properties: {
+    dataInicio: {
+      type: 'string',
+      format: 'date',
+      nullable: false,
+      description: 'Data de início.',
+    },
+    dataFim: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Data de término.',
+    },
+    vinculoProfessor: {
+      nullable: false,
+      description: 'Vínculo de professor.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/VinculoFindOneInputDto',
+        },
+      ],
+    },
+  },
+  required: ['dataInicio', 'dataFim', 'vinculoProfessor'],
+} as const;
+
+export const $DisponibilidadeProfessorInputUpdateDto = {
+  type: 'object',
+  properties: {
+    dataInicio: {
+      type: 'string',
+      format: 'date',
+      nullable: false,
+      description: 'Data de início.',
+    },
+    dataFim: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Data de término.',
+    },
+    vinculoProfessor: {
+      nullable: false,
+      description: 'Vínculo de professor.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/VinculoFindOneInputDto',
+        },
+      ],
+    },
+  },
+} as const;
+
+export const $DisponibilidadeProfessorDiaFindOneResultDto = {
+  type: 'object',
+  properties: {
+    diaSemanaIso: {
+      type: 'integer',
+      nullable: false,
+      description: 'Dia da semana.',
+    },
+    intervaloDeTempo: {
+      nullable: false,
+      description: 'Intervalo de tempo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/IntervaloDeTempoFindOneResultDto',
+        },
+      ],
+    },
+    disponibilidade: {
+      nullable: false,
+      description: 'Disponibilidade do professor.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/DisponibilidadeProfessorFindOneResultDto',
+        },
+      ],
+    },
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+    dateCreated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Criação do Registro.',
+    },
+    dateUpdated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Atualização do Registro.',
+    },
+    dateDeleted: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data de Exclusão do Registro.',
+    },
+  },
+  required: ['diaSemanaIso', 'intervaloDeTempo', 'disponibilidade', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+} as const;
+
+export const $DisponibilidadeProfessorDiaFindAllResultDto = {
+  type: 'object',
+  properties: {
+    meta: {
+      nullable: false,
+      description: 'Metadados da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultMetaDto',
+        },
+      ],
+    },
+    data: {
+      nullable: false,
+      description: 'Resultados da busca atual.',
+      type: 'array',
+      items: {
+        $ref: '#/components/schemas/DisponibilidadeProfessorDiaFindOneResultDto',
+      },
+    },
+    links: {
+      nullable: false,
+      description: 'Links da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultLinksDto',
+        },
+      ],
+    },
+  },
+  required: ['meta', 'data', 'links'],
+} as const;
+
+export const $DisponibilidadeProfessorFindOneInputDto = {
+  type: 'object',
+  properties: {
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+  },
+  required: ['id'],
+} as const;
+
+export const $DisponibilidadeProfessorDiaInputCreateDto = {
+  type: 'object',
+  properties: {
+    diaSemanaIso: {
+      type: 'integer',
+      nullable: false,
+      description: 'Dia da semana.',
+    },
+    intervaloDeTempo: {
+      nullable: false,
+      description: 'Intervalo de tempo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/IntervaloDeTempoInputDto',
+        },
+      ],
+    },
+    disponibilidade: {
+      nullable: false,
+      description: 'Disponibilidade do professor.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/DisponibilidadeProfessorFindOneInputDto',
+        },
+      ],
+    },
+  },
+  required: ['diaSemanaIso', 'intervaloDeTempo', 'disponibilidade'],
+} as const;
+
+export const $DisponibilidadeProfessorDiaInputUpdateDto = {
+  type: 'object',
+  properties: {
+    diaSemanaIso: {
+      type: 'integer',
+      nullable: false,
+      description: 'Dia da semana.',
+    },
+    intervaloDeTempo: {
+      nullable: false,
+      description: 'Intervalo de tempo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/IntervaloDeTempoInputDto',
+        },
+      ],
+    },
+    disponibilidade: {
+      nullable: false,
+      description: 'Disponibilidade do professor.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/DisponibilidadeProfessorFindOneInputDto',
+        },
+      ],
+    },
+  },
+} as const;
+
+export const $DiarioPreferenciaAgrupamentoFindOneResultDto = {
+  type: 'object',
+  properties: {
+    diaSemanaIso: {
+      type: 'integer',
+      nullable: false,
+      description: 'Dia da semana.',
+    },
+    aulasSeguidas: {
+      type: 'integer',
+      nullable: false,
+      description: 'Quantidade de aulas seguidas.',
+    },
+    dataInicio: {
+      type: 'string',
+      format: 'date',
+      nullable: false,
+      description: 'Início da vigência da preferência de agendamento.',
+    },
+    dataFim: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Fim da vigência da preferência de agendamento.',
+    },
+    intervaloDeTempo: {
+      nullable: true,
+      description: 'Intervalo de tempo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/IntervaloDeTempoFindOneResultDto',
+        },
+      ],
+    },
+    diario: {
+      nullable: false,
+      description: 'Diário vinculado.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/DiarioFindOneResultDto',
+        },
+      ],
+    },
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+    dateCreated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Criação do Registro.',
+    },
+    dateUpdated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Atualização do Registro.',
+    },
+    dateDeleted: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data de Exclusão do Registro.',
+    },
+  },
+  required: ['diaSemanaIso', 'aulasSeguidas', 'dataInicio', 'dataFim', 'intervaloDeTempo', 'diario', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+} as const;
+
+export const $DiarioPreferenciaAgrupamentoFindAllResultDto = {
+  type: 'object',
+  properties: {
+    meta: {
+      nullable: false,
+      description: 'Metadados da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultMetaDto',
+        },
+      ],
+    },
+    data: {
+      nullable: false,
+      description: 'Resultados da busca atual.',
+      type: 'array',
+      items: {
+        $ref: '#/components/schemas/DiarioPreferenciaAgrupamentoFindOneResultDto',
+      },
+    },
+    links: {
+      nullable: false,
+      description: 'Links da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultLinksDto',
+        },
+      ],
+    },
+  },
+  required: ['meta', 'data', 'links'],
+} as const;
+
+export const $DiarioPreferenciaAgrupamentoInputCreateDto = {
+  type: 'object',
+  properties: {
+    diaSemanaIso: {
+      type: 'integer',
+      nullable: false,
+      description: 'Dia da semana.',
+    },
+    aulasSeguidas: {
+      type: 'integer',
+      nullable: false,
+      description: 'Quantidade de aulas seguidas.',
+    },
+    dataInicio: {
+      type: 'string',
+      format: 'date',
+      nullable: false,
+      description: 'Início da vigência da preferência de agendamento.',
+    },
+    dataFim: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Fim da vigência da preferência de agendamento.',
+    },
+    intervaloDeTempo: {
+      nullable: true,
+      description: 'Intervalo de tempo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/IntervaloDeTempoInputDto',
+        },
+      ],
+    },
+    diario: {
+      nullable: false,
+      description: 'Diário vinculado.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/DiarioFindOneInputDto',
+        },
+      ],
+    },
+  },
+  required: ['diaSemanaIso', 'aulasSeguidas', 'dataInicio', 'dataFim', 'intervaloDeTempo', 'diario'],
+} as const;
+
+export const $DiarioPreferenciaAgrupamentoInputUpdateDto = {
+  type: 'object',
+  properties: {
+    diaSemanaIso: {
+      type: 'integer',
+      nullable: false,
+      description: 'Dia da semana.',
+    },
+    aulasSeguidas: {
+      type: 'integer',
+      nullable: false,
+      description: 'Quantidade de aulas seguidas.',
+    },
+    dataInicio: {
+      type: 'string',
+      format: 'date',
+      nullable: false,
+      description: 'Início da vigência da preferência de agendamento.',
+    },
+    dataFim: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Fim da vigência da preferência de agendamento.',
+    },
+    intervaloDeTempo: {
+      nullable: true,
+      description: 'Intervalo de tempo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/IntervaloDeTempoInputDto',
+        },
+      ],
+    },
+    diario: {
+      nullable: false,
+      description: 'Diário vinculado.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/DiarioFindOneInputDto',
+        },
+      ],
+    },
+  },
+} as const;
+
+export const $HorarioGeradoFindOneResultDto = {
+  type: 'object',
+  properties: {
+    status: {
+      type: 'string',
+      nullable: true,
+      description: 'Status do horário gerado.',
+    },
+    tipo: {
+      type: 'string',
+      nullable: true,
+      description: 'Tipo do horário gerado.',
+    },
+    dataGeracao: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data em que o horário foi gerado.',
+    },
+    vigenciaInicio: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Início da vigência do horário gerado.',
+    },
+    vigenciaFim: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Fim da vigência do horário gerado.',
+    },
+    calendario: {
+      nullable: false,
+      description: 'calendário.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/CalendarioLetivoFindOneResultDto',
+        },
+      ],
+    },
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+    dateCreated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Criação do Registro.',
+    },
+    dateUpdated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Atualização do Registro.',
+    },
+    dateDeleted: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data de Exclusão do Registro.',
+    },
+  },
+  required: ['status', 'tipo', 'dataGeracao', 'vigenciaInicio', 'vigenciaFim', 'calendario', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+} as const;
+
+export const $HorarioGeradoFindAllResultDto = {
+  type: 'object',
+  properties: {
+    meta: {
+      nullable: false,
+      description: 'Metadados da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultMetaDto',
+        },
+      ],
+    },
+    data: {
+      nullable: false,
+      description: 'Resultados da busca atual.',
+      type: 'array',
+      items: {
+        $ref: '#/components/schemas/HorarioGeradoFindOneResultDto',
+      },
+    },
+    links: {
+      nullable: false,
+      description: 'Links da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultLinksDto',
+        },
+      ],
+    },
+  },
+  required: ['meta', 'data', 'links'],
+} as const;
+
+export const $HorarioGeradoInputCreateDto = {
+  type: 'object',
+  properties: {
+    status: {
+      type: 'string',
+      nullable: true,
+      description: 'Status do horário gerado.',
+    },
+    tipo: {
+      type: 'string',
+      nullable: true,
+      description: 'Tipo do horário gerado.',
+    },
+    dataGeracao: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data em que o horário foi gerado.',
+    },
+    vigenciaInicio: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Início da vigência do horário gerado.',
+    },
+    vigenciaFim: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Fim da vigência do horário gerado.',
+    },
+    calendario: {
+      nullable: false,
+      description: 'calendário.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/CalendarioLetivoFindOneInputDto',
+        },
+      ],
+    },
+  },
+  required: ['status', 'tipo', 'dataGeracao', 'vigenciaInicio', 'vigenciaFim', 'calendario'],
+} as const;
+
+export const $HorarioGeradoInputUpdateDto = {
+  type: 'object',
+  properties: {
+    status: {
+      type: 'string',
+      nullable: true,
+      description: 'Status do horário gerado.',
+    },
+    tipo: {
+      type: 'string',
+      nullable: true,
+      description: 'Tipo do horário gerado.',
+    },
+    dataGeracao: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data em que o horário foi gerado.',
+    },
+    vigenciaInicio: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Início da vigência do horário gerado.',
+    },
+    vigenciaFim: {
+      type: 'string',
+      format: 'date',
+      nullable: true,
+      description: 'Fim da vigência do horário gerado.',
+    },
+    calendario: {
+      nullable: false,
+      description: 'calendário.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/CalendarioLetivoFindOneInputDto',
+        },
+      ],
+    },
+  },
+} as const;
+
+export const $HorarioGeradoAulaFindOneResultDto = {
+  type: 'object',
+  properties: {
+    diaSemanaIso: {
+      type: 'integer',
+      nullable: false,
+      description: 'Dia da semana.',
+    },
+    intervaloDeTempo: {
+      nullable: false,
+      description: 'Intervalo de tempo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/IntervaloDeTempoFindOneResultDto',
+        },
+      ],
+    },
+    diarioProfessor: {
+      nullable: true,
+      description: 'Diário do professor.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/DiarioProfessorFindOneResultDto',
+        },
+      ],
+    },
+    horarioGerado: {
+      nullable: false,
+      description: 'Horário gerado.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/HorarioGeradoFindOneResultDto',
+        },
+      ],
+    },
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+    dateCreated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Criação do Registro.',
+    },
+    dateUpdated: {
+      type: 'string',
+      format: 'date-time',
+      nullable: false,
+      description: 'Data de Atualização do Registro.',
+    },
+    dateDeleted: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      description: 'Data de Exclusão do Registro.',
+    },
+  },
+  required: ['diaSemanaIso', 'intervaloDeTempo', 'diarioProfessor', 'horarioGerado', 'id', 'dateCreated', 'dateUpdated', 'dateDeleted'],
+} as const;
+
+export const $HorarioGeradoAulaFindAllResultDto = {
+  type: 'object',
+  properties: {
+    meta: {
+      nullable: false,
+      description: 'Metadados da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultMetaDto',
+        },
+      ],
+    },
+    data: {
+      nullable: false,
+      description: 'Resultados da busca atual.',
+      type: 'array',
+      items: {
+        $ref: '#/components/schemas/HorarioGeradoAulaFindOneResultDto',
+      },
+    },
+    links: {
+      nullable: false,
+      description: 'Links da busca.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/PaginatedResultLinksDto',
+        },
+      ],
+    },
+  },
+  required: ['meta', 'data', 'links'],
+} as const;
+
+export const $DiarioProfessorFindOneInputDto = {
+  type: 'object',
+  properties: {
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+  },
+  required: ['id'],
+} as const;
+
+export const $HorarioGeradoFindOneInputDto = {
+  type: 'object',
+  properties: {
+    id: {
+      type: 'string',
+      format: 'uuid',
+      nullable: false,
+      description: 'ID do Registro.',
+    },
+  },
+  required: ['id'],
+} as const;
+
+export const $HorarioGeradoAulaInputCreateDto = {
+  type: 'object',
+  properties: {
+    diaSemanaIso: {
+      type: 'integer',
+      nullable: false,
+      description: 'Dia da semana.',
+    },
+    intervaloDeTempo: {
+      nullable: false,
+      description: 'Intervalo de tempo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/IntervaloDeTempoInputDto',
+        },
+      ],
+    },
+    diarioProfessor: {
+      nullable: true,
+      description: 'Diário do professor.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/DiarioProfessorFindOneInputDto',
+        },
+      ],
+    },
+    horarioGerado: {
+      nullable: false,
+      description: 'Horário gerado.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/HorarioGeradoFindOneInputDto',
+        },
+      ],
+    },
+  },
+  required: ['diaSemanaIso', 'intervaloDeTempo', 'diarioProfessor', 'horarioGerado'],
+} as const;
+
+export const $HorarioGeradoAulaInputUpdateDto = {
+  type: 'object',
+  properties: {
+    diaSemanaIso: {
+      type: 'integer',
+      nullable: false,
+      description: 'Dia da semana.',
+    },
+    intervaloDeTempo: {
+      nullable: false,
+      description: 'Intervalo de tempo.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/IntervaloDeTempoInputDto',
+        },
+      ],
+    },
+    diarioProfessor: {
+      nullable: true,
+      description: 'Diário do professor.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/DiarioProfessorFindOneInputDto',
+        },
+      ],
+    },
+    horarioGerado: {
+      nullable: false,
+      description: 'Horário gerado.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/HorarioGeradoFindOneInputDto',
+        },
+      ],
+    },
+  },
+} as const;

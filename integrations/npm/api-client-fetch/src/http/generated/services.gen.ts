@@ -233,6 +233,56 @@ import type {
   TurmaDisponibilidadeDiaUpdateByIdResponse,
   TurmaDisponibilidadeDiaDeleteByIdData,
   TurmaDisponibilidadeDiaDeleteByIdResponse,
+  DisponibilidadeProfessorListData,
+  DisponibilidadeProfessorListResponse,
+  DisponibilidadeProfessorCreateData,
+  DisponibilidadeProfessorCreateResponse,
+  DisponibilidadeProfessorFindByIdData,
+  DisponibilidadeProfessorFindByIdResponse,
+  DisponibilidadeProfessorUpdateByIdData,
+  DisponibilidadeProfessorUpdateByIdResponse,
+  DisponibilidadeProfessorDeleteByIdData,
+  DisponibilidadeProfessorDeleteByIdResponse,
+  DisponibilidadeProfessorDiaListData,
+  DisponibilidadeProfessorDiaListResponse,
+  DisponibilidadeProfessorDiaCreateData,
+  DisponibilidadeProfessorDiaCreateResponse,
+  DisponibilidadeProfessorDiaFindByIdData,
+  DisponibilidadeProfessorDiaFindByIdResponse,
+  DisponibilidadeProfessorDiaUpdateByIdData,
+  DisponibilidadeProfessorDiaUpdateByIdResponse,
+  DisponibilidadeProfessorDiaDeleteByIdData,
+  DisponibilidadeProfessorDiaDeleteByIdResponse,
+  DiarioPreferenciaAgrupamentoListData,
+  DiarioPreferenciaAgrupamentoListResponse,
+  DiarioPreferenciaAgrupamentoCreateData,
+  DiarioPreferenciaAgrupamentoCreateResponse,
+  DiarioPreferenciaAgrupamentoFindByIdData,
+  DiarioPreferenciaAgrupamentoFindByIdResponse,
+  DiarioPreferenciaAgrupamentoUpdateByIdData,
+  DiarioPreferenciaAgrupamentoUpdateByIdResponse,
+  DiarioPreferenciaAgrupamentoDeleteByIdData,
+  DiarioPreferenciaAgrupamentoDeleteByIdResponse,
+  HorarioGeradoListData,
+  HorarioGeradoListResponse,
+  HorarioGeradoCreateData,
+  HorarioGeradoCreateResponse,
+  HorarioGeradoFindByIdData,
+  HorarioGeradoFindByIdResponse,
+  HorarioGeradoUpdateByIdData,
+  HorarioGeradoUpdateByIdResponse,
+  HorarioGeradoDeleteByIdData,
+  HorarioGeradoDeleteByIdResponse,
+  HorarioGeradoAulaListData,
+  HorarioGeradoAulaListResponse,
+  HorarioGeradoAulaCreateData,
+  HorarioGeradoAulaCreateResponse,
+  HorarioGeradoAulaFindByIdData,
+  HorarioGeradoAulaFindByIdResponse,
+  HorarioGeradoAulaUpdateByIdData,
+  HorarioGeradoAulaUpdateByIdResponse,
+  HorarioGeradoAulaDeleteByIdData,
+  HorarioGeradoAulaDeleteByIdResponse,
 } from './types.gen';
 
 export class BaseService {
@@ -3008,6 +3058,591 @@ export class TurmasDisponibilidadeDiaService {
     return this.httpRequest.request({
       method: 'DELETE',
       url: '/turmas-disponibilidade-dia/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+}
+
+export class DisponibilidadesProfessorService {
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Operação 'DisponibilidadeProfessorList'.
+   * @param data The data for the request.
+   * @param data.page Página da listagem.
+   * @param data.limit Limite de resultados por página.
+   * @param data.search Busca textual.
+   * @param data.sortBy Configurações de ordenamento.
+   * @returns DisponibilidadeProfessorFindAllResultDto Resposta da operação "DisponibilidadeProfessorList".
+   * @throws ApiError
+   */
+  public disponibilidadeProfessorList(data: DisponibilidadeProfessorListData = {}): CancelablePromise<DisponibilidadeProfessorListResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/disponibilidades-professor',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'DisponibilidadeProfessorCreate'.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns DisponibilidadeProfessorFindOneResultDto Resposta da operação "DisponibilidadeProfessorCreate".
+   * @throws ApiError
+   */
+  public disponibilidadeProfessorCreate(data: DisponibilidadeProfessorCreateData): CancelablePromise<DisponibilidadeProfessorCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/disponibilidades-professor',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'DisponibilidadeProfessorFindById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns DisponibilidadeProfessorFindOneResultDto Resposta da operação "DisponibilidadeProfessorFindById".
+   * @throws ApiError
+   */
+  public disponibilidadeProfessorFindById(data: DisponibilidadeProfessorFindByIdData): CancelablePromise<DisponibilidadeProfessorFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/disponibilidades-professor/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Update operation
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @param data.requestBody
+   * @returns DisponibilidadeProfessorFindOneResultDto Resposta da operação "DisponibilidadeProfessorUpdateById".
+   * @throws ApiError
+   */
+  public disponibilidadeProfessorUpdateById(data: DisponibilidadeProfessorUpdateByIdData): CancelablePromise<DisponibilidadeProfessorUpdateByIdResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/disponibilidades-professor/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'DisponibilidadeProfessorDeleteById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns boolean Resposta da operação "DisponibilidadeProfessorDeleteById".
+   * @throws ApiError
+   */
+  public disponibilidadeProfessorDeleteById(data: DisponibilidadeProfessorDeleteByIdData): CancelablePromise<DisponibilidadeProfessorDeleteByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/disponibilidades-professor/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+}
+
+export class DisponibilidadesProfessorDiaService {
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Operação 'DisponibilidadeProfessorDiaList'.
+   * @param data The data for the request.
+   * @param data.page Página da listagem.
+   * @param data.limit Limite de resultados por página.
+   * @param data.search Busca textual.
+   * @param data.sortBy Configurações de ordenamento.
+   * @returns DisponibilidadeProfessorDiaFindAllResultDto Resposta da operação "DisponibilidadeProfessorDiaList".
+   * @throws ApiError
+   */
+  public disponibilidadeProfessorDiaList(data: DisponibilidadeProfessorDiaListData = {}): CancelablePromise<DisponibilidadeProfessorDiaListResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/disponibilidades-professor-dia',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'DisponibilidadeProfessorDiaCreate'.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns DisponibilidadeProfessorDiaFindOneResultDto Resposta da operação "DisponibilidadeProfessorDiaCreate".
+   * @throws ApiError
+   */
+  public disponibilidadeProfessorDiaCreate(data: DisponibilidadeProfessorDiaCreateData): CancelablePromise<DisponibilidadeProfessorDiaCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/disponibilidades-professor-dia',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'DisponibilidadeProfessorDiaFindById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns DisponibilidadeProfessorDiaFindOneResultDto Resposta da operação "DisponibilidadeProfessorDiaFindById".
+   * @throws ApiError
+   */
+  public disponibilidadeProfessorDiaFindById(data: DisponibilidadeProfessorDiaFindByIdData): CancelablePromise<DisponibilidadeProfessorDiaFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/disponibilidades-professor-dia/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Update operation
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @param data.requestBody
+   * @returns DisponibilidadeProfessorDiaFindOneResultDto Resposta da operação "DisponibilidadeProfessorDiaUpdateById".
+   * @throws ApiError
+   */
+  public disponibilidadeProfessorDiaUpdateById(data: DisponibilidadeProfessorDiaUpdateByIdData): CancelablePromise<DisponibilidadeProfessorDiaUpdateByIdResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/disponibilidades-professor-dia/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'DisponibilidadeProfessorDiaDeleteById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns boolean Resposta da operação "DisponibilidadeProfessorDiaDeleteById".
+   * @throws ApiError
+   */
+  public disponibilidadeProfessorDiaDeleteById(data: DisponibilidadeProfessorDiaDeleteByIdData): CancelablePromise<DisponibilidadeProfessorDiaDeleteByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/disponibilidades-professor-dia/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+}
+
+export class DiariosPreferenciaAgrupamentoService {
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Operação 'DiarioPreferenciaAgrupamentoList'.
+   * @param data The data for the request.
+   * @param data.page Página da listagem.
+   * @param data.limit Limite de resultados por página.
+   * @param data.search Busca textual.
+   * @param data.sortBy Configurações de ordenamento.
+   * @returns DiarioPreferenciaAgrupamentoFindAllResultDto Resposta da operação "DiarioPreferenciaAgrupamentoList".
+   * @throws ApiError
+   */
+  public diarioPreferenciaAgrupamentoList(data: DiarioPreferenciaAgrupamentoListData = {}): CancelablePromise<DiarioPreferenciaAgrupamentoListResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/diarios-preferencia-agrupamento',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'DiarioPreferenciaAgrupamentoCreate'.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns DiarioPreferenciaAgrupamentoFindOneResultDto Resposta da operação "DiarioPreferenciaAgrupamentoCreate".
+   * @throws ApiError
+   */
+  public diarioPreferenciaAgrupamentoCreate(data: DiarioPreferenciaAgrupamentoCreateData): CancelablePromise<DiarioPreferenciaAgrupamentoCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/diarios-preferencia-agrupamento',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'DiarioPreferenciaAgrupamentoFindById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns DiarioPreferenciaAgrupamentoFindOneResultDto Resposta da operação "DiarioPreferenciaAgrupamentoFindById".
+   * @throws ApiError
+   */
+  public diarioPreferenciaAgrupamentoFindById(data: DiarioPreferenciaAgrupamentoFindByIdData): CancelablePromise<DiarioPreferenciaAgrupamentoFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/diarios-preferencia-agrupamento/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Update operation
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @param data.requestBody
+   * @returns DiarioPreferenciaAgrupamentoFindOneResultDto Resposta da operação "DiarioPreferenciaAgrupamentoUpdateById".
+   * @throws ApiError
+   */
+  public diarioPreferenciaAgrupamentoUpdateById(data: DiarioPreferenciaAgrupamentoUpdateByIdData): CancelablePromise<DiarioPreferenciaAgrupamentoUpdateByIdResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/diarios-preferencia-agrupamento/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'DiarioPreferenciaAgrupamentoDeleteById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns boolean Resposta da operação "DiarioPreferenciaAgrupamentoDeleteById".
+   * @throws ApiError
+   */
+  public diarioPreferenciaAgrupamentoDeleteById(data: DiarioPreferenciaAgrupamentoDeleteByIdData): CancelablePromise<DiarioPreferenciaAgrupamentoDeleteByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/diarios-preferencia-agrupamento/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+}
+
+export class HorariosGeradosService {
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Operação 'HorarioGeradoList'.
+   * @param data The data for the request.
+   * @param data.page Página da listagem.
+   * @param data.limit Limite de resultados por página.
+   * @param data.search Busca textual.
+   * @param data.sortBy Configurações de ordenamento.
+   * @returns HorarioGeradoFindAllResultDto Resposta da operação "HorarioGeradoList".
+   * @throws ApiError
+   */
+  public horarioGeradoList(data: HorarioGeradoListData = {}): CancelablePromise<HorarioGeradoListResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/horarios-gerados',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'HorarioGeradoCreate'.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns HorarioGeradoFindOneResultDto Resposta da operação "HorarioGeradoCreate".
+   * @throws ApiError
+   */
+  public horarioGeradoCreate(data: HorarioGeradoCreateData): CancelablePromise<HorarioGeradoCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/horarios-gerados',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'HorarioGeradoFindById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns HorarioGeradoFindOneResultDto Resposta da operação "HorarioGeradoFindById".
+   * @throws ApiError
+   */
+  public horarioGeradoFindById(data: HorarioGeradoFindByIdData): CancelablePromise<HorarioGeradoFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/horarios-gerados/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Update operation
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @param data.requestBody
+   * @returns HorarioGeradoFindOneResultDto Resposta da operação "HorarioGeradoUpdateById".
+   * @throws ApiError
+   */
+  public horarioGeradoUpdateById(data: HorarioGeradoUpdateByIdData): CancelablePromise<HorarioGeradoUpdateByIdResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/horarios-gerados/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'HorarioGeradoDeleteById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns boolean Resposta da operação "HorarioGeradoDeleteById".
+   * @throws ApiError
+   */
+  public horarioGeradoDeleteById(data: HorarioGeradoDeleteByIdData): CancelablePromise<HorarioGeradoDeleteByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/horarios-gerados/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+}
+
+export class HorariosGeradosAulaService {
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Operação 'HorarioGeradoAulaList'.
+   * @param data The data for the request.
+   * @param data.page Página da listagem.
+   * @param data.limit Limite de resultados por página.
+   * @param data.search Busca textual.
+   * @param data.sortBy Configurações de ordenamento.
+   * @returns HorarioGeradoAulaFindAllResultDto Resposta da operação "HorarioGeradoAulaList".
+   * @throws ApiError
+   */
+  public horarioGeradoAulaList(data: HorarioGeradoAulaListData = {}): CancelablePromise<HorarioGeradoAulaListResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/horarios-gerados-aula',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'HorarioGeradoAulaCreate'.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns HorarioGeradoAulaFindOneResultDto Resposta da operação "HorarioGeradoAulaCreate".
+   * @throws ApiError
+   */
+  public horarioGeradoAulaCreate(data: HorarioGeradoAulaCreateData): CancelablePromise<HorarioGeradoAulaCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/horarios-gerados-aula',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'HorarioGeradoAulaFindById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns HorarioGeradoAulaFindOneResultDto Resposta da operação "HorarioGeradoAulaFindById".
+   * @throws ApiError
+   */
+  public horarioGeradoAulaFindById(data: HorarioGeradoAulaFindByIdData): CancelablePromise<HorarioGeradoAulaFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/horarios-gerados-aula/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Update operation
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @param data.requestBody
+   * @returns HorarioGeradoAulaFindOneResultDto Resposta da operação "HorarioGeradoAulaUpdateById".
+   * @throws ApiError
+   */
+  public horarioGeradoAulaUpdateById(data: HorarioGeradoAulaUpdateByIdData): CancelablePromise<HorarioGeradoAulaUpdateByIdResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/horarios-gerados-aula/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: 'O solicitante não tem permissão para executar esta ação.',
+        404: 'Registro não encontrado.',
+      },
+    });
+  }
+
+  /**
+   * Operação 'HorarioGeradoAulaDeleteById'.
+   * @param data The data for the request.
+   * @param data.id ID do Registro.
+   * @returns boolean Resposta da operação "HorarioGeradoAulaDeleteById".
+   * @throws ApiError
+   */
+  public horarioGeradoAulaDeleteById(data: HorarioGeradoAulaDeleteByIdData): CancelablePromise<HorarioGeradoAulaDeleteByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/horarios-gerados-aula/{id}',
       path: {
         id: data.id,
       },

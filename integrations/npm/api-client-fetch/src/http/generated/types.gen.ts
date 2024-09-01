@@ -2206,6 +2206,491 @@ export type TurmaDisponibilidadeDiaInputUpdateDto = {
   turmaDisponibilidade?: TurmaDisponibilidadeFindOneInputDto | null;
 };
 
+export type DisponibilidadeProfessorFindOneResultDto = {
+  /**
+   * Data de início.
+   */
+  dataInicio: string;
+  /**
+   * Data de término.
+   */
+  dataFim: string | null;
+  /**
+   * Vínculo de professor.
+   */
+  vinculoProfessor: VinculoFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type DisponibilidadeProfessorFindAllResultDto = {
+  /**
+   * Metadados da busca.
+   */
+  meta: PaginatedResultMetaDto;
+  /**
+   * Resultados da busca atual.
+   */
+  data: Array<DisponibilidadeProfessorFindOneResultDto>;
+  /**
+   * Links da busca.
+   */
+  links: PaginatedResultLinksDto;
+};
+
+export type DisponibilidadeProfessorInputCreateDto = {
+  /**
+   * Data de início.
+   */
+  dataInicio: string;
+  /**
+   * Data de término.
+   */
+  dataFim: string | null;
+  /**
+   * Vínculo de professor.
+   */
+  vinculoProfessor: VinculoFindOneInputDto;
+};
+
+export type DisponibilidadeProfessorInputUpdateDto = {
+  /**
+   * Data de início.
+   */
+  dataInicio?: string;
+  /**
+   * Data de término.
+   */
+  dataFim?: string | null;
+  /**
+   * Vínculo de professor.
+   */
+  vinculoProfessor?: VinculoFindOneInputDto;
+};
+
+export type DisponibilidadeProfessorDiaFindOneResultDto = {
+  /**
+   * Dia da semana.
+   */
+  diaSemanaIso: number;
+  /**
+   * Intervalo de tempo.
+   */
+  intervaloDeTempo: IntervaloDeTempoFindOneResultDto;
+  /**
+   * Disponibilidade do professor.
+   */
+  disponibilidade: DisponibilidadeProfessorFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type DisponibilidadeProfessorDiaFindAllResultDto = {
+  /**
+   * Metadados da busca.
+   */
+  meta: PaginatedResultMetaDto;
+  /**
+   * Resultados da busca atual.
+   */
+  data: Array<DisponibilidadeProfessorDiaFindOneResultDto>;
+  /**
+   * Links da busca.
+   */
+  links: PaginatedResultLinksDto;
+};
+
+export type DisponibilidadeProfessorFindOneInputDto = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type DisponibilidadeProfessorDiaInputCreateDto = {
+  /**
+   * Dia da semana.
+   */
+  diaSemanaIso: number;
+  /**
+   * Intervalo de tempo.
+   */
+  intervaloDeTempo: IntervaloDeTempoInputDto;
+  /**
+   * Disponibilidade do professor.
+   */
+  disponibilidade: DisponibilidadeProfessorFindOneInputDto;
+};
+
+export type DisponibilidadeProfessorDiaInputUpdateDto = {
+  /**
+   * Dia da semana.
+   */
+  diaSemanaIso?: number;
+  /**
+   * Intervalo de tempo.
+   */
+  intervaloDeTempo?: IntervaloDeTempoInputDto;
+  /**
+   * Disponibilidade do professor.
+   */
+  disponibilidade?: DisponibilidadeProfessorFindOneInputDto;
+};
+
+export type DiarioPreferenciaAgrupamentoFindOneResultDto = {
+  /**
+   * Dia da semana.
+   */
+  diaSemanaIso: number;
+  /**
+   * Quantidade de aulas seguidas.
+   */
+  aulasSeguidas: number;
+  /**
+   * Início da vigência da preferência de agendamento.
+   */
+  dataInicio: string;
+  /**
+   * Fim da vigência da preferência de agendamento.
+   */
+  dataFim: string | null;
+  /**
+   * Intervalo de tempo.
+   */
+  intervaloDeTempo: IntervaloDeTempoFindOneResultDto | null;
+  /**
+   * Diário vinculado.
+   */
+  diario: DiarioFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type DiarioPreferenciaAgrupamentoFindAllResultDto = {
+  /**
+   * Metadados da busca.
+   */
+  meta: PaginatedResultMetaDto;
+  /**
+   * Resultados da busca atual.
+   */
+  data: Array<DiarioPreferenciaAgrupamentoFindOneResultDto>;
+  /**
+   * Links da busca.
+   */
+  links: PaginatedResultLinksDto;
+};
+
+export type DiarioPreferenciaAgrupamentoInputCreateDto = {
+  /**
+   * Dia da semana.
+   */
+  diaSemanaIso: number;
+  /**
+   * Quantidade de aulas seguidas.
+   */
+  aulasSeguidas: number;
+  /**
+   * Início da vigência da preferência de agendamento.
+   */
+  dataInicio: string;
+  /**
+   * Fim da vigência da preferência de agendamento.
+   */
+  dataFim: string | null;
+  /**
+   * Intervalo de tempo.
+   */
+  intervaloDeTempo: IntervaloDeTempoInputDto | null;
+  /**
+   * Diário vinculado.
+   */
+  diario: DiarioFindOneInputDto;
+};
+
+export type DiarioPreferenciaAgrupamentoInputUpdateDto = {
+  /**
+   * Dia da semana.
+   */
+  diaSemanaIso?: number;
+  /**
+   * Quantidade de aulas seguidas.
+   */
+  aulasSeguidas?: number;
+  /**
+   * Início da vigência da preferência de agendamento.
+   */
+  dataInicio?: string;
+  /**
+   * Fim da vigência da preferência de agendamento.
+   */
+  dataFim?: string | null;
+  /**
+   * Intervalo de tempo.
+   */
+  intervaloDeTempo?: IntervaloDeTempoInputDto | null;
+  /**
+   * Diário vinculado.
+   */
+  diario?: DiarioFindOneInputDto;
+};
+
+export type HorarioGeradoFindOneResultDto = {
+  /**
+   * Status do horário gerado.
+   */
+  status: string | null;
+  /**
+   * Tipo do horário gerado.
+   */
+  tipo: string | null;
+  /**
+   * Data em que o horário foi gerado.
+   */
+  dataGeracao: string | null;
+  /**
+   * Início da vigência do horário gerado.
+   */
+  vigenciaInicio: string | null;
+  /**
+   * Fim da vigência do horário gerado.
+   */
+  vigenciaFim: string | null;
+  /**
+   * calendário.
+   */
+  calendario: CalendarioLetivoFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type HorarioGeradoFindAllResultDto = {
+  /**
+   * Metadados da busca.
+   */
+  meta: PaginatedResultMetaDto;
+  /**
+   * Resultados da busca atual.
+   */
+  data: Array<HorarioGeradoFindOneResultDto>;
+  /**
+   * Links da busca.
+   */
+  links: PaginatedResultLinksDto;
+};
+
+export type HorarioGeradoInputCreateDto = {
+  /**
+   * Status do horário gerado.
+   */
+  status: string | null;
+  /**
+   * Tipo do horário gerado.
+   */
+  tipo: string | null;
+  /**
+   * Data em que o horário foi gerado.
+   */
+  dataGeracao: string | null;
+  /**
+   * Início da vigência do horário gerado.
+   */
+  vigenciaInicio: string | null;
+  /**
+   * Fim da vigência do horário gerado.
+   */
+  vigenciaFim: string | null;
+  /**
+   * calendário.
+   */
+  calendario: CalendarioLetivoFindOneInputDto;
+};
+
+export type HorarioGeradoInputUpdateDto = {
+  /**
+   * Status do horário gerado.
+   */
+  status?: string | null;
+  /**
+   * Tipo do horário gerado.
+   */
+  tipo?: string | null;
+  /**
+   * Data em que o horário foi gerado.
+   */
+  dataGeracao?: string | null;
+  /**
+   * Início da vigência do horário gerado.
+   */
+  vigenciaInicio?: string | null;
+  /**
+   * Fim da vigência do horário gerado.
+   */
+  vigenciaFim?: string | null;
+  /**
+   * calendário.
+   */
+  calendario?: CalendarioLetivoFindOneInputDto;
+};
+
+export type HorarioGeradoAulaFindOneResultDto = {
+  /**
+   * Dia da semana.
+   */
+  diaSemanaIso: number;
+  /**
+   * Intervalo de tempo.
+   */
+  intervaloDeTempo: IntervaloDeTempoFindOneResultDto;
+  /**
+   * Diário do professor.
+   */
+  diarioProfessor: DiarioProfessorFindOneResultDto | null;
+  /**
+   * Horário gerado.
+   */
+  horarioGerado: HorarioGeradoFindOneResultDto;
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  /**
+   * Data de Criação do Registro.
+   */
+  dateCreated: string;
+  /**
+   * Data de Atualização do Registro.
+   */
+  dateUpdated: string;
+  /**
+   * Data de Exclusão do Registro.
+   */
+  dateDeleted: string | null;
+};
+
+export type HorarioGeradoAulaFindAllResultDto = {
+  /**
+   * Metadados da busca.
+   */
+  meta: PaginatedResultMetaDto;
+  /**
+   * Resultados da busca atual.
+   */
+  data: Array<HorarioGeradoAulaFindOneResultDto>;
+  /**
+   * Links da busca.
+   */
+  links: PaginatedResultLinksDto;
+};
+
+export type DiarioProfessorFindOneInputDto = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type HorarioGeradoFindOneInputDto = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type HorarioGeradoAulaInputCreateDto = {
+  /**
+   * Dia da semana.
+   */
+  diaSemanaIso: number;
+  /**
+   * Intervalo de tempo.
+   */
+  intervaloDeTempo: IntervaloDeTempoInputDto;
+  /**
+   * Diário do professor.
+   */
+  diarioProfessor: DiarioProfessorFindOneInputDto | null;
+  /**
+   * Horário gerado.
+   */
+  horarioGerado: HorarioGeradoFindOneInputDto;
+};
+
+export type HorarioGeradoAulaInputUpdateDto = {
+  /**
+   * Dia da semana.
+   */
+  diaSemanaIso?: number;
+  /**
+   * Intervalo de tempo.
+   */
+  intervaloDeTempo?: IntervaloDeTempoInputDto;
+  /**
+   * Diário do professor.
+   */
+  diarioProfessor?: DiarioProfessorFindOneInputDto | null;
+  /**
+   * Horário gerado.
+   */
+  horarioGerado?: HorarioGeradoFindOneInputDto;
+};
+
 export type AppControllerGetHelloResponse = {
   /**
    * O nome desta aplicação.
@@ -3640,6 +4125,281 @@ export type TurmaDisponibilidadeDiaDeleteByIdData = {
 };
 
 export type TurmaDisponibilidadeDiaDeleteByIdResponse = boolean;
+
+export type DisponibilidadeProfessorListData = {
+  /**
+   * Limite de resultados por página.
+   */
+  limit?: number;
+  /**
+   * Página da listagem.
+   */
+  page?: number;
+  /**
+   * Busca textual.
+   */
+  search?: string;
+  /**
+   * Configurações de ordenamento.
+   */
+  sortBy?: Array<string>;
+};
+
+export type DisponibilidadeProfessorListResponse = DisponibilidadeProfessorFindAllResultDto;
+
+export type DisponibilidadeProfessorCreateData = {
+  requestBody: DisponibilidadeProfessorInputCreateDto;
+};
+
+export type DisponibilidadeProfessorCreateResponse = DisponibilidadeProfessorFindOneResultDto;
+
+export type DisponibilidadeProfessorFindByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type DisponibilidadeProfessorFindByIdResponse = DisponibilidadeProfessorFindOneResultDto;
+
+export type DisponibilidadeProfessorUpdateByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  requestBody: DisponibilidadeProfessorInputUpdateDto;
+};
+
+export type DisponibilidadeProfessorUpdateByIdResponse = DisponibilidadeProfessorFindOneResultDto;
+
+export type DisponibilidadeProfessorDeleteByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type DisponibilidadeProfessorDeleteByIdResponse = boolean;
+
+export type DisponibilidadeProfessorDiaListData = {
+  /**
+   * Limite de resultados por página.
+   */
+  limit?: number;
+  /**
+   * Página da listagem.
+   */
+  page?: number;
+  /**
+   * Busca textual.
+   */
+  search?: string;
+  /**
+   * Configurações de ordenamento.
+   */
+  sortBy?: Array<string>;
+};
+
+export type DisponibilidadeProfessorDiaListResponse = DisponibilidadeProfessorDiaFindAllResultDto;
+
+export type DisponibilidadeProfessorDiaCreateData = {
+  requestBody: DisponibilidadeProfessorDiaInputCreateDto;
+};
+
+export type DisponibilidadeProfessorDiaCreateResponse = DisponibilidadeProfessorDiaFindOneResultDto;
+
+export type DisponibilidadeProfessorDiaFindByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type DisponibilidadeProfessorDiaFindByIdResponse = DisponibilidadeProfessorDiaFindOneResultDto;
+
+export type DisponibilidadeProfessorDiaUpdateByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  requestBody: DisponibilidadeProfessorDiaInputUpdateDto;
+};
+
+export type DisponibilidadeProfessorDiaUpdateByIdResponse = DisponibilidadeProfessorDiaFindOneResultDto;
+
+export type DisponibilidadeProfessorDiaDeleteByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type DisponibilidadeProfessorDiaDeleteByIdResponse = boolean;
+
+export type DiarioPreferenciaAgrupamentoListData = {
+  /**
+   * Limite de resultados por página.
+   */
+  limit?: number;
+  /**
+   * Página da listagem.
+   */
+  page?: number;
+  /**
+   * Busca textual.
+   */
+  search?: string;
+  /**
+   * Configurações de ordenamento.
+   */
+  sortBy?: Array<string>;
+};
+
+export type DiarioPreferenciaAgrupamentoListResponse = DiarioPreferenciaAgrupamentoFindAllResultDto;
+
+export type DiarioPreferenciaAgrupamentoCreateData = {
+  requestBody: DiarioPreferenciaAgrupamentoInputCreateDto;
+};
+
+export type DiarioPreferenciaAgrupamentoCreateResponse = DiarioPreferenciaAgrupamentoFindOneResultDto;
+
+export type DiarioPreferenciaAgrupamentoFindByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type DiarioPreferenciaAgrupamentoFindByIdResponse = DiarioPreferenciaAgrupamentoFindOneResultDto;
+
+export type DiarioPreferenciaAgrupamentoUpdateByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  requestBody: DiarioPreferenciaAgrupamentoInputUpdateDto;
+};
+
+export type DiarioPreferenciaAgrupamentoUpdateByIdResponse = DiarioPreferenciaAgrupamentoFindOneResultDto;
+
+export type DiarioPreferenciaAgrupamentoDeleteByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type DiarioPreferenciaAgrupamentoDeleteByIdResponse = boolean;
+
+export type HorarioGeradoListData = {
+  /**
+   * Limite de resultados por página.
+   */
+  limit?: number;
+  /**
+   * Página da listagem.
+   */
+  page?: number;
+  /**
+   * Busca textual.
+   */
+  search?: string;
+  /**
+   * Configurações de ordenamento.
+   */
+  sortBy?: Array<string>;
+};
+
+export type HorarioGeradoListResponse = HorarioGeradoFindAllResultDto;
+
+export type HorarioGeradoCreateData = {
+  requestBody: HorarioGeradoInputCreateDto;
+};
+
+export type HorarioGeradoCreateResponse = HorarioGeradoFindOneResultDto;
+
+export type HorarioGeradoFindByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type HorarioGeradoFindByIdResponse = HorarioGeradoFindOneResultDto;
+
+export type HorarioGeradoUpdateByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  requestBody: HorarioGeradoInputUpdateDto;
+};
+
+export type HorarioGeradoUpdateByIdResponse = HorarioGeradoFindOneResultDto;
+
+export type HorarioGeradoDeleteByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type HorarioGeradoDeleteByIdResponse = boolean;
+
+export type HorarioGeradoAulaListData = {
+  /**
+   * Limite de resultados por página.
+   */
+  limit?: number;
+  /**
+   * Página da listagem.
+   */
+  page?: number;
+  /**
+   * Busca textual.
+   */
+  search?: string;
+  /**
+   * Configurações de ordenamento.
+   */
+  sortBy?: Array<string>;
+};
+
+export type HorarioGeradoAulaListResponse = HorarioGeradoAulaFindAllResultDto;
+
+export type HorarioGeradoAulaCreateData = {
+  requestBody: HorarioGeradoAulaInputCreateDto;
+};
+
+export type HorarioGeradoAulaCreateResponse = HorarioGeradoAulaFindOneResultDto;
+
+export type HorarioGeradoAulaFindByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type HorarioGeradoAulaFindByIdResponse = HorarioGeradoAulaFindOneResultDto;
+
+export type HorarioGeradoAulaUpdateByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+  requestBody: HorarioGeradoAulaInputUpdateDto;
+};
+
+export type HorarioGeradoAulaUpdateByIdResponse = HorarioGeradoAulaFindOneResultDto;
+
+export type HorarioGeradoAulaDeleteByIdData = {
+  /**
+   * ID do Registro.
+   */
+  id: string;
+};
+
+export type HorarioGeradoAulaDeleteByIdResponse = boolean;
 
 export type $OpenApiTs = {
   '/': {
@@ -5716,6 +6476,451 @@ export type $OpenApiTs = {
       res: {
         /**
          * Resposta da operação "TurmaDisponibilidadeDiaDeleteById".
+         */
+        200: boolean;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/disponibilidades-professor': {
+    get: {
+      req: DisponibilidadeProfessorListData;
+      res: {
+        /**
+         * Resposta da operação "DisponibilidadeProfessorList".
+         */
+        200: DisponibilidadeProfessorFindAllResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    post: {
+      req: DisponibilidadeProfessorCreateData;
+      res: {
+        /**
+         * Resposta da operação "DisponibilidadeProfessorCreate".
+         */
+        200: DisponibilidadeProfessorFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/disponibilidades-professor/{id}': {
+    get: {
+      req: DisponibilidadeProfessorFindByIdData;
+      res: {
+        /**
+         * Resposta da operação "DisponibilidadeProfessorFindById".
+         */
+        200: DisponibilidadeProfessorFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    patch: {
+      req: DisponibilidadeProfessorUpdateByIdData;
+      res: {
+        /**
+         * Resposta da operação "DisponibilidadeProfessorUpdateById".
+         */
+        200: DisponibilidadeProfessorFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    delete: {
+      req: DisponibilidadeProfessorDeleteByIdData;
+      res: {
+        /**
+         * Resposta da operação "DisponibilidadeProfessorDeleteById".
+         */
+        200: boolean;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/disponibilidades-professor-dia': {
+    get: {
+      req: DisponibilidadeProfessorDiaListData;
+      res: {
+        /**
+         * Resposta da operação "DisponibilidadeProfessorDiaList".
+         */
+        200: DisponibilidadeProfessorDiaFindAllResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    post: {
+      req: DisponibilidadeProfessorDiaCreateData;
+      res: {
+        /**
+         * Resposta da operação "DisponibilidadeProfessorDiaCreate".
+         */
+        200: DisponibilidadeProfessorDiaFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/disponibilidades-professor-dia/{id}': {
+    get: {
+      req: DisponibilidadeProfessorDiaFindByIdData;
+      res: {
+        /**
+         * Resposta da operação "DisponibilidadeProfessorDiaFindById".
+         */
+        200: DisponibilidadeProfessorDiaFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    patch: {
+      req: DisponibilidadeProfessorDiaUpdateByIdData;
+      res: {
+        /**
+         * Resposta da operação "DisponibilidadeProfessorDiaUpdateById".
+         */
+        200: DisponibilidadeProfessorDiaFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    delete: {
+      req: DisponibilidadeProfessorDiaDeleteByIdData;
+      res: {
+        /**
+         * Resposta da operação "DisponibilidadeProfessorDiaDeleteById".
+         */
+        200: boolean;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/diarios-preferencia-agrupamento': {
+    get: {
+      req: DiarioPreferenciaAgrupamentoListData;
+      res: {
+        /**
+         * Resposta da operação "DiarioPreferenciaAgrupamentoList".
+         */
+        200: DiarioPreferenciaAgrupamentoFindAllResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    post: {
+      req: DiarioPreferenciaAgrupamentoCreateData;
+      res: {
+        /**
+         * Resposta da operação "DiarioPreferenciaAgrupamentoCreate".
+         */
+        200: DiarioPreferenciaAgrupamentoFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/diarios-preferencia-agrupamento/{id}': {
+    get: {
+      req: DiarioPreferenciaAgrupamentoFindByIdData;
+      res: {
+        /**
+         * Resposta da operação "DiarioPreferenciaAgrupamentoFindById".
+         */
+        200: DiarioPreferenciaAgrupamentoFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    patch: {
+      req: DiarioPreferenciaAgrupamentoUpdateByIdData;
+      res: {
+        /**
+         * Resposta da operação "DiarioPreferenciaAgrupamentoUpdateById".
+         */
+        200: DiarioPreferenciaAgrupamentoFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    delete: {
+      req: DiarioPreferenciaAgrupamentoDeleteByIdData;
+      res: {
+        /**
+         * Resposta da operação "DiarioPreferenciaAgrupamentoDeleteById".
+         */
+        200: boolean;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/horarios-gerados': {
+    get: {
+      req: HorarioGeradoListData;
+      res: {
+        /**
+         * Resposta da operação "HorarioGeradoList".
+         */
+        200: HorarioGeradoFindAllResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    post: {
+      req: HorarioGeradoCreateData;
+      res: {
+        /**
+         * Resposta da operação "HorarioGeradoCreate".
+         */
+        200: HorarioGeradoFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/horarios-gerados/{id}': {
+    get: {
+      req: HorarioGeradoFindByIdData;
+      res: {
+        /**
+         * Resposta da operação "HorarioGeradoFindById".
+         */
+        200: HorarioGeradoFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    patch: {
+      req: HorarioGeradoUpdateByIdData;
+      res: {
+        /**
+         * Resposta da operação "HorarioGeradoUpdateById".
+         */
+        200: HorarioGeradoFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    delete: {
+      req: HorarioGeradoDeleteByIdData;
+      res: {
+        /**
+         * Resposta da operação "HorarioGeradoDeleteById".
+         */
+        200: boolean;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/horarios-gerados-aula': {
+    get: {
+      req: HorarioGeradoAulaListData;
+      res: {
+        /**
+         * Resposta da operação "HorarioGeradoAulaList".
+         */
+        200: HorarioGeradoAulaFindAllResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    post: {
+      req: HorarioGeradoAulaCreateData;
+      res: {
+        /**
+         * Resposta da operação "HorarioGeradoAulaCreate".
+         */
+        200: HorarioGeradoAulaFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+  };
+  '/horarios-gerados-aula/{id}': {
+    get: {
+      req: HorarioGeradoAulaFindByIdData;
+      res: {
+        /**
+         * Resposta da operação "HorarioGeradoAulaFindById".
+         */
+        200: HorarioGeradoAulaFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    patch: {
+      req: HorarioGeradoAulaUpdateByIdData;
+      res: {
+        /**
+         * Resposta da operação "HorarioGeradoAulaUpdateById".
+         */
+        200: HorarioGeradoAulaFindOneResultDto;
+        /**
+         * O solicitante não tem permissão para executar esta ação.
+         */
+        403: unknown;
+        /**
+         * Registro não encontrado.
+         */
+        404: unknown;
+      };
+    };
+    delete: {
+      req: HorarioGeradoAulaDeleteByIdData;
+      res: {
+        /**
+         * Resposta da operação "HorarioGeradoAulaDeleteById".
          */
         200: boolean;
         /**
