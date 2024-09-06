@@ -4,42 +4,49 @@ d_container_app=ladesa-api
 
 compose_options=--file .devops/development/docker-compose.yml -p ladesa-api
 
-dev-setup:
-
+setup:
 	$(shell (cd .devops/development; find . -type f -name "*.example" -exec sh -c 'cp -n {} $$(basename {} .example)' \;))
+	$(shell (bash -c "docker network create $(d_network) &>/dev/null"))
 
-	$(shell (bash -c "sudo docker network create $(d_network) &>/dev/null"))
+up:
+	make setup;
+	# --force-recreate
+	docker-compose $(compose_options) up --remove-orphans -d; 
 
-dev-up:
-	make dev-setup;
-	sudo docker compose $(compose_options) up -d --remove-orphans;
+start:
+	make setup;
 
-dev-shell:
-	make dev-setup;
-	make dev-up;
-	sudo docker compose $(compose_options) exec $(d_container_app) bash;
+	make down;
+	make up;
 
-dev-shell-root:
-	make dev-setup;
-	make dev-up;
-	sudo docker compose $(compose_options) exec -u root $(d_container_app) bash;
+	docker compose $(compose_options) \
+		exec \
+		-u node \
+		--no-TTY \
+		-d $(d_container_app) \
+			bash -c "npm i && npm run migration:run && npm run start:dev" \&;
 
-dev-down:
-	make dev-setup;
-	sudo docker compose $(compose_options) stop;
+logs:
+	make setup;
+	docker compose $(compose_options) logs -f;
 
-dev-logs:
-	make dev-setup;
-	sudo docker compose $(compose_options) logs -f
+shell:
+	make setup;
+	make up;
+	docker compose $(compose_options) exec $(d_container_app) bash;
 
+shell-root:
+	make setup;
+	make up;
+	docker compose $(compose_options) exec -u root $(d_container_app) bash;
 
-dev-start:
-	make dev-setup;
-	make dev-down;
-	make dev-up;
+stop:
+	make setup;
+	docker compose $(compose_options) stop;
 
-	sudo docker compose $(compose_options) exec -u node --no-TTY -d $(d_container_app) bash -c "npm i && npm run migration:run && npm run start:dev" \&;
+down:
+	make setup;
+	docker-compose $(compose_options) down --remove-orphans;
 
-dev-cleanup:
-	make dev-down;
-	sudo docker compose $(compose_options) down -v;
+cleanup:
+	docker compose $(compose_options) down --remove-orphans -v;

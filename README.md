@@ -64,23 +64,23 @@ cd api-service
 
 O projeto conta com um [arquivo make](./api-service/Makefile) que comporta scrips destinados ao desenvolvimento da aplicação.
 
-#### `dev-setup`
+#### `setup`
 
 ```sh
-make dev-setup; # Configura o ambiente de deselvolvimento, como a criação da rede ladesa-net e os arquivos .env.
+make setup; # Configura o ambiente de deselvolvimento, como a criação da rede ladesa-net e os arquivos .env.
 
 ```
 
-#### `dev-up`
+#### `up`
 
 ```sh
-make dev-up; # Inicia os containers docker.
+make up; # Inicia os containers docker.
 ```
 
-#### `dev-shell`
+#### `shell`
 
 ```sh
-make dev-shell; # Inicia os containers docker e abre o bash na aplicação node.
+make shell; # Inicia os containers docker e abre o bash na aplicação node.
 ```
 
 - Após este processo, talvez você queira executar dentro do shell do container:
@@ -93,22 +93,22 @@ make dev-shell; # Inicia os containers docker e abre o bash na aplicação node.
   npm run start:dev;
   ```
 
-#### `dev-down`
+#### `down`
 
 ```sh
-make dev-down; # Para todos os containers.
+make down; # Para todos os containers.
 ```
 
-#### `dev-cleanup`
+#### `cleanup`
 
 ```sh
-make dev-cleanup; # Para todos os containers e remove os containers e volumes associados.
+make cleanup; # Para todos os containers e remove os containers e volumes associados.
 ```
 
-#### `dev-logs`
+#### `logs`
 
 ```sh
-make dev-logs; # Mostra os registros dos containers
+make logs; # Mostra os registros dos containers
 ```
 
 ## Licença
