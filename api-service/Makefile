@@ -11,7 +11,7 @@ setup:
 up:
 	make setup;
 	# --force-recreate
-	docker-compose $(compose_options) up --remove-orphans -d; 
+	docker compose $(compose_options) up --remove-orphans -d; 
 
 start:
 	make setup;
@@ -46,7 +46,7 @@ stop:
 
 down:
 	make setup;
-	docker-compose $(compose_options) down --remove-orphans;
+	docker compose $(compose_options) down --remove-orphans;
 
 cleanup:
 	docker compose $(compose_options) down --remove-orphans -v;
