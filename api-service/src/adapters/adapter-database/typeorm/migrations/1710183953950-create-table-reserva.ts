@@ -82,13 +82,7 @@ export class CreateTableReserva1710183953950 implements MigrationInterface {
           },
         ],
         foreignKeys: [
-          {
-            name: `fk__${tableName}__depende__intervalo_de_tempo`,
-            columnNames: ['id_intervalo_de_tempo_fk'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'intervalo_de_tempo',
-          },
-          {
+         {
             name: `fk__${tableName}__depende__ambiente`,
             columnNames: ['id_ambiente_fk'],
             referencedColumnNames: ['id'],
