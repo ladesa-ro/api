@@ -15,8 +15,8 @@ importers:
         specifier: ^19.5.0
         version: 19.5.0
       '@eslint/js':
-        specifier: ^9.10.0
-        version: 9.10.0
+        specifier: ^9.11.0
+        version: 9.11.0
       '@release-it/bumper':
         specifier: ^6.0.1
         version: 6.0.1(release-it@17.6.0(typescript@5.6.2))
@@ -66,8 +66,8 @@ importers:
         specifier: ^0.26.7
         version: 0.26.7(typescript@5.6.2)
       typedoc-plugin-mdn-links:
-        specifier: ^3.3.0
-        version: 3.3.0(typedoc@0.26.7(typescript@5.6.2))
+        specifier: ^3.3.1
+        version: 3.3.1(typedoc@0.26.7(typescript@5.6.2))
       typescript:
         specifier: ^5.6.2
         version: 5.6.2
@@ -196,8 +196,8 @@ packages:
     resolution: {integrity: sha512-4Bfj15dVJdoy3RfZmmo86RK1Fwzn6SstsvK9JS+BaVKqC6QQQQyXekNaC+g+LKNgkQ+2VhGAzm6hO40AhMR3zQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@eslint/js@9.10.0':
-    resolution: {integrity: sha512-fuXtbiP5GWIn8Fz+LWoOMVf/Jxm+aajZYkhi6CuEm4SxymFM+eUWzbO9qXT+L0iCkL5+KGYMCSGxo686H19S1g==}
+  '@eslint/js@9.11.0':
+    resolution: {integrity: sha512-LPkkenkDqyzTFauZLLAPhIb48fj6drrfMvRGSL9tS3AcZBSVTllemLSNyCvHNNL2t797S/6DJNSIwRwXgMO/eQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/js@9.8.0':
@@ -2221,8 +2221,8 @@ packages:
   typedarray-to-buffer@3.1.5:
     resolution: {integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==}
 
-  typedoc-plugin-mdn-links@3.3.0:
-    resolution: {integrity: sha512-4iPgkqJ3d9wZe6O0Z6hezSa2xD4UEmuQKiEuv5jF4BJDwqkarshz14w0qznQJu0VvdQ7VaAXgA3WnnXgajYMrQ==}
+  typedoc-plugin-mdn-links@3.3.1:
+    resolution: {integrity: sha512-hgCOm3vDYLbSsIiQbr5hb/ayiMnspjsOwgH4hNVoOLaAeEecuwlY4VY7yh68TY10P1GwbG3N4UnAqmbkvf89KA==}
     peerDependencies:
       typedoc: '>= 0.23.14 || 0.24.x || 0.25.x || 0.26.x'
 
@@ -2610,7 +2610,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@eslint/js@9.10.0': {}
+  '@eslint/js@9.11.0': {}
 
   '@eslint/js@9.8.0': {}
 
@@ -4694,7 +4694,7 @@ snapshots:
     dependencies:
       is-typedarray: 1.0.0
 
-  typedoc-plugin-mdn-links@3.3.0(typedoc@0.26.7(typescript@5.6.2)):
+  typedoc-plugin-mdn-links@3.3.1(typedoc@0.26.7(typescript@5.6.2)):
     dependencies:
       typedoc: 0.26.7(typescript@5.6.2)
 
