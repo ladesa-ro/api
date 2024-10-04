@@ -10,6 +10,7 @@ import { LadesaSearch } from '../../../app-standards/ladesa-spec/search/search-s
 import { paginateConfig } from '../../../fixtures';
 import { CampusService } from '../../ambientes/campus/campus.service';
 import { UsuarioService } from '../usuario/usuario.service';
+import { v4 as uuid } from 'uuid';
 
 // ============================================================================
 
@@ -23,7 +24,7 @@ export class VinculoService {
     private databaseContext: DatabaseContextService,
     private campusService: CampusService,
     private usuarioService: UsuarioService,
-  ) {}
+  ) { }
 
   //
 
@@ -141,28 +142,41 @@ export class VinculoService {
 
     const vinculosParaManter = new Set();
 
-    for (const cargo of dto.body.cargos) {
-      const vinculoAtualAtivo = await this.vinculoRepository
-        .createQueryBuilder('vinculo')
-        .innerJoin('vinculo.campus', 'campus')
-        .innerJoin('vinculo.usuario', 'usuario')
-        .andWhere('vinculo.ativo = TRUE')
-        .andWhere('vinculo.dateDeleted IS NULL')
-        .andWhere('campus.id = :campusId', { campusId: campus.id })
-        .andWhere('usuario.id = :usuarioId', { usuarioId: usuario.id })
-        .andWhere('vinculo.cargo = :cargo', { cargo: cargo })
-        .getOne();
+    //
 
-      if (vinculoAtualAtivo) {
-        vinculosParaManter.add(vinculoAtualAtivo.id);
+    const vinculosExistentesUsuarioCampus = await this.vinculoRepository
+      .createQueryBuilder('vinculo')
+      .innerJoin('vinculo.campus', 'campus')
+      .innerJoin('vinculo.usuario', 'usuario')
+      .andWhere('campus.id = :campusId', { campusId: campus.id })
+      .andWhere('usuario.id = :usuarioId', { usuarioId: usuario.id })
+      .select(["vinculo", "campus", "usuario"])
+      .getMany();
+
+    for (const cargo of dto.body.cargos) {
+      const vinculoExistente = vinculosExistentesUsuarioCampus.find(vinculo => vinculo.cargo === cargo);
+
+      if (vinculoExistente) {
+        vinculosParaManter.add(vinculoExistente.id);
+      }
+
+      if (vinculoExistente && vinculoExistente.ativo === true && vinculoExistente.dateDeleted === null) {
         continue;
       }
 
       const vinculo = this.vinculoRepository.create();
 
       this.vinculoRepository.merge(vinculo, {
+        id: uuid(),
+
+        ...vinculoExistente,
+
         ativo: true,
-        cargo: cargo,
+
+        cargo,
+
+        dateDeleted: null,
+
         usuario: {
           id: usuario.id,
         },
@@ -172,9 +186,9 @@ export class VinculoService {
       });
 
       await this.vinculoRepository.save(vinculo);
-
-      vinculosParaManter.add(vinculo.id);
     }
+
+    const vinculosParaDesativar = vinculosExistentesUsuarioCampus.filter(vinculo => vinculo.ativo).filter(vinculo => !vinculosParaManter.has(vinculo.id));
 
     // DESATIVAR OUTROS VÍNCULOS
     await this.vinculoRepository
@@ -184,7 +198,7 @@ export class VinculoService {
         ativo: false,
       })
       .where('ativo = :isActive', { isActive: true })
-      .andWhere(new NotBrackets((qb) => qb.whereInIds([...vinculosParaManter])))
+      .andWhereInIds(vinculosParaDesativar.map(vinculo => vinculo.id))
       .execute();
 
     return this.vinculoFindAll(accessContext, <any>{
