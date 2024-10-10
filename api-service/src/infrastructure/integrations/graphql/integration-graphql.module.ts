@@ -9,6 +9,19 @@ import { GraphQLModule } from "@nestjs/graphql";
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
 
+      /*
+        app.use(
+          helmet({
+            crossOriginEmbedderPolicy: false,
+            crossOriginResourcePolicy: {
+              policy: "cross-origin",
+            },
+            contentSecurityPolicy: isProduction ? undefined : false,
+          }),
+        );
+      */
+      playground: false,
+
       useGlobalPrefix: true,
       autoSchemaFile: true,
       introspection: true,
