@@ -1,10 +1,10 @@
-import type { AccessContext } from "@/access-context";
 import { CalendarioLetivoService } from "@/business-logic/resources/calendario/calendario-letivo/calendario-letivo.service";
 import { QbEfficientLoad } from "@/business-logic/standards/ladesa-spec/QbEfficientLoad";
 import { LadesaPaginatedResultDto, LadesaSearch } from "@/business-logic/standards/ladesa-spec/search/search-strategies";
-import { DatabaseContextService } from "@/infrastructure/adapters/adapter-database";
-import type { HorarioGeradoEntity } from "@/infrastructure/adapters/adapter-database/typeorm/entities";
+import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
+import { DatabaseContextService } from "@/infrastructure/integrations/database";
+import type { HorarioGeradoEntity } from "@/infrastructure/integrations/database/typeorm/entities";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { has, map, pick } from "lodash";

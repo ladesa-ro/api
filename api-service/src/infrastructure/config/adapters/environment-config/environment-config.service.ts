@@ -1,5 +1,5 @@
 import { join } from "path";
-import * as entities from "@/infrastructure/adapters/adapter-database/typeorm/entities";
+import * as entities from "@/infrastructure/integrations/database/typeorm/entities";
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigService as NestConfigService } from "@nestjs/config";
 import type { DataSourceOptions } from "typeorm";
@@ -82,7 +82,7 @@ export class EnvironmentConfigService implements IConfig {
   }
 
   getTypeOrmBasePath(): string {
-    return join(__dirname, "../../..", "@/infrastructure/adapters/adapter-database/typeorm");
+    return join(__dirname, "../../..", "@/infrastructure/integrations/database/typeorm");
   }
 
   getTypeOrmPathEntities(): string {

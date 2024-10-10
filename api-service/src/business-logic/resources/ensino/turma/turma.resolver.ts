@@ -1,5 +1,5 @@
-import { type AccessContext, AccessContextGraphQl } from "@/access-context";
 import { CombinedInput, Operation } from "@/business-logic/standards";
+import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import LadesaTypings from "@ladesa-ro/especificacao";
 import { Resolver } from "@nestjs/graphql";
 import { TurmaService } from "./turma.service";

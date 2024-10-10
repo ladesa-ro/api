@@ -1,9 +1,9 @@
-import type { AccessContext } from "@/access-context";
 import { QbEfficientLoad } from "@/business-logic/standards/ladesa-spec/QbEfficientLoad";
 import { LadesaSearch } from "@/business-logic/standards/ladesa-spec/search/search-strategies";
-import { DatabaseContextService } from "@/infrastructure/adapters/adapter-database";
-import type { UsuarioEntity } from "@/infrastructure/adapters/adapter-database/typeorm/entities";
+import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
+import { DatabaseContextService } from "@/infrastructure/integrations/database";
+import type { UsuarioEntity } from "@/infrastructure/integrations/database/typeorm/entities";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { FilterOperator } from "nestjs-paginate";

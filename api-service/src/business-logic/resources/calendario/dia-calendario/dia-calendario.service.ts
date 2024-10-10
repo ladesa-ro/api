@@ -1,9 +1,9 @@
-import type { AccessContext } from "@/access-context";
 import { QbEfficientLoad } from "@/business-logic/standards/ladesa-spec/QbEfficientLoad";
 import { LadesaPaginatedResultDto, LadesaSearch } from "@/business-logic/standards/ladesa-spec/search/search-strategies";
-import { DatabaseContextService } from "@/infrastructure/adapters/adapter-database";
-import type { DiaCalendarioEntity } from "@/infrastructure/adapters/adapter-database/typeorm/entities/calendario/dia-calendario.entity";
+import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
+import { DatabaseContextService } from "@/infrastructure/integrations/database";
+import type { DiaCalendarioEntity } from "@/infrastructure/integrations/database/typeorm/entities/calendario/dia-calendario.entity";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { has, map, pick } from "lodash";

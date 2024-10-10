@@ -1,11 +1,11 @@
-import type { AccessContext } from "@/access-context";
 import { ValidationFailedException } from "@/business-logic/standards";
 import { QbEfficientLoad } from "@/business-logic/standards/ladesa-spec/QbEfficientLoad";
 import { LadesaPaginatedResultDto, LadesaSearch } from "@/business-logic/standards/ladesa-spec/search/search-strategies";
-import { DatabaseContextService } from "@/infrastructure/adapters/adapter-database";
-import type { UsuarioEntity } from "@/infrastructure/adapters/adapter-database/typeorm/entities";
-import { KeycloakService } from "@/infrastructure/adapters/adapter-identity-and-access";
+import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
+import { DatabaseContextService } from "@/infrastructure/integrations/database";
+import type { UsuarioEntity } from "@/infrastructure/integrations/database/typeorm/entities";
+import { KeycloakService } from "@/infrastructure/integrations/identity-provider";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from "@nestjs/common";
 import { has, map, pick } from "lodash";

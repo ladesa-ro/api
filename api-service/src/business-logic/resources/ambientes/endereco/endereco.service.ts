@@ -1,6 +1,6 @@
-import type { AccessContext } from "@/access-context";
 import { QbEfficientLoad } from "@/business-logic/standards/ladesa-spec/QbEfficientLoad";
-import { DatabaseContextService } from "@/infrastructure/adapters/adapter-database";
+import type { AccessContext } from "@/infrastructure/access-context";
+import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { pick } from "lodash";

@@ -1,5 +1,5 @@
-import { type AccessContext, AccessContextHttp } from "@/access-context";
 import { CombinedInput, Operation } from "@/business-logic/standards";
+import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import { Public } from "@/infrastructure/authentication";
 import LadesaTypings from "@ladesa-ro/especificacao";
 import { Controller, Get, Post } from "@nestjs/common";

@@ -1,10 +1,10 @@
 import { writeFile } from "node:fs/promises";
 import type { Readable } from "node:stream";
-import type { AccessContext } from "@/access-context";
-import { DatabaseContextService } from "@/infrastructure/adapters/adapter-database";
-import { type ArquivoEntity, UsuarioEntity } from "@/infrastructure/adapters/adapter-database/typeorm/entities";
+import type { AccessContext } from "@/infrastructure/access-context";
 import { AppConfigService } from "@/infrastructure/config";
 import { ValidationContractUuid } from "@/infrastructure/fixtures";
+import { DatabaseContextService } from "@/infrastructure/integrations/database";
+import { type ArquivoEntity, UsuarioEntity } from "@/infrastructure/integrations/database/typeorm/entities";
 import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { ForbiddenException, Inject, Injectable, NotFoundException, ServiceUnavailableException, StreamableFile } from "@nestjs/common";
 import jetpack, { createReadStream } from "fs-jetpack";

@@ -1,4 +1,4 @@
-import { DatabaseContextService } from "@/infrastructure/adapters/adapter-database";
+import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import { Injectable, ServiceUnavailableException, UnprocessableEntityException } from "@nestjs/common";
 import sharp from "sharp";
 import { v4 } from "uuid";
