@@ -2695,11 +2695,11 @@ export type AppControllerGetHelloResponse = {
   /**
    * O nome desta aplicação.
    */
-  service: '@ladesa-ro/api';
+  service: "@ladesa-ro/api";
   /**
    * Status desta aplicação.
    */
-  status: 'up';
+  status: "up";
   /**
    * Prefixo do serviço API.
    */
@@ -4402,7 +4402,7 @@ export type HorarioGeradoAulaDeleteByIdData = {
 export type HorarioGeradoAulaDeleteByIdResponse = boolean;
 
 export type $OpenApiTs = {
-  '/': {
+  "/": {
     get: {
       res: {
         /**
@@ -4412,11 +4412,11 @@ export type $OpenApiTs = {
           /**
            * O nome desta aplicação.
            */
-          service: '@ladesa-ro/api';
+          service: "@ladesa-ro/api";
           /**
            * Status desta aplicação.
            */
-          status: 'up';
+          status: "up";
           /**
            * Prefixo do serviço API.
            */
@@ -4429,7 +4429,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/arquivos/{id}': {
+  "/arquivos/{id}": {
     get: {
       req: ArquivoGetFileData;
       res: {
@@ -4448,7 +4448,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/autenticacao/quem-sou-eu': {
+  "/autenticacao/quem-sou-eu": {
     get: {
       res: {
         /**
@@ -4466,7 +4466,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/autenticacao/login': {
+  "/autenticacao/login": {
     post: {
       req: AuthLoginData;
       res: {
@@ -4485,7 +4485,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/autenticacao/login/refresh': {
+  "/autenticacao/login/refresh": {
     post: {
       req: AuthRefreshData;
       res: {
@@ -4504,7 +4504,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/autenticacao/definir-senha': {
+  "/autenticacao/definir-senha": {
     post: {
       req: AuthSetInitialPasswordData;
       res: {
@@ -4523,7 +4523,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/usuarios': {
+  "/usuarios": {
     get: {
       req: UsuarioListData;
       res: {
@@ -4559,7 +4559,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/usuarios/{id}': {
+  "/usuarios/{id}": {
     get: {
       req: UsuarioFindByIdData;
       res: {
@@ -4612,7 +4612,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/usuarios/{id}/imagem/capa': {
+  "/usuarios/{id}/imagem/capa": {
     get: {
       req: UsuarioGetCoverImageData;
       res: {
@@ -4648,7 +4648,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/usuarios/{id}/imagem/perfil': {
+  "/usuarios/{id}/imagem/perfil": {
     get: {
       req: UsuarioGetProfileImageData;
       res: {
@@ -4684,7 +4684,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/vinculos': {
+  "/vinculos": {
     get: {
       req: VinculoListData;
       res: {
@@ -4720,7 +4720,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/campi': {
+  "/campi": {
     get: {
       req: CampusListData;
       res: {
@@ -4756,7 +4756,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/campi/{id}': {
+  "/campi/{id}": {
     get: {
       req: CampusFindByIdData;
       res: {
@@ -4809,7 +4809,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/modalidades': {
+  "/modalidades": {
     get: {
       req: ModalidadeListData;
       res: {
@@ -4845,7 +4845,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/modalidades/{id}': {
+  "/modalidades/{id}": {
     get: {
       req: ModalidadeFindByIdData;
       res: {
@@ -4898,7 +4898,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/base/estados': {
+  "/base/estados": {
     get: {
       req: EstadoListData;
       res: {
@@ -4917,7 +4917,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/base/estados/{id}': {
+  "/base/estados/{id}": {
     get: {
       req: EstadoFindByIdData;
       res: {
@@ -4936,7 +4936,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/base/cidades': {
+  "/base/cidades": {
     get: {
       req: CidadeListData;
       res: {
@@ -4955,7 +4955,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/base/cidades/{id}': {
+  "/base/cidades/{id}": {
     get: {
       req: CidadeFindByIdData;
       res: {
@@ -4974,7 +4974,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/blocos': {
+  "/blocos": {
     get: {
       req: BlocoListData;
       res: {
@@ -5010,7 +5010,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/blocos/{id}': {
+  "/blocos/{id}": {
     get: {
       req: BlocoFindByIdData;
       res: {
@@ -5063,7 +5063,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/blocos/{id}/imagem/capa': {
+  "/blocos/{id}/imagem/capa": {
     get: {
       req: BlocoGetCoverImageData;
       res: {
@@ -5099,7 +5099,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/ambientes': {
+  "/ambientes": {
     get: {
       req: AmbienteListData;
       res: {
@@ -5135,7 +5135,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/ambientes/{id}': {
+  "/ambientes/{id}": {
     get: {
       req: AmbienteFindByIdData;
       res: {
@@ -5188,7 +5188,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/ambientes/{id}/imagem/capa': {
+  "/ambientes/{id}/imagem/capa": {
     get: {
       req: AmbienteGetCoverImageData;
       res: {
@@ -5224,7 +5224,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/reservas': {
+  "/reservas": {
     get: {
       req: ReservaListData;
       res: {
@@ -5260,7 +5260,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/reservas/{id}': {
+  "/reservas/{id}": {
     get: {
       req: ReservaFindByIdData;
       res: {
@@ -5313,7 +5313,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/cursos': {
+  "/cursos": {
     get: {
       req: CursoListData;
       res: {
@@ -5349,7 +5349,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/cursos/{id}': {
+  "/cursos/{id}": {
     get: {
       req: CursoFindByIdData;
       res: {
@@ -5402,7 +5402,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/cursos/{id}/imagem/capa': {
+  "/cursos/{id}/imagem/capa": {
     get: {
       req: CursoGetCoverImageData;
       res: {
@@ -5438,7 +5438,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/disciplinas': {
+  "/disciplinas": {
     get: {
       req: DisciplinaListData;
       res: {
@@ -5474,7 +5474,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/disciplinas/{id}': {
+  "/disciplinas/{id}": {
     get: {
       req: DisciplinaFindByIdData;
       res: {
@@ -5527,7 +5527,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/disciplinas/{id}/imagem/capa': {
+  "/disciplinas/{id}/imagem/capa": {
     get: {
       req: DisciplinaGetCoverImageData;
       res: {
@@ -5563,7 +5563,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/turmas': {
+  "/turmas": {
     get: {
       req: TurmaListData;
       res: {
@@ -5599,7 +5599,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/turmas/{id}': {
+  "/turmas/{id}": {
     get: {
       req: TurmaFindByIdData;
       res: {
@@ -5652,7 +5652,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/turmas/{id}/imagem/capa': {
+  "/turmas/{id}/imagem/capa": {
     get: {
       req: TurmaGetCoverImageData;
       res: {
@@ -5688,7 +5688,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/calendarios-letivos': {
+  "/calendarios-letivos": {
     get: {
       req: CalendarioLetivoListData;
       res: {
@@ -5724,7 +5724,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/calendarios-letivos/{id}': {
+  "/calendarios-letivos/{id}": {
     get: {
       req: CalendarioLetivoFindByIdData;
       res: {
@@ -5777,7 +5777,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/eventos': {
+  "/eventos": {
     get: {
       req: EventoListData;
       res: {
@@ -5813,7 +5813,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/eventos/{id}': {
+  "/eventos/{id}": {
     get: {
       req: EventoFindByIdData;
       res: {
@@ -5866,7 +5866,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/dias-calendario': {
+  "/dias-calendario": {
     get: {
       req: DiaCalendarioListData;
       res: {
@@ -5902,7 +5902,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/dias-calendario/{id}': {
+  "/dias-calendario/{id}": {
     get: {
       req: DiaCalendarioFindByIdData;
       res: {
@@ -5955,7 +5955,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/diarios': {
+  "/diarios": {
     get: {
       req: DiarioListData;
       res: {
@@ -5991,7 +5991,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/diarios/{id}': {
+  "/diarios/{id}": {
     get: {
       req: DiarioFindByIdData;
       res: {
@@ -6044,7 +6044,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/diario-professor': {
+  "/diario-professor": {
     get: {
       req: DiarioProfessorListData;
       res: {
@@ -6080,7 +6080,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/diario-professor/{id}': {
+  "/diario-professor/{id}": {
     get: {
       req: DiarioProfessorFindByIdData;
       res: {
@@ -6133,7 +6133,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/etapas': {
+  "/etapas": {
     get: {
       req: EtapaListData;
       res: {
@@ -6169,7 +6169,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/etapas/{id}': {
+  "/etapas/{id}": {
     get: {
       req: EtapaFindByIdData;
       res: {
@@ -6222,7 +6222,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/aulas': {
+  "/aulas": {
     get: {
       req: AulaListData;
       res: {
@@ -6258,7 +6258,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/aulas/{id}': {
+  "/aulas/{id}": {
     get: {
       req: AulaFindByIdData;
       res: {
@@ -6311,7 +6311,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/turmas-disponibilidade': {
+  "/turmas-disponibilidade": {
     get: {
       req: TurmaDisponibilidadeListData;
       res: {
@@ -6347,7 +6347,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/turmas-disponibilidade/{id}': {
+  "/turmas-disponibilidade/{id}": {
     get: {
       req: TurmaDisponibilidadeFindByIdData;
       res: {
@@ -6400,7 +6400,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/turmas-disponibilidade-dia': {
+  "/turmas-disponibilidade-dia": {
     get: {
       req: TurmaDisponibilidadeDiaListData;
       res: {
@@ -6436,7 +6436,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/turmas-disponibilidade-dia/{id}': {
+  "/turmas-disponibilidade-dia/{id}": {
     get: {
       req: TurmaDisponibilidadeDiaFindByIdData;
       res: {
@@ -6489,7 +6489,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/disponibilidades-professor': {
+  "/disponibilidades-professor": {
     get: {
       req: DisponibilidadeProfessorListData;
       res: {
@@ -6525,7 +6525,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/disponibilidades-professor/{id}': {
+  "/disponibilidades-professor/{id}": {
     get: {
       req: DisponibilidadeProfessorFindByIdData;
       res: {
@@ -6578,7 +6578,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/disponibilidades-professor-dia': {
+  "/disponibilidades-professor-dia": {
     get: {
       req: DisponibilidadeProfessorDiaListData;
       res: {
@@ -6614,7 +6614,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/disponibilidades-professor-dia/{id}': {
+  "/disponibilidades-professor-dia/{id}": {
     get: {
       req: DisponibilidadeProfessorDiaFindByIdData;
       res: {
@@ -6667,7 +6667,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/diarios-preferencia-agrupamento': {
+  "/diarios-preferencia-agrupamento": {
     get: {
       req: DiarioPreferenciaAgrupamentoListData;
       res: {
@@ -6703,7 +6703,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/diarios-preferencia-agrupamento/{id}': {
+  "/diarios-preferencia-agrupamento/{id}": {
     get: {
       req: DiarioPreferenciaAgrupamentoFindByIdData;
       res: {
@@ -6756,7 +6756,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/horarios-gerados': {
+  "/horarios-gerados": {
     get: {
       req: HorarioGeradoListData;
       res: {
@@ -6792,7 +6792,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/horarios-gerados/{id}': {
+  "/horarios-gerados/{id}": {
     get: {
       req: HorarioGeradoFindByIdData;
       res: {
@@ -6845,7 +6845,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/horarios-gerados-aula': {
+  "/horarios-gerados-aula": {
     get: {
       req: HorarioGeradoAulaListData;
       res: {
@@ -6881,7 +6881,7 @@ export type $OpenApiTs = {
       };
     };
   };
-  '/horarios-gerados-aula/{id}': {
+  "/horarios-gerados-aula/{id}": {
     get: {
       req: HorarioGeradoAulaFindByIdData;
       res: {

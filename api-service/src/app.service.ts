@@ -1,5 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { AppConfigService } from './app-config';
+import { AppConfigService } from "@/infrastructure/config";
+import { Inject, Injectable } from "@nestjs/common";
 
 @Injectable()
 export class AppService {
@@ -11,8 +11,8 @@ export class AppService {
 
   getHello() {
     return {
-      status: 'up',
-      service: '@ladesa-ro/api',
+      status: "up",
+      service: "@ladesa-ro/api",
       prefix: this.configService.getRuntimePrefix(),
       version: this.configService.getRuntimeVersion(),
     };

@@ -1,25 +1,25 @@
-import { IRequestActor } from '@/authentication';
-import { IAuthzStatement, IAuthzStatementFilter } from '@/authorization/rules';
-import { SelectQueryBuilder } from 'typeorm';
+import type { IAuthzStatement, IAuthzStatementFilter } from "@/business-logic/authorization/rules";
+import type { IRequestActor } from "@/infrastructure/authentication";
+import type { SelectQueryBuilder } from "typeorm";
 
 export interface IAccessContext {
   readonly requestActor: IRequestActor | null;
 
-  aplicarFiltro: <Statement extends IAuthzStatementFilter, Action extends Statement['action'], Payload extends Statement['payload']>(
+  aplicarFiltro: <Statement extends IAuthzStatementFilter, Action extends Statement["action"], Payload extends Statement["payload"]>(
     action: Action,
     qb: SelectQueryBuilder<any>,
     alias?: string,
     payload?: Payload | null,
   ) => Promise<void>;
 
-  ensurePermission: <Statement extends IAuthzStatement, Action extends Statement['action'], Payload extends Statement['payload']>(
+  ensurePermission: <Statement extends IAuthzStatement, Action extends Statement["action"], Payload extends Statement["payload"]>(
     action: Action,
     payload: Payload,
     id?: any,
     qb?: SelectQueryBuilder<any> | null,
   ) => Promise<void>;
 
-  verifyPermission<Statement extends IAuthzStatement, Action extends Statement['action'], Payload extends Statement['payload']>(
+  verifyPermission<Statement extends IAuthzStatement, Action extends Statement["action"], Payload extends Statement["payload"]>(
     action: Action,
     payload: Payload,
     id?: any,
