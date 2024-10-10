@@ -1,5 +1,5 @@
-import { type AccessContext, AccessContextHttp } from "@/access-context";
 import { Operation } from "@/business-logic/standards";
+import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Controller, Get, Param, Query, type StreamableFile } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";

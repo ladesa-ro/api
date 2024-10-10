@@ -1,5 +1,5 @@
-import type { AccessContext } from "@/access-context";
-import { DatabaseContextService } from "@/infrastructure/adapters/adapter-database";
+import type { AccessContext } from "@/infrastructure/access-context";
+import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Injectable } from "@nestjs/common";
 import { pick } from "lodash";

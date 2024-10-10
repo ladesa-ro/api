@@ -1,4 +1,4 @@
-import { MessageBrokerService } from "@/infrastructure/adapters/adapter-message-broker";
+import { MessageBrokerService } from "@/infrastructure/integrations/message-broker";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()

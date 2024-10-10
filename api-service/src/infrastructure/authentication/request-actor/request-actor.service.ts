@@ -1,5 +1,5 @@
-import { DatabaseContextService } from "@/infrastructure/adapters/adapter-database";
-import { IdentityAndAccessService } from "@/infrastructure/adapters/adapter-identity-and-access";
+import { DatabaseContextService } from "@/infrastructure/integrations";
+import { IdentityProviderService } from "@/infrastructure/integrations/identity-provider";
 import { ForbiddenException, Injectable } from "@nestjs/common";
 import { pick } from "lodash";
 import type { IRequestActor } from "./typings/IRequestActor";
@@ -7,7 +7,7 @@ import type { IRequestActor } from "./typings/IRequestActor";
 @Injectable()
 export class RequestActorService {
   constructor(
-    private integracaoIdentidadeEAcessoServicec: IdentityAndAccessService,
+    private integracaoIdentidadeEAcessoServicec: IdentityProviderService,
     private dabaseContextService: DatabaseContextService,
   ) {}
 

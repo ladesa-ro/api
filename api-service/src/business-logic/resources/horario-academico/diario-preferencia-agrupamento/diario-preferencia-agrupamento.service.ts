@@ -1,11 +1,11 @@
-import type { AccessContext } from "@/access-context";
 import { DiarioService } from "@/business-logic/resources/calendario/diario/diario.service";
 import { IntervaloDeTempoService } from "@/business-logic/resources/calendario/intervalo-de-tempo/intervalo-de-tempo.service";
 import { QbEfficientLoad } from "@/business-logic/standards/ladesa-spec/QbEfficientLoad";
 import { LadesaPaginatedResultDto, LadesaSearch } from "@/business-logic/standards/ladesa-spec/search/search-strategies";
-import { DatabaseContextService } from "@/infrastructure/adapters/adapter-database";
-import type { DiarioPreferenciaAgrupamentoEntity } from "@/infrastructure/adapters/adapter-database/typeorm/entities";
+import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
+import { DatabaseContextService } from "@/infrastructure/integrations/database";
+import type { DiarioPreferenciaAgrupamentoEntity } from "@/infrastructure/integrations/database/typeorm/entities";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { has, map, pick } from "lodash";

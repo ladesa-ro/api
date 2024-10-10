@@ -1,4 +1,4 @@
-import { KeycloakModule, OpenidConnectModule } from "@/infrastructure/adapters/adapter-identity-and-access";
+import { KeycloakModule, OpenidConnectModule } from "@/infrastructure/integrations/identity-provider";
 import { Module } from "@nestjs/common";
 import { AutenticacaoController } from "./autenticacao.controller";
 import { AutenticacaoResolver } from "./autenticacao.resolver";

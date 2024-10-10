@@ -1,5 +1,5 @@
-import { type AccessContext, AccessContextGraphQl } from "@/access-context";
 import { CombinedInput, Operation, graphqlExtractSelection } from "@/business-logic/standards";
+import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import LadesaTypings from "@ladesa-ro/especificacao";
 import { Info as GqlInfo, Resolver as GqlResolver } from "@nestjs/graphql";
 import type { GraphQLResolveInfo } from "graphql";

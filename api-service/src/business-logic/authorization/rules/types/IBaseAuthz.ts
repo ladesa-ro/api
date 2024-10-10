@@ -1,4 +1,4 @@
-import type { AccessContext } from "@/access-context";
+import type { AccessContext } from "@/infrastructure/access-context";
 import { Promisable } from "type-fest";
 import { SelectQueryBuilder } from "typeorm";
 

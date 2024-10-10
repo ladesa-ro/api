@@ -1,6 +1,5 @@
+import { MessageBrokerModule } from "@/infrastructure/integrations/message-broker";
 import { Module } from "@nestjs/common";
-
-import { MessageBrokerModule } from "@/infrastructure/adapters";
 import { GerarHorarioController } from "./gerar-horario.controller";
 import { GerarHorarioService } from "./gerar-horario.service";
 

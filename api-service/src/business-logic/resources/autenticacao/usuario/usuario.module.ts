@@ -1,4 +1,4 @@
-import { KeycloakModule } from "@/infrastructure/adapters/adapter-identity-and-access";
+import { KeycloakModule } from "@/infrastructure/integrations/identity-provider";
 import { Module } from "@nestjs/common";
 import { UsuarioController } from "./usuario.controller";
 import { UsuarioResolver } from "./usuario.resolver";
