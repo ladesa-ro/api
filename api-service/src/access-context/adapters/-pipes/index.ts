@@ -1,7 +1,7 @@
-import { Injectable, PipeTransform } from '@nestjs/common';
-import { DatabaseContextService } from '../../../adapters/adapter-database';
-import { IRequestActor } from '../../../authentication';
-import { AccessContext } from '../../core';
+import { DatabaseContextService } from "@/infrastructure/adapters";
+import type { IRequestActor } from "@/infrastructure/authentication";
+import { Injectable, type PipeTransform } from "@nestjs/common";
+import { AccessContext } from "../../core";
 
 @Injectable()
 export class ResolveAccessContextPipe implements PipeTransform {

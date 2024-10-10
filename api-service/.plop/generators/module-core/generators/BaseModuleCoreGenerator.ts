@@ -1,19 +1,19 @@
-import { namedTypes as n } from 'ast-types';
-import { ProxifiedModule, generateCode, parseModule } from 'magicast';
-import { Promisable } from 'type-fest';
-import { addExportAllFrom, addImportMember, addPropertyAcessor } from '../../../helpers/ts-ast/ts-ast';
+import { namedTypes as n } from "ast-types";
+import { ProxifiedModule, generateCode, parseModule } from "magicast";
+import { Promisable } from "type-fest";
+import { addExportAllFrom, addImportMember, addPropertyAcessor } from "../../../helpers/ts-ast/ts-ast";
 
 type IModifyModuleMod = (mod: ProxifiedModule<any>, code: string) => Promisable<void>;
 
 type IModifyModuleHandleMod = {
-  kind: 'mod';
+  kind: "mod";
   fn: IModifyModuleMod;
 };
 
 type IModifyModuleCode = (mod: ProxifiedModule<any>, code: string) => Promisable<string>;
 
 type IModifyModuleHandleCode = {
-  kind: 'code';
+  kind: "code";
   fn: IModifyModuleCode;
 };
 
@@ -27,7 +27,7 @@ export class BaseModuleCoreGenerator {
   }
 
   addModify(callback: IModifyModuleMod) {
-    this.modifyModuleQueue.push({ kind: 'mod', fn: callback });
+    this.modifyModuleQueue.push({ kind: "mod", fn: callback });
     return this;
   }
 
@@ -40,7 +40,7 @@ export class BaseModuleCoreGenerator {
   }
 
   addModifyCode(callback: IModifyModuleCode) {
-    this.modifyModuleQueue.push({ kind: 'code', fn: callback });
+    this.modifyModuleQueue.push({ kind: "code", fn: callback });
     return this;
   }
 
@@ -62,9 +62,9 @@ export class BaseModuleCoreGenerator {
     for (const modifyModule of this.modifyModuleQueue) {
       const mod = parseModule(code);
 
-      if (modifyModule.kind === 'code') {
+      if (modifyModule.kind === "code") {
         code = await modifyModule.fn(mod, code);
-      } else if (modifyModule.kind === 'mod') {
+      } else if (modifyModule.kind === "mod") {
         await modifyModule.fn(mod, code);
         code = generateCode(mod).code;
       }

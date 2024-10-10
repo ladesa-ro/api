@@ -7,11 +7,11 @@
   "searchInDocuments": true,
   "searchInComments": true,
   "navigationLinks": {
-    "Documentação do Sistema": "https://docs.ladesa.com.br/",
+    "Documentação do Sistema": "https://docs.ladesa.com.br/"
   },
 
   "plugin": ["typedoc-plugin-mdn-links"],
 
   "hostedBaseUrl": "https://docs.ladesa.com.br/packages/npm/api-client-fetch",
-  "useHostedBaseUrlForAbsoluteLinks": true,
+  "useHostedBaseUrlForAbsoluteLinks": true
 }

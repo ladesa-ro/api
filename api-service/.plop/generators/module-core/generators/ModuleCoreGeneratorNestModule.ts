@@ -1,15 +1,15 @@
-import { builders as b, namedTypes as n } from 'ast-types';
-import { castArray } from 'lodash';
-import { findNestJsModuleObjectConfigProperty } from '../../../helpers/ts-ast/ts-ast';
-import { BaseModuleCoreGenerator } from './BaseModuleCoreGenerator';
+import { builders as b, namedTypes as n } from "ast-types";
+import { castArray } from "lodash";
+import { findNestJsModuleObjectConfigProperty } from "../../../helpers/ts-ast/ts-ast";
+import { BaseModuleCoreGenerator } from "./BaseModuleCoreGenerator";
 
-export type IModuleDeclarationProperty = 'controllers' | 'exports' | 'imports' | 'providers';
+export type IModuleDeclarationProperty = "controllers" | "exports" | "imports" | "providers";
 
 export enum ModuleDeclarationProperty {
-  CONTROLLERS = 'controllers',
-  EXPORTS = 'exports',
-  IMPORTS = 'imports',
-  PROVIDERS = 'providers',
+  CONTROLLERS = "controllers",
+  EXPORTS = "exports",
+  IMPORTS = "imports",
+  PROVIDERS = "providers",
 }
 
 export type IModuleDeclareClass = {
@@ -30,7 +30,7 @@ export class ModuleCoreGeneratorNestModule extends BaseModuleCoreGenerator {
       if (property) {
         if (n.ArrayExpression.assert(property.value)) {
           const alreadyDeclared = property.value.elements.some((i) => {
-            if (i?.type === 'Identifier') {
+            if (i?.type === "Identifier") {
               return i.name === importMember;
             }
 

@@ -1,10 +1,10 @@
-import { castArray } from 'lodash';
-import { SelectQueryBuilder } from 'typeorm';
-import { DatabaseContextService } from '../../adapters/adapter-database';
-import { createForbiddenExceptionForAction } from '../../app-standards/AppStandards';
-import { IRequestActor } from '../../authentication';
-import { AuthzPolicyPublic, IAuthzStatement, IAuthzStatementFilter, IBaseAuthzFilterFn, IBaseAuthzStatementContext } from '../../authorization';
-import { IAccessContext } from '../typings';
+import { createForbiddenExceptionForAction } from "@/business-logic/standards";
+import { DatabaseContextService } from "@/infrastructure/adapters/adapter-database";
+import type { IRequestActor } from "@/infrastructure/authentication";
+import { castArray } from "lodash";
+import type { SelectQueryBuilder } from "typeorm";
+import { AuthzPolicyPublic, type IAuthzStatement, type IAuthzStatementFilter, type IBaseAuthzFilterFn, type IBaseAuthzStatementContext } from "../../business-logic/authorization";
+import type { IAccessContext } from "../typings";
 
 export class AccessContext implements IAccessContext {
   #policy = new AuthzPolicyPublic();
@@ -20,7 +20,7 @@ export class AccessContext implements IAccessContext {
     return this.#policy.statements;
   }
 
-  async aplicarFiltro<Statement extends IAuthzStatementFilter, Action extends Statement['action'], Payload extends Statement['payload']>(
+  async aplicarFiltro<Statement extends IAuthzStatementFilter, Action extends Statement["action"], Payload extends Statement["payload"]>(
     action: Action,
     qb: SelectQueryBuilder<any>,
     alias?: string,
@@ -33,18 +33,18 @@ export class AccessContext implements IAccessContext {
 
       const filter = statement.filter as boolean | IBaseAuthzFilterFn<Action, Payload>;
 
-      if (typeof filter === 'boolean') {
-        qb.andWhere(filter ? 'TRUE' : 'FALSE');
+      if (typeof filter === "boolean") {
+        qb.andWhere(filter ? "TRUE" : "FALSE");
       } else {
         const qbFactory = await filter(context, alias ?? qb.alias);
         qb.andWhere(qbFactory);
       }
     } else {
-      qb.andWhere('FALSE');
+      qb.andWhere("FALSE");
     }
   }
 
-  async verifyPermission<Statement extends IAuthzStatement, Action extends Statement['action'], Payload extends Statement['payload']>(
+  async verifyPermission<Statement extends IAuthzStatement, Action extends Statement["action"], Payload extends Statement["payload"]>(
     action: Action,
     payload: Payload,
     id: any = null,
@@ -55,17 +55,17 @@ export class AccessContext implements IAccessContext {
     const context = this.createAuthzStatementContext(action, payload);
 
     if (statement) {
-      if (statement.statementKind === 'check') {
+      if (statement.statementKind === "check") {
         const withResultFactory = statement.withCheck;
 
-        if (typeof withResultFactory === 'boolean') {
+        if (typeof withResultFactory === "boolean") {
           return withResultFactory;
         } else {
           const result = await withResultFactory(context as any);
           return result;
         }
-      } else if (statement.statementKind === 'filter') {
-        const filterAction = action as IAuthzStatementFilter['action'];
+      } else if (statement.statementKind === "filter") {
+        const filterAction = action as IAuthzStatementFilter["action"];
 
         const qb = qbInput ?? this.getQueryBuilderForAction(filterAction);
 
@@ -83,7 +83,7 @@ export class AccessContext implements IAccessContext {
     return false;
   }
 
-  async ensurePermission<Statement extends IAuthzStatement, Action extends Statement['action'], Payload extends Statement['payload']>(
+  async ensurePermission<Statement extends IAuthzStatement, Action extends Statement["action"], Payload extends Statement["payload"]>(
     action: Action,
     payload: Payload,
     id: (number | string) | null = null,
@@ -96,11 +96,11 @@ export class AccessContext implements IAccessContext {
     }
   }
 
-  private getStatementForAction<Statement extends IAuthzStatement, Action extends Statement['action']>(action: Action) {
+  private getStatementForAction<Statement extends IAuthzStatement, Action extends Statement["action"]>(action: Action) {
     return (this.statements.find((statement) => statement.action === action) ?? null) as Statement | null;
   }
 
-  private createAuthzStatementContext<Statement extends IAuthzStatement, Action extends Statement['action'], Payload extends Statement['payload']>(action: Action, payload: Payload | null) {
+  private createAuthzStatementContext<Statement extends IAuthzStatement, Action extends Statement["action"], Payload extends Statement["payload"]>(action: Action, payload: Payload | null) {
     return {
       action,
       payload,
@@ -108,87 +108,87 @@ export class AccessContext implements IAccessContext {
     } as IBaseAuthzStatementContext<Action, Payload>;
   }
 
-  private getQueryBuilderForAction<Action extends IAuthzStatementFilter['action']>(action: Action) {
+  private getQueryBuilderForAction<Action extends IAuthzStatementFilter["action"]>(action: Action) {
     switch (action) {
-      case 'estado:find': {
-        return this.databaseContext.estadoRepository.createQueryBuilder('estado');
+      case "estado:find": {
+        return this.databaseContext.estadoRepository.createQueryBuilder("estado");
       }
 
-      case 'cidade:find': {
-        return this.databaseContext.cidadeRepository.createQueryBuilder('cidade');
+      case "cidade:find": {
+        return this.databaseContext.cidadeRepository.createQueryBuilder("cidade");
       }
 
-      case 'endereco:find': {
-        return this.databaseContext.enderecoRepository.createQueryBuilder('endereco');
+      case "endereco:find": {
+        return this.databaseContext.enderecoRepository.createQueryBuilder("endereco");
       }
 
-      case 'campus:find':
-      case 'campus:update':
-      case 'campus:delete': {
-        return this.databaseContext.campusRepository.createQueryBuilder('campus');
+      case "campus:find":
+      case "campus:update":
+      case "campus:delete": {
+        return this.databaseContext.campusRepository.createQueryBuilder("campus");
       }
 
-      case 'bloco:find':
-      case 'bloco:update':
-      case 'bloco:delete': {
-        return this.databaseContext.blocoRepository.createQueryBuilder('bloco');
+      case "bloco:find":
+      case "bloco:update":
+      case "bloco:delete": {
+        return this.databaseContext.blocoRepository.createQueryBuilder("bloco");
       }
 
-      case 'ambiente:find':
-      case 'ambiente:update':
-      case 'ambiente:delete': {
-        return this.databaseContext.ambienteRepository.createQueryBuilder('ambiente');
+      case "ambiente:find":
+      case "ambiente:update":
+      case "ambiente:delete": {
+        return this.databaseContext.ambienteRepository.createQueryBuilder("ambiente");
       }
 
-      case 'usuario:find':
-      case 'usuario:update':
-      case 'usuario:delete': {
-        return this.databaseContext.usuarioRepository.createQueryBuilder('usuario');
+      case "usuario:find":
+      case "usuario:update":
+      case "usuario:delete": {
+        return this.databaseContext.usuarioRepository.createQueryBuilder("usuario");
       }
 
-      case 'modalidade:find':
-      case 'modalidade:update':
-      case 'modalidade:delete': {
-        return this.databaseContext.modalidadeRepository.createQueryBuilder('modalidade');
+      case "modalidade:find":
+      case "modalidade:update":
+      case "modalidade:delete": {
+        return this.databaseContext.modalidadeRepository.createQueryBuilder("modalidade");
       }
 
-      case 'vinculo:find': {
-        return this.databaseContext.vinculoRepository.createQueryBuilder('vinculo');
+      case "vinculo:find": {
+        return this.databaseContext.vinculoRepository.createQueryBuilder("vinculo");
       }
 
-      case 'curso:update':
-      case 'curso:delete':
-      case 'curso:find': {
-        return this.databaseContext.cursoRepository.createQueryBuilder('curso');
+      case "curso:update":
+      case "curso:delete":
+      case "curso:find": {
+        return this.databaseContext.cursoRepository.createQueryBuilder("curso");
       }
 
-      case 'disciplina:update':
-      case 'disciplina:delete':
-      case 'disciplina:find': {
-        return this.databaseContext.disciplinaRepository.createQueryBuilder('disciplina');
+      case "disciplina:update":
+      case "disciplina:delete":
+      case "disciplina:find": {
+        return this.databaseContext.disciplinaRepository.createQueryBuilder("disciplina");
       }
 
-      case 'turma:update':
-      case 'turma:delete':
-      case 'turma:find': {
-        return this.databaseContext.turmaRepository.createQueryBuilder('turma');
+      case "turma:update":
+      case "turma:delete":
+      case "turma:find": {
+        return this.databaseContext.turmaRepository.createQueryBuilder("turma");
       }
-      case 'diario:update':
-      case 'diario:delete':
-      case 'diario:find': {
-        return this.databaseContext.diarioRepository.createQueryBuilder('diario');
-      }
-
-      case 'reserva:update':
-      case 'reserva:delete':
-      case 'reserva:find': {
-        return this.databaseContext.reservaRepository.createQueryBuilder('reserva');
+      case "diario:update":
+      case "diario:delete":
+      case "diario:find": {
+        return this.databaseContext.diarioRepository.createQueryBuilder("diario");
       }
 
-      case 'calendario_letivo:update':
-      case 'calendario_letivo:delete':
-      case 'calendario_letivo:find': {
-        return this.databaseContext.calendarioLetivoRepository.createQueryBuilder('calendarioLetivo');
+      case "reserva:update":
+      case "reserva:delete":
+      case "reserva:find": {
+        return this.databaseContext.reservaRepository.createQueryBuilder("reserva");
+      }
+
+      case "calendario_letivo:update":
+      case "calendario_letivo:delete":
+      case "calendario_letivo:find": {
+        return this.databaseContext.calendarioLetivoRepository.createQueryBuilder("calendarioLetivo");
       }
 
       default: {

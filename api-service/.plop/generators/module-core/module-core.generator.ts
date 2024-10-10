@@ -1,16 +1,16 @@
-import { ActionType, PlopGeneratorConfig } from 'plop';
-import { ChangeCaseHelper } from '../../helpers';
-import { BaseModuleCoreGenerator } from './generators/BaseModuleCoreGenerator';
-import { ModuleCoreGeneratorAuthzStatement } from './generators/ModuleCoreGeneratorAuthzStatement';
-import { ModuleCoreGeneratorDatabaseContextCore } from './generators/ModuleCoreGeneratorDatabaseContextCore';
-import { IModuleDeclareClass, ModuleCoreGeneratorNestModule } from './generators/ModuleCoreGeneratorNestModule';
-import { ModuleCoreGeneratorOperations } from './generators/ModuleCoreGeneratorOperations';
-import { IAnswerEstrutura, IModuleCoreAnswers, moduleCorePromptQuestions } from './questions/moduleCorePromptQuestions';
+import { ActionType, PlopGeneratorConfig } from "plop";
+import { ChangeCaseHelper } from "../../helpers";
+import { BaseModuleCoreGenerator } from "./generators/BaseModuleCoreGenerator";
+import { ModuleCoreGeneratorAuthzStatement } from "./generators/ModuleCoreGeneratorAuthzStatement";
+import { ModuleCoreGeneratorDatabaseContextCore } from "./generators/ModuleCoreGeneratorDatabaseContextCore";
+import { IModuleDeclareClass, ModuleCoreGeneratorNestModule } from "./generators/ModuleCoreGeneratorNestModule";
+import { ModuleCoreGeneratorOperations } from "./generators/ModuleCoreGeneratorOperations";
+import { IAnswerEstrutura, IModuleCoreAnswers, moduleCorePromptQuestions } from "./questions/moduleCorePromptQuestions";
 
-export const timestamp = '0000000000000';
+export const timestamp = "0000000000000";
 
 export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
-  description: 'Módulo Genérico.',
+  description: "Módulo Genérico.",
 
   prompts: moduleCorePromptQuestions,
 
@@ -27,26 +27,26 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
     const outputPathModule = `src/application/business/{{ c_kebab moduleNameParent }}/{{ c_kebab moduleName }}`;
 
     actions.push({
-      type: 'add',
+      type: "add",
       path: `src/application/business/{{ c_kebab moduleNameParent }}/{{ c_kebab moduleNameParent }}.module.ts`,
       templateFile: `${templateBase}/core-module/module.ts.hbs`,
       skipIfExists: true,
     });
 
     actions.push({
-      type: 'add',
+      type: "add",
       path: `${outputPathModule}/{{ c_kebab moduleName }}.module.ts`,
       templateFile: `${templateBase}/core-module/module.ts.hbs`,
       skipIfExists: true,
     });
 
     actions.push({
-      type: 'modify',
+      type: "modify",
       path: `src/application/business/{{ c_kebab moduleNameParent }}/{{ c_kebab moduleNameParent }}.module.ts`,
       transform: async (code: string) =>
         new ModuleCoreGeneratorNestModule()
           .appendModuleConfig({
-            declareInModuleProperty: 'imports',
+            declareInModuleProperty: "imports",
             classImportName: `${ChangeCaseHelper.c_pascal(answers.moduleName)}Module`,
             classImportPath: `./${ChangeCaseHelper.c_kebab(answers.moduleName)}/${ChangeCaseHelper.c_kebab(answers.moduleName)}.module`,
           })
@@ -66,37 +66,37 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
 
     const moduleEstruturaTransforms: IModuleEstruturaTransform[] = [
       {
-        estrutura: 'controller',
+        estrutura: "controller",
         withTemplate: {
           path: `${outputPathModule}/{{ c_kebab moduleName }}.controller.ts`,
           templateFile: `${templateBase}/core-module/controller.ts.hbs`,
         },
         modifyModule: {
-          declareInModuleProperty: ['controllers'],
+          declareInModuleProperty: ["controllers"],
           classImportName: `${ChangeCaseHelper.c_pascal(answers.moduleName)}Controller`,
           classImportPath: `./${ChangeCaseHelper.c_kebab(answers.moduleName)}.controller`,
         },
       },
       {
-        estrutura: 'service',
+        estrutura: "service",
         withTemplate: {
           path: `${outputPathModule}/{{ c_kebab moduleName }}.service.ts`,
           templateFile: `${templateBase}/core-module/service.ts.hbs`,
         },
         modifyModule: {
-          declareInModuleProperty: ['providers', 'exports'],
+          declareInModuleProperty: ["providers", "exports"],
           classImportName: `${ChangeCaseHelper.c_pascal(answers.moduleName)}Service`,
           classImportPath: `./${ChangeCaseHelper.c_kebab(answers.moduleName)}.service`,
         },
       },
       {
-        estrutura: 'resolver',
+        estrutura: "resolver",
         withTemplate: {
           path: `${outputPathModule}/{{ c_kebab moduleName }}.resolver.ts`,
           templateFile: `${templateBase}/core-module/resolver.ts.hbs`,
         },
         modifyModule: {
-          declareInModuleProperty: ['providers'],
+          declareInModuleProperty: ["providers"],
           classImportName: `${ChangeCaseHelper.c_pascal(answers.moduleName)}Resolver`,
           classImportPath: `./${ChangeCaseHelper.c_kebab(answers.moduleName)}.resolver`,
         },
@@ -106,7 +106,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
     for (const moduleEstruturaTransform of moduleEstruturaTransforms) {
       if (answers.estrutura.includes(moduleEstruturaTransform.estrutura)) {
         actions.push({
-          type: 'add',
+          type: "add",
           path: moduleEstruturaTransform.withTemplate.path,
           templateFile: moduleEstruturaTransform.withTemplate.templateFile,
           skipIfExists: true,
@@ -120,7 +120,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
 
     if (moduleCoreGeneratorNestModule.isDirty) {
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathModule}/{{ c_kebab moduleName }}.module.ts`,
         transform: async (code: string) => moduleCoreGeneratorNestModule.transform(code),
       });
@@ -128,59 +128,59 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
 
     const entityName = `${ChangeCaseHelper.c_snake(answers.moduleName)}.entity`;
 
-    if (answers.database.includes('db-entity')) {
+    if (answers.database.includes("db-entity")) {
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${pathTypeormBase}/entities/${ChangeCaseHelper.c_snake(answers.moduleNameParent)}/${entityName}.ts`,
         templateFile: `${templateBase}/database/entity.ts.hbs`,
         skipIfExists: true,
       });
     }
 
-    if (answers.database.includes('db-repository')) {
+    if (answers.database.includes("db-repository")) {
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${pathTypeormBase}/repositories/${ChangeCaseHelper.c_snake(answers.moduleNameParent)}/${ChangeCaseHelper.c_kebab(answers.moduleName)}.repository.ts`,
         templateFile: `${templateBase}/database/repository.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${pathTypeormBase}/repositories/${ChangeCaseHelper.c_snake(answers.moduleNameParent)}/index.ts`,
         templateFile: `${templateBase}/spec/index.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${pathTypeormBase}/repositories/${ChangeCaseHelper.c_snake(answers.moduleNameParent)}/index.ts`,
         transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}.repository`).transform(code),
       });
 
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${pathTypeormBase}/repositories/index.ts`,
         templateFile: `${templateBase}/spec/index.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${pathTypeormBase}/repositories/index.ts`,
         transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_snake(answers.moduleNameParent)}`).transform(code),
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `src/infrastructure/integrate-database/database-context/core/database-context.core.ts`,
         transform: async (code: string) => new ModuleCoreGeneratorDatabaseContextCore().addRepository(answers.moduleName).transform(code),
       });
     }
 
-    if (answers.database.includes('db-migration-create-table')) {
+    if (answers.database.includes("db-migration-create-table")) {
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${pathTypeormBase}/migrations/${++answers.migrationTimestamp}-create-table-${ChangeCaseHelper.c_snake(answers.moduleName)}.ts`,
         templateFile: `${templateBase}/database/migration-create-table.ts.hbs`,
         skipIfExists: true,
@@ -189,56 +189,56 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
 
     const modelName = `I${ChangeCaseHelper.c_pascal(answers.moduleName)}Model`;
 
-    if (answers.estrutura.includes('model')) {
+    if (answers.estrutura.includes("model")) {
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${outputPathSpec}/${modelName}.ts`,
         templateFile: `${templateBase}/spec/IModel.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${outputPathSpec}/index.ts`,
         templateFile: `${templateBase}/spec/index.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathSpec}/index.ts`,
         transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${modelName}`).transform(code),
       });
 
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${pathSpecBase}/{{ c_kebab moduleNameParent }}/index.ts`,
         templateFile: `${templateBase}/spec/index.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${pathSpecBase}/{{ c_kebab moduleNameParent }}/index.ts`,
         transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}`).transform(code),
       });
 
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${outputPathModule}/dtos/${ChangeCaseHelper.c_kebab(answers.moduleName)}.dto.ts`,
         templateFile: `${templateBase}/core-module-dto/dto.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${outputPathModule}/dtos/index.ts`,
         templateFile: `${templateBase}/spec/index.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathModule}/dtos/index.ts`,
         transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}.dto`).transform(code),
       });
@@ -246,55 +246,55 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
 
     if (answers.operacoes.length > 0) {
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${outputPathModule}/dtos/${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations.ts`,
         templateFile: `${templateBase}/core-module-dto/operations.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathModule}/dtos/index.ts`,
         transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations`).transform(code),
       });
 
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${outputPathSpec}/operations/index.ts`,
         templateFile: `${templateBase}/spec/index.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathSpec}/index.ts`,
         transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./operations`).transform(code),
       });
     }
 
-    if (answers.operacoes.includes('handle-resource-create') || answers.operacoes.includes('handle-resource-update')) {
+    if (answers.operacoes.includes("handle-resource-create") || answers.operacoes.includes("handle-resource-update")) {
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/index.ts`,
         templateFile: `${templateBase}/spec/index.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/I{{ c_pascal moduleName }}InputDto.ts`,
         templateFile: `${templateBase}/spec/operations/input/IInputDto.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/index.ts`,
         transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_pascal(answers.moduleName)}InputDto`).transform(code),
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathSpec}/operations/index.ts`,
         transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-input`).transform(code),
       });
@@ -302,28 +302,28 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       //
 
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${outputPathModule}/dtos/{{ c_kebab moduleName }}-input.operation.ts`,
         templateFile: `${templateBase}/core-module-dto/input.operation.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathModule}/dtos/index.ts`,
         transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-input.operation`).transform(code),
       });
 
-      if (answers.operacoes.includes('handle-resource-create')) {
+      if (answers.operacoes.includes("handle-resource-create")) {
         actions.push({
-          type: 'add',
+          type: "add",
           path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/I{{ c_pascal moduleName }}CreateDto.ts`,
           templateFile: `${templateBase}/spec/operations/input/ICreateDto.ts.hbs`,
           skipIfExists: true,
         });
 
         actions.push({
-          type: 'modify',
+          type: "modify",
           path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/index.ts`,
           transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_pascal(answers.moduleName)}CreateDto`).transform(code),
         });
@@ -331,20 +331,20 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         //
 
         actions.push({
-          type: 'add',
+          type: "add",
           path: `${outputPathModule}/dtos/{{ c_kebab moduleName }}-create.operation.ts`,
           templateFile: `${templateBase}/core-module-dto/create.operation.ts.hbs`,
           skipIfExists: true,
         });
 
         actions.push({
-          type: 'modify',
+          type: "modify",
           path: `${outputPathModule}/dtos/index.ts`,
           transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-create.operation`).transform(code),
         });
 
         actions.push({
-          type: 'modify',
+          type: "modify",
           path: `${outputPathModule}/dtos/${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations.ts`,
           transform: async (code: string) =>
             new ModuleCoreGeneratorOperations()
@@ -355,14 +355,14 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         //
 
         actions.push({
-          type: 'modify',
+          type: "modify",
           path: `src/application/authorization-policies/statements/IAuthzStatement.ts`,
           transform: async (code: string) =>
             new ModuleCoreGeneratorAuthzStatement()
               .addTypeDeclarationStatement(
                 `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Create`,
                 `${ChangeCaseHelper.c_snake(answers.moduleName)}:create`,
-                'check',
+                "check",
                 `Dto.I${ChangeCaseHelper.c_pascal(answers.moduleName)}InputDto`,
               )
               .transform(code),
@@ -378,16 +378,16 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         // });
       }
 
-      if (answers.operacoes.includes('handle-resource-update')) {
+      if (answers.operacoes.includes("handle-resource-update")) {
         actions.push({
-          type: 'add',
+          type: "add",
           path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/I{{ c_pascal moduleName }}UpdateDto.ts`,
           templateFile: `${templateBase}/spec/operations/input/IUpdateDto.ts.hbs`,
           skipIfExists: true,
         });
 
         actions.push({
-          type: 'modify',
+          type: "modify",
           path: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-input/index.ts`,
           transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./I${ChangeCaseHelper.c_pascal(answers.moduleName)}UpdateDto`).transform(code),
         });
@@ -395,20 +395,20 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         //
 
         actions.push({
-          type: 'add',
+          type: "add",
           path: `${outputPathModule}/dtos/{{ c_kebab moduleName }}-update.operation.ts`,
           templateFile: `${templateBase}/core-module-dto/update.operation.ts.hbs`,
           skipIfExists: true,
         });
 
         actions.push({
-          type: 'modify',
+          type: "modify",
           path: `${outputPathModule}/dtos/index.ts`,
           transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-update.operation`).transform(code),
         });
 
         actions.push({
-          type: 'modify',
+          type: "modify",
           path: `${outputPathModule}/dtos/${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations.ts`,
           transform: async (code: string) =>
             new ModuleCoreGeneratorOperations()
@@ -419,14 +419,14 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
         //
 
         actions.push({
-          type: 'modify',
+          type: "modify",
           path: `src/application/authorization-policies/statements/IAuthzStatement.ts`,
           transform: async (code: string) =>
             new ModuleCoreGeneratorAuthzStatement()
               .addTypeDeclarationStatement(
                 `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Update`,
                 `${ChangeCaseHelper.c_snake(answers.moduleName)}:update`,
-                'filter',
+                "filter",
                 `Dto.I${ChangeCaseHelper.c_pascal(answers.moduleName)}UpdateDto`,
               )
               .transform(code),
@@ -443,9 +443,9 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       }
     }
 
-    if (answers.operacoes.includes('handle-resource-delete')) {
+    if (answers.operacoes.includes("handle-resource-delete")) {
       actions.push({
-        type: 'addMany',
+        type: "addMany",
         destination: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-delete`,
         base: `${templateBase}/spec/operations/delete`,
         templateFiles: `${templateBase}/spec/operations/delete/**/*`,
@@ -454,7 +454,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathSpec}/operations/index.ts`,
         transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-delete`).transform(code),
       });
@@ -462,20 +462,20 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       //
 
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${outputPathModule}/dtos/{{ c_kebab moduleName }}-delete-one.operation.ts`,
         templateFile: `${templateBase}/core-module-dto/delete-one.operation.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathModule}/dtos/index.ts`,
         transform: async (code: string) => new BaseModuleCoreGenerator().addExportAllFrom(`./${ChangeCaseHelper.c_kebab(answers.moduleName)}-delete-one.operation`).transform(code),
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathModule}/dtos/${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations.ts`,
         transform: async (code: string) =>
           new ModuleCoreGeneratorOperations()
@@ -486,14 +486,14 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       //
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `src/application/authorization-policies/statements/IAuthzStatement.ts`,
         transform: async (code: string) =>
           new ModuleCoreGeneratorAuthzStatement()
             .addTypeDeclarationStatement(
               `IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Delete`,
               `${ChangeCaseHelper.c_snake(answers.moduleName)}:delete`,
-              'filter',
+              "filter",
               `Dto.I${ChangeCaseHelper.c_pascal(answers.moduleName)}DeleteOneByIdInputDto`,
             )
             .transform(code),
@@ -509,9 +509,9 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       // });
     }
 
-    if (answers.operacoes.includes('handle-resource-read')) {
+    if (answers.operacoes.includes("handle-resource-read")) {
       actions.push({
-        type: 'addMany',
+        type: "addMany",
         destination: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-find-one`,
         base: `${templateBase}/spec/operations/find-one`,
         templateFiles: `${templateBase}/spec/operations/find-one/**/*`,
@@ -520,7 +520,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       });
 
       actions.push({
-        type: 'addMany',
+        type: "addMany",
         destination: `${outputPathSpec}/operations/{{ c_kebab moduleName }}-find-all`,
         base: `${templateBase}/spec/operations/find-all`,
         templateFiles: `${templateBase}/spec/operations/find-all/**/*`,
@@ -529,7 +529,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathSpec}/operations/index.ts`,
         transform: async (code: string) =>
           new BaseModuleCoreGenerator()
@@ -539,21 +539,21 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       });
 
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${outputPathModule}/dtos/{{ c_kebab moduleName }}-find-all.operation.ts`,
         templateFile: `${templateBase}/core-module-dto/find-all.operation.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'add',
+        type: "add",
         path: `${outputPathModule}/dtos/{{ c_kebab moduleName }}-find-one.operation.ts`,
         templateFile: `${templateBase}/core-module-dto/find-one.operation.ts.hbs`,
         skipIfExists: true,
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathModule}/dtos/index.ts`,
         transform: async (code: string) =>
           new BaseModuleCoreGenerator()
@@ -563,7 +563,7 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       });
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `${outputPathModule}/dtos/${ChangeCaseHelper.c_kebab(answers.moduleName)}.operations.ts`,
         transform: async (code: string) =>
           new ModuleCoreGeneratorOperations()
@@ -575,11 +575,11 @@ export const ModuleCoreGenerator: Partial<PlopGeneratorConfig> = {
       //
 
       actions.push({
-        type: 'modify',
+        type: "modify",
         path: `src/application/authorization-policies/statements/IAuthzStatement.ts`,
         transform: async (code: string) =>
           new ModuleCoreGeneratorAuthzStatement()
-            .addTypeDeclarationStatement(`IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Filter`, `${ChangeCaseHelper.c_snake(answers.moduleName)}:find`, 'filter', null)
+            .addTypeDeclarationStatement(`IAuthzStatement${ChangeCaseHelper.c_pascal(answers.moduleName)}Filter`, `${ChangeCaseHelper.c_snake(answers.moduleName)}:find`, "filter", null)
             .transform(code),
       });
 

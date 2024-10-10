@@ -1,7 +1,7 @@
-import { builders as b, namedTypes as n } from 'ast-types';
-import { castArray } from 'lodash';
-import { getInterfaceNode } from '../../../helpers/ts-ast/ts-ast';
-import { BaseModuleCoreGenerator } from './BaseModuleCoreGenerator';
+import { builders as b, namedTypes as n } from "ast-types";
+import { castArray } from "lodash";
+import { getInterfaceNode } from "../../../helpers/ts-ast/ts-ast";
+import { BaseModuleCoreGenerator } from "./BaseModuleCoreGenerator";
 
 export type IPropriedadeDeclarada = {
   nome: string;
@@ -31,7 +31,6 @@ export class ModuleCoreGeneratorDatabaseEntity extends BaseModuleCoreGenerator {
 
         return false;
       });
-
 
       if (!isPropertyAlreadyDeclared) {
         const typeAnnotationNode = b.tsTypeAnnotation(b.tsTypeReference(b.identifier(propriedadeDeclarada.tipoInterface)));

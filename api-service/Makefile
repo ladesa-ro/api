@@ -10,8 +10,11 @@ setup:
 
 up:
 	make setup;
-	# --force-recreate
 	docker compose $(compose_options) up --remove-orphans -d; 
+
+up-recreate:
+	make setup;
+	docker compose $(compose_options) up --remove-orphans -d --force-recreate; 
 
 start:
 	make setup;

@@ -1,7 +1,7 @@
-import { namedTypes as n } from 'ast-types';
-import { parseModule } from 'magicast';
-import { ChangeCaseHelper } from '../../../helpers';
-import { BaseModuleCoreGenerator } from './BaseModuleCoreGenerator';
+import { namedTypes as n } from "ast-types";
+import { parseModule } from "magicast";
+import { ChangeCaseHelper } from "../../../helpers";
+import { BaseModuleCoreGenerator } from "./BaseModuleCoreGenerator";
 
 export class ModuleCoreGeneratorDatabaseContextCore extends BaseModuleCoreGenerator {
   addRepository(
@@ -18,7 +18,7 @@ export class ModuleCoreGeneratorDatabaseContextCore extends BaseModuleCoreGenera
     const dummyMod = parseModule(dummyCode);
     const property: n.ClassMethod = (dummyMod.$ast as any).body[0].declaration.body.body[0];
 
-    this.addModifyAcessor('DatabaseContextCore', accessorName, property);
+    this.addModifyAcessor("DatabaseContextCore", accessorName, property);
 
     return this;
   }

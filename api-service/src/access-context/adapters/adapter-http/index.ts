@@ -1,9 +1,4 @@
-import { ResolveAccessContextPipe } from '../-pipes';
-import { RequestActorHttp } from '../../../authentication';
+import { RequestActorHttp } from "@/infrastructure/authentication";
+import { ResolveAccessContextPipe } from "../-pipes";
 
 export const AccessContextHttp = (options?: any) => RequestActorHttp(options, ResolveAccessContextPipe);
-
-/**
- * @deprecated use AccessContextHttp
- */
-export const ContextoDeAcessoHttp = AccessContextHttp;

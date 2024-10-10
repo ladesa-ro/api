@@ -1,37 +1,37 @@
-import type { BaseHttpRequest } from './core/BaseHttpRequest';
-import type { OpenAPIConfig } from './core/OpenAPI';
-import { Interceptors } from './core/OpenAPI';
-import { FetchHttpRequest } from './core/FetchHttpRequest';
+import type { BaseHttpRequest } from "./core/BaseHttpRequest";
+import { FetchHttpRequest } from "./core/FetchHttpRequest";
+import type { OpenAPIConfig } from "./core/OpenAPI";
+import { Interceptors } from "./core/OpenAPI";
 
-import { AmbientesService } from './services.gen';
-import { ArquivosService } from './services.gen';
-import { AulasService } from './services.gen';
-import { AutenticacaoService } from './services.gen';
-import { BaseService } from './services.gen';
-import { BlocosService } from './services.gen';
-import { CalendariosLetivosService } from './services.gen';
-import { CampiService } from './services.gen';
-import { CidadesService } from './services.gen';
-import { CursosService } from './services.gen';
-import { DiarioProfessorService } from './services.gen';
-import { DiariosService } from './services.gen';
-import { DiariosPreferenciaAgrupamentoService } from './services.gen';
-import { DiasCalendarioService } from './services.gen';
-import { DisciplinasService } from './services.gen';
-import { DisponibilidadesProfessorService } from './services.gen';
-import { DisponibilidadesProfessorDiaService } from './services.gen';
-import { EstadosService } from './services.gen';
-import { EtapasService } from './services.gen';
-import { EventosService } from './services.gen';
-import { HorariosGeradosService } from './services.gen';
-import { HorariosGeradosAulaService } from './services.gen';
-import { ModalidadesService } from './services.gen';
-import { ReservasService } from './services.gen';
-import { TurmasService } from './services.gen';
-import { TurmasDisponibilidadeService } from './services.gen';
-import { TurmasDisponibilidadeDiaService } from './services.gen';
-import { UsuariosService } from './services.gen';
-import { VinculosService } from './services.gen';
+import { AmbientesService } from "./services.gen";
+import { ArquivosService } from "./services.gen";
+import { AulasService } from "./services.gen";
+import { AutenticacaoService } from "./services.gen";
+import { BaseService } from "./services.gen";
+import { BlocosService } from "./services.gen";
+import { CalendariosLetivosService } from "./services.gen";
+import { CampiService } from "./services.gen";
+import { CidadesService } from "./services.gen";
+import { CursosService } from "./services.gen";
+import { DiarioProfessorService } from "./services.gen";
+import { DiariosService } from "./services.gen";
+import { DiariosPreferenciaAgrupamentoService } from "./services.gen";
+import { DiasCalendarioService } from "./services.gen";
+import { DisciplinasService } from "./services.gen";
+import { DisponibilidadesProfessorService } from "./services.gen";
+import { DisponibilidadesProfessorDiaService } from "./services.gen";
+import { EstadosService } from "./services.gen";
+import { EtapasService } from "./services.gen";
+import { EventosService } from "./services.gen";
+import { HorariosGeradosService } from "./services.gen";
+import { HorariosGeradosAulaService } from "./services.gen";
+import { ModalidadesService } from "./services.gen";
+import { ReservasService } from "./services.gen";
+import { TurmasService } from "./services.gen";
+import { TurmasDisponibilidadeService } from "./services.gen";
+import { TurmasDisponibilidadeDiaService } from "./services.gen";
+import { UsuariosService } from "./services.gen";
+import { VinculosService } from "./services.gen";
 
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 
@@ -70,10 +70,10 @@ export class LadesaApiClient {
 
   constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = FetchHttpRequest) {
     this.request = new HttpRequest({
-      BASE: config?.BASE ?? '',
-      VERSION: config?.VERSION ?? '0.0',
+      BASE: config?.BASE ?? "",
+      VERSION: config?.VERSION ?? "0.0",
       WITH_CREDENTIALS: config?.WITH_CREDENTIALS ?? false,
-      CREDENTIALS: config?.CREDENTIALS ?? 'include',
+      CREDENTIALS: config?.CREDENTIALS ?? "include",
       TOKEN: config?.TOKEN,
       USERNAME: config?.USERNAME,
       PASSWORD: config?.PASSWORD,

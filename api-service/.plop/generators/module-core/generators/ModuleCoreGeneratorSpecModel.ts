@@ -1,14 +1,13 @@
-import { builders as b, namedTypes as n } from 'ast-types';
-import { castArray } from 'lodash';
-import { getInterfaceNode } from '../../../helpers/ts-ast/ts-ast';
-import { BaseModuleCoreGenerator } from './BaseModuleCoreGenerator';
+import { builders as b, namedTypes as n } from "ast-types";
+import { castArray } from "lodash";
+import { getInterfaceNode } from "../../../helpers/ts-ast/ts-ast";
+import { BaseModuleCoreGenerator } from "./BaseModuleCoreGenerator";
 
 export type IPropriedadeDeclarada = {
   nome: string;
   descricao: string;
   tipoInterface: string;
 };
-
 
 export class ModuleCoreGeneratorSpecModel extends BaseModuleCoreGenerator {
   addPropertySignature(modelName: string, propriedadeDeclarada: IPropriedadeDeclarada) {

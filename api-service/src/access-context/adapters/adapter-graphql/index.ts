@@ -1,9 +1,4 @@
-import { ResolveAccessContextPipe } from '../-pipes';
-import { RequestActorGql } from '../../../authentication';
+import { RequestActorGql } from "@/infrastructure/authentication";
+import { ResolveAccessContextPipe } from "../-pipes";
 
 export const AccessContextGraphQl = (options?: any) => RequestActorGql(options, ResolveAccessContextPipe);
-
-/**
- * @deprecated use AccessContextGraphQl
- */
-export const ContextoDeAcessoGraphQl = AccessContextGraphQl;

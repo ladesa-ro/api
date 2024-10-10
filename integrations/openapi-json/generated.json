@@ -15,16 +15,12 @@
                   "properties": {
                     "service": {
                       "type": "string",
-                      "enum": [
-                        "@ladesa-ro/api"
-                      ],
+                      "enum": ["@ladesa-ro/api"],
                       "description": "O nome desta aplicação."
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "up"
-                      ],
+                      "enum": ["up"],
                       "description": "Status desta aplicação."
                     },
                     "prefix": {
@@ -47,19 +43,13 @@
                       ]
                     }
                   },
-                  "required": [
-                    "service",
-                    "status",
-                    "version"
-                  ]
+                  "required": ["service", "status", "version"]
                 }
               }
             }
           }
         },
-        "tags": [
-          "Base"
-        ]
+        "tags": ["Base"]
       }
     },
     "/arquivos/{id}": {
@@ -131,9 +121,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Arquivos"
-        ],
+        "tags": ["Arquivos"],
         "security": [
           {
             "bearer": []
@@ -165,9 +153,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Autenticacao"
-        ],
+        "tags": ["Autenticacao"],
         "security": [
           {
             "bearer": []
@@ -209,9 +195,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Autenticacao"
-        ],
+        "tags": ["Autenticacao"],
         "security": [
           {
             "bearer": []
@@ -253,9 +237,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Autenticacao"
-        ],
+        "tags": ["Autenticacao"],
         "security": [
           {
             "bearer": []
@@ -297,9 +279,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Autenticacao"
-        ],
+        "tags": ["Autenticacao"],
         "security": [
           {
             "bearer": []
@@ -371,9 +351,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Usuarios"
-        ],
+        "tags": ["Usuarios"],
         "security": [
           {
             "bearer": []
@@ -413,9 +391,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Usuarios"
-        ],
+        "tags": ["Usuarios"],
         "security": [
           {
             "bearer": []
@@ -458,9 +434,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Usuarios"
-        ],
+        "tags": ["Usuarios"],
         "security": [
           {
             "bearer": []
@@ -511,9 +485,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Usuarios"
-        ],
+        "tags": ["Usuarios"],
         "security": [
           {
             "bearer": []
@@ -554,9 +526,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Usuarios"
-        ],
+        "tags": ["Usuarios"],
         "security": [
           {
             "bearer": []
@@ -601,9 +571,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Usuarios"
-        ],
+        "tags": ["Usuarios"],
         "security": [
           {
             "bearer": []
@@ -632,9 +600,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "file"
-                ],
+                "required": ["file"],
                 "properties": {
                   "file": {
                     "type": "string",
@@ -664,9 +630,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Usuarios"
-        ],
+        "tags": ["Usuarios"],
         "security": [
           {
             "bearer": []
@@ -711,9 +675,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Usuarios"
-        ],
+        "tags": ["Usuarios"],
         "security": [
           {
             "bearer": []
@@ -742,9 +704,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "file"
-                ],
+                "required": ["file"],
                 "properties": {
                   "file": {
                     "type": "string",
@@ -774,9 +734,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Usuarios"
-        ],
+        "tags": ["Usuarios"],
         "security": [
           {
             "bearer": []
@@ -884,9 +842,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Vinculos"
-        ],
+        "tags": ["Vinculos"],
         "security": [
           {
             "bearer": []
@@ -926,9 +882,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Vinculos"
-        ],
+        "tags": ["Vinculos"],
         "security": [
           {
             "bearer": []
@@ -1024,9 +978,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Campi"
-        ],
+        "tags": ["Campi"],
         "security": [
           {
             "bearer": []
@@ -1066,9 +1018,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Campi"
-        ],
+        "tags": ["Campi"],
         "security": [
           {
             "bearer": []
@@ -1111,9 +1061,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Campi"
-        ],
+        "tags": ["Campi"],
         "security": [
           {
             "bearer": []
@@ -1164,9 +1112,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Campi"
-        ],
+        "tags": ["Campi"],
         "security": [
           {
             "bearer": []
@@ -1207,9 +1153,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Campi"
-        ],
+        "tags": ["Campi"],
         "security": [
           {
             "bearer": []
@@ -1281,9 +1225,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Modalidades"
-        ],
+        "tags": ["Modalidades"],
         "security": [
           {
             "bearer": []
@@ -1323,9 +1265,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Modalidades"
-        ],
+        "tags": ["Modalidades"],
         "security": [
           {
             "bearer": []
@@ -1368,9 +1308,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Modalidades"
-        ],
+        "tags": ["Modalidades"],
         "security": [
           {
             "bearer": []
@@ -1421,9 +1359,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Modalidades"
-        ],
+        "tags": ["Modalidades"],
         "security": [
           {
             "bearer": []
@@ -1464,9 +1400,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Modalidades"
-        ],
+        "tags": ["Modalidades"],
         "security": [
           {
             "bearer": []
@@ -1538,9 +1472,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Estados"
-        ],
+        "tags": ["Estados"],
         "security": [
           {
             "bearer": []
@@ -1582,9 +1514,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Estados"
-        ],
+        "tags": ["Estados"],
         "security": [
           {
             "bearer": []
@@ -1668,9 +1598,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Cidades"
-        ],
+        "tags": ["Cidades"],
         "security": [
           {
             "bearer": []
@@ -1712,9 +1640,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Cidades"
-        ],
+        "tags": ["Cidades"],
         "security": [
           {
             "bearer": []
@@ -1798,9 +1724,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Blocos"
-        ],
+        "tags": ["Blocos"],
         "security": [
           {
             "bearer": []
@@ -1840,9 +1764,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Blocos"
-        ],
+        "tags": ["Blocos"],
         "security": [
           {
             "bearer": []
@@ -1885,9 +1807,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Blocos"
-        ],
+        "tags": ["Blocos"],
         "security": [
           {
             "bearer": []
@@ -1938,9 +1858,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Blocos"
-        ],
+        "tags": ["Blocos"],
         "security": [
           {
             "bearer": []
@@ -1981,9 +1899,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Blocos"
-        ],
+        "tags": ["Blocos"],
         "security": [
           {
             "bearer": []
@@ -2028,9 +1944,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Blocos"
-        ],
+        "tags": ["Blocos"],
         "security": [
           {
             "bearer": []
@@ -2059,9 +1973,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "file"
-                ],
+                "required": ["file"],
                 "properties": {
                   "file": {
                     "type": "string",
@@ -2091,9 +2003,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Blocos"
-        ],
+        "tags": ["Blocos"],
         "security": [
           {
             "bearer": []
@@ -2189,9 +2099,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Ambientes"
-        ],
+        "tags": ["Ambientes"],
         "security": [
           {
             "bearer": []
@@ -2231,9 +2139,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Ambientes"
-        ],
+        "tags": ["Ambientes"],
         "security": [
           {
             "bearer": []
@@ -2276,9 +2182,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Ambientes"
-        ],
+        "tags": ["Ambientes"],
         "security": [
           {
             "bearer": []
@@ -2329,9 +2233,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Ambientes"
-        ],
+        "tags": ["Ambientes"],
         "security": [
           {
             "bearer": []
@@ -2372,9 +2274,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Ambientes"
-        ],
+        "tags": ["Ambientes"],
         "security": [
           {
             "bearer": []
@@ -2419,9 +2319,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Ambientes"
-        ],
+        "tags": ["Ambientes"],
         "security": [
           {
             "bearer": []
@@ -2450,9 +2348,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "file"
-                ],
+                "required": ["file"],
                 "properties": {
                   "file": {
                     "type": "string",
@@ -2482,9 +2378,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Ambientes"
-        ],
+        "tags": ["Ambientes"],
         "security": [
           {
             "bearer": []
@@ -2604,9 +2498,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Reservas"
-        ],
+        "tags": ["Reservas"],
         "security": [
           {
             "bearer": []
@@ -2646,9 +2538,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Reservas"
-        ],
+        "tags": ["Reservas"],
         "security": [
           {
             "bearer": []
@@ -2691,9 +2581,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Reservas"
-        ],
+        "tags": ["Reservas"],
         "security": [
           {
             "bearer": []
@@ -2744,9 +2632,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Reservas"
-        ],
+        "tags": ["Reservas"],
         "security": [
           {
             "bearer": []
@@ -2787,9 +2673,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Reservas"
-        ],
+        "tags": ["Reservas"],
         "security": [
           {
             "bearer": []
@@ -2885,9 +2769,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Cursos"
-        ],
+        "tags": ["Cursos"],
         "security": [
           {
             "bearer": []
@@ -2927,9 +2809,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Cursos"
-        ],
+        "tags": ["Cursos"],
         "security": [
           {
             "bearer": []
@@ -2972,9 +2852,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Cursos"
-        ],
+        "tags": ["Cursos"],
         "security": [
           {
             "bearer": []
@@ -3025,9 +2903,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Cursos"
-        ],
+        "tags": ["Cursos"],
         "security": [
           {
             "bearer": []
@@ -3068,9 +2944,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Cursos"
-        ],
+        "tags": ["Cursos"],
         "security": [
           {
             "bearer": []
@@ -3115,9 +2989,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Cursos"
-        ],
+        "tags": ["Cursos"],
         "security": [
           {
             "bearer": []
@@ -3146,9 +3018,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "file"
-                ],
+                "required": ["file"],
                 "properties": {
                   "file": {
                     "type": "string",
@@ -3178,9 +3048,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Cursos"
-        ],
+        "tags": ["Cursos"],
         "security": [
           {
             "bearer": []
@@ -3252,9 +3120,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disciplinas"
-        ],
+        "tags": ["Disciplinas"],
         "security": [
           {
             "bearer": []
@@ -3294,9 +3160,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disciplinas"
-        ],
+        "tags": ["Disciplinas"],
         "security": [
           {
             "bearer": []
@@ -3339,9 +3203,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disciplinas"
-        ],
+        "tags": ["Disciplinas"],
         "security": [
           {
             "bearer": []
@@ -3392,9 +3254,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disciplinas"
-        ],
+        "tags": ["Disciplinas"],
         "security": [
           {
             "bearer": []
@@ -3435,9 +3295,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disciplinas"
-        ],
+        "tags": ["Disciplinas"],
         "security": [
           {
             "bearer": []
@@ -3482,9 +3340,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disciplinas"
-        ],
+        "tags": ["Disciplinas"],
         "security": [
           {
             "bearer": []
@@ -3513,9 +3369,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "file"
-                ],
+                "required": ["file"],
                 "properties": {
                   "file": {
                     "type": "string",
@@ -3545,9 +3399,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disciplinas"
-        ],
+        "tags": ["Disciplinas"],
         "security": [
           {
             "bearer": []
@@ -3715,9 +3567,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas"
-        ],
+        "tags": ["Turmas"],
         "security": [
           {
             "bearer": []
@@ -3757,9 +3607,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas"
-        ],
+        "tags": ["Turmas"],
         "security": [
           {
             "bearer": []
@@ -3802,9 +3650,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas"
-        ],
+        "tags": ["Turmas"],
         "security": [
           {
             "bearer": []
@@ -3855,9 +3701,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas"
-        ],
+        "tags": ["Turmas"],
         "security": [
           {
             "bearer": []
@@ -3898,9 +3742,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas"
-        ],
+        "tags": ["Turmas"],
         "security": [
           {
             "bearer": []
@@ -3945,9 +3787,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas"
-        ],
+        "tags": ["Turmas"],
         "security": [
           {
             "bearer": []
@@ -3976,9 +3816,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "file"
-                ],
+                "required": ["file"],
                 "properties": {
                   "file": {
                     "type": "string",
@@ -4008,9 +3846,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas"
-        ],
+        "tags": ["Turmas"],
         "security": [
           {
             "bearer": []
@@ -4106,9 +3942,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Calendarios Letivos"
-        ],
+        "tags": ["Calendarios Letivos"],
         "security": [
           {
             "bearer": []
@@ -4148,9 +3982,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Calendarios Letivos"
-        ],
+        "tags": ["Calendarios Letivos"],
         "security": [
           {
             "bearer": []
@@ -4193,9 +4025,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Calendarios Letivos"
-        ],
+        "tags": ["Calendarios Letivos"],
         "security": [
           {
             "bearer": []
@@ -4246,9 +4076,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Calendarios Letivos"
-        ],
+        "tags": ["Calendarios Letivos"],
         "security": [
           {
             "bearer": []
@@ -4289,9 +4117,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Calendarios Letivos"
-        ],
+        "tags": ["Calendarios Letivos"],
         "security": [
           {
             "bearer": []
@@ -4375,9 +4201,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Eventos"
-        ],
+        "tags": ["Eventos"],
         "security": [
           {
             "bearer": []
@@ -4417,9 +4241,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Eventos"
-        ],
+        "tags": ["Eventos"],
         "security": [
           {
             "bearer": []
@@ -4462,9 +4284,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Eventos"
-        ],
+        "tags": ["Eventos"],
         "security": [
           {
             "bearer": []
@@ -4515,9 +4335,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Eventos"
-        ],
+        "tags": ["Eventos"],
         "security": [
           {
             "bearer": []
@@ -4558,9 +4376,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Eventos"
-        ],
+        "tags": ["Eventos"],
         "security": [
           {
             "bearer": []
@@ -4644,9 +4460,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Dias Calendario"
-        ],
+        "tags": ["Dias Calendario"],
         "security": [
           {
             "bearer": []
@@ -4686,9 +4500,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Dias Calendario"
-        ],
+        "tags": ["Dias Calendario"],
         "security": [
           {
             "bearer": []
@@ -4731,9 +4543,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Dias Calendario"
-        ],
+        "tags": ["Dias Calendario"],
         "security": [
           {
             "bearer": []
@@ -4784,9 +4594,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Dias Calendario"
-        ],
+        "tags": ["Dias Calendario"],
         "security": [
           {
             "bearer": []
@@ -4827,9 +4635,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Dias Calendario"
-        ],
+        "tags": ["Dias Calendario"],
         "security": [
           {
             "bearer": []
@@ -4949,9 +4755,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Diarios"
-        ],
+        "tags": ["Diarios"],
         "security": [
           {
             "bearer": []
@@ -4991,9 +4795,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Diarios"
-        ],
+        "tags": ["Diarios"],
         "security": [
           {
             "bearer": []
@@ -5036,9 +4838,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Diarios"
-        ],
+        "tags": ["Diarios"],
         "security": [
           {
             "bearer": []
@@ -5089,9 +4889,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Diarios"
-        ],
+        "tags": ["Diarios"],
         "security": [
           {
             "bearer": []
@@ -5132,9 +4930,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Diarios"
-        ],
+        "tags": ["Diarios"],
         "security": [
           {
             "bearer": []
@@ -5230,9 +5026,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "DiarioProfessor"
-        ],
+        "tags": ["DiarioProfessor"],
         "security": [
           {
             "bearer": []
@@ -5272,9 +5066,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "DiarioProfessor"
-        ],
+        "tags": ["DiarioProfessor"],
         "security": [
           {
             "bearer": []
@@ -5317,9 +5109,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "DiarioProfessor"
-        ],
+        "tags": ["DiarioProfessor"],
         "security": [
           {
             "bearer": []
@@ -5370,9 +5160,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "DiarioProfessor"
-        ],
+        "tags": ["DiarioProfessor"],
         "security": [
           {
             "bearer": []
@@ -5413,9 +5201,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "DiarioProfessor"
-        ],
+        "tags": ["DiarioProfessor"],
         "security": [
           {
             "bearer": []
@@ -5499,9 +5285,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Etapas"
-        ],
+        "tags": ["Etapas"],
         "security": [
           {
             "bearer": []
@@ -5541,9 +5325,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Etapas"
-        ],
+        "tags": ["Etapas"],
         "security": [
           {
             "bearer": []
@@ -5586,9 +5368,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Etapas"
-        ],
+        "tags": ["Etapas"],
         "security": [
           {
             "bearer": []
@@ -5639,9 +5419,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Etapas"
-        ],
+        "tags": ["Etapas"],
         "security": [
           {
             "bearer": []
@@ -5682,9 +5460,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Etapas"
-        ],
+        "tags": ["Etapas"],
         "security": [
           {
             "bearer": []
@@ -5780,9 +5556,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Aulas"
-        ],
+        "tags": ["Aulas"],
         "security": [
           {
             "bearer": []
@@ -5822,9 +5596,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Aulas"
-        ],
+        "tags": ["Aulas"],
         "security": [
           {
             "bearer": []
@@ -5867,9 +5639,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Aulas"
-        ],
+        "tags": ["Aulas"],
         "security": [
           {
             "bearer": []
@@ -5920,9 +5690,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Aulas"
-        ],
+        "tags": ["Aulas"],
         "security": [
           {
             "bearer": []
@@ -5963,9 +5731,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Aulas"
-        ],
+        "tags": ["Aulas"],
         "security": [
           {
             "bearer": []
@@ -6049,9 +5815,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas Disponibilidade"
-        ],
+        "tags": ["Turmas Disponibilidade"],
         "security": [
           {
             "bearer": []
@@ -6091,9 +5855,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas Disponibilidade"
-        ],
+        "tags": ["Turmas Disponibilidade"],
         "security": [
           {
             "bearer": []
@@ -6136,9 +5898,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas Disponibilidade"
-        ],
+        "tags": ["Turmas Disponibilidade"],
         "security": [
           {
             "bearer": []
@@ -6189,9 +5949,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas Disponibilidade"
-        ],
+        "tags": ["Turmas Disponibilidade"],
         "security": [
           {
             "bearer": []
@@ -6232,9 +5990,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas Disponibilidade"
-        ],
+        "tags": ["Turmas Disponibilidade"],
         "security": [
           {
             "bearer": []
@@ -6330,9 +6086,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas Disponibilidade Dia"
-        ],
+        "tags": ["Turmas Disponibilidade Dia"],
         "security": [
           {
             "bearer": []
@@ -6372,9 +6126,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas Disponibilidade Dia"
-        ],
+        "tags": ["Turmas Disponibilidade Dia"],
         "security": [
           {
             "bearer": []
@@ -6417,9 +6169,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas Disponibilidade Dia"
-        ],
+        "tags": ["Turmas Disponibilidade Dia"],
         "security": [
           {
             "bearer": []
@@ -6470,9 +6220,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas Disponibilidade Dia"
-        ],
+        "tags": ["Turmas Disponibilidade Dia"],
         "security": [
           {
             "bearer": []
@@ -6513,9 +6261,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Turmas Disponibilidade Dia"
-        ],
+        "tags": ["Turmas Disponibilidade Dia"],
         "security": [
           {
             "bearer": []
@@ -6587,9 +6333,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disponibilidades Professor"
-        ],
+        "tags": ["Disponibilidades Professor"],
         "security": [
           {
             "bearer": []
@@ -6629,9 +6373,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disponibilidades Professor"
-        ],
+        "tags": ["Disponibilidades Professor"],
         "security": [
           {
             "bearer": []
@@ -6674,9 +6416,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disponibilidades Professor"
-        ],
+        "tags": ["Disponibilidades Professor"],
         "security": [
           {
             "bearer": []
@@ -6727,9 +6467,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disponibilidades Professor"
-        ],
+        "tags": ["Disponibilidades Professor"],
         "security": [
           {
             "bearer": []
@@ -6770,9 +6508,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disponibilidades Professor"
-        ],
+        "tags": ["Disponibilidades Professor"],
         "security": [
           {
             "bearer": []
@@ -6844,9 +6580,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disponibilidades Professor Dia"
-        ],
+        "tags": ["Disponibilidades Professor Dia"],
         "security": [
           {
             "bearer": []
@@ -6886,9 +6620,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disponibilidades Professor Dia"
-        ],
+        "tags": ["Disponibilidades Professor Dia"],
         "security": [
           {
             "bearer": []
@@ -6931,9 +6663,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disponibilidades Professor Dia"
-        ],
+        "tags": ["Disponibilidades Professor Dia"],
         "security": [
           {
             "bearer": []
@@ -6984,9 +6714,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disponibilidades Professor Dia"
-        ],
+        "tags": ["Disponibilidades Professor Dia"],
         "security": [
           {
             "bearer": []
@@ -7027,9 +6755,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Disponibilidades Professor Dia"
-        ],
+        "tags": ["Disponibilidades Professor Dia"],
         "security": [
           {
             "bearer": []
@@ -7101,9 +6827,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Diarios Preferencia Agrupamento"
-        ],
+        "tags": ["Diarios Preferencia Agrupamento"],
         "security": [
           {
             "bearer": []
@@ -7143,9 +6867,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Diarios Preferencia Agrupamento"
-        ],
+        "tags": ["Diarios Preferencia Agrupamento"],
         "security": [
           {
             "bearer": []
@@ -7188,9 +6910,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Diarios Preferencia Agrupamento"
-        ],
+        "tags": ["Diarios Preferencia Agrupamento"],
         "security": [
           {
             "bearer": []
@@ -7241,9 +6961,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Diarios Preferencia Agrupamento"
-        ],
+        "tags": ["Diarios Preferencia Agrupamento"],
         "security": [
           {
             "bearer": []
@@ -7284,9 +7002,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Diarios Preferencia Agrupamento"
-        ],
+        "tags": ["Diarios Preferencia Agrupamento"],
         "security": [
           {
             "bearer": []
@@ -7358,9 +7074,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Horarios gerados"
-        ],
+        "tags": ["Horarios gerados"],
         "security": [
           {
             "bearer": []
@@ -7400,9 +7114,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Horarios gerados"
-        ],
+        "tags": ["Horarios gerados"],
         "security": [
           {
             "bearer": []
@@ -7445,9 +7157,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Horarios gerados"
-        ],
+        "tags": ["Horarios gerados"],
         "security": [
           {
             "bearer": []
@@ -7498,9 +7208,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Horarios gerados"
-        ],
+        "tags": ["Horarios gerados"],
         "security": [
           {
             "bearer": []
@@ -7541,9 +7249,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Horarios gerados"
-        ],
+        "tags": ["Horarios gerados"],
         "security": [
           {
             "bearer": []
@@ -7615,9 +7321,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Horarios Gerados Aula"
-        ],
+        "tags": ["Horarios Gerados Aula"],
         "security": [
           {
             "bearer": []
@@ -7657,9 +7361,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Horarios Gerados Aula"
-        ],
+        "tags": ["Horarios Gerados Aula"],
         "security": [
           {
             "bearer": []
@@ -7702,9 +7404,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Horarios Gerados Aula"
-        ],
+        "tags": ["Horarios Gerados Aula"],
         "security": [
           {
             "bearer": []
@@ -7755,9 +7455,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Horarios Gerados Aula"
-        ],
+        "tags": ["Horarios Gerados Aula"],
         "security": [
           {
             "bearer": []
@@ -7798,9 +7496,7 @@
             "description": "Registro não encontrado."
           }
         },
-        "tags": [
-          "Horarios Gerados Aula"
-        ],
+        "tags": ["Horarios Gerados Aula"],
         "security": [
           {
             "bearer": []
@@ -7947,16 +7643,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "name",
-          "mimeType",
-          "sizeBytes",
-          "storageType",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["name", "mimeType", "sizeBytes", "storageType", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "ImagemArquivoFindOneFromImagemResultDto": {
         "type": "object",
@@ -8015,17 +7702,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "largura",
-          "altura",
-          "formato",
-          "mimeType",
-          "arquivo",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["largura", "altura", "formato", "mimeType", "arquivo", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "ImagemDto": {
         "type": "object",
@@ -8068,14 +7745,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "descricao",
-          "versoes",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["descricao", "versoes", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "UsuarioFindOneResultDto": {
         "type": "object",
@@ -8144,18 +7814,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "nome",
-          "matriculaSiape",
-          "email",
-          "isSuperUser",
-          "imagemCapa",
-          "imagemPerfil",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["nome", "matriculaSiape", "email", "isSuperUser", "imagemCapa", "imagemPerfil", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "EstadoFindOneResultDto": {
         "type": "object",
@@ -8176,11 +7835,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "nome",
-          "sigla",
-          "id"
-        ]
+        "required": ["nome", "sigla", "id"]
       },
       "CidadeFindOneResultDto": {
         "type": "object",
@@ -8205,11 +7860,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "nome",
-          "estado",
-          "id"
-        ]
+        "required": ["nome", "estado", "id"]
       },
       "EnderecoFindOneResultDto": {
         "type": "object",
@@ -8278,19 +7929,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "cep",
-          "logradouro",
-          "numero",
-          "bairro",
-          "complemento",
-          "pontoReferencia",
-          "cidade",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["cep", "logradouro", "numero", "bairro", "complemento", "pontoReferencia", "cidade", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "CampusFindOneResultDto": {
         "type": "object",
@@ -8349,17 +7988,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "nomeFantasia",
-          "razaoSocial",
-          "apelido",
-          "cnpj",
-          "endereco",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["nomeFantasia", "razaoSocial", "apelido", "cnpj", "endereco", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "VinculoFindOneResultDto": {
         "type": "object",
@@ -8417,16 +8046,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "ativo",
-          "cargo",
-          "campus",
-          "usuario",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["ativo", "cargo", "campus", "usuario", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "AuthWhoAmIResultDto": {
         "type": "object",
@@ -8449,10 +8069,7 @@
             }
           }
         },
-        "required": [
-          "usuario",
-          "vinculosAtivos"
-        ]
+        "required": ["usuario", "vinculosAtivos"]
       },
       "AuthLoginInputDto": {
         "type": "object",
@@ -8468,10 +8085,7 @@
             "description": "Senha do usuário."
           }
         },
-        "required": [
-          "matriculaSiape",
-          "senha"
-        ]
+        "required": ["matriculaSiape", "senha"]
       },
       "AuthSessionCredentialsDto": {
         "type": "object",
@@ -8517,16 +8131,7 @@
             "description": "Escopo da autenticação."
           }
         },
-        "required": [
-          "access_token",
-          "token_type",
-          "id_token",
-          "refresh_token",
-          "expires_in",
-          "expires_at",
-          "session_state",
-          "scope"
-        ]
+        "required": ["access_token", "token_type", "id_token", "refresh_token", "expires_in", "expires_at", "session_state", "scope"]
       },
       "AuthRefreshInputDto": {
         "type": "object",
@@ -8537,9 +8142,7 @@
             "description": "Token de refresh."
           }
         },
-        "required": [
-          "refreshToken"
-        ]
+        "required": ["refreshToken"]
       },
       "AuthSetInitialPasswordInputDto": {
         "type": "object",
@@ -8555,10 +8158,7 @@
             "description": "Nova senha."
           }
         },
-        "required": [
-          "matriculaSiape",
-          "senha"
-        ]
+        "required": ["matriculaSiape", "senha"]
       },
       "PaginatedSortByDto": {
         "type": "object",
@@ -8574,10 +8174,7 @@
             "description": "Modo de ordenação."
           }
         },
-        "required": [
-          "property",
-          "mode"
-        ]
+        "required": ["property", "mode"]
       },
       "PaginatedResultMetaFilterDto": {
         "type": "object",
@@ -8596,10 +8193,7 @@
             }
           }
         },
-        "required": [
-          "property",
-          "restrictions"
-        ]
+        "required": ["property", "restrictions"]
       },
       "PaginatedResultMetaDto": {
         "type": "object",
@@ -8646,15 +8240,7 @@
             }
           }
         },
-        "required": [
-          "itemsPerPage",
-          "totalItems",
-          "currentPage",
-          "totalPages",
-          "search",
-          "sortBy",
-          "filter"
-        ]
+        "required": ["itemsPerPage", "totalItems", "currentPage", "totalPages", "search", "sortBy", "filter"]
       },
       "PaginatedResultLinksDto": {
         "type": "object",
@@ -8685,13 +8271,7 @@
             "description": ""
           }
         },
-        "required": [
-          "first",
-          "previous",
-          "current",
-          "next",
-          "last"
-        ]
+        "required": ["first", "previous", "current", "next", "last"]
       },
       "UsuarioFindAllResultDto": {
         "type": "object",
@@ -8723,11 +8303,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "UsuarioInputCreateDto": {
         "type": "object",
@@ -8749,11 +8325,7 @@
             "description": "E-mail do usuário."
           }
         },
-        "required": [
-          "nome",
-          "matriculaSiape",
-          "email"
-        ]
+        "required": ["nome", "matriculaSiape", "email"]
       },
       "UsuarioInputUpdateDto": {
         "type": "object",
@@ -8806,11 +8378,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "CampusFindOneInputDto": {
         "type": "object",
@@ -8822,9 +8390,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "UsuarioFindOneInputDto": {
         "type": "object",
@@ -8836,9 +8402,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "VinculoUpdateInputDto": {
         "type": "object",
@@ -8870,11 +8434,7 @@
             }
           }
         },
-        "required": [
-          "campus",
-          "usuario",
-          "cargos"
-        ]
+        "required": ["campus", "usuario", "cargos"]
       },
       "CampusFindAllResultDto": {
         "type": "object",
@@ -8906,11 +8466,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "CidadeFindOneInputDto": {
         "type": "object",
@@ -8921,9 +8477,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "EnderecoInputDto": {
         "type": "object",
@@ -8968,15 +8522,7 @@
             ]
           }
         },
-        "required": [
-          "cep",
-          "logradouro",
-          "numero",
-          "bairro",
-          "complemento",
-          "pontoReferencia",
-          "cidade"
-        ]
+        "required": ["cep", "logradouro", "numero", "bairro", "complemento", "pontoReferencia", "cidade"]
       },
       "CampusInputCreateDto": {
         "type": "object",
@@ -9011,13 +8557,7 @@
             ]
           }
         },
-        "required": [
-          "nomeFantasia",
-          "razaoSocial",
-          "apelido",
-          "cnpj",
-          "endereco"
-        ]
+        "required": ["nomeFantasia", "razaoSocial", "apelido", "cnpj", "endereco"]
       },
       "CampusInputUpdateDto": {
         "type": "object",
@@ -9091,14 +8631,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "nome",
-          "slug",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["nome", "slug", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "ModalidadeFindAllResultDto": {
         "type": "object",
@@ -9130,11 +8663,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "ModalidadeInputCreateDto": {
         "type": "object",
@@ -9150,10 +8679,7 @@
             "description": "Slug da modalidade."
           }
         },
-        "required": [
-          "nome",
-          "slug"
-        ]
+        "required": ["nome", "slug"]
       },
       "ModalidadeInputUpdateDto": {
         "type": "object",
@@ -9200,11 +8726,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "CidadeFindAllResultDto": {
         "type": "object",
@@ -9236,11 +8758,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "ImagemFindOneResultDto": {
         "type": "object",
@@ -9283,14 +8801,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "descricao",
-          "versoes",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["descricao", "versoes", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "BlocoFindOneResultDto": {
         "type": "object",
@@ -9348,16 +8859,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "nome",
-          "codigo",
-          "campus",
-          "imagemCapa",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["nome", "codigo", "campus", "imagemCapa", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "BlocoFindAllResultDto": {
         "type": "object",
@@ -9389,11 +8891,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "BlocoInputCreateDto": {
         "type": "object",
@@ -9418,11 +8916,7 @@
             ]
           }
         },
-        "required": [
-          "nome",
-          "codigo",
-          "campus"
-        ]
+        "required": ["nome", "codigo", "campus"]
       },
       "BlocoInputUpdateDto": {
         "type": "object",
@@ -9519,19 +9013,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "nome",
-          "descricao",
-          "codigo",
-          "capacidade",
-          "tipo",
-          "bloco",
-          "imagemCapa",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["nome", "descricao", "codigo", "capacidade", "tipo", "bloco", "imagemCapa", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "AmbienteFindAllResultDto": {
         "type": "object",
@@ -9563,11 +9045,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "BlocoFindOneInputDto": {
         "type": "object",
@@ -9579,9 +9057,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "AmbienteInputCreateDto": {
         "type": "object",
@@ -9621,13 +9097,7 @@
             ]
           }
         },
-        "required": [
-          "nome",
-          "codigo",
-          "capacidade",
-          "tipo",
-          "bloco"
-        ]
+        "required": ["nome", "codigo", "capacidade", "tipo", "bloco"]
       },
       "AmbienteInputUpdateDto": {
         "type": "object",
@@ -9708,14 +9178,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "periodoInicio",
-          "periodoFim",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["periodoInicio", "periodoFim", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "ReservaFindOneResultDto": {
         "type": "object",
@@ -9799,20 +9262,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "situacao",
-          "motivo",
-          "tipo",
-          "dataInicio",
-          "dataTermino",
-          "usuario",
-          "ambiente",
-          "intervaloDeTempo",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["situacao", "motivo", "tipo", "dataInicio", "dataTermino", "usuario", "ambiente", "intervaloDeTempo", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "ReservaFindAllResultDto": {
         "type": "object",
@@ -9844,11 +9294,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "AmbienteFindOneInputDto": {
         "type": "object",
@@ -9860,9 +9306,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "IntervaloDeTempoInputDto": {
         "type": "object",
@@ -9880,10 +9324,7 @@
             "description": "Horário que o intervalo de tempo termina."
           }
         },
-        "required": [
-          "periodoInicio",
-          "periodoFim"
-        ]
+        "required": ["periodoInicio", "periodoFim"]
       },
       "ReservaInputCreateDto": {
         "type": "object",
@@ -9943,16 +9384,7 @@
             ]
           }
         },
-        "required": [
-          "situacao",
-          "motivo",
-          "tipo",
-          "dataInicio",
-          "dataTermino",
-          "usuario",
-          "ambiente",
-          "intervaloDeTempo"
-        ]
+        "required": ["situacao", "motivo", "tipo", "dataInicio", "dataTermino", "usuario", "ambiente", "intervaloDeTempo"]
       },
       "ReservaInputUpdateDto": {
         "type": "object",
@@ -10078,17 +9510,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "nome",
-          "nomeAbreviado",
-          "campus",
-          "modalidade",
-          "imagemCapa",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["nome", "nomeAbreviado", "campus", "modalidade", "imagemCapa", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "CursoFindAllResultDto": {
         "type": "object",
@@ -10120,11 +9542,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "ModalidadeFindOneInputDto": {
         "type": "object",
@@ -10136,9 +9554,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "CursoInputCreateDto": {
         "type": "object",
@@ -10172,12 +9588,7 @@
             ]
           }
         },
-        "required": [
-          "nome",
-          "nomeAbreviado",
-          "campus",
-          "modalidade"
-        ]
+        "required": ["nome", "nomeAbreviado", "campus", "modalidade"]
       },
       "CursoInputUpdateDto": {
         "type": "object",
@@ -10264,16 +9675,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "nome",
-          "nomeAbreviado",
-          "cargaHoraria",
-          "imagemCapa",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["nome", "nomeAbreviado", "cargaHoraria", "imagemCapa", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "DisciplinaFindAllResultDto": {
         "type": "object",
@@ -10305,11 +9707,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "DisciplinaInputCreateDto": {
         "type": "object",
@@ -10330,11 +9728,7 @@
             "description": "Carga horária da disciplina."
           }
         },
-        "required": [
-          "nome",
-          "nomeAbreviado",
-          "cargaHoraria"
-        ]
+        "required": ["nome", "nomeAbreviado", "cargaHoraria"]
       },
       "DisciplinaInputUpdateDto": {
         "type": "object",
@@ -10416,15 +9810,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "periodo",
-          "curso",
-          "imagemCapa",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["periodo", "curso", "imagemCapa", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "TurmaFindAllResultDto": {
         "type": "object",
@@ -10456,11 +9842,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "CursoFindOneInputDto": {
         "type": "object",
@@ -10472,9 +9854,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "TurmaInputCreateDto": {
         "type": "object",
@@ -10503,10 +9883,7 @@
             ]
           }
         },
-        "required": [
-          "periodo",
-          "curso"
-        ]
+        "required": ["periodo", "curso"]
       },
       "TurmaInputUpdateDto": {
         "type": "object",
@@ -10592,16 +9969,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "nome",
-          "ano",
-          "campus",
-          "modalidade",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["nome", "ano", "campus", "modalidade", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "CalendarioLetivoFindAllResultDto": {
         "type": "object",
@@ -10633,11 +10001,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "CalendarioLetivoInputCreateDto": {
         "type": "object",
@@ -10671,12 +10035,7 @@
             ]
           }
         },
-        "required": [
-          "nome",
-          "ano",
-          "campus",
-          "modalidade"
-        ]
+        "required": ["nome", "ano", "campus", "modalidade"]
       },
       "CalendarioLetivoInputUpdateDto": {
         "type": "object",
@@ -10770,17 +10129,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "nome",
-          "dataInicio",
-          "dataTermino",
-          "cor",
-          "calendario",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["nome", "dataInicio", "dataTermino", "cor", "calendario", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "EventoFindAllResultDto": {
         "type": "object",
@@ -10812,11 +10161,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "CalendarioLetivoFindOneInputDto": {
         "type": "object",
@@ -10828,9 +10173,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "EventoInputCreateDto": {
         "type": "object",
@@ -10867,13 +10210,7 @@
             ]
           }
         },
-        "required": [
-          "nome",
-          "dataInicio",
-          "dataTermino",
-          "cor",
-          "calendario"
-        ]
+        "required": ["nome", "dataInicio", "dataTermino", "cor", "calendario"]
       },
       "EventoInputUpdateDto": {
         "type": "object",
@@ -10964,16 +10301,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "data",
-          "diaLetivo",
-          "feriado",
-          "calendario",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["data", "diaLetivo", "feriado", "calendario", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "DiaCalendarioFindAllResultDto": {
         "type": "object",
@@ -11005,11 +10333,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "DiaCalendarioInputCreateDto": {
         "type": "object",
@@ -11040,12 +10364,7 @@
             ]
           }
         },
-        "required": [
-          "data",
-          "diaLetivo",
-          "feriado",
-          "calendario"
-        ]
+        "required": ["data", "diaLetivo", "feriado", "calendario"]
       },
       "DiaCalendarioInputUpdateDto": {
         "type": "object",
@@ -11150,17 +10469,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "calendarioLetivo",
-          "turma",
-          "disciplina",
-          "ambientePadrao",
-          "imagemCapa",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["calendarioLetivo", "turma", "disciplina", "ambientePadrao", "imagemCapa", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "DiarioFindAllResultDto": {
         "type": "object",
@@ -11192,11 +10501,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "TurmaFindOneInputDto": {
         "type": "object",
@@ -11208,9 +10513,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "DisciplinaFindOneInputDto": {
         "type": "object",
@@ -11222,9 +10525,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "DiarioInputCreateDto": {
         "type": "object",
@@ -11271,12 +10572,7 @@
             ]
           }
         },
-        "required": [
-          "calendarioLetivo",
-          "turma",
-          "disciplina",
-          "ambientePadrao"
-        ]
+        "required": ["calendarioLetivo", "turma", "disciplina", "ambientePadrao"]
       },
       "DiarioInputUpdateDto": {
         "type": "object",
@@ -11357,12 +10653,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "situacao",
-          "vinculo",
-          "diario",
-          "id"
-        ]
+        "required": ["situacao", "vinculo", "diario", "id"]
       },
       "DiarioProfessorFindAllResultDto": {
         "type": "object",
@@ -11394,11 +10685,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "VinculoFindOneInputDto": {
         "type": "object",
@@ -11410,9 +10697,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "DiarioFindOneInputDto": {
         "type": "object",
@@ -11424,9 +10709,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "DiarioProfessorInputCreateDto": {
         "type": "object",
@@ -11455,11 +10738,7 @@
             ]
           }
         },
-        "required": [
-          "situacao",
-          "vinculo",
-          "diario"
-        ]
+        "required": ["situacao", "vinculo", "diario"]
       },
       "DiarioProfessorInputUpdateDto": {
         "type": "object",
@@ -11548,17 +10827,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "numero",
-          "dataInicio",
-          "dataTermino",
-          "cor",
-          "calendario",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["numero", "dataInicio", "dataTermino", "cor", "calendario", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "EtapaFindAllResultDto": {
         "type": "object",
@@ -11590,11 +10859,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "EtapaInputCreateDto": {
         "type": "object",
@@ -11631,13 +10896,7 @@
             ]
           }
         },
-        "required": [
-          "numero",
-          "dataInicio",
-          "dataTermino",
-          "cor",
-          "calendario"
-        ]
+        "required": ["numero", "dataInicio", "dataTermino", "cor", "calendario"]
       },
       "EtapaInputUpdateDto": {
         "type": "object",
@@ -11741,17 +11000,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "formato",
-          "data",
-          "intervaloDeTempo",
-          "diario",
-          "ambiente",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["formato", "data", "intervaloDeTempo", "diario", "ambiente", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "AulaFindAllResultDto": {
         "type": "object",
@@ -11783,11 +11032,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "AulaInputCreateDto": {
         "type": "object",
@@ -11831,13 +11076,7 @@
             ]
           }
         },
-        "required": [
-          "formato",
-          "data",
-          "intervaloDeTempo",
-          "diario",
-          "ambiente"
-        ]
+        "required": ["formato", "data", "intervaloDeTempo", "diario", "ambiente"]
       },
       "AulaInputUpdateDto": {
         "type": "object",
@@ -11931,15 +11170,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "dataInicio",
-          "dataFim",
-          "turma",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["dataInicio", "dataFim", "turma", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "TurmaDisponibilidadeFindAllResultDto": {
         "type": "object",
@@ -11971,11 +11202,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "TurmaDisponibilidadeInputCreateDto": {
         "type": "object",
@@ -12002,11 +11229,7 @@
             ]
           }
         },
-        "required": [
-          "dataInicio",
-          "dataFim",
-          "turma"
-        ]
+        "required": ["dataInicio", "dataFim", "turma"]
       },
       "TurmaDisponibilidadeInputUpdateDto": {
         "type": "object",
@@ -12067,12 +11290,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "diaSemanaIso",
-          "intervaloDeTempo",
-          "turmaDisponibilidade",
-          "id"
-        ]
+        "required": ["diaSemanaIso", "intervaloDeTempo", "turmaDisponibilidade", "id"]
       },
       "TurmaDisponibilidadeDiaFindAllResultDto": {
         "type": "object",
@@ -12104,11 +11322,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "TurmaDisponibilidadeFindOneInputDto": {
         "type": "object",
@@ -12120,9 +11334,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "TurmaDisponibilidadeDiaInputCreateDto": {
         "type": "object",
@@ -12151,11 +11363,7 @@
             ]
           }
         },
-        "required": [
-          "diaSemanaIso",
-          "intervaloDeTempo",
-          "turmaDisponibilidade"
-        ]
+        "required": ["diaSemanaIso", "intervaloDeTempo", "turmaDisponibilidade"]
       },
       "TurmaDisponibilidadeDiaInputUpdateDto": {
         "type": "object",
@@ -12234,15 +11442,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "dataInicio",
-          "dataFim",
-          "vinculoProfessor",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["dataInicio", "dataFim", "vinculoProfessor", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "DisponibilidadeProfessorFindAllResultDto": {
         "type": "object",
@@ -12274,11 +11474,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "DisponibilidadeProfessorInputCreateDto": {
         "type": "object",
@@ -12305,11 +11501,7 @@
             ]
           }
         },
-        "required": [
-          "dataInicio",
-          "dataFim",
-          "vinculoProfessor"
-        ]
+        "required": ["dataInicio", "dataFim", "vinculoProfessor"]
       },
       "DisponibilidadeProfessorInputUpdateDto": {
         "type": "object",
@@ -12388,15 +11580,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "diaSemanaIso",
-          "intervaloDeTempo",
-          "disponibilidade",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["diaSemanaIso", "intervaloDeTempo", "disponibilidade", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "DisponibilidadeProfessorDiaFindAllResultDto": {
         "type": "object",
@@ -12428,11 +11612,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "DisponibilidadeProfessorFindOneInputDto": {
         "type": "object",
@@ -12444,9 +11624,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "DisponibilidadeProfessorDiaInputCreateDto": {
         "type": "object",
@@ -12475,11 +11653,7 @@
             ]
           }
         },
-        "required": [
-          "diaSemanaIso",
-          "intervaloDeTempo",
-          "disponibilidade"
-        ]
+        "required": ["diaSemanaIso", "intervaloDeTempo", "disponibilidade"]
       },
       "DisponibilidadeProfessorDiaInputUpdateDto": {
         "type": "object",
@@ -12577,18 +11751,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "diaSemanaIso",
-          "aulasSeguidas",
-          "dataInicio",
-          "dataFim",
-          "intervaloDeTempo",
-          "diario",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["diaSemanaIso", "aulasSeguidas", "dataInicio", "dataFim", "intervaloDeTempo", "diario", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "DiarioPreferenciaAgrupamentoFindAllResultDto": {
         "type": "object",
@@ -12620,11 +11783,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "DiarioPreferenciaAgrupamentoInputCreateDto": {
         "type": "object",
@@ -12670,14 +11829,7 @@
             ]
           }
         },
-        "required": [
-          "diaSemanaIso",
-          "aulasSeguidas",
-          "dataInicio",
-          "dataFim",
-          "intervaloDeTempo",
-          "diario"
-        ]
+        "required": ["diaSemanaIso", "aulasSeguidas", "dataInicio", "dataFim", "intervaloDeTempo", "diario"]
       },
       "DiarioPreferenciaAgrupamentoInputUpdateDto": {
         "type": "object",
@@ -12789,18 +11941,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "status",
-          "tipo",
-          "dataGeracao",
-          "vigenciaInicio",
-          "vigenciaFim",
-          "calendario",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["status", "tipo", "dataGeracao", "vigenciaInicio", "vigenciaFim", "calendario", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "HorarioGeradoFindAllResultDto": {
         "type": "object",
@@ -12832,11 +11973,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "HorarioGeradoInputCreateDto": {
         "type": "object",
@@ -12879,14 +12016,7 @@
             ]
           }
         },
-        "required": [
-          "status",
-          "tipo",
-          "dataGeracao",
-          "vigenciaInicio",
-          "vigenciaFim",
-          "calendario"
-        ]
+        "required": ["status", "tipo", "dataGeracao", "vigenciaInicio", "vigenciaFim", "calendario"]
       },
       "HorarioGeradoInputUpdateDto": {
         "type": "object",
@@ -12990,16 +12120,7 @@
             "description": "Data de Exclusão do Registro."
           }
         },
-        "required": [
-          "diaSemanaIso",
-          "intervaloDeTempo",
-          "diarioProfessor",
-          "horarioGerado",
-          "id",
-          "dateCreated",
-          "dateUpdated",
-          "dateDeleted"
-        ]
+        "required": ["diaSemanaIso", "intervaloDeTempo", "diarioProfessor", "horarioGerado", "id", "dateCreated", "dateUpdated", "dateDeleted"]
       },
       "HorarioGeradoAulaFindAllResultDto": {
         "type": "object",
@@ -13031,11 +12152,7 @@
             ]
           }
         },
-        "required": [
-          "meta",
-          "data",
-          "links"
-        ]
+        "required": ["meta", "data", "links"]
       },
       "DiarioProfessorFindOneInputDto": {
         "type": "object",
@@ -13047,9 +12164,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "HorarioGeradoFindOneInputDto": {
         "type": "object",
@@ -13061,9 +12176,7 @@
             "description": "ID do Registro."
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "HorarioGeradoAulaInputCreateDto": {
         "type": "object",
@@ -13101,12 +12214,7 @@
             ]
           }
         },
-        "required": [
-          "diaSemanaIso",
-          "intervaloDeTempo",
-          "diarioProfessor",
-          "horarioGerado"
-        ]
+        "required": ["diaSemanaIso", "intervaloDeTempo", "diarioProfessor", "horarioGerado"]
       },
       "HorarioGeradoAulaInputUpdateDto": {
         "type": "object",

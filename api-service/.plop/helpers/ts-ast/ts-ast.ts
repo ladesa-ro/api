@@ -1,7 +1,7 @@
-import { builders as b, namedTypes as n, visit } from 'ast-types';
-import { NodePath } from 'ast-types/lib/node-path';
-import { ProxifiedModule } from 'magicast';
-import { normalize } from 'pathe';
+import { builders as b, namedTypes as n, visit } from "ast-types";
+import { NodePath } from "ast-types/lib/node-path";
+import { ProxifiedModule } from "magicast";
+import { normalize } from "pathe";
 
 export const findNestJsModuleObjectConfigProperty = (ast: n.Node, propName: string) =>
   new Promise<n.ObjectProperty | null>((resolve) => {
@@ -30,7 +30,7 @@ export const findNestJsModuleObjectConfigProperty = (ast: n.Node, propName: stri
 
                         if (n.Identifier.assert(decoratorNodeExpressionCallee)) {
                           const decoratorIdentifier = decoratorNodeExpressionCallee.name;
-                          return decoratorIdentifier === 'Module';
+                          return decoratorIdentifier === "Module";
                         }
                       }
 
@@ -54,11 +54,11 @@ export const findNestJsModuleObjectConfigProperty = (ast: n.Node, propName: stri
                   if (checkFn !== null) {
                     try {
                       if (checkFn(currentCheckNode) === false) {
-                        console.log('nop', currentCheckNode);
+                        console.log("nop", currentCheckNode);
                         return false;
                       }
                     } catch (e) {
-                      console.log('nop', currentCheckNode);
+                      console.log("nop", currentCheckNode);
                       return false;
                     }
                   }
@@ -95,7 +95,7 @@ const checkHasExportAllFromPathName = (ast: n.Node, pathName: string) => {
       visitExportAllDeclaration(path) {
         const node = path.node;
 
-        if (typeof node.source.value === 'string' && normalize(node.source.value) === normalize(pathName)) {
+        if (typeof node.source.value === "string" && normalize(node.source.value) === normalize(pathName)) {
           resolve(true);
         }
 
@@ -115,7 +115,7 @@ export const addExportAllFrom = async (mod: ProxifiedModule, pathName: string) =
       visitProgram(path) {
         const node = path.node;
 
-        const lastExport = (node.body as any).findLastIndex((i: n.Node) => i.type === 'ExportAllDeclaration') ?? -1;
+        const lastExport = (node.body as any).findLastIndex((i: n.Node) => i.type === "ExportAllDeclaration") ?? -1;
 
         const targetIndex = lastExport !== -1 ? lastExport : 0;
 
@@ -175,7 +175,7 @@ export const addPropertyAcessor = async (ast: n.Node, className: string, accesso
       visitClassMethod(path) {
         const node = path.node;
 
-        if (node.key?.type === 'Identifier' && node.key.name === accessorName) {
+        if (node.key?.type === "Identifier" && node.key.name === accessorName) {
           resolve(true);
         }
 
@@ -185,7 +185,7 @@ export const addPropertyAcessor = async (ast: n.Node, className: string, accesso
       visitClassProperty(path) {
         const node = path.node;
 
-        if (node.key?.type === 'Identifier' && node.key.name === accessorName) {
+        if (node.key?.type === "Identifier" && node.key.name === accessorName) {
           resolve(true);
         }
 

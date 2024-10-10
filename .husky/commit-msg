@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-if [[ ! "$(npx --no commitlint -v &>/dev/null; echo $?)" -eq "0" ]]; then
-  (npm i --ignore-scripts &>/dev/null; exit 0);
-fi
+pnpm install --prefer-offline --ignore-scripts
 
-npx commitlint --edit $1
+pnpm exec commitlint --edit $1

@@ -1,1 +1,1 @@
-export * from './IAccessContext';
+export * from "./IAccessContext";

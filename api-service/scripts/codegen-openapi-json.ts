@@ -1,13 +1,13 @@
 #!/usr/bin/env tsx
 
-import { NestFactory } from '@nestjs/core';
-import { SwaggerModule } from '@nestjs/swagger';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { SetupSwaggerDocument } from '../dist/src/adapters/adapter-http/swagger/index.js';
-import { AppModule } from '../dist/src/app.module.js';
+import fs from "node:fs/promises";
+import path from "node:path";
+import { NestFactory } from "@nestjs/core";
+import { SwaggerModule } from "@nestjs/swagger";
+import { SetupSwaggerDocument } from "../dist/src/adapters/adapter-http/swagger/index.js";
+import { AppModule } from "../dist/src/app.module.js";
 
-const OUT_FILE = process.env.OUT_FILE ?? '/tmp/generated.json';
+const OUT_FILE = process.env.OUT_FILE ?? "/tmp/generated.json";
 
 async function buildOpenApiJson() {
   const app = await NestFactory.create(AppModule, {
@@ -16,10 +16,10 @@ async function buildOpenApiJson() {
     logger: false,
   });
 
-  const prefix = process.env.API_PREFIX ?? '/';
+  const prefix = process.env.API_PREFIX ?? "/";
 
   if (prefix) {
-    app.setGlobalPrefix(prefix, { exclude: ['health'] });
+    app.setGlobalPrefix(prefix, { exclude: ["health"] });
   }
 
   const config = SetupSwaggerDocument();
@@ -46,7 +46,7 @@ async function bootstrap() {
 
   await buildOpenApiFile();
 
-  console.log('> Gerado com sucesso.');
+  console.log("> Gerado com sucesso.");
 }
 
 bootstrap();

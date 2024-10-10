@@ -1,17 +1,17 @@
-import { builders as b, namedTypes as n } from 'ast-types';
-import { parseModule } from 'magicast';
-import { BaseModuleCoreGenerator } from './BaseModuleCoreGenerator';
+import { builders as b, namedTypes as n } from "ast-types";
+import { parseModule } from "magicast";
+import { BaseModuleCoreGenerator } from "./BaseModuleCoreGenerator";
 
 export class ModuleCoreGeneratorAuthzStatement extends BaseModuleCoreGenerator {
-  addTypeDeclarationStatement(typeName: string, actionName: string, type: 'check' | 'filter', dto: string | null = null) {
+  addTypeDeclarationStatement(typeName: string, actionName: string, type: "check" | "filter", dto: string | null = null) {
     this.addModify(async (mod) => {
-      const baseType = type === 'check' ? `IBaseAuthzCheck` : `IBaseAuthzFilter`;
-      const params = `${dto ? `, { dto: ${dto} }` : ''}`;
+      const baseType = type === "check" ? `IBaseAuthzCheck` : `IBaseAuthzFilter`;
+      const params = `${dto ? `, { dto: ${dto} }` : ""}`;
 
-      if (mod.$ast.type === 'Program') {
+      if (mod.$ast.type === "Program") {
         const statementAlreadyExists = mod.$ast.body.some((i) => {
-          if (i.type === 'ExportNamedDeclaration' && i.exportKind === 'type') {
-            if (i.declaration?.type === 'TSTypeAliasDeclaration') {
+          if (i.type === "ExportNamedDeclaration" && i.exportKind === "type") {
+            if (i.declaration?.type === "TSTypeAliasDeclaration") {
               return i.declaration.id.name === typeName;
             }
           }
@@ -24,9 +24,9 @@ export class ModuleCoreGeneratorAuthzStatement extends BaseModuleCoreGenerator {
         }
 
         const indexOfStatementCheck = mod.$ast.body.findIndex((i) => {
-          if (i.type === 'ExportNamedDeclaration' && i.exportKind === 'type') {
-            if (i.declaration?.type === 'TSTypeAliasDeclaration') {
-              return i.declaration.id.name === 'IAuthzStatementCheck';
+          if (i.type === "ExportNamedDeclaration" && i.exportKind === "type") {
+            if (i.declaration?.type === "TSTypeAliasDeclaration") {
+              return i.declaration.id.name === "IAuthzStatementCheck";
             }
           }
           return false;
@@ -39,9 +39,9 @@ export class ModuleCoreGeneratorAuthzStatement extends BaseModuleCoreGenerator {
         mod.$ast.body.splice(indexOfStatementCheck, 0, <any>((statementDeclarationMod.$ast as n.Program).body[0] as n.ExportNamedDeclaration));
 
         const nodeToAdd = (mod.$ast.body.find((i) => {
-          if (i.type === 'ExportNamedDeclaration' && i.exportKind === 'type') {
-            if (i.declaration?.type === 'TSTypeAliasDeclaration') {
-              return (i.declaration.id.name === 'IAuthzStatementCheck' && type === 'check') || (i.declaration.id.name === 'IAuthzStatementFilter' && type === 'filter');
+          if (i.type === "ExportNamedDeclaration" && i.exportKind === "type") {
+            if (i.declaration?.type === "TSTypeAliasDeclaration") {
+              return (i.declaration.id.name === "IAuthzStatementCheck" && type === "check") || (i.declaration.id.name === "IAuthzStatementFilter" && type === "filter");
             }
           }
           return false;
@@ -51,7 +51,7 @@ export class ModuleCoreGeneratorAuthzStatement extends BaseModuleCoreGenerator {
           const typeDeclaration = nodeToAdd.declaration as n.TSTypeAliasDeclaration;
           const annotation = typeDeclaration.typeAnnotation;
 
-          if (annotation.type === 'TSUnionType') {
+          if (annotation.type === "TSUnionType") {
             annotation.types.push(b.tsTypeReference(b.identifier(typeName)));
           }
         }

@@ -1,5 +1,5 @@
-import { builders as b, visit } from 'ast-types';
-import { BaseModuleCoreGenerator } from './BaseModuleCoreGenerator';
+import { builders as b, visit } from "ast-types";
+import { BaseModuleCoreGenerator } from "./BaseModuleCoreGenerator";
 
 export class ModuleCoreGeneratorOperations extends BaseModuleCoreGenerator {
   addOperation(token: string, importPath: string) {
@@ -12,7 +12,7 @@ export class ModuleCoreGeneratorOperations extends BaseModuleCoreGenerator {
           const node = path.node;
 
           const isPropertyAlreadyDeclared = node.properties.some((propertyNode) => {
-            if (propertyNode.type === 'ObjectProperty' && propertyNode.key.type === 'Identifier' && propertyNode.key.name === token) {
+            if (propertyNode.type === "ObjectProperty" && propertyNode.key.type === "Identifier" && propertyNode.key.name === token) {
               return true;
             }
             return false;
