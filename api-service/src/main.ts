@@ -1,10 +1,10 @@
+import { AppConfigService } from "@/infrastructure/config";
+import { SetupSwaggerDocument } from "@/infrastructure/integrations/http/swagger";
 import { NestFactory } from "@nestjs/core";
 import { SwaggerModule } from "@nestjs/swagger";
 import compression from "compression";
 import helmet from "helmet";
 import "reflect-metadata";
-import { AppConfigService } from "@/infrastructure/config";
-import { SetupSwaggerDocument } from "@/infrastructure/integrations/http/swagger";
 import { AppModule } from "./app.module";
 
 async function setupApp() {
@@ -22,17 +22,7 @@ async function setupApp() {
 
   //
 
-  const isProduction = configService.getRuntimeIsProduction();
-
-  app.use(
-    helmet({
-      crossOriginEmbedderPolicy: false,
-      crossOriginResourcePolicy: {
-        policy: "cross-origin",
-      },
-      contentSecurityPolicy: isProduction ? undefined : false,
-    }),
-  );
+  app.use(helmet());
 
   //
 
