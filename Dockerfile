@@ -20,7 +20,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store HUSKY=0 pnpm install --frozen-
 
 RUN pnpm run -r build
 
-RUN pnpm deploy --filter=@ladesa-ro/api-service --prod "/ldsa/.builds/api-service"
+RUN pnpm deploy --filter=@ladesa-ro/api.service --prod "/ldsa/.builds/api-service"
 
 RUN pnpm deploy --filter=@ladesa-ro/api-client-fetch --prod "/ldsa/.builds/npm-api-client-fetch"
 RUN cp "/ldsa/integrations/npm/api-client-fetch/docs" -r "/ldsa/.builds/npm-api-client-fetch/docs"

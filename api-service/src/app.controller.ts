@@ -16,7 +16,7 @@ export class AppController {
       properties: {
         service: {
           type: "string",
-          enum: ["@ladesa-ro/api"],
+          enum: ["@ladesa-ro/api.service"],
           description: "O nome desta aplicação.",
         },
         status: {

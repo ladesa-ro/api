@@ -1,5 +1,6 @@
 {
-  "private": "true",
+  "name": "@ladesa-ro/api.internal.integrations.npm",
+  "private": true,
   "scripts": {
     "build": "wireit"
   },
