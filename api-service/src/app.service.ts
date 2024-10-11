@@ -12,7 +12,7 @@ export class AppService {
   getHello() {
     return {
       status: "up",
-      service: "@ladesa-ro/api",
+      service: "@ladesa-ro/api.service",
       prefix: this.configService.getRuntimePrefix(),
       version: this.configService.getRuntimeVersion(),
     };

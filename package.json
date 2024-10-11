@@ -1,5 +1,5 @@
 {
-  "name": "@ladesa-ro/api-root",
+  "name": "@ladesa-ro/api.internal.root",
   "version": "0.0.0-freezed.0",
   "private": true,
   "scripts": {
