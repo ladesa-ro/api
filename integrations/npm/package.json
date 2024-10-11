@@ -1,0 +1,11 @@
+{
+  "private": "true",
+  "scripts": {
+    "build": "wireit"
+  },
+  "wireit": {
+    "build": {
+      "dependencies": ["./api-client-fetch:build"]
+    }
+  }
+}

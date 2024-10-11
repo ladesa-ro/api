@@ -6,19 +6,19 @@
 
 [![CI/CD Development][action-ci-cd-service-dev-src]][action-ci-cd-service-dev-href]
 
-| #   | Link                            |
-| --- | ------------------------------- |
-| 1   | <https://dev.ladesa.com.br/api> |
+| Link                            |
+| ------------------------------- |
+| <https://dev.ladesa.com.br/api> |
 
 #### Clientes do ambiente de desenvolvimento
 
 - NPM / JavaScript
 
-  [![NPM Package: @ladesa-ro/api-client-fetch][npm-package-alpha-src]][npm-package-alpha-href] [![NPM alpha version][npm-package-alpha-version-src]][npm-package-versions-href]
+[![NPM Package: @ladesa-ro/api-client-fetch][npm-package-alpha-src]][npm-package-alpha-href] [![NPM alpha version][npm-package-alpha-version-src]][npm-package-versions-href]
 
-  ```sh
-  npm i @ladesa-ro/api-client-fetch@alpha
-  ```
+```sh
+npm i @ladesa-ro/api-client-fetch@alpha
+```
 
 ### Produção
 
@@ -32,11 +32,11 @@
 
 - NPM / JavaScript
 
-  [![NPM Package: @ladesa-ro/api-client-fetch@latest][npm-package-latest-src]][npm-package-latest-href] [![NPM latest version][npm-package-latest-version-src]][npm-package-versions-href]
+[![NPM Package: @ladesa-ro/api-client-fetch@latest][npm-package-latest-src]][npm-package-latest-href] [![NPM latest version][npm-package-latest-version-src]][npm-package-versions-href]
 
-  ```sh
-  npm i @ladesa-ro/api-client-fetch@latest
-  ```
+```sh
+npm i @ladesa-ro/api-client-fetch@latest
+```
 
 ## Configuração Local
 
@@ -85,13 +85,16 @@ make shell; # Inicia os containers docker e abre o bash na aplicação node.
 
 - Após este processo, talvez você queira executar dentro do shell do container:
 
-  ```sh
-  npm install;
-  ```
+" ```sh
+npm install;
 
-  ```sh
-  npm run start:dev;
-  ```
+````
+
+```sh
+npm run start:dev;
+````
+
+"
 
 #### `down`
 

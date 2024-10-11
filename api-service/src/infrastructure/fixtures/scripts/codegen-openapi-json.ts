@@ -4,8 +4,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { NestFactory } from "@nestjs/core";
 import { SwaggerModule } from "@nestjs/swagger";
-import { SetupSwaggerDocument } from "../dist/src/adapters/adapter-http/swagger/index.js";
-import { AppModule } from "../dist/src/app.module.js";
+import { AppModule } from "../../../app.module";
+import { SetupSwaggerDocument } from "../../integrations";
 
 const OUT_FILE = process.env.OUT_FILE ?? "/tmp/generated.json";
 
@@ -39,7 +39,6 @@ async function buildOpenApiFile() {
 }
 
 async function bootstrap() {
-  // const outFileDisplay = path.relative(process.cwd(), OUT_FILE);
   const outFileDisplay = OUT_FILE;
 
   console.log(`> Gerando JSON "${outFileDisplay}" com a especificação OpenAPI/Swagger.`);

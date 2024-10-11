@@ -1,0 +1,41 @@
+{
+  "name": "@ladesa-ro/api-service-openapi-json",
+  "version": "1.0.0-alpha.21",
+  "license": "MIT",
+  "description": "LADESA - Biblioteca com especificação OpenAPI/Swagger - Pacote NPM.",
+  "files": ["generated.json"],
+  "scripts": {
+    "build": "wireit",
+    "generate": "wireit"
+  },
+  "wireit": {
+    "build": {
+      "dependencies": ["generate"]
+    },
+    "generate": {
+      "command": "OUT_FILE=$(pwd)/generated.json pnpm run --filter '@ladesa-ro/api-service' generate:openapi && pnpm run -w code-static:fix $(pwd)/generated.json"
+    }
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "^0.49.0",
+    "rimraf": "^6.0.1",
+    "typedoc": "^0.26.8",
+    "typedoc-plugin-mdn-links": "^3.3.2",
+    "typescript": "^5.6.3",
+    "wireit": "^0.14.9"
+  },
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  },
+  "homepage": "https://github.com/ladesa-ro/api/tree/development/integrations/openapi-json#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ladesa-ro/api.git"
+  },
+  "author": "Gabriel R. Antunes <gabrielrodantunes@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/ladesa-ro/api/issues"
+  },
+  "keywords": ["ladesa-ro", "api", "api-client", "fetch", "sisgha", "sisgea"]
+}

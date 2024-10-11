@@ -2,9 +2,60 @@
   "name": "@ladesa-ro/api-client-fetch",
   "version": "1.0.0-alpha.21",
   "main": "dist/index.js",
-  "description": "LADESA - Biblioteca de integração a API - Pacote NPM.",
-  "keywords": ["ladesa-ro", "api", "api-client", "fetch", "sisgha", "sisgea"],
   "license": "MIT",
+  "description": "LADESA - Biblioteca de integração a API - Pacote NPM.",
+  "files": ["*.md", "dist/**/*.*"],
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "test": "wireit",
+    "dev": "wireit",
+    "build": "wireit",
+    "generate": "wireit",
+    "generate:client": "wireit",
+    "generate:client-docs": "wireit",
+    "cleanup:generated": "wireit"
+  },
+  "wireit": {
+    "test": {
+      "command": "npx tsc --noEmit"
+    },
+    "dev": {
+      "command": "tsc -p tsconfig.json --watch"
+    },
+    "build": {
+      "command": "tsc -p tsconfig.json",
+      "dependencies": ["generate"]
+    },
+    "generate": {
+      "dependencies": ["generate:client", "generate:client-docs"]
+    },
+    "generate:client": {
+      "command": "openapi-ts && pnpm run -w code-static:fix $(pwd)",
+      "dependencies": ["cleanup:generated", "../../../api-service:generate:openapi"],
+      "files": ["../../openapi-json/generated.json"],
+      "output": ["./src/http/generated/**/*"]
+    },
+    "generate:client-docs": {
+      "command": "typedoc --options .config/typedoc.jsonc",
+      "dependencies": ["generate:client"]
+    },
+    "cleanup:generated": {
+      "command": "rimraf ./src/http/generated"
+    }
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "^0.49.0",
+    "rimraf": "^6.0.1",
+    "typedoc": "^0.26.8",
+    "typedoc-plugin-mdn-links": "^3.3.2",
+    "typescript": "^5.6.3",
+    "wireit": "^0.14.9"
+  },
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  },
+  "homepage": "https://github.com/ladesa-ro/api/tree/development/integrations/npm/api-client-fetch#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/ladesa-ro/api.git"
@@ -13,54 +64,5 @@
   "bugs": {
     "url": "https://github.com/ladesa-ro/api/issues"
   },
-  "homepage": "https://github.com/ladesa-ro/api/tree/development/integrations/npm/api-client-fetch#readme",
-  "publishConfig": {
-    "provenance": true,
-    "access": "public"
-  },
-  "files": ["*.md", "dist/**/*.*"],
-  "wireit": {
-    "cleanup:generated": {
-      "command": "rimraf ./src/http/generated"
-    },
-    "test": {
-      "command": "npx tsc --noEmit"
-    },
-    "dev": {
-      "command": "tsc -p tsconfig.json --watch"
-    },
-    "build": {
-      "command": "tsc -p tsconfig.json"
-    },
-    "generate:api": {
-      "command": "openapi-ts",
-      "dependencies": ["cleanup:generated"]
-    },
-    "generate:docs": {
-      "command": "typedoc --options .config/typedoc.jsonc"
-    }
-  },
-  "scripts": {
-    "prebuild": "rimraf dist",
-    "test": "wireit",
-    "dev": "wireit",
-    "build": "wireit",
-    "generate": "pnpm run generate:api && pnpm run generate:docs",
-    "generate:api": "wireit",
-    "generate:docs": "wireit",
-    "cleanup:generated": "wireit",
-    "format:write": "prettier --write --no-error-on-unmatched-pattern \"{src,apps,libs,test}/**/*.ts\"",
-    "release:base": "./scripts/smart-release.sh"
-  },
-  "devDependencies": {
-    "@hey-api/openapi-ts": "^0.49.0",
-    "@release-it/bumper": "^6.0.1",
-    "prettier": "^3.3.3",
-    "release-it": "^17.8.2",
-    "rimraf": "^6.0.1",
-    "typedoc": "^0.26.8",
-    "typedoc-plugin-mdn-links": "^3.3.2",
-    "typescript": "^5.6.3",
-    "wireit": "^0.14.9"
-  }
+  "keywords": ["ladesa-ro", "api", "api-client", "fetch", "sisgha", "sisgea"]
 }
