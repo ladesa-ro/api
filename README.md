@@ -20,10 +20,6 @@ npm i @ladesa-ro/api-client-fetch@alpha
 
 [![CI/CD Production][action-ci-cd-service-prod-src]][action-ci-cd-service-prod-href]
 
-| #   | Link             |
-| --- | ---------------- |
-| -   | `não disponível` |
-
 #### Cliente JavaScript para o ambiente de produção
 
 [![NPM Package: @ladesa-ro/api-client-fetch@latest][npm-package-latest-src]][npm-package-latest-href] [![NPM latest version][npm-package-latest-version-src]][npm-package-versions-href]
