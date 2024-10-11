@@ -6,13 +6,9 @@
 
 [![CI/CD Development][action-ci-cd-service-dev-src]][action-ci-cd-service-dev-href]
 
-| Link                            |
-| ------------------------------- |
-| <https://dev.ladesa.com.br/api> |
+Instância 1: <https://dev.ladesa.com.br/api>.
 
-#### Clientes do ambiente de desenvolvimento
-
-- NPM / JavaScript
+#### Cliente JavaScript para o ambiente de desenvolvimento
 
 [![NPM Package: @ladesa-ro/api-client-fetch][npm-package-alpha-src]][npm-package-alpha-href] [![NPM alpha version][npm-package-alpha-version-src]][npm-package-versions-href]
 
@@ -28,9 +24,7 @@ npm i @ladesa-ro/api-client-fetch@alpha
 | --- | ---------------- |
 | -   | `não disponível` |
 
-#### Clientes do ambiente de produção
-
-- NPM / JavaScript
+#### Cliente JavaScript para o ambiente de produção
 
 [![NPM Package: @ladesa-ro/api-client-fetch@latest][npm-package-latest-src]][npm-package-latest-href] [![NPM latest version][npm-package-latest-version-src]][npm-package-versions-href]
 
@@ -85,16 +79,14 @@ make shell; # Inicia os containers docker e abre o bash na aplicação node.
 
 - Após este processo, talvez você queira executar dentro do shell do container:
 
-" ```sh
-npm install;
+```sh
+pnpm install;
 
-````
+```
 
 ```sh
-npm run start:dev;
-````
-
-"
+pnpm run start:dev;
+```
 
 #### `down`
 
@@ -116,9 +108,7 @@ make logs; # Mostra os registros dos containers
 
 ## Licença
 
-[MIT - Ladesa e Colaboradores, 2024](./LICENSE).
-
-[MIT - Gabriel R. Antunes, 2024](./LICENSE).
+[MIT](./LICENSE) © 2024 – presente, Ladesa.
 
 <!-- Links -->
 
