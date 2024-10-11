@@ -1,0 +1,11 @@
+{
+  "private": "true",
+  "scripts": {
+    "build": "wireit"
+  },
+  "wireit": {
+    "build": {
+      "dependencies": ["./openapi-json:build", "./npm:build"]
+    }
+  }
+}

@@ -19,7 +19,7 @@ export default {
   input: "../../openapi-json/generated.json",
 
   output: {
-    format: "prettier",
+    format: "biome",
     path: "./src/http/generated",
   },
 

@@ -1,24 +1,35 @@
 {
   "compilerOptions": {
     "strict": true,
+
     "lib": ["esnext"],
     "target": "es2022",
     "module": "CommonJS",
+
     "resolveJsonModule": true,
-    "declaration": true,
+
     "removeComments": true,
+
     "strictNullChecks": true,
-    "emitDecoratorMetadata": true,
-    "esModuleInterop": true,
+    "noImplicitAny": false,
+
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+
+    "declaration": true,
     "sourceMap": true,
+
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./*"]
     },
+
     "incremental": true,
+
     "skipLibCheck": true
   },
   "exclude": [".plop/**/*.ts", "scripts"]

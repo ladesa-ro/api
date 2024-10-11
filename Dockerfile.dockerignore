@@ -2,8 +2,10 @@
 **/.github
 **/.husky
 **/.vscode
-**/.vscode
 **/node_modules
+
 **/*.env
 **/*.env*
+
 Dockerfile*
+*.dockerignore

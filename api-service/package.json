@@ -3,21 +3,21 @@
   "version": "0.0.0-freezed.0",
   "private": true,
   "scripts": {
-    "build": "nest build",
+    "build": "wireit",
     "prebuild": "rimraf dist",
-    "gen:openapi": "./scripts/codegen-openapi-json.ts",
-    "start": "nest start -e 'node --experimental-require-module --trace-warnings'",
+    "generate:openapi": "wireit",
     "check:static": "tsc --noEmit",
+    "start": "nest start -e 'node --experimental-require-module --trace-warnings'",
     "start:dev": "nest start --watch -e 'node --experimental-require-module --trace-warnings'",
     "start:debug": "nest start --debug 0.0.0.0:9229 --watch -e 'node --experimental-require-module --trace-warnings'",
     "start:prod": "node --experimental-require-module dist/src/main",
-    "typeorm": "tsx ./node_modules/.bin/typeorm",
-    "typeorm-db-migration": "tsx ./node_modules/.bin/typeorm -d src/adapters/adapter-database/typeorm/data-sources/migration.data-source.ts",
-    "typeorm:entity": "npm run typeorm -- entity:create",
-    "typeorm:generate": "npm run typeorm -- migration:generate",
-    "typeorm:create": "npm run typeorm -- migration:create",
-    "migration:run": "npm run typeorm-db-migration -- migration:run",
-    "migration:revert": "npm run typeorm-db-migration -- migration:revert",
+    "typeorm": "tsx ./node_modules/typeorm/cli.js",
+    "typeorm:ds-migration": "tsx ./node_modules/typeorm/cli.js -d src/infrastructure/integrations/database/typeorm/data-sources/migration.data-source.ts",
+    "typeorm:entity": "pnpm run typeorm -- entity:create",
+    "typeorm:generate": "pnpm run typeorm -- migration:generate",
+    "typeorm:create": "pnpm run typeorm -- migration:create",
+    "migration:run": "pnpm run typeorm:ds-migration -- migration:run",
+    "migration:revert": "pnpm run typeorm:ds-migration -- migration:revert",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -25,8 +25,20 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "plop": "npx esbuild .plop/plopfile.ts --format=esm --external:inquirer --external:ast-types --external:magicast --platform=node --bundle --outfile=plopfile.mjs 1>/dev/null && plop && npm run format:write"
   },
+  "wireit": {
+    "build": {
+      "command": "nest build",
+      "files": ["tsconfig*", "src", "version.json"],
+      "output": ["dist"]
+    },
+    "generate:openapi": {
+      "command": "node --experimental-require-module dist/src/infrastructure/fixtures/scripts/codegen-openapi-json",
+      "dependencies": ["build"]
+    }
+  },
   "dependencies": {
     "@apollo/server": "^4.10.4",
+    "@apollo/utils.keyvaluecache": "^3.1.0",
     "@keycloak/keycloak-admin-client": "^25.0.0",
     "@ladesa-ro/especificacao": "^2.1.7-next.15",
     "@ladesa-ro/especificacao-latest": "@ladesa-ro/especificacao:@latest",
@@ -103,7 +115,8 @@
     "ts-loader": "^9.4.3",
     "tsconfig-paths": "^4.2.0",
     "type-fest": "^4.20.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "wireit": "^0.14.9"
   },
   "jest": {
     "moduleFileExtensions": ["js", "json", "ts"],
@@ -116,5 +129,5 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   },
-  "packageManager": "npm@10.8.1+sha512.0e9d43e92bd2318408ed81eaff2da5f78baf23ee7d12a6eed44a6e2901d0f29d7ab715d1b918ade601f72e769a824d9a5c322383f22bbbda5dd396e79de2a077"
+  "packageManager": "pnpm@9.12.1+sha512.e5a7e52a4183a02d5931057f7a0dbff9d5e9ce3161e33fa68ae392125b79282a8a8a470a51dfc8a0ed86221442eb2fb57019b0990ed24fab519bf0e1bc5ccfc4"
 }

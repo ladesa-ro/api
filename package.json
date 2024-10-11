@@ -5,23 +5,21 @@
   "scripts": {
     "commit": "git-cz",
     "prepare": "husky",
-    "lint:check": "biome lint",
-    "lint:fix": "biome lint --write",
-    "format:check": "biome format",
-    "format:fix": "biome format --write",
-    "code-static:check": "biome check",
-    "code-static:fix": "biome check --write",
-    "w:release:base": "release-it -c .release-it.json",
-    "release:base": "./scripts/smart-release.sh",
-    "release:check": "pnpm run -w release:base --ci --dry-run -VV",
-    "release:patch": "pnpm run -w release:base patch --ci",
-    "release:minor": "pnpm run -w release:base minor --ci",
-    "release:major": "pnpm run -w release:base major --ci",
-    "release:patch:alpha": "pnpm run -w release:base patch --preRelease=alpha --ci",
-    "release:minor:alpha": "pnpm run -w release:base minor --preRelease=alpha --ci",
-    "release:major:alpha": "pnpm run -w release:base major --preRelease=alpha --ci",
-    "release:development": "pnpm run -w release:base --preRelease=alpha --ci",
-    "release:production": "pnpm run -w release:base --ci"
+    "build": "wireit",
+    "lint:check": "biome lint --no-errors-on-unmatched",
+    "lint:fix": "biome lint --write --no-errors-on-unmatched",
+    "format:check": "biome format --no-errors-on-unmatched",
+    "format:fix": "biome format --write --no-errors-on-unmatched",
+    "code-static:check": "biome check --no-errors-on-unmatched",
+    "code-static:fix": "biome check --write --no-errors-on-unmatched",
+    "changeset:add": "changeset add",
+    "changeset:tag": "changeset tag",
+    "changeset:version": "changeset version && pnpm run -r --if-present patch-version"
+  },
+  "wireit": {
+    "build": {
+      "dependencies": ["./api-service:build", "./integrations:build"]
+    }
   },
   "config": {
     "commitizen": {
@@ -31,20 +29,20 @@
   "commitlint": {
     "extends": ["@commitlint/config-conventional"]
   },
-  "lintstaged": {
+  "lint-staged": {
     "**/*": "pnpm run code-static:fix"
   },
   "dependencies": {
     "@biomejs/biome": "1.9.3",
+    "@changesets/cli": "^2.27.9",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
-    "@release-it/bumper": "^6.0.1",
     "auto-changelog": "^2.5.0",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
-    "release-it": "^17.8.2"
+    "wireit": "^0.14.9"
   },
-  "packageManager": "pnpm@9.6.0+sha512.38dc6fba8dba35b39340b9700112c2fe1e12f10b17134715a4aa98ccf7bb035e76fd981cf0bb384dfa98f8d6af5481c2bef2f4266a24bfa20c34eb7147ce0b5e"
+  "packageManager": "pnpm@9.12.1+sha512.e5a7e52a4183a02d5931057f7a0dbff9d5e9ce3161e33fa68ae392125b79282a8a8a470a51dfc8a0ed86221442eb2fb57019b0990ed24fab519bf0e1bc5ccfc4"
 }
