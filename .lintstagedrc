@@ -1,3 +1,0 @@
-{
-  "**/*": "pnpm run code-static:fix"
-}

@@ -28,6 +28,12 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "commitlint": {
+    "extends": ["@commitlint/config-conventional"]
+  },
+  "lintstaged": {
+    "**/*": "pnpm run code-static:fix"
+  },
   "dependencies": {
     "@biomejs/biome": "1.9.3",
     "@commitlint/cli": "^19.5.0",
