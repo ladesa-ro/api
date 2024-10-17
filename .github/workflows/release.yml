@@ -28,11 +28,6 @@ jobs:
           node-version: ${{ env.node-version }}
           cache: "pnpm"
 
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
       - name: Install dependencies
         run: pnpm install -w --frozen-lockfile
 
