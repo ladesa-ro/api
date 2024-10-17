@@ -37,7 +37,7 @@ jobs:
         run: |
           pnpm run --filter "@ladesa-ro/api.internal.integrations" build
 
-          if [[ (git diff --exit-code > /dev/null; echo $?) -eq 1 ]]; then
+          if [ "$(git diff --exit-code > /dev/null; echo $?)" -eq "1" ]; then
             git checkout -b ldsa-automated/generated-integrations;
             git commit -m "chore: generate integrations"
             echo "has_changes=true" >> "$GITHUB_OUTPUT";
