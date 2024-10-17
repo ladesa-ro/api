@@ -11,8 +11,13 @@ env:
   node-version: 22
 
 jobs:
-  work:
+  generate-integrations:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
 
     steps:
       - name: Checkout Repo
@@ -27,11 +32,21 @@ jobs:
         with:
           install-node: "true"
 
-      - name: Build integrations
+      - id: build-integrations
+        name: Build integrations
         run: |
           pnpm run --filter "@ladesa-ro/api.internal.integrations" build
 
-      - name: create pull request
+          if [[ (git diff --exit-code > /dev/null; echo $?) -eq 1 ]]; then
+            git checkout -b ldsa-automated/generated-integrations;
+            git commit -m "chore: generate integrations"
+            echo "has_changes=true" >> "$GITHUB_OUTPUT";
+          else
+            echo "has_changes=false" >> "$GITHUB_OUTPUT";
+          fi
+
+      - name: Create pull request
+        if: steps.build-integrations.outputs.has_changes == 'true'
         run: |
           gh pr create \
             -B development \
