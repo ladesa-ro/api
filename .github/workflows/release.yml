@@ -10,6 +10,28 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 env:
   node-version: 22
 
+  CI_CD_LOCAL_API_SERVICE_IMAGE: ci-cd.local/api-service
+  CI_DEVELOPMENT_BRANCH: ${{ vars.CI_DEVELOPMENT_BRANCH }}
+  CI_PRODUCTION_BRANCH: ${{ vars.CI_PRODUCTION_BRANCH }}
+
+  ENABLE_BUILD_IMAGE: ${{ vars.ENABLE_BUILD_IMAGE }}
+  IMAGE_TAG_DEVELOPMENT: ${{ vars.IMAGE_TAG_DEVELOPMENT }}
+  IMAGE_TAG_PRODUCTION: ${{ vars.IMAGE_TAG_PRODUCTION }}
+
+  ENABLE_PUSH_IMAGE: ${{ vars.ENABLE_PUSH_IMAGE }}
+
+  REGISTRY_URL: ${{ secrets.REGISTRY_URL }}
+  REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+  REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+  IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+
+  ENABLE_TRIGGER_DEPLOY: ${{ vars.ENABLE_TRIGGER_DEPLOY }}
+  DEPLOY_DISPATCH_TOKEN: ${{ secrets.DEPLOY_DISPATCH_TOKEN }}
+  DEPLOY_OWNER: ${{ vars.DEPLOY_OWNER }}
+  DEPLOY_REPOSITORY: ${{ vars.DEPLOY_REPOSITORY }}
+  DEPLOY_WORKFLOW: ${{ vars.DEPLOY_WORKFLOW }}
+  DEPLOY_BRANCH: ${{ vars.DEPLOY_BRANCH }}
+
 jobs:
   release:
     name: Release
@@ -43,3 +65,42 @@ jobs:
           version: pnpm run -w changeset:version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login into Registry
+        if: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY_URL }}
+          username: ${{ env.REGISTRY_USERNAME }}
+          password: ${{ env.REGISTRY_TOKEN }}
+
+      - name: Build api-service locally
+        if: ${{ env.ENABLE_BUILD_IMAGE == 'true' }}
+        uses: docker/build-push-action@v6
+        with:
+          load: true
+          push: false
+          target: api-service
+          tags: ${{ env.CI_CD_LOCAL_API_SERVICE_IMAGE }}
+          file: "Dockerfile"
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build npm-api-client-fetch-docs locally
+        if: ${{ env.ENABLE_BUILD_IMAGE == 'true' }}
+        uses: docker/build-push-action@v6
+        with:
+          load: true
+          push: false
+          target: npm-api-client-fetch-docs
+          tags: ${{ env.CI_CD_LOCAL_API_SERVICE_IMAGE }}
+          file: "Dockerfile"
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
