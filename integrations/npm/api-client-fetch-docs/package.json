@@ -1,0 +1,37 @@
+{
+  "name": "@ladesa-ro/api-client-fetch-docs",
+  "files": ["dist/**/*.*"],
+  "scripts": {
+    "prebuild": "wireit",
+    "generate": "wireit",
+    "generate:watch": "wireit",
+    "build": "wireit",
+    "serve": "wireit"
+  },
+  "wireit": {
+    "serve": {
+      "command": "serve dist",
+      "dependencies": ["build"]
+    },
+    "prebuild": {
+      "command": "rimraf dist"
+    },
+    "build": {
+      "dependencies": ["generate"]
+    },
+    "generate": {
+      "command": "typedoc --options .config/typedoc.jsonc",
+      "dependencies": ["../api-client-fetch:build"]
+    },
+    "generate:watch": {
+      "command": "typedoc --options .config/typedoc.jsonc --watch --preserveWatchOutput",
+      "dependencies": ["../api-client-fetch:build"]
+    }
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "serve": "^14.2.4",
+    "typedoc": "^0.26.10",
+    "typedoc-plugin-mdn-links": "^3.3.3"
+  }
+}
