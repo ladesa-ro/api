@@ -9,8 +9,8 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   node-version: 22
-  generated-branch: ldsa-automated/generated-integrations
   target-branch: development
+  generated-branch: robozinho-do-ladesa/generated-integrations
 
 jobs:
   generate-integrations:
@@ -86,8 +86,10 @@ jobs:
 
           # PR_REVIEWER="@ladesa-ro/backend"
 
+          NOW=$(date +'%Y-%m-%dT%H:%M:%S')
+
           PR_TITLE="chore: generate integrations"
-          PR_BODY="*Event*: ${{ github.event }}\n*Job*: ${{ github.job }}\n*Run number*: ${{ github.run_number }}"
+          PR_BODY="**Job**: ${{ github.job }}.\n**Run number**: ${{ github.run_number }}.\nUpdated at: ${NOW}."
           PR_BODY_FILE="/tmp/pr-body.txt"
 
           echo -e "${PR_BODY}" > ${PR_BODY_FILE}
