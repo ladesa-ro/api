@@ -1,5 +1,6 @@
 packages:
   - api-service
+  - integrations
   - integrations/npm
-  - integrations/npm/api-client-fetch
+  - integrations/npm/*
   - integrations/openapi-json

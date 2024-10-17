@@ -1,0 +1,65 @@
+name: "Prepare: Install"
+description: "Prepares the repo by installing dependencies"
+
+inputs:
+  working-directory:
+    description: "Override the working directory to run the installation in"
+    required: false
+    default: "."
+
+  node-version:
+    description: "The node version to setup"
+    required: true
+    default: "20"
+
+  node-registry-url:
+    description: "Define registry-url"
+    required: false
+
+  install-node:
+    description: "node.js: install"
+    required: false
+    default: "true"
+
+  install-node-dependencies:
+    description: "node.js: install all dependencies"
+    required: false
+    default: "true"
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: "print github workflow reference"
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: echo ${{ github.ref }}
+
+    - name: "node.js: enable corepack"
+      run: corepack enable
+      if: ${{ inputs.install-node == 'true' }}
+      shell: bash
+      env:
+        HUSKY: "0"
+
+    - name: "node.js: use ${{ inputs.node-version }}"
+      if: ${{ inputs.install-node == 'true' }}
+      uses: actions/setup-node@v4
+      with:
+        cache: "pnpm"
+        node-version: ${{ inputs.node-version }}
+        registry-url: ${{ inputs.node-registry-url }}
+      env:
+        HUSKY: "0"
+
+    - name: "node.js: setup wireit cache"
+      uses: google/wireit@setup-github-actions-caching/v2
+      if: ${{ inputs.install-node == 'true' }}
+
+    - name: "node.js: install dependencies"
+      if: ${{ inputs.install-node == 'true' }} && ${{ inputs.install-node-dependencies == 'true' }}
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+      run: pnpm install --frozen-lockfile
+      env:
+        HUSKY: "0"

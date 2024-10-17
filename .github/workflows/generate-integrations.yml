@@ -1,0 +1,42 @@
+name: Generate Integrations
+
+on:
+  push:
+    branches:
+      - development
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+env:
+  node-version: 22
+
+jobs:
+  work:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Print Tag
+        shell: bash
+        run: echo ${{ github.ref_name }}
+
+      - name: Install
+        uses: ./.github/actions/prepare/install
+        with:
+          install-node: "true"
+
+      - name: Build integrations
+        run: |
+          pnpm run --filter "@ladesa-ro/api.internal.integrations" build
+
+      - name: create pull request
+        run: |
+          gh pr create \
+            -B development \
+            -H ldsa-automated/generated-integrations \
+            --title 'Merge ldsa-automated/generated-integrations into development' \
+            --body 'Created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

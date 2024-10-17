@@ -1,8 +1,11 @@
 {
   "$schema": "https://typedoc.org/schema.json",
+  // "extends": ["typedoc/tsdoc.json"],
 
-  "entryPoints": ["../src/index.ts"],
-  "out": "../docs",
+  "entryPoints": ["../../api-client-fetch/src/index.ts"],
+  "tsconfig": "../../api-client-fetch/tsconfig.json",
+
+  "out": "../dist",
 
   "includeVersion": true,
   "searchInDocuments": true,

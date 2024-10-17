@@ -2695,7 +2695,7 @@ export type AppControllerGetHelloResponse = {
   /**
    * O nome desta aplicação.
    */
-  service: "@ladesa-ro/api";
+  service: "@ladesa-ro/api.service";
   /**
    * Status desta aplicação.
    */
@@ -4412,7 +4412,7 @@ export type $OpenApiTs = {
           /**
            * O nome desta aplicação.
            */
-          service: "@ladesa-ro/api";
+          service: "@ladesa-ro/api.service";
           /**
            * Status desta aplicação.
            */
