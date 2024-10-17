@@ -6,6 +6,7 @@
     "commit": "git-cz",
     "prepare": "husky",
     "build": "wireit",
+    "start:dev": "pnpm run --filter @ladesa-ro/api.service start:dev",
     "lint:check": "biome lint --no-errors-on-unmatched",
     "lint:fix": "biome lint --write --no-errors-on-unmatched",
     "format:check": "biome format --no-errors-on-unmatched",

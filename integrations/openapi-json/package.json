@@ -10,7 +10,9 @@
       "dependencies": ["generate"]
     },
     "generate": {
-      "command": "OUT_FILE=$(pwd)/generated.json pnpm run --filter '@ladesa-ro/api.service' generate:openapi && pnpm run -w code-static:fix $(pwd)/generated.json"
+      "command": "OUT_FILE=$(pwd)/generated.json pnpm run --filter '@ladesa-ro/api.service' generate:openapi && pnpm run -w code-static:fix $(pwd)/generated.json",
+      "files": ["../../api-service/package.json", "../../api-service/src/**/*", "../../pnpm-lock.yaml"],
+      "output": ["./generated.json"]
     }
   },
   "devDependencies": {

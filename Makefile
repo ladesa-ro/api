@@ -2,10 +2,10 @@
 d_network=ladesa-net
 d_container_app=ladesa-api
 
-compose_options=--file .devops/development/docker-compose.yml -p ladesa-api
+compose_options=--file docker-compose.yml -p ladesa-api
 
 setup:
-	$(shell (cd .devops/development; find . -type f -name "*.example" -exec sh -c 'cp -n {} $$(basename {} .example)' \;))
+	$(shell (cd .; find . -type f -name "*.example" -exec sh -c 'cp -n {} $$(basename {} .example)' \;))
 	$(shell (bash -c "docker network create $(d_network) &>/dev/null"))
 
 up:
@@ -27,7 +27,7 @@ start:
 		-u node \
 		--no-TTY \
 		-d $(d_container_app) \
-			bash -c "npm i && npm run migration:run && npm run start:dev" \&;
+			bash -c "pnpm install && pnpm run --filter @ladesa-ro/api.service migration:run && pnpm run --filter @ladesa-ro/api.service start:dev" \&;
 
 logs:
 	make setup;

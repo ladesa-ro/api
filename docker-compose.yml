@@ -1,10 +1,13 @@
 services:
   ladesa-api:
-    image: node:22
+    build:
+      context: .
+      target: base
     user: node
-    command: sh -c "tail -f /dev/null"
+    command: sleep infinity
     container_name: ladesa-api
-    working_dir: /var/lib/ladesa-ro/devops/api/api-service/
+    # working_dir: /workspaces/ldsa/api/api-service/
+    working_dir: /workspaces/ldsa/api/
     depends_on:
       - ladesa-api-db
     networks:
@@ -13,7 +16,7 @@ services:
       - 3701:3701
       - 9229:9229
     volumes:
-      - ../../../:/var/lib/ladesa-ro/devops/api/
+      - ./:/workspaces/ldsa/api:cached
       - ./volumes/uploaded:/container/uploaded
     environment:
       - STORAGE_PATH=/container/uploaded
@@ -24,7 +27,7 @@ services:
     image: bitnami/postgresql:15
     container_name: ladesa-api-db
     volumes:
-      - 'ladesa-api-db-data:/bitnami/postgresql'
+      - "ladesa-api-db-data:/bitnami/postgresql"
       # - './volumes/db/scripts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'
     networks:
       - ladesa-net
@@ -38,5 +41,5 @@ networks:
     external: true
 
 volumes:
-  ladesa-api-uploaded-files:
   ladesa-api-db-data:
+  ladesa-api-uploaded-files:

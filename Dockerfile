@@ -2,7 +2,7 @@
 # BASE NODEJS IMAGE
 # ========================================
 
-FROM node:22-slim AS base
+FROM node:22 AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
@@ -19,27 +19,26 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
   HUSKY=0 \
   pnpm install --frozen-lockfile
 
-RUN \
-  WIREIT_LOGGER=metrics \
-  pnpm run -r build
-
 FROM build AS build-api-service
 
-RUN pnpm deploy \
+RUN \
+  WIREIT_LOGGER=metrics \
+  pnpm run -r --filter="@ladesa-ro/api.service" build
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+  pnpm deploy \
   --prod \
   --filter=@ladesa-ro/api.service \
   "/ldsa/.builds/api-service"
 
-FROM build AS build-npm-api-client-fetch
-
-RUN pnpm deploy \
-  --prod \
-  --filter=@ladesa-ro/api-client-fetch \
-  "/ldsa/.builds/npm-api-client-fetch"
-
 FROM build AS build-npm-api-client-fetch-docs
 
-RUN pnpm deploy \
+RUN \
+  WIREIT_LOGGER=metrics \
+  pnpm run -r --filter="@ladesa-ro/api-client-fetch-docs" build
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+  pnpm deploy \
   --prod \
   --filter=@ladesa-ro/api-client-fetch-docs \
   "/ldsa/.builds/npm-api-client-fetch-docs"
