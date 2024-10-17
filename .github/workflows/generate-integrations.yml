@@ -82,7 +82,7 @@ jobs:
         if: steps.build-integrations.outputs.has_changes == 'true'
         run: |
           # source: https://github.com/cli/cli/discussions/5792#discussioncomment-10410197
-          PR_URL="$(gh pr list --head "${{ env.target-branch }}" --state open --json url --jq .[].url)"
+          PR_URL="$(gh pr list -B "${{ env.target-branch }}" -H "${{ env.generated-branch }}" \ --state open --json url --jq .[].url)"
 
           PR_REVIEWER="@ladesa-ro/backend"
 
