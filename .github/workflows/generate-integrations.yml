@@ -32,6 +32,7 @@ jobs:
       - name: Install
         uses: ./.github/actions/prepare/install
         with:
+          node-version: ${{ env.node-version }}
           install-node: "true"
 
       - id: build-integrations
@@ -68,7 +69,7 @@ jobs:
 
       - name: Checkout to branch and commit changes
         run: |
-          (git branch -D ${{ env.automated-branch }}; exit 0;)
+          (git branch -D ${{ env.automated-branch }} &>/dev/null || true);
           git checkout -b ${{ env.automated-branch }};
           git add -A;
           git commit -m "chore: generate integrations";
