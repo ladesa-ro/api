@@ -41,7 +41,7 @@ cd api
 cd api-service
 ```
 
-### Serviços do [api-service/.devops/development/docker-compose.yml](./api-service/.devops/development/docker-compose.yml)
+### Serviços do [docker-compose.yml](./docker-compose.yml)
 
 | Host            | Endereço         | Descrição                | Plataforma Base                   |
 | --------------- | ---------------- | ------------------------ | --------------------------------- |

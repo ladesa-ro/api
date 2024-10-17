@@ -1,25 +1,20 @@
 version: 2
 updates:
   - package-ecosystem: docker
-    directory: '/'
+    directory: "/"
     schedule:
-      interval: 'daily'
+      interval: "daily"
     open-pull-requests-limit: 10
 
-  - package-ecosystem: docker
-    directory: '/.devops'
-    schedule:
-      interval: 'daily'
-
   - package-ecosystem: github-actions
-    directory: '/.github/workflows'
+    directory: "/.github/workflows"
     schedule:
-      interval: 'daily'
+      interval: "daily"
 
   - package-ecosystem: npm
-    directory: '/'
+    directory: "/"
     schedule:
-      interval: 'daily'
+      interval: "daily"
     groups:
       openapi-ts:
         applies-to: version-updates
@@ -38,4 +33,3 @@ updates:
         update-types:
           - "minor"
           - "patch"
-
