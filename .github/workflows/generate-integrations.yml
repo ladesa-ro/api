@@ -68,7 +68,7 @@ jobs:
 
       - name: Checkout to branch and commit changes
         run: |
-          git branch -D ${{ env.automated-branch }};
+          (git branch -D ${{ env.automated-branch }}; exit 0;)
           git checkout -b ${{ env.automated-branch }};
           git add -A;
           git commit -m "chore: generate integrations";
