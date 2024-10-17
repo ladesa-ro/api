@@ -102,7 +102,7 @@ jobs:
               -H "${{ env.generated-branch }}" \
               --title "${PR_TITLE}" \
               --body "${PR_BODY}" \
-              --add-reviewer "${PR_REVIEWER}"
+              --reviewer "${PR_REVIEWER}"
           fi
 
         env:
