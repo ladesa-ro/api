@@ -1,10 +1,10 @@
 # Web API Integrada
 
+[![CI/CD Release][action-release-src]][action-release-href]
+
 ## Ambientes
 
 ### Desenvolvimento
-
-[![CI/CD Development][action-ci-cd-service-dev-src]][action-ci-cd-service-dev-href]
 
 Instância 1: <https://dev.ladesa.com.br/api>.
 
@@ -17,8 +17,6 @@ npm i @ladesa-ro/api-client-fetch@alpha
 ```
 
 ### Produção
-
-[![CI/CD Production][action-ci-cd-service-prod-src]][action-ci-cd-service-prod-href]
 
 #### Cliente JavaScript para o ambiente de produção
 
@@ -110,15 +108,10 @@ make logs; # Mostra os registros dos containers
 
 <!-- Badges -->
 
-<!-- Badges / Actions / Production  -->
+<!-- Badges / Actions / Release  -->
 
-[action-ci-cd-service-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci-cd.yml?style=flat&logo=github&logoColor=white&label=CI%2FCD%20Service%20Production&branch=production&labelColor=18181B
-[action-ci-cd-service-prod-href]: https://github.com/ladesa-ro/api/actions/workflows/ci.yml?query=branch%3Aproduction
-
-<!-- Badges / Actions / Development / CI-CD-Service  -->
-
-[action-ci-cd-service-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/ci-cd.yml?style=flat&logo=github&logoColor=white&label=CI%2FCD%20Service%20Development&branch=development&labelColor=18181B
-[action-ci-cd-service-dev-href]: https://github.com/ladesa-ro/api/actions/workflows/ci-cd.yml?query=branch%3Adevelopment
+[action-release-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/api/release.yml?style=flat&logo=github&logoColor=white&label=CI/CD%20Release&branch=development&labelColor=18181B
+[action-release-href]: https://github.com/ladesa-ro/api/actions/workflows/release.yml?query=branch%3Adevelopment
 
 <!-- Badges / Source Code  -->
 
@@ -130,10 +123,10 @@ make logs; # Mostra os registros dos containers
 
 [npm-package-alpha-src]: https://img.shields.io/badge/npm-%40ladesa--ro%2Fapi--client--fetch@alpha-18181B?style=flat&logo=npm&logoColor=white&labelColor=%23CB3837
 [npm-package-alpha-href]: https://npmjs.com/package/@ladesa-ro/api-client-fetch
-[npm-package-alpha-version-src]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fregistry.npmjs.com%2F%40ladesa-ro%2Fapi-client-fetch&query=%24%5B%22dist-tags%22%5D.alpha&prefix=v&style=flat&logo=npm&logoColor=white&label=alpha&style=flat&colorA=18181B&colorB=F0DB4F
+[npm-package-alpha-version-src]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fregistry.npmjs.com%2F%40ladesa-ro%2Fapi-client-fetch&query=%24%5B%22dist-tags%22%5D.alpha&prefix=v&style=flat&logo=npm&logoColor=white&label=alpha&style=flat&colorA=18181B&colorB=ffffff
 
 <!-- Badges / Integrations / NPM / Latest -->
 
 [npm-package-latest-src]: https://img.shields.io/badge/npm-%40ladesa--ro%2Fapi--client--fetch@latest-18181B?style=flat&logo=npm&logoColor=white&labelColor=%23CB3837
 [npm-package-latest-href]: https://npmjs.com/package/@ladesa-ro/api-client-fetch
-[npm-package-latest-version-src]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fregistry.npmjs.com%2F%40ladesa-ro%2Fapi-client-fetch&query=%24%5B%22dist-tags%22%5D.latest&prefix=v&style=flat&logo=npm&logoColor=white&label=latest&style=flat&colorA=18181B&colorB=F0DB4F
+[npm-package-latest-version-src]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fregistry.npmjs.com%2F%40ladesa-ro%2Fapi-client-fetch&query=%24%5B%22dist-tags%22%5D.latest&prefix=v&style=flat&logo=npm&logoColor=white&label=latest&style=flat&colorA=18181B&colorB=ffffff
