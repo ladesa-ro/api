@@ -9,8 +9,8 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   node-version: 22
-  automated-branch: ldsa-automated/generated-integrations
-  development-branch: development
+  generated-branch: ldsa-automated/generated-integrations
+  target-branch: development
 
 jobs:
   generate-integrations:
@@ -69,22 +69,41 @@ jobs:
 
       - name: Checkout to branch and commit changes
         run: |
-          (git branch -D ${{ env.automated-branch }} &>/dev/null || true);
-          git checkout -b ${{ env.automated-branch }};
+          (git branch -D ${{ env.generated-branch }} &>/dev/null || true);
+          git checkout -b ${{ env.generated-branch }};
           git add -A;
           git commit -m "chore: generate integrations";
 
       - name: Force push into branch
         run: |
-          git push -f origin ${{ env.automated-branch }};
+          git push -f origin ${{ env.generated-branch }};
 
-      - name: Create pull request
+      - name: Create or update pull request
         if: steps.build-integrations.outputs.has_changes == 'true'
         run: |
-          gh pr create \
-            -B ${{ env.development-branch }} \
-            -H ${{ env.automated-branch }} \
-            --title 'Merge ${{ env.automated-branch }} into ${{ env.development-branch }}' \
-            --body 'Created by Github action'
+          # source: https://github.com/cli/cli/discussions/5792#discussioncomment-10410197
+          PR_URL="$(gh pr list --head "${{ env.target-branch }}" --state open --json url --jq .[].url)"
+
+          PR_REVIEWER="@ladesa-ro/backend"
+
+          PR_TITLE="chore: generate integrations"
+          PR_BODY="*Event*: ${{ github.event }}\n*Job*: ${{ github.job }}\n*Run number*: ${{ github.run_number }}"
+
+          if [[ -n "${PR_URL}" ]]; then
+              echo "PR already exists -> ${PR_URL}"
+              gh pr edit \
+                "${PR_URL}" \
+                --title "${PR_TITLE}" \
+                --body "${PR_BODY}" \
+                --add-reviewer "${PR_REVIEWER}"
+          else
+            gh pr create \
+              -B "${{ env.target-branch }}" \
+              -H "${{ env.generated-branch }}" \
+              --title "${PR_TITLE}" \
+              --body "${PR_BODY}" \
+              --add-reviewer "${PR_REVIEWER}"
+          fi
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
