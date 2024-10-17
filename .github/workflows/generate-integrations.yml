@@ -9,6 +9,8 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   node-version: 22
+  automated-branch: ldsa-automated/generated-integrations
+  development-branch: development
 
 jobs:
   generate-integrations:
@@ -66,16 +68,22 @@ jobs:
 
       - name: Checkout to branch and commit changes
         run: |
-          git checkout -b ldsa-automated/generated-integrations;
-          git commit -m "chore: generate integrations"
+          git branch -D ${{ env.automated-branch }};
+          git checkout -b ${{ env.automated-branch }};
+          git add -A;
+          git commit -m "chore: generate integrations";
+
+      - name: Force push into branch
+        run: |
+          git push -f origin ${{ env.automated-branch }};
 
       - name: Create pull request
         if: steps.build-integrations.outputs.has_changes == 'true'
         run: |
           gh pr create \
-            -B development \
-            -H ldsa-automated/generated-integrations \
-            --title 'Merge ldsa-automated/generated-integrations into development' \
+            -B ${{ env.development-branch }} \
+            -H ${{ env.automated-branch }} \
+            --title 'Merge ${{ env.automated-branch }} into ${{ env.development-branch }}' \
             --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
