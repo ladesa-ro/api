@@ -84,7 +84,7 @@ jobs:
           # source: https://github.com/cli/cli/discussions/5792#discussioncomment-10410197
           PR_URL="$(gh pr list -B "${{ env.target-branch }}" -H "${{ env.generated-branch }}" --state open --json url --jq .[].url)"
 
-          PR_REVIEWER="@ladesa-ro/backend"
+          # PR_REVIEWER="@ladesa-ro/backend"
 
           PR_TITLE="chore: generate integrations"
           PR_BODY="*Event*: ${{ github.event }}\n*Job*: ${{ github.job }}\n*Run number*: ${{ github.run_number }}"
@@ -93,16 +93,18 @@ jobs:
               echo "PR already exists -> ${PR_URL}"
               gh pr edit \
                 "${PR_URL}" \
+                # --add-reviewer "${PR_REVIEWER}" \
                 --title "${PR_TITLE}" \
                 --body "${PR_BODY}" \
-                --add-reviewer "${PR_REVIEWER}"
+              ;
           else
             gh pr create \
               -B "${{ env.target-branch }}" \
               -H "${{ env.generated-branch }}" \
               --title "${PR_TITLE}" \
               --body "${PR_BODY}" \
-              --reviewer "${PR_REVIEWER}"
+              # --reviewer "${PR_REVIEWER}" \
+            ;
           fi
 
         env:
