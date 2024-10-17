@@ -93,7 +93,6 @@ jobs:
               echo "PR already exists -> ${PR_URL}"
               gh pr edit \
                 "${PR_URL}" \
-                # --add-reviewer "${PR_REVIEWER}" \
                 --title "${PR_TITLE}" \
                 --body "${PR_BODY}" \
               ;
@@ -103,7 +102,6 @@ jobs:
               -H "${{ env.generated-branch }}" \
               --title "${PR_TITLE}" \
               --body "${PR_BODY}" \
-              # --reviewer "${PR_REVIEWER}" \
             ;
           fi
 
