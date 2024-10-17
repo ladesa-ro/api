@@ -9,6 +9,8 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   node-version: 22
+  automated-branch: ldsa-automated/generated-integrations
+  development-branch: development
 
 jobs:
   generate-integrations:
@@ -30,6 +32,7 @@ jobs:
       - name: Install
         uses: ./.github/actions/prepare/install
         with:
+          node-version: ${{ env.node-version }}
           install-node: "true"
 
       - id: build-integrations
@@ -38,20 +41,50 @@ jobs:
           pnpm run --filter "@ladesa-ro/api.internal.integrations" build
 
           if [ "$(git diff --exit-code > /dev/null; echo $?)" -eq "1" ]; then
-            git checkout -b ldsa-automated/generated-integrations;
-            git commit -m "chore: generate integrations"
             echo "has_changes=true" >> "$GITHUB_OUTPUT";
           else
             echo "has_changes=false" >> "$GITHUB_OUTPUT";
           fi
 
+      - name: Retrieve GitHub App credentials
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        if: steps.build-integrations.outputs.has_changes == 'true'
+        with:
+          app-id: ${{ secrets.LADESA_BOT_ID }}
+          private-key: ${{ secrets.LADESA_BOT_SECRET }}
+
+      - name: Get GitHub App User ID
+        id: get-user-id
+        if: steps.build-integrations.outputs.has_changes == 'true'
+        run: |
+          echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      - name: Setup git with GitHub App name and email
+        run: |
+          git config --global user.name '${{ steps.app-token.outputs.app-slug }}[bot]'
+          git config --global user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com>'
+
+      - name: Checkout to branch and commit changes
+        run: |
+          (git branch -D ${{ env.automated-branch }} &>/dev/null || true);
+          git checkout -b ${{ env.automated-branch }};
+          git add -A;
+          git commit -m "chore: generate integrations";
+
+      - name: Force push into branch
+        run: |
+          git push -f origin ${{ env.automated-branch }};
+
       - name: Create pull request
         if: steps.build-integrations.outputs.has_changes == 'true'
         run: |
           gh pr create \
-            -B development \
-            -H ldsa-automated/generated-integrations \
-            --title 'Merge ldsa-automated/generated-integrations into development' \
+            -B ${{ env.development-branch }} \
+            -H ${{ env.automated-branch }} \
+            --title 'Merge ${{ env.automated-branch }} into ${{ env.development-branch }}' \
             --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
