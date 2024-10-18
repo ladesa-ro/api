@@ -1,4 +1,5 @@
 volumes
+.pnpm-store
 
 # compiled output
 dist

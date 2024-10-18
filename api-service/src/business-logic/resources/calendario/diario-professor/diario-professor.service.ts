@@ -41,7 +41,7 @@ export class DiarioProfessorService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("diario_professor:find", qb, aliasDiarioProfessor, null);
+    await accessContext.applyFilter("diario_professor:find", qb, aliasDiarioProfessor, null);
 
     // =========================================================
 
@@ -114,7 +114,7 @@ export class DiarioProfessorService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("diario_professor:find", qb, aliasDiarioProfessor, null);
+    await accessContext.applyFilter("diario_professor:find", qb, aliasDiarioProfessor, null);
 
     // =========================================================
 
@@ -155,7 +155,7 @@ export class DiarioProfessorService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("diario_professor:find", qb, aliasDiarioProfessor, null);
+    await accessContext.applyFilter("diario_professor:find", qb, aliasDiarioProfessor, null);
 
     // =========================================================
 

@@ -40,7 +40,7 @@ export class HorarioGeradoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("horario_gerado:find", qb, aliasHorarioGerado, null);
+    await accessContext.applyFilter("horario_gerado:find", qb, aliasHorarioGerado, null);
 
     // =========================================================
 
@@ -118,7 +118,7 @@ export class HorarioGeradoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("horario_gerado:find", qb, aliasHorarioGerado, null);
+    await accessContext.applyFilter("horario_gerado:find", qb, aliasHorarioGerado, null);
 
     // =========================================================
 
@@ -156,7 +156,7 @@ export class HorarioGeradoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("horario_gerado:find", qb, aliasHorarioGerado, null);
+    await accessContext.applyFilter("horario_gerado:find", qb, aliasHorarioGerado, null);
 
     // =========================================================
 

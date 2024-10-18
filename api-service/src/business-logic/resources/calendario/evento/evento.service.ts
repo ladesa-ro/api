@@ -40,7 +40,7 @@ export class EventoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("evento:find", qb, aliasEvento, null);
+    await accessContext.applyFilter("evento:find", qb, aliasEvento, null);
 
     // =========================================================
 
@@ -114,7 +114,7 @@ export class EventoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("evento:find", qb, aliasEvento, null);
+    await accessContext.applyFilter("evento:find", qb, aliasEvento, null);
 
     // =========================================================
 
@@ -150,7 +150,7 @@ export class EventoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("evento:find", qb, aliasEvento, null);
+    await accessContext.applyFilter("evento:find", qb, aliasEvento, null);
 
     // =========================================================
 

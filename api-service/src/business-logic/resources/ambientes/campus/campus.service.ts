@@ -47,7 +47,7 @@ export class CampusService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("campus:find", qb, aliasCampus, null);
+    await accessContext.applyFilter("campus:find", qb, aliasCampus, null);
 
     // =========================================================
 
@@ -142,7 +142,7 @@ export class CampusService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("campus:find", qb, aliasCampus, null);
+    await accessContext.applyFilter("campus:find", qb, aliasCampus, null);
 
     // =========================================================
 
@@ -179,7 +179,7 @@ export class CampusService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("campus:find", qb, aliasCampus, null);
+    await accessContext.applyFilter("campus:find", qb, aliasCampus, null);
 
     // =========================================================
 

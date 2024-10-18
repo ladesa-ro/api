@@ -42,7 +42,7 @@ export class TurmaDisponibilidadeDiaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("turma_disponibilidade_dia:find", qb, aliasTurmaDisponibilidadeDia, null);
+    await accessContext.applyFilter("turma_disponibilidade_dia:find", qb, aliasTurmaDisponibilidadeDia, null);
 
     // =========================================================
 
@@ -119,7 +119,7 @@ export class TurmaDisponibilidadeDiaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("turma_disponibilidade_dia:find", qb, aliasTurmaDisponibilidadeDia, null);
+    await accessContext.applyFilter("turma_disponibilidade_dia:find", qb, aliasTurmaDisponibilidadeDia, null);
 
     // =========================================================
 
@@ -159,7 +159,7 @@ export class TurmaDisponibilidadeDiaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("turma_disponibilidade_dia:find", qb, aliasTurmaDisponibilidadeDia, null);
+    await accessContext.applyFilter("turma_disponibilidade_dia:find", qb, aliasTurmaDisponibilidadeDia, null);
 
     // =========================================================
 

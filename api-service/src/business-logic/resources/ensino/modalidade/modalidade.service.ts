@@ -35,7 +35,7 @@ export class ModalidadeService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("modalidade:find", qb, aliasModalidade, null);
+    await accessContext.applyFilter("modalidade:find", qb, aliasModalidade, null);
 
     // =========================================================
 
@@ -94,7 +94,7 @@ export class ModalidadeService {
     // =========================================================
 
     if (accessContext) {
-      await accessContext.aplicarFiltro("modalidade:find", qb, aliasModalidade, null);
+      await accessContext.applyFilter("modalidade:find", qb, aliasModalidade, null);
     }
 
     // =========================================================
@@ -132,7 +132,7 @@ export class ModalidadeService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("modalidade:find", qb, aliasModalidade, null);
+    await accessContext.applyFilter("modalidade:find", qb, aliasModalidade, null);
 
     // =========================================================
 

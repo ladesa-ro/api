@@ -45,7 +45,7 @@ export class BlocoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("bloco:find", qb, aliasBloco, null);
+    await accessContext.applyFilter("bloco:find", qb, aliasBloco, null);
 
     // =========================================================
 
@@ -114,7 +114,7 @@ export class BlocoService {
     // =========================================================
 
     if (accessContext) {
-      await accessContext.aplicarFiltro("bloco:find", qb, aliasBloco, null);
+      await accessContext.applyFilter("bloco:find", qb, aliasBloco, null);
     }
 
     // =========================================================
@@ -152,7 +152,7 @@ export class BlocoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("bloco:find", qb, aliasBloco, null);
+    await accessContext.applyFilter("bloco:find", qb, aliasBloco, null);
 
     // =========================================================
 

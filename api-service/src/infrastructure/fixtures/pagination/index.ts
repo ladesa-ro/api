@@ -1,1 +1,1 @@
-export * from "../utils/paginateConfig";
+export * from "./paginateConfig";

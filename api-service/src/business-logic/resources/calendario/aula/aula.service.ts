@@ -44,7 +44,7 @@ export class AulaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("aula:find", qb, aliasAula, null);
+    await accessContext.applyFilter("aula:find", qb, aliasAula, null);
 
     // =========================================================
 
@@ -118,7 +118,7 @@ export class AulaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("aula:find", qb, aliasAula, null);
+    await accessContext.applyFilter("aula:find", qb, aliasAula, null);
 
     // =========================================================
 
@@ -155,7 +155,7 @@ export class AulaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("aula:find", qb, aliasAula, null);
+    await accessContext.applyFilter("aula:find", qb, aliasAula, null);
 
     // =========================================================
 

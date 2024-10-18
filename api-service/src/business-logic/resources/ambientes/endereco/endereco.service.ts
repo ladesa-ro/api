@@ -82,7 +82,7 @@ export class EnderecoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("endereco:find", qb, aliasEndereco, null);
+    await accessContext.applyFilter("endereco:find", qb, aliasEndereco, null);
 
     // =========================================================
 

@@ -29,7 +29,7 @@ export class CidadeService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("cidade:find", qb, aliasCidade, null);
+    await accessContext.applyFilter("cidade:find", qb, aliasCidade, null);
 
     // =========================================================
 
@@ -88,7 +88,7 @@ export class CidadeService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("cidade:find", qb, aliasCidade, null);
+    await accessContext.applyFilter("cidade:find", qb, aliasCidade, null);
 
     // =========================================================
 

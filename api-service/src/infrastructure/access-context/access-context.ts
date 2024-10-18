@@ -20,7 +20,7 @@ export class AccessContext implements IAccessContext {
     return this.#policy.statements;
   }
 
-  async aplicarFiltro<Statement extends IAuthzStatementFilter, Action extends Statement["action"], Payload extends Statement["payload"]>(
+  async applyFilter<Statement extends IAuthzStatementFilter, Action extends Statement["action"], Payload extends Statement["payload"]>(
     action: Action,
     qb: SelectQueryBuilder<any>,
     alias?: string,
@@ -69,7 +69,7 @@ export class AccessContext implements IAccessContext {
 
         const qb = qbInput ?? this.getQueryBuilderForAction(filterAction);
 
-        await this.aplicarFiltro(filterAction, qb, qb.alias, payload as any);
+        await this.applyFilter(filterAction, qb, qb.alias, payload as any);
 
         if (id) {
           qb.andWhereInIds(castArray(id));
@@ -197,8 +197,3 @@ export class AccessContext implements IAccessContext {
     }
   }
 }
-
-/**
- * @deprecated use AccessContext
- */
-export const ContextoDeAcesso = AccessContext;

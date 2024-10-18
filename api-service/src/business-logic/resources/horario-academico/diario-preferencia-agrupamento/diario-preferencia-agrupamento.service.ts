@@ -42,7 +42,7 @@ export class DiarioPreferenciaAgrupamentoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("diario_preferencia_agrupamento:find", qb, aliasDiarioPreferenciaAgrupamento, null);
+    await accessContext.applyFilter("diario_preferencia_agrupamento:find", qb, aliasDiarioPreferenciaAgrupamento, null);
 
     // =========================================================
 
@@ -124,7 +124,7 @@ export class DiarioPreferenciaAgrupamentoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("diario_preferencia_agrupamento:find", qb, aliasDiarioPreferenciaAgrupamento, null);
+    await accessContext.applyFilter("diario_preferencia_agrupamento:find", qb, aliasDiarioPreferenciaAgrupamento, null);
 
     // =========================================================
 
@@ -166,7 +166,7 @@ export class DiarioPreferenciaAgrupamentoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("diario_preferencia_agrupamento:find", qb, aliasDiarioPreferenciaAgrupamento, null);
+    await accessContext.applyFilter("diario_preferencia_agrupamento:find", qb, aliasDiarioPreferenciaAgrupamento, null);
 
     // =========================================================
 

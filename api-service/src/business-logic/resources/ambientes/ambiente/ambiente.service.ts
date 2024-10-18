@@ -1,7 +1,7 @@
 import { QbEfficientLoad } from "@/business-logic/standards/ladesa-spec/QbEfficientLoad";
 import { LadesaPaginatedResultDto, LadesaSearch } from "@/business-logic/standards/ladesa-spec/search/search-strategies";
 import type { AccessContext } from "@/infrastructure/access-context";
-import { paginateConfig } from "@/infrastructure/fixtures/utils/paginateConfig";
+import { paginateConfig } from "@/infrastructure/fixtures/pagination/paginateConfig";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import type { AmbienteEntity } from "@/infrastructure/integrations/database/typeorm/entities";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
@@ -44,7 +44,7 @@ export class AmbienteService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("ambiente:find", qb, aliasAmbiente, null);
+    await accessContext.applyFilter("ambiente:find", qb, aliasAmbiente, null);
 
     // =========================================================
 
@@ -127,7 +127,7 @@ export class AmbienteService {
     // =========================================================
 
     if (accessContext) {
-      await accessContext.aplicarFiltro("ambiente:find", qb, aliasAmbiente, null);
+      await accessContext.applyFilter("ambiente:find", qb, aliasAmbiente, null);
     }
 
     // =========================================================

@@ -42,7 +42,7 @@ export class DisponibilidadeProfessorDiaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("disponibilidade_professor_dia:find", qb, aliasDisponibilidadeProfessorDia, null);
+    await accessContext.applyFilter("disponibilidade_professor_dia:find", qb, aliasDisponibilidadeProfessorDia, null);
 
     // =========================================================
 
@@ -115,7 +115,7 @@ export class DisponibilidadeProfessorDiaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("disponibilidade_professor_dia:find", qb, aliasDisponibilidadeProfessorDia, null);
+    await accessContext.applyFilter("disponibilidade_professor_dia:find", qb, aliasDisponibilidadeProfessorDia, null);
 
     // =========================================================
 
@@ -155,7 +155,7 @@ export class DisponibilidadeProfessorDiaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("disponibilidade_professor_dia:find", qb, aliasDisponibilidadeProfessorDia, null);
+    await accessContext.applyFilter("disponibilidade_professor_dia:find", qb, aliasDisponibilidadeProfessorDia, null);
 
     // =========================================================
 

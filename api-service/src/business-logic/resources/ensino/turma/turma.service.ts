@@ -47,7 +47,7 @@ export class TurmaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("turma:find", qb, aliasTurma, null);
+    await accessContext.applyFilter("turma:find", qb, aliasTurma, null);
 
     // =========================================================
 
@@ -132,7 +132,7 @@ export class TurmaService {
     // =========================================================
 
     if (accessContext) {
-      await accessContext.aplicarFiltro("turma:find", qb, aliasTurma, null);
+      await accessContext.applyFilter("turma:find", qb, aliasTurma, null);
     }
 
     // =========================================================
@@ -170,7 +170,7 @@ export class TurmaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("turma:find", qb, aliasTurma, null);
+    await accessContext.applyFilter("turma:find", qb, aliasTurma, null);
 
     // =========================================================
 

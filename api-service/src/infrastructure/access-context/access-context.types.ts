@@ -5,7 +5,7 @@ import type { SelectQueryBuilder } from "typeorm";
 export interface IAccessContext {
   readonly requestActor: IRequestActor | null;
 
-  aplicarFiltro: <Statement extends IAuthzStatementFilter, Action extends Statement["action"], Payload extends Statement["payload"]>(
+  applyFilter: <Statement extends IAuthzStatementFilter, Action extends Statement["action"], Payload extends Statement["payload"]>(
     action: Action,
     qb: SelectQueryBuilder<any>,
     alias?: string,
@@ -26,7 +26,6 @@ export interface IAccessContext {
     qb?: SelectQueryBuilder<any> | null,
   ): Promise<boolean>;
 }
-
 /**
  * @deprecated use IAccessContext
  */

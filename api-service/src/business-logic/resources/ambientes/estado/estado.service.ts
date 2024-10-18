@@ -26,7 +26,7 @@ export class EstadoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("estado:find", qb, aliasEstado, null);
+    await accessContext.applyFilter("estado:find", qb, aliasEstado, null);
 
     // =========================================================
 
@@ -77,7 +77,7 @@ export class EstadoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("estado:find", qb, aliasEstado, null);
+    await accessContext.applyFilter("estado:find", qb, aliasEstado, null);
 
     // =========================================================
 

@@ -72,7 +72,7 @@ export class UsuarioService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("usuario:find", qb, aliasUsuario, null);
+    await accessContext.applyFilter("usuario:find", qb, aliasUsuario, null);
 
     // =========================================================
 
@@ -136,7 +136,7 @@ export class UsuarioService {
     // =========================================================
 
     if (accessContext) {
-      await accessContext.aplicarFiltro("usuario:find", qb, aliasUsuario, null);
+      await accessContext.applyFilter("usuario:find", qb, aliasUsuario, null);
     }
 
     // =========================================================
@@ -174,7 +174,7 @@ export class UsuarioService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("usuario:find", qb, aliasUsuario, null);
+    await accessContext.applyFilter("usuario:find", qb, aliasUsuario, null);
 
     // =========================================================
 

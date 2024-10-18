@@ -41,7 +41,7 @@ export class DisciplinaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("disciplina:find", qb, aliasDisciplina, null);
+    await accessContext.applyFilter("disciplina:find", qb, aliasDisciplina, null);
 
     // =========================================================
 
@@ -100,7 +100,7 @@ export class DisciplinaService {
     // =========================================================
 
     if (accessContext) {
-      await accessContext.aplicarFiltro("disciplina:find", qb, aliasDisciplina, null);
+      await accessContext.applyFilter("disciplina:find", qb, aliasDisciplina, null);
     }
 
     // =========================================================
@@ -138,7 +138,7 @@ export class DisciplinaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("disciplina:find", qb, aliasDisciplina, null);
+    await accessContext.applyFilter("disciplina:find", qb, aliasDisciplina, null);
 
     // =========================================================
 

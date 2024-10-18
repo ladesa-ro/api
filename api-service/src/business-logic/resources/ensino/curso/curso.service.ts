@@ -46,7 +46,7 @@ export class CursoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("curso:find", qb, aliasCurso, null);
+    await accessContext.applyFilter("curso:find", qb, aliasCurso, null);
 
     // =========================================================
 
@@ -128,7 +128,7 @@ export class CursoService {
     // =========================================================
 
     if (accessContext) {
-      await accessContext.aplicarFiltro("curso:find", qb, aliasCurso, null);
+      await accessContext.applyFilter("curso:find", qb, aliasCurso, null);
     }
 
     // =========================================================
@@ -166,7 +166,7 @@ export class CursoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("curso:find", qb, aliasCurso, null);
+    await accessContext.applyFilter("curso:find", qb, aliasCurso, null);
 
     // =========================================================
 

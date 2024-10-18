@@ -42,7 +42,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("calendario_letivo:find", qb, aliasCalendarioLetivo, null);
+    await accessContext.applyFilter("calendario_letivo:find", qb, aliasCalendarioLetivo, null);
 
     // =========================================================
 
@@ -133,7 +133,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("calendario_letivo:find", qb, aliasCalendarioLetivo, null);
+    await accessContext.applyFilter("calendario_letivo:find", qb, aliasCalendarioLetivo, null);
 
     // =========================================================
 
@@ -174,7 +174,7 @@ export class CalendarioLetivoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("calendario_letivo:find", qb, aliasCalendarioLetivo, null);
+    await accessContext.applyFilter("calendario_letivo:find", qb, aliasCalendarioLetivo, null);
 
     // =========================================================
 

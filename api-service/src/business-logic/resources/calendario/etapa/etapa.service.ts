@@ -40,7 +40,7 @@ export class EtapaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("etapa:find", qb, aliasEtapa, null);
+    await accessContext.applyFilter("etapa:find", qb, aliasEtapa, null);
 
     // =========================================================
 
@@ -115,7 +115,7 @@ export class EtapaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("etapa:find", qb, aliasEtapa, null);
+    await accessContext.applyFilter("etapa:find", qb, aliasEtapa, null);
 
     // =========================================================
 
@@ -153,7 +153,7 @@ export class EtapaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("etapa:find", qb, aliasEtapa, null);
+    await accessContext.applyFilter("etapa:find", qb, aliasEtapa, null);
 
     // =========================================================
 

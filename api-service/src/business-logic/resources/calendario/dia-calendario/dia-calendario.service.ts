@@ -40,7 +40,7 @@ export class DiaCalendarioService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("dia_calendario:find", qb, aliasDiaCalendario, null);
+    await accessContext.applyFilter("dia_calendario:find", qb, aliasDiaCalendario, null);
 
     // =========================================================
 
@@ -111,7 +111,7 @@ export class DiaCalendarioService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("dia_calendario:find", qb, aliasDiaCalendario, null);
+    await accessContext.applyFilter("dia_calendario:find", qb, aliasDiaCalendario, null);
 
     // =========================================================
 
@@ -148,7 +148,7 @@ export class DiaCalendarioService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("dia_calendario:find", qb, aliasDiaCalendario, null);
+    await accessContext.applyFilter("dia_calendario:find", qb, aliasDiaCalendario, null);
 
     // =========================================================
 

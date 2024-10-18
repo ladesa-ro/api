@@ -45,7 +45,7 @@ export class VinculoService {
     qb.andWhere("vinculo.ativo = :ativo", { ativo: true });
 
     if (accessContext) {
-      await accessContext.aplicarFiltro("vinculo:find", qb, aliasVinculo, null);
+      await accessContext.applyFilter("vinculo:find", qb, aliasVinculo, null);
     }
 
     QbEfficientLoad(LadesaTypings.Tokens.Vinculo.Views.FindOneResult, qb, "vinculo");
@@ -60,7 +60,7 @@ export class VinculoService {
 
     QbEfficientLoad(LadesaTypings.Tokens.Vinculo.Views.FindOneResult, qb, aliasVinculo, selection);
 
-    await accessContext.aplicarFiltro("vinculo:find", qb, aliasVinculo, null);
+    await accessContext.applyFilter("vinculo:find", qb, aliasVinculo, null);
 
     const paginated = LadesaSearch("#/", dto, qb, {
       ...paginateConfig,
@@ -105,7 +105,7 @@ export class VinculoService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("vinculo:find", qb, aliasVinculo, null);
+    await accessContext.applyFilter("vinculo:find", qb, aliasVinculo, null);
 
     // =========================================================
 

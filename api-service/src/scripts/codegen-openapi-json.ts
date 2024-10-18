@@ -4,8 +4,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { NestFactory } from "@nestjs/core";
 import { SwaggerModule } from "@nestjs/swagger";
-import { AppModule } from "../../../app.module";
-import { SetupSwaggerDocument } from "../../integrations";
+import { AppModule } from "../app.module";
+import { SetupSwaggerDocument } from "../infrastructure/integrations";
 
 const OUT_FILE = process.env.OUT_FILE ?? "/tmp/generated.json";
 

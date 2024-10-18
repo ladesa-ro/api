@@ -2,7 +2,7 @@ import { writeFile } from "node:fs/promises";
 import type { Readable } from "node:stream";
 import type { AccessContext } from "@/infrastructure/access-context";
 import { AppConfigService } from "@/infrastructure/config";
-import { ValidationContractUuid } from "@/infrastructure/fixtures";
+import { isValidUuid } from "@/infrastructure/fixtures/validation/isValidUuid";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import { type ArquivoEntity, UsuarioEntity } from "@/infrastructure/integrations/database/typeorm/entities";
 import type * as LadesaTypings from "@ladesa-ro/especificacao";
@@ -59,7 +59,7 @@ export class ArquivoService {
     }
 
     if (acesso) {
-      if (acesso.nome === "bloco" && ValidationContractUuid().isValidSync(acesso.id)) {
+      if (acesso.nome === "bloco" && isValidUuid(acesso.id)) {
         qb
           //
           .innerJoin("arquivo.versao", "versao")
@@ -67,11 +67,11 @@ export class ArquivoService {
           .innerJoin("imagem.blocoCapa", "blocoCapa");
 
         if (accessContext) {
-          await accessContext.aplicarFiltro("bloco:find", qb, "blocoCapa", null);
+          await accessContext.applyFilter("bloco:find", qb, "blocoCapa", null);
         }
 
         qb.andWhere("blocoCapa.id = :blocoId", { blocoId: acesso.id });
-      } else if (acesso.nome === "ambiente" && ValidationContractUuid().isValidSync(acesso.id)) {
+      } else if (acesso.nome === "ambiente" && isValidUuid(acesso.id)) {
         qb
           //
           .innerJoin("arquivo.versao", "versao")
@@ -79,11 +79,11 @@ export class ArquivoService {
           .innerJoin("imagem.ambienteCapa", "ambienteCapa");
 
         if (accessContext) {
-          await accessContext.aplicarFiltro("ambiente:find", qb, "ambienteCapa", null);
+          await accessContext.applyFilter("ambiente:find", qb, "ambienteCapa", null);
         }
 
         qb.andWhere("ambienteCapa.id = :ambienteId", { ambienteId: acesso.id });
-      } else if (acesso.nome === "usuario" && ValidationContractUuid().isValidSync(acesso.id)) {
+      } else if (acesso.nome === "usuario" && isValidUuid(acesso.id)) {
         qb
           //
           .innerJoin("arquivo.versao", "versao")
@@ -91,7 +91,7 @@ export class ArquivoService {
           .leftJoin(UsuarioEntity, "usuario", "(usuario.id_imagem_capa_fk = imagem.id OR usuario.id_imagem_perfil_fk = imagem.id)");
 
         if (accessContext) {
-          await accessContext.aplicarFiltro("usuario:find", qb, "usuario", null);
+          await accessContext.applyFilter("usuario:find", qb, "usuario", null);
         }
 
         qb.andWhere("usuario.id = :usuarioId", { usuarioId: acesso.id });

@@ -46,7 +46,7 @@ export class DiarioService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("diario:find", qb, aliasDiario, null);
+    await accessContext.applyFilter("diario:find", qb, aliasDiario, null);
 
     // =========================================================
 
@@ -119,7 +119,7 @@ export class DiarioService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("diario:find", qb, aliasDiario, null);
+    await accessContext.applyFilter("diario:find", qb, aliasDiario, null);
 
     // =========================================================
 
@@ -156,7 +156,7 @@ export class DiarioService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("diario:find", qb, aliasDiario, null);
+    await accessContext.applyFilter("diario:find", qb, aliasDiario, null);
 
     // =========================================================
 

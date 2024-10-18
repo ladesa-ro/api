@@ -40,7 +40,7 @@ export class TurmaDisponibilidadeService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("turma_disponibilidade:find", qb, aliasTurmaDisponibilidade, null);
+    await accessContext.applyFilter("turma_disponibilidade:find", qb, aliasTurmaDisponibilidade, null);
 
     // =========================================================
 
@@ -108,7 +108,7 @@ export class TurmaDisponibilidadeService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("turma_disponibilidade:find", qb, aliasTurmaDisponibilidade, null);
+    await accessContext.applyFilter("turma_disponibilidade:find", qb, aliasTurmaDisponibilidade, null);
 
     // =========================================================
 
@@ -148,7 +148,7 @@ export class TurmaDisponibilidadeService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("turma_disponibilidade:find", qb, aliasTurmaDisponibilidade, null);
+    await accessContext.applyFilter("turma_disponibilidade:find", qb, aliasTurmaDisponibilidade, null);
 
     // =========================================================
 

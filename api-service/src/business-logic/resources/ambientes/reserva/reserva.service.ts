@@ -44,7 +44,7 @@ export class ReservaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("reserva:find", qb, aliasReserva, null);
+    await accessContext.applyFilter("reserva:find", qb, aliasReserva, null);
 
     const dateOperations = [FilterOperator.EQ, FilterOperator.GT, FilterOperator.GTE, FilterOperator.LT, FilterOperator.LTE] as const;
 
@@ -142,7 +142,7 @@ export class ReservaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("reserva:find", qb, aliasReserva, null);
+    await accessContext.applyFilter("reserva:find", qb, aliasReserva, null);
 
     // =========================================================
 
@@ -179,7 +179,7 @@ export class ReservaService {
 
     // =========================================================
 
-    await accessContext.aplicarFiltro("reserva:find", qb, aliasReserva, null);
+    await accessContext.applyFilter("reserva:find", qb, aliasReserva, null);
 
     // =========================================================
 
