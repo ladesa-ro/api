@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "build": "wireit",
-    "prebuild": "rimraf dist",
     "generate:openapi": "wireit",
     "check:static": "tsc --noEmit",
     "start": "nest start -e 'node --experimental-require-module --trace-warnings'",
