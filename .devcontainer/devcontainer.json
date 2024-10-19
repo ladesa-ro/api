@@ -21,7 +21,15 @@
 
   "customizations": {
     "vscode": {
-      "extensions": ["ms-azuretools.vscode-docker"]
+      "extensions": ["ms-azuretools.vscode-docker", "biomejs.biome"],
+      "settings": {
+        "[javascript]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        }
+      }
     }
   },
 
