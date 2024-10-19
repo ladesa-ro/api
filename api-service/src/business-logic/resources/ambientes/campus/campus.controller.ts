@@ -1,6 +1,6 @@
 import { CombinedInput, Operation } from "@/business-logic/standards";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import LadesaTypings from "@ladesa-ro/especificacao";
+import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CampusService } from "./campus.service";

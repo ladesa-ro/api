@@ -1,6 +1,6 @@
 import { CombinedInput, Operation } from "@/business-logic/standards";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
-import LadesaTypings from "@ladesa-ro/especificacao";
+import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Resolver as GqlResolver } from "@nestjs/graphql";
 import { VinculoService } from "./vinculo.service";
 

@@ -1,5 +1,5 @@
 import type * as LadesaTypings from "@ladesa-ro/especificacao";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from "typeorm";
 import { CampusEntity } from "../ambientes/campus.entity";
 import { UsuarioEntity } from "./usuario.entity";
 
@@ -23,14 +23,14 @@ export class VinculoEntity implements LadesaTypings.Vinculo {
     (campus) => campus.vinculos,
   )
   @JoinColumn({ name: "id_campus_fk" })
-  campus!: CampusEntity;
+  campus!: Relation<CampusEntity>;
 
   @ManyToOne(
     () => UsuarioEntity,
     (usuario) => usuario.vinculos,
   )
   @JoinColumn({ name: "id_usuario_fk" })
-  usuario!: UsuarioEntity;
+  usuario!: Relation<UsuarioEntity>;
 
   //
 

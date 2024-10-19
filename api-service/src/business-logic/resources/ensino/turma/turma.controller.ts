@@ -1,6 +1,6 @@
 import { CombinedInput, Operation } from "@/business-logic/standards";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import LadesaTypings from "@ladesa-ro/especificacao";
+import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { TurmaService } from "./turma.service";

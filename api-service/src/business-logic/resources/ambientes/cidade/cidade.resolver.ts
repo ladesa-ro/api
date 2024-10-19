@@ -1,6 +1,6 @@
 import { CombinedInput, Operation, graphqlExtractSelection } from "@/business-logic/standards";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
-import LadesaTypings from "@ladesa-ro/especificacao";
+import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Info, Resolver } from "@nestjs/graphql";
 import type { GraphQLResolveInfo } from "graphql";
 import { CidadeService } from "./cidade.service";

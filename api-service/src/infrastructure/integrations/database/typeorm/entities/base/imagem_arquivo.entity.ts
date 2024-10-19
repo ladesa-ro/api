@@ -1,5 +1,5 @@
 import type * as LadesaTypings from "@ladesa-ro/especificacao";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from "typeorm";
 import { ArquivoEntity } from "./arquivo.entity";
 import { ImagemEntity } from "./imagem.entity";
 
@@ -26,11 +26,11 @@ export class ImagemArquivoEntity implements LadesaTypings.ImagemArquivo {
 
   @ManyToOne(() => ImagemEntity)
   @JoinColumn({ name: "id_imagem_fk" })
-  imagem!: ImagemEntity;
+  imagem!: Relation<ImagemEntity>;
 
   @ManyToOne(() => ArquivoEntity)
   @JoinColumn({ name: "id_arquivo_fk" })
-  arquivo!: ArquivoEntity;
+  arquivo!: Relation<ArquivoEntity>;
 
   //
 

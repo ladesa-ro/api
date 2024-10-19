@@ -1,4 +1,4 @@
-import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from "typeorm";
 import { CampusEntity } from "../ambientes/campus.entity";
 import { ModalidadeEntity } from "./modalidade.entity";
 
@@ -14,14 +14,14 @@ export class CampusPossuiModalidadeEntity {
     (campus) => campus.campusPossuiModalidade,
   )
   @JoinColumn({ name: "id_campus_fk" })
-  campus!: CampusEntity;
+  campus!: Relation<CampusEntity>;
 
   @ManyToOne(
     () => ModalidadeEntity,
     (modalidade) => modalidade.campusPossuiModalidade,
   )
   @JoinColumn({ name: "id_modalidade_fk" })
-  modalidade!: ModalidadeEntity;
+  modalidade!: Relation<ModalidadeEntity>;
 
   //
 }
