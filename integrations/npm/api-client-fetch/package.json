@@ -52,7 +52,7 @@
 
     "generate:client": {
       "command": "openapi-ts && pnpm run -w code-static:fix $(pwd)",
-      "dependencies": ["cleanup:generated", "../../../api-service:generate:openapi"],
+      "dependencies": ["cleanup:generated", "../../openapi-json:build"],
       "files": ["../../openapi-json/generated.json"],
       "output": ["./src/http/generated/**/*"]
     },
