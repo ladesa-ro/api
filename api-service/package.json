@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "build": "wireit",
-    "prebuild": "rimraf dist",
     "generate:openapi": "wireit",
     "check:static": "tsc --noEmit",
     "start": "nest start -e 'node --experimental-require-module --trace-warnings'",
@@ -63,6 +62,7 @@
     "change-case": "^5.4.4",
     "compression": "^1.7.4",
     "date-fns": "^3.6.0",
+    "defu": "^6.1.4",
     "fs-jetpack": "^5.1.0",
     "graphql": "^16.9.0",
     "graphql-list-fields": "^2.0.4",
@@ -86,6 +86,7 @@
     "tsx": "^4.19.1",
     "typeorm": "^0.3.20",
     "uuid": "^10.0.0",
+    "valibot": "^0.42.1",
     "yup": "^1.4.0"
   },
   "devDependencies": {
