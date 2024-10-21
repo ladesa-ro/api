@@ -1,7 +1,7 @@
 import type { AccessContext } from "@/infrastructure/access-context";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import { KeycloakService, OpenidConnectService } from "@/infrastructure/integrations/identity-provider";
-import type LadesaTypings from "@ladesa-ro/especificacao";
+import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { BadRequestException, ForbiddenException, HttpException, Injectable, ServiceUnavailableException } from "@nestjs/common";
 import type { BaseClient, TokenSet } from "openid-client";
 import { UsuarioService } from "./usuario/usuario.service";
