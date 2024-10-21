@@ -1,7 +1,6 @@
 import { QbEfficientLoad } from "@/business-logic/standards/ladesa-spec/QbEfficientLoad";
 import type { AccessContext } from "@/infrastructure/access-context";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { pick } from "lodash";
 import { GetEnderecoInputSchema } from "./endereco.dtos";
@@ -24,7 +23,7 @@ export class EnderecoService {
 
   //
 
-  async internalFindOneById(id: LadesaTypings.Endereco["id"]) {
+  async internalFindOneById(id: PocTypings.Endereco["id"]) {
     const endereco = await this.enderecoRepository.findOne({
       where: {
         id: id,
@@ -34,7 +33,7 @@ export class EnderecoService {
     return endereco;
   }
 
-  async internalFindOneByIdStrict(id: LadesaTypings.Endereco["id"]) {
+  async internalFindOneByIdStrict(id: PocTypings.Endereco["id"]) {
     const endereco = await this.internalFindOneById(id);
 
     if (!endereco) {
@@ -44,7 +43,7 @@ export class EnderecoService {
     return endereco;
   }
 
-  async internalEnderecoCreateOrUpdate(id: LadesaTypings.Endereco["id"] | null, payload: LadesaTypings.EnderecoInput) {
+  async internalEnderecoCreateOrUpdate(id: PocTypings.Endereco["id"] | null, payload: PocTypings.EnderecoInput) {
     const enderecoInputSchema = GetEnderecoInputSchema();
     const dto = await enderecoInputSchema.validate(payload, {
       stripUnknown: true,
@@ -66,7 +65,7 @@ export class EnderecoService {
       cidade: {
         id: dto.cidade.id,
       },
-    } as LadesaTypings.EnderecoInput;
+    } as PocTypings.EnderecoInput;
 
     this.enderecoRepository.merge(endereco, enderecoInputDto);
 
@@ -77,7 +76,7 @@ export class EnderecoService {
 
   //
 
-  async findById(accessContext: AccessContext, dto: LadesaTypings.EnderecoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.EnderecoFindOneResult | null> {
+  async findById(accessContext: AccessContext, dto: PocTypings.EnderecoFindOneInputView, selection?: string[] | boolean): Promise<PocTypings.EnderecoFindOneResult | null> {
     const qb = this.enderecoRepository.createQueryBuilder(aliasEndereco);
 
     // =========================================================
@@ -91,7 +90,7 @@ export class EnderecoService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Endereco.Views.FindOneResult, qb, aliasEndereco, selection);
+    QbEfficientLoad(PocTypings.Tokens.Endereco.Views.FindOneResult, qb, aliasEndereco, selection);
 
     // =========================================================
 
@@ -102,7 +101,7 @@ export class EnderecoService {
     return endereco;
   }
 
-  async findByIdStrict(requestContext: AccessContext, dto: LadesaTypings.EnderecoFindOneInput) {
+  async findByIdStrict(requestContext: AccessContext, dto: PocTypings.EnderecoFindOneInputView) {
     const endereco = await this.findById(requestContext, dto);
 
     if (!endereco) {

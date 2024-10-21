@@ -24,6 +24,7 @@ export const NodeTypeObjectOperation = valibot.strictObject({
                         valibot.lazy(() => NestedNode),
                       ),
                     ),
+
                     queries: valibot.optional(
                       valibot.record(
                         valibot.string(),

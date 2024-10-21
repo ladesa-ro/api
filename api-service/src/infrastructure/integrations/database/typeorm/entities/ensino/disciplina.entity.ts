@@ -1,9 +1,8 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ImagemEntity } from "../base/imagem.entity";
 
 @Entity("disciplina")
-export class DisciplinaEntity implements LadesaTypings.Disciplina {
+export class DisciplinaEntity implements PocTypings.Disciplina {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

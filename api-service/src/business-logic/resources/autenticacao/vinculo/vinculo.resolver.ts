@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Resolver as GqlResolver } from "@nestjs/graphql";
 import { VinculoService } from "./vinculo.service";
 
@@ -13,20 +15,20 @@ export class VinculoResolver {
 
   //
 
-  @Operation(LadesaTypings.Tokens.Vinculo.Operations.List)
+  @PocOperation(PocTokens.PerfilList)
   async vinculoFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.VinculoListCombinedInput,
+    @CombinedInput() dto: PocTypings.PerfilListOperationInput,
   ) {
     return this.vinculoService.vinculoFindAll(accessContext, dto);
   }
 
-  @Operation(LadesaTypings.Tokens.Vinculo.Operations.Update)
+  @PocOperation(PocTokens.PerfilUpdateOneById)
   async vinculoSetVinculos(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.VinculoUpdateCombinedInput,
+    @CombinedInput() dto: PocTypings.VinculoUpdateCombinedInput,
   ) {
     return this.vinculoService.vinculoSetVinculos(accessContext, dto);
   }

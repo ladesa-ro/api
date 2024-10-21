@@ -4,7 +4,7 @@ import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import type { EventoEntity } from "@/infrastructure/integrations/database/typeorm/entities/calendario/evento.entity";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { has, map, pick } from "lodash";
 import { FilterOperator } from "nestjs-paginate";
@@ -31,9 +31,9 @@ export class EventoService {
 
   async eventoFindAll(
     accessContext: AccessContext,
-    dto: LadesaTypings.EventoListCombinedInput | null = null,
+    dto: PocTypings.EventoListOperationInput | null = null,
     selection?: string[] | boolean,
-  ): Promise<LadesaTypings.EventoListCombinedSuccessOutput["body"]> {
+  ): Promise<PocTypings.EventoListCombinedSuccessOutput["body"]> {
     // =========================================================
 
     const qb = this.eventoRepository.createQueryBuilder(aliasEvento);
@@ -95,7 +95,7 @@ export class EventoService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Evento.Views.FindOneResult, qb, aliasEvento, selection);
+    QbEfficientLoad(PocTypings.Tokens.Evento.Views.FindOneResult, qb, aliasEvento, selection);
 
     // =========================================================
 
@@ -107,7 +107,7 @@ export class EventoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async eventoFindById(accessContext: AccessContext, dto: LadesaTypings.EventoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.EventoFindOneResult | null> {
+  async eventoFindById(accessContext: AccessContext, dto: PocTypings.EventoFindOneInputView, selection?: string[] | boolean): Promise<PocTypings.EventoFindOneResult | null> {
     // =========================================================
 
     const qb = this.eventoRepository.createQueryBuilder(aliasEvento);
@@ -123,7 +123,7 @@ export class EventoService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Evento.Views.FindOneResult, qb, aliasEvento, selection);
+    QbEfficientLoad(PocTypings.Tokens.Evento.Views.FindOneResult, qb, aliasEvento, selection);
     // =========================================================
 
     const evento = await qb.getOne();
@@ -133,7 +133,7 @@ export class EventoService {
     return evento;
   }
 
-  async eventoFindByIdStrict(accessContext: AccessContext, dto: LadesaTypings.EventoFindOneInput, selection?: string[] | boolean) {
+  async eventoFindByIdStrict(accessContext: AccessContext, dto: PocTypings.EventoFindOneInputView, selection?: string[] | boolean) {
     const evento = await this.eventoFindById(accessContext, dto, selection);
 
     if (!evento) {
@@ -143,7 +143,7 @@ export class EventoService {
     return evento;
   }
 
-  async eventoFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.EventoFindOneInput["id"], selection?: string[]): Promise<LadesaTypings.EventoFindOneResult | null> {
+  async eventoFindByIdSimple(accessContext: AccessContext, id: PocTypings.EventoFindOneInputView["id"], selection?: string[]): Promise<PocTypings.EventoFindOneResult | null> {
     // =========================================================
 
     const qb = this.eventoRepository.createQueryBuilder(aliasEvento);
@@ -159,7 +159,7 @@ export class EventoService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Evento.Views.FindOneResult, qb, aliasEvento, selection);
+    QbEfficientLoad(PocTypings.Tokens.Evento.Views.FindOneResult, qb, aliasEvento, selection);
 
     // =========================================================
 
@@ -170,7 +170,7 @@ export class EventoService {
     return evento;
   }
 
-  async EventoFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.EventoFindOneInput["id"], selection?: string[]) {
+  async EventoFindByIdSimpleStrict(accessContext: AccessContext, id: PocTypings.EventoFindOneInputView["id"], selection?: string[]) {
     const evento = await this.eventoFindByIdSimple(accessContext, id, selection);
 
     if (!evento) {
@@ -182,7 +182,7 @@ export class EventoService {
 
   //
 
-  async eventoCreate(accessContext: AccessContext, dto: LadesaTypings.EventoCreateCombinedInput) {
+  async eventoCreate(accessContext: AccessContext, dto: PocTypings.EventoCreateOperationInput) {
     // =========================================================
 
     await accessContext.ensurePermission("evento:create", { dto });
@@ -218,7 +218,7 @@ export class EventoService {
     return this.eventoFindByIdStrict(accessContext, { id: evento.id });
   }
 
-  async eventoUpdate(accessContext: AccessContext, dto: LadesaTypings.EventoUpdateByIDCombinedInput) {
+  async eventoUpdate(accessContext: AccessContext, dto: PocTypings.EventoUpdateByIdOperationInput) {
     // =========================================================
 
     const currentEvento = await this.eventoFindByIdStrict(accessContext, {
@@ -262,7 +262,7 @@ export class EventoService {
 
   //
 
-  async eventoDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.EventoFindOneInput) {
+  async eventoDeleteOneById(accessContext: AccessContext, dto: PocTypings.EventoFindOneInputView) {
     // =========================================================
 
     await accessContext.ensurePermission("evento:delete", { dto }, dto.id, this.eventoRepository.createQueryBuilder(aliasEvento));

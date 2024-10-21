@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CampusService } from "./campus.service";
@@ -13,23 +15,23 @@ export class CampusController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Campus.Operations.List)
+  @PocOperation(PocTokens.CampusList)
   async campusFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.CampusListCombinedInput,
-  ): Promise<LadesaTypings.CampusListCombinedSuccessOutput["body"]> {
+    @CombinedInput() dto: PocTypings.CampusListOperationInput,
+  ): Promise<PocTypings.CampusListCombinedSuccessOutput["body"]> {
     return this.campusService.campusFindAll(accessContext, dto);
   }
 
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Campus.Operations.FindById)
+  @PocOperation(PocTokens.CampusFindOneById)
   async campusFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AmbienteFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.CampusFindOneByIdOperationInput,
   ) {
     return this.campusService.campusFindByIdStrict(accessContext, {
       id: dto.params.id,
@@ -39,11 +41,11 @@ export class CampusController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
+  @PocOperation(PocTokens.CampusCreate)
   async campusCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.CampusCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.CampusCreateOperationInput,
   ) {
     return this.campusService.campusCreate(accessContext, dto);
   }
@@ -51,11 +53,11 @@ export class CampusController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Campus.Operations.UpdateById)
+  @PocOperation(PocTokens.CampusUpdateOneById)
   async campusUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.CampusUpdateByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.CampusUpdateOperationInput,
   ) {
     return this.campusService.campusUpdate(accessContext, dto);
   }
@@ -63,11 +65,11 @@ export class CampusController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Campus.Operations.DeleteById)
+  @PocOperation(PocTokens.CampusDeleteOneById)
   async campusDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AmbienteFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.CampusDeleteOneByIdOperationInput,
   ) {
     return this.campusService.campusDeleteOneById(accessContext, {
       id: dto.params.id,

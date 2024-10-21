@@ -5,7 +5,7 @@ import { SelectQueryBuilder } from "typeorm";
 import * as yup from "yup";
 
 export type OperationListInputQueries = {
-  page?: string | number;
+  page?: string | number | null;
   search?: string | undefined | null;
   sortBy?: string | string[];
 };

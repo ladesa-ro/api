@@ -1,10 +1,9 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
-import { Column, DeepPartial, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { IntervaloDeTempoEntity } from "../calendario";
 import { TurmaDisponibilidadeEntity } from "./turma_disponibilidade.entity";
 
 @Entity("turma_disponibilidade_dia")
-export class TurmaDisponibilidadeDiaEntity implements LadesaTypings.TurmaDisponibilidadeDia {
+export class TurmaDisponibilidadeDiaEntity implements PocTypings.TurmaDisponibilidadeDia {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
@@ -17,11 +16,11 @@ export class TurmaDisponibilidadeDiaEntity implements LadesaTypings.TurmaDisponi
 
   @ManyToOne(() => TurmaDisponibilidadeEntity)
   @JoinColumn({ name: "id_turma_disponibilidade_fk" })
-  turmaDisponibilidade!: LadesaTypings.TurmaDisponibilidade;
+  turmaDisponibilidade!: PocTypings.TurmaDisponibilidade;
 
   @ManyToOne(() => IntervaloDeTempoEntity)
   @JoinColumn({ name: "id_intervalo_de_tempo_fk" })
-  intervaloDeTempo!: LadesaTypings.IntervaloDeTempo;
+  intervaloDeTempo!: PocTypings.IntervaloDeTempo;
 
   //
 

@@ -6,7 +6,6 @@ export const NodeBase = valibot.object({
   $id: valibot.optional(valibot.string()),
 
   $ref: valibot.optional(valibot.string()),
-
   anyOf: valibot.optional(valibot.array(valibot.lazy(() => NestedNode))),
 
   description: valibot.optional(valibot.string()),

@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { EtapaService } from "./etapa.service";
@@ -11,19 +13,19 @@ export class EtapaController {
   constructor(private etapaService: EtapaService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.List)
-  async etapaFindAll(@AccessContextHttp() clientAccess: AccessContext, @CombinedInput() dto: LadesaTypings.EtapaListCombinedInput): Promise<LadesaTypings.EtapaListCombinedSuccessOutput["body"]> {
+  @PocOperation(PocTokens.EtapaList)
+  async etapaFindAll(@AccessContextHttp() clientAccess: AccessContext, @CombinedInput() dto: PocTypings.EtapaListOperationInput): Promise<PocTypings.EtapaListCombinedSuccessOutput["body"]> {
     return this.etapaService.etapaFindAll(clientAccess, dto);
   }
 
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.FindById)
+  @PocOperation(PocTokens.EtapaFindOneById)
   async etapaFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.EtapaFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.EtapaFindOneByIdOperationInput,
   ) {
     return this.etapaService.etapaFindByIdStrict(accessContext, {
       id: dto.params.id,
@@ -33,11 +35,11 @@ export class EtapaController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.Create)
+  @PocOperation(PocTokens.EtapaCreate)
   async etapaCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.EtapaCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.EtapaCreateOperationInput,
   ) {
     return this.etapaService.etapaCreate(accessContext, dto);
   }
@@ -45,11 +47,11 @@ export class EtapaController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.UpdateById)
+  @PocOperation(PocTokens.EtapaUpdateOneById)
   async etapaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.EtapaUpdateByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.EtapaUpdateByIdOperationInput,
   ) {
     return this.etapaService.etapaUpdate(accessContext, dto);
   }
@@ -57,11 +59,11 @@ export class EtapaController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.DeleteById)
+  @PocOperation(PocTokens.EtapaDeleteOneById)
   async etapaDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.EtapaDeleteByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.EtapaDeleteByIDCombinedInput,
   ) {
     return this.etapaService.etapaDeleteOneById(accessContext, {
       id: dto.params.id,

@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Resolver } from "@nestjs/graphql";
 import { DiaCalendarioService } from "./dia-calendario.service";
 
@@ -8,47 +10,47 @@ import { DiaCalendarioService } from "./dia-calendario.service";
 export class DiaCalendarioResolver {
   constructor(private diaCalendarioService: DiaCalendarioService) {}
   //
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.List)
+  @PocOperation(PocTokens.DiaCalendarioList)
   async diaCalendarioFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiaCalendarioListCombinedInput,
+    @CombinedInput() dto: PocTypings.DiaCalendarioListOperationInput,
   ) {
     return this.diaCalendarioService.diaCalendarioFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.FindById)
+  @PocOperation(PocTokens.DiaCalendarioFindOneById)
   async diaCalendarioFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiaCalendarioFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.DiaCalendarioFindOneByIdOperationInput,
   ) {
     return this.diaCalendarioService.diaCalendarioFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.Create)
+  @PocOperation(PocTokens.DiaCalendarioCreate)
   async diaCalendarioCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiaCalendarioCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.DiaCalendarioCreateOperationInput,
   ) {
     return this.diaCalendarioService.diaCalendarioCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.UpdateById)
+  @PocOperation(PocTokens.DiaCalendarioUpdateOneById)
   async diaCalendarioUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiaCalendarioUpdateByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.DiaCalendarioUpdateByIdOperationInput,
   ) {
     return this.diaCalendarioService.diaCalendarioUpdate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.DeleteById)
+  @PocOperation(PocTokens.DiaCalendarioDeleteOneById)
   async diaCalendarioDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiaCalendarioDeleteByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.DiaCalendarioDeleteByIDCombinedInput,
   ) {
     return this.diaCalendarioService.diaCalendarioDeleteOneById(accessContext, {
       id: dto.params.id,

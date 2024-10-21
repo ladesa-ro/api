@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CalendarioLetivoService } from "./calendario-letivo.service";
@@ -11,22 +13,22 @@ export class CalendarioLetivoController {
   constructor(private calendarioLetivoService: CalendarioLetivoService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.List)
+  @PocOperation(PocTokens.CalendarioLetivoList)
   async calendarioFindAll(
     @AccessContextHttp() clientAccess: AccessContext,
-    @CombinedInput() dto: LadesaTypings.CalendarioLetivoListCombinedInput,
-  ): Promise<LadesaTypings.CalendarioLetivoListCombinedSuccessOutput["body"]> {
+    @CombinedInput() dto: PocTypings.CalendarioLetivoListOperationInput,
+  ): Promise<PocTypings.CalendarioLetivoListCombinedSuccessOutput["body"]> {
     return this.calendarioLetivoService.calendarioLetivoFindAll(clientAccess, dto);
   }
 
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.FindById)
+  @PocOperation(PocTokens.CalendarioLetivoFindOneById)
   async calendarioLetivoFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.CalendarioLetivoFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.CalendarioLetivoFindOneByIdOperationInput,
   ) {
     return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(accessContext, { id: dto.params.id });
   }
@@ -34,11 +36,11 @@ export class CalendarioLetivoController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.Create)
+  @PocOperation(PocTokens.CalendarioLetivoCreate)
   async campusCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.CalendarioLetivoCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.CalendarioLetivoCreateOperationInput,
   ) {
     return this.calendarioLetivoService.calendarioLetivoCreate(accessContext, dto);
   }
@@ -46,11 +48,11 @@ export class CalendarioLetivoController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.UpdateById)
+  @PocOperation(PocTokens.CalendarioLetivoUpdateOneById)
   async calendarioLetivoUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.CalendarioLetivoUpdateByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.CalendarioLetivoUpdateByIdOperationInput,
   ) {
     return this.calendarioLetivoService.calendarioLetivoUpdate(accessContext, dto);
   }
@@ -58,11 +60,11 @@ export class CalendarioLetivoController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.DeleteById)
+  @PocOperation(PocTokens.CalendarioLetivoDeleteOneById)
   async CalendarioLetivoDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.CalendarioLetivoDeleteByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.CalendarioLetivoDeleteByIDCombinedInput,
   ) {
     return this.calendarioLetivoService.calendarioLetivoDeleteOneById(accessContext, { id: dto.params.id });
   }

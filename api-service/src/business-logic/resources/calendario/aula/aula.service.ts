@@ -4,7 +4,7 @@ import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import type { AulaEntity } from "@/infrastructure/integrations/database/typeorm/entities";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { has, map, pick } from "lodash";
 import { FilterOperator } from "nestjs-paginate";
@@ -33,11 +33,7 @@ export class AulaService {
 
   //
 
-  async aulaFindAll(
-    accessContext: AccessContext,
-    dto: LadesaTypings.AulaListCombinedInput | null = null,
-    selection?: string[] | boolean,
-  ): Promise<LadesaTypings.AulaListCombinedSuccessOutput["body"]> {
+  async aulaFindAll(accessContext: AccessContext, dto: PocTypings.AulaListOperationInput | null = null, selection?: string[] | boolean): Promise<PocTypings.AulaListCombinedSuccessOutput["body"]> {
     // =========================================================
 
     const qb = this.aulaRepository.createQueryBuilder(aliasAula);
@@ -99,7 +95,7 @@ export class AulaService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Aula.Views.FindOneResult, qb, aliasAula, selection);
+    QbEfficientLoad(PocTypings.Tokens.Aula.Views.FindOneResult, qb, aliasAula, selection);
 
     // =========================================================
 
@@ -111,7 +107,7 @@ export class AulaService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async aulaFindById(accessContext: AccessContext, dto: LadesaTypings.AulaFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.AulaFindOneResult | null> {
+  async aulaFindById(accessContext: AccessContext, dto: PocTypings.AulaFindOneInputView, selection?: string[] | boolean): Promise<PocTypings.AulaFindOneResult | null> {
     // =========================================================
 
     const qb = this.aulaRepository.createQueryBuilder(aliasAula);
@@ -127,7 +123,7 @@ export class AulaService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Aula.Views.FindOneResult, qb, aliasAula, selection);
+    QbEfficientLoad(PocTypings.Tokens.Aula.Views.FindOneResult, qb, aliasAula, selection);
 
     // =========================================================
 
@@ -138,7 +134,7 @@ export class AulaService {
     return aula;
   }
 
-  async aulaFindByIdStrict(accessContext: AccessContext, dto: LadesaTypings.AulaFindOneInput, selection?: string[] | boolean) {
+  async aulaFindByIdStrict(accessContext: AccessContext, dto: PocTypings.AulaFindOneInputView, selection?: string[] | boolean) {
     const aula = await this.aulaFindById(accessContext, dto, selection);
 
     if (!aula) {
@@ -148,7 +144,7 @@ export class AulaService {
     return aula;
   }
 
-  async aulaFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.AulaFindOneInput["id"], selection?: string[] | boolean): Promise<LadesaTypings.AulaFindOneResult | null> {
+  async aulaFindByIdSimple(accessContext: AccessContext, id: PocTypings.AulaFindOneInputView["id"], selection?: string[] | boolean): Promise<PocTypings.AulaFindOneResult | null> {
     // =========================================================
 
     const qb = this.aulaRepository.createQueryBuilder(aliasAula);
@@ -164,7 +160,7 @@ export class AulaService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Aula.Views.FindOneResult, qb, aliasAula, selection);
+    QbEfficientLoad(PocTypings.Tokens.Aula.Views.FindOneResult, qb, aliasAula, selection);
 
     // =========================================================
 
@@ -175,7 +171,7 @@ export class AulaService {
     return aula;
   }
 
-  async aulaFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.AulaFindOneInput["id"], selection?: string[] | boolean) {
+  async aulaFindByIdSimpleStrict(accessContext: AccessContext, id: PocTypings.AulaFindOneInputView["id"], selection?: string[] | boolean) {
     const aula = await this.aulaFindByIdSimple(accessContext, id, selection);
 
     if (!aula) {
@@ -187,7 +183,7 @@ export class AulaService {
 
   //
 
-  async aulaCreate(accessContext: AccessContext, dto: LadesaTypings.AulaCreateCombinedInput) {
+  async aulaCreate(accessContext: AccessContext, dto: PocTypings.AulaCreateOperationInput) {
     // =========================================================
 
     await accessContext.ensurePermission("aula:create", { dto });
@@ -204,8 +200,10 @@ export class AulaService {
 
     // =========================================================
 
-    if (dto.body.ambiente !== null) {
-      const ambiente = await this.ambienteService.ambienteFindByIdStrict(accessContext, { id: dto.body.ambiente.id });
+    if (dto.body.ambiente && dto.body.ambiente !== null) {
+      const ambiente = await this.ambienteService.ambienteFindByIdStrict(accessContext, {
+        id: dto.body.ambiente.id,
+      });
       this.aulaRepository.merge(aula, { ambiente: { id: ambiente.id } });
     } else {
       this.aulaRepository.merge(aula, { ambiente: null });
@@ -233,7 +231,7 @@ export class AulaService {
     return this.aulaFindByIdStrict(accessContext, { id: aula.id });
   }
 
-  async aulaUpdate(accessContext: AccessContext, dto: LadesaTypings.AulaUpdateByIDCombinedInput) {
+  async aulaUpdate(accessContext: AccessContext, dto: PocTypings.AulaUpdateByIdOperationInput) {
     // =========================================================
 
     const currentAula = await this.aulaFindByIdStrict(accessContext, {
@@ -294,7 +292,7 @@ export class AulaService {
 
   //
 
-  async aulaDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.AulaFindOneInput) {
+  async aulaDeleteOneById(accessContext: AccessContext, dto: PocTypings.AulaFindOneInputView) {
     // =========================================================
 
     await accessContext.ensurePermission("aula:delete", { dto }, dto.id, this.aulaRepository.createQueryBuilder(aliasAula));

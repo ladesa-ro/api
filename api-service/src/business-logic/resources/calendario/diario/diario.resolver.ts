@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Resolver } from "@nestjs/graphql";
 import { DiarioService } from "./diario.service";
 
@@ -11,47 +13,47 @@ export class DiarioResolver {
     private diarioService: DiarioService,
   ) {}
   //
-  @Operation(LadesaTypings.Tokens.Diario.Operations.List)
+  @PocOperation(PocTokens.DiarioList)
   async diarioFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiarioListCombinedInput,
+    @CombinedInput() dto: PocTypings.DiarioListOperationInput,
   ) {
     return this.diarioService.diarioFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Diario.Operations.FindById)
+  @PocOperation(PocTokens.DiarioFindOneById)
   async diarioFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiarioFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.DiarioFindOneByIdOperationInput,
   ) {
     return this.diarioService.diarioFindByIdStrict(accessContext, {
       id: dto.params.id,
     });
   }
   //
-  @Operation(LadesaTypings.Tokens.Diario.Operations.Create)
+  @PocOperation(PocTokens.DiarioCreate)
   async diarioCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiarioCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.DiarioCreateOperationInput,
   ) {
     return this.diarioService.diarioCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Diario.Operations.UpdateById)
+  @PocOperation(PocTokens.DiarioUpdateOneById)
   async diarioUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiarioUpdateByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.DiarioUpdateByIdOperationInput,
   ) {
     return this.diarioService.diarioUpdate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Diario.Operations.DeleteById)
+  @PocOperation(PocTokens.DiarioDeleteOneById)
   async diarioDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiarioDeleteByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.DiarioDeleteByIDCombinedInput,
   ) {
     return this.diarioService.diarioDeleteOneById(accessContext, {
       id: dto.params.id,

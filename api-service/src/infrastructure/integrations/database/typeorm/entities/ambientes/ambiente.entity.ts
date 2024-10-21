@@ -1,10 +1,9 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ImagemEntity } from "../base/imagem.entity";
 import { BlocoEntity } from "./bloco.entity";
 
 @Entity("ambiente")
-export class AmbienteEntity implements LadesaTypings.Ambiente {
+export class AmbienteEntity implements PocTypings.Ambiente {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

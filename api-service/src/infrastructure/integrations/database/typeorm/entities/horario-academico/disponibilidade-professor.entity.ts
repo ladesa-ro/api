@@ -1,9 +1,8 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { VinculoEntity } from "../autenticacao";
 
 @Entity("disponibilidade_professor")
-export class DisponibilidadeProfessorEntity implements LadesaTypings.DisponibilidadeProfessor {
+export class DisponibilidadeProfessorEntity implements PocTypings.DisponibilidadeProfessor {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
@@ -17,7 +16,7 @@ export class DisponibilidadeProfessorEntity implements LadesaTypings.Disponibili
 
   @ManyToOne(() => VinculoEntity)
   @JoinColumn({ name: "id_vinculo_professor_fk" })
-  vinculoProfessor!: LadesaTypings.VinculoFindOneResult;
+  vinculoProfessor!: PocTypings.VinculoFindOneResult;
   //
 
   @Column({ name: "date_created", type: "timestamptz", nullable: false })

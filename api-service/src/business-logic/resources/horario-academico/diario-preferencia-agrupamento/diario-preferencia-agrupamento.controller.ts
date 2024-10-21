@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { DiarioPreferenciaAgrupamentoService } from "./diario-preferencia-agrupamento.service";
@@ -11,24 +13,24 @@ export class DiarioPreferenciaAgrupamentoController {
   constructor(private diarioPreferenciaAgrupamentoService: DiarioPreferenciaAgrupamentoService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.List)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoList)
   async diarioPreferenciaAgrupamentoFindAll(
     @AccessContextHttp() clientAccess: AccessContext,
     @CombinedInput()
-    dto: LadesaTypings.DiarioPreferenciaAgrupamentoListCombinedInput,
-  ): Promise<LadesaTypings.DiarioPreferenciaAgrupamentoListCombinedSuccessOutput["body"]> {
+    dto: PocTypings.DiarioPreferenciaAgrupamentoListOperationInput,
+  ): Promise<PocTypings.DiarioPreferenciaAgrupamentoListCombinedSuccessOutput["body"]> {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoFindAll(clientAccess, dto);
   }
 
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.FindById)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoFindOneById)
   async diarioPreferenciaAgrupamentoFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput()
-    dto: LadesaTypings.DiarioPreferenciaAgrupamentoFindByIDCombinedInput,
+    dto: PocTypings.DiarioPreferenciaAgrupamentoFindOneByIdOperationInput,
   ) {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoFindByIdStrict(accessContext, { id: dto.params.id });
   }
@@ -36,12 +38,12 @@ export class DiarioPreferenciaAgrupamentoController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.Create)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoCreate)
   async diarioPreferenciaAgrupamentoCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput()
-    dto: LadesaTypings.DiarioPreferenciaAgrupamentoCreateCombinedInput,
+    dto: PocTypings.DiarioPreferenciaAgrupamentoCreateOperationInput,
   ) {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoCreate(accessContext, dto);
   }
@@ -49,12 +51,12 @@ export class DiarioPreferenciaAgrupamentoController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.UpdateById)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoUpdateOneById)
   async diarioPreferenciaAgrupamentoUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput()
-    dto: LadesaTypings.DiarioPreferenciaAgrupamentoUpdateByIDCombinedInput,
+    dto: PocTypings.DiarioPreferenciaAgrupamentoUpdateByIdOperationInput,
   ) {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoUpdate(accessContext, dto);
   }
@@ -62,12 +64,12 @@ export class DiarioPreferenciaAgrupamentoController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.DeleteById)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoDeleteOneById)
   async diarioPreferenciaAgrupamentoDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput()
-    dto: LadesaTypings.DiarioPreferenciaAgrupamentoDeleteByIDCombinedInput,
+    dto: PocTypings.DiarioPreferenciaAgrupamentoDeleteByIDCombinedInput,
   ) {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoDeleteOneById(accessContext, { id: dto.params.id });
   }

@@ -108,20 +108,6 @@ type IAuthzPolicySetup = {
     create: Authz.IAuthzStatementAulaCreate["withCheck"];
   };
 
-  turmaDisponibilidade: {
-    find: Authz.IAuthzStatementTurmaDisponibilidadeFind["filter"];
-    delete: Authz.IAuthzStatementTurmaDisponibilidadeDelete["filter"];
-    update: Authz.IAuthzStatementTurmaDisponibilidadeUpdate["filter"];
-    create: Authz.IAuthzStatementTurmaDisponibilidadeCreate["withCheck"];
-  };
-
-  turmaDisponibilidadeDia: {
-    find: Authz.IAuthzStatementTurmaDisponibilidadeDiaFind["filter"];
-    delete: Authz.IAuthzStatementTurmaDisponibilidadeDiaDelete["filter"];
-    update: Authz.IAuthzStatementTurmaDisponibilidadeDiaUpdate["filter"];
-    create: Authz.IAuthzStatementTurmaDisponibilidadeDiaCreate["withCheck"];
-  };
-
   diaCalendario: {
     find: Authz.IAuthzStatementDiaCalendarioFind["filter"];
     delete: Authz.IAuthzStatementDiaCalendarioDelete["filter"];
@@ -141,20 +127,6 @@ type IAuthzPolicySetup = {
     delete: Authz.IAuthzStatementDiarioProfessorDelete["filter"];
     update: Authz.IAuthzStatementDiarioProfessorUpdate["filter"];
     create: Authz.IAuthzStatementDiarioProfessorCreate["withCheck"];
-  };
-
-  disponibilidadeProfessor: {
-    find: Authz.IAuthzStatementDisponibilidadeProfessorFind["filter"];
-    delete: Authz.IAuthzStatementDisponibilidadeProfessorDelete["filter"];
-    update: Authz.IAuthzStatementDisponibilidadeProfessorUpdate["filter"];
-    create: Authz.IAuthzStatementDisponibilidadeProfessorCreate["withCheck"];
-  };
-
-  disponibilidadeProfessorDia: {
-    find: Authz.IAuthzStatementDisponibilidadeProfessorDiaFind["filter"];
-    delete: Authz.IAuthzStatementDisponibilidadeProfessorDiaDelete["filter"];
-    update: Authz.IAuthzStatementDisponibilidadeProfessorDiaUpdate["filter"];
-    create: Authz.IAuthzStatementDisponibilidadeProfessorDiaCreate["withCheck"];
   };
 
   diarioPreferenciaAgrupamento: {
@@ -584,62 +556,6 @@ export class BaseAuthzPolicy {
 
     this.statements.push({
       statementKind: "check",
-      action: "turma_disponibilidade:create",
-      withCheck: setup.turmaDisponibilidade.create,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "filter",
-      action: "turma_disponibilidade:find",
-      filter: setup.turmaDisponibilidade.find,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "filter",
-      action: "turma_disponibilidade:update",
-      filter: setup.turmaDisponibilidade.update,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "filter",
-      action: "turma_disponibilidade:delete",
-      filter: setup.turmaDisponibilidade.delete,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "check",
-      action: "turma_disponibilidade_dia:create",
-      withCheck: setup.turmaDisponibilidadeDia.create,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "filter",
-      action: "turma_disponibilidade_dia:find",
-      filter: setup.turmaDisponibilidadeDia.find,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "filter",
-      action: "turma_disponibilidade_dia:update",
-      filter: setup.turmaDisponibilidadeDia.update,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "filter",
-      action: "turma_disponibilidade_dia:delete",
-      filter: setup.turmaDisponibilidadeDia.delete,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "check",
       action: "dia_calendario:create",
       withCheck: setup.diaCalendario.create,
       payload: null as any,
@@ -719,62 +635,6 @@ export class BaseAuthzPolicy {
       statementKind: "filter",
       action: "diario_professor:delete",
       filter: setup.diarioProfessor.delete,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "check",
-      action: "disponibilidade_professor:create",
-      withCheck: setup.disponibilidadeProfessor.create,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "filter",
-      action: "disponibilidade_professor:find",
-      filter: setup.disponibilidadeProfessor.find,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "filter",
-      action: "disponibilidade_professor:update",
-      filter: setup.disponibilidadeProfessor.update,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "filter",
-      action: "disponibilidade_professor:delete",
-      filter: setup.disponibilidadeProfessor.delete,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "check",
-      action: "disponibilidade_professor_dia:create",
-      withCheck: setup.disponibilidadeProfessorDia.create,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "filter",
-      action: "disponibilidade_professor_dia:find",
-      filter: setup.disponibilidadeProfessorDia.find,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "filter",
-      action: "disponibilidade_professor_dia:update",
-      filter: setup.disponibilidadeProfessorDia.update,
-      payload: null as any,
-    });
-
-    this.statements.push({
-      statementKind: "filter",
-      action: "disponibilidade_professor_dia:delete",
-      filter: setup.disponibilidadeProfessorDia.delete,
       payload: null as any,
     });
 

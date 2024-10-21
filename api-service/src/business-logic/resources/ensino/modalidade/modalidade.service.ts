@@ -4,7 +4,7 @@ import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import type { ModalidadeEntity } from "@/infrastructure/integrations/database/typeorm/entities";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { map, pick } from "lodash";
 
@@ -26,9 +26,9 @@ export class ModalidadeService {
 
   async modalidadeFindAll(
     accessContext: AccessContext,
-    dto: LadesaTypings.ModalidadeListCombinedInput | null = null,
+    dto: PocTypings.ModalidadeListOperationInput | null = null,
     selection?: string[],
-  ): Promise<LadesaTypings.ModalidadeListCombinedSuccessOutput["body"]> {
+  ): Promise<PocTypings.ModalidadeListCombinedSuccessOutput["body"]> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
@@ -74,7 +74,7 @@ export class ModalidadeService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Modalidade.Entity, qb, aliasModalidade, selection);
+    QbEfficientLoad(PocTypings.Tokens.Modalidade.Entity, qb, aliasModalidade, selection);
 
     // =========================================================
 
@@ -86,7 +86,7 @@ export class ModalidadeService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async modalidadeFindById(accessContext: AccessContext | null, dto: LadesaTypings.ModalidadeFindOneInput, selection?: string[]): Promise<LadesaTypings.ModalidadeFindOneResult | null> {
+  async modalidadeFindById(accessContext: AccessContext | null, dto: PocTypings.ModalidadeFindOneInputView, selection?: string[]): Promise<PocTypings.ModalidadeFindOneResult | null> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
@@ -104,7 +104,7 @@ export class ModalidadeService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Modalidade.Entity, qb, aliasModalidade, selection);
+    QbEfficientLoad(PocTypings.Tokens.Modalidade.Entity, qb, aliasModalidade, selection);
 
     // =========================================================
 
@@ -115,7 +115,7 @@ export class ModalidadeService {
     return modalidade;
   }
 
-  async modalidadeFindByIdStrict(accessContext: AccessContext, dto: LadesaTypings.ModalidadeFindOneInput, selection?: string[]) {
+  async modalidadeFindByIdStrict(accessContext: AccessContext, dto: PocTypings.ModalidadeFindOneInputView, selection?: string[]) {
     const modalidade = await this.modalidadeFindById(accessContext, dto, selection);
 
     if (!modalidade) {
@@ -125,7 +125,7 @@ export class ModalidadeService {
     return modalidade;
   }
 
-  async modalidadeFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.ModalidadeFindOneInput["id"], selection?: string[]): Promise<LadesaTypings.ModalidadeFindOneResult | null> {
+  async modalidadeFindByIdSimple(accessContext: AccessContext, id: PocTypings.ModalidadeFindOneInputView["id"], selection?: string[]): Promise<PocTypings.ModalidadeFindOneResult | null> {
     // =========================================================
 
     const qb = this.modalidadeRepository.createQueryBuilder(aliasModalidade);
@@ -141,7 +141,7 @@ export class ModalidadeService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Modalidade.Entity, qb, aliasModalidade, selection);
+    QbEfficientLoad(PocTypings.Tokens.Modalidade.Entity, qb, aliasModalidade, selection);
 
     // =========================================================
 
@@ -152,7 +152,7 @@ export class ModalidadeService {
     return modalidade;
   }
 
-  async modalidadeFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.ModalidadeFindOneInput["id"], selection?: string[]) {
+  async modalidadeFindByIdSimpleStrict(accessContext: AccessContext, id: PocTypings.ModalidadeFindOneInputView["id"], selection?: string[]) {
     const modalidade = await this.modalidadeFindByIdSimple(accessContext, id, selection);
 
     if (!modalidade) {
@@ -164,7 +164,7 @@ export class ModalidadeService {
 
   //
 
-  async modalidadeCreate(accessContext: AccessContext, dto: LadesaTypings.ModalidadeCreateCombinedInput) {
+  async modalidadeCreate(accessContext: AccessContext, dto: PocTypings.ModalidadeCreateOperationInput) {
     // =========================================================
 
     await accessContext.ensurePermission("modalidade:create", { dto });
@@ -188,7 +188,7 @@ export class ModalidadeService {
     return this.modalidadeFindByIdStrict(accessContext, { id: modalidade.id });
   }
 
-  async modalidadeUpdate(accessContext: AccessContext, dto: LadesaTypings.ModalidadeUpdateByIDCombinedInput) {
+  async modalidadeUpdate(accessContext: AccessContext, dto: PocTypings.ModalidadeUpdateByIdOperationInput) {
     // =========================================================
 
     const currentModalidade = await this.modalidadeFindByIdStrict(accessContext, {
@@ -220,7 +220,7 @@ export class ModalidadeService {
 
   //
 
-  async modalidadeDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.ModalidadeFindOneInput) {
+  async modalidadeDeleteOneById(accessContext: AccessContext, dto: PocTypings.ModalidadeFindOneInputView) {
     // =========================================================
 
     await accessContext.ensurePermission("modalidade:delete", { dto }, dto.id, this.modalidadeRepository.createQueryBuilder(aliasModalidade));

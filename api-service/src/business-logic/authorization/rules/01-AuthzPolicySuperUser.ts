@@ -108,20 +108,6 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
         delete: true,
       },
 
-      turmaDisponibilidade: {
-        create: true,
-        find: true,
-        update: true,
-        delete: true,
-      },
-
-      turmaDisponibilidadeDia: {
-        create: true,
-        find: true,
-        update: true,
-        delete: true,
-      },
-
       diaCalendario: {
         create: true,
         find: true,
@@ -137,20 +123,6 @@ export class AuthzPolicySuperUser extends BaseAuthzPolicy {
       },
 
       diarioProfessor: {
-        create: true,
-        find: true,
-        update: true,
-        delete: true,
-      },
-
-      disponibilidadeProfessor: {
-        create: true,
-        find: true,
-        update: true,
-        delete: true,
-      },
-
-      disponibilidadeProfessorDia: {
         create: true,
         find: true,
         update: true,

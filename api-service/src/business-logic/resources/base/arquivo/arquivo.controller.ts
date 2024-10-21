@@ -1,6 +1,6 @@
-import { Operation } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Get, Param, Query, type StreamableFile } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { ArquivoService } from "./arquivo.service";
@@ -11,7 +11,7 @@ export class ArquivoController {
   constructor(private arquivoService: ArquivoService) {}
 
   @Get(":id")
-  @Operation(LadesaTypings.Tokens.Arquivo.Operations.GetFile)
+  @PocOperation(PocTokens.ArquivoGetFile)
   async getFile(
     @AccessContextHttp() accessContext: AccessContext,
 

@@ -1,4 +1,4 @@
-export type IPropertyKey = string | number | symbol | any;
+export type IPropertyKey = string | symbol | any;
 
 export type IClassCompilerTypings<Node = any, PropertyNode = any> = {
   node: Node;
@@ -11,22 +11,36 @@ export type IClassCompilerTypingsInferPropertyNode<ClassCompilerTypings extends 
   ? PropertyNode
   : never;
 
-export type ICompileClassContext<ClassCompilerTypings extends IClassCompilerTypings> = {
-  node: IClassCompilerTypingsInferNode<ClassCompilerTypings>;
-
-  classCompiler: IClassCompiler<ClassCompilerTypings>;
-  classesMap: Map<string, any>;
-
-  classDecorators: unknown[];
-  classPropertiesDecorators: Map<PropertyKey, unknown[]>;
+export type ICompileClassContextPropertyMetadata = {
+  designType: any;
+  decorators: Function[];
 };
 
-export type ICompileClassPropertyContext<ClassCompilerTypings extends IClassCompilerTypings> = {
+export interface ICompileClassContext<ClassCompilerTypings extends IClassCompilerTypings, ClassCompiler extends IClassCompiler<ClassCompilerTypings> = IClassCompiler<ClassCompilerTypings>> {
+  node: IClassCompilerTypingsInferNode<ClassCompilerTypings>;
+
+  classCompiler: ClassCompiler;
+  classesMap: Map<string, any>;
+
+  classDecorators: Function[];
+
+  classPropertiesMetadata: Map<IPropertyKey, ICompileClassContextPropertyMetadata>;
+
+  GetPropertyMetadata(propertyKey: string): ICompileClassContextPropertyMetadata;
+  EnsurePropertyMetadata(propertyKey: string): this;
+  AddDecoratorsToProperty(propertyKey: string, decorators: Iterable<Function>): this;
+  AddDecoratorToProperty(propertyKey: string, decorator: Function): this;
+}
+
+export interface ICompileClassPropertyContext<ClassCompilerTypings extends IClassCompilerTypings> {
   classContext: ICompileClassContext<ClassCompilerTypings>;
 
   propertyKey: IPropertyKey;
   propertyNode: IClassCompilerTypingsInferPropertyNode<ClassCompilerTypings>;
-};
+
+  AddDecoratorToCurrentProperty(decorator: Function): this;
+  AddDecoratorsToCurrentProperty(decorators: Iterable<Function>): this;
+}
 
 export interface IClassCompilerHandler<ClassCompilerTypings extends IClassCompilerTypings> {
   HandleClass(classContext: ICompileClassContext<ClassCompilerTypings>): void;

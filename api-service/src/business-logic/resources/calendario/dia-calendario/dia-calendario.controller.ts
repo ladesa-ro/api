@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { DiaCalendarioService } from "./dia-calendario.service";
@@ -11,22 +13,22 @@ export class DiaCalendarioController {
   constructor(private diaCalendarioService: DiaCalendarioService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.List)
+  @PocOperation(PocTokens.DiaCalendarioList)
   async diaCalendarioFindAll(
     @AccessContextHttp() clientAccess: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiaCalendarioListCombinedInput,
-  ): Promise<LadesaTypings.DiaCalendarioListCombinedSuccessOutput["body"]> {
+    @CombinedInput() dto: PocTypings.DiaCalendarioListOperationInput,
+  ): Promise<PocTypings.DiaCalendarioListCombinedSuccessOutput["body"]> {
     return this.diaCalendarioService.diaCalendarioFindAll(clientAccess, dto);
   }
 
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.FindById)
+  @PocOperation(PocTokens.DiaCalendarioFindOneById)
   async diaCalendarioFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiaCalendarioFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.DiaCalendarioFindOneByIdOperationInput,
   ) {
     return this.diaCalendarioService.diaCalendarioFindByIdStrict(accessContext, { id: dto.params.id });
   }
@@ -34,11 +36,11 @@ export class DiaCalendarioController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.Create)
+  @PocOperation(PocTokens.DiaCalendarioCreate)
   async diaCalendarioCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiaCalendarioCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.DiaCalendarioCreateOperationInput,
   ) {
     return this.diaCalendarioService.diaCalendarioCreate(accessContext, dto);
   }
@@ -46,11 +48,11 @@ export class DiaCalendarioController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.UpdateById)
+  @PocOperation(PocTokens.DiaCalendarioUpdateOneById)
   async diaCalendarioUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiaCalendarioUpdateByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.DiaCalendarioUpdateByIdOperationInput,
   ) {
     return this.diaCalendarioService.diaCalendarioUpdate(accessContext, dto);
   }
@@ -58,11 +60,11 @@ export class DiaCalendarioController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.DeleteById)
+  @PocOperation(PocTokens.DiaCalendarioDeleteOneById)
   async diaCalendarioDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiaCalendarioDeleteByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.DiaCalendarioDeleteByIDCombinedInput,
   ) {
     return this.diaCalendarioService.diaCalendarioDeleteOneById(accessContext, {
       id: dto.params.id,

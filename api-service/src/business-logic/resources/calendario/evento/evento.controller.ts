@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { EventoService } from "./evento.service";
@@ -11,19 +13,19 @@ export class EventoController {
   constructor(private eventoService: EventoService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Evento.Operations.List)
-  async eventoFindAll(@AccessContextHttp() clientAccess: AccessContext, @CombinedInput() dto: LadesaTypings.EventoListCombinedInput): Promise<LadesaTypings.EventoListCombinedSuccessOutput["body"]> {
+  @PocOperation(PocTokens.EventoList)
+  async eventoFindAll(@AccessContextHttp() clientAccess: AccessContext, @CombinedInput() dto: PocTypings.EventoListOperationInput): Promise<PocTypings.EventoListCombinedSuccessOutput["body"]> {
     return this.eventoService.eventoFindAll(clientAccess, dto);
   }
 
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Evento.Operations.FindById)
+  @PocOperation(PocTokens.EventoFindOneById)
   async eventoFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.EventoFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.EventoFindOneByIdOperationInput,
   ) {
     return this.eventoService.eventoFindByIdStrict(accessContext, {
       id: dto.params.id,
@@ -33,11 +35,11 @@ export class EventoController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Evento.Operations.Create)
+  @PocOperation(PocTokens.EventoCreate)
   async eventoCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.EventoCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.EventoCreateOperationInput,
   ) {
     return this.eventoService.eventoCreate(accessContext, dto);
   }
@@ -45,11 +47,11 @@ export class EventoController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Evento.Operations.UpdateById)
+  @PocOperation(PocTokens.EventoUpdateOneById)
   async eventoUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.EventoUpdateByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.EventoUpdateByIdOperationInput,
   ) {
     return this.eventoService.eventoUpdate(accessContext, dto);
   }
@@ -57,11 +59,11 @@ export class EventoController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Evento.Operations.DeleteById)
+  @PocOperation(PocTokens.EventoDeleteOneById)
   async eventoDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.EventoDeleteByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.EventoDeleteByIDCombinedInput,
   ) {
     return this.eventoService.eventoDeleteOneById(accessContext, {
       id: dto.params.id,

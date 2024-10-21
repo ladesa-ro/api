@@ -1,6 +1,8 @@
-import { CombinedInput, Operation, graphqlExtractSelection } from "@/business-logic/standards";
+import { CombinedInput, graphqlExtractSelection } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Info, Resolver } from "@nestjs/graphql";
 import type { GraphQLResolveInfo } from "graphql";
 import { EstadoService } from "./estado.service";
@@ -12,22 +14,22 @@ export class EstadoResolver {
     private estadoService: EstadoService,
   ) {}
   // ========================================================
-  @Operation(LadesaTypings.Tokens.Estado.Operations.List)
+  @PocOperation(PocTokens.EstadoList)
   async estadoFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.EstadoListCombinedInput,
+    @CombinedInput() dto: PocTypings.EstadoListOperationInput,
     @Info() info: GraphQLResolveInfo,
   ) {
     return this.estadoService.findAll(accessContext, dto, graphqlExtractSelection(info, "paginated"));
   }
 
   // ========================================================
-  @Operation(LadesaTypings.Tokens.Estado.Operations.FindById)
+  @PocOperation(PocTokens.EstadoFindOneById)
   async estadoFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.EstadoFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.EstadoFindOneByIdOperationInput,
     @Info() info: GraphQLResolveInfo,
   ) {
     return this.estadoService.findByIdStrict(accessContext, { id: dto.params.id }, graphqlExtractSelection(info));

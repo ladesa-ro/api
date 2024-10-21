@@ -1,11 +1,10 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { CampusEntity } from "../ambientes/campus.entity";
 import { ImagemEntity } from "../base/imagem.entity";
 import { ModalidadeEntity } from "./modalidade.entity";
 
 @Entity("curso")
-export class CursoEntity implements LadesaTypings.Curso {
+export class CursoEntity implements PocTypings.Curso {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

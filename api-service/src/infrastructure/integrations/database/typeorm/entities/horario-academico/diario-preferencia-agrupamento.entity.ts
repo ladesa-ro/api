@@ -1,10 +1,9 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { IntervaloDeTempoEntity } from "../calendario";
 import { DiarioEntity } from "../ensino";
 
 @Entity("diario_preferencia_agrupamento")
-export class DiarioPreferenciaAgrupamentoEntity implements LadesaTypings.DiarioPreferenciaAgrupamento {
+export class DiarioPreferenciaAgrupamentoEntity implements PocTypings.DiarioPreferenciaAgrupamento {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
@@ -24,11 +23,11 @@ export class DiarioPreferenciaAgrupamentoEntity implements LadesaTypings.DiarioP
 
   @ManyToOne(() => IntervaloDeTempoEntity)
   @JoinColumn({ name: "id_intervalo_de_tempo_fk" })
-  intervaloDeTempo!: LadesaTypings.IntervaloDeTempoFindOneResult;
+  intervaloDeTempo!: PocTypings.IntervaloDeTempoFindOneResult;
 
   @ManyToOne(() => DiarioEntity)
   @JoinColumn({ name: "id_diario_fk" })
-  diario!: LadesaTypings.DiarioFindOneResult;
+  diario!: PocTypings.DiarioFindOneResult;
 
   //
 

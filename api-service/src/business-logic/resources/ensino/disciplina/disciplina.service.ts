@@ -4,7 +4,7 @@ import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import type { DisciplinaEntity } from "@/infrastructure/integrations/database/typeorm/entities";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { map, pick } from "lodash";
 import { ArquivoService } from "../../base/arquivo/arquivo.service";
@@ -32,9 +32,9 @@ export class DisciplinaService {
 
   async disciplinaFindAll(
     accessContext: AccessContext,
-    dto: LadesaTypings.DisciplinaListCombinedInput | null = null,
+    dto: PocTypings.DisciplinaListOperationInput | null = null,
     selection?: string[] | boolean,
-  ): Promise<LadesaTypings.DisciplinaListCombinedSuccessOutput["body"]> {
+  ): Promise<PocTypings.DisciplinaListCombinedSuccessOutput["body"]> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
@@ -80,7 +80,7 @@ export class DisciplinaService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Disciplina.Views.FindOneResult, qb, aliasDisciplina, selection);
+    QbEfficientLoad(PocTypings.Tokens.Disciplina.Views.FindOneResult, qb, aliasDisciplina, selection);
 
     // =========================================================
 
@@ -92,7 +92,7 @@ export class DisciplinaService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async disciplinaFindById(accessContext: AccessContext | null, dto: LadesaTypings.DisciplinaFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.DisciplinaFindOneResult | null> {
+  async disciplinaFindById(accessContext: AccessContext | null, dto: PocTypings.DisciplinaFindOneInputView, selection?: string[] | boolean): Promise<PocTypings.DisciplinaFindOneResult | null> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
@@ -110,7 +110,7 @@ export class DisciplinaService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Disciplina.Views.FindOneResult, qb, aliasDisciplina, selection);
+    QbEfficientLoad(PocTypings.Tokens.Disciplina.Views.FindOneResult, qb, aliasDisciplina, selection);
 
     // =========================================================
 
@@ -121,7 +121,7 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdStrict(accessContext: AccessContext | null, dto: LadesaTypings.DisciplinaFindOneInput, selection?: string[] | boolean) {
+  async disciplinaFindByIdStrict(accessContext: AccessContext | null, dto: PocTypings.DisciplinaFindOneInputView, selection?: string[] | boolean) {
     const disciplina = await this.disciplinaFindById(accessContext, dto, selection);
 
     if (!disciplina) {
@@ -131,7 +131,7 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.DisciplinaFindOneInput["id"], selection?: string[] | boolean): Promise<LadesaTypings.DisciplinaFindOneResult | null> {
+  async disciplinaFindByIdSimple(accessContext: AccessContext, id: PocTypings.DisciplinaFindOneInputView["id"], selection?: string[] | boolean): Promise<PocTypings.DisciplinaFindOneResult | null> {
     // =========================================================
 
     const qb = this.disciplinaRepository.createQueryBuilder(aliasDisciplina);
@@ -147,7 +147,7 @@ export class DisciplinaService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Disciplina.Views.FindOneResult, qb, aliasDisciplina, selection);
+    QbEfficientLoad(PocTypings.Tokens.Disciplina.Views.FindOneResult, qb, aliasDisciplina, selection);
 
     // =========================================================
 
@@ -158,7 +158,7 @@ export class DisciplinaService {
     return disciplina;
   }
 
-  async disciplinaFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.DisciplinaFindOneInput["id"], selection?: string[]) {
+  async disciplinaFindByIdSimpleStrict(accessContext: AccessContext, id: PocTypings.DisciplinaFindOneInputView["id"], selection?: string[]) {
     const disciplina = await this.disciplinaFindByIdSimple(accessContext, id, selection);
 
     if (!disciplina) {
@@ -170,7 +170,7 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaCreate(accessContext: AccessContext, dto: LadesaTypings.DisciplinaCreateCombinedInput) {
+  async disciplinaCreate(accessContext: AccessContext, dto: PocTypings.DisciplinaCreateOperationInput) {
     // =========================================================
 
     await accessContext.ensurePermission("disciplina:create", { dto });
@@ -194,7 +194,7 @@ export class DisciplinaService {
     return this.disciplinaFindByIdStrict(accessContext, { id: disciplina.id });
   }
 
-  async disciplinaUpdate(accessContext: AccessContext, dto: LadesaTypings.DisciplinaUpdateByIDCombinedInput) {
+  async disciplinaUpdate(accessContext: AccessContext, dto: PocTypings.DisciplinaUpdateByIdOperationInput) {
     // =========================================================
 
     const currentDisciplina = await this.disciplinaFindByIdStrict(accessContext, {
@@ -243,7 +243,7 @@ export class DisciplinaService {
     throw new NotFoundException();
   }
 
-  async disciplinaUpdateImagemCapa(accessContext: AccessContext, dto: LadesaTypings.DisciplinaFindOneInput, file: Express.Multer.File) {
+  async disciplinaUpdateImagemCapa(accessContext: AccessContext, dto: PocTypings.DisciplinaFindOneInputView, file: Express.Multer.File) {
     // =========================================================
 
     const currentDisciplina = await this.disciplinaFindByIdStrict(accessContext, { id: dto.id });
@@ -283,7 +283,7 @@ export class DisciplinaService {
 
   //
 
-  async disciplinaDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.DisciplinaFindOneInput) {
+  async disciplinaDeleteOneById(accessContext: AccessContext, dto: PocTypings.DisciplinaFindOneInputView) {
     // =========================================================
 
     await accessContext.ensurePermission("disciplina:delete", { dto }, dto.id, this.disciplinaRepository.createQueryBuilder(aliasDisciplina));

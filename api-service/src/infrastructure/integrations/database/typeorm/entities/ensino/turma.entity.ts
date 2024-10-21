@@ -1,11 +1,10 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { AmbienteEntity } from "../ambientes/ambiente.entity";
 import { ImagemEntity } from "../base/imagem.entity";
 import { CursoEntity } from "./curso.entity";
 
 @Entity("turma")
-export class TurmaEntity implements LadesaTypings.Turma {
+export class TurmaEntity implements PocTypings.Turma {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

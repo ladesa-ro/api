@@ -1,10 +1,9 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { VinculoEntity } from "../autenticacao/vinculo.entity";
 import { DiarioEntity } from "./diario.entity";
 
 @Entity("diario_professor")
-export class DiarioProfessorEntity implements LadesaTypings.DiarioProfessor {
+export class DiarioProfessorEntity implements PocTypings.DiarioProfessor {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
@@ -15,11 +14,11 @@ export class DiarioProfessorEntity implements LadesaTypings.DiarioProfessor {
 
   @ManyToOne(() => DiarioEntity)
   @JoinColumn({ name: "id_diario_fk" })
-  diario!: LadesaTypings.Diario;
+  diario!: PocTypings.Diario;
 
   @ManyToOne(() => VinculoEntity)
   @JoinColumn({ name: "id_vinculo_professor_fk" })
-  vinculo!: LadesaTypings.Vinculo;
+  vinculo!: PocTypings.Vinculo;
 
   //
 

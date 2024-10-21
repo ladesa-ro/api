@@ -1,10 +1,9 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ImagemEntity } from "../base/imagem.entity";
 import { VinculoEntity } from "./vinculo.entity";
 
 @Entity("usuario")
-export class UsuarioEntity implements LadesaTypings.Usuario {
+export class UsuarioEntity implements PocTypings.Usuario {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

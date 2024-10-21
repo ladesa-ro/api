@@ -4,7 +4,7 @@ import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import type { CursoEntity } from "@/infrastructure/integrations/database/typeorm/entities";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { has, map, pick } from "lodash";
 import { FilterOperator } from "nestjs-paginate";
@@ -35,11 +35,7 @@ export class CursoService {
 
   //
 
-  async cursoFindAll(
-    accessContext: AccessContext,
-    dto: LadesaTypings.CursoListCombinedInput | null = null,
-    selection?: string[] | boolean,
-  ): Promise<LadesaTypings.CursoListCombinedSuccessOutput["body"]> {
+  async cursoFindAll(accessContext: AccessContext, dto: PocTypings.CursoListOperationInput | null = null, selection?: string[] | boolean): Promise<PocTypings.CursoListCombinedSuccessOutput["body"]> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
@@ -108,7 +104,7 @@ export class CursoService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Curso.Views.FindOneResult, qb, aliasCurso, selection);
+    QbEfficientLoad(PocTypings.Tokens.Curso.Views.FindOneResult, qb, aliasCurso, selection);
 
     // =========================================================
 
@@ -120,7 +116,7 @@ export class CursoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async cursoFindById(accessContext: AccessContext | null, dto: LadesaTypings.CursoFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.CursoFindOneResult | null> {
+  async cursoFindById(accessContext: AccessContext | null, dto: PocTypings.CursoFindOneInputView, selection?: string[] | boolean): Promise<PocTypings.CursoFindOneResult | null> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
@@ -138,7 +134,7 @@ export class CursoService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Curso.Views.FindOneResult, qb, aliasCurso, selection);
+    QbEfficientLoad(PocTypings.Tokens.Curso.Views.FindOneResult, qb, aliasCurso, selection);
 
     // =========================================================
 
@@ -149,7 +145,7 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdStrict(accessContext: AccessContext | null, dto: LadesaTypings.CursoFindOneInput, selection?: string[] | boolean) {
+  async cursoFindByIdStrict(accessContext: AccessContext | null, dto: PocTypings.CursoFindOneInputView, selection?: string[] | boolean) {
     const curso = await this.cursoFindById(accessContext, dto, selection);
 
     if (!curso) {
@@ -159,7 +155,7 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.CursoFindOneInput["id"], selection?: string[]): Promise<LadesaTypings.CursoFindOneResult | null> {
+  async cursoFindByIdSimple(accessContext: AccessContext, id: PocTypings.CursoFindOneInputView["id"], selection?: string[]): Promise<PocTypings.CursoFindOneResult | null> {
     // =========================================================
 
     const qb = this.cursoRepository.createQueryBuilder(aliasCurso);
@@ -175,7 +171,7 @@ export class CursoService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Curso.Views.FindOneResult, qb, aliasCurso, selection);
+    QbEfficientLoad(PocTypings.Tokens.Curso.Views.FindOneResult, qb, aliasCurso, selection);
 
     // =========================================================
 
@@ -186,7 +182,7 @@ export class CursoService {
     return curso;
   }
 
-  async cursoFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.CursoFindOneInput["id"], selection?: string[]) {
+  async cursoFindByIdSimpleStrict(accessContext: AccessContext, id: PocTypings.CursoFindOneInputView["id"], selection?: string[]) {
     const curso = await this.cursoFindByIdSimple(accessContext, id, selection);
 
     if (!curso) {
@@ -198,7 +194,7 @@ export class CursoService {
 
   //
 
-  async cursoCreate(accessContext: AccessContext, dto: LadesaTypings.CursoCreateCombinedInput) {
+  async cursoCreate(accessContext: AccessContext, dto: PocTypings.CursoCreateOperationInput) {
     // =========================================================
 
     await accessContext.ensurePermission("curso:create", { dto });
@@ -225,13 +221,14 @@ export class CursoService {
 
     // =========================================================
 
-    const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(accessContext, dto.body.modalidade.id);
+    // TODO
+    // const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(accessContext, dto.body.modalidade.id);
 
-    this.cursoRepository.merge(curso, {
-      modalidade: {
-        id: modalidade.id,
-      },
-    });
+    // this.cursoRepository.merge(curso, {
+    //   modalidade: {
+    //     id: modalidade.id,
+    //   },
+    // });
 
     // =========================================================
 
@@ -242,7 +239,7 @@ export class CursoService {
     return this.cursoFindByIdStrict(accessContext, { id: curso.id });
   }
 
-  async cursoUpdate(accessContext: AccessContext, dto: LadesaTypings.CursoUpdateByIDCombinedInput) {
+  async cursoUpdate(accessContext: AccessContext, dto: PocTypings.CursoUpdateByIdOperationInput) {
     // =========================================================
 
     const currentCurso = await this.cursoFindByIdStrict(accessContext, {
@@ -277,15 +274,16 @@ export class CursoService {
 
     // =========================================================
 
-    if (has(dto.body, "modalidade") && dto.body.modalidade !== undefined) {
-      const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(accessContext, dto.body.modalidade.id);
+    // TODO
+    // if (has(dto.body, "modalidade") && dto.body.modalidade !== undefined) {
+    //   const modalidade = await this.modalidadeService.modalidadeFindByIdSimpleStrict(accessContext, dto.body.modalidade.id);
 
-      this.cursoRepository.merge(curso, {
-        modalidade: {
-          id: modalidade.id,
-        },
-      });
-    }
+    //   this.cursoRepository.merge(curso, {
+    //     modalidade: {
+    //       id: modalidade.id,
+    //     },
+    //   });
+    // }
 
     // =========================================================
 
@@ -313,7 +311,7 @@ export class CursoService {
     throw new NotFoundException();
   }
 
-  async cursoUpdateImagemCapa(accessContext: AccessContext, dto: LadesaTypings.CursoFindOneInput, file: Express.Multer.File) {
+  async cursoUpdateImagemCapa(accessContext: AccessContext, dto: PocTypings.CursoFindOneInputView, file: Express.Multer.File) {
     // =========================================================
 
     const currentCurso = await this.cursoFindByIdStrict(accessContext, {
@@ -355,7 +353,7 @@ export class CursoService {
 
   //
 
-  async cursoDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.CursoFindOneInput) {
+  async cursoDeleteOneById(accessContext: AccessContext, dto: PocTypings.CursoFindOneInputView) {
     // =========================================================
 
     await accessContext.ensurePermission("curso:delete", { dto }, dto.id, this.cursoRepository.createQueryBuilder(aliasCurso));

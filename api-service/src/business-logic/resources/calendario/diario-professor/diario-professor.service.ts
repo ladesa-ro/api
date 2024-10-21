@@ -4,7 +4,7 @@ import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import type { DiarioProfessorEntity } from "@/infrastructure/integrations/database/typeorm/entities";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { has, map, pick } from "lodash";
 import { VinculoService } from "../../autenticacao/vinculo/vinculo.service";
@@ -32,9 +32,9 @@ export class DiarioProfessorService {
 
   async diarioProfessorFindAll(
     accessContext: AccessContext,
-    dto: LadesaTypings.DiarioProfessorListCombinedInput | null = null,
+    dto: PocTypings.DiarioProfessorListOperationInput | null = null,
     selection?: string[] | boolean,
-  ): Promise<LadesaTypings.DiarioProfessorListCombinedSuccessOutput["body"]> {
+  ): Promise<PocTypings.DiarioProfessorListCombinedSuccessOutput["body"]> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -91,7 +91,7 @@ export class DiarioProfessorService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.DiarioProfessor.Views.FindOneResult, qb, aliasDiarioProfessor, selection);
+    QbEfficientLoad(PocTypings.Tokens.DiarioProfessor.Views.FindOneResult, qb, aliasDiarioProfessor, selection);
 
     // =========================================================
 
@@ -105,9 +105,9 @@ export class DiarioProfessorService {
 
   async diarioProfessorFindById(
     accessContext: AccessContext,
-    dto: LadesaTypings.DiarioProfessorFindOneInput,
+    dto: PocTypings.DiarioProfessorFindOneInputView,
     selection?: string[] | boolean,
-  ): Promise<LadesaTypings.DiarioProfessorFindOneResult | null> {
+  ): Promise<PocTypings.DiarioProfessorFindOneResult | null> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -123,7 +123,7 @@ export class DiarioProfessorService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.DiarioProfessor.Views.FindOneResult, qb, aliasDiarioProfessor, selection);
+    QbEfficientLoad(PocTypings.Tokens.DiarioProfessor.Views.FindOneResult, qb, aliasDiarioProfessor, selection);
 
     // =========================================================
 
@@ -134,7 +134,7 @@ export class DiarioProfessorService {
     return diarioProfessor;
   }
 
-  async diarioProfessorFindByIdStrict(accessContext: AccessContext, dto: LadesaTypings.DiarioProfessorFindOneInput, selection?: string[] | boolean) {
+  async diarioProfessorFindByIdStrict(accessContext: AccessContext, dto: PocTypings.DiarioProfessorFindOneInputView, selection?: string[] | boolean) {
     const diarioProfessor = await this.diarioProfessorFindById(accessContext, dto, selection);
 
     if (!diarioProfessor) {
@@ -146,9 +146,9 @@ export class DiarioProfessorService {
 
   async diarioProfessorFindByIdSimple(
     accessContext: AccessContext,
-    id: LadesaTypings.DiarioProfessorFindOneInput["id"],
+    id: PocTypings.DiarioProfessorFindOneInputView["id"],
     selection?: string[] | boolean,
-  ): Promise<LadesaTypings.DiarioProfessorFindOneResult | null> {
+  ): Promise<PocTypings.DiarioProfessorFindOneResult | null> {
     // =========================================================
 
     const qb = this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor);
@@ -164,7 +164,7 @@ export class DiarioProfessorService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.DiarioProfessor.Views.FindOneResult, qb, aliasDiarioProfessor, selection);
+    QbEfficientLoad(PocTypings.Tokens.DiarioProfessor.Views.FindOneResult, qb, aliasDiarioProfessor, selection);
 
     // =========================================================
 
@@ -175,7 +175,7 @@ export class DiarioProfessorService {
     return diarioProfessor;
   }
 
-  async diarioProfessorFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.DiarioProfessorFindOneInput["id"], selection?: string[] | boolean) {
+  async diarioProfessorFindByIdSimpleStrict(accessContext: AccessContext, id: PocTypings.DiarioProfessorFindOneInputView["id"], selection?: string[] | boolean) {
     const diarioProfessor = await this.diarioProfessorFindByIdSimple(accessContext, id, selection);
 
     if (!diarioProfessor) {
@@ -187,7 +187,7 @@ export class DiarioProfessorService {
 
   //
 
-  async diarioProfessorCreate(accessContext: AccessContext, dto: LadesaTypings.DiarioProfessorCreateCombinedInput) {
+  async diarioProfessorCreate(accessContext: AccessContext, dto: PocTypings.DiarioProfessorCreateOperationInput) {
     // =========================================================
 
     await accessContext.ensurePermission("diario_professor:create", { dto });
@@ -220,15 +220,15 @@ export class DiarioProfessorService {
 
     // =========================================================
 
-    if (has(dto.body, "vinculo") && dto.body.vinculo !== undefined) {
-      if (dto.body.vinculo !== null) {
-        const vinculo = await this.vinculoService.vinculoFindByIdStrict(accessContext, {
-          id: dto.body.vinculo.id,
+    if (has(dto.body, "perfil") && dto.body.perfil !== undefined) {
+      if (dto.body.perfil !== null) {
+        const perfil = await this.vinculoService.vinculoFindByIdStrict(accessContext, {
+          id: dto.body.perfil.id,
         });
 
         this.diarioProfessorRepository.merge(diarioProfessor, {
           vinculo: {
-            id: vinculo.id,
+            id: perfil.id,
           },
         });
       }
@@ -245,7 +245,7 @@ export class DiarioProfessorService {
     });
   }
 
-  async diarioProfessorUpdate(accessContext: AccessContext, dto: LadesaTypings.DiarioProfessorUpdateByIDCombinedInput) {
+  async diarioProfessorUpdate(accessContext: AccessContext, dto: PocTypings.DiarioProfessorUpdateByIdOperationInput) {
     // =========================================================
 
     const currentDiarioProfessor = await this.diarioProfessorFindByIdStrict(accessContext, {
@@ -284,15 +284,15 @@ export class DiarioProfessorService {
 
     // =========================================================
 
-    if (has(dto.body, "vinculo") && dto.body.vinculo !== undefined) {
-      if (dto.body.vinculo !== null) {
-        const vinculo = await this.vinculoService.vinculoFindByIdStrict(accessContext, {
-          id: dto.body.vinculo.id,
+    if (has(dto.body, "perfil") && dto.body.perfil !== undefined) {
+      if (dto.body.perfil !== null) {
+        const perfil = await this.vinculoService.vinculoFindByIdStrict(accessContext, {
+          id: dto.body.perfil.id,
         });
 
         this.diarioProfessorRepository.merge(diarioProfessor, {
           vinculo: {
-            id: vinculo.id,
+            id: perfil.id,
           },
         });
       }
@@ -311,7 +311,7 @@ export class DiarioProfessorService {
 
   //
 
-  async diarioProfessorDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.DiarioProfessorFindOneInput) {
+  async diarioProfessorDeleteOneById(accessContext: AccessContext, dto: PocTypings.DiarioProfessorFindOneInputView) {
     // =========================================================
 
     await accessContext.ensurePermission("diario_professor:delete", { dto }, dto.id, this.diarioProfessorRepository.createQueryBuilder(aliasDiarioProfessor));

@@ -1,7 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import { Public } from "@/infrastructure/authentication";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Get, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { AutenticacaoService } from "./autenticacao.service";
@@ -12,7 +13,7 @@ export class AutenticacaoController {
   constructor(private readonly autenticacaoService: AutenticacaoService) {}
 
   @Get("/quem-sou-eu")
-  @Operation(LadesaTypings.Tokens.Auth.Operations.WhoAmI)
+  @PocOperation(PocTokens.AuthWhoAmI)
   whoAmI(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -22,32 +23,32 @@ export class AutenticacaoController {
 
   @Post("/login")
   @Public()
-  @Operation(LadesaTypings.Tokens.Auth.Operations.Login)
+  @PocOperation(PocTokens.AuthLogin)
   login(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AuthLoginCombinedInput,
+    @CombinedInput() dto: PocTypings.AuthLoginCombinedInput,
   ) {
     return this.autenticacaoService.login(accessContext, dto);
   }
 
   @Post("/login/refresh")
   @Public()
-  @Operation(LadesaTypings.Tokens.Auth.Operations.Refresh)
+  @PocOperation(PocTokens.AuthRefresh)
   refresh(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AuthRefreshCombinedInput,
+    @CombinedInput() dto: PocTypings.AuthRefreshCombinedInput,
   ) {
     return this.autenticacaoService.refresh(accessContext, dto);
   }
 
   @Post("/definir-senha")
-  @Operation(LadesaTypings.Tokens.Auth.Operations.SetInitialPassword)
+  @PocOperation(PocTokens.AuthSetInitialPassword)
   definirSenha(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AuthSetInitialPasswordCombinedInput,
+    @CombinedInput() dto: PocTypings.AuthSetInitialPasswordCombinedInput,
   ) {
     return this.autenticacaoService.definirSenha(accessContext, dto);
   }

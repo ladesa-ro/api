@@ -4,7 +4,7 @@ import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import type { ReservaEntity } from "@/infrastructure/integrations/database/typeorm/entities";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { has, map, pick } from "lodash";
 import { FilterOperator } from "nestjs-paginate";
@@ -35,9 +35,9 @@ export class ReservaService {
 
   async reservaFindAll(
     accessContext: AccessContext,
-    dto: LadesaTypings.ReservaListCombinedInput | null = null,
+    dto: PocTypings.ReservaListOperationInput | null = null,
     selection?: string[] | boolean,
-  ): Promise<LadesaTypings.ReservaListCombinedSuccessOutput["body"]> {
+  ): Promise<PocTypings.ReservaListCombinedSuccessOutput["body"]> {
     // =========================================================
 
     const qb = this.reservaRepository.createQueryBuilder(aliasReserva);
@@ -123,7 +123,7 @@ export class ReservaService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Reserva.Views.FindOneResult, qb, aliasReserva, selection);
+    QbEfficientLoad(PocTypings.Tokens.Reserva.Views.FindOneResult, qb, aliasReserva, selection);
 
     // =========================================================
 
@@ -135,7 +135,7 @@ export class ReservaService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async reservaFindById(accessContext: AccessContext, dto: LadesaTypings.ReservaFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.ReservaFindOneResult | null> {
+  async reservaFindById(accessContext: AccessContext, dto: PocTypings.ReservaFindOneInputView, selection?: string[] | boolean): Promise<PocTypings.ReservaFindOneResult | null> {
     // =========================================================
 
     const qb = this.reservaRepository.createQueryBuilder(aliasReserva);
@@ -151,7 +151,7 @@ export class ReservaService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Reserva.Views.FindOneResult, qb, aliasReserva, selection);
+    QbEfficientLoad(PocTypings.Tokens.Reserva.Views.FindOneResult, qb, aliasReserva, selection);
 
     // =========================================================
 
@@ -162,7 +162,7 @@ export class ReservaService {
     return reserva;
   }
 
-  async reservaFindByIdStrict(accessContext: AccessContext, dto: LadesaTypings.ReservaFindOneInput, selection?: string[] | boolean) {
+  async reservaFindByIdStrict(accessContext: AccessContext, dto: PocTypings.ReservaFindOneInputView, selection?: string[] | boolean) {
     const reserva = await this.reservaFindById(accessContext, dto, selection);
 
     if (!reserva) {
@@ -172,7 +172,7 @@ export class ReservaService {
     return reserva;
   }
 
-  async reservaFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.ReservaFindOneInput["id"], selection?: string[]): Promise<LadesaTypings.ReservaFindOneResult | null> {
+  async reservaFindByIdSimple(accessContext: AccessContext, id: PocTypings.ReservaFindOneInputView["id"], selection?: string[]): Promise<PocTypings.ReservaFindOneResult | null> {
     // =========================================================
 
     const qb = this.reservaRepository.createQueryBuilder(aliasReserva);
@@ -188,7 +188,7 @@ export class ReservaService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Reserva.Views.FindOneResult, qb, aliasReserva, selection);
+    QbEfficientLoad(PocTypings.Tokens.Reserva.Views.FindOneResult, qb, aliasReserva, selection);
 
     // =========================================================
 
@@ -199,7 +199,7 @@ export class ReservaService {
     return reserva;
   }
 
-  async reservaFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.ReservaFindOneInput["id"], selection?: string[]) {
+  async reservaFindByIdSimpleStrict(accessContext: AccessContext, id: PocTypings.ReservaFindOneInputView["id"], selection?: string[]) {
     const reserva = await this.reservaFindByIdSimple(accessContext, id, selection);
 
     if (!reserva) {
@@ -211,7 +211,7 @@ export class ReservaService {
 
   //
 
-  async reservaCreate(accessContext: AccessContext, dto: LadesaTypings.ReservaCreateCombinedInput) {
+  async reservaCreate(accessContext: AccessContext, dto: PocTypings.ReservaCreateOperationInput) {
     // =========================================================
 
     await accessContext.ensurePermission("reserva:create", { dto });
@@ -267,7 +267,7 @@ export class ReservaService {
     return this.reservaFindByIdStrict(accessContext, { id: reserva.id });
   }
 
-  async reservaUpdate(accessContext: AccessContext, dto: LadesaTypings.ReservaUpdateByIDCombinedInput) {
+  async reservaUpdate(accessContext: AccessContext, dto: PocTypings.ReservaUpdateByIdOperationInput) {
     // =========================================================
 
     const currentReserva = await this.reservaFindByIdStrict(accessContext, {
@@ -335,7 +335,7 @@ export class ReservaService {
 
   //
 
-  async reservaDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.ReservaFindOneInput) {
+  async reservaDeleteOneById(accessContext: AccessContext, dto: PocTypings.ReservaFindOneInputView) {
     // =========================================================
 
     await accessContext.ensurePermission("reserva:delete", { dto }, dto.id, this.reservaRepository.createQueryBuilder(aliasReserva));

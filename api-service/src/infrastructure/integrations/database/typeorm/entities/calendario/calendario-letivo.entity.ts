@@ -1,10 +1,9 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { CampusEntity } from "../ambientes/campus.entity";
 import { ModalidadeEntity } from "../ensino/modalidade.entity";
 
 @Entity("calendario_letivo")
-export class CalendarioLetivoEntity implements LadesaTypings.CalendarioLetivo {
+export class CalendarioLetivoEntity implements PocTypings.CalendarioLetivo {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
@@ -20,11 +19,11 @@ export class CalendarioLetivoEntity implements LadesaTypings.CalendarioLetivo {
 
   @ManyToOne(() => CampusEntity)
   @JoinColumn({ name: "id_campus_fk" })
-  campus!: LadesaTypings.Campus;
+  campus!: PocTypings.Campus;
 
   @ManyToOne(() => ModalidadeEntity)
   @JoinColumn({ name: "id_modalidade_fk" })
-  modalidade!: LadesaTypings.Modalidade | null;
+  modalidade!: PocTypings.Modalidade | null;
 
   //
 

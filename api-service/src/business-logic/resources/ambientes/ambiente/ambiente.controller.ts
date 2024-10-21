@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { AmbienteService } from "./ambiente.service";
@@ -11,22 +13,19 @@ export class AmbienteController {
   constructor(private ambienteService: AmbienteService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.List)
-  async ambienteFindAll(
-    @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AmbienteListCombinedInput,
-  ): Promise<LadesaTypings.AmbienteListCombinedSuccessOutput["body"]> {
+  @PocOperation(PocTokens.AmbienteList)
+  async ambienteFindAll(@AccessContextHttp() accessContext: AccessContext, @CombinedInput() dto: PocTypings.AmbienteListOperationInput): Promise<PocTypings.AmbienteListCombinedSuccessOutput["body"]> {
     return this.ambienteService.ambienteFindAll(accessContext, dto);
   }
 
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.FindById)
+  @PocOperation(PocTokens.AmbienteFindOneById)
   async ambienteFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AmbienteFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.AmbienteFindOneByIdOperationInput,
   ) {
     return this.ambienteService.ambienteFindByIdStrict(accessContext, {
       id: dto.params.id,
@@ -34,11 +33,11 @@ export class AmbienteController {
   }
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.Create)
+  @PocOperation(PocTokens.AmbienteCreate)
   async ambienteCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AmbienteCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.AmbienteCreateOperationInput,
   ) {
     return this.ambienteService.ambienteCreate(accessContext, dto);
   }
@@ -46,11 +45,11 @@ export class AmbienteController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.UpdateById)
+  @PocOperation(PocTokens.AmbienteUpdateOneById)
   async ambienteUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AmbienteUpdateByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.AmbienteUpdateByIdOperationInput,
   ) {
     return this.ambienteService.ambienteUpdate(accessContext, dto);
   }
@@ -58,7 +57,7 @@ export class AmbienteController {
   //
 
   @Get("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.GetCoverImage)
+  @PocOperation(PocTokens.AmbienteGetImagemCapa)
   async ambienteGetImagemCapa(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -68,7 +67,7 @@ export class AmbienteController {
   }
 
   @Put("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.SetCoverImage)
+  @PocOperation(PocTokens.AmbienteSetImagemCapa)
   async ambienteImagemCapaSave(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -81,11 +80,11 @@ export class AmbienteController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.DeleteById)
+  @PocOperation(PocTokens.AmbienteDeleteOneById)
   async ambienteDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AmbienteDeleteByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.AmbienteDeleteByIDCombinedInput,
   ) {
     return this.ambienteService.ambienteDeleteOneById(accessContext, {
       id: dto.params.id,

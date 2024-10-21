@@ -1,9 +1,7 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { CalendarioLetivoEntity } from "./calendario-letivo.entity";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("intervalo_de_tempo")
-export class IntervaloDeTempoEntity implements LadesaTypings.IntervaloDeTempo {
+export class IntervaloDeTempoEntity implements PocTypings.IntervaloDeTempo {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

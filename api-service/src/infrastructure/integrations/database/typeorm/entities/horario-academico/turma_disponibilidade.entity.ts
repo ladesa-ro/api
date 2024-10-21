@@ -1,9 +1,8 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
-import { Column, DeepPartial, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { TurmaEntity } from "../ensino";
 
 @Entity("turma_disponibilidade")
-export class TurmaDisponibilidadeEntity implements LadesaTypings.TurmaDisponibilidade {
+export class TurmaDisponibilidadeEntity implements PocTypings.TurmaDisponibilidade {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
@@ -19,7 +18,7 @@ export class TurmaDisponibilidadeEntity implements LadesaTypings.TurmaDisponibil
 
   @ManyToOne(() => TurmaEntity)
   @JoinColumn({ name: "id_turma_fk" })
-  turma!: LadesaTypings.Turma;
+  turma!: PocTypings.Turma;
 
   //
 

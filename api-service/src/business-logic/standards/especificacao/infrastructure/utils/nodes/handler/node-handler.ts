@@ -1,37 +1,41 @@
 import {
   CheckType,
   INode,
-  INodeRef,
+  INodeTypeArray,
+  INodeTypeNull,
   INodeTypeObject,
   INodeTypeObjectBase,
   INodeTypeObjectEntity,
   INodeTypeObjectOperation,
-  NodeRef,
+  INodeTypeString,
+  NodeTypeArray,
+  NodeTypeNull,
   NodeTypeObject,
   NodeTypeObjectBase,
   NodeTypeObjectEntity,
   NodeTypeObjectOperation,
+  NodeTypeString,
 } from "@/business-logic/standards/especificacao/infrastructure/utils/nodes/schemas";
 
-export class NodeHandler<Context = void> {
-  HandleDefault(node: any, context: Context) {
+export class NodeHandler<Out = unknown, Context = void> {
+  HandleDefault(node: any, context: Context): Out {
     console.debug("unhandled node:", node);
     throw new Error("unhandled node");
   }
 
-  HandleTypeObjectBase(node: INodeTypeObjectBase, context: Context) {
+  HandleTypeObjectBase(node: INodeTypeObjectBase, context: Context): Out {
     return this.HandleDefault(node, context);
   }
 
-  HandleTypeObjectEntity(node: INodeTypeObjectEntity, context: Context) {
+  HandleTypeObjectEntity(node: INodeTypeObjectEntity, context: Context): Out {
     return this.HandleDefault(node, context);
   }
 
-  HandleTypeObjectOperation(node: INodeTypeObjectOperation, context: Context) {
+  HandleTypeObjectOperation(node: INodeTypeObjectOperation, context: Context): Out {
     return this.HandleDefault(node, context);
   }
 
-  HandleTypeObject(node: INodeTypeObject, context: Context) {
+  HandleTypeObject(node: INodeTypeObject, context: Context): Out {
     if (CheckType(NodeTypeObjectOperation, node)) {
       return this.HandleTypeObjectOperation(node, context);
     }
@@ -47,13 +51,29 @@ export class NodeHandler<Context = void> {
     return this.HandleDefault(node, context);
   }
 
-  HandleRef(node: INodeRef, context: Context) {
+  HandleTypeNull(node: INodeTypeNull, context: Context): Out {
     return this.HandleDefault(node, context);
   }
 
-  Handle(node: INode, context: Context) {
-    if (CheckType(NodeRef, node)) {
-      return this.HandleRef(node, context);
+  HandleTypeArray(node: INodeTypeArray, context: Context): Out {
+    return this.HandleDefault(node, context);
+  }
+
+  HandleTypeString(node: INodeTypeString, context: Context): Out {
+    return this.HandleDefault(node, context);
+  }
+
+  Handle(node: INode, context: Context): Out {
+    if (CheckType(NodeTypeNull, node)) {
+      return this.HandleTypeNull(node, context);
+    }
+
+    if (CheckType(NodeTypeArray, node)) {
+      return this.HandleTypeArray(node, context);
+    }
+
+    if (CheckType(NodeTypeString, node)) {
+      return this.HandleTypeString(node, context);
     }
 
     if (CheckType(NodeTypeObject, node)) {

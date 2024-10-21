@@ -1,4 +1,3 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AmbienteEntity } from "../ambientes/ambiente.entity";
 import { BlocoEntity } from "../ambientes/bloco.entity";
@@ -6,7 +5,7 @@ import { UsuarioEntity } from "../autenticacao/usuario.entity";
 import { ImagemArquivoEntity } from "./imagem_arquivo.entity";
 
 @Entity("imagem")
-export class ImagemEntity implements LadesaTypings.Imagem {
+export class ImagemEntity implements PocTypings.Imagem {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

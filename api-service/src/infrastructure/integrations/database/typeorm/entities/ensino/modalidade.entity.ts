@@ -1,9 +1,8 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CampusPossuiModalidadeEntity } from "./campus_possui_modalidade.entity";
 
 @Entity("modalidade")
-export class ModalidadeEntity implements LadesaTypings.Modalidade {
+export class ModalidadeEntity implements PocTypings.Modalidade {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

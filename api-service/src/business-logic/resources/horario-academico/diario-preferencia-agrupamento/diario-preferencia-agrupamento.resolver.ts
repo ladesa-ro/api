@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Resolver } from "@nestjs/graphql";
 import { DiarioPreferenciaAgrupamentoService } from "./diario-preferencia-agrupamento.service";
 
@@ -8,52 +10,52 @@ import { DiarioPreferenciaAgrupamentoService } from "./diario-preferencia-agrupa
 export class DiarioPreferenciaAgrupamentoResolver {
   constructor(private diarioPreferenciaAgrupamentoService: DiarioPreferenciaAgrupamentoService) {}
   //
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.List)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoList)
   async diarioPreferenciaAgrupamentoFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput()
-    dto: LadesaTypings.DiarioPreferenciaAgrupamentoListCombinedInput,
+    dto: PocTypings.DiarioPreferenciaAgrupamentoListOperationInput,
   ) {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.FindById)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoFindOneById)
   async diarioPreferenciaAgrupamentoFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput()
-    dto: LadesaTypings.DiarioPreferenciaAgrupamentoFindByIDCombinedInput,
+    dto: PocTypings.DiarioPreferenciaAgrupamentoFindOneByIdOperationInput,
   ) {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.Create)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoCreate)
   async diarioPreferenciaAgrupamentoCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput()
-    dto: LadesaTypings.DiarioPreferenciaAgrupamentoCreateCombinedInput,
+    dto: PocTypings.DiarioPreferenciaAgrupamentoCreateOperationInput,
   ) {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.UpdateById)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoUpdateOneById)
   async diarioPreferenciaAgrupamentoUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput()
-    dto: LadesaTypings.DiarioPreferenciaAgrupamentoUpdateByIDCombinedInput,
+    dto: PocTypings.DiarioPreferenciaAgrupamentoUpdateByIdOperationInput,
   ) {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoUpdate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.DeleteById)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoDeleteOneById)
   async diarioPreferenciaAgrupamentoOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
     @CombinedInput()
-    dto: LadesaTypings.DiarioPreferenciaAgrupamentoDeleteByIDCombinedInput,
+    dto: PocTypings.DiarioPreferenciaAgrupamentoDeleteByIDCombinedInput,
   ) {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoDeleteOneById(accessContext, { id: dto.params.id });
   }

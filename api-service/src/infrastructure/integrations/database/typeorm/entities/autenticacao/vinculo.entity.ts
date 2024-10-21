@@ -1,10 +1,9 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from "typeorm";
 import { CampusEntity } from "../ambientes/campus.entity";
 import { UsuarioEntity } from "./usuario.entity";
 
 @Entity("usuario_vinculo_campus")
-export class VinculoEntity implements LadesaTypings.Vinculo {
+export class VinculoEntity implements PocTypings.Vinculo {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

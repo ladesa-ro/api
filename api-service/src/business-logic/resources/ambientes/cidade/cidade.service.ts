@@ -3,7 +3,7 @@ import { LadesaPaginatedResultDto, LadesaSearch } from "@/business-logic/standar
 import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { map } from "lodash";
 import { FilterOperator } from "nestjs-paginate";
@@ -22,7 +22,7 @@ export class CidadeService {
 
   //
 
-  async findAll(accessContext: AccessContext, dto: LadesaTypings.CidadeListCombinedInput | null = null, selection?: string[]) {
+  async findAll(accessContext: AccessContext, dto: PocTypings.CidadeListOperationInput | null = null, selection?: string[]) {
     // =========================================================
 
     const qb = this.cidadeRepository.createQueryBuilder("cidade");
@@ -65,7 +65,7 @@ export class CidadeService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Cidade.Entity, qb, aliasCidade, selection);
+    QbEfficientLoad(PocTypings.Tokens.Cidade.Entity, qb, aliasCidade, selection);
 
     // =========================================================
 
@@ -77,7 +77,7 @@ export class CidadeService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async findById(accessContext: AccessContext, dto: LadesaTypings.CidadeFindOneInput, selection?: string[]) {
+  async findById(accessContext: AccessContext, dto: PocTypings.CidadeFindOneInputView, selection?: string[]) {
     // =========================================================
 
     const { cidadeRepository: baseCidadeRepository } = this.databaseContextService;
@@ -97,7 +97,7 @@ export class CidadeService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Cidade.Entity, qb, aliasCidade, selection);
+    QbEfficientLoad(PocTypings.Tokens.Cidade.Entity, qb, aliasCidade, selection);
 
     // =========================================================
 
@@ -108,7 +108,7 @@ export class CidadeService {
     return cidade;
   }
 
-  async findByIdStrict(accessContext: AccessContext, dto: LadesaTypings.CidadeFindOneInput, selection?: string[]) {
+  async findByIdStrict(accessContext: AccessContext, dto: PocTypings.CidadeFindOneInputView, selection?: string[]) {
     const cidade = await this.findById(accessContext, dto, selection);
 
     if (!cidade) {

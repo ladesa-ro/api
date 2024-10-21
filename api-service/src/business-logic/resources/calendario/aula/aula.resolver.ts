@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Resolver } from "@nestjs/graphql";
 import { AulaService } from "./aula.service";
 
@@ -11,47 +13,47 @@ export class AulaResolver {
     private aulaService: AulaService,
   ) {}
   //
-  @Operation(LadesaTypings.Tokens.Aula.Operations.List)
+  @PocOperation(PocTokens.AulaList)
   async aulaFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AulaListCombinedInput,
+    @CombinedInput() dto: PocTypings.AulaListOperationInput,
   ) {
     return this.aulaService.aulaFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Aula.Operations.FindById)
+  @PocOperation(PocTokens.AulaFindOneById)
   async aulaFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AulaFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.AulaFindOneByIdOperationInput,
   ) {
     return this.aulaService.aulaFindByIdStrict(accessContext, {
       id: dto.params.id,
     });
   }
   //
-  @Operation(LadesaTypings.Tokens.Aula.Operations.Create)
+  @PocOperation(PocTokens.AulaCreate)
   async aulaCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AulaCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.AulaCreateOperationInput,
   ) {
     return this.aulaService.aulaCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Aula.Operations.UpdateById)
+  @PocOperation(PocTokens.AulaUpdateOneById)
   async aulaUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AulaUpdateByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.AulaUpdateByIdOperationInput,
   ) {
     return this.aulaService.aulaUpdate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Aula.Operations.DeleteById)
+  @PocOperation(PocTokens.AulaDeleteOneById)
   async aulaDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.AulaDeleteByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.AulaDeleteByIDCombinedInput,
   ) {
     return this.aulaService.aulaDeleteOneById(accessContext, {
       id: dto.params.id,

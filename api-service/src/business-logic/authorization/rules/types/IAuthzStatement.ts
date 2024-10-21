@@ -1,4 +1,4 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
 import { IBaseAuthzCheck, IBaseAuthzFilter } from "./IBaseAuthz";
 
 // ===================================================================================
@@ -12,38 +12,38 @@ export type IAuthzStatementCidadeFind = IBaseAuthzFilter<"cidade:find">;
 
 // =====================
 
-export type IAuthzStatementCampusCreate = IBaseAuthzCheck<"campus:create", { dto: LadesaTypings.CampusCreateCombinedInput }>;
+export type IAuthzStatementCampusCreate = IBaseAuthzCheck<"campus:create", { dto: PocTypings.CampusCreateOperationInput }>;
 export type IAuthzStatementCampusFind = IBaseAuthzFilter<"campus:find">;
-export type IAuthzStatementCampusUpdate = IBaseAuthzFilter<"campus:update", { dto: LadesaTypings.CampusUpdateByIDCombinedInput }>;
-export type IAuthzStatementCampusDelete = IBaseAuthzFilter<"campus:delete", { dto: LadesaTypings.CampusFindOneInput }>;
+export type IAuthzStatementCampusUpdate = IBaseAuthzFilter<"campus:update", { dto: PocTypings.CampusUpdateOperationInput }>;
+export type IAuthzStatementCampusDelete = IBaseAuthzFilter<"campus:delete", { dto: PocTypings.CampusFindOneInputView }>;
 
 // =====================
 
-export type IAuthzStatementBlocoCreate = IBaseAuthzCheck<"bloco:create", { dto: LadesaTypings.BlocoCreateCombinedInput }>;
+export type IAuthzStatementBlocoCreate = IBaseAuthzCheck<"bloco:create", { dto: PocTypings.BlocoCreateOperationInput }>;
 export type IAuthzStatementBlocoFind = IBaseAuthzFilter<"bloco:find">;
-export type IAuthzStatementBlocoUpdate = IBaseAuthzFilter<"bloco:update", { dto: LadesaTypings.BlocoUpdateByIDCombinedInput }>;
-export type IAuthzStatementBlocoDelete = IBaseAuthzFilter<"bloco:delete", { dto: LadesaTypings.BlocoFindOneInput }>;
+export type IAuthzStatementBlocoUpdate = IBaseAuthzFilter<"bloco:update", { dto: PocTypings.BlocoUpdateByIdOperationInput }>;
+export type IAuthzStatementBlocoDelete = IBaseAuthzFilter<"bloco:delete", { dto: PocTypings.BlocoFindOneInputView }>;
 
 // =====================
 
-export type IAuthzStatementAmbienteCreate = IBaseAuthzCheck<"ambiente:create", { dto: LadesaTypings.AmbienteCreateCombinedInput }>;
+export type IAuthzStatementAmbienteCreate = IBaseAuthzCheck<"ambiente:create", { dto: PocTypings.AmbienteCreateOperationInput }>;
 export type IAuthzStatementAmbienteFind = IBaseAuthzFilter<"ambiente:find">;
-export type IAuthzStatementAmbienteUpdate = IBaseAuthzFilter<"ambiente:update", { dto: LadesaTypings.AmbienteUpdateByIDCombinedInput }>;
-export type IAuthzStatementAmbienteDelete = IBaseAuthzFilter<"ambiente:delete", { dto: LadesaTypings.AmbienteFindOneInput }>;
+export type IAuthzStatementAmbienteUpdate = IBaseAuthzFilter<"ambiente:update", { dto: PocTypings.AmbienteUpdateByIdOperationInput }>;
+export type IAuthzStatementAmbienteDelete = IBaseAuthzFilter<"ambiente:delete", { dto: PocTypings.AmbienteFindOneInputView }>;
 
 // =====================
 
-export type IAuthzStatementUsuarioCreate = IBaseAuthzCheck<"usuario:create", { dto: LadesaTypings.UsuarioCreateCombinedInput }>;
+export type IAuthzStatementUsuarioCreate = IBaseAuthzCheck<"usuario:create", { dto: PocTypings.UsuarioCreateOperationInput }>;
 export type IAuthzStatementUsuarioFind = IBaseAuthzFilter<"usuario:find">;
-export type IAuthzStatementUsuarioUpdate = IBaseAuthzFilter<"usuario:update", { dto: LadesaTypings.UsuarioUpdateByIDCombinedInput }>;
-export type IAuthzStatementUsuarioDelete = IBaseAuthzFilter<"usuario:delete", { dto: LadesaTypings.UsuarioFindOneInput }>;
+export type IAuthzStatementUsuarioUpdate = IBaseAuthzFilter<"usuario:update", { dto: PocTypings.UsuarioUpdateByIdOperationInput }>;
+export type IAuthzStatementUsuarioDelete = IBaseAuthzFilter<"usuario:delete", { dto: PocTypings.UsuarioFindOneInputView }>;
 
 // =====================
 
-export type IAuthzStatementModalidadeCreate = IBaseAuthzCheck<"modalidade:create", { dto: LadesaTypings.ModalidadeCreateCombinedInput }>;
+export type IAuthzStatementModalidadeCreate = IBaseAuthzCheck<"modalidade:create", { dto: PocTypings.ModalidadeCreateOperationInput }>;
 export type IAuthzStatementModalidadeFind = IBaseAuthzFilter<"modalidade:find">;
-export type IAuthzStatementModalidadeUpdate = IBaseAuthzFilter<"modalidade:update", { dto: LadesaTypings.ModalidadeUpdateByIDCombinedInput }>;
-export type IAuthzStatementModalidadeDelete = IBaseAuthzFilter<"modalidade:delete", { dto: LadesaTypings.ModalidadeFindOneInput }>;
+export type IAuthzStatementModalidadeUpdate = IBaseAuthzFilter<"modalidade:update", { dto: PocTypings.ModalidadeUpdateByIdOperationInput }>;
+export type IAuthzStatementModalidadeDelete = IBaseAuthzFilter<"modalidade:delete", { dto: PocTypings.ModalidadeFindOneInputView }>;
 
 // =====================
 
@@ -51,131 +51,103 @@ export type IAuthzStatementVinculoFind = IBaseAuthzFilter<"vinculo:find">;
 
 // =====================
 
-export type IAuthzStatementCursoCreate = IBaseAuthzCheck<"curso:create", { dto: LadesaTypings.CursoCreateCombinedInput }>;
-export type IAuthzStatementCursoUpdate = IBaseAuthzFilter<"curso:update", { dto: LadesaTypings.CursoUpdateByIDCombinedInput }>;
-export type IAuthzStatementCursoDelete = IBaseAuthzFilter<"curso:delete", { dto: LadesaTypings.CursoFindOneInput }>;
+export type IAuthzStatementCursoCreate = IBaseAuthzCheck<"curso:create", { dto: PocTypings.CursoCreateOperationInput }>;
+export type IAuthzStatementCursoUpdate = IBaseAuthzFilter<"curso:update", { dto: PocTypings.CursoUpdateByIdOperationInput }>;
+export type IAuthzStatementCursoDelete = IBaseAuthzFilter<"curso:delete", { dto: PocTypings.CursoFindOneInputView }>;
 export type IAuthzStatementCursoFind = IBaseAuthzFilter<"curso:find">;
 
 // =====================
 
-export type IAuthzStatementDisciplinaCreate = IBaseAuthzCheck<"disciplina:create", { dto: LadesaTypings.DisciplinaCreateCombinedInput }>;
-export type IAuthzStatementDisciplinaUpdate = IBaseAuthzFilter<"disciplina:update", { dto: LadesaTypings.DisciplinaUpdateByIDCombinedInput }>;
-export type IAuthzStatementDisciplinaDelete = IBaseAuthzFilter<"disciplina:delete", { dto: LadesaTypings.DisciplinaFindOneInput }>;
+export type IAuthzStatementDisciplinaCreate = IBaseAuthzCheck<"disciplina:create", { dto: PocTypings.DisciplinaCreateOperationInput }>;
+export type IAuthzStatementDisciplinaUpdate = IBaseAuthzFilter<"disciplina:update", { dto: PocTypings.DisciplinaUpdateByIdOperationInput }>;
+export type IAuthzStatementDisciplinaDelete = IBaseAuthzFilter<"disciplina:delete", { dto: PocTypings.DisciplinaFindOneInputView }>;
 export type IAuthzStatementDisciplinaFind = IBaseAuthzFilter<"disciplina:find">;
 
 // =====================
 
-export type IAuthzStatementTurmaCreate = IBaseAuthzCheck<"turma:create", { dto: LadesaTypings.TurmaCreateCombinedInput }>;
-export type IAuthzStatementTurmaUpdate = IBaseAuthzFilter<"turma:update", { dto: LadesaTypings.TurmaUpdateByIDCombinedInput }>;
-export type IAuthzStatementTurmaDelete = IBaseAuthzFilter<"turma:delete", { dto: LadesaTypings.TurmaFindOneInput }>;
+export type IAuthzStatementTurmaCreate = IBaseAuthzCheck<"turma:create", { dto: PocTypings.TurmaCreateOperationInput }>;
+export type IAuthzStatementTurmaUpdate = IBaseAuthzFilter<"turma:update", { dto: PocTypings.TurmaUpdateByIdOperationInput }>;
+export type IAuthzStatementTurmaDelete = IBaseAuthzFilter<"turma:delete", { dto: PocTypings.TurmaFindOneInputView }>;
 export type IAuthzStatementTurmaFind = IBaseAuthzFilter<"turma:find">;
 
 // =====================
 
-export type IAuthzStatementDiarioCreate = IBaseAuthzCheck<"diario:create", { dto: LadesaTypings.DiarioCreateCombinedInput }>;
-export type IAuthzStatementDiarioUpdate = IBaseAuthzFilter<"diario:update", { dto: LadesaTypings.DiarioUpdateByIDCombinedInput }>;
-export type IAuthzStatementDiarioDelete = IBaseAuthzFilter<"diario:delete", { dto: LadesaTypings.DiarioFindOneInput }>;
+export type IAuthzStatementDiarioCreate = IBaseAuthzCheck<"diario:create", { dto: PocTypings.DiarioCreateOperationInput }>;
+export type IAuthzStatementDiarioUpdate = IBaseAuthzFilter<"diario:update", { dto: PocTypings.DiarioUpdateByIdOperationInput }>;
+export type IAuthzStatementDiarioDelete = IBaseAuthzFilter<"diario:delete", { dto: PocTypings.DiarioFindOneInputView }>;
 export type IAuthzStatementDiarioFind = IBaseAuthzFilter<"diario:find">;
 
 // =====================
 
-export type IAuthzStatementReservaCreate = IBaseAuthzCheck<"reserva:create", { dto: LadesaTypings.ReservaCreateCombinedInput }>;
-export type IAuthzStatementReservaUpdate = IBaseAuthzFilter<"reserva:update", { dto: LadesaTypings.ReservaUpdateByIDCombinedInput }>;
-export type IAuthzStatementReservaDelete = IBaseAuthzFilter<"reserva:delete", { dto: LadesaTypings.ReservaFindOneInput }>;
+export type IAuthzStatementReservaCreate = IBaseAuthzCheck<"reserva:create", { dto: PocTypings.ReservaCreateOperationInput }>;
+export type IAuthzStatementReservaUpdate = IBaseAuthzFilter<"reserva:update", { dto: PocTypings.ReservaUpdateByIdOperationInput }>;
+export type IAuthzStatementReservaDelete = IBaseAuthzFilter<"reserva:delete", { dto: PocTypings.ReservaFindOneInputView }>;
 export type IAuthzStatementReservaFind = IBaseAuthzFilter<"reserva:find">;
 
 // =====================
 
-export type IAuthzStatementCalendarioLetivoCreate = IBaseAuthzCheck<"calendario_letivo:create", { dto: LadesaTypings.CalendarioLetivoCreateCombinedInput }>;
-export type IAuthzStatementCalendarioLetivoUpdate = IBaseAuthzFilter<"calendario_letivo:update", { dto: LadesaTypings.CalendarioLetivoUpdateByIDCombinedInput }>;
-export type IAuthzStatementCalendarioLetivoDelete = IBaseAuthzFilter<"calendario_letivo:delete", { dto: LadesaTypings.CalendarioLetivoFindOneInput }>;
+export type IAuthzStatementCalendarioLetivoCreate = IBaseAuthzCheck<"calendario_letivo:create", { dto: PocTypings.CalendarioLetivoCreateOperationInput }>;
+export type IAuthzStatementCalendarioLetivoUpdate = IBaseAuthzFilter<"calendario_letivo:update", { dto: PocTypings.CalendarioLetivoUpdateByIdOperationInput }>;
+export type IAuthzStatementCalendarioLetivoDelete = IBaseAuthzFilter<"calendario_letivo:delete", { dto: PocTypings.CalendarioLetivoFindOneInputView }>;
 export type IAuthzStatementCalendarioLetivoFind = IBaseAuthzFilter<"calendario_letivo:find">;
 
 // =====================
 
-export type IAuthzStatementDiarioProfessorCreate = IBaseAuthzCheck<"diario_professor:create", { dto: LadesaTypings.DiarioProfessorCreateCombinedInput }>;
+export type IAuthzStatementDiarioProfessorCreate = IBaseAuthzCheck<"diario_professor:create", { dto: PocTypings.DiarioProfessorCreateOperationInput }>;
 
-export type IAuthzStatementDiarioProfessorUpdate = IBaseAuthzFilter<"diario_professor:update", { dto: LadesaTypings.DiarioProfessorUpdateByIDCombinedInput }>;
+export type IAuthzStatementDiarioProfessorUpdate = IBaseAuthzFilter<"diario_professor:update", { dto: PocTypings.DiarioProfessorUpdateByIdOperationInput }>;
 
-export type IAuthzStatementDiarioProfessorDelete = IBaseAuthzFilter<"diario_professor:delete", { dto: LadesaTypings.DiarioProfessorFindOneInput }>;
+export type IAuthzStatementDiarioProfessorDelete = IBaseAuthzFilter<"diario_professor:delete", { dto: PocTypings.DiarioProfessorFindOneInputView }>;
 
 export type IAuthzStatementDiarioProfessorFilter = IBaseAuthzFilter<"diario_professor:find">;
 
 // =====================
 
-export type IAuthzStatementEventoCreate = IBaseAuthzCheck<"evento:create", { dto: LadesaTypings.EventoCreateCombinedInput }>;
-export type IAuthzStatementEventoUpdate = IBaseAuthzFilter<"evento:update", { dto: LadesaTypings.EventoUpdateByIDCombinedInput }>;
-export type IAuthzStatementEventoDelete = IBaseAuthzFilter<"evento:delete", { dto: LadesaTypings.EventoFindOneInput }>;
+export type IAuthzStatementEventoCreate = IBaseAuthzCheck<"evento:create", { dto: PocTypings.EventoCreateOperationInput }>;
+export type IAuthzStatementEventoUpdate = IBaseAuthzFilter<"evento:update", { dto: PocTypings.EventoUpdateByIdOperationInput }>;
+export type IAuthzStatementEventoDelete = IBaseAuthzFilter<"evento:delete", { dto: PocTypings.EventoFindOneInputView }>;
 export type IAuthzStatementEventoFind = IBaseAuthzFilter<"evento:find">;
 
 // =====================
 
-export type IAuthzStatementDiaCalendarioCreate = IBaseAuthzCheck<"dia_calendario:create", { dto: LadesaTypings.DiaCalendarioCreateCombinedInput }>;
-export type IAuthzStatementDiaCalendarioUpdate = IBaseAuthzFilter<"dia_calendario:update", { dto: LadesaTypings.DiaCalendarioUpdateByIDCombinedInput }>;
-export type IAuthzStatementDiaCalendarioDelete = IBaseAuthzFilter<"dia_calendario:delete", { dto: LadesaTypings.DiaCalendarioFindOneInput }>;
+export type IAuthzStatementDiaCalendarioCreate = IBaseAuthzCheck<"dia_calendario:create", { dto: PocTypings.DiaCalendarioCreateOperationInput }>;
+export type IAuthzStatementDiaCalendarioUpdate = IBaseAuthzFilter<"dia_calendario:update", { dto: PocTypings.DiaCalendarioUpdateByIdOperationInput }>;
+export type IAuthzStatementDiaCalendarioDelete = IBaseAuthzFilter<"dia_calendario:delete", { dto: PocTypings.DiaCalendarioFindOneInputView }>;
 export type IAuthzStatementDiaCalendarioFind = IBaseAuthzFilter<"dia_calendario:find">;
 
 // =====================
 
-export type IAuthzStatementEtapaCreate = IBaseAuthzCheck<"etapa:create", { dto: LadesaTypings.EtapaCreateCombinedInput }>;
-export type IAuthzStatementEtapaUpdate = IBaseAuthzFilter<"etapa:update", { dto: LadesaTypings.EtapaUpdateByIDCombinedInput }>;
-export type IAuthzStatementEtapaDelete = IBaseAuthzFilter<"etapa:delete", { dto: LadesaTypings.EtapaFindOneInput }>;
+export type IAuthzStatementEtapaCreate = IBaseAuthzCheck<"etapa:create", { dto: PocTypings.EtapaCreateOperationInput }>;
+export type IAuthzStatementEtapaUpdate = IBaseAuthzFilter<"etapa:update", { dto: PocTypings.EtapaUpdateByIdOperationInput }>;
+export type IAuthzStatementEtapaDelete = IBaseAuthzFilter<"etapa:delete", { dto: PocTypings.EtapaFindOneInputView }>;
 export type IAuthzStatementEtapaFind = IBaseAuthzFilter<"etapa:find">;
 
 // =====================
 
-export type IAuthzStatementTurmaDisponibilidadeCreate = IBaseAuthzCheck<"turma_disponibilidade:create", { dto: LadesaTypings.TurmaDisponibilidadeCreateCombinedInput }>;
-export type IAuthzStatementTurmaDisponibilidadeUpdate = IBaseAuthzFilter<"turma_disponibilidade:update", { dto: LadesaTypings.TurmaDisponibilidadeUpdateByIDCombinedInput }>;
-export type IAuthzStatementTurmaDisponibilidadeDelete = IBaseAuthzFilter<"turma_disponibilidade:delete", { dto: LadesaTypings.TurmaDisponibilidadeFindOneInput }>;
-export type IAuthzStatementTurmaDisponibilidadeFind = IBaseAuthzFilter<"turma_disponibilidade:find">;
-
-// =====================
-
-export type IAuthzStatementTurmaDisponibilidadeDiaCreate = IBaseAuthzCheck<"turma_disponibilidade_dia:create", { dto: LadesaTypings.TurmaDisponibilidadeDiaCreateCombinedInput }>;
-export type IAuthzStatementTurmaDisponibilidadeDiaUpdate = IBaseAuthzFilter<"turma_disponibilidade_dia:update", { dto: LadesaTypings.TurmaDisponibilidadeDiaUpdateByIDCombinedInput }>;
-export type IAuthzStatementTurmaDisponibilidadeDiaDelete = IBaseAuthzFilter<"turma_disponibilidade_dia:delete", { dto: LadesaTypings.TurmaDisponibilidadeDiaFindOneInput }>;
-export type IAuthzStatementTurmaDisponibilidadeDiaFind = IBaseAuthzFilter<"turma_disponibilidade_dia:find">;
-
-// =====================
-
-export type IAuthzStatementAulaCreate = IBaseAuthzCheck<"aula:create", { dto: LadesaTypings.AulaCreateCombinedInput }>;
-export type IAuthzStatementAulaUpdate = IBaseAuthzFilter<"aula:update", { dto: LadesaTypings.AulaUpdateByIDCombinedInput }>;
-export type IAuthzStatementAulaDelete = IBaseAuthzFilter<"aula:delete", { dto: LadesaTypings.AulaFindOneInput }>;
+export type IAuthzStatementAulaCreate = IBaseAuthzCheck<"aula:create", { dto: PocTypings.AulaCreateOperationInput }>;
+export type IAuthzStatementAulaUpdate = IBaseAuthzFilter<"aula:update", { dto: PocTypings.AulaUpdateByIdOperationInput }>;
+export type IAuthzStatementAulaDelete = IBaseAuthzFilter<"aula:delete", { dto: PocTypings.AulaFindOneInputView }>;
 export type IAuthzStatementAulaFind = IBaseAuthzFilter<"aula:find">;
 
 // =====================
 
-export type IAuthzStatementDisponibilidadeProfessorCreate = IBaseAuthzCheck<"disponibilidade_professor:create", { dto: LadesaTypings.DisponibilidadeProfessorCreateCombinedInput }>;
-export type IAuthzStatementDisponibilidadeProfessorUpdate = IBaseAuthzFilter<"disponibilidade_professor:update", { dto: LadesaTypings.DisponibilidadeProfessorUpdateByIDCombinedInput }>;
-export type IAuthzStatementDisponibilidadeProfessorDelete = IBaseAuthzFilter<"disponibilidade_professor:delete", { dto: LadesaTypings.DisponibilidadeProfessorFindOneInput }>;
-export type IAuthzStatementDisponibilidadeProfessorFind = IBaseAuthzFilter<"disponibilidade_professor:find">;
-
-// =====================
-
-export type IAuthzStatementDisponibilidadeProfessorDiaCreate = IBaseAuthzCheck<"disponibilidade_professor_dia:create", { dto: LadesaTypings.DisponibilidadeProfessorDiaCreateCombinedInput }>;
-export type IAuthzStatementDisponibilidadeProfessorDiaUpdate = IBaseAuthzFilter<"disponibilidade_professor_dia:update", { dto: LadesaTypings.DisponibilidadeProfessorDiaUpdateByIDCombinedInput }>;
-export type IAuthzStatementDisponibilidadeProfessorDiaDelete = IBaseAuthzFilter<"disponibilidade_professor_dia:delete", { dto: LadesaTypings.DisponibilidadeProfessorDiaFindOneInput }>;
-export type IAuthzStatementDisponibilidadeProfessorDiaFind = IBaseAuthzFilter<"disponibilidade_professor_dia:find">;
-
-// =====================
-
-export type IAuthzStatementDiarioPreferenciaAgrupamentoCreate = IBaseAuthzCheck<"diario_preferencia_agrupamento:create", { dto: LadesaTypings.DiarioPreferenciaAgrupamentoCreateCombinedInput }>;
-export type IAuthzStatementDiarioPreferenciaAgrupamentoUpdate = IBaseAuthzFilter<"diario_preferencia_agrupamento:update", { dto: LadesaTypings.DiarioPreferenciaAgrupamentoUpdateByIDCombinedInput }>;
-export type IAuthzStatementDiarioPreferenciaAgrupamentoDelete = IBaseAuthzFilter<"diario_preferencia_agrupamento:delete", { dto: LadesaTypings.DiarioPreferenciaAgrupamentoFindOneInput }>;
+export type IAuthzStatementDiarioPreferenciaAgrupamentoCreate = IBaseAuthzCheck<"diario_preferencia_agrupamento:create", { dto: PocTypings.DiarioPreferenciaAgrupamentoCreateOperationInput }>;
+export type IAuthzStatementDiarioPreferenciaAgrupamentoUpdate = IBaseAuthzFilter<"diario_preferencia_agrupamento:update", { dto: PocTypings.DiarioPreferenciaAgrupamentoUpdateByIdOperationInput }>;
+export type IAuthzStatementDiarioPreferenciaAgrupamentoDelete = IBaseAuthzFilter<"diario_preferencia_agrupamento:delete", { dto: PocTypings.DiarioPreferenciaAgrupamentoFindOneInputView }>;
 export type IAuthzStatementDiarioPreferenciaAgrupamentoFind = IBaseAuthzFilter<"diario_preferencia_agrupamento:find">;
 
 // =====================
 
-export type IAuthzStatementHorarioGeradoCreate = IBaseAuthzCheck<"horario_gerado:create", { dto: LadesaTypings.HorarioGeradoCreateCombinedInput }>;
-export type IAuthzStatementHorarioGeradoUpdate = IBaseAuthzFilter<"horario_gerado:update", { dto: LadesaTypings.HorarioGeradoUpdateByIDCombinedInput }>;
-export type IAuthzStatementHorarioGeradoDelete = IBaseAuthzFilter<"horario_gerado:delete", { dto: LadesaTypings.HorarioGeradoFindOneInput }>;
+export type IAuthzStatementHorarioGeradoCreate = IBaseAuthzCheck<"horario_gerado:create", { dto: PocTypings.HorarioGeradoCreateOperationInput }>;
+export type IAuthzStatementHorarioGeradoUpdate = IBaseAuthzFilter<"horario_gerado:update", { dto: PocTypings.HorarioGeradoUpdateByIdOperationInput }>;
+export type IAuthzStatementHorarioGeradoDelete = IBaseAuthzFilter<"horario_gerado:delete", { dto: PocTypings.HorarioGeradoFindOneInputView }>;
 export type IAuthzStatementHorarioGeradoFind = IBaseAuthzFilter<"horario_gerado:find">;
 
 // =====================
 
-export type IAuthzStatementHorarioGeradoAulaCreate = IBaseAuthzCheck<"horario_gerado_aula:create", { dto: LadesaTypings.HorarioGeradoAulaCreateCombinedInput }>;
-export type IAuthzStatementHorarioGeradoAulaUpdate = IBaseAuthzFilter<"horario_gerado_aula:update", { dto: LadesaTypings.HorarioGeradoAulaUpdateByIDCombinedInput }>;
-export type IAuthzStatementHorarioGeradoAulaDelete = IBaseAuthzFilter<"horario_gerado_aula:delete", { dto: LadesaTypings.HorarioGeradoAulaFindOneInput }>;
+export type IAuthzStatementHorarioGeradoAulaCreate = IBaseAuthzCheck<"horario_gerado_aula:create", { dto: PocTypings.HorarioGeradoAulaCreateOperationInput }>;
+export type IAuthzStatementHorarioGeradoAulaUpdate = IBaseAuthzFilter<"horario_gerado_aula:update", { dto: PocTypings.HorarioGeradoAulaUpdateByIdOperationInput }>;
+export type IAuthzStatementHorarioGeradoAulaDelete = IBaseAuthzFilter<"horario_gerado_aula:delete", { dto: PocTypings.HorarioGeradoAulaFindOneInputView }>;
 export type IAuthzStatementHorarioGeradoAulaFind = IBaseAuthzFilter<"horario_gerado_aula:find">;
 
 // ===================================================================================
@@ -196,11 +168,7 @@ export type IAuthzStatementCheck =
   | IAuthzStatementEventoCreate
   | IAuthzStatementDiaCalendarioCreate
   | IAuthzStatementEtapaCreate
-  | IAuthzStatementTurmaDisponibilidadeCreate
   | IAuthzStatementAulaCreate
-  | IAuthzStatementTurmaDisponibilidadeDiaCreate
-  | IAuthzStatementDisponibilidadeProfessorCreate
-  | IAuthzStatementDisponibilidadeProfessorDiaCreate
   | IAuthzStatementDiarioPreferenciaAgrupamentoCreate
   | IAuthzStatementHorarioGeradoCreate
   | IAuthzStatementHorarioGeradoAulaCreate;
@@ -258,21 +226,9 @@ export type IAuthzStatementFilter =
   | IAuthzStatementEtapaUpdate
   | IAuthzStatementEtapaFind
   | IAuthzStatementEtapaDelete
-  | IAuthzStatementTurmaDisponibilidadeUpdate
-  | IAuthzStatementTurmaDisponibilidadeDelete
-  | IAuthzStatementTurmaDisponibilidadeFind
   | IAuthzStatementAulaUpdate
   | IAuthzStatementAulaDelete
   | IAuthzStatementAulaFind
-  | IAuthzStatementTurmaDisponibilidadeDiaUpdate
-  | IAuthzStatementTurmaDisponibilidadeDiaDelete
-  | IAuthzStatementTurmaDisponibilidadeDiaFind
-  | IAuthzStatementDisponibilidadeProfessorUpdate
-  | IAuthzStatementDisponibilidadeProfessorDelete
-  | IAuthzStatementDisponibilidadeProfessorFind
-  | IAuthzStatementDisponibilidadeProfessorDiaUpdate
-  | IAuthzStatementDisponibilidadeProfessorDiaFind
-  | IAuthzStatementDisponibilidadeProfessorDiaDelete
   | IAuthzStatementDiarioPreferenciaAgrupamentoUpdate
   | IAuthzStatementDiarioPreferenciaAgrupamentoFind
   | IAuthzStatementDiarioPreferenciaAgrupamentoDelete

@@ -4,7 +4,7 @@ import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import type { CampusEntity } from "@/infrastructure/integrations/database/typeorm/entities";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { get, map, pick } from "lodash";
 import { FilterOperator } from "nestjs-paginate";
@@ -38,9 +38,9 @@ export class CampusService {
 
   async campusFindAll(
     accessContext: AccessContext,
-    dto: LadesaTypings.CampusListCombinedInput | null = null,
+    dto: PocTypings.CampusListOperationInput | null = null,
     selection?: string[] | boolean,
-  ): Promise<LadesaTypings.CampusListCombinedSuccessOutput["body"]> {
+  ): Promise<PocTypings.CampusListCombinedSuccessOutput["body"]> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
@@ -123,7 +123,7 @@ export class CampusService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Campus.Views.FindOneResult, qb, aliasCampus, selection);
+    QbEfficientLoad(PocTypings.Tokens.Campus.Views.FindOneResult, qb, aliasCampus, selection);
 
     // =========================================================
 
@@ -135,7 +135,7 @@ export class CampusService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async campusFindById(accessContext: AccessContext, dto: LadesaTypings.CampusFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.CampusFindOneResult | null> {
+  async campusFindById(accessContext: AccessContext, dto: PocTypings.CampusFindOneInputView, selection?: string[] | boolean): Promise<PocTypings.CampusFindOneResult | null> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
@@ -151,7 +151,7 @@ export class CampusService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Campus.Views.FindOneResult, qb, aliasCampus, selection);
+    QbEfficientLoad(PocTypings.Tokens.Campus.Views.FindOneResult, qb, aliasCampus, selection);
 
     // =========================================================
 
@@ -162,7 +162,7 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdStrict(accessContext: AccessContext, dto: LadesaTypings.CampusFindOneInput, selection?: string[] | boolean) {
+  async campusFindByIdStrict(accessContext: AccessContext, dto: PocTypings.CampusFindOneInputView, selection?: string[] | boolean) {
     const campus = await this.campusFindById(accessContext, dto, selection);
 
     if (!campus) {
@@ -172,7 +172,7 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdSimple(accessContext: AccessContext, id: LadesaTypings.CampusFindOneInput["id"], selection?: string[] | boolean): Promise<LadesaTypings.CampusFindOneResult | null> {
+  async campusFindByIdSimple(accessContext: AccessContext, id: PocTypings.CampusFindOneInputView["id"], selection?: string[] | boolean): Promise<PocTypings.CampusFindOneResult | null> {
     // =========================================================
 
     const qb = this.campusRepository.createQueryBuilder(aliasCampus);
@@ -188,7 +188,7 @@ export class CampusService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Campus.Views.FindOneResult, qb, aliasCampus, selection);
+    QbEfficientLoad(PocTypings.Tokens.Campus.Views.FindOneResult, qb, aliasCampus, selection);
 
     // =========================================================
 
@@ -199,7 +199,7 @@ export class CampusService {
     return campus;
   }
 
-  async campusFindByIdSimpleStrict(accessContext: AccessContext, id: LadesaTypings.CampusFindOneInput["id"], selection?: string[] | boolean) {
+  async campusFindByIdSimpleStrict(accessContext: AccessContext, id: PocTypings.CampusFindOneInputView["id"], selection?: string[] | boolean) {
     const campus = await this.campusFindByIdSimple(accessContext, id, selection);
 
     if (!campus) {
@@ -211,7 +211,7 @@ export class CampusService {
 
   //
 
-  async campusCreate(accessContext: AccessContext, dto: LadesaTypings.CampusCreateCombinedInput) {
+  async campusCreate(accessContext: AccessContext, dto: PocTypings.CampusCreateOperationInput) {
     // =========================================================
 
     await accessContext.ensurePermission("campus:create", { dto });
@@ -253,7 +253,7 @@ export class CampusService {
     return this.campusFindByIdStrict(accessContext, { id: campus.id });
   }
 
-  async campusUpdate(accessContext: AccessContext, dto: LadesaTypings.CampusUpdateByIDCombinedInput) {
+  async campusUpdate(accessContext: AccessContext, dto: PocTypings.CampusUpdateOperationInput) {
     // =========================================================
 
     const currentCampus = await this.campusFindByIdStrict(accessContext, {
@@ -351,7 +351,7 @@ export class CampusService {
 
   //
 
-  async campusDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.CampusFindOneInput) {
+  async campusDeleteOneById(accessContext: AccessContext, dto: PocTypings.CampusFindOneInputView) {
     // =========================================================
 
     await accessContext.ensurePermission("campus:delete", { dto }, dto.id, this.campusRepository.createQueryBuilder(aliasCampus));

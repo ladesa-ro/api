@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Get } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { EstadoService } from "./estado.service";
@@ -11,21 +13,21 @@ export class EstadoController {
   constructor(private estadoService: EstadoService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Estado.Operations.List)
+  @PocOperation(PocTokens.EstadoList)
   async findAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.EstadoListCombinedInput,
-  ): Promise<LadesaTypings.EstadoListCombinedSuccessOutput["body"]> {
+    @CombinedInput() dto: PocTypings.EstadoListOperationInput,
+  ): Promise<PocTypings.EstadoListCombinedSuccessOutput["body"]> {
     return this.estadoService.findAll(accessContext, dto);
   }
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Estado.Operations.FindById)
+  @PocOperation(PocTokens.EstadoFindOneById)
   async findById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.EstadoFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.EstadoFindOneByIdOperationInput,
   ) {
     return this.estadoService.findByIdStrict(accessContext, {
       id: dto.params.id,

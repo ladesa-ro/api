@@ -6,11 +6,12 @@ import {
   ICompileClassContext,
   ICompileClassPropertyContext,
   INodeProperty,
-  IPropertyKey,
 } from "@/business-logic/standards/especificacao/infrastructure/utils/class-compiler/typings/core";
-import { __decorate } from "tslib";
+import { __decorate, __metadata } from "tslib";
 
 const CreateEmptyClassWithName = (name: string) => {
+  // Object.defineProperty(CompiledClassCtor, "name", { value: dtoClassName });
+
   return {
     [name]: class {},
   }[name];
@@ -52,7 +53,42 @@ export abstract class ClassCompiler<ClassCompilerTypings extends IClassCompilerT
       classCompiler: this,
 
       classDecorators: [],
-      classPropertiesDecorators: new Map<IPropertyKey, []>(),
+      classPropertiesMetadata: new Map(),
+
+      EnsurePropertyMetadata(propertyKey) {
+        this.GetPropertyMetadata(propertyKey);
+
+        return this;
+      },
+
+      GetPropertyMetadata(propertyKey) {
+        const propertiesMetadata = this.classPropertiesMetadata;
+
+        if (!propertiesMetadata.has(propertyKey)) {
+          propertiesMetadata.set(propertyKey, {
+            designType: Object,
+            decorators: [],
+          });
+        }
+
+        const propertyMetadata = propertiesMetadata.get(propertyKey)!;
+
+        return propertyMetadata;
+      },
+
+      AddDecoratorsToProperty(propertyKey, decorators) {
+        for (const decorator of decorators) {
+          this.AddDecoratorToProperty(propertyKey, decorator);
+        }
+
+        return this;
+      },
+
+      AddDecoratorToProperty(propertyKey, decorator) {
+        const propertyMetadata = this.GetPropertyMetadata(propertyKey);
+        propertyMetadata.decorators.push(decorator);
+        return this;
+      },
     } satisfies ICompileClassContext<ClassCompilerTypings>;
 
     const identifier = this.GetNodeIdentifier(classContext);
@@ -68,11 +104,11 @@ export abstract class ClassCompiler<ClassCompilerTypings extends IClassCompilerT
     this.CompileClassHandler(classContext);
     this.CompileClassHandleProperties(classContext);
 
-    __decorate(classContext.classDecorators, CompiledClass);
-
-    for (const [propertyKey, propertyDecorators] of classContext.classPropertiesDecorators.entries()) {
-      __decorate(propertyDecorators, CompiledClass, propertyKey);
+    for (const [propertyKey, propertyMetadata] of classContext.classPropertiesMetadata.entries()) {
+      __decorate([...propertyMetadata.decorators, __metadata("design:type", propertyMetadata.designType)], CompiledClass.prototype, propertyKey, void 0);
     }
+
+    __decorate(classContext.classDecorators, CompiledClass);
 
     return CompiledClass;
   }
@@ -87,8 +123,19 @@ export abstract class ClassCompiler<ClassCompilerTypings extends IClassCompilerT
     for (const nodeProperty of this.GetNodeProperties(classContext)) {
       const classPropertyContext = {
         classContext: classContext,
+
         propertyKey: nodeProperty.propertyKey,
         propertyNode: nodeProperty.propertyNode,
+
+        AddDecoratorsToCurrentProperty(decorators: Iterable<Function>) {
+          this.classContext.AddDecoratorsToProperty(this.propertyKey, decorators);
+          return this;
+        },
+
+        AddDecoratorToCurrentProperty(decorator: Function) {
+          this.classContext.AddDecoratorToProperty(this.propertyKey, decorator);
+          return this;
+        },
       } satisfies ICompileClassPropertyContext<ClassCompilerTypings>;
 
       this.CompileClassHandleProperty(classPropertyContext);

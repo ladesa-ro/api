@@ -3,7 +3,7 @@ import { LadesaPaginatedResultDto, LadesaSearch } from "@/business-logic/standar
 import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { map } from "lodash";
 
@@ -19,7 +19,7 @@ export class EstadoService {
 
   //
 
-  async findAll(accessContext: AccessContext, dto: LadesaTypings.EstadoListCombinedInput | null = null, selection?: string[]): Promise<LadesaTypings.EstadoListCombinedSuccessOutput["body"]> {
+  async findAll(accessContext: AccessContext, dto: PocTypings.EstadoListOperationInput | null = null, selection?: string[]): Promise<PocTypings.EstadoListCombinedSuccessOutput["body"]> {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder(aliasEstado);
@@ -57,7 +57,7 @@ export class EstadoService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Estado.Entity, qb, aliasEstado, selection);
+    QbEfficientLoad(PocTypings.Tokens.Estado.Entity, qb, aliasEstado, selection);
 
     // =========================================================
 
@@ -70,7 +70,7 @@ export class EstadoService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async findById(accessContext: AccessContext, dto: LadesaTypings.EstadoFindOneInput, selection?: string[]) {
+  async findById(accessContext: AccessContext, dto: PocTypings.EstadoFindOneInputView, selection?: string[]) {
     // =========================================================
 
     const qb = this.baseEstadoRepository.createQueryBuilder("estado");
@@ -86,7 +86,7 @@ export class EstadoService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Estado.Entity, qb, aliasEstado, selection);
+    QbEfficientLoad(PocTypings.Tokens.Estado.Entity, qb, aliasEstado, selection);
 
     // =========================================================
 
@@ -97,7 +97,7 @@ export class EstadoService {
     return estado;
   }
 
-  async findByIdStrict(accessContext: AccessContext, dto: LadesaTypings.EstadoFindOneInput, selection?: string[]) {
+  async findByIdStrict(accessContext: AccessContext, dto: PocTypings.EstadoFindOneInputView, selection?: string[]) {
     const estado = await this.findById(accessContext, dto, selection);
 
     if (!estado) {

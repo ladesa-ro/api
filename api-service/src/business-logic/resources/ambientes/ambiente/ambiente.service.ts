@@ -4,7 +4,7 @@ import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures/pagination/paginateConfig";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
 import type { AmbienteEntity } from "@/infrastructure/integrations/database/typeorm/entities";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { map, pick } from "lodash";
 import { FilterOperator } from "nestjs-paginate";
@@ -35,9 +35,9 @@ export class AmbienteService {
 
   async ambienteFindAll(
     accessContext: AccessContext,
-    dto: LadesaTypings.AmbienteListCombinedInput | null = null,
+    dto: PocTypings.AmbienteListOperationInput | null = null,
     selection?: string[] | boolean,
-  ): Promise<LadesaTypings.AmbienteListCombinedSuccessOutput["body"]> {
+  ): Promise<PocTypings.AmbienteListCombinedSuccessOutput["body"]> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
@@ -107,7 +107,7 @@ export class AmbienteService {
 
     qb.select([]);
 
-    QbEfficientLoad(LadesaTypings.Tokens.Ambiente.Views.FindOneResult, qb, aliasAmbiente, selection);
+    QbEfficientLoad(PocTypings.Tokens.Ambiente.Views.FindOneResult, qb, aliasAmbiente, selection);
 
     // =========================================================
 
@@ -119,7 +119,7 @@ export class AmbienteService {
     return LadesaPaginatedResultDto(paginated);
   }
 
-  async ambienteFindById(accessContext: AccessContext | null, dto: LadesaTypings.AmbienteFindOneInput, selection?: string[] | boolean): Promise<LadesaTypings.AmbienteFindOneResult | null> {
+  async ambienteFindById(accessContext: AccessContext | null, dto: PocTypings.AmbienteFindOneInputView, selection?: string[] | boolean): Promise<PocTypings.AmbienteFindOneResult | null> {
     // =========================================================
 
     const qb = this.ambienteRepository.createQueryBuilder(aliasAmbiente);
@@ -137,7 +137,7 @@ export class AmbienteService {
     // =========================================================
 
     qb.select([]);
-    QbEfficientLoad(LadesaTypings.Tokens.Ambiente.Views.FindOneResult, qb, aliasAmbiente, selection);
+    QbEfficientLoad(PocTypings.Tokens.Ambiente.Views.FindOneResult, qb, aliasAmbiente, selection);
 
     // =========================================================
 
@@ -148,7 +148,7 @@ export class AmbienteService {
     return ambiente;
   }
 
-  async ambienteFindByIdStrict(accessContext: AccessContext | null, dto: LadesaTypings.AmbienteFindOneInput, selection?: string[] | boolean) {
+  async ambienteFindByIdStrict(accessContext: AccessContext | null, dto: PocTypings.AmbienteFindOneInputView, selection?: string[] | boolean) {
     const ambiente = await this.ambienteFindById(accessContext, dto, selection);
 
     if (!ambiente) {
@@ -160,7 +160,7 @@ export class AmbienteService {
 
   //
 
-  async ambienteCreate(accessContext: AccessContext, dto: LadesaTypings.AmbienteCreateCombinedInput) {
+  async ambienteCreate(accessContext: AccessContext, dto: PocTypings.AmbienteCreateOperationInput) {
     // =========================================================
 
     await accessContext.ensurePermission("ambiente:create", { dto });
@@ -194,7 +194,7 @@ export class AmbienteService {
     return this.ambienteFindByIdStrict(accessContext, { id: ambiente.id });
   }
 
-  async ambienteUpdate(accessContext: AccessContext, dto: LadesaTypings.AmbienteUpdateByIDCombinedInput) {
+  async ambienteUpdate(accessContext: AccessContext, dto: PocTypings.AmbienteUpdateByIdOperationInput) {
     // =========================================================
 
     const currentAmbiente = await this.ambienteFindByIdStrict(accessContext, {
@@ -243,7 +243,7 @@ export class AmbienteService {
     throw new NotFoundException();
   }
 
-  async ambienteUpdateImagemCapa(accessContext: AccessContext, dto: LadesaTypings.AmbienteFindOneInput, file: Express.Multer.File) {
+  async ambienteUpdateImagemCapa(accessContext: AccessContext, dto: PocTypings.AmbienteFindOneInputView, file: Express.Multer.File) {
     // =========================================================
 
     const currentAmbiente = await this.ambienteFindByIdStrict(accessContext, {
@@ -286,7 +286,7 @@ export class AmbienteService {
 
   //
 
-  async ambienteDeleteOneById(accessContext: AccessContext, dto: LadesaTypings.AmbienteFindOneInput) {
+  async ambienteDeleteOneById(accessContext: AccessContext, dto: PocTypings.AmbienteFindOneInputView) {
     // =========================================================
 
     await accessContext.ensurePermission("ambiente:delete", { dto }, dto.id, this.ambienteRepository.createQueryBuilder(aliasAmbiente));

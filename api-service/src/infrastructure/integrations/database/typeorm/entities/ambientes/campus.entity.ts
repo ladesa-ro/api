@@ -1,4 +1,3 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { VinculoEntity } from "../autenticacao/vinculo.entity";
 import { CampusPossuiModalidadeEntity } from "../ensino/campus_possui_modalidade.entity";
@@ -6,7 +5,7 @@ import { ModalidadeEntity } from "../ensino/modalidade.entity";
 import { EnderecoEntity } from "./endereco.entity";
 
 @Entity("campus")
-export class CampusEntity implements LadesaTypings.Campus {
+export class CampusEntity implements PocTypings.Campus {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
@@ -28,7 +27,7 @@ export class CampusEntity implements LadesaTypings.Campus {
 
   @ManyToOne(() => EnderecoEntity)
   @JoinColumn({ name: "id_endereco_fk" })
-  endereco!: LadesaTypings.Endereco;
+  endereco!: PocTypings.Endereco;
 
   //
 

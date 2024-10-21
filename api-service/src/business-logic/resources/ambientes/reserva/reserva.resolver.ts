@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Resolver } from "@nestjs/graphql";
 import { ReservaService } from "./reserva.service";
 
@@ -11,47 +13,47 @@ export class ReservaResolver {
     private reservaService: ReservaService,
   ) {}
   //
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.List)
+  @PocOperation(PocTokens.ReservaList)
   async reservaFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.ReservaListCombinedInput,
+    @CombinedInput() dto: PocTypings.ReservaListOperationInput,
   ) {
     return this.reservaService.reservaFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.FindById)
+  @PocOperation(PocTokens.ReservaFindOneById)
   async reservaFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.ReservaFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.ReservaFindOneByIdOperationInput,
   ) {
     return this.reservaService.reservaFindByIdStrict(accessContext, {
       id: dto.params.id,
     });
   }
   //
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.Create)
+  @PocOperation(PocTokens.ReservaCreate)
   async reservaCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.ReservaCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.ReservaCreateOperationInput,
   ) {
     return this.reservaService.reservaCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.UpdateById)
+  @PocOperation(PocTokens.ReservaUpdateOneById)
   async reservaUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.ReservaUpdateByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.ReservaUpdateByIdOperationInput,
   ) {
     return this.reservaService.reservaUpdate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.DeleteById)
+  @PocOperation(PocTokens.ReservaDeleteOneById)
   async reservaDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.ReservaDeleteByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.ReservaDeleteByIDCombinedInput,
   ) {
     return this.reservaService.reservaDeleteOneById(accessContext, {
       id: dto.params.id,

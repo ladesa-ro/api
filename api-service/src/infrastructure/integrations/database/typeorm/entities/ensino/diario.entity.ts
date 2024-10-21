@@ -1,4 +1,3 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { AmbienteEntity } from "../ambientes/ambiente.entity";
 import { ImagemEntity } from "../base/imagem.entity";
@@ -7,7 +6,7 @@ import { DisciplinaEntity } from "./disciplina.entity";
 import { TurmaEntity } from "./turma.entity";
 
 @Entity("diario")
-export class DiarioEntity implements LadesaTypings.Diario {
+export class DiarioEntity implements PocTypings.Diario {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

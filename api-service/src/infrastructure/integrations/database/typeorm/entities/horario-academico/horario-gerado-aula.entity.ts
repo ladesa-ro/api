@@ -1,12 +1,10 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { VinculoEntity } from "../autenticacao";
 import { IntervaloDeTempoEntity } from "../calendario";
 import { DiarioProfessorEntity } from "../ensino";
 import { HorarioGeradoEntity } from "./horario-gerado.entity";
 
 @Entity("horario_gerado_dia")
-export class HorarioGeradoAulaEntity implements LadesaTypings.HorarioGeradoAula {
+export class HorarioGeradoAulaEntity implements PocTypings.HorarioGeradoAula {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
@@ -19,15 +17,15 @@ export class HorarioGeradoAulaEntity implements LadesaTypings.HorarioGeradoAula 
 
   @ManyToOne(() => DiarioProfessorEntity)
   @JoinColumn({ name: "id_diario_professor_fk" })
-  diarioProfessor!: LadesaTypings.DiarioProfessorFindOneResult | null;
+  diarioProfessor!: PocTypings.DiarioProfessorFindOneResult | null;
 
   @ManyToOne(() => HorarioGeradoEntity)
   @JoinColumn({ name: "id_horario_gerado_fk" })
-  horarioGerado!: LadesaTypings.HorarioGeradoFindOneResult;
+  horarioGerado!: PocTypings.HorarioGeradoFindOneResult;
 
   @ManyToOne(() => IntervaloDeTempoEntity)
   @JoinColumn({ name: "id_intervalo_de_tempo_fk" })
-  intervaloDeTempo!: LadesaTypings.IntervaloDeTempoFindOneResult;
+  intervaloDeTempo!: PocTypings.IntervaloDeTempoFindOneResult;
 
   //
 

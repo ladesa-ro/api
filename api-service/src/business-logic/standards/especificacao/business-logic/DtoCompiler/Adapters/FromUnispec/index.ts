@@ -1,2 +1,2 @@
-export * from "./core";
-export * from "./integrations";
+export * from "./Core";
+export * from "./Integrations";

@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { TurmaService } from "./turma.service";
@@ -13,23 +15,23 @@ export class TurmaController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.List)
+  @PocOperation(PocTokens.TurmaList)
   async turmaFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.TurmaListCombinedInput,
-  ): Promise<LadesaTypings.TurmaListCombinedSuccessOutput["body"]> {
+    @CombinedInput() dto: PocTypings.TurmaListOperationInput,
+  ): Promise<PocTypings.TurmaListCombinedSuccessOutput["body"]> {
     return this.turmaService.turmaFindAll(accessContext, dto);
   }
 
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.FindById)
+  @PocOperation(PocTokens.TurmaFindOneById)
   async turmaFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.TurmaFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.TurmaFindOneByIdOperationInput,
   ) {
     return this.turmaService.turmaFindByIdStrict(accessContext, {
       id: dto.params.id,
@@ -39,11 +41,11 @@ export class TurmaController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.Create)
+  @PocOperation(PocTokens.TurmaCreate)
   async turmaCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.TurmaCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.TurmaCreateOperationInput,
   ) {
     return this.turmaService.turmaCreate(accessContext, dto);
   }
@@ -51,11 +53,11 @@ export class TurmaController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.UpdateById)
+  @PocOperation(PocTokens.TurmaUpdateOneById)
   async turmaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.TurmaUpdateByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.TurmaUpdateByIdOperationInput,
   ) {
     return this.turmaService.turmaUpdate(accessContext, dto);
   }
@@ -63,7 +65,7 @@ export class TurmaController {
   //
 
   @Get("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.GetCoverImage)
+  @PocOperation(PocTokens.TurmaGetImagemCapa)
   async turmaGetImagemCapa(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -73,7 +75,7 @@ export class TurmaController {
   }
 
   @Put("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.SetCoverImage)
+  @PocOperation(PocTokens.TurmaSetImagemCapa)
   async turmaImagemCapaSave(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -86,11 +88,11 @@ export class TurmaController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.DeleteById)
+  @PocOperation(PocTokens.TurmaDeleteOneById)
   async turmaDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.TurmaDeleteByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.TurmaDeleteByIDCombinedInput,
   ) {
     return this.turmaService.turmaDeleteOneById(accessContext, {
       id: dto.params.id,

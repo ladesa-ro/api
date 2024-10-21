@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { UsuarioService } from "./usuario.service";
@@ -13,23 +15,23 @@ export class UsuarioController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.List)
+  @PocOperation(PocTokens.UsuarioList)
   async usuarioFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.UsuarioListCombinedInput,
-  ): Promise<LadesaTypings.UsuarioListCombinedSuccessOutput["body"]> {
+    @CombinedInput() dto: PocTypings.UsuarioListOperationInput,
+  ): Promise<PocTypings.UsuarioListCombinedSuccessOutput["body"]> {
     return this.usuarioService.usuarioFindAll(accessContext, dto);
   }
 
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.FindById)
+  @PocOperation(PocTokens.UsuarioFindOneById)
   async usuarioFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.UsuarioFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.UsuarioFindOneByIdOperationInput,
   ) {
     return this.usuarioService.usuarioFindByIdStrict(accessContext, {
       id: dto.params.id,
@@ -39,11 +41,11 @@ export class UsuarioController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.Create)
+  @PocOperation(PocTokens.UsuarioCreate)
   async usuarioCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.UsuarioCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.UsuarioCreateOperationInput,
   ) {
     return this.usuarioService.usuarioCreate(accessContext, dto);
   }
@@ -51,25 +53,25 @@ export class UsuarioController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.UpdateById)
-  async usuarioUpdate(@AccessContextHttp() accessContext: AccessContext, @CombinedInput() dto: LadesaTypings.UsuarioUpdateByIDCombinedInput) {
+  @PocOperation(PocTokens.UsuarioUpdateOneById)
+  async usuarioUpdate(@AccessContextHttp() accessContext: AccessContext, @CombinedInput() dto: PocTypings.UsuarioUpdateByIdOperationInput) {
     return this.usuarioService.usuarioUpdate(accessContext, dto);
   }
 
   //
 
   @Get("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.GetCoverImage)
+  @PocOperation(PocTokens.UsuarioGetImagemCapa)
   async usuarioGetImagemCapa(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.UsuarioFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.UsuarioFindOneByIdOperationInput,
   ) {
     return this.usuarioService.usuarioGetImagemCapa(accessContext, dto.params.id);
   }
 
   @Put("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.SetCoverImage)
+  @PocOperation(PocTokens.UsuarioSetImagemCapa)
   async usuarioImagemCapaSave(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -82,17 +84,17 @@ export class UsuarioController {
   //
 
   @Get("/:id/imagem/perfil")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.GetProfileImage)
+  @PocOperation(PocTokens.UsuarioGetImagemPerfil)
   async usuarioGetImagemPerfil(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.UsuarioFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.UsuarioFindOneByIdOperationInput,
   ) {
     return this.usuarioService.usuarioGetImagemPerfil(accessContext, dto.params.id);
   }
 
   @Put("/:id/imagem/perfil")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.SetProfileImage)
+  @PocOperation(PocTokens.UsuarioSetImagemPerfil)
   async usuarioImagemPerfilSave(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -105,11 +107,11 @@ export class UsuarioController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.DeleteById)
+  @PocOperation(PocTokens.UsuarioDeleteOneById)
   async usuarioDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.UsuarioDeleteByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.UsuarioDeleteByIDCombinedInput,
   ) {
     return this.usuarioService.usuarioDeleteOneById(accessContext, {
       id: dto.params.id,

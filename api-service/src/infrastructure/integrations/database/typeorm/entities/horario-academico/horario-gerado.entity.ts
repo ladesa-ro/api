@@ -1,9 +1,8 @@
-import type * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { CalendarioLetivoEntity } from "../calendario";
 
 @Entity("horario_gerado")
-export class HorarioGeradoEntity implements LadesaTypings.HorarioGerado {
+export class HorarioGeradoEntity implements PocTypings.HorarioGerado {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
@@ -27,7 +26,7 @@ export class HorarioGeradoEntity implements LadesaTypings.HorarioGerado {
 
   @ManyToOne(() => CalendarioLetivoEntity)
   @JoinColumn({ name: "id_calendario_letivo_fk" })
-  calendario!: LadesaTypings.CalendarioLetivoFindOneResult;
+  calendario!: PocTypings.CalendarioLetivoFindOneResult;
   //
 
   @Column({ name: "date_created", type: "timestamptz", nullable: false })

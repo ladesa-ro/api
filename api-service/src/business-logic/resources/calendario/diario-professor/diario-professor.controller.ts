@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
-import * as LadesaTypings from "@ladesa-ro/especificacao";
+import * as PocTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { DiarioProfessorService } from "./diario-professor.service";
@@ -13,22 +15,22 @@ export class DiarioProfessorController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.List)
+  @PocOperation(PocTokens.DiarioProfessorList)
   async diarioProfessorFindAll(
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiarioProfessorListCombinedInput,
-  ): Promise<LadesaTypings.DiarioProfessorListCombinedSuccessOutput["body"]> {
+    @CombinedInput() dto: PocTypings.DiarioProfessorListOperationInput,
+  ): Promise<PocTypings.DiarioProfessorListCombinedSuccessOutput["body"]> {
     return this.diarioProfessorService.diarioProfessorFindAll(accessContext, dto);
   }
 
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.FindById)
+  @PocOperation(PocTokens.DiarioProfessorFindOneById)
   async diarioProfessorFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiarioProfessorFindByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.DiarioProfessorFindOneByIdOperationInput,
   ) {
     return this.diarioProfessorService.diarioProfessorFindByIdStrict(accessContext, { id: dto.params.id });
   }
@@ -36,11 +38,11 @@ export class DiarioProfessorController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.Create)
+  @PocOperation(PocTokens.DiarioProfessorCreate)
   async diarioProfessorCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiarioProfessorCreateCombinedInput,
+    @CombinedInput() dto: PocTypings.DiarioProfessorCreateOperationInput,
   ) {
     return this.diarioProfessorService.diarioProfessorCreate(accessContext, dto);
   }
@@ -48,11 +50,11 @@ export class DiarioProfessorController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.UpdateById)
+  @PocOperation(PocTokens.DiarioProfessorUpdateOneById)
   async diarioProfessorUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiarioProfessorUpdateByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.DiarioProfessorUpdateByIdOperationInput,
   ) {
     return this.diarioProfessorService.diarioProfessorUpdate(accessContext, dto);
   }
@@ -60,11 +62,11 @@ export class DiarioProfessorController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.DeleteById)
+  @PocOperation(PocTokens.DiarioProfessorDeleteOneById)
   async diarioProfessorDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,
-    @CombinedInput() dto: LadesaTypings.DiarioProfessorDeleteByIDCombinedInput,
+    @CombinedInput() dto: PocTypings.DiarioProfessorDeleteByIDCombinedInput,
   ) {
     return this.diarioProfessorService.diarioProfessorDeleteOneById(accessContext, { id: dto.params.id });
   }

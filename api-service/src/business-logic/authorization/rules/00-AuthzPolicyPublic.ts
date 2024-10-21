@@ -117,20 +117,6 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
         delete: filterAllowNotDeleted,
       },
 
-      turmaDisponibilidade: {
-        create: true,
-        find: filterAllowNotDeleted,
-        update: filterAllowNotDeleted,
-        delete: filterAllowNotDeleted,
-      },
-
-      turmaDisponibilidadeDia: {
-        create: true,
-        find: filterAllowNotDeleted,
-        update: filterAllowNotDeleted,
-        delete: filterAllowNotDeleted,
-      },
-
       diaCalendario: {
         create: true,
         find: filterAllowNotDeleted,
@@ -146,20 +132,6 @@ export class AuthzPolicyPublic extends BaseAuthzPolicy {
       },
 
       diarioProfessor: {
-        create: true,
-        find: filterAllowNotDeleted,
-        update: filterAllowNotDeleted,
-        delete: filterAllowNotDeleted,
-      },
-
-      disponibilidadeProfessor: {
-        create: true,
-        find: filterAllowNotDeleted,
-        update: filterAllowNotDeleted,
-        delete: filterAllowNotDeleted,
-      },
-
-      disponibilidadeProfessorDia: {
         create: true,
         find: filterAllowNotDeleted,
         update: filterAllowNotDeleted,
