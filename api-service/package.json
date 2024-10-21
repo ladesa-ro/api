@@ -51,7 +51,7 @@
     "@nestjs/platform-express": "^10.4.5",
     "@nestjs/schedule": "^4.1.1",
     "@nestjs/swagger": "^7.4.2",
-    "@nestjs/throttler": "^5.2.0",
+    "@nestjs/throttler": "^6.2.1",
     "@unispec/ast-builder": "0.26.1-next.51",
     "@unispec/ast-types": "0.26.1-next.48",
     "@unispec/ast-utils": "0.26.1-next.49",
