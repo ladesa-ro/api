@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CampusService } from "./campus.service";
@@ -13,7 +15,7 @@ export class CampusController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Campus.Operations.List)
+  @PocOperation(PocTokens.CampusList)
   async campusFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -25,7 +27,7 @@ export class CampusController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Campus.Operations.FindById)
+  @PocOperation(PocTokens.CampusFindOneByID)
   async campusFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class CampusController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
+  @PocOperation(PocTokens.CampusCreate)
   async campusCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -51,7 +53,7 @@ export class CampusController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Campus.Operations.UpdateById)
+  @PocOperation(PocTokens.CampusUpdateOneByID)
   async campusUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -63,7 +65,7 @@ export class CampusController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Campus.Operations.DeleteById)
+  @PocOperation(PocTokens.CampusDeleteOneByID)
   async campusDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

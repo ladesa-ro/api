@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { DiarioPreferenciaAgrupamentoService } from "./diario-preferencia-agrupamento.service";
@@ -11,7 +13,7 @@ export class DiarioPreferenciaAgrupamentoController {
   constructor(private diarioPreferenciaAgrupamentoService: DiarioPreferenciaAgrupamentoService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.List)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoList)
   async diarioPreferenciaAgrupamentoFindAll(
     @AccessContextHttp() clientAccess: AccessContext,
     @CombinedInput()
@@ -23,7 +25,7 @@ export class DiarioPreferenciaAgrupamentoController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.FindById)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoFindOneByID)
   async diarioPreferenciaAgrupamentoFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -36,7 +38,7 @@ export class DiarioPreferenciaAgrupamentoController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.Create)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoCreate)
   async diarioPreferenciaAgrupamentoCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -49,7 +51,7 @@ export class DiarioPreferenciaAgrupamentoController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.UpdateById)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoUpdateOneByID)
   async diarioPreferenciaAgrupamentoUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -62,7 +64,7 @@ export class DiarioPreferenciaAgrupamentoController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.DeleteById)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoDeleteOneByID)
   async diarioPreferenciaAgrupamentoDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

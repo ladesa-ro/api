@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Get } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CidadeService } from "./cidade.service";
@@ -13,7 +15,7 @@ export class CidadeController {
   // ========================================================
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Cidade.Operations.List)
+  @PocOperation(PocTokens.CidadeList)
   async findAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -25,7 +27,7 @@ export class CidadeController {
   // ========================================================
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Cidade.Operations.FindById)
+  @PocOperation(PocTokens.CidadeFindOneByID)
   async findById(
     //
     @AccessContextHttp() accessContext: AccessContext,

@@ -1,5 +1,3 @@
-export * from "./CombinedInput";
-export * from "./utils";
-export * from "./OperationSwagger";
+export * from "../../../especificacao/business-logic/CombinedInput";
 export * from "./OperationGraphQl";
-export * from "./Operation";
+export * from "./utils";

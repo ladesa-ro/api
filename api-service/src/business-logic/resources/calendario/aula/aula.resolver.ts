@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { AulaService } from "./aula.service";
 
@@ -11,7 +13,7 @@ export class AulaResolver {
     private aulaService: AulaService,
   ) {}
   //
-  @Operation(LadesaTypings.Tokens.Aula.Operations.List)
+  @PocOperation(PocTokens.AulaList)
   async aulaFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -20,7 +22,7 @@ export class AulaResolver {
     return this.aulaService.aulaFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Aula.Operations.FindById)
+  @PocOperation(PocTokens.AulaFindOneByID)
   async aulaFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -31,7 +33,7 @@ export class AulaResolver {
     });
   }
   //
-  @Operation(LadesaTypings.Tokens.Aula.Operations.Create)
+  @PocOperation(PocTokens.AulaCreate)
   async aulaCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class AulaResolver {
   ) {
     return this.aulaService.aulaCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Aula.Operations.UpdateById)
+  @PocOperation(PocTokens.AulaUpdateOneByID)
   async aulaUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -47,7 +49,7 @@ export class AulaResolver {
   ) {
     return this.aulaService.aulaUpdate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Aula.Operations.DeleteById)
+  @PocOperation(PocTokens.AulaDeleteOneByID)
   async aulaDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

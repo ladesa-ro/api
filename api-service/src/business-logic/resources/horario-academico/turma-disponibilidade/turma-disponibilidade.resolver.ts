@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { TurmaDisponibilidadeService } from "./turma-disponibilidade.service";
 
@@ -8,7 +10,7 @@ import { TurmaDisponibilidadeService } from "./turma-disponibilidade.service";
 export class TurmaDisponibilidadeResolver {
   constructor(private turmaDisponibilidadeService: TurmaDisponibilidadeService) {}
   //
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.List)
+  @PocOperation(PocTokens.TurmaDisponibilidadeList)
   async turmaDisponibilidadeFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -17,7 +19,7 @@ export class TurmaDisponibilidadeResolver {
     return this.turmaDisponibilidadeService.turmaDisponibilidadeFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.FindById)
+  @PocOperation(PocTokens.TurmaDisponibilidadeFindOneByID)
   async turmaDisponibilidadeFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -27,7 +29,7 @@ export class TurmaDisponibilidadeResolver {
     return this.turmaDisponibilidadeService.turmaDisponibilidadeFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.Create)
+  @PocOperation(PocTokens.TurmaDisponibilidadeCreate)
   async turmaDisponibilidadeCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -36,7 +38,7 @@ export class TurmaDisponibilidadeResolver {
     return this.turmaDisponibilidadeService.turmaDisponibilidadeCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.UpdateById)
+  @PocOperation(PocTokens.TurmaDisponibilidadeUpdateOneByID)
   async turmaDisponibilidadeUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -46,7 +48,7 @@ export class TurmaDisponibilidadeResolver {
     return this.turmaDisponibilidadeService.turmaDisponibilidadeUpdate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.DeleteById)
+  @PocOperation(PocTokens.TurmaDisponibilidadeDeleteOneByID)
   async turmaDisponibilidadeDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { EventoService } from "./evento.service";
 
@@ -8,7 +10,7 @@ import { EventoService } from "./evento.service";
 export class EventoResolver {
   constructor(private eventoService: EventoService) {}
   //
-  @Operation(LadesaTypings.Tokens.Evento.Operations.List)
+  @PocOperation(PocTokens.EventoList)
   async eventoFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -17,7 +19,7 @@ export class EventoResolver {
     return this.eventoService.eventoFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Evento.Operations.FindById)
+  @PocOperation(PocTokens.EventoFindOneByID)
   async eventoFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -28,7 +30,7 @@ export class EventoResolver {
     });
   }
   //
-  @Operation(LadesaTypings.Tokens.Evento.Operations.Create)
+  @PocOperation(PocTokens.EventoCreate)
   async eventoCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -37,7 +39,7 @@ export class EventoResolver {
     return this.eventoService.eventoCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Evento.Operations.UpdateById)
+  @PocOperation(PocTokens.EventoUpdateOneByID)
   async eventoUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -46,7 +48,7 @@ export class EventoResolver {
     return this.eventoService.eventoUpdate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Evento.Operations.DeleteById)
+  @PocOperation(PocTokens.EventoDeleteOneByID)
   async eventoDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

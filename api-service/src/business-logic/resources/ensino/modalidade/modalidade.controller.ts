@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { ModalidadeService } from "./modalidade.service";
@@ -13,7 +15,7 @@ export class ModalidadeController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Modalidade.Operations.List)
+  @PocOperation(PocTokens.ModalidadeList)
   async modalidadeFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -25,7 +27,7 @@ export class ModalidadeController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Modalidade.Operations.FindById)
+  @PocOperation(PocTokens.ModalidadeFindOneByID)
   async modalidadeFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class ModalidadeController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Modalidade.Operations.Create)
+  @PocOperation(PocTokens.ModalidadeCreate)
   async modalidadeCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -51,7 +53,7 @@ export class ModalidadeController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Modalidade.Operations.UpdateById)
+  @PocOperation(PocTokens.ModalidadeUpdateOneByID)
   async modalidadeUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -63,7 +65,7 @@ export class ModalidadeController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Modalidade.Operations.DeleteById)
+  @PocOperation(PocTokens.ModalidadeDeleteOneByID)
   async modalidadeDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

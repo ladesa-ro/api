@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { AulaService } from "./aula.service";
@@ -13,7 +15,7 @@ export class AulaController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Aula.Operations.List)
+  @PocOperation(PocTokens.AulaList)
   async aulaFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -25,7 +27,7 @@ export class AulaController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Aula.Operations.FindById)
+  @PocOperation(PocTokens.AulaFindOneByID)
   async aulaFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class AulaController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Aula.Operations.Create)
+  @PocOperation(PocTokens.AulaCreate)
   async aulaCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -51,7 +53,7 @@ export class AulaController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Aula.Operations.UpdateById)
+  @PocOperation(PocTokens.AulaUpdateOneByID)
   async aulaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -63,7 +65,7 @@ export class AulaController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Aula.Operations.DeleteById)
+  @PocOperation(PocTokens.AulaDeleteOneByID)
   async aulaDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

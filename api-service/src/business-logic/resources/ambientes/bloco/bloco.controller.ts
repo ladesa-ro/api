@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { BlocoService } from "./bloco.service";
@@ -13,7 +15,7 @@ export class BlocoController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.List)
+  @PocOperation(PocTokens.BlocoList)
   async blocoFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -25,7 +27,7 @@ export class BlocoController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.FindById)
+  @PocOperation(PocTokens.BlocoFindOneByID)
   async blocoFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -37,7 +39,7 @@ export class BlocoController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.Create)
+  @PocOperation(PocTokens.BlocoCreate)
   async blocoCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -49,7 +51,7 @@ export class BlocoController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.UpdateById)
+  @PocOperation(PocTokens.BlocoUpdateOneByID)
   async blocoUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -61,7 +63,7 @@ export class BlocoController {
   //
 
   @Get("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.GetCoverImage)
+  @PocOperation(PocTokens.BlocoGetImagemCapa)
   async blocoGetImagemCapa(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -71,7 +73,7 @@ export class BlocoController {
   }
 
   @Put("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.SetCoverImage)
+  @PocOperation(PocTokens.BlocoSetImagemCapa)
   async blocoImagemCapaSave(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -84,7 +86,7 @@ export class BlocoController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.DeleteById)
+  @PocOperation(PocTokens.BlocoDeleteOneByID)
   async blocoDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

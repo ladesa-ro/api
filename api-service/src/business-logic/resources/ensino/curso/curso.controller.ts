@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CursoService } from "./curso.service";
@@ -13,7 +15,7 @@ export class CursoController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Curso.Operations.List)
+  @PocOperation(PocTokens.CursoList)
   async cursoFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -25,7 +27,7 @@ export class CursoController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Curso.Operations.FindById)
+  @PocOperation(PocTokens.CursoFindOneByID)
   async cursoFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class CursoController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Curso.Operations.Create)
+  @PocOperation(PocTokens.CursoCreate)
   async cursoCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -51,7 +53,7 @@ export class CursoController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Curso.Operations.UpdateById)
+  @PocOperation(PocTokens.CursoUpdateOneByID)
   async cursoUpdate(@AccessContextHttp() accessContext: AccessContext, @CombinedInput() dto: LadesaTypings.CursoUpdateByIDCombinedInput) {
     return this.cursoService.cursoUpdate(accessContext, dto);
   }
@@ -59,7 +61,7 @@ export class CursoController {
   //
 
   @Get("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Curso.Operations.GetCoverImage)
+  @PocOperation(PocTokens.CursoGetImagemCapa)
   async cursoGetImagemCapa(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -69,7 +71,7 @@ export class CursoController {
   }
 
   @Put("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Curso.Operations.SetCoverImage)
+  @PocOperation(PocTokens.CursoSetImagemCapa)
   async cursoImagemCapaSave(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -82,7 +84,7 @@ export class CursoController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Curso.Operations.DeleteById)
+  @PocOperation(PocTokens.CursoDeleteOneByID)
   async cursoDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

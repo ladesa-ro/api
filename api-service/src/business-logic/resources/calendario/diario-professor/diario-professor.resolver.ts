@@ -1,13 +1,15 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { DiarioProfessorService } from "./diario-professor.service";
 
 @Resolver()
 export class DiarioProfessorResolver {
   constructor(private diarioProfessorService: DiarioProfessorService) {}
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.List)
+  @PocOperation(PocTokens.DiarioProfessorList)
   async diarioProfessorFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -15,7 +17,7 @@ export class DiarioProfessorResolver {
   ) {
     return this.diarioProfessorService.diarioProfessorFindAll(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.FindById)
+  @PocOperation(PocTokens.DiarioProfessorFindOneByID)
   async diarioProfessorFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -23,7 +25,7 @@ export class DiarioProfessorResolver {
   ) {
     return this.diarioProfessorService.diarioProfessorFindByIdStrict(accessContext, { id: dto.params.id });
   }
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.Create)
+  @PocOperation(PocTokens.DiarioProfessorCreate)
   async diarioProfessorCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -31,7 +33,7 @@ export class DiarioProfessorResolver {
   ) {
     return this.diarioProfessorService.diarioProfessorCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.UpdateById)
+  @PocOperation(PocTokens.DiarioProfessorUpdateOneByID)
   async diarioProfessorUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class DiarioProfessorResolver {
   ) {
     return this.diarioProfessorService.diarioProfessorUpdate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.DeleteById)
+  @PocOperation(PocTokens.DiarioProfessorDeleteOneByID)
   async diarioProfessorDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

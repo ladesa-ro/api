@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { DiarioService } from "./diario.service";
@@ -13,7 +15,7 @@ export class DiarioController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Diario.Operations.List)
+  @PocOperation(PocTokens.DiarioList)
   async diarioFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -25,7 +27,7 @@ export class DiarioController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Diario.Operations.FindById)
+  @PocOperation(PocTokens.DiarioFindOneByID)
   async diarioFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class DiarioController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Diario.Operations.Create)
+  @PocOperation(PocTokens.DiarioCreate)
   async diarioCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -51,7 +53,7 @@ export class DiarioController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Diario.Operations.UpdateById)
+  @PocOperation(PocTokens.DiarioUpdateOneByID)
   async diarioUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -63,7 +65,7 @@ export class DiarioController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Diario.Operations.DeleteById)
+  @PocOperation(PocTokens.DiarioDeleteOneByID)
   async diarioDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

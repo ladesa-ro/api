@@ -1,4 +1,4 @@
-import { PocOperacaoApi } from "@/business-logic/standards/especificacao/business-logic";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { Tokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Get } from "@nestjs/common";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
@@ -10,7 +10,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get("aaaa")
-  @PocOperacaoApi(Tokens.AmbienteFindOneByID)
+  @PocOperation(Tokens.AmbienteFindOneByID)
   teste() {}
 
   @Get()

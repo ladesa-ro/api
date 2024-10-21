@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { ReservaService } from "./reserva.service";
 
@@ -11,7 +13,7 @@ export class ReservaResolver {
     private reservaService: ReservaService,
   ) {}
   //
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.List)
+  @PocOperation(PocTokens.ReservaList)
   async reservaFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -20,7 +22,7 @@ export class ReservaResolver {
     return this.reservaService.reservaFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.FindById)
+  @PocOperation(PocTokens.ReservaFindOneByID)
   async reservaFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -31,7 +33,7 @@ export class ReservaResolver {
     });
   }
   //
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.Create)
+  @PocOperation(PocTokens.ReservaCreate)
   async reservaCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class ReservaResolver {
   ) {
     return this.reservaService.reservaCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.UpdateById)
+  @PocOperation(PocTokens.ReservaUpdateOneByID)
   async reservaUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -47,7 +49,7 @@ export class ReservaResolver {
   ) {
     return this.reservaService.reservaUpdate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.DeleteById)
+  @PocOperation(PocTokens.ReservaDeleteOneByID)
   async reservaDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

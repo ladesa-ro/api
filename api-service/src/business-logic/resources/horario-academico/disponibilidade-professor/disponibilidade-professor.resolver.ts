@@ -1,4 +1,4 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Resolver } from "@nestjs/graphql";
@@ -8,7 +8,7 @@ import { DisponibilidadeProfessorService } from "./disponibilidade-professor.ser
 export class DisponibilidadeProfessorResolver {
   constructor(private disponibilidadeProfessorService: DisponibilidadeProfessorService) {}
   //
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessor.Operations.List)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorList)
   async disponibilidadeProfessorFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -18,7 +18,7 @@ export class DisponibilidadeProfessorResolver {
     return this.disponibilidadeProfessorService.disponibilidadeProfessorFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessor.Operations.FindById)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorFindOneByID)
   async disponibilidadeProfessorFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -28,7 +28,7 @@ export class DisponibilidadeProfessorResolver {
     return this.disponibilidadeProfessorService.disponibilidadeProfessorFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessor.Operations.Create)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorCreate)
   async disponibilidadeProfessorCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -38,7 +38,7 @@ export class DisponibilidadeProfessorResolver {
     return this.disponibilidadeProfessorService.disponibilidadeProfessorCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessor.Operations.UpdateById)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorUpdateOneByID)
   async disponibilidadeProfessorUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -48,7 +48,7 @@ export class DisponibilidadeProfessorResolver {
     return this.disponibilidadeProfessorService.disponibilidadeProfessorUpdate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessor.Operations.DeleteById)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorDeleteOneByID)
   async disponibilidadeProfessorDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

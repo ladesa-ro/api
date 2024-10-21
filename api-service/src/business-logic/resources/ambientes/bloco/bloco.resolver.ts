@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { BlocoService } from "./bloco.service";
 
@@ -13,7 +15,7 @@ export class BlocoResolver {
 
   //
 
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.List)
+  @PocOperation(PocTokens.BlocoList)
   async blocoFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -22,7 +24,7 @@ export class BlocoResolver {
     return this.blocoService.blocoFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.FindById)
+  @PocOperation(PocTokens.BlocoFindOneByID)
   async blocoFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -33,7 +35,7 @@ export class BlocoResolver {
     });
   }
   //
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.Create)
+  @PocOperation(PocTokens.BlocoCreate)
   async blocoCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -41,7 +43,7 @@ export class BlocoResolver {
   ) {
     return this.blocoService.blocoCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.UpdateById)
+  @PocOperation(PocTokens.BlocoUpdateOneByID)
   async blocoUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -49,7 +51,7 @@ export class BlocoResolver {
   ) {
     return this.blocoService.blocoUpdate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Bloco.Operations.DeleteById)
+  @PocOperation(PocTokens.BlocoDeleteOneByID)
   async blocoDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

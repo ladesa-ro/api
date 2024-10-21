@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { DiarioProfessorService } from "./diario-professor.service";
@@ -13,7 +15,7 @@ export class DiarioProfessorController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.List)
+  @PocOperation(PocTokens.DiarioProfessorList)
   async diarioProfessorFindAll(
     @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiarioProfessorListCombinedInput,
@@ -24,7 +26,7 @@ export class DiarioProfessorController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.FindById)
+  @PocOperation(PocTokens.DiarioProfessorFindOneByID)
   async diarioProfessorFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -36,7 +38,7 @@ export class DiarioProfessorController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.Create)
+  @PocOperation(PocTokens.DiarioProfessorCreate)
   async diarioProfessorCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -48,7 +50,7 @@ export class DiarioProfessorController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.UpdateById)
+  @PocOperation(PocTokens.DiarioProfessorUpdateOneByID)
   async diarioProfessorUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -60,7 +62,7 @@ export class DiarioProfessorController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.DiarioProfessor.Operations.DeleteById)
+  @PocOperation(PocTokens.DiarioProfessorDeleteOneByID)
   async diarioProfessorDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

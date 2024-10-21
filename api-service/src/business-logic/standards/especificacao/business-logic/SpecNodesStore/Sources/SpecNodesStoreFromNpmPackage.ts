@@ -1,18 +1,16 @@
+import { ISpecNodesStore } from "@/business-logic/standards/especificacao/business-logic/SpecNodesStore/Types/ISpecNodesStore";
 import {
   CheckType,
   INode,
   INodeTypeObjectEntity,
   INodeTypeObjectOperation,
-  Node,
-  NodeRef,
   NodeTypeObjectEntity,
   NodeTypeObjectOperation,
 } from "@/business-logic/standards/especificacao/infrastructure/utils/nodes/schemas";
-import defu from "defu";
 
 const strict = false;
 
-export class NodesStore {
+export class SpecNodesStoreFromNpmPackage implements ISpecNodesStore {
   #mapNodes = new Map<string, INode>();
   #mapEntities = new Map<string, INodeTypeObjectEntity>();
   #mapOperations = new Map<string, INodeTypeObjectOperation>();
@@ -76,46 +74,4 @@ export class NodesStore {
 
     throw new Error(`operation not found: ${name}`);
   }
-
-  GetTargetNode(token: INode | string) {
-    const store = this;
-
-    const nestedNodes: INode[] = [];
-
-    let nextCursor: INode | string | null = token;
-
-    do {
-      if (CheckType(Node, nextCursor)) {
-        if (CheckType(NodeRef, nextCursor)) {
-          nestedNodes.push(nextCursor);
-        } else {
-          nestedNodes.push(nextCursor);
-        }
-      }
-
-      let targetId: string | null = null;
-
-      if (typeof nextCursor === "string") {
-        targetId = nextCursor;
-      } else if (CheckType(NodeRef, nextCursor)) {
-        targetId = nextCursor.$ref;
-      }
-
-      if (targetId !== null) {
-        const targetNode = store.GetNodeWithId(targetId);
-        nextCursor = targetNode;
-        continue;
-      }
-
-      nextCursor = null;
-    } while (nextCursor !== null);
-
-    const finalNode = defu<INode, INode[]>({}, ...nestedNodes);
-
-    delete finalNode.$ref;
-
-    return finalNode;
-  }
 }
-
-export const especificacaoNodesStore = new NodesStore();

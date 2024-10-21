@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { DisciplinaService } from "./disciplina.service";
 
@@ -11,7 +13,7 @@ export class DisciplinaResolver {
     private disciplinaService: DisciplinaService,
   ) {}
   //
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.List)
+  @PocOperation(PocTokens.DisciplinaList)
   async disciplinaFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -20,7 +22,7 @@ export class DisciplinaResolver {
     return this.disciplinaService.disciplinaFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.FindById)
+  @PocOperation(PocTokens.DisciplinaFindOneByID)
   async disciplinaFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -31,7 +33,7 @@ export class DisciplinaResolver {
     });
   }
   //
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.Create)
+  @PocOperation(PocTokens.DisciplinaCreate)
   async disciplinaCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class DisciplinaResolver {
   ) {
     return this.disciplinaService.disciplinaCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.UpdateById)
+  @PocOperation(PocTokens.DisciplinaUpdateOneByID)
   async disciplinaUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -47,7 +49,7 @@ export class DisciplinaResolver {
   ) {
     return this.disciplinaService.disciplinaUpdate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.DeleteById)
+  @PocOperation(PocTokens.DisciplinaDeleteOneByID)
   async disciplinaDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

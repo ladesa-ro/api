@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { DisciplinaService } from "./disciplina.service";
@@ -13,7 +15,7 @@ export class DisciplinaController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.List)
+  @PocOperation(PocTokens.DisciplinaList)
   async disciplinaFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -25,7 +27,7 @@ export class DisciplinaController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.FindById)
+  @PocOperation(PocTokens.DisciplinaFindOneByID)
   async disciplinaFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class DisciplinaController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.Create)
+  @PocOperation(PocTokens.DisciplinaCreate)
   async disciplinaCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -51,7 +53,7 @@ export class DisciplinaController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.UpdateById)
+  @PocOperation(PocTokens.DisciplinaUpdateOneByID)
   async disciplinaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -63,7 +65,7 @@ export class DisciplinaController {
   //
 
   @Get("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.GetCoverImage)
+  @PocOperation(PocTokens.DisciplinaGetImagemCapa)
   async disciplinaGetImagemCapa(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -73,7 +75,7 @@ export class DisciplinaController {
   }
 
   @Put("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.SetCoverImage)
+  @PocOperation(PocTokens.DisciplinaSetImagemCapa)
   async disciplinaImagemCapaSave(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -86,7 +88,7 @@ export class DisciplinaController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Disciplina.Operations.DeleteById)
+  @PocOperation(PocTokens.DisciplinaDeleteOneByID)
   async disciplinaDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

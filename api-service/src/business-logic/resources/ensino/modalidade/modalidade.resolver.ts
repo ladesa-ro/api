@@ -1,6 +1,8 @@
-import { CombinedInput, Operation, graphqlExtractSelection } from "@/business-logic/standards";
+import { CombinedInput, graphqlExtractSelection } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Info as GqlInfo, Resolver as GqlResolver } from "@nestjs/graphql";
 import type { GraphQLResolveInfo } from "graphql";
 import { ModalidadeService } from "./modalidade.service";
@@ -12,7 +14,7 @@ export class ModalidadeResolver {
     private modalidadeService: ModalidadeService,
   ) {}
   //
-  @Operation(LadesaTypings.Tokens.Modalidade.Operations.List)
+  @PocOperation(PocTokens.ModalidadeList)
   async modalidadeFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -22,7 +24,7 @@ export class ModalidadeResolver {
     return this.modalidadeService.modalidadeFindAll(accessContext, dto, graphqlExtractSelection(info, "paginated"));
   }
   //
-  @Operation(LadesaTypings.Tokens.Modalidade.Operations.FindById)
+  @PocOperation(PocTokens.ModalidadeFindOneByID)
   async modalidadeFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -32,7 +34,7 @@ export class ModalidadeResolver {
     return this.modalidadeService.modalidadeFindByIdStrict(accessContext, { id: dto.params.id }, ["id", ...graphqlExtractSelection(info)]);
   }
   //
-  @Operation(LadesaTypings.Tokens.Modalidade.Operations.Create)
+  @PocOperation(PocTokens.ModalidadeCreate)
   async modalidadeCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -40,7 +42,7 @@ export class ModalidadeResolver {
   ) {
     return this.modalidadeService.modalidadeCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Modalidade.Operations.UpdateById)
+  @PocOperation(PocTokens.ModalidadeUpdateOneByID)
   async modalidadeUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -48,7 +50,7 @@ export class ModalidadeResolver {
   ) {
     return this.modalidadeService.modalidadeUpdate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Modalidade.Operations.DeleteById)
+  @PocOperation(PocTokens.ModalidadeDeleteOneByID)
   async modalidadeDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

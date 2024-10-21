@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { DiaCalendarioService } from "./dia-calendario.service";
@@ -11,7 +13,7 @@ export class DiaCalendarioController {
   constructor(private diaCalendarioService: DiaCalendarioService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.List)
+  @PocOperation(PocTokens.DiaCalendarioList)
   async diaCalendarioFindAll(
     @AccessContextHttp() clientAccess: AccessContext,
     @CombinedInput() dto: LadesaTypings.DiaCalendarioListCombinedInput,
@@ -22,7 +24,7 @@ export class DiaCalendarioController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.FindById)
+  @PocOperation(PocTokens.DiaCalendarioFindOneByID)
   async diaCalendarioFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -34,7 +36,7 @@ export class DiaCalendarioController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.Create)
+  @PocOperation(PocTokens.DiaCalendarioCreate)
   async diaCalendarioCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -46,7 +48,7 @@ export class DiaCalendarioController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.UpdateById)
+  @PocOperation(PocTokens.DiaCalendarioUpdateOneByID)
   async diaCalendarioUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -58,7 +60,7 @@ export class DiaCalendarioController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.DeleteById)
+  @PocOperation(PocTokens.DiaCalendarioDeleteOneByID)
   async diaCalendarioDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

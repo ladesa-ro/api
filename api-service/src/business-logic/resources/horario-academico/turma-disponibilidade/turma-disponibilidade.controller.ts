@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { TurmaDisponibilidadeService } from "./turma-disponibilidade.service";
@@ -11,7 +13,7 @@ export class TurmaDisponibilidadeController {
   constructor(private turmaDisponibilidadeService: TurmaDisponibilidadeService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.List)
+  @PocOperation(PocTokens.TurmaDisponibilidadeList)
   async turmaDisponibilidadeFindAll(
     @AccessContextHttp() clientAccess: AccessContext,
     @CombinedInput() dto: LadesaTypings.TurmaDisponibilidadeListCombinedInput,
@@ -22,7 +24,7 @@ export class TurmaDisponibilidadeController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.FindById)
+  @PocOperation(PocTokens.TurmaDisponibilidadeFindOneByID)
   async turmaDisponibilidadeFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -35,7 +37,7 @@ export class TurmaDisponibilidadeController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.Create)
+  @PocOperation(PocTokens.TurmaDisponibilidadeCreate)
   async turmaDisponibilidadeCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -47,7 +49,7 @@ export class TurmaDisponibilidadeController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.UpdateById)
+  @PocOperation(PocTokens.TurmaDisponibilidadeUpdateOneByID)
   async turmaDisponibilidadeUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -60,7 +62,7 @@ export class TurmaDisponibilidadeController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidade.Operations.DeleteById)
+  @PocOperation(PocTokens.TurmaDisponibilidadeDeleteOneByID)
   async turmaDisponibilidadeDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

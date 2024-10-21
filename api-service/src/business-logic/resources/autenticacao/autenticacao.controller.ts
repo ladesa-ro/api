@@ -1,7 +1,9 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import { Public } from "@/infrastructure/authentication";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Get, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { AutenticacaoService } from "./autenticacao.service";
@@ -12,7 +14,7 @@ export class AutenticacaoController {
   constructor(private readonly autenticacaoService: AutenticacaoService) {}
 
   @Get("/quem-sou-eu")
-  @Operation(LadesaTypings.Tokens.Auth.Operations.WhoAmI)
+  @PocOperation(PocTokens.AuthWhoAmI)
   whoAmI(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -22,7 +24,7 @@ export class AutenticacaoController {
 
   @Post("/login")
   @Public()
-  @Operation(LadesaTypings.Tokens.Auth.Operations.Login)
+  @PocOperation(PocTokens.AuthLogin)
   login(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -33,7 +35,7 @@ export class AutenticacaoController {
 
   @Post("/login/refresh")
   @Public()
-  @Operation(LadesaTypings.Tokens.Auth.Operations.Refresh)
+  @PocOperation(PocTokens.AuthRefresh)
   refresh(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -43,7 +45,7 @@ export class AutenticacaoController {
   }
 
   @Post("/definir-senha")
-  @Operation(LadesaTypings.Tokens.Auth.Operations.SetInitialPassword)
+  @PocOperation(PocTokens.AuthSetInitialPassword)
   definirSenha(
     //
     @AccessContextHttp() accessContext: AccessContext,

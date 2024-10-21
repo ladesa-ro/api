@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { DiaCalendarioService } from "./dia-calendario.service";
 
@@ -8,7 +10,7 @@ import { DiaCalendarioService } from "./dia-calendario.service";
 export class DiaCalendarioResolver {
   constructor(private diaCalendarioService: DiaCalendarioService) {}
   //
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.List)
+  @PocOperation(PocTokens.DiaCalendarioList)
   async diaCalendarioFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -17,7 +19,7 @@ export class DiaCalendarioResolver {
     return this.diaCalendarioService.diaCalendarioFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.FindById)
+  @PocOperation(PocTokens.DiaCalendarioFindOneByID)
   async diaCalendarioFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -26,7 +28,7 @@ export class DiaCalendarioResolver {
     return this.diaCalendarioService.diaCalendarioFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.Create)
+  @PocOperation(PocTokens.DiaCalendarioCreate)
   async diaCalendarioCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -35,7 +37,7 @@ export class DiaCalendarioResolver {
     return this.diaCalendarioService.diaCalendarioCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.UpdateById)
+  @PocOperation(PocTokens.DiaCalendarioUpdateOneByID)
   async diaCalendarioUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -44,7 +46,7 @@ export class DiaCalendarioResolver {
     return this.diaCalendarioService.diaCalendarioUpdate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiaCalendario.Operations.DeleteById)
+  @PocOperation(PocTokens.DiaCalendarioDeleteOneByID)
   async diaCalendarioDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
