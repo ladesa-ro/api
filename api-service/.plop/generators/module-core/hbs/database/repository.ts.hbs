@@ -1,6 +1,0 @@
-import { {{ c_pascal moduleName }}Entity } from '../../entities/{{ c_snake moduleNameParent }}/{{ c_snake moduleName }}.entity';
-import { createRepositoryFactory, IRepositoryFactoryOutput } from '../helpers/create-repository-factory';
-
-export const create{{ c_pascal moduleName }}Repository = createRepositoryFactory((ds) => ds.getRepository({{ c_pascal moduleName }}Entity).extend({}));
-
-export type {{ c_pascal moduleName }}Repository = IRepositoryFactoryOutput<typeof create{{ c_pascal moduleName }}Repository>;
