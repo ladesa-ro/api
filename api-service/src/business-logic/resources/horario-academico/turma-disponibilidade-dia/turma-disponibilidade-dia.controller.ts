@@ -1,4 +1,4 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
@@ -11,7 +11,7 @@ export class TurmaDisponibilidadeDiaController {
   constructor(private turmaDisponibilidadeDiaService: TurmaDisponibilidadeDiaService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidadeDia.Operations.List)
+  // @PocOperacaoApi(PocTokens.TurmaDisponibilidadeDiaList)
   async turmaDisponibilidadeDiaFindAll(
     @AccessContextHttp() clientAccess: AccessContext,
     @CombinedInput() dto: LadesaTypings.TurmaDisponibilidadeDiaListCombinedInput,
@@ -22,7 +22,7 @@ export class TurmaDisponibilidadeDiaController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidadeDia.Operations.FindById)
+  // @PocOperacaoApi(PocTokens.TurmaDisponibilidadeDiaFindOneByID)
   async turmaDisponibilidadeDiaFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -35,7 +35,7 @@ export class TurmaDisponibilidadeDiaController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidadeDia.Operations.Create)
+  // @PocOperacaoApi(PocTokens.TurmaDisponibilidadeDiaCreate)
   async turmaDisponibilidadeDiaCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -48,7 +48,7 @@ export class TurmaDisponibilidadeDiaController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidadeDia.Operations.UpdateById)
+  // @PocOperacaoApi(PocTokens.TurmaDisponibilidadeDiaUpdateOneByID)
   async turmaDisponibilidadeDiaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -61,7 +61,7 @@ export class TurmaDisponibilidadeDiaController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.TurmaDisponibilidadeDia.Operations.DeleteById)
+  // @PocOperacaoApi(PocTokens.TurmaDisponibilidadeDiaDeleteOneByID)
   async turmaDisponibilidadeDiaDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

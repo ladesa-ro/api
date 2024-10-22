@@ -1,4 +1,4 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
@@ -11,7 +11,7 @@ export class DisponibilidadeProfessorDiaController {
   constructor(private disponibilidadeProfessorDiaService: DisponibilidadeProfessorDiaService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessorDia.Operations.List)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorDiaList)
   async disponibilidadeProfessorDiaFindAll(
     @AccessContextHttp() clientAccess: AccessContext,
     @CombinedInput()
@@ -23,7 +23,7 @@ export class DisponibilidadeProfessorDiaController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessorDia.Operations.FindById)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorDiaFindOneByID)
   async disponibilidadeProfessorDiaFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -36,7 +36,7 @@ export class DisponibilidadeProfessorDiaController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessorDia.Operations.Create)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorDiaCreate)
   async disponibilidadeProfessorDiaCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -49,7 +49,7 @@ export class DisponibilidadeProfessorDiaController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessorDia.Operations.UpdateById)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorDiaUpdateOneByID)
   async disponibilidadeProfessorDiaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -62,7 +62,7 @@ export class DisponibilidadeProfessorDiaController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessorDia.Operations.DeleteById)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorDiaDeleteOneByID)
   async disponibilidadeProfessorDiaDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

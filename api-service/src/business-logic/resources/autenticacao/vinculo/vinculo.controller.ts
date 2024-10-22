@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Get, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { VinculoService } from "./vinculo.service";
@@ -11,7 +13,7 @@ export class VinculoController {
   constructor(private vinculoService: VinculoService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Vinculo.Operations.List)
+  @PocOperation(PocTokens.PerfilList)
   async findAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -21,7 +23,7 @@ export class VinculoController {
   }
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Vinculo.Operations.Update)
+  @PocOperation(PocTokens.PerfilUpdateOneByID)
   async vinculoSetVinculos(
     //
     @AccessContextHttp() accessContext: AccessContext,

@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { HorarioGeradoService } from "./horario-gerado.service";
@@ -11,7 +13,7 @@ export class HorarioGeradoController {
   constructor(private horarioGeradoService: HorarioGeradoService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.HorarioGerado.Operations.List)
+  @PocOperation(PocTokens.HorarioGeradoList)
   async horarioGeradoFindAll(
     @AccessContextHttp() clientAccess: AccessContext,
     @CombinedInput() dto: LadesaTypings.HorarioGeradoListCombinedInput,
@@ -22,7 +24,7 @@ export class HorarioGeradoController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.HorarioGerado.Operations.FindById)
+  @PocOperation(PocTokens.HorarioGeradoFindOneByID)
   async horarioGeradoFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -34,7 +36,7 @@ export class HorarioGeradoController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.HorarioGerado.Operations.Create)
+  @PocOperation(PocTokens.HorarioGeradoCreate)
   async horarioGeradoCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -46,7 +48,7 @@ export class HorarioGeradoController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.HorarioGerado.Operations.UpdateById)
+  @PocOperation(PocTokens.HorarioGeradoUpdateOneByID)
   async horarioGeradoUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -58,7 +60,7 @@ export class HorarioGeradoController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.HorarioGerado.Operations.DeleteById)
+  @PocOperation(PocTokens.HorarioGeradoDeleteOneByID)
   async horarioGeradoDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

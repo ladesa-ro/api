@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { TurmaService } from "./turma.service";
@@ -13,7 +15,7 @@ export class TurmaController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.List)
+  @PocOperation(PocTokens.TurmaList)
   async turmaFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -25,7 +27,7 @@ export class TurmaController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.FindById)
+  @PocOperation(PocTokens.TurmaFindOneByID)
   async turmaFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class TurmaController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.Create)
+  @PocOperation(PocTokens.TurmaCreate)
   async turmaCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -51,7 +53,7 @@ export class TurmaController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.UpdateById)
+  @PocOperation(PocTokens.TurmaUpdateOneByID)
   async turmaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -63,7 +65,7 @@ export class TurmaController {
   //
 
   @Get("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.GetCoverImage)
+  @PocOperation(PocTokens.TurmaGetImagemCapa)
   async turmaGetImagemCapa(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -73,7 +75,7 @@ export class TurmaController {
   }
 
   @Put("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.SetCoverImage)
+  @PocOperation(PocTokens.TurmaSetImagemCapa)
   async turmaImagemCapaSave(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -86,7 +88,7 @@ export class TurmaController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Turma.Operations.DeleteById)
+  @PocOperation(PocTokens.TurmaDeleteOneByID)
   async turmaDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { HorarioGeradoService } from "./horario-gerado.service";
 
@@ -8,7 +10,7 @@ import { HorarioGeradoService } from "./horario-gerado.service";
 export class HorarioGeradoResolver {
   constructor(private horarioGeradoService: HorarioGeradoService) {}
   //
-  @Operation(LadesaTypings.Tokens.HorarioGerado.Operations.List)
+  @PocOperation(PocTokens.HorarioGeradoList)
   async horarioGeradoFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -17,7 +19,7 @@ export class HorarioGeradoResolver {
     return this.horarioGeradoService.horarioGeradoFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.HorarioGerado.Operations.FindById)
+  @PocOperation(PocTokens.HorarioGeradoFindOneByID)
   async horarioGeradoFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -26,7 +28,7 @@ export class HorarioGeradoResolver {
     return this.horarioGeradoService.horarioGeradoFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
-  @Operation(LadesaTypings.Tokens.HorarioGerado.Operations.Create)
+  @PocOperation(PocTokens.HorarioGeradoCreate)
   async horarioGeradoCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -35,7 +37,7 @@ export class HorarioGeradoResolver {
     return this.horarioGeradoService.horarioGeradoCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.HorarioGerado.Operations.UpdateById)
+  @PocOperation(PocTokens.HorarioGeradoUpdateOneByID)
   async horarioGeradoUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -44,7 +46,7 @@ export class HorarioGeradoResolver {
     return this.horarioGeradoService.horarioGeradoUpdate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.HorarioGerado.Operations.DeleteById)
+  @PocOperation(PocTokens.HorarioGeradoDeleteOneByID)
   async horarioGeradoDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

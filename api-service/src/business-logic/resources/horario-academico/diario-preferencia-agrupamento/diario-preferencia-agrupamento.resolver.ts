@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { DiarioPreferenciaAgrupamentoService } from "./diario-preferencia-agrupamento.service";
 
@@ -8,7 +10,7 @@ import { DiarioPreferenciaAgrupamentoService } from "./diario-preferencia-agrupa
 export class DiarioPreferenciaAgrupamentoResolver {
   constructor(private diarioPreferenciaAgrupamentoService: DiarioPreferenciaAgrupamentoService) {}
   //
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.List)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoList)
   async diarioPreferenciaAgrupamentoFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -18,7 +20,7 @@ export class DiarioPreferenciaAgrupamentoResolver {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.FindById)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoFindOneByID)
   async diarioPreferenciaAgrupamentoFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -28,7 +30,7 @@ export class DiarioPreferenciaAgrupamentoResolver {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.Create)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoCreate)
   async diarioPreferenciaAgrupamentoCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -38,7 +40,7 @@ export class DiarioPreferenciaAgrupamentoResolver {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.UpdateById)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoUpdateOneByID)
   async diarioPreferenciaAgrupamentoUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -48,7 +50,7 @@ export class DiarioPreferenciaAgrupamentoResolver {
     return this.diarioPreferenciaAgrupamentoService.diarioPreferenciaAgrupamentoUpdate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.DiarioPreferenciaAgrupamento.Operations.DeleteById)
+  @PocOperation(PocTokens.DiarioPreferenciaAgrupamentoDeleteOneByID)
   async diarioPreferenciaAgrupamentoOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

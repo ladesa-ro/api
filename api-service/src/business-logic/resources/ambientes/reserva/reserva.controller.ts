@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { ReservaService } from "./reserva.service";
@@ -13,7 +15,7 @@ export class ReservaController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.List)
+  @PocOperation(PocTokens.ReservaList)
   async reservaFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -25,7 +27,7 @@ export class ReservaController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.FindById)
+  @PocOperation(PocTokens.ReservaFindOneByID)
   async reservaFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class ReservaController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.Create)
+  @PocOperation(PocTokens.ReservaCreate)
   async reservaCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -51,7 +53,7 @@ export class ReservaController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.UpdateById)
+  @PocOperation(PocTokens.ReservaUpdateOneByID)
   async reservaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -63,7 +65,7 @@ export class ReservaController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Reserva.Operations.DeleteById)
+  @PocOperation(PocTokens.ReservaDeleteOneByID)
   async reservaDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

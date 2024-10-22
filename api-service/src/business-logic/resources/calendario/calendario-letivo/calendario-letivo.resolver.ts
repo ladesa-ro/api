@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { CalendarioLetivoService } from "./calendario-letivo.service";
 
@@ -8,7 +10,7 @@ import { CalendarioLetivoService } from "./calendario-letivo.service";
 export class CalendarioLetivoResolver {
   constructor(private calendarioLetivoService: CalendarioLetivoService) {}
   //
-  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.List)
+  @PocOperation(PocTokens.CalendarioLetivoList)
   async calendarioLetivoFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -17,7 +19,7 @@ export class CalendarioLetivoResolver {
     return this.calendarioLetivoService.calendarioLetivoFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.FindById)
+  @PocOperation(PocTokens.CalendarioLetivoFindOneByID)
   async calendarioLetivoFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -26,7 +28,7 @@ export class CalendarioLetivoResolver {
     return this.calendarioLetivoService.calendarioLetivoFindByIdStrict(accessContext, { id: dto.params.id });
   }
   //
-  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.Create)
+  @PocOperation(PocTokens.CalendarioLetivoCreate)
   async calendarioLetivoCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -35,7 +37,7 @@ export class CalendarioLetivoResolver {
     return this.calendarioLetivoService.calendarioLetivoCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.UpdateById)
+  @PocOperation(PocTokens.CalendarioLetivoUpdateOneByID)
   async calendarioLetivoUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -44,7 +46,7 @@ export class CalendarioLetivoResolver {
     return this.calendarioLetivoService.calendarioLetivoUpdate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.CalendarioLetivo.Operations.DeleteById)
+  @PocOperation(PocTokens.CalendarioLetivoDeleteOneByID)
   async calendarioLetivoDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

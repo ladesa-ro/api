@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { EtapaService } from "./etapa.service";
@@ -11,7 +13,7 @@ export class EtapaController {
   constructor(private etapaService: EtapaService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.List)
+  @PocOperation(PocTokens.EtapaList)
   async etapaFindAll(@AccessContextHttp() clientAccess: AccessContext, @CombinedInput() dto: LadesaTypings.EtapaListCombinedInput): Promise<LadesaTypings.EtapaListCombinedSuccessOutput["body"]> {
     return this.etapaService.etapaFindAll(clientAccess, dto);
   }
@@ -19,7 +21,7 @@ export class EtapaController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.FindById)
+  @PocOperation(PocTokens.EtapaFindOneByID)
   async etapaFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -33,7 +35,7 @@ export class EtapaController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.Create)
+  @PocOperation(PocTokens.EtapaCreate)
   async etapaCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -45,7 +47,7 @@ export class EtapaController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.UpdateById)
+  @PocOperation(PocTokens.EtapaUpdateOneByID)
   async etapaUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -57,7 +59,7 @@ export class EtapaController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.DeleteById)
+  @PocOperation(PocTokens.EtapaDeleteOneByID)
   async etapaDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

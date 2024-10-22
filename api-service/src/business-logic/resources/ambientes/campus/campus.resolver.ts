@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { CampusService } from "./campus.service";
 
@@ -11,7 +13,7 @@ export class CampusResolver {
     private campusService: CampusService,
   ) {}
   //
-  @Operation(LadesaTypings.Tokens.Campus.Operations.List)
+  @PocOperation(PocTokens.CampusList)
   async campusFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -20,7 +22,7 @@ export class CampusResolver {
     return this.campusService.campusFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Campus.Operations.FindById)
+  @PocOperation(PocTokens.CampusFindOneByID)
   async campusFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -31,7 +33,7 @@ export class CampusResolver {
     });
   }
   //
-  @Operation(LadesaTypings.Tokens.Campus.Operations.Create)
+  @PocOperation(PocTokens.CampusCreate)
   async campusCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -40,7 +42,7 @@ export class CampusResolver {
     return this.campusService.campusCreate(accessContext, dto);
   }
 
-  @Operation(LadesaTypings.Tokens.Campus.Operations.UpdateById)
+  @PocOperation(PocTokens.CampusUpdateOneByID)
   async campusUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -48,7 +50,7 @@ export class CampusResolver {
   ) {
     return this.campusService.campusUpdate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Campus.Operations.DeleteById)
+  @PocOperation(PocTokens.CampusDeleteOneByID)
   async campusDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

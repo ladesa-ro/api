@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { UsuarioService } from "./usuario.service";
@@ -13,7 +15,7 @@ export class UsuarioController {
   //
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.List)
+  @PocOperation(PocTokens.UsuarioList)
   async usuarioFindAll(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -25,7 +27,7 @@ export class UsuarioController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.FindById)
+  @PocOperation(PocTokens.UsuarioFindOneByID)
   async usuarioFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class UsuarioController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.Create)
+  @PocOperation(PocTokens.UsuarioCreate)
   async usuarioCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -51,7 +53,7 @@ export class UsuarioController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.UpdateById)
+  @PocOperation(PocTokens.UsuarioUpdateOneByID)
   async usuarioUpdate(@AccessContextHttp() accessContext: AccessContext, @CombinedInput() dto: LadesaTypings.UsuarioUpdateByIDCombinedInput) {
     return this.usuarioService.usuarioUpdate(accessContext, dto);
   }
@@ -59,7 +61,7 @@ export class UsuarioController {
   //
 
   @Get("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.GetCoverImage)
+  @PocOperation(PocTokens.UsuarioGetImagemCapa)
   async usuarioGetImagemCapa(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -69,7 +71,7 @@ export class UsuarioController {
   }
 
   @Put("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.SetCoverImage)
+  @PocOperation(PocTokens.UsuarioSetImagemCapa)
   async usuarioImagemCapaSave(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -82,7 +84,7 @@ export class UsuarioController {
   //
 
   @Get("/:id/imagem/perfil")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.GetProfileImage)
+  @PocOperation(PocTokens.UsuarioGetImagemPerfil)
   async usuarioGetImagemPerfil(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -92,7 +94,7 @@ export class UsuarioController {
   }
 
   @Put("/:id/imagem/perfil")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.SetProfileImage)
+  @PocOperation(PocTokens.UsuarioSetImagemPerfil)
   async usuarioImagemPerfilSave(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -105,7 +107,7 @@ export class UsuarioController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Usuario.Operations.DeleteById)
+  @PocOperation(PocTokens.UsuarioDeleteOneByID)
   async usuarioDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

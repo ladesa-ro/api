@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { EtapaService } from "./etapa.service";
 
@@ -8,7 +10,7 @@ import { EtapaService } from "./etapa.service";
 export class EtapaResolver {
   constructor(private etapaService: EtapaService) {}
   //
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.List)
+  @PocOperation(PocTokens.EtapaList)
   async etapaFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -17,7 +19,7 @@ export class EtapaResolver {
     return this.etapaService.etapaFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.FindById)
+  @PocOperation(PocTokens.EtapaFindOneByID)
   async etapaFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -28,7 +30,7 @@ export class EtapaResolver {
     });
   }
   //
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.Create)
+  @PocOperation(PocTokens.EtapaCreate)
   async etapaCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -37,7 +39,7 @@ export class EtapaResolver {
     return this.etapaService.etapaCreate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.UpdateById)
+  @PocOperation(PocTokens.EtapaUpdateOneByID)
   async etapaUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -46,7 +48,7 @@ export class EtapaResolver {
     return this.etapaService.etapaUpdate(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Etapa.Operations.DeleteById)
+  @PocOperation(PocTokens.EtapaDeleteOneByID)
   async etapaDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

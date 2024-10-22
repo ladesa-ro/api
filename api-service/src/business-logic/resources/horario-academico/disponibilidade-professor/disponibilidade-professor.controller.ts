@@ -1,4 +1,4 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
@@ -11,7 +11,7 @@ export class DisponibilidadeProfessorController {
   constructor(private disponibilidadeProfessorService: DisponibilidadeProfessorService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessor.Operations.List)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorList)
   async disponibilidadeProfessorFindAll(
     @AccessContextHttp() clientAccess: AccessContext,
     @CombinedInput()
@@ -23,7 +23,7 @@ export class DisponibilidadeProfessorController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessor.Operations.FindById)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorFindOneByID)
   async disponibilidadeProfessorFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -36,7 +36,7 @@ export class DisponibilidadeProfessorController {
   //
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessor.Operations.Create)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorCreate)
   async disponibilidadeProfessorCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -49,7 +49,7 @@ export class DisponibilidadeProfessorController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessor.Operations.UpdateById)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorUpdateOneByID)
   async disponibilidadeProfessorUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -62,7 +62,7 @@ export class DisponibilidadeProfessorController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.DisponibilidadeProfessor.Operations.DeleteById)
+  // @PocOperacaoApi(PocTokens.DisponibilidadeProfessorDeleteOneByID)
   async disponibilidadeProfessorDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,

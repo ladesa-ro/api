@@ -1,4 +1,0 @@
-import { I{{ c_pascal moduleName }}Model } from '../../I{{ c_pascal moduleName }}Model';
-
-export interface I{{ c_pascal moduleName }}InputDto extends Pick<I{{ c_pascal moduleName }}Model, {{#each propriedadesDeclaradas}} {{#if @first}}{{else}} |{{/if}} '{{this.nome}}'{{/each}}> {
-}

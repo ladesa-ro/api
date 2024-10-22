@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextGraphQl } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Resolver } from "@nestjs/graphql";
 import { TurmaService } from "./turma.service";
 
@@ -11,7 +13,7 @@ export class TurmaResolver {
     private turmaService: TurmaService,
   ) {}
   //
-  @Operation(LadesaTypings.Tokens.Turma.Operations.List)
+  @PocOperation(PocTokens.TurmaList)
   async turmaFindAll(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -20,7 +22,7 @@ export class TurmaResolver {
     return this.turmaService.turmaFindAll(accessContext, dto);
   }
   //
-  @Operation(LadesaTypings.Tokens.Turma.Operations.FindById)
+  @PocOperation(PocTokens.TurmaFindOneByID)
   async turmaFindOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -31,7 +33,7 @@ export class TurmaResolver {
     });
   }
   //
-  @Operation(LadesaTypings.Tokens.Turma.Operations.Create)
+  @PocOperation(PocTokens.TurmaCreate)
   async turmaCreate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -39,7 +41,7 @@ export class TurmaResolver {
   ) {
     return this.turmaService.turmaCreate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Turma.Operations.UpdateById)
+  @PocOperation(PocTokens.TurmaUpdateOneByID)
   async turmaUpdate(
     //
     @AccessContextGraphQl() accessContext: AccessContext,
@@ -47,7 +49,7 @@ export class TurmaResolver {
   ) {
     return this.turmaService.turmaUpdate(accessContext, dto);
   }
-  @Operation(LadesaTypings.Tokens.Turma.Operations.DeleteById)
+  @PocOperation(PocTokens.TurmaDeleteOneByID)
   async turmaDeleteOneById(
     //
     @AccessContextGraphQl() accessContext: AccessContext,

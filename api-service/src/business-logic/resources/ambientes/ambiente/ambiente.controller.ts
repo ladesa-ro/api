@@ -1,6 +1,8 @@
-import { CombinedInput, Operation } from "@/business-logic/standards";
+import { CombinedInput } from "@/business-logic/standards";
+import { PocOperation } from "@/business-logic/standards/especificacao/business-logic";
 import { type AccessContext, AccessContextHttp } from "@/infrastructure/access-context";
 import * as LadesaTypings from "@ladesa-ro/especificacao";
+import { Tokens as PocTokens } from "@ladesa-ro/especificacao-latest";
 import { Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { AmbienteService } from "./ambiente.service";
@@ -11,7 +13,7 @@ export class AmbienteController {
   constructor(private ambienteService: AmbienteService) {}
 
   @Get("/")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.List)
+  @PocOperation(PocTokens.AmbienteList)
   async ambienteFindAll(
     @AccessContextHttp() accessContext: AccessContext,
     @CombinedInput() dto: LadesaTypings.AmbienteListCombinedInput,
@@ -22,7 +24,7 @@ export class AmbienteController {
   //
 
   @Get("/:id")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.FindById)
+  @PocOperation(PocTokens.AmbienteFindOneByID)
   async ambienteFindById(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -34,7 +36,7 @@ export class AmbienteController {
   }
 
   @Post("/")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.Create)
+  @PocOperation(PocTokens.AmbienteCreate)
   async ambienteCreate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -46,7 +48,7 @@ export class AmbienteController {
   //
 
   @Patch("/:id")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.UpdateById)
+  @PocOperation(PocTokens.AmbienteUpdateOneByID)
   async ambienteUpdate(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -58,7 +60,7 @@ export class AmbienteController {
   //
 
   @Get("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.GetCoverImage)
+  @PocOperation(PocTokens.AmbienteGetImagemCapa)
   async ambienteGetImagemCapa(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -68,7 +70,7 @@ export class AmbienteController {
   }
 
   @Put("/:id/imagem/capa")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.SetCoverImage)
+  @PocOperation(PocTokens.AmbienteSetImagemCapa)
   async ambienteImagemCapaSave(
     //
     @AccessContextHttp() accessContext: AccessContext,
@@ -81,7 +83,7 @@ export class AmbienteController {
   //
 
   @Delete("/:id")
-  @Operation(LadesaTypings.Tokens.Ambiente.Operations.DeleteById)
+  @PocOperation(PocTokens.AmbienteDeleteOneByID)
   async ambienteDeleteOneById(
     //
     @AccessContextHttp() accessContext: AccessContext,
