@@ -32,7 +32,7 @@ export class VinculoService {
   }
 
   get vinculoRepository() {
-    return this.databaseContext.vinculoRepository;
+    return this.databaseContext.perfilRepository;
   }
 
   //

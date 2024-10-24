@@ -75,8 +75,8 @@ export class DatabaseContext {
     return repositories.createUsuarioRepository(this.ds);
   }
 
-  get vinculoRepository() {
-    return repositories.createVinculoRepository(this.ds).extend({});
+  get perfilRepository() {
+    return repositories.createPerfilRepository(this.ds).extend({});
   }
 
   //

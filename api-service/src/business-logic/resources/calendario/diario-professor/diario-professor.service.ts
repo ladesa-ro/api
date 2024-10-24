@@ -227,7 +227,7 @@ export class DiarioProfessorService {
         });
 
         this.diarioProfessorRepository.merge(diarioProfessor, {
-          vinculo: {
+          perfil: {
             id: perfil.id,
           },
         });
@@ -291,7 +291,7 @@ export class DiarioProfessorService {
         });
 
         this.diarioProfessorRepository.merge(diarioProfessor, {
-          vinculo: {
+          perfil: {
             id: perfil.id,
           },
         });

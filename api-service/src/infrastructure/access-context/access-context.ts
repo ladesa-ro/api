@@ -153,7 +153,7 @@ export class AccessContext implements IAccessContext {
       }
 
       case "vinculo:find": {
-        return this.databaseContext.vinculoRepository.createQueryBuilder("vinculo");
+        return this.databaseContext.perfilRepository.createQueryBuilder("vinculo");
       }
 
       case "curso:update":
