@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-const tableName = "arquivo";
+const tableName = "usuario";
 
-export class CreateTableArquivo1710028829501 implements MigrationInterface {
+export class CreateTableUsuario1710183812355 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -19,27 +19,44 @@ export class CreateTableArquivo1710028829501 implements MigrationInterface {
           //
 
           {
-            name: "name",
+            name: "nome",
             type: "text",
             isNullable: true,
           },
 
           {
-            name: "mime_type",
+            name: "matricula_siape",
             type: "text",
             isNullable: true,
           },
 
           {
-            name: "size_bytes",
-            type: "int",
+            name: "email",
+            type: "text",
+            isNullable: true,
+          },
+
+          //
+
+          {
+            name: "id_imagem_perfil_fk",
+            type: "uuid",
             isNullable: true,
           },
 
           {
-            name: "storage_type",
-            type: "text",
+            name: "id_imagem_capa_fk",
+            type: "uuid",
             isNullable: true,
+          },
+
+          //
+
+          {
+            name: "is_super_user",
+            type: "boolean",
+            isNullable: false,
+            default: "FALSE",
           },
 
           //
@@ -56,10 +73,30 @@ export class CreateTableArquivo1710028829501 implements MigrationInterface {
             isNullable: false,
             default: "NOW()",
           },
+
           {
             name: "date_deleted",
             type: "timestamptz",
             isNullable: true,
+          },
+        ],
+
+        foreignKeys: [
+          {
+            name: `fk__${tableName}__possui__imagem_perfil`,
+            columnNames: ["id_imagem_perfil_fk"],
+            referencedColumnNames: ["id"],
+            referencedTableName: "imagem",
+            onDelete: "SET NULL",
+            onUpdate: "CASCADE",
+          },
+          {
+            name: `fk__${tableName}__possui__imagem_capa`,
+            columnNames: ["id_imagem_capa_fk"],
+            referencedColumnNames: ["id"],
+            referencedTableName: "imagem",
+            onDelete: "SET NULL",
+            onUpdate: "CASCADE",
           },
         ],
       }),

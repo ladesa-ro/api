@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-const tableName = "arquivo";
+const tableName = "intervalo_de_tempo";
 
-export class CreateTableArquivo1710028829501 implements MigrationInterface {
+export class CreateTableIntervaloDeTempo1710107116819 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -15,35 +15,18 @@ export class CreateTableArquivo1710028829501 implements MigrationInterface {
             isPrimary: true,
             default: "gen_random_uuid()",
           },
-
           //
-
           {
-            name: "name",
-            type: "text",
-            isNullable: true,
+            name: "perido_inicio",
+            type: "time",
+            isNullable: false,
           },
-
           {
-            name: "mime_type",
-            type: "text",
-            isNullable: true,
+            name: "perido_fim",
+            type: "time",
+            isNullable: false,
           },
-
-          {
-            name: "size_bytes",
-            type: "int",
-            isNullable: true,
-          },
-
-          {
-            name: "storage_type",
-            type: "text",
-            isNullable: true,
-          },
-
           //
-
           {
             name: "date_created",
             type: "timestamptz",
@@ -56,6 +39,7 @@ export class CreateTableArquivo1710028829501 implements MigrationInterface {
             isNullable: false,
             default: "NOW()",
           },
+
           {
             name: "date_deleted",
             type: "timestamptz",

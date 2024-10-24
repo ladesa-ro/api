@@ -51,8 +51,8 @@ importers:
         specifier: ^25.0.6
         version: 25.0.6
       '@ladesa-ro/especificacao':
-        specifier: ^3.3.0
-        version: 3.3.0
+        specifier: ^3.3.1
+        version: 3.3.1
       '@nestjs/apollo':
         specifier: ^12.2.0
         version: 12.2.0(@apollo/server@4.11.0(graphql@16.9.0))(@nestjs/common@10.4.5(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.5)(@nestjs/graphql@12.2.0(@nestjs/common@10.4.5(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.5)(graphql@16.9.0)(reflect-metadata@0.2.2))(graphql@16.9.0)
@@ -1347,8 +1347,8 @@ packages:
     resolution: {integrity: sha512-rUvo6L0aT9+y/R2wFhDKb+lRD5rwj36XwnIGIbmC2HeQVfgroYB5u/79yc/Mo0inBFNIG8VuiwjRzU878fRE0Q==}
     engines: {node: '>=18'}
 
-  '@ladesa-ro/especificacao@3.3.0':
-    resolution: {integrity: sha512-WZK/fosy6kqle4+uBBUG448Dp9ZiMUL2f1QlER51NbFDr/sO+lUn8x/c67+8/mBZeU6b2SBR520m6zu8uf7Yyg==}
+  '@ladesa-ro/especificacao@3.3.1':
+    resolution: {integrity: sha512-jdlydbLnyOd5Tpjps+rtu+fve9Geco8QluvC4hRWvFIQ4/TubjM9cFgQRTmcC1bdIwF4t1KFFYs8n6vb6GKtdA==}
 
   '@ljharb/through@2.3.13':
     resolution: {integrity: sha512-/gKJun8NNiWGZJkGzI/Ragc53cOdcLNdzjLaIa+GEjguQs0ulsurx8WN0jijdK9yPqDvziX995sMRLyLt1uZMQ==}
@@ -6542,7 +6542,7 @@ snapshots:
       url-join: 5.0.0
       url-template: 3.1.1
 
-  '@ladesa-ro/especificacao@3.3.0': {}
+  '@ladesa-ro/especificacao@3.3.1': {}
 
   '@ljharb/through@2.3.13':
     dependencies:
