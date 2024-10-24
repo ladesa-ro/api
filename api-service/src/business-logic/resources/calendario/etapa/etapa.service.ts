@@ -3,7 +3,7 @@ import { LadesaPaginatedResultDto, LadesaSearch } from "@/business-logic/standar
 import type { AccessContext } from "@/infrastructure/access-context";
 import { paginateConfig } from "@/infrastructure/fixtures";
 import { DatabaseContextService } from "@/infrastructure/integrations/database";
-import type { EtapaEntity } from "@/infrastructure/integrations/database/typeorm/entities/calendario/etapa.entity";
+import type { EtapaEntity } from "@/infrastructure/integrations/database/typeorm/entities/05-calendario/etapa.entity";
 import * as PocTypings from "@ladesa-ro/especificacao";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { has, map, pick } from "lodash";

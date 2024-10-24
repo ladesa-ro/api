@@ -4,3 +4,4 @@ export * from "./01-autenticacao";
 export * from "./02-ambientes";
 export * from "./03-autorizacao";
 export * from "./04-ensino-institucional";
+export * from "./05-calendario";
