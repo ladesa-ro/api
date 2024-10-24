@@ -1,6 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 const tableName = "grade_horario_oferta_formacao";
+const tableNameSmall = "g_h_o_f";
 
 export class CreateTableGradeHorarioOfertaFormacao1710185161900 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -54,13 +55,13 @@ export class CreateTableGradeHorarioOfertaFormacao1710185161900 implements Migra
 
         foreignKeys: [
           {
-            name: `fk__${tableName}__campus`,
+            name: `fk__${tableNameSmall}__campus`,
             columnNames: ["id_campus_fk"],
             referencedColumnNames: ["id"],
             referencedTableName: "campus",
           },
           {
-            name: `fk__${tableName}__oferta_formacao`,
+            name: `fk__${tableNameSmall}__oferta_formacao`,
             columnNames: ["id_oferta_formacao_fk"],
             referencedColumnNames: ["id"],
             referencedTableName: "oferta_formacao",
@@ -70,7 +71,7 @@ export class CreateTableGradeHorarioOfertaFormacao1710185161900 implements Migra
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_${tableName}
+      CREATE TRIGGER change_date_updated_table_${tableNameSmall}
         BEFORE UPDATE ON ${tableName}
         FOR EACH ROW
           EXECUTE FUNCTION change_date_updated();

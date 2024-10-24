@@ -86,14 +86,14 @@ export class CreateTableBloco1710183926133 implements MigrationInterface {
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_bloco
-        BEFORE UPDATE ON bloco
+      CREATE TRIGGER change_date_updated_table_${tableName}
+        BEFORE UPDATE ON ${tableName}
         FOR EACH ROW
           EXECUTE FUNCTION change_date_updated();
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("bloco", true, true, true);
+    await queryRunner.dropTable(tableName, true, true, true);
   }
 }

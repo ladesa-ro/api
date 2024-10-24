@@ -8,6 +8,8 @@ export const getMigrationDataSource = async (appConfigServiceBase: AppConfigServ
 
   const options = appConfigService.getTypeOrmMigrationDataSourceOptions();
 
+  console.log({ options });
+
   const dataSource = new DataSource(options as DataSourceOptions);
 
   return dataSource;

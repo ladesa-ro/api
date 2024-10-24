@@ -49,8 +49,8 @@ export class CreateTableOfertaFormacao1710184310042 implements MigrationInterfac
 
     await queryRunner.query(
       `
-            CREATE TRIGGER change_date_updated_table_modalidade
-            BEFORE UPDATE ON modalidade
+            CREATE TRIGGER change_date_updated_table_${tableName}
+            BEFORE UPDATE ON ${tableName}
             FOR EACH ROW
             EXECUTE FUNCTION change_date_updated();
             `,
@@ -58,6 +58,6 @@ export class CreateTableOfertaFormacao1710184310042 implements MigrationInterfac
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("modalidade");
+    await queryRunner.dropTable(tableName);
   }
 }

@@ -1,6 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-const tableName = "grade_horario_grade_horario_oferta_formacao_intervalo_de_tempo";
+const tableName = "grade_horario_oferta_formacao_intervalo_de_tempo";
+const tableNameSmall = "g_h_o_f_i_d_t";
 
 export class CreateTableGradeHorarioOfertaFormacaoIntervaloDeTempo1710185162000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -54,13 +55,13 @@ export class CreateTableGradeHorarioOfertaFormacaoIntervaloDeTempo1710185162000 
 
         foreignKeys: [
           {
-            name: `fk__${tableName}__grade_horario_oferta_formacao`,
+            name: `fk__${tableNameSmall}__grade_horario_oferta_formacao`,
             columnNames: ["id_grade_horario_oferta_formacao_fk"],
             referencedColumnNames: ["id"],
             referencedTableName: "grade_horario_oferta_formacao",
           },
           {
-            name: `fk__${tableName}__intervalo_de_tempo`,
+            name: `fk__${tableNameSmall}__intervalo_de_tempo`,
             columnNames: ["id_intervalo_de_tempo_fk"],
             referencedColumnNames: ["id"],
             referencedTableName: "intervalo_de_tempo",
@@ -70,7 +71,7 @@ export class CreateTableGradeHorarioOfertaFormacaoIntervaloDeTempo1710185162000 
     );
 
     await queryRunner.query(`
-      CREATE TRIGGER change_date_updated_table_${tableName}
+      CREATE TRIGGER change_date_updated_table_${tableNameSmall}
         BEFORE UPDATE ON ${tableName}
         FOR EACH ROW
           EXECUTE FUNCTION change_date_updated();
