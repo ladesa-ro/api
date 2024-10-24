@@ -68,20 +68,6 @@ export class DatabaseContext {
   //
 
   // =====================================================
-  // == [ AUTENTICAÇÃO ] ====================================
-  // =====================================================
-
-  get usuarioRepository() {
-    return repositories.createUsuarioRepository(this.ds);
-  }
-
-  get perfilRepository() {
-    return repositories.createPerfilRepository(this.ds).extend({});
-  }
-
-  //
-
-  // =====================================================
   // == [ BASE ] =========================================
   // =====================================================
 
@@ -97,8 +83,14 @@ export class DatabaseContext {
     return repositories.createImagemArquivoRepository(this.ds);
   }
 
+  get intervaloDeTempoRepository() {
+    return repositories.createIntervaloDeTempoRepository(this.ds);
+  }
+
+  //
+
   // =====================================================
-  // == [ AMBIENTES ] ====================================
+  // == [ BASE / LUGARES ] ===============================
   // =====================================================
 
   get estadoRepository() {
@@ -112,6 +104,18 @@ export class DatabaseContext {
   get enderecoRepository() {
     return repositories.createEnderecoRepository(this.ds);
   }
+
+  // =====================================================
+  // == [ AUTENTICAÇÃO ] =================================
+  // =====================================================
+
+  get usuarioRepository() {
+    return repositories.createUsuarioRepository(this.ds);
+  }
+
+  // =====================================================
+  // == [ AMBIENTES ] ====================================
+  // =====================================================
 
   get campusRepository() {
     return repositories.createCampusRepository(this.ds);
@@ -130,15 +134,31 @@ export class DatabaseContext {
   }
 
   // =====================================================
-  // == [ Ensino ] =======================================
+  // == [ AUTORIZAÇÃO ] ==================================
   // =====================================================
+
+  get perfilRepository() {
+    return repositories.createPerfilRepository(this.ds).extend({});
+  }
+
+  // =====================================================
+  // == [ Ensino / Institucional ] =======================
+  // =====================================================
+
+  get nivelFormacaoRepository() {
+    return repositories.createNivelFormacaoRepository(this.ds);
+  }
 
   get modalidadeRepository() {
     return repositories.createModalidadeRepository(this.ds);
   }
 
-  get campusPossuiModalidadeRepository() {
-    return repositories.createCampusPossuiModalidadeRepository(this.ds);
+  get ofertaFormacaoRepository() {
+    return repositories.createOfertaFormacaoRepository(this.ds);
+  }
+
+  get ofertaFormacaoNivelFormacaoRepository() {
+    return repositories.createOfertaFormacaoNivelFormacaoRepository(this.ds);
   }
 
   get cursoRepository() {
@@ -148,6 +168,8 @@ export class DatabaseContext {
   get disciplinaRepository() {
     return repositories.createDisciplinaRepository(this.ds);
   }
+
+  //
 
   get turmaRepository() {
     return repositories.createTurmaRepository(this.ds);
@@ -187,9 +209,6 @@ export class DatabaseContext {
   }
   // =====================================================
 
-  get intervaloDeTempoRepository() {
-    return repositories.createIntervaloDeTempoRepository(this.ds);
-  }
   // =====================================================
 
   get aulaRepository() {
