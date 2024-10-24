@@ -199,6 +199,10 @@ export class DatabaseContext {
 
   // =====================================================
 
+  // =====================================================
+  // == [ Ensino Discente ] ==============================
+  // =====================================================
+
   get turmaRepository() {
     return repositories.createTurmaRepository(this.ds);
   }
@@ -211,9 +215,9 @@ export class DatabaseContext {
     return repositories.createDiarioProfessorRepository(this.ds);
   }
 
-  // get aulaRepository() {
-  //   return repositories.createAulaRepository(this.ds);
-  // }
+  get aulaRepository() {
+    return repositories.createAulaRepository(this.ds);
+  }
 
   // =====================================================
   // == [ Horario Academico ] ============================

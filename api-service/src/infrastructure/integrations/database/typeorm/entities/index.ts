@@ -5,3 +5,4 @@ export * from "./02-ambientes";
 export * from "./03-autorizacao";
 export * from "./04-ensino-institucional";
 export * from "./05-calendario";
+export * from "./06-ensino-discente";
