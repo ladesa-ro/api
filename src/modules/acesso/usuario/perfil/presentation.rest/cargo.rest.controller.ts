@@ -16,6 +16,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from "@nestjs/swagger";
 import type { IAccessContext } from "@/domain/abstractions";
 import { Dep } from "@/domain/dependency-injection";
@@ -34,6 +35,7 @@ import {
 } from "./cargo.rest.dto";
 
 @ApiTags("cargos")
+@ApiUnauthorizedResponse({ description: "Não autenticado. Token JWT ausente ou inválido." })
 @Controller("/cargos")
 export class CargoRestController {
   constructor(
