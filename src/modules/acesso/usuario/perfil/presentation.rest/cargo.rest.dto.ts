@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { ApiSchema } from "@/shared/presentation/rest";
-import { PaginationMetaRestDto } from "@/shared/presentation/rest/dtos";
+import { PaginationInputRestDto, PaginationMetaRestDto } from "@/shared/presentation/rest/dtos";
+import { paginationInputSchema } from "@/shared/validation/schemas";
 
 @ApiSchema({ name: "CargoCreateInputDto" })
 export class CargoCreateInputRestDto {
@@ -33,10 +34,8 @@ export class CargoListOutputRestDto {
 }
 
 @ApiSchema({ name: "CargoListInputDto" })
-export class CargoListInputRestDto {
-  @ApiPropertyOptional({ description: "Página atual", default: 1 })
-  page?: number;
-
-  @ApiPropertyOptional({ description: "Itens por página", default: 20 })
-  limit?: number;
+export class CargoListInputRestDto extends PaginationInputRestDto {
+  // Habilita validação via ZodGlobalValidationPipe, incluindo coerção de tipo
+  // e limites de paginação (page >= 1, limit entre 1 e 100).
+  static schema = paginationInputSchema;
 }
