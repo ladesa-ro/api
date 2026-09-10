@@ -5,6 +5,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from "@nestjs/swagger";
 import type { IAccessContext } from "@/domain/abstractions";
 import { Dep } from "@/domain/dependency-injection";
@@ -39,6 +40,7 @@ import {
 import * as PerfilRestMapper from "./perfil.rest.mapper";
 
 @ApiTags("perfis")
+@ApiUnauthorizedResponse({ description: "Não autenticado. Token JWT ausente ou inválido." })
 @Controller("/perfis")
 export class PerfilListRestController {
   constructor(

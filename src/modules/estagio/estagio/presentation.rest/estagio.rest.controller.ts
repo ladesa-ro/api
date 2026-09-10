@@ -23,6 +23,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from "@nestjs/swagger";
 import * as xlsx from "xlsx";
 import { ensureExists } from "@/application/errors";
@@ -108,6 +109,7 @@ function normalizeSearchValue(value: string): string {
 }
 
 @ApiTags("estagios")
+@ApiUnauthorizedResponse({ description: "Não autenticado. Token JWT ausente ou inválido." })
 @Controller("/estagios")
 export class EstagioRestController {
   constructor(

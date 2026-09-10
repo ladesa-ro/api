@@ -2,6 +2,7 @@ import { IsNull } from "typeorm";
 import type { IAccessContext } from "@/domain/abstractions";
 import { Dep, Impl } from "@/domain/dependency-injection";
 import { IAppTypeormConnection } from "@/infrastructure.database/typeorm/connection/app-typeorm-connection.interface";
+import { dateToISO, dateToISONullable } from "@/infrastructure.database/typeorm/mapping/utils";
 import { EstagioCandidatura } from "../domain/estagio-candidatura";
 import {
   IEstagioCandidaturaRepository,
@@ -147,10 +148,11 @@ export class EstagioCandidaturaTypeOrmRepositoryAdapter implements IEstagioCandi
           id: entity.id,
           situacao: entity.situacao,
           posicaoFila,
-          dataInscricao: entity.dataInscricao,
-          dataOferta: entity.dataOferta,
-          expiraEm: entity.expiraEm,
-          dataResposta: entity.dataResposta,
+          // Conversão Date → ISO string: TypeORM retorna Date; o contrato de domínio exige string.
+          dataInscricao: dateToISO(entity.dataInscricao),
+          dataOferta: dateToISONullable(entity.dataOferta),
+          expiraEm: dateToISONullable(entity.expiraEm),
+          dataResposta: dateToISONullable(entity.dataResposta),
           acaoDisponivel: isOfferedValid,
           estagio: {
             id: entity.estagio.id,
@@ -217,10 +219,11 @@ export class EstagioCandidaturaTypeOrmRepositoryAdapter implements IEstagioCandi
       id: entity.id,
       situacao: entity.situacao,
       posicaoFila,
-      dataInscricao: entity.dataInscricao,
-      dataOferta: entity.dataOferta,
-      expiraEm: entity.expiraEm,
-      dataResposta: entity.dataResposta,
+      // Conversão Date → ISO string: TypeORM retorna Date; o contrato de domínio exige string.
+      dataInscricao: dateToISO(entity.dataInscricao),
+      dataOferta: dateToISONullable(entity.dataOferta),
+      expiraEm: dateToISONullable(entity.expiraEm),
+      dataResposta: dateToISONullable(entity.dataResposta),
       acaoDisponivel: isOfferedValid,
       estagio: {
         id: entity.estagio.id,

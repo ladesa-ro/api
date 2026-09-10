@@ -52,7 +52,8 @@ export const findOneNumericInputSchema = z.object({ id: z.coerce.number().int() 
 
 export const paginationInputSchema = z.object({
   page: z.coerce.number().int().min(1).optional().default(1),
-  limit: z.coerce.number().int().min(1).optional(),
+  // Teto máximo de 100 itens por página para prevenir Resource Exhaustion (OWASP API4:2023).
+  limit: z.coerce.number().int().min(1).max(100).optional(),
   search: z.string().optional(),
   sortBy: coerceArray(z.string()),
 });

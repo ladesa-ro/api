@@ -20,7 +20,8 @@ export class CargoListQueryHandlerImpl implements ICargoListQueryHandler {
     dto: CargoListQuery | null,
   ): Promise<CargoListQueryResult> {
     const page = dto?.page && dto.page > 0 ? dto.page : 1;
-    const limit = dto?.limit && dto.limit > 0 ? dto.limit : 20;
+    // Teto de 100 para prevenir Resource Exhaustion (OWASP API4:2023).
+    const limit = Math.min(dto?.limit && dto.limit > 0 ? dto.limit : 20, 100);
 
     const repo = this.appTypeormConnection.getRepository("cargo");
 

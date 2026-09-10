@@ -1,3 +1,4 @@
+import { dateToISO, dateToISONullable } from "@/infrastructure.database/typeorm/mapping/utils";
 import { createMapper } from "@/shared/mapping";
 import { EstagioCandidatura } from "../../domain/estagio-candidatura";
 import { EstagioCandidaturaTypeormEntity } from "./estagio-candidatura.typeorm.entity";
@@ -8,16 +9,18 @@ export const EstagioCandidaturaTypeormMapper = {
     estagio: { id: entity.estagio.id },
     estagiario: { id: entity.estagiario.id },
     situacao: entity.situacao,
-    dataInscricao: entity.dataInscricao,
-    dataOferta: entity.dataOferta,
-    expiraEm: entity.expiraEm,
-    dataResposta: entity.dataResposta,
-    dataCancelamento: entity.dataCancelamento,
+    // Conversão explícita de Date → ISO string: o TypeORM retorna objetos Date
+    // para colunas timestamp, mas o domínio exige string (ISO 8601).
+    dataInscricao: dateToISO(entity.dataInscricao),
+    dataOferta: dateToISONullable(entity.dataOferta),
+    expiraEm: dateToISONullable(entity.expiraEm),
+    dataResposta: dateToISONullable(entity.dataResposta),
+    dataCancelamento: dateToISONullable(entity.dataCancelamento),
     autorConvocacao: entity.autorConvocacao ? { id: entity.autorConvocacao.id } : null,
     motivoCancelamento: entity.motivoCancelamento,
-    dateCreated: entity.dateCreated,
-    dateUpdated: entity.dateUpdated,
-    dateDeleted: entity.dateDeleted,
+    dateCreated: dateToISO(entity.dateCreated),
+    dateUpdated: dateToISO(entity.dateUpdated),
+    dateDeleted: dateToISONullable(entity.dateDeleted),
   })),
 
   domainToPersistence: createMapper<EstagioCandidatura, Partial<EstagioCandidaturaTypeormEntity>>(

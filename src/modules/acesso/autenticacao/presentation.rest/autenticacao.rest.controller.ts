@@ -6,6 +6,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from "@nestjs/swagger";
 import { Throttle, ThrottlerGuard } from "@nestjs/throttler";
 import type { IAccessContext } from "@/domain/abstractions";
@@ -68,6 +69,7 @@ export class AutenticacaoRestController {
   @Get("/quem-sou-eu/ensino")
   @ApiOperation(AutenticacaoWhoAmIEnsinoQueryMetadata.swaggerMetadata)
   @ApiOkResponse({ type: UsuarioEnsinoOutputRestDto })
+  @ApiUnauthorizedResponse({ description: "Não autenticado. Token JWT ausente ou inválido." })
   @ApiForbiddenResponse()
   @ApiBadRequestResponse()
   async whoAmIEnsino(
@@ -86,6 +88,7 @@ export class AutenticacaoRestController {
   @Get("/quem-sou-eu")
   @ApiOperation(AutenticacaoWhoAmIQueryMetadata.swaggerMetadata)
   @ApiOkResponse({ type: AuthWhoAmIOutputRestDto })
+  @ApiUnauthorizedResponse({ description: "Não autenticado. Token JWT ausente ou inválido." })
   @ApiForbiddenResponse()
   async whoAmI(
     @AccessContextHttp() accessContext: IAccessContext,
