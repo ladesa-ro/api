@@ -13,12 +13,24 @@ import {
   EstagioSolicitacaoInternoCreateSchema,
 } from "../domain/estagio-solicitacao.schemas";
 
+@ApiSchema({ name: "EstagioSolicitacaoProfessorConselheiroRefInputDto" })
+export class EstagioSolicitacaoProfessorConselheiroRefInputRestDto {
+  @ApiProperty({
+    description: "ID do professor orientador institucional (UUID)",
+    format: "uuid",
+  })
+  id!: string;
+}
+
 @ApiSchema({ name: "EstagioSolicitacaoInternoCreateDto" })
 export class EstagioSolicitacaoInternoCreateRestDto {
   static schema = EstagioSolicitacaoInternoCreateSchema.presentation;
 
-  @ApiProperty({ description: "Professor conselheiro / orientador institucional" })
-  professorConselheiro!: { id: string };
+  @ApiProperty({
+    description: "Professor conselheiro / orientador institucional",
+    type: () => EstagioSolicitacaoProfessorConselheiroRefInputRestDto,
+  })
+  professorConselheiro!: EstagioSolicitacaoProfessorConselheiroRefInputRestDto;
 
   @ApiProperty({
     description: "Local ou setor dentro do campus onde o estágio será realizado",
